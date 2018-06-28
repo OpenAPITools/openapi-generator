@@ -250,11 +250,11 @@ public class DefaultCodegen implements CodegenConfig {
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 Map<String, Object> allowableValues = cm.allowableValues;
                 List<Object> values = (List<Object>) allowableValues.get("values");
-                List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+                List<Map<String, Object>> enumVars = new ArrayList<Map<String, Object>>();
                 String commonPrefix = findCommonPrefixOfVars(values);
                 int truncateIdx = commonPrefix.length();
                 for (Object value : values) {
-                    Map<String, String> enumVar = new HashMap<String, String>();
+                    Map<String, Object> enumVar = new HashMap<String, Object>();
                     String enumName;
                     if (truncateIdx == 0) {
                         enumName = value.toString();
@@ -266,6 +266,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     enumVar.put("name", toEnumVarName(enumName, cm.dataType));
                     enumVar.put("value", toEnumValue(value.toString(), cm.dataType));
+                    enumVar.put("isString", isDataTypeString(cm.dataType));
                     enumVars.add(enumVar);
                 }
                 cm.allowableValues.put("enumVars", enumVars);
@@ -1524,6 +1525,15 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
+            if (ModelUtils.isIntegerSchema(schema)) { // integer type
+                if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
+                    m.isInteger = Boolean.TRUE;
+                }
+            }
+            if (ModelUtils.isStringSchema(schema)){
+                m.isString = Boolean.TRUE;
+            }
+
             addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired());
         }
 
@@ -3678,11 +3688,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // put "enumVars" map into `allowableValues", including `name` and `value`
-        List<Map<String, String>> enumVars = new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> enumVars = new ArrayList<>();
         String commonPrefix = findCommonPrefixOfVars(values);
         int truncateIdx = commonPrefix.length();
         for (Object value : values) {
-            Map<String, String> enumVar = new HashMap<String, String>();
+            Map<String, Object> enumVar = new HashMap<>();
             String enumName;
             if (truncateIdx == 0) {
                 enumName = value.toString();
@@ -3692,8 +3702,11 @@ public class DefaultCodegen implements CodegenConfig {
                     enumName = value.toString();
                 }
             }
-            enumVar.put("name", toEnumVarName(enumName, var.dataType));
-            enumVar.put("value", toEnumValue(value.toString(), var.dataType));
+
+            final String dataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
+            enumVar.put("name", toEnumVarName(enumName, dataType));
+            enumVar.put("value", toEnumValue(value.toString(), dataType));
+            enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
         allowableValues.put("enumVars", enumVars);
@@ -3701,9 +3714,9 @@ public class DefaultCodegen implements CodegenConfig {
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
         if (var.defaultValue != null) {
             String enumName = null;
-            for (Map<String, String> enumVar : enumVars) {
+            for (Map<String, Object> enumVar : enumVars) {
                 if (toEnumValue(var.defaultValue, var.dataType).equals(enumVar.get("value"))) {
-                    enumName = enumVar.get("name");
+                    enumName = (String) enumVar.get("name");
                     break;
                 }
             }
@@ -4362,4 +4375,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    public boolean isDataTypeString(String dataType) {
+        return  "String".equals(dataType);
+    }
 }
