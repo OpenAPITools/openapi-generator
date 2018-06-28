@@ -557,4 +557,26 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         boolean imports = !type.startsWith("kotlin.") && !type.startsWith("java.") && !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
         return imports;
     }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("kotlin.Int".equals(datatype) || "kotlin.Long".equals(datatype)) {
+            return value;
+        } else if ("kotlin.Double".equals(datatype)) {
+            if (value.contains(".")) {
+                return value;
+            } else {
+                return value + ".0"; // Float and double must have .0
+            }
+        } else if ("kotlin.Float".equals(datatype)) {
+            return value + "f";
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+
+    @Override
+    public boolean isDataTypeString(final String dataType) {
+        return "String".equals(dataType) || "kotlin.String".equals(dataType);
+    }
 }

@@ -84,7 +84,7 @@ public class OuterComposite   {
    **/
   @JsonProperty("my_boolean")
   @ApiModelProperty(value = "")
-  public Boolean getMyBoolean() {
+  public Boolean isMyBoolean() {
     return myBoolean;
   }
 
