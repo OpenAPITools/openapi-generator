@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.model.StringBooleanMap;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 
@@ -71,7 +72,7 @@ public class MapTest  implements Serializable {
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
-  private Map indirectMap = null;
+  private StringBooleanMap indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -154,7 +155,7 @@ public class MapTest  implements Serializable {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(Map indirectMap) {
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -165,11 +166,11 @@ public class MapTest  implements Serializable {
    **/
   @JsonProperty("indirect_map")
   @ApiModelProperty(value = "")
-  public Map getIndirectMap() {
+  public StringBooleanMap getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(Map indirectMap) {
+  public void setIndirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
   }
 

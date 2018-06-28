@@ -85,7 +85,7 @@ public class OuterComposite  implements Serializable {
    **/
   @JsonProperty("my_boolean")
   @ApiModelProperty(value = "")
-  public Boolean getMyBoolean() {
+  public Boolean isMyBoolean() {
     return myBoolean;
   }
 

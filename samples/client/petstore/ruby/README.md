@@ -141,6 +141,7 @@ Class | Method | HTTP request | Description
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
+ - [Petstore::StringBooleanMap](docs/StringBooleanMap.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
 

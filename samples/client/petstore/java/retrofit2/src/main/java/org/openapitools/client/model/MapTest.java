@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.client.model.StringBooleanMap;
 
 /**
  * MapTest
@@ -93,7 +94,7 @@ public class MapTest {
 
   public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
-  private Map indirectMap = null;
+  private StringBooleanMap indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -173,7 +174,7 @@ public class MapTest {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(Map indirectMap) {
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -183,11 +184,11 @@ public class MapTest {
    * @return indirectMap
   **/
   @ApiModelProperty(value = "")
-  public Map getIndirectMap() {
+  public StringBooleanMap getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(Map indirectMap) {
+  public void setIndirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
   }
 
