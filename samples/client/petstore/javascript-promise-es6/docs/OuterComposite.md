@@ -1,10 +1,10 @@
-# SwaggerPetstore.OuterComposite
+# OpenApiPetstore.OuterComposite
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**myNumber** | [**OuterNumber**](OuterNumber.md) |  | [optional] 
-**myString** | [**OuterString**](OuterString.md) |  | [optional] 
-**myBoolean** | [**OuterBoolean**](OuterBoolean.md) |  | [optional] 
+**myNumber** | **Number** |  | [optional] 
+**myString** | **String** |  | [optional] 
+**myBoolean** | **Boolean** |  | [optional] 
 
 

@@ -1355,6 +1355,12 @@ definitions:
           enum:
             - UPPER
             - lower
+      direct_map:
+        type: object
+        additionalProperties:
+          type: boolean
+      indirect_map:
+        $ref: "#/definitions/StringBooleanMap"
   ArrayTest:
     type: object
     properties:
@@ -1452,3 +1458,6 @@ definitions:
   OuterBoolean:
     type: boolean
     x-codegen-body-parameter-name: boolean_post_body
+  StringBooleanMap:
+    additionalProperties:
+      type: boolean

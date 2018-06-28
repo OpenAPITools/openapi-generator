@@ -3,6 +3,7 @@
 out/
 *.ipr
 *.iws
+*.gpg
 classpath.txt
 version.properties
 !modules/openapi-generator-cli/src/main/resources/version.properties

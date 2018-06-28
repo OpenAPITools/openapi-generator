@@ -1,4 +1,4 @@
-# SwaggerPetstore.ArrayOfArrayOfNumberOnly
+# OpenApiPetstore.ArrayOfArrayOfNumberOnly
 
 ## Properties
 Name | Type | Description | Notes

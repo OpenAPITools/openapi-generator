@@ -71,6 +71,39 @@
                     </execution>
                 </executions>
             </plugin>
+            {{#apiFirst}}
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>{{{generatorVersion}}}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>src/main/resources/openapi.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>spring-mvc</library>
+                            <apiPackage>{{{apiPackage}}}</apiPackage>
+                            <modelPackage>{{{modelPackage}}}</modelPackage>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            {{#modelNamePrefix}}
+                            <modelNamePrefix>{{{.}}}</modelNamePrefix>
+                            {{/modelNamePrefix}}
+                            {{#modelNameSuffix}}
+                            <modelNameSuffix>{{{.}}}</modelNameSuffix>
+                            {{/modelNameSuffix}}
+                            <configOptions>
+                            {{#configOptions}}
+                                <{{left}}>{{right}}</{{left}}>
+                            {{/configOptions}}
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            {{/apiFirst}}
         </plugins>
     </build>
     <dependencies>
@@ -96,7 +129,7 @@
             <artifactId>spring-web</artifactId>
             <version>${spring-version}</version>
         </dependency>
-
+        {{#useSpringfox}}
         <!--SpringFox dependencies-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -114,18 +147,33 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
+        {{/useSpringfox}}
+        {{^useSpringfox}}
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>3.14.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.14</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        {{/useSpringfox}}
         {{#withXml}}
-
         <!-- XML processing: Jackson -->
         <dependency>
           <groupId>com.fasterxml.jackson.dataformat</groupId>
           <artifactId>jackson-dataformat-xml</artifactId>
           <version>${jackson-version}</version>
         </dependency>
-
         {{/withXml}}
         {{#java8}}
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -133,7 +181,6 @@
         </dependency>
         {{/java8}}
         {{#joda}}
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
@@ -141,7 +188,6 @@
         </dependency>
         {{/joda}}
         {{#threetenbp}}
-
         <dependency>
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
@@ -161,13 +207,13 @@
             <version>${servlet-api-version}</version>
         </dependency>
 {{#useBeanValidation}}
-    <!-- Bean Validation API support -->
-    <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>${beanvalidation-version}</version>
-        <scope>provided</scope>
-    </dependency>
+        <!-- Bean Validation API support -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
+            <scope>provided</scope>
+        </dependency>
 {{/useBeanValidation}}
     </dependencies>
     <properties>
@@ -178,9 +224,9 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.12</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
-        <springfox-version>2.7.0</springfox-version>
-        <jackson-version>2.8.9</jackson-version>
-        <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
+        <springfox-version>2.8.0</springfox-version>
+        <jackson-version>2.9.5</jackson-version>
+        <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
 {{#useBeanValidation}}
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
 {{/useBeanValidation}}

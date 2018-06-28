@@ -9,8 +9,9 @@ cache:
   - $HOME/.ivy2
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+  - $HOME/samples/client/petstore/javascript/node_modules
   - $HOME/samples/client/petstore/php/OpenAPIToolsClient-php/vendor
-  - $HOME/samples/client/petstore/ruby/venodr/bundle
+  - $HOME/samples/client/petstore/ruby/vendor/bundle
   - $HOME/samples/client/petstore/python/.venv/
   - $HOME/samples/client/petstore/typescript-node/npm/node_modules
   - $HOME/samples/client/petstore/typescript-node/npm/typings/
@@ -24,7 +25,10 @@ cache:
   - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
   - $HOME/samples/client/petstore/typescript-angular/node_modules
   - $HOME/samples/client/petstore/typescript-angular/typings
+  - $HOME/samples/server/petstore/rust-server/target
   - $HOME/perl5
+  - $HOME/.cargo
+  - $HOME/.stack
 
 services:
   - docker
@@ -40,7 +44,7 @@ before_install:
   - stack upgrade
   - stack --version
   # install rust
-  - curl -sSf https://static.rust-lang.org/rustup.sh | sh
+  - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
   - gem install bundler
   - npm install -g typescript
@@ -72,12 +76,17 @@ before_install:
   - cat /etc/hosts
   # show java version
   - java -version
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      openssl aes-256-cbc -K $encrypted_6e2c8bba47c6_key -iv $encrypted_6e2c8bba47c6_iv -in sec.gpg.enc -out sec.gpg -d ;
+      gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
+      gpg --check-trustdb ;
+    fi;
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
   - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
   - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
-  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$PATH"
+  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$HOME/.cargo/bin:$PATH"
   - go version
 
 script:
@@ -93,10 +102,25 @@ script:
   - mvn --quiet clean install
   - mvn --quiet verify -Psamples
 after_success:
-  # push a snapshot version to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_BRANCH" = "master" ]; then
-      mvn clean deploy --settings CI/settings.xml;
-      echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
+  # push to maven repo
+  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      if [ "$TRAVIS_BRANCH" = "master" ]; then
+        mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
+        echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
+        pushd .;
+        cd modules/openapi-generator-gradle-plugin;
+        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
+        echo "Finished ./gradlew uploadArchives";
+        popd;
+      elif ([ "$TRAVIS_BRANCH" == "3.1.x" ] || [ "$TRAVIS_BRANCH" == "4.0.x" ]) ; then
+        mvn clean deploy --settings CI/settings.xml;
+        echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
+        pushd .;
+        cd modules/openapi-generator-gradle-plugin;
+        ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
+        echo "Finished ./gradlew uploadArchives";
+        popd;
+      fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
@@ -104,4 +128,4 @@ after_success:
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
 
 env:
-  - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli
+  - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test
