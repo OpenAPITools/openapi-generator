@@ -34,7 +34,7 @@ if [ -n "$(git status --porcelain)" ]; then
     git --no-pager diff
     echo "Perform git status"
     git status
-    echo "Please run 'bin/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
+    echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
     exit 1
 else
     echo "Git working tree is clean"
