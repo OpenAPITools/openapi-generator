@@ -38,9 +38,9 @@ class MapTest
     public $direct_map;
     /**
      * @DTA\Data(field="indirect_map", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":\App\DTO\StringBooleanMap::class})
-     * @DTA\Validator(name="Dictionary", options={"type":\App\DTO\StringBooleanMap::class})
-     * @var \App\DTO\StringBooleanMap
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\map::class})
+     * @DTA\Validator(name="Dictionary", options={"type":\App\DTO\map::class})
+     * @var \App\DTO\map
      */
     public $indirect_map;
 }

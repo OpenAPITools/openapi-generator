@@ -1384,18 +1384,14 @@ components:
           type: array
       type: object
     OuterComposite:
-      example:
-        my_string: my_string
-        my_number: 0.80082819046101150206595775671303272247314453125
-        my_boolean: true
+      example: {}
       properties:
         my_number:
-          type: number
+          $ref: '#/components/schemas/OuterNumber'
         my_string:
-          type: string
+          $ref: '#/components/schemas/OuterString'
         my_boolean:
-          type: boolean
-          x-codegen-body-parameter-name: boolean_post_body
+          $ref: '#/components/schemas/OuterBoolean'
       type: object
     format_test:
       properties:

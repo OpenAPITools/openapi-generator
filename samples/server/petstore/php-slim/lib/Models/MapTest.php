@@ -14,6 +14,6 @@ class MapTest {
     private $mapOfEnumString;
 /* @var map[string,Bool] $directMap  */
     private $directMap;
-/* @var \\Models\StringBooleanMap $indirectMap  */
+/* @var \\Models\map $indirectMap  */
     private $indirectMap;
 }

@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.client.model.StringBooleanMap;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
@@ -94,7 +93,7 @@ public class MapTest {
   @JsonProperty("indirect_map")
   @JacksonXmlProperty(localName = "indirect_map")
   @XmlElement(name = "indirect_map")
-  private StringBooleanMap indirectMap = null;
+  private Map indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -174,7 +173,7 @@ public class MapTest {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -184,11 +183,11 @@ public class MapTest {
    * @return indirectMap
   **/
   @ApiModelProperty(value = "")
-  public StringBooleanMap getIndirectMap() {
+  public Map getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map indirectMap) {
     this.indirectMap = indirectMap;
   }
 

@@ -3,7 +3,6 @@ package org.openapitools.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.StringBooleanMap;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -63,7 +62,7 @@ public enum InnerEnum {
 
   @ApiModelProperty(value = "")
   @Valid
-  private StringBooleanMap indirectMap = null;
+  private Map indirectMap = null;
  /**
    * Get mapMapOfString
    * @return mapMapOfString
@@ -138,15 +137,15 @@ public enum InnerEnum {
    * @return indirectMap
   **/
   @JsonProperty("indirect_map")
-  public StringBooleanMap getIndirectMap() {
+  public Map getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map indirectMap) {
     this.indirectMap = indirectMap;
   }
 
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
