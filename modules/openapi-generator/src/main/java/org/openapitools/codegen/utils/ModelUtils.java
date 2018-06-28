@@ -304,7 +304,7 @@ public class ModelUtils {
         if (schema instanceof MapSchema) {
             return true;
         }
-        if (schema.getAdditionalProperties() != null) {
+        if (schema.getAdditionalProperties() instanceof Schema) {
             return true;
         }
         return false;
