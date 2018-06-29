@@ -14,6 +14,8 @@
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
 
+#include <pistache/optional.h>
+
 {{#imports}}{{{import}}}
 {{/imports}}
 
@@ -41,7 +43,7 @@ private:
     {{/operation}}
     void {{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Http::Endpoint> httpEndpoint;
+    Pistache::Http::Endpoint httpEndpoint;
     Pistache::Rest::Router router;
 
     {{#operation}}
