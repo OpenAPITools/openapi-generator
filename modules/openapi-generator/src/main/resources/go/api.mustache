@@ -177,8 +177,8 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
-{{^required}}
 	var localVarFile {{dataType}}
+{{^required}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
 		localVarFileOk := false
 		localVarFile, localVarFileOk = localVarOptionals.{{vendorExtensions.x-exportParamName}}.Value().({{dataType}})
@@ -186,6 +186,9 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 				return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} should be {{dataType}}")
 		}
 	}
+{{/required}}
+{{#required}}
+	localVarFile = {{paramName}}
 {{/required}}
 	if localVarFile != nil {
 		fbs, _ := ioutil.ReadAll(localVarFile)
