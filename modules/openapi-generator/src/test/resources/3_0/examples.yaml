@@ -46,8 +46,8 @@ paths:
         '200':
           description: successful operation
   /example4:
-    get:
-      operationId: example4Get
+    post:
+      operationId: example4Post
       requestBody:
         content:
           application/x-www-form-urlencoded:

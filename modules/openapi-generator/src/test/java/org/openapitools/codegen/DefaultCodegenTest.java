@@ -274,7 +274,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        Operation operation = openAPI.getPaths().get("/example4").getGet();
+        Operation operation = openAPI.getPaths().get("/example4").getPost();
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter, operation.getRequestBody());
 
