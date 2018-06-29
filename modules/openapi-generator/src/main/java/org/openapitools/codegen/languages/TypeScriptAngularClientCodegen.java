@@ -42,15 +42,20 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
-    public static final String PROVIDED_IN_ROOT ="providedInRoot";
+    public static final String PROVIDED_IN_ROOT = "providedInRoot";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
+    public static final String MODEL_SUFFIX = "modelSuffix";
+    public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
+    protected String modelSuffix = "";
+    protected String modelFileSuffix = "";
+
 
     private boolean taggedUnions = false;
 
@@ -86,6 +91,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is 'Service'."));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
+        this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model. Default is ''."));
+        this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts). Default is ''."));
     }
 
     @Override
@@ -146,14 +153,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         if (ngVersion.atLeast("6.0.0")) {
-            if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)){
-                additionalProperties.put(PROVIDED_IN_ROOT,true);
-            }else {
-                additionalProperties.put(PROVIDED_IN_ROOT,Boolean.valueOf(
-                    (String) additionalProperties.get(PROVIDED_IN_ROOT)));
+            if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
+                additionalProperties.put(PROVIDED_IN_ROOT, true);
+            } else {
+                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.valueOf(
+                        (String) additionalProperties.get(PROVIDED_IN_ROOT)));
             }
-        }else {
-            additionalProperties.put(PROVIDED_IN_ROOT,false);
+        } else {
+            additionalProperties.put(PROVIDED_IN_ROOT, false);
         }
 
         additionalProperties.put(NG_VERSION, ngVersion);
@@ -169,6 +176,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
         if (additionalProperties.containsKey(SERVICE_FILE_SUFFIX)) {
             serviceFileSuffix = additionalProperties.get(SERVICE_FILE_SUFFIX).toString();
+        }
+        if (additionalProperties.containsKey(MODEL_SUFFIX)) {
+            modelSuffix = additionalProperties.get(MODEL_SUFFIX).toString();
+        }
+        if (additionalProperties.containsKey(MODEL_FILE_SUFFIX)) {
+            modelFileSuffix = additionalProperties.get(MODEL_FILE_SUFFIX).toString();
         }
     }
 
@@ -364,12 +377,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     /**
      * Finds and returns a path parameter of an operation by its name
+     *
      * @param operation
      * @param parameterName
      * @return
      */
     private CodegenParameter findPathParameterByName(CodegenOperation operation, String parameterName) {
-        for(CodegenParameter param : operation.pathParams) {
+        for (CodegenParameter param : operation.pathParams) {
             if (param.baseName.equals(parameterName)) {
                 return param;
             }
@@ -380,14 +394,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         Map<String, Object> result = super.postProcessModels(objs);
-
         return postProcessModelsEnum(result);
     }
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         Map<String, Object> result = super.postProcessAllModels(objs);
-
         for (Map.Entry<String, Object> entry : result.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
@@ -416,8 +428,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         for (String im : imports) {
             if (!im.equals(cm.classname)) {
                 HashMap<String, String> tsImport = new HashMap<>();
+                // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(im));
+                tsImport.put("filename", toModelFilename(removeModelSuffixIfNecessary(im)));
                 tsImports.add(tsImport);
             }
         }
@@ -437,7 +450,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(name, true) + serviceFileSuffix;
+        return camelize(removeModelSuffixIfNecessary(name), true) + serviceFileSuffix;
     }
 
     @Override
@@ -447,7 +460,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), true);
+        String modelName = toModelName(name);
+        return camelize(removeModelSuffixIfNecessary(modelName), true) + modelFileSuffix;
     }
 
     @Override
@@ -486,7 +500,28 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + "/").length());
-        return camelize(name);
+        // Remove the file suffix and add the class suffix.
+        // This is needed because the model file suffix might not be the same as
+        // the model suffix.
+        if (modelFileSuffix.length() > 0) {
+            name = name.substring(0, name.length() - modelFileSuffix.length());
+        }
+        return camelize(name) + modelSuffix;
     }
 
+    @Override
+    public String toModelName(String name) {
+        String modelName = super.toModelName(name);
+        if (modelSuffix.length() == 0 || modelName.endsWith(modelSuffix)) {
+            return modelName;
+        }
+        return modelName + modelSuffix;
+    }
+
+    private String removeModelSuffixIfNecessary(String name) {
+        if (modelSuffix.length() == 0 || !name.endsWith(modelSuffix)) {
+            return name;
+        }
+        return name.substring(0, name.length() - modelSuffix.length());
+    }
 }
