@@ -8,9 +8,9 @@ info:
     name: Apache-2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 paths:
-  /example1:
+  /example1/singular:
     get:
-      operationId: example1Get
+      operationId: example1GetSingular
       parameters:
         - name: parameter
           in: query
@@ -20,9 +20,9 @@ paths:
       responses:
         '200':
           description: successful operation
-  /example2:
+  /example2/singular:
     get:
-      operationId: example2Get
+      operationId: example2GetSingular
       parameters:
         - name: parameter
           in: query
@@ -32,9 +32,9 @@ paths:
       responses:
         '200':
           description: successful operation
-  /example3:
+  /example3/singular:
     get:
-      operationId: example3Get
+      operationId: example3GetSingular
       parameters:
         - name: parameter
           in: query
@@ -45,9 +45,9 @@ paths:
       responses:
         '200':
           description: successful operation
-  /example4:
+  /example4/singular:
     post:
-      operationId: example4Post
+      operationId: example4PostSingular
       requestBody:
         content:
           application/x-www-form-urlencoded:
