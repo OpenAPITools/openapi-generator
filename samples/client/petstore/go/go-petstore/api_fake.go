@@ -674,11 +674,11 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 				return nil, reportError("binary should be *os.File")
 		}
 	}
-	if localVarFile != nil {
-		fbs, _ := ioutil.ReadAll(localVarFile)
+	if binary != nil {
+		fbs, _ := ioutil.ReadAll(binary)
 		localVarFileBytes = fbs
-		localVarFileName = localVarFile.Name()
-		localVarFile.Close()
+		localVarFileName = binary.Name()
+		binary.Close()
 	}
 	if localVarOptionals != nil && localVarOptionals.Date.IsSet() {
 		localVarFormParams.Add("date", parameterToString(localVarOptionals.Date.Value(), ""))
