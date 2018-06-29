@@ -20,6 +20,20 @@ paths:
       responses:
         '200':
           description: successful operation
+  /example1/plural:
+    get:
+      operationId: example1GetPlural
+      parameters:
+        - name: parameter
+          in: query
+          examples:
+            AnExample:
+              value: 'An example1 value'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
   /example2/singular:
     get:
       operationId: example2GetSingular
@@ -45,6 +59,22 @@ paths:
       responses:
         '200':
           description: successful operation
+  /example3/plural:
+    get:
+      operationId: example3GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example3: parameter value'
+          examples:
+            AnExample:
+              value: 'An example3 value'
+          schema:
+            type: string
+            example: 'example3: schema value'
+      responses:
+        '200':
+          description: successful operation
   /example4/singular:
     post:
       operationId: example4PostSingular
@@ -57,6 +87,23 @@ paths:
                 name:
                   type: string
             example: 'example4 value'
+      responses:
+        '200':
+          description: successful operation
+  /example4/plural:
+    post:
+      operationId: example4PostSingular
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              AnExample:
+                value: 'An example4 value'
       responses:
         '200':
           description: successful operation
