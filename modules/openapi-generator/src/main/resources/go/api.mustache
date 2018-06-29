@@ -187,11 +187,11 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		}
 	}
 {{/required}}
-	if localVarFile != nil {
-		fbs, _ := ioutil.ReadAll(localVarFile)
+	if {{paramName}} != nil {
+		fbs, _ := ioutil.ReadAll({{paramName}})
 		localVarFileBytes = fbs
-		localVarFileName = localVarFile.Name()
-		localVarFile.Close()
+		localVarFileName = {{paramName}}.Name()
+		{{paramName}}.Close()
 	}
 {{/isFile}}
 {{^isFile}}
