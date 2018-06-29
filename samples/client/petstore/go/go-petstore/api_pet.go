@@ -646,11 +646,11 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 				return localVarReturnValue, nil, reportError("file should be *os.File")
 		}
 	}
-	if localVarFile != nil {
-		fbs, _ := ioutil.ReadAll(localVarFile)
+	if file != nil {
+		fbs, _ := ioutil.ReadAll(file)
 		localVarFileBytes = fbs
-		localVarFileName = localVarFile.Name()
-		localVarFile.Close()
+		localVarFileName = file.Name()
+		file.Close()
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
