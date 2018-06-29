@@ -730,7 +730,7 @@ To test enum parameters
  * @param "EnumQueryString" (optional.String) -  Query parameter enum test (string)
  * @param "EnumQueryInteger" (optional.Int32) -  Query parameter enum test (double)
  * @param "EnumQueryDouble" (optional.Float64) -  Query parameter enum test (double)
- * @param "EnumFormStringArray" (optional.[]string) -  Form parameter enum test (string array)
+ * @param "EnumFormStringArray" (optional.Interface of []string) -  Form parameter enum test (string array)
  * @param "EnumFormString" (optional.String) -  Form parameter enum test (string)
 */
 
@@ -741,7 +741,7 @@ type TestEnumParametersOpts struct {
     EnumQueryString optional.String
     EnumQueryInteger optional.Int32
     EnumQueryDouble optional.Float64
-    EnumFormStringArray optional.[]string
+    EnumFormStringArray optional.Interface
     EnumFormString optional.String
 }
 

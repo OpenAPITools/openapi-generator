@@ -18,22 +18,31 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.List;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
+import java.util.Comparator;
+import java.util.Collections;
 
 public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
+
     protected String invokerPackage;
     protected String srcBasePath = "lib";
     protected String groupId = "org.openapitools";
@@ -112,6 +121,7 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
         supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
+        supportingFiles.add(new SupportingFile(".gitignore", packagePath.replace('/', File.separatorChar), ".gitignore"));
     }
 
     @Override
@@ -232,9 +242,36 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
+        // remove [
+        name = name.replaceAll("\\]", "");
+
+        // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
+        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // remove dollar sign
+        name = name.replaceAll("$", "");
+
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
-            escapeReservedWord(name); // e.g. return => _return
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
+        }
+
+        // model name starts with number
+        if (name.matches("^\\d.*")) {
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
+        }
+
+        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
+        if (!name.matches("^\\\\.*")) {
+            if (!StringUtils.isEmpty(modelNamePrefix)) {
+                name = modelNamePrefix + "_" + name;
+            }
+
+            if (!StringUtils.isEmpty(modelNameSuffix)) {
+                name = name + "_" + modelNameSuffix;
+            }
         }
 
         // camelize the model name
@@ -246,6 +283,22 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
+    }
+
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId)) {
+            throw new RuntimeException("Empty method name (operationId) not allowed");
+        }
+
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = "call_" + operationId;
+        }
+
+        return camelize(sanitizeName(operationId), true);
     }
 
     public String toPackagePath(String packageName, String basePath) {
@@ -290,6 +343,46 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "");
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            if (op.hasProduces) {
+                // need to escape */* values because they breakes current mustaches
+                List<Map<String, String>> c = op.produces;
+                for (Map<String, String> mediaType : c) {
+                    if ("*/*".equals(mediaType.get("mediaType"))) {
+                        mediaType.put("mediaType", "*_/_*");
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
+        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
+        for (HashMap<String, Object> api : apiList) {
+            HashMap<String, Object> operations = (HashMap<String, Object>) api.get("operations");
+            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+
+            // Sort operations to avoid static routes shadowing
+            // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
+            Collections.sort(operationList, new Comparator<CodegenOperation>() {
+                @Override
+                public int compare(CodegenOperation one, CodegenOperation another) {
+                    if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
+                    if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
+                    return 0;
+                }
+            });
+        }
+        return objs;
     }
 
 }

@@ -136,6 +136,15 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.invoker.oooooo");
     }
 
+    @Test
+    public void toEnumValue(){
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        Assert.assertEquals(codegen.toEnumValue("1", "Integer"), "1");
+        Assert.assertEquals(codegen.toEnumValue("42", "Double"), "42");
+        Assert.assertEquals(codegen.toEnumValue("1337", "Long"), "1337l");
+        Assert.assertEquals(codegen.toEnumValue("3.14", "Float"), "3.14f");
+    }
+
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {
         @Override
         public CodegenType getTag() {

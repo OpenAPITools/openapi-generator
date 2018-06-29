@@ -45,4 +45,4 @@ serde-xml-rs = {git = "git://github.com/Metaswitch/serde-xml-rs.git" , branch = 
 
 [dev-dependencies]
 clap = "2.25"
-error-chain = "0.11"
+error-chain = "0.12"

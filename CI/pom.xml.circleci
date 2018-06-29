@@ -10,7 +10,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.1.0-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -836,8 +836,8 @@
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
                 <!-- test java-related projects -->
-                <module>samples/client/petstore/akka-scala</module>
-                <module>samples/client/petstore/scala</module>
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
