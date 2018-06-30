@@ -41,7 +41,7 @@ public class FakeApi  {
    private final FakeApiService delegate = FakeApiServiceFactory.getFakeApi();
 
     @POST
-    
+    @Path("/outer/boolean")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake",  })
@@ -54,7 +54,7 @@ public class FakeApi  {
         return delegate.fakeOuterBooleanSerialize(body,securityContext);
     }
     @POST
-    
+    @Path("/outer/composite")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake",  })
@@ -67,7 +67,7 @@ public class FakeApi  {
         return delegate.fakeOuterCompositeSerialize(outerComposite,securityContext);
     }
     @POST
-    
+    @Path("/outer/number")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake",  })
@@ -80,7 +80,7 @@ public class FakeApi  {
         return delegate.fakeOuterNumberSerialize(body,securityContext);
     }
     @POST
-    
+    @Path("/outer/string")
     
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake",  })
@@ -93,7 +93,7 @@ public class FakeApi  {
         return delegate.fakeOuterStringSerialize(body,securityContext);
     }
     @PUT
-    
+    @Path("/body-with-query-params")
     @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "", notes = "", response = Void.class, tags={ "fake",  })
@@ -171,7 +171,7 @@ public class FakeApi  {
         return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,enumFormStringArray,enumFormString,securityContext);
     }
     @POST
-    
+    @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake",  })
@@ -184,7 +184,7 @@ public class FakeApi  {
         return delegate.testInlineAdditionalProperties(requestBody,securityContext);
     }
     @GET
-    
+    @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     
     @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake" })
