@@ -159,6 +159,19 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (useTags) {
+            String basePath = resourcePath;
+            if (basePath.startsWith("/")) {
+                basePath = basePath.substring(1);
+            }
+            int pos = basePath.indexOf("/");
+            if (pos > 0) {
+                basePath = basePath.substring(0, pos);
+            }
+
+            if (co.path.startsWith("/" + basePath)) {
+                co.path = co.path.substring(("/" + basePath).length());
+            }
+            co.subresourceOperation = !co.path.isEmpty();
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
         } else {
             String basePath = resourcePath;
