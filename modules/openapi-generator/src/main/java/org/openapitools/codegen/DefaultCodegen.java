@@ -24,6 +24,7 @@ import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.CookieParameter;
@@ -1092,6 +1093,14 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
+        if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if(example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+                return;
+            }
+        }
+
         Schema schema = parameter.getSchema();
         if (schema != null && schema.getExample() != null) {
             codegenParameter.example = schema.getExample().toString();
@@ -1119,6 +1128,14 @@ public class DefaultCodegen implements CodegenConfig {
         if (mediaType.getExample() != null) {
             codegenParameter.example = mediaType.getExample().toString();
             return;
+        }
+
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            Example example = mediaType.getExamples().values().iterator().next();
+            if(example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+                return;
+            }
         }
 
         setParameterExampleValue(codegenParameter);
