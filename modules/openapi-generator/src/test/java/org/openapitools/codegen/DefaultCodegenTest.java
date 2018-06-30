@@ -138,6 +138,24 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testGetProducesInfo() throws Exception {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/produces.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Operation textOperation = openAPI.getPaths().get("/ping/text").getGet();
+        CodegenOperation coText = codegen.fromOperation("/ping/text", "get", textOperation, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertTrue(coText.hasProduces);
+        Assert.assertEquals(coText.produces.size(), 1);
+        Assert.assertEquals(coText.produces.get(0).get("mediaType"), "text/plain");
+
+        Operation jsonOperation = openAPI.getPaths().get("/ping/json").getGet();
+        CodegenOperation coJson = codegen.fromOperation("/ping/json", "get", jsonOperation, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertTrue(coJson.hasProduces);
+        Assert.assertEquals(coJson.produces.size(), 1);
+        Assert.assertEquals(coJson.produces.get(0).get("mediaType"), "application/json");
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.processOpts();
