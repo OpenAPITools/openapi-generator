@@ -63,7 +63,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
 
-        embeddedTemplateDir = templateDir = "slim";
+        embeddedTemplateDir = templateDir = "php-slim-server";
 
         // additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
