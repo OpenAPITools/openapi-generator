@@ -163,4 +163,21 @@ public interface PetApi {
         return getDelegate().uploadFile(petId, additionalMetadata, file);
     }
 
+
+    @ApiOperation(value = "uploads an image", nickname = "uploadFileWithRequiredFile", notes = "", response = ModelApiResponse.class, authorizations = {
+        @Authorization(value = "petstore_auth", scopes = {
+            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @AuthorizationScope(scope = "read:pets", description = "read your pets")
+            })
+    }, tags={ "pet", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    @RequestMapping(value = "/pet/{petId}/uploadImageWithRequiredFile",
+        produces = { "application/json" }, 
+        consumes = { "multipart/form-data" },
+        method = RequestMethod.POST)
+    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata) {
+        return getDelegate().uploadFileWithRequiredFile(petId, file, additionalMetadata);
+    }
+
 }

@@ -224,4 +224,30 @@ public interface PetApi {
 
     }
 
+
+    @ApiOperation(value = "uploads an image", nickname = "uploadFileWithRequiredFile", notes = "", response = ModelApiResponse.class, authorizations = {
+        @Authorization(value = "petstore_auth", scopes = {
+            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @AuthorizationScope(scope = "read:pets", description = "read your pets")
+            })
+    }, tags={ "pet", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    @RequestMapping(value = "/pet/{petId}/uploadImageWithRequiredFile",
+        produces = { "application/json" }, 
+        consumes = { "multipart/form-data" },
+        method = RequestMethod.POST)
+    default ResponseEntity<Mono<ModelApiResponse>> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata, ServerWebExchange exchange) {
+        Mono<ModelApiResponse> result = Mono.empty();
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                result = ApiUtil.getExampleResponse(exchange, "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}")
+                        .then(Mono.empty());
+                break;
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+
+    }
+
 }
