@@ -8,9 +8,9 @@ namespace \Models;
  * MixedPropertiesAndAdditionalPropertiesClass
  */
 class MixedPropertiesAndAdditionalPropertiesClass {
-    /* @var UUID $uuid  */
+    /* @var string $uuid  */
     private $uuid;
-/* @var DateTime $dateTime  */
+/* @var \DateTime $dateTime  */
     private $dateTime;
 /* @var map[string,\\Models\Animal] $map  */
     private $map;

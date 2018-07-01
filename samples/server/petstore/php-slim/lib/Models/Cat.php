@@ -12,6 +12,6 @@ class Cat {
     private $className;
 /* @var string $color  */
     private $color;
-/* @var Bool $declawed  */
+/* @var bool $declawed  */
     private $declawed;
 }

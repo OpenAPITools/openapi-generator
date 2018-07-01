@@ -452,7 +452,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
-            name = modelNamePrefix + name + modelNameSuffix;
+            if (!StringUtils.isEmpty(modelNamePrefix)) {
+                name = modelNamePrefix + "_" + name;
+            }
+
+            if (!StringUtils.isEmpty(modelNameSuffix)) {
+                name = name + "_" + modelNameSuffix;
+            }
         }
 
         // camelize the model name
