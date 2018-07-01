@@ -49,7 +49,7 @@ public class MockDefaultGenerator extends DefaultGenerator {
     }
 
     private String normalizePath(String filename) {
-        return filename.replace("\\", "/");
+        return filename.replace("\\", "/").replace("//", "/");
     }
 
     public List<WrittenTemplateBasedFile> getTemplateBasedFiles() {
