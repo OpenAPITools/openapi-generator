@@ -33,13 +33,13 @@ Articus\PathHandler\Router\FastRouteAnnotation:
     - App\Handler\FakeOuterComposite
     - App\Handler\FakeOuterNumber
     - App\Handler\FakeOuterString
+    - App\Handler\FakePetIdUploadImageWithRequiredFile
     - App\Handler\FakeClassnameTest
     - App\Handler\Pet
     - App\Handler\PetFindByStatus
     - App\Handler\PetFindByTags
     - App\Handler\PetPetId
     - App\Handler\PetPetIdUploadImage
-    - App\Handler\PetPetIdUploadImageWithRequiredFile
     - App\Handler\StoreInventory
     - App\Handler\StoreOrder
     - App\Handler\StoreOrderOrderId
@@ -60,13 +60,13 @@ Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\FakeOuterComposite: []
   App\Handler\FakeOuterNumber: []
   App\Handler\FakeOuterString: []
+  App\Handler\FakePetIdUploadImageWithRequiredFile: []
   App\Handler\FakeClassnameTest: []
   App\Handler\Pet: []
   App\Handler\PetFindByStatus: []
   App\Handler\PetFindByTags: []
   App\Handler\PetPetId: []
   App\Handler\PetPetIdUploadImage: []
-  App\Handler\PetPetIdUploadImageWithRequiredFile: []
   App\Handler\StoreInventory: []
   App\Handler\StoreOrder: []
   App\Handler\StoreOrderOrderId: []

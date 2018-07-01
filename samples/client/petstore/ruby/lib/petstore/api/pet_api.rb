@@ -438,7 +438,7 @@ module Petstore
       end
       return data, status_code, headers
     end
-    # uploads an image
+    # uploads an image (required)
     # @param pet_id ID of pet to update
     # @param file file to upload
     # @param [Hash] opts the optional parameters
@@ -449,7 +449,7 @@ module Petstore
       data
     end
 
-    # uploads an image
+    # uploads an image (required)
     # @param pet_id ID of pet to update
     # @param file file to upload
     # @param [Hash] opts the optional parameters
@@ -468,7 +468,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'file' when calling PetApi.upload_file_with_required_file"
       end
       # resource path
-      local_var_path = '/pet/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', pet_id.to_s)
+      local_var_path = '/fake/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
       query_params = {}

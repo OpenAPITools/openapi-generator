@@ -202,7 +202,7 @@ public class PetApi {
         }));
     }
     /**
-     * uploads an image
+     * uploads an image (required)
      * 
      * @param petId ID of pet to update (required)
      * @param file file to upload (required)
@@ -214,7 +214,7 @@ public class PetApi {
     }
 
     /**
-     * uploads an image
+     * uploads an image (required)
      * 
      * @param petId ID of pet to update (required)
      * @param file file to upload (required)

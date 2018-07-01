@@ -743,7 +743,7 @@ public class PetApi {
         }
     }
     /**
-     * uploads an image
+     * uploads an image (required)
      * 
      *
      * @see #petIdPath ID of pet to update (required)
@@ -753,7 +753,7 @@ public class PetApi {
      */
     public class UploadFileWithRequiredFileOper {
 
-        public static final String REQ_URI = "/pet/{petId}/uploadImageWithRequiredFile";
+        public static final String REQ_URI = "/fake/{petId}/uploadImageWithRequiredFile";
 
         private RequestSpecBuilder reqSpec;
 
@@ -774,7 +774,7 @@ public class PetApi {
         }
 
         /**
-         * POST /pet/{petId}/uploadImageWithRequiredFile
+         * POST /fake/{petId}/uploadImageWithRequiredFile
          * @param handler handler
          * @param <T> type
          * @return type
@@ -784,7 +784,7 @@ public class PetApi {
         }
 
         /**
-         * POST /pet/{petId}/uploadImageWithRequiredFile
+         * POST /fake/{petId}/uploadImageWithRequiredFile
          * @param handler handler
          * @return ModelApiResponse
          */

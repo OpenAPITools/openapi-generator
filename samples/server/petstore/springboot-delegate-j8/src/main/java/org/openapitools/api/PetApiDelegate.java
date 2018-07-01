@@ -138,22 +138,4 @@ public interface PetApiDelegate {
 
     }
 
-    /**
-     * @see PetApi#uploadFileWithRequiredFile
-     */
-    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( Long  petId,
-        MultipartFile file,
-         String  additionalMetadata) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
 }

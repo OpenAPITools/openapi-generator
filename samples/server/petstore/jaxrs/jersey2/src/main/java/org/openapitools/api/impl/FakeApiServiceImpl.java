@@ -8,6 +8,7 @@ import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 
@@ -70,6 +71,11 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response testJsonFormData(String param, String param2, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response uploadFileWithRequiredFile(Long petId, InputStream fileInputStream, FormDataContentDisposition fileDetail, String additionalMetadata, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

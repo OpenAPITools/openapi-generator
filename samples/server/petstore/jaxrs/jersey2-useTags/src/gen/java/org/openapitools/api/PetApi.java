@@ -209,10 +209,10 @@ public class PetApi  {
         return delegate.uploadFile(petId,additionalMetadata,fileInputStream, fileDetail,securityContext);
     }
     @POST
-    
+    @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ModelApiResponse.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "uploads an image (required)", notes = "", response = ModelApiResponse.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
