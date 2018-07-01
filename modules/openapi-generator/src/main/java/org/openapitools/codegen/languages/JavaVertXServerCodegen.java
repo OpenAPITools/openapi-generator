@@ -169,8 +169,8 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> newObjs = super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> newObjs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) newObjs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");

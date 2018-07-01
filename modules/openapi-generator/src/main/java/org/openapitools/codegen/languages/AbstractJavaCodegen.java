@@ -936,7 +936,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         // Remove imports of List, ArrayList, Map and HashMap as they are
         // imported in the template already.
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
