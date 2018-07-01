@@ -111,5 +111,15 @@ public class PetApiServiceImpl implements PetApi {
         return null;
     }
     
+    /**
+     * uploads an image
+     *
+     */
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId,  Attachment fileDetail, String additionalMetadata) {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
 }
 

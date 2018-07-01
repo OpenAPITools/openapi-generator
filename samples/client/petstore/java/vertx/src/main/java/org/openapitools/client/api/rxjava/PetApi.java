@@ -201,6 +201,31 @@ public class PetApi {
             delegate.uploadFile(petId, additionalMetadata, file, fut);
         }));
     }
+    /**
+     * uploads an image
+     * 
+     * @param petId ID of pet to update (required)
+     * @param file file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void uploadFileWithRequiredFile(Long petId, AsyncFile file, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        delegate.uploadFileWithRequiredFile(petId, file, additionalMetadata, resultHandler);
+    }
+
+    /**
+     * uploads an image
+     * 
+     * @param petId ID of pet to update (required)
+     * @param file file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<ModelApiResponse> rxUploadFileWithRequiredFile(Long petId, AsyncFile file, String additionalMetadata) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.uploadFileWithRequiredFile(petId, file, additionalMetadata, fut);
+        }));
+    }
 
     public static PetApi newInstance(org.openapitools.client.api.PetApi arg) {
         return arg != null ? new PetApi(arg) : null;

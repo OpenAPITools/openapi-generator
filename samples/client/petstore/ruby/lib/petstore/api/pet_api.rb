@@ -438,5 +438,67 @@ module Petstore
       end
       return data, status_code, headers
     end
+    # uploads an image
+    # @param pet_id ID of pet to update
+    # @param file file to upload
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :additional_metadata Additional data to pass to server
+    # @return [ApiResponse]
+    def upload_file_with_required_file(pet_id, file, opts = {})
+      data, _status_code, _headers = upload_file_with_required_file_with_http_info(pet_id, file, opts)
+      data
+    end
+
+    # uploads an image
+    # @param pet_id ID of pet to update
+    # @param file file to upload
+    # @param [Hash] opts the optional parameters
+    # @option opts [String] :additional_metadata Additional data to pass to server
+    # @return [Array<(ApiResponse, Fixnum, Hash)>] ApiResponse data, response status code and response headers
+    def upload_file_with_required_file_with_http_info(pet_id, file, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: PetApi.upload_file_with_required_file ...'
+      end
+      # verify the required parameter 'pet_id' is set
+      if @api_client.config.client_side_validation && pet_id.nil?
+        fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.upload_file_with_required_file"
+      end
+      # verify the required parameter 'file' is set
+      if @api_client.config.client_side_validation && file.nil?
+        fail ArgumentError, "Missing the required parameter 'file' when calling PetApi.upload_file_with_required_file"
+      end
+      # resource path
+      local_var_path = '/pet/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', pet_id.to_s)
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['multipart/form-data'])
+
+      # form parameters
+      form_params = {}
+      form_params['file'] = file
+      form_params['additionalMetadata'] = opts[:'additional_metadata'] if !opts[:'additional_metadata'].nil?
+
+      # http body (model)
+      post_body = nil
+      auth_names = ['petstore_auth']
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'ApiResponse')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: PetApi#upload_file_with_required_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
   end
 end
