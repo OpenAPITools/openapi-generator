@@ -34,7 +34,14 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenModelFactory;
+import org.openapitools.codegen.CodegenModelType;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -53,6 +60,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class JavaClientCodegenTest {
 
@@ -350,7 +358,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.OKHTTP_GSON)
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output .getAbsolutePath());
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         MockDefaultGenerator generator = new MockDefaultGenerator();
@@ -394,7 +402,7 @@ public class JavaClientCodegenTest {
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/StringUtil.java");
         ensureContainsFile(generatedFiles, output, "src/test/java/xyz/abcdef/api/DefaultApiTest.java");
 
-        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath();
+        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
         String defaultApiConent = generatedFiles.get(defaultApiFilename);
         Assert.assertTrue(defaultApiConent.contains("public class DefaultApi")); 
 
@@ -407,7 +415,12 @@ public class JavaClientCodegenTest {
 
     private void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {
         File file = new File(root, filename);
-        Assert.assertTrue(generatedFiles.containsKey(file.getAbsolutePath()));
+        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
+        if(!generatedFiles.containsKey(absoluteFilename)) {
+            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" + 
+                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
+        }
+        Assert.assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {

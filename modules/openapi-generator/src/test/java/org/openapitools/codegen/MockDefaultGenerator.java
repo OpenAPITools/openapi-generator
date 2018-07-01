@@ -32,20 +32,24 @@ public class MockDefaultGenerator extends DefaultGenerator {
 
     @Override
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
-        templateBasedFiles.add(new WrittenTemplateBasedFile(templateData, templateName, outputFilename));
+        templateBasedFiles.add(new WrittenTemplateBasedFile(templateData, templateName, normalizePath(outputFilename)));
         return super.processTemplateToFile(templateData, templateName, outputFilename);
     }
 
     @Override
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws FileNotFoundException, IOException {
-        files.put(filename, INPUT_STREAM_CONTENT + ": from template '" + templateFile + "'");
+        files.put(normalizePath(filename), INPUT_STREAM_CONTENT + ": from template '" + templateFile + "'");
         return new File(filename);
     }
 
     @Override
     public File writeToFile(String filename, String contents) throws IOException {
-        files.put(filename, contents);
+        files.put(normalizePath(filename), contents);
         return new File(filename);
+    }
+
+    private String normalizePath(String filename) {
+        return filename.replace("\\", "/");
     }
 
     public List<WrittenTemplateBasedFile> getTemplateBasedFiles() {
