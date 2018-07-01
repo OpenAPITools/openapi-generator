@@ -1,6 +1,6 @@
 # Petstore::FakeApi
 
-All URIs are relative to *https://petstore.swagger.io */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r*
+All URIs are relative to *petstore.swagger.io */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -18,9 +18,8 @@ To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-
-opts = { 
-  test_code_inject____end____rn_n_r: "test_code_inject____end____rn_n_r_example" # String | To test code injection */ ' \" =_end -- \\r\\n \\n \\r
+opts = {
+  unknown_base_type: Petstore::UNKNOWN_BASE_TYPE.new # Object | 
 }
 
 begin
@@ -35,7 +34,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **test_code_inject____end____rn_n_r** | **String**| To test code injection */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r | [optional] 
+ **unknown_base_type** | [**Object**](UNKNOWN_BASE_TYPE.md)|  | [optional] 
 
 ### Return type
 
@@ -48,7 +47,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, */  \" =_end --       
- - **Accept**: application/json, */  \" =_end --       
+ - **Accept**: Not defined
 
 
 
