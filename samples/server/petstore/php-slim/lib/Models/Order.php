@@ -14,10 +14,10 @@ class Order {
     private $petId;
 /* @var int $quantity  */
     private $quantity;
-/* @var DateTime $shipDate  */
+/* @var \DateTime $shipDate  */
     private $shipDate;
 /* @var string $status Order Status */
     private $status;
-/* @var Bool $complete  */
+/* @var bool $complete  */
     private $complete;
 }
