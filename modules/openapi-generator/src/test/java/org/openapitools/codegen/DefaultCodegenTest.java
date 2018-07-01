@@ -260,6 +260,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\"), "\\\\");
         Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\""), "\\\"");
         Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\/"), "/");
+    }
 
     @Test
     public void updateCodegenPropertyEnum() {
