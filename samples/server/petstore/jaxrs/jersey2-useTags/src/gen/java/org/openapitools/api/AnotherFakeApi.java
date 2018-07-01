@@ -55,7 +55,7 @@ public class AnotherFakeApi  {
    }
 
     @PATCH
-    
+    @Path("/dummy")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags", response = Client.class, tags={ "$another-fake?", })

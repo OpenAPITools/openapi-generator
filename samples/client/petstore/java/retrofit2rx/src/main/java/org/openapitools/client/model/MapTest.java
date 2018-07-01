@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.client.model.StringBooleanMap;
 
 /**
  * MapTest
@@ -87,6 +88,14 @@ public class MapTest {
   @SerializedName(SERIALIZED_NAME_MAP_OF_ENUM_STRING)
   private Map<String, InnerEnum> mapOfEnumString = null;
 
+  public static final String SERIALIZED_NAME_DIRECT_MAP = "direct_map";
+  @SerializedName(SERIALIZED_NAME_DIRECT_MAP)
+  private Map<String, Boolean> directMap = null;
+
+  public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
+  @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
+  private StringBooleanMap indirectMap = null;
+
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;
@@ -139,6 +148,50 @@ public class MapTest {
     this.mapOfEnumString = mapOfEnumString;
   }
 
+  public MapTest directMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+    return this;
+  }
+
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    if (this.directMap == null) {
+      this.directMap = new HashMap<String, Boolean>();
+    }
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
+   /**
+   * Get directMap
+   * @return directMap
+  **/
+  @ApiModelProperty(value = "")
+  public Map<String, Boolean> getDirectMap() {
+    return directMap;
+  }
+
+  public void setDirectMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+  }
+
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
+    this.indirectMap = indirectMap;
+    return this;
+  }
+
+   /**
+   * Get indirectMap
+   * @return indirectMap
+  **/
+  @ApiModelProperty(value = "")
+  public StringBooleanMap getIndirectMap() {
+    return indirectMap;
+  }
+
+  public void setIndirectMap(StringBooleanMap indirectMap) {
+    this.indirectMap = indirectMap;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -150,12 +203,14 @@ public class MapTest {
     }
     MapTest mapTest = (MapTest) o;
     return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString);
+        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString) &&
+        Objects.equals(this.directMap, mapTest.directMap) &&
+        Objects.equals(this.indirectMap, mapTest.indirectMap);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapMapOfString, mapOfEnumString);
+    return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
 
 
@@ -166,6 +221,8 @@ public class MapTest {
     
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
+    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
+    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

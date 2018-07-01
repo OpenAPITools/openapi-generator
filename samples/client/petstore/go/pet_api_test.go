@@ -160,6 +160,26 @@ func TestUploadFile(t *testing.T) {
 	}
 }
 
+func TestUploadFileRequired(t *testing.T) {
+	return // remove when server supports this endpoint
+	file, _ := os.Open("../python/testfiles/foo.png")
+
+	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830,
+		file,
+		&sw.UploadFileWithRequiredFileOpts{
+			AdditionalMetadata: optional.NewString("golang"),
+		})
+
+	if err != nil {
+		t.Errorf("Error while uploading file")
+		t.Log(err)
+	}
+
+	if r.StatusCode != 200 {
+		t.Log(r)
+	}
+}
+
 func TestDeletePet(t *testing.T) {
 	r, err := client.PetApi.DeletePet(context.Background(), 12830, nil)
 

@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.model.StringBooleanMap;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -56,6 +57,13 @@ public enum InnerEnum {
 
   @ApiModelProperty(value = "")
   private Map<String, InnerEnum> mapOfEnumString = null;
+
+  @ApiModelProperty(value = "")
+  private Map<String, Boolean> directMap = null;
+
+  @ApiModelProperty(value = "")
+  @Valid
+  private StringBooleanMap indirectMap = null;
  /**
    * Get mapMapOfString
    * @return mapMapOfString
@@ -102,6 +110,47 @@ public enum InnerEnum {
     return this;
   }
 
+ /**
+   * Get directMap
+   * @return directMap
+  **/
+  @JsonProperty("direct_map")
+  public Map<String, Boolean> getDirectMap() {
+    return directMap;
+  }
+
+  public void setDirectMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+  }
+
+  public MapTest directMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+    return this;
+  }
+
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
+ /**
+   * Get indirectMap
+   * @return indirectMap
+  **/
+  @JsonProperty("indirect_map")
+  public StringBooleanMap getIndirectMap() {
+    return indirectMap;
+  }
+
+  public void setIndirectMap(StringBooleanMap indirectMap) {
+    this.indirectMap = indirectMap;
+  }
+
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
+    this.indirectMap = indirectMap;
+    return this;
+  }
+
 
   @Override
   public String toString() {
@@ -110,6 +159,8 @@ public enum InnerEnum {
     
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
+    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
+    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

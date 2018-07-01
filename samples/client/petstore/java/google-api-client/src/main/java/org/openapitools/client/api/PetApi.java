@@ -715,4 +715,93 @@ public class PetApi {
     }
 
 
+  /**
+    * uploads an image
+    * <p><b>200</b> - successful operation
+    * @param petId ID of pet to update
+    * @param file file to upload
+    * @param additionalMetadata Additional data to pass to server
+    * @return ModelApiResponse
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File file, String additionalMetadata) throws IOException {
+        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, file, additionalMetadata);
+        TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+  /**
+    * uploads an image
+    * <p><b>200</b> - successful operation
+    * @param petId ID of pet to update
+    * @param file file to upload
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @return ModelApiResponse
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File file, Map<String, Object> params) throws IOException {
+        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, file, params);
+        TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File file, String additionalMetadata) throws IOException {
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+        }// verify the required parameter 'file' is set
+        if (file == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'file' when calling uploadFileWithRequiredFile");
+        }
+        // create a map of path variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("petId", petId);
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}/uploadImageWithRequiredFile");
+
+        String url = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+    }
+
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File file, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+        }// verify the required parameter 'file' is set
+        if (file == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'file' when calling uploadFileWithRequiredFile");
+        }
+        // create a map of path variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("petId", petId);
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}/uploadImageWithRequiredFile");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+    }
+
+
 }

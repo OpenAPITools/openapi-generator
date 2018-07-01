@@ -298,6 +298,48 @@ paths:
       - pet
       x-tags:
       - tag: pet
+  /pet/{petId}/uploadImageWithRequiredFile:
+    post:
+      operationId: uploadFileWithRequiredFile
+      parameters:
+      - description: ID of pet to update
+        in: path
+        name: petId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  format: binary
+                  type: string
+              required:
+              - file
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      security:
+      - petstore_auth:
+        - write:pets
+        - read:pets
+      summary: uploads an image
+      tags:
+      - pet
+      x-tags:
+      - tag: pet
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -1342,14 +1384,18 @@ components:
           type: array
       type: object
     OuterComposite:
-      example: {}
+      example:
+        my_string: my_string
+        my_number: 0.80082819046101150206595775671303272247314453125
+        my_boolean: true
       properties:
         my_number:
-          $ref: '#/components/schemas/OuterNumber'
+          type: number
         my_string:
-          $ref: '#/components/schemas/OuterString'
+          type: string
         my_boolean:
-          $ref: '#/components/schemas/OuterBoolean'
+          type: boolean
+          x-codegen-body-parameter-name: boolean_post_body
       type: object
     format_test:
       properties:
@@ -1447,6 +1493,10 @@ components:
       required:
       - className
       type: object
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+      type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
@@ -1469,6 +1519,12 @@ components:
             - lower
             type: string
           type: object
+        direct_map:
+          additionalProperties:
+            type: boolean
+          type: object
+        indirect_map:
+          $ref: '#/components/schemas/StringBooleanMap'
       type: object
     Tag:
       example:

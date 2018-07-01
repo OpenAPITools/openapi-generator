@@ -324,4 +324,48 @@ if (file != null) localVarFormParams.put("file", file);
         TypeReference<ModelApiResponse> localVarReturnType = new TypeReference<ModelApiResponse>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
+    /**
+     * uploads an image
+     * 
+     * @param petId ID of pet to update (required)
+     * @param file file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void uploadFileWithRequiredFile(Long petId, AsyncFile file, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        Object localVarBody = null;
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile"));
+            return;
+        }
+        
+        // verify the required parameter 'file' is set
+        if (file == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'file' when calling uploadFileWithRequiredFile"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/pet/{petId}/uploadImageWithRequiredFile".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        if (additionalMetadata != null) localVarFormParams.put("additionalMetadata", additionalMetadata);
+if (file != null) localVarFormParams.put("file", file);
+
+        String[] localVarAccepts = { "application/json" };
+        String[] localVarContentTypes = { "multipart/form-data" };
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
+        TypeReference<ModelApiResponse> localVarReturnType = new TypeReference<ModelApiResponse>() {};
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+    }
 }
