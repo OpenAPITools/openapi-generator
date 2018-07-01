@@ -12,7 +12,7 @@ class MapTest {
     private $mapMapOfString;
 /* @var map[string,string] $mapOfEnumString  */
     private $mapOfEnumString;
-/* @var map[string,Bool] $directMap  */
+/* @var map[string,bool] $directMap  */
     private $directMap;
 /* @var \\Models\StringBooleanMap $indirectMap  */
     private $indirectMap;

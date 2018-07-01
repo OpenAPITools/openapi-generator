@@ -8,6 +8,6 @@ namespace \Models;
  * ArrayOfNumberOnly
  */
 class ArrayOfNumberOnly {
-    /* @var Number[] $arrayNumber  */
+    /* @var float[] $arrayNumber  */
     private $arrayNumber;
 }
