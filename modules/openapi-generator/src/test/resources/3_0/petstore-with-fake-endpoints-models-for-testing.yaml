@@ -67,6 +67,7 @@ paths:
           description: Status values that need to be considered for filter
           required: true
           style: form
+          explode: false
           schema:
             type: array
             items:
@@ -111,6 +112,7 @@ paths:
           description: Tags to filter by
           required: true
           style: form
+          explode: false
           schema:
             type: array
             items:
@@ -265,32 +267,6 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
-  '/pet/{petId}/uploadImageWithRequiredFile':
-    post:
-      tags:
-        - pet
-      summary: uploads an image
-      description: ''
-      operationId: uploadFileWithRequiredFile
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
       requestBody:
         content:
           multipart/form-data:
@@ -950,6 +926,32 @@ paths:
                 $ref: '#/components/schemas/Client'
       requestBody:
         $ref: '#/components/requestBodies/Client'
+  '/fake/{petId}/uploadImageWithRequiredFile':
+    post:
+      tags:
+        - pet
+      summary: uploads an image (required)
+      description: ''
+      operationId: uploadFileWithRequiredFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
 components:
   requestBodies:
     UserArray:

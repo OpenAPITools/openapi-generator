@@ -698,7 +698,7 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 }
 
 /* 
-PetApiService uploads an image
+PetApiService uploads an image (required)
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
  * @param file file to upload
@@ -721,7 +721,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId in
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/pet/{petId}/uploadImageWithRequiredFile"
+	localVarPath := a.client.cfg.BasePath + "/fake/{petId}/uploadImageWithRequiredFile"
 	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
 
 	localVarHeaderParams := make(map[string]string)
