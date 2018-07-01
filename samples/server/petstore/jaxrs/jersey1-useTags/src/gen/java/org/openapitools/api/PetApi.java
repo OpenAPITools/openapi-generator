@@ -190,7 +190,7 @@ public class PetApi  {
         return delegate.uploadFile(petId,additionalMetadata,inputStream, fileDetail,securityContext);
     }
     @POST
-    
+    @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ModelApiResponse.class, authorizations = {
