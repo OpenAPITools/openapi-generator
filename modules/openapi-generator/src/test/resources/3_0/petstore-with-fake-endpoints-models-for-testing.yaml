@@ -267,21 +267,6 @@ paths:
                   description: file to upload
                   type: string
                   format: binary
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  type: string
-                  format: binary
-              required:
-                - file
   /store/inventory:
     get:
       tags:
@@ -588,6 +573,7 @@ paths:
       parameters:
         - name: enum_header_string_array
           in: header
+          explode: true
           description: Header parameter enum test (string array)
           schema:
             type: array
@@ -952,6 +938,21 @@ paths:
         - petstore_auth:
             - 'write:pets'
             - 'read:pets'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  type: string
+                  format: binary
+              required:
+                - file
 components:
   requestBodies:
     UserArray:

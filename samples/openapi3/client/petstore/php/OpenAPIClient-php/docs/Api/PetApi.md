@@ -383,9 +383,64 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **uploadFile**
-> \OpenAPI\Client\Model\ApiResponse uploadFile($pet_id, $file, $additional_metadata)
+> \OpenAPI\Client\Model\ApiResponse uploadFile($pet_id, $additional_metadata, $file)
 
 uploads an image
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: petstore_auth
+$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$apiInstance = new OpenAPI\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$pet_id = 56; // int | ID of pet to update
+$additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
+$file = "/path/to/file.txt"; // \SplFileObject | file to upload
+
+try {
+    $result = $apiInstance->uploadFile($pet_id, $additional_metadata, $file);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **int**| ID of pet to update |
+ **additional_metadata** | **string**| Additional data to pass to server | [optional]
+ **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional]
+
+### Return type
+
+[**\OpenAPI\Client\Model\ApiResponse**](../Model/ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **uploadFileWithRequiredFile**
+> \OpenAPI\Client\Model\ApiResponse uploadFileWithRequiredFile($pet_id, $file, $additional_metadata)
+
+uploads an image (required)
 
 ### Example
 ```php
@@ -406,10 +461,10 @@ $file = "/path/to/file.txt"; // \SplFileObject | file to upload
 $additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
 
 try {
-    $result = $apiInstance->uploadFile($pet_id, $file, $additional_metadata);
+    $result = $apiInstance->uploadFileWithRequiredFile($pet_id, $file, $additional_metadata);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PetApi->uploadFile: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling PetApi->uploadFileWithRequiredFile: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -433,57 +488,6 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
-
-# **uploadFileWithRequiredFile**
-> \OpenAPI\Client\Model\ApiResponse uploadFileWithRequiredFile($pet_id)
-
-uploads an image (required)
-
-### Example
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure OAuth2 access token for authorization: petstore_auth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-$apiInstance = new OpenAPI\Client\Api\PetApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$pet_id = 56; // int | ID of pet to update
-
-try {
-    $result = $apiInstance->uploadFileWithRequiredFile($pet_id);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PetApi->uploadFileWithRequiredFile: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
-
-### Return type
-
-[**\OpenAPI\Client\Model\ApiResponse**](../Model/ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
