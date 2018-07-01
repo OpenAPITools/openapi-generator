@@ -78,5 +78,13 @@ public class MockDefaultGenerator extends DefaultGenerator {
         public String getOutputFilename() {
             return outputFilename;
         }
+
+        @Override
+        public String toString() {
+            return "WrittenTemplateBasedFile [" +
+                    "outputFilename=" + outputFilename + ", " +
+                    "templateName=" + templateName +  ", " +
+                    "templateData=" + templateData + "]";
+        }
     }
 }
