@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
 
 
 <a name="addPet"></a>
@@ -331,6 +332,49 @@ Name | Type | Description  | Notes
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
  **file** | **File**| file to upload | [optional] [default to null]
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+<a name="uploadFileWithRequiredFile"></a>
+# **uploadFileWithRequiredFile**
+> ModelApiResponse uploadFileWithRequiredFile(petId, file, additionalMetadata)
+
+uploads an image
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+
+api.uploadFileWithRequiredFile()
+    .petIdPath(petId)
+    .fileMultiPart(file).execute(r -> r.prettyPeek());
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **Long**| ID of pet to update |
+ **file** | **File**| file to upload | [default to null]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

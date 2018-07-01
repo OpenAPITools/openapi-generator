@@ -123,4 +123,18 @@ public interface PetApi {
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part("file") MultipartBody.Part file
   );
 
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update (required)
+   * @param file file to upload (required)
+   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @return Observable&lt;ModelApiResponse&gt;
+   */
+  @retrofit2.http.Multipart
+  @POST("pet/{petId}/uploadImageWithRequiredFile")
+  Observable<ModelApiResponse> uploadFileWithRequiredFile(
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("file") MultipartBody.Part file, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
+  );
+
 }
