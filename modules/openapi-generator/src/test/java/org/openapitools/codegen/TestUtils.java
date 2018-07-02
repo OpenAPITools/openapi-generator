@@ -31,7 +31,7 @@ public class TestUtils {
     }
 
     public static WrittenTemplateBasedFile getTemplateBasedFile(MockDefaultGenerator generator, File root, String filename) {
-        String defaultApiFilename = new File(root, filename).getAbsolutePath();
+        String defaultApiFilename = new File(root, filename).getAbsolutePath().replace("\\", "/");
         Optional<WrittenTemplateBasedFile> optional = generator.getTemplateBasedFiles().stream().filter(f -> defaultApiFilename.equals(f.getOutputFilename())).findFirst();
         Assert.assertTrue(optional.isPresent());
         return optional.get();
