@@ -259,7 +259,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             String tryRefV2 = "#/definitions/" + openAPIType;
             String tryRefV3 = "#/components/schemas/" + openAPIType;
             if(ref.equals(tryRefV2) || ref.equals(tryRefV3)) {
-                return openAPIType;
+                return toModelName(openAPIType);
             }
         }
 
