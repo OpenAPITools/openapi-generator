@@ -62,7 +62,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         embeddedTemplateDir = templateDir = "php-slim-server";
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);      
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
 
         // override cliOptions from AbstractPhpCodegen
         for (CliOption co : cliOptions) {
@@ -71,8 +71,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
                 co.setDefault("camelCase");
                 break;
             }
-        }        
-    }    
+        }
+    }
 
     @Override
     public CodegenType getTag() {
@@ -94,7 +94,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
             // need to strip out invokerPackage from path
             return (outputFolder + File.separator + toPackagePath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
-        }  
+        }
         return (outputFolder + File.separator + toPackagePath(apiPackage, srcBasePath));
     }
 
@@ -115,8 +115,9 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", getPackagePath(), "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", getPackagePath(), ".htaccess"));
-        supportingFiles.add(new SupportingFile(".gitignore", getPackagePath(), ".gitignore"));       
-        supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));        
+        supportingFiles.add(new SupportingFile(".gitignore", getPackagePath(), ".gitignore"));
+        supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));
+        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
     }
 
     @Override

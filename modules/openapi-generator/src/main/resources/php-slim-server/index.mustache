@@ -6,16 +6,9 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = new Slim\App();
+use {{invokerPackage}}\SlimRouter;
+{{/apiInfo}}
 
-{{#apis}}{{#operations}}{{#operation}}
-/**
- * {{httpMethod}} {{nickname}}
- * Summary: {{summary}}
- * Notes: {{notes}}
- */
-$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', \{{apiPackage}}\{{classname}}::class . ':{{operationId}}');
-
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-
+$router = new SlimRouter();
+$app = $router->getSlimApp();
 $app->run();
