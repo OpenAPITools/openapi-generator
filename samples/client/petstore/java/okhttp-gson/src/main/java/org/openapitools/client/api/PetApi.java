@@ -1077,7 +1077,7 @@ public class PetApi {
         Object localVarPostBody = new Object();
 
         // create path and map variables
-        String localVarPath = "/pet/{petId}/uploadImageWithRequiredFile"
+        String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
             .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -1139,7 +1139,7 @@ public class PetApi {
     }
 
     /**
-     * uploads an image
+     * uploads an image (required)
      * 
      * @param petId ID of pet to update (required)
      * @param file file to upload (required)
@@ -1153,7 +1153,7 @@ public class PetApi {
     }
 
     /**
-     * uploads an image
+     * uploads an image (required)
      * 
      * @param petId ID of pet to update (required)
      * @param file file to upload (required)
@@ -1168,7 +1168,7 @@ public class PetApi {
     }
 
     /**
-     * uploads an image (asynchronously)
+     * uploads an image (required) (asynchronously)
      * 
      * @param petId ID of pet to update (required)
      * @param file file to upload (required)

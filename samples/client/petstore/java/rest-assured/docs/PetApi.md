@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
+[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 <a name="addPet"></a>
@@ -350,7 +350,7 @@ Name | Type | Description  | Notes
 # **uploadFileWithRequiredFile**
 > ModelApiResponse uploadFileWithRequiredFile(petId, file, additionalMetadata)
 
-uploads an image
+uploads an image (required)
 
 ### Example
 ```java

@@ -126,7 +126,7 @@ public interface PetApi {
   );
 
   /**
-   * uploads an image
+   * uploads an image (required)
    * 
    * @param petId ID of pet to update (required)
    * @param file file to upload (required)
@@ -134,7 +134,7 @@ public interface PetApi {
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
-  @POST("pet/{petId}/uploadImageWithRequiredFile")
+  @POST("fake/{petId}/uploadImageWithRequiredFile")
   F.Promise<Response<ModelApiResponse>> uploadFileWithRequiredFile(
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("file") MultipartBody.Part file, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
   );

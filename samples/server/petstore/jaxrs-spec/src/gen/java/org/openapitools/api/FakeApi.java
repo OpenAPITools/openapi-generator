@@ -6,6 +6,7 @@ import java.util.Date;
 import java.io.File;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 
@@ -128,11 +129,29 @@ public class FakeApi {
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake" })
+    @ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
     public Response testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "uploads an image (required)", notes = "", response = ModelApiResponse.class, authorizations = {
+        @Authorization(value = "petstore_auth", scopes = {
+            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @AuthorizationScope(scope = "read:pets", description = "read your pets")
+        })
+    }, tags={ "pet" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class)
+    })
+    public Response uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "file") InputStream fileInputStream,
+   @FormParam(value = "file") Attachment fileDetail,@FormParam(value = "additionalMetadata")  String additionalMetadata) {
         return Response.ok().entity("magic!").build();
     }
 }

@@ -356,7 +356,7 @@ public class PetApi {
         return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
-     * uploads an image
+     * uploads an image (required)
      * 
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update
@@ -381,7 +381,7 @@ public class PetApi {
         // create path and map variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        String path = UriComponentsBuilder.fromPath("/pet/{petId}/uploadImageWithRequiredFile").buildAndExpand(uriVariables).toUriString();
+        String path = UriComponentsBuilder.fromPath("/fake/{petId}/uploadImageWithRequiredFile").buildAndExpand(uriVariables).toUriString();
         
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();

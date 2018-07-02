@@ -716,7 +716,7 @@ public class PetApi {
 
 
   /**
-    * uploads an image
+    * uploads an image (required)
     * <p><b>200</b> - successful operation
     * @param petId ID of pet to update
     * @param file file to upload
@@ -731,7 +731,7 @@ public class PetApi {
     }
 
   /**
-    * uploads an image
+    * uploads an image (required)
     * <p><b>200</b> - successful operation
     * @param petId ID of pet to update
     * @param file file to upload
@@ -756,7 +756,7 @@ public class PetApi {
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}/uploadImageWithRequiredFile");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/{petId}/uploadImageWithRequiredFile");
 
         String url = uriBuilder.buildFromMap(uriVariables).toString();
         GenericUrl genericUrl = new GenericUrl(url);
@@ -776,7 +776,7 @@ public class PetApi {
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
-        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}/uploadImageWithRequiredFile");
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/{petId}/uploadImageWithRequiredFile");
 
         // Copy the params argument if present, to allow passing in immutable maps
         Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);

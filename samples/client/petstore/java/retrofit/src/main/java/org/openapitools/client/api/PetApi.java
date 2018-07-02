@@ -223,7 +223,7 @@ public interface PetApi {
     @retrofit.http.Path("petId") Long petId, @retrofit.http.Part("additionalMetadata") String additionalMetadata, @retrofit.http.Part("file") TypedFile file, Callback<ModelApiResponse> cb
   );
   /**
-   * uploads an image
+   * uploads an image (required)
    * Sync method
    * 
    * @param petId ID of pet to update (required)
@@ -233,13 +233,13 @@ public interface PetApi {
    */
   
   @retrofit.http.Multipart
-  @POST("/pet/{petId}/uploadImageWithRequiredFile")
+  @POST("/fake/{petId}/uploadImageWithRequiredFile")
   ModelApiResponse uploadFileWithRequiredFile(
     @retrofit.http.Path("petId") Long petId, @retrofit.http.Part("file") TypedFile file, @retrofit.http.Part("additionalMetadata") String additionalMetadata
   );
 
   /**
-   * uploads an image
+   * uploads an image (required)
    * Async method
    * @param petId ID of pet to update (required)
    * @param file file to upload (required)
@@ -248,7 +248,7 @@ public interface PetApi {
    */
   
   @retrofit.http.Multipart
-  @POST("/pet/{petId}/uploadImageWithRequiredFile")
+  @POST("/fake/{petId}/uploadImageWithRequiredFile")
   void uploadFileWithRequiredFile(
     @retrofit.http.Path("petId") Long petId, @retrofit.http.Part("file") TypedFile file, @retrofit.http.Part("additionalMetadata") String additionalMetadata, Callback<ModelApiResponse> cb
   );

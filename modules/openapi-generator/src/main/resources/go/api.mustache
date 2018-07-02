@@ -20,15 +20,15 @@ var (
 type {{classname}}Service service
 {{#operation}}
 
-/* 
-{{{classname}}}Service{{#summary}} {{.}}{{/summary}}
+/*
+{{{classname}}}Service{{#summary}} {{{.}}}{{/summary}}
 {{#notes}}
 {{notes}}
 {{/notes}}
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 {{#allParams}}
 {{#required}}
- * @param {{paramName}}{{#description}} {{.}}{{/description}}
+ * @param {{paramName}}{{#description}} {{{.}}}{{/description}}
 {{/required}}
 {{/allParams}}
 {{#hasOptionalParams}}
@@ -243,8 +243,12 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 			} else {
 				key = auth.Key
 			}
-			{{#isKeyInHeader}}localVarHeaderParams["{{keyParamName}}"] = key{{/isKeyInHeader}}
-			{{#isKeyInQuery}}localVarQueryParams.Add("{{keyParamName}}", key){{/isKeyInQuery}}
+			{{#isKeyInHeader}}
+			localVarHeaderParams["{{keyParamName}}"] = key
+			{{/isKeyInHeader}}
+			{{#isKeyInQuery}}
+			localVarQueryParams.Add("{{keyParamName}}", key)
+			{{/isKeyInQuery}}
 		}
 	}
 
@@ -270,7 +274,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, err
 		}
 	}

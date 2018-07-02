@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
+[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **add_pet**
@@ -422,7 +422,7 @@ Name | Type | Description  | Notes
 # **upload_file_with_required_file**
 > ApiResponse upload_file_with_required_file(pet_id, file, opts)
 
-uploads an image
+uploads an image (required)
 
 ### Example
 ```ruby
@@ -442,7 +442,7 @@ opts = {
 }
 
 begin
-  #uploads an image
+  #uploads an image (required)
   result = api_instance.upload_file_with_required_file(pet_id, file, opts)
   p result
 rescue Petstore::ApiError => e

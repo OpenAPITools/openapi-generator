@@ -756,7 +756,7 @@ class PetApi
 
         // query params
         if (is_array($status)) {
-            $status = ObjectSerializer::serializeCollection($status, 'multi', true);
+            $status = ObjectSerializer::serializeCollection($status, 'csv', true);
         }
         if ($status !== null) {
             $queryParams['status'] = ObjectSerializer::toQueryValue($status);
@@ -1040,7 +1040,7 @@ class PetApi
 
         // query params
         if (is_array($tags)) {
-            $tags = ObjectSerializer::serializeCollection($tags, 'multi', true);
+            $tags = ObjectSerializer::serializeCollection($tags, 'csv', true);
         }
         if ($tags !== null) {
             $queryParams['tags'] = ObjectSerializer::toQueryValue($tags);
@@ -2177,7 +2177,7 @@ class PetApi
     /**
      * Operation uploadFileWithRequiredFile
      *
-     * uploads an image
+     * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $file file to upload (required)
@@ -2196,7 +2196,7 @@ class PetApi
     /**
      * Operation uploadFileWithRequiredFileWithHttpInfo
      *
-     * uploads an image
+     * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $file file to upload (required)
@@ -2292,7 +2292,7 @@ class PetApi
     /**
      * Operation uploadFileWithRequiredFileAsync
      *
-     * uploads an image
+     * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $file file to upload (required)
@@ -2314,7 +2314,7 @@ class PetApi
     /**
      * Operation uploadFileWithRequiredFileAsyncWithHttpInfo
      *
-     * uploads an image
+     * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  \SplFileObject $file file to upload (required)
@@ -2390,7 +2390,7 @@ class PetApi
             );
         }
 
-        $resourcePath = '/pet/{petId}/uploadImageWithRequiredFile';
+        $resourcePath = '/fake/{petId}/uploadImageWithRequiredFile';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];

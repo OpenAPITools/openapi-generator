@@ -295,11 +295,11 @@ $app->POST('/v2/pet/{petId}/uploadImage', function($request, $response, $args) {
 
 /**
  * POST uploadFileWithRequiredFile
- * Summary: uploads an image
+ * Summary: uploads an image (required)
  * Notes: 
  * Output-Formats: [application/json]
  */
-$app->POST('/v2/pet/{petId}/uploadImageWithRequiredFile', function($request, $response, $args) {
+$app->POST('/v2/fake/{petId}/uploadImageWithRequiredFile', function($request, $response, $args) {
     $petId = $args['petId'];
     $additionalMetadata = $request->getParsedBodyParam('additionalMetadata');
     $file = (key_exists('file', $request->getUploadedFiles())) ? $request->getUploadedFiles()['file'] : null;
