@@ -644,15 +644,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         if (in == null) {
                             in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
                         }
-                        File outputFile = new File(outputFilename);
-                        OutputStream out = new FileOutputStream(outputFile, false);
-                        if (in != null) {
-                            LOGGER.info("writing file " + outputFile);
-                            IOUtils.copy(in, out);
-                            out.close();
-                        } else {
-                            LOGGER.error("can't open " + templateFile + " for input");
-                        }
+                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
                         files.add(outputFile);
                     }
                 } else {
@@ -708,6 +700,19 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         files.add(licenseFile);
          */
 
+    }
+
+    protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws FileNotFoundException, IOException {
+        File outputFile = new File(filename);
+        if (in != null) {
+            OutputStream out = new FileOutputStream(outputFile, false);
+            LOGGER.info("writing file " + outputFile);
+            IOUtils.copy(in, out);
+            out.close();
+        } else {
+            LOGGER.error("can't open '" + templateFile + "' for input, can not write '" + filename + "'");
+        }
+        return outputFile;
     }
 
     private Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {
@@ -793,7 +798,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    private File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
+    protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         if (ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
             String templateFile = getFullTemplateFile(config, templateName);
