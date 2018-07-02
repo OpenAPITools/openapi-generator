@@ -56,6 +56,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
 
+    private String classNameSuffixPattern = "^[a-zA-Z0-9]*$";
+    private String fileNameSuffixPattern = "^[a-zA-Z0-9.-]*$";
 
     private boolean taggedUnions = false;
 
@@ -173,15 +175,19 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
+            validateClassSuffixArgument("Service", serviceSuffix);
         }
         if (additionalProperties.containsKey(SERVICE_FILE_SUFFIX)) {
             serviceFileSuffix = additionalProperties.get(SERVICE_FILE_SUFFIX).toString();
+            validateFileSuffixArgument("Service", serviceFileSuffix);
         }
         if (additionalProperties.containsKey(MODEL_SUFFIX)) {
             modelSuffix = additionalProperties.get(MODEL_SUFFIX).toString();
+            validateClassSuffixArgument("Model", modelSuffix);
         }
         if (additionalProperties.containsKey(MODEL_FILE_SUFFIX)) {
             modelFileSuffix = additionalProperties.get(MODEL_FILE_SUFFIX).toString();
+            validateFileSuffixArgument("Model", modelFileSuffix);
         }
     }
 
@@ -523,5 +529,21 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             return name;
         }
         return name.substring(0, name.length() - modelSuffix.length());
+    }
+
+    private void validateFileSuffixArgument(String argument, String value) {
+        if (!value.matches(fileNameSuffixPattern)) {
+            throw new IllegalArgumentException(
+                    String.format("%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
+            );
+        }
+    }
+
+    private void validateClassSuffixArgument(String argument, String value) {
+        if (!value.matches(classNameSuffixPattern)) {
+            throw new IllegalArgumentException(
+                    String.format("%s class suffix only allows alphanumeric characters.", argument)
+            );
+        }
     }
 }
