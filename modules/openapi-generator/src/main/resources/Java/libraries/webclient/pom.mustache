@@ -79,6 +79,12 @@
             <version>${spring-web-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.projectreactor.ipc</groupId>
+            <artifactId>reactor-netty</artifactId>
+            <version>${reactor-netty-version}</version>
+        </dependency>
+
         <!-- JSON processing: jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -121,6 +127,7 @@
         <jackson-version>2.9.5</jackson-version>
         <junit-version>4.12</junit-version>
         <reactor-version>3.1.8.RELEASE</reactor-version>
+        <reactor-netty-version>0.7.8.RELEASE</reactor-netty-version>
         {{#joda}}
             <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
