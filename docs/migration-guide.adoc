@@ -1,0 +1,27 @@
+== Migration guide between OpenAPI-Generator versions
+
+This page summaries the important changes between major and minor version of OpenAPI-Generator.
+It does not contain a detailed list of changes, for that refer to each individual release notes.
+
+It is written to help migration by indicating the most impacting changes.
+Do not hesitate to contribute additional notes if you discover something during your migration and think that the information might help other users.
+
+=== From 3.0.x to 3.1.0
+
+Version `3.1.0` is the first minor version of OpenAPI-Generator, in comparison to `3.0.3` it contains some breaking changes, but with the possibility to fallback to the old behavior.
+The default value of some options might change.
+Projects relying on generated code might need to be adapted.
+
+==== Java
+
+A new option is introduced to specify the prefix of boolean getters: `booleanGetterPrefix`.
+Possible values:
+
+* `is`: the value used in `3.0.x`.
+* `get`: the new default value.
+
+If you use the default value you will see your generated code changing from `isActive()` to `getActive()`.
+
+=== Migrating from Swagger-Codegen
+
+Please read the specific migration guide: link:migration-from-swagger-codegen.md[From Swagger-Codegen to OpenAPI-Generator]
