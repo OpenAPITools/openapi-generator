@@ -145,9 +145,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String toVarName(String name) {
     	
-    	if(name != null) {
-    		name = name.replaceAll("-", "_");
-    	}
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name);
 
