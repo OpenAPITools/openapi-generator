@@ -144,7 +144,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
-    	
+        
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name);
 
