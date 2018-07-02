@@ -13,44 +13,8 @@ $app = new Slim\App();
  * {{httpMethod}} {{nickname}}
  * Summary: {{summary}}
  * Notes: {{notes}}
- {{#hasProduces}}
- * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]
- {{/hasProduces}}
  */
-$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', function($request, $response, $args) {
-    {{#hasHeaderParams}}
-    $headers = $request->getHeaders();
-    {{#headerParams}}
-    ${{paramName}} = $request->hasHeader('{{baseName}}') ? $headers['{{baseName}}'] : null;
-    {{/headerParams}}
-    {{/hasHeaderParams}}
-    {{#hasPathParams}}
-    {{#pathParams}}
-    ${{paramName}} = $args['{{baseName}}'];
-    {{/pathParams}}
-    {{/hasPathParams}}
-    {{#hasQueryParams}}
-    $queryParams = $request->getQueryParams();
-    {{#queryParams}}
-    ${{paramName}} = $request->getQueryParam('{{baseName}}');
-    {{/queryParams}}
-    {{/hasQueryParams}}
-    {{#hasFormParams}}
-    {{#formParams}}
-    {{^isFile}}
-    ${{paramName}} = $request->getParsedBodyParam('{{baseName}}');
-    {{/isFile}}
-    {{#isFile}}
-    ${{paramName}} = (key_exists('{{baseName}}', $request->getUploadedFiles())) ? $request->getUploadedFiles()['{{baseName}}'] : null;
-    {{/isFile}}
-    {{/formParams}}
-    {{/hasFormParams}}
-    {{#hasBodyParam}}
-    $body = $request->getParsedBody();
-    {{/hasBodyParam}}
-    $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
-    return $response;
-});
+$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', \{{apiPackage}}\{{classname}}::class . ':{{operationId}}');
 
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
