@@ -38,7 +38,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bool**
+[**bool**](boolean.md)
 
 ### Authorization
 
@@ -108,7 +108,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**float32**
+[**float32**](number.md)
 
 ### Authorization
 
