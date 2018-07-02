@@ -64,6 +64,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
+    public static final String BOOLEAN_GETTER_PREFIX_DEFAULT = "get";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -97,7 +98,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String modelDocPath = "docs/";
     protected boolean supportJava6= false;
     protected boolean disableHtmlEscaping = false;
-    protected String booleanGetterPrefix = "is";
+    protected String booleanGetterPrefix = BOOLEAN_GETTER_PREFIX_DEFAULT;
 
     public AbstractJavaCodegen() {
         super();
@@ -190,7 +191,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(java8Mode);
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)"));
-        cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix (default value 'is')"));
+        cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix (default value '" + BOOLEAN_GETTER_PREFIX_DEFAULT + "')"));
     }
 
     @Override
