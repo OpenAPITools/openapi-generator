@@ -34,7 +34,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
-
+    private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
+    private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
+    
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -55,9 +57,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
-
-    private String classNameSuffixPattern = "^[a-zA-Z0-9]*$";
-    private String fileNameSuffixPattern = "^[a-zA-Z0-9.-]*$";
 
     private boolean taggedUnions = false;
 
@@ -532,7 +531,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     private void validateFileSuffixArgument(String argument, String value) {
-        if (!value.matches(fileNameSuffixPattern)) {
+        if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
                     String.format("%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
             );
@@ -540,7 +539,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     private void validateClassSuffixArgument(String argument, String value) {
-        if (!value.matches(classNameSuffixPattern)) {
+        if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
                     String.format("%s class suffix only allows alphanumeric characters.", argument)
             );
