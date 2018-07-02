@@ -406,7 +406,7 @@ if (file != null)
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * uploads an image
+   * uploads an image (required)
    * 
    * @param petId ID of pet to update (required)
    * @param file file to upload (required)
@@ -428,7 +428,7 @@ if (file != null)
     }
     
     // create path and map variables
-    String localVarPath = "/pet/{petId}/uploadImageWithRequiredFile"
+    String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
       .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
 
     // query params

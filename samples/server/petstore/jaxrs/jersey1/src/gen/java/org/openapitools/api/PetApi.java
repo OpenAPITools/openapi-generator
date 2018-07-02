@@ -177,7 +177,7 @@ public class PetApi  {
             @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
         })
-    }, tags={ "pet",  })
+    }, tags={ "pet" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFile(
@@ -188,26 +188,5 @@ public class PetApi  {
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.uploadFile(petId,additionalMetadata,inputStream, fileDetail,securityContext);
-    }
-    @POST
-    @Path("/{petId}/uploadImageWithRequiredFile")
-    @Consumes({ "multipart/form-data" })
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "uploads an image", notes = "", response = ModelApiResponse.class, authorizations = {
-        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
-            @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
-        })
-    }, tags={ "pet" })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    public Response uploadFileWithRequiredFile(
-        @ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId,
-        @FormDataParam("file") InputStream inputStream,
-        @FormDataParam("file") FormDataContentDisposition fileDetail,
-        @FormDataParam("additionalMetadata")  String additionalMetadata,
-        @Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.uploadFileWithRequiredFile(petId,inputStream, fileDetail,additionalMetadata,securityContext);
     }
 }

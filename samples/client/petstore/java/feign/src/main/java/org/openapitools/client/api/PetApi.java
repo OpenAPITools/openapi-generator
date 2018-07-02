@@ -184,14 +184,14 @@ public interface PetApi extends ApiClient.Api {
   ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
 
   /**
-   * uploads an image
+   * uploads an image (required)
    * 
     * @param petId ID of pet to update (required)
     * @param file file to upload (required)
     * @param additionalMetadata Additional data to pass to server (optional, default to null)
    * @return ModelApiResponse
    */
-  @RequestLine("POST /pet/{petId}/uploadImageWithRequiredFile")
+  @RequestLine("POST /fake/{petId}/uploadImageWithRequiredFile")
   @Headers({
     "Content-Type: multipart/form-data",
     "Accept: application/json",

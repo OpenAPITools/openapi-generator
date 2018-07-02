@@ -10,6 +10,7 @@ import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 
@@ -45,5 +46,7 @@ public abstract class FakeApiService {
       public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext)
+      throws NotFoundException;
+      public abstract Response uploadFileWithRequiredFile(Long petId,InputStream fileInputStream, FormDataContentDisposition fileDetail,String additionalMetadata,SecurityContext securityContext)
       throws NotFoundException;
 }

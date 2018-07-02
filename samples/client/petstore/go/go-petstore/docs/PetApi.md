@@ -12,7 +12,7 @@ Method | HTTP request | Description
 [**UpdatePet**](PetApi.md#UpdatePet) | **Put** /pet | Update an existing pet
 [**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **Post** /pet/{petId} | Updates a pet in the store with form data
 [**UploadFile**](PetApi.md#UploadFile) | **Post** /pet/{petId}/uploadImage | uploads an image
-[**UploadFileWithRequiredFile**](PetApi.md#UploadFileWithRequiredFile) | **Post** /pet/{petId}/uploadImageWithRequiredFile | uploads an image
+[**UploadFileWithRequiredFile**](PetApi.md#UploadFileWithRequiredFile) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **AddPet**
@@ -260,7 +260,7 @@ Name | Type | Description  | Notes
 
 # **UploadFileWithRequiredFile**
 > ApiResponse UploadFileWithRequiredFile(ctx, petId, file, optional)
-uploads an image
+uploads an image (required)
 
 ### Required Parameters
 

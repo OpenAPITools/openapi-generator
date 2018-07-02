@@ -70,10 +70,4 @@ public class PetApiServiceImpl extends PetApiService {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
-    @Override
-    public Response uploadFileWithRequiredFile(Long petId, InputStream fileInputStream, FormDataContentDisposition fileDetail, String additionalMetadata, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
 }

@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import org.threeten.bp.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
@@ -127,5 +128,20 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     ResponseEntity<Void> testJsonFormData(@ApiParam(value = "field1", required=true, defaultValue="null") @RequestParam(value="param", required=true)  String param,@ApiParam(value = "field2", required=true, defaultValue="null") @RequestParam(value="param2", required=true)  String param2);
+
+
+    @ApiOperation(value = "uploads an image (required)", nickname = "uploadFileWithRequiredFile", notes = "", response = ModelApiResponse.class, authorizations = {
+        @Authorization(value = "petstore_auth", scopes = {
+            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @AuthorizationScope(scope = "read:pets", description = "read your pets")
+            })
+    }, tags={ "pet", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    @RequestMapping(value = "/fake/{petId}/uploadImageWithRequiredFile",
+        produces = { "application/json" }, 
+        consumes = { "multipart/form-data" },
+        method = RequestMethod.POST)
+    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata);
 
 }
