@@ -36,7 +36,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
-    
+
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -530,6 +530,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return name.substring(0, name.length() - modelSuffix.length());
     }
 
+    /**
+     * Validates that the given string value only contains '-', '.' and alpha numeric characters.
+     * Throws an IllegalArgumentException, if the string contains any other characters.
+     * @param argument The name of the argument being validated. This is only used for displaying an error message.
+     * @param value The value that is being validated.
+     */
     private void validateFileSuffixArgument(String argument, String value) {
         if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
@@ -538,6 +544,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
     }
 
+    /**
+     * Validates that the given string value only contains alpha numeric characters.
+     * Throws an IllegalArgumentException, if the string contains any other characters.
+     * @param argument The name of the argument being validated. This is only used for displaying an error message.
+     * @param value The value that is being validated.
+     */
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
