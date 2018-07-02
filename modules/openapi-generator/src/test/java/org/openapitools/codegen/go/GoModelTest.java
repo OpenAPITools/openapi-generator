@@ -254,6 +254,17 @@ public class GoModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
 
+    @Test(description = "convert a property named 'file' model")
+    public void filePropertyTest() {
+        final Schema model = new Schema()
+                .$ref("#/definitions/File");
+        final DefaultCodegen codegen = new GoClientCodegen();
+        final String ref = model.get$ref();
+
+        Assert.assertEquals(codegen.getSchemaType(model), "File");
+        Assert.assertEquals(codegen.getTypeDeclaration(model), "File");
+    }
+
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
         return new Object[][] {

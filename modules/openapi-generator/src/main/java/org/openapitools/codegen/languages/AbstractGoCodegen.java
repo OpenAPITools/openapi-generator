@@ -254,6 +254,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String openAPIType = getSchemaType(p);
+        String ref = p.get$ref();
+        if(ref != null && !ref.isEmpty()) {
+            String tryRefV2 = "#/definitions/" + openAPIType;
+            String tryRefV3 = "#/components/schemas/" + openAPIType;
+            if(ref.equals(tryRefV2) || ref.equals(tryRefV3)) {
+                return openAPIType;
+            }
+        }
+
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
         }
@@ -272,8 +281,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
+        String ref = p.get$ref();
         String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
+
+        if(ref != null && !ref.isEmpty()) {
+            type = openAPIType;
+        } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return (type);
