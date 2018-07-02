@@ -31,7 +31,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
 
-@Path("/Fake")
+@Path("/fake")
 
 
 @io.swagger.annotations.Api(description = "the Fake API")

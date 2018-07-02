@@ -26,7 +26,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
 
-@Path("/Store")
+@Path("/store")
 
 
 @io.swagger.annotations.Api(description = "the Store API")
