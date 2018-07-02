@@ -1,4 +1,4 @@
-import api = require('./index');
+import api = require('./api');
 import fs = require('fs');
 
 // a should define the required properties
@@ -50,7 +50,7 @@ var exitCode = 0;
 
 // Test Object Serializer
 var rewire = require("rewire");
-var rewiredApi = rewire("./index");
+var rewiredApi = rewire("./api");
 var objectSerializer = rewiredApi.ObjectSerializer;
 console.log("Checking deserialization.");
 var serializedPet = {

@@ -3,8 +3,8 @@
     "version": "0.0.1",
     "description": "NodeJS client for @swagger/angular2-typescript-petstore",
     "repository": "GIT_USER_ID/GIT_REPO_ID",
-    "main": "index.js",
-    "types": "index.d.ts",
+    "main": "api.js",
+    "types": "api.d.ts",
     "scripts": {
         "clean": "rm -Rf node_modules/ *.js",
         "build": "tsc",

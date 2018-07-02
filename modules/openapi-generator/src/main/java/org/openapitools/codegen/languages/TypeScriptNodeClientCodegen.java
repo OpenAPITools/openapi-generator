@@ -111,7 +111,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toApiImport(String name) {
-        return apiPackage() + "/" + toApiFilename(name);
+        return apiPackage() + File.separator + toApiFilename(name);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        return modelPackage() + File.separator + toModelFilename(name);
     }
     
     @Override
@@ -213,7 +213,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         super.processOpts();
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
         supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
-        supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "api.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         
@@ -294,7 +294,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
     
     private String getModelnameFromModelFilename(String filename) {
-        String name = filename.substring((modelPackage() + "/").length());
+        String name = filename.substring((modelPackage() + File.separator).length());
         return camelize(name);
     }
 }
