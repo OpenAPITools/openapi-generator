@@ -1,0 +1,213 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: DAOX api
+  contact:
+    email: dev@0v1se.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+basePath: /v1
+paths:
+  /addresses:
+    post:
+      summary: Initiate issue process
+      operationId: issue
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: form
+          description: form
+          required: true
+          schema:
+            $ref: '#/definitions/ApiIssueForm'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ApiRequest'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '404':
+          description: Token not found
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ApiError'
+  '/requests/{id}/status':
+    get:
+      summary: Get issue request status
+      operationId: getRequestStatus
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ApiRequest.id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ApiIssue'
+        '404':
+          description: Request not found
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ApiError'
+  /chains/eth/addresses:
+    post:
+      summary: Generate address for ether transfers
+      operationId: ethAddressCreate
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: form
+          description: Address form
+          required: true
+          schema:
+            $ref: '#/definitions/AddressForm'
+      responses:
+        '200':
+          description: OK response
+          schema:
+            $ref: '#/definitions/AddressResponse'
+        '400':
+          description: Validation error
+          schema:
+            $ref: '#/definitions/ApiErrorResponse'
+        '500':
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ApiError'
+definitions:
+  ApiIssueForm:
+    type: object
+    properties:
+      to:
+        type: string
+      functionName:
+        type: string
+      arguments:
+        type: array
+        items:
+          $ref: '#/definitions/ApiArgument'
+      notificationUrl:
+        type: string
+  ApiArgument:
+    type: object
+    required: [type]
+    discriminator:
+      propertyName: type
+      mapping:
+        constant: '#/definitions/ApiConstant'
+        value: '#/definitions/ApiValue'
+    properties:
+      type:
+        type: string
+        enum: [constant, value]
+  ApiConstant:
+    allOf:
+      - $ref: "#/definitions/ApiArgument"
+      - type: object
+        required: [type, dataType, value]
+        properties:
+          dataType:
+            type: string
+          value:
+            type: string
+#  ApiValue:
+#    type: object
+#    required: [type]
+#    properties:
+#      type:
+#        type: string
+#        enum: [value]
+#        default: value
+  ApiRequest:
+    type: object
+    properties:
+      id:
+        type: string
+      externalAddress:
+        type: string
+  ApiIssue:
+    type: object
+    properties:
+      id:
+        type: string
+      value:
+        type: string
+      blocks:
+        type: integer
+      finished:
+        type: boolean
+      status:
+        type: string
+        enum: [PENDING, CONFIRMED, EXECUTING, COMPLETED, ERROR]
+      externalTxId:
+        type: string
+      externalTxUrl:
+        type: string
+      txHash:
+        type: string
+  AddressForm:
+    type: object
+    required:
+      - contractAddress
+      - userAddress
+    properties:
+      contractAddress:
+        type: string
+        description: Contract to forward ether to
+      userAddress:
+        type: string
+        description: Address of the user to enroll tokens
+  AddressResponse:
+    type: object
+    required:
+      - address
+    properties:
+      address:
+        type: string
+        description: New address to make transfers to
+  ApiErrorResponse:
+    type: object
+    properties:
+      fieldErrors:
+        type: array
+        items:
+          $ref: '#/definitions/ApiFieldErrorMessage'
+      genericErrors:
+        type: array
+        items:
+          $ref: '#/definitions/ApiGenericErrorMessage'
+  ApiFieldErrorMessage:
+    type: object
+    properties:
+      error:
+        type: string
+      field:
+        type: string
+  ApiGenericErrorMessage:
+    type: object
+    properties:
+      error:
+        type: string
+  ApiError:
+    type: object
+    properties:
+      reason:
+        type: string
