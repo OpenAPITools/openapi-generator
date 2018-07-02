@@ -15,8 +15,8 @@ import http = require('http');
 import Promise = require('bluebird');
 
 /* tslint:disable:no-unused-locals */
-import { ApiResponse } from '../model/apiResponse';
-import { Pet } from '../model/pet';
+import { ApiResponse } from '../model\apiResponse';
+import { Pet } from '../model\pet';
 
 import { ObjectSerializer, Authentication, HttpBasicAuth, ApiKeyAuth, OAuth, VoidAuth } from '../model/models';
 

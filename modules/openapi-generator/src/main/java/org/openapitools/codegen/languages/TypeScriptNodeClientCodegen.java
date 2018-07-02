@@ -56,7 +56,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         outputFolder = "generated-code/typescript-node";
         embeddedTemplateDir = templateDir = "typescript-node";
         modelTemplateFiles.put("model.mustache", ".ts");
-        apiTemplateFiles.put("api.mustache", ".ts");
+        apiTemplateFiles.put("api-single.mustache", ".ts");
         modelPackage = "model";
         apiPackage = "api";
 
@@ -212,8 +212,8 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(new SupportingFile("models.mustache", modelPackage().replace('.', File.separatorChar), "models.ts"));
-        supportingFiles.add(new SupportingFile("apis.mustache", apiPackage().replace('.', File.separatorChar), "api.ts"));
-        supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "api.ts"));
+        supportingFiles.add(new SupportingFile("api-all.mustache", apiPackage().replace('.', File.separatorChar), "apis.ts"));
+        supportingFiles.add(new SupportingFile("api.mustache", getIndexDirectory(), "api.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         
