@@ -33,13 +33,12 @@ export class PetService {
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
+        if (basePath) {
+            this.basePath = basePath;
+        }
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+            this.basePath = basePath || configuration.basePath || this.basePath;
         }
     }
 
@@ -101,7 +100,7 @@ export class PetService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/pet`,
+        return this.httpClient.post<any>(`${this.basePath}/pet`,
             pet,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -153,7 +152,7 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
+        return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -207,7 +206,7 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByStatus`,
+        return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByStatus`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -262,7 +261,7 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByTags`,
+        return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByTags`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -309,7 +308,7 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Pet>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
+        return this.httpClient.get<Pet>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -362,7 +361,7 @@ export class PetService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/pet`,
+        return this.httpClient.put<any>(`${this.basePath}/pet`,
             pet,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -431,7 +430,7 @@ export class PetService {
             formParams = formParams.append('status', <any>status) || formParams;
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
+        return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -504,7 +503,7 @@ export class PetService {
             formParams = formParams.append('file', <any>file) || formParams;
         }
 
-        return this.httpClient.post<ApiResponse>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
+        return this.httpClient.post<ApiResponse>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 withCredentials: this.configuration.withCredentials,

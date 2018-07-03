@@ -32,13 +32,12 @@ export class UserService {
     public configuration = new Configuration();
 
     constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-
+        if (basePath) {
+            this.basePath = basePath;
+        }
         if (configuration) {
             this.configuration = configuration;
-            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
-
-        } else {
-            this.configuration.basePath = basePath || this.basePath;
+            this.basePath = basePath || configuration.basePath || this.basePath;
         }
     }
 
@@ -90,7 +89,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
+        return this.httpClient.post<any>(`${this.basePath}/user`,
             user,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -134,7 +133,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
+        return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
             user,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -178,7 +177,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
+        return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
             user,
             {
                 withCredentials: this.configuration.withCredentials,
@@ -218,7 +217,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
+        return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -259,7 +258,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
+        return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -312,7 +311,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
+        return this.httpClient.get<string>(`${this.basePath}/user/login`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -348,7 +347,7 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
+        return this.httpClient.get<any>(`${this.basePath}/user/logout`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -395,7 +394,7 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
+        return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
             user,
             {
                 withCredentials: this.configuration.withCredentials,
