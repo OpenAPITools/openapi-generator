@@ -3917,6 +3917,11 @@ public class DefaultCodegen implements CodegenConfig {
                     mediaType.put("hasMore", null);
                 }
 
+                if (!codegenOperation.produces.isEmpty()) {
+                    final Map<String, String> lastMediaType = codegenOperation.produces.get(codegenOperation.produces.size() - 1);
+                    lastMediaType.put("hasMore", "true");
+                }
+
                 codegenOperation.produces.add(mediaType);
                 codegenOperation.hasProduces = Boolean.TRUE;
             }
