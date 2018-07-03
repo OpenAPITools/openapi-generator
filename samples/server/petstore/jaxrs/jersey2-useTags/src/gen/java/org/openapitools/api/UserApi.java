@@ -26,7 +26,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
 
-@Path("/User")
+@Path("/user")
 
 
 @io.swagger.annotations.Api(description = "the User API")

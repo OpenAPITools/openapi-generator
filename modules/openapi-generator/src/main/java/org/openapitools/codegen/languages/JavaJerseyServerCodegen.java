@@ -159,7 +159,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (useTags) {
-            String basePath = resourcePath;
+            String basePath = tag.toLowerCase();
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
             }
@@ -168,11 +168,17 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 basePath = basePath.substring(0, pos);
             }
 
-            if (co.path.startsWith("/" + basePath)) {
+            boolean pathStartsWithBasePath = co.path.startsWith("/" + basePath);
+            if (pathStartsWithBasePath) {
                 co.path = co.path.substring(("/" + basePath).length());
             }
             co.subresourceOperation = !co.path.isEmpty();
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            if (pathStartsWithBasePath) {
+                co.baseName = basePath;
+            } else {
+                co.baseName = null;
+            }
         } else {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
