@@ -1063,4 +1063,144 @@ public class PetApi {
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
+    /**
+     * Build call for uploadFileWithRequiredFile
+     * @param petId ID of pet to update (required)
+     * @param file file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param progressListener Progress listener
+     * @param progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public com.squareup.okhttp.Call uploadFileWithRequiredFileCall(Long petId, File file, String additionalMetadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
+            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        if (additionalMetadata != null)
+        localVarFormParams.put("additionalMetadata", additionalMetadata);
+        if (file != null)
+        localVarFormParams.put("file", file);
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+
+        final String[] localVarContentTypes = {
+            "multipart/form-data"
+        };
+        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if(progressListener != null) {
+            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+                @Override
+                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
+                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                    .build();
+                }
+            });
+        }
+
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
+        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private com.squareup.okhttp.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, File file, String additionalMetadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new ApiException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile(Async)");
+        }
+        
+        // verify the required parameter 'file' is set
+        if (file == null) {
+            throw new ApiException("Missing the required parameter 'file' when calling uploadFileWithRequiredFile(Async)");
+        }
+        
+
+        com.squareup.okhttp.Call call = uploadFileWithRequiredFileCall(petId, file, additionalMetadata, progressListener, progressRequestListener);
+        return call;
+
+    }
+
+    /**
+     * uploads an image (required)
+     * 
+     * @param petId ID of pet to update (required)
+     * @param file file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @return ModelApiResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File file, String additionalMetadata) throws ApiException {
+        ApiResponse<ModelApiResponse> resp = uploadFileWithRequiredFileWithHttpInfo(petId, file, additionalMetadata);
+        return resp.getData();
+    }
+
+    /**
+     * uploads an image (required)
+     * 
+     * @param petId ID of pet to update (required)
+     * @param file file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @return ApiResponse&lt;ModelApiResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File file, String additionalMetadata) throws ApiException {
+        com.squareup.okhttp.Call call = uploadFileWithRequiredFileValidateBeforeCall(petId, file, additionalMetadata, null, null);
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+        return apiClient.execute(call, localVarReturnType);
+    }
+
+    /**
+     * uploads an image (required) (asynchronously)
+     * 
+     * @param petId ID of pet to update (required)
+     * @param file file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public com.squareup.okhttp.Call uploadFileWithRequiredFileAsync(Long petId, File file, String additionalMetadata, final ApiCallback<ModelApiResponse> callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener progressListener = null;
+        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+
+        if (callback != null) {
+            progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        com.squareup.okhttp.Call call = uploadFileWithRequiredFileValidateBeforeCall(petId, file, additionalMetadata, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+        apiClient.executeAsync(call, localVarReturnType, callback);
+        return call;
+    }
 }

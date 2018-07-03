@@ -436,7 +436,7 @@ paths:
                 type: integer
                 format: int32
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               schema:
                 type: string
                 format: date-time
@@ -876,6 +876,26 @@ paths:
                 type: string
         description: request body
         required: true
+  /fake/body-with-query-params:
+    put:
+      tags:
+        - fake
+      operationId: testBodyWithQueryParams
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
   /another-fake/dummy:
     patch:
       tags:
@@ -892,9 +912,47 @@ paths:
                 $ref: '#/components/schemas/Client'
       requestBody:
         $ref: '#/components/requestBodies/Client'
-externalDocs:
-  description: Find out more about Swagger
-  url: 'http://swagger.io'
+  '/fake/{petId}/uploadImageWithRequiredFile':
+    post:
+      tags:
+        - pet
+      summary: uploads an image (required)
+      description: ''
+      operationId: uploadFileWithRequiredFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  type: string
+                  format: binary
+              required:
+                - file
 components:
   requestBodies:
     UserArray:
@@ -1394,6 +1452,7 @@ components:
       type: string
     OuterBoolean:
       type: boolean
+      x-codegen-body-parameter-name: boolean_post_body
     _special_model.name_:
       properties:
         '$special[property.name]':

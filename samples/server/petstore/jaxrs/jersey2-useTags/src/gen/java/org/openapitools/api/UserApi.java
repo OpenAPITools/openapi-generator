@@ -68,7 +68,7 @@ public class UserApi  {
         return delegate.createUser(user,securityContext);
     }
     @POST
-    
+    @Path("/createWithArray")
     
     
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
@@ -80,7 +80,7 @@ public class UserApi  {
         return delegate.createUsersWithArrayInput(user,securityContext);
     }
     @POST
-    
+    @Path("/createWithList")
     
     
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
@@ -92,7 +92,7 @@ public class UserApi  {
         return delegate.createUsersWithListInput(user,securityContext);
     }
     @DELETE
-    
+    @Path("/{username}")
     
     
     @io.swagger.annotations.ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
@@ -106,7 +106,7 @@ public class UserApi  {
         return delegate.deleteUser(username,securityContext);
     }
     @GET
-    
+    @Path("/{username}")
     
     @Produces({ "application/xml", "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Get user by user name", notes = "", response = User.class, tags={ "user", })
@@ -122,7 +122,7 @@ public class UserApi  {
         return delegate.getUserByName(username,securityContext);
     }
     @GET
-    
+    @Path("/login")
     
     @Produces({ "application/xml", "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Logs user into the system", notes = "", response = String.class, tags={ "user", })
@@ -137,7 +137,7 @@ public class UserApi  {
         return delegate.loginUser(username,password,securityContext);
     }
     @GET
-    
+    @Path("/logout")
     
     
     @io.swagger.annotations.ApiOperation(value = "Logs out current logged in user session", notes = "", response = Void.class, tags={ "user", })
@@ -148,7 +148,7 @@ public class UserApi  {
         return delegate.logoutUser(securityContext);
     }
     @PUT
-    
+    @Path("/{username}")
     
     
     @io.swagger.annotations.ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })

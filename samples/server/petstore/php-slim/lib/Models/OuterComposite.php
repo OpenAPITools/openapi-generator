@@ -8,10 +8,10 @@ namespace \Models;
  * OuterComposite
  */
 class OuterComposite {
-    /* @var \\Models\Number $myNumber  */
+    /* @var float $myNumber  */
     private $myNumber;
 /* @var string $myString  */
     private $myString;
-/* @var \\Models\Bool $myBoolean  */
+/* @var bool $myBoolean  */
     private $myBoolean;
 }

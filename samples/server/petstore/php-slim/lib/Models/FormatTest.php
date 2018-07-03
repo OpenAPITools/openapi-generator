@@ -14,7 +14,7 @@ class FormatTest {
     private $int32;
 /* @var int $int64  */
     private $int64;
-/* @var Number $number  */
+/* @var float $number  */
     private $number;
 /* @var float $float  */
     private $float;
@@ -22,15 +22,15 @@ class FormatTest {
     private $double;
 /* @var string $string  */
     private $string;
-/* @var ByteArray $byte  */
+/* @var string $byte  */
     private $byte;
 /* @var \SplFileObject $binary  */
     private $binary;
 /* @var \DateTime $date  */
     private $date;
-/* @var DateTime $dateTime  */
+/* @var \DateTime $dateTime  */
     private $dateTime;
-/* @var UUID $uuid  */
+/* @var string $uuid  */
     private $uuid;
 /* @var string $password  */
     private $password;

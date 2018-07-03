@@ -106,6 +106,13 @@ $app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
  */
 $app->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
 /**
+ * post uploadFileWithRequiredFile
+ * Summary: uploads an image (required)
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+$app->post('/v2/fake/{petId}/uploadImageWithRequiredFile', 'PetApi@uploadFileWithRequiredFile');
+/**
  * post addPet
  * Summary: Add a new pet to the store
  * Notes: 

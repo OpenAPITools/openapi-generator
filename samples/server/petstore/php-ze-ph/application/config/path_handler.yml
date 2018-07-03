@@ -33,6 +33,7 @@ Articus\PathHandler\Router\FastRouteAnnotation:
     - App\Handler\FakeOuterComposite
     - App\Handler\FakeOuterNumber
     - App\Handler\FakeOuterString
+    - App\Handler\FakePetIdUploadImageWithRequiredFile
     - App\Handler\FakeClassnameTest
     - App\Handler\Pet
     - App\Handler\PetFindByStatus
@@ -59,6 +60,7 @@ Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\FakeOuterComposite: []
   App\Handler\FakeOuterNumber: []
   App\Handler\FakeOuterString: []
+  App\Handler\FakePetIdUploadImageWithRequiredFile: []
   App\Handler\FakeClassnameTest: []
   App\Handler\Pet: []
   App\Handler\PetFindByStatus: []
