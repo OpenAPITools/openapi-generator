@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
@@ -92,6 +93,19 @@ public class FakeApi  {
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body,securityContext);
+    }
+    @PUT
+    @Path("/body-with-file-schema")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake",  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
+    public Response testBodyWithFileSchema(
+        @ApiParam(value = "" ,required=true) FileSchemaTestClass fileSchemaTestClass,
+        @Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testBodyWithFileSchema(fileSchemaTestClass,securityContext);
     }
     @PUT
     @Path("/body-with-query-params")

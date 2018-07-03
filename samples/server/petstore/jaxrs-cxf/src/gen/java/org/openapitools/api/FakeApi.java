@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
@@ -67,6 +68,14 @@ public interface FakeApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output string", response = String.class) })
     public String fakeOuterStringSerialize(@Valid String body);
+
+    @PUT
+    @Path("/fake/body-with-file-schema")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    public void testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass);
 
     @PUT
     @Path("/fake/body-with-query-params")

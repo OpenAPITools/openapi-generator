@@ -2,6 +2,7 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
@@ -91,6 +92,14 @@ public interface FakeApiDelegate {
                 }
             }
         });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
+     * @see FakeApi#testBodyWithFileSchema
+     */
+    default ResponseEntity<Void> testBodyWithFileSchema( FileSchemaTestClass  fileSchemaTestClass) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
