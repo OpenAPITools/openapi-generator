@@ -236,6 +236,33 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testEscapeText() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Assert.assertEquals(codegen.escapeText("\n"), " ");
+        Assert.assertEquals(codegen.escapeText("\r"), " ");
+        Assert.assertEquals(codegen.escapeText("\t"), " ");
+        Assert.assertEquals(codegen.escapeText("\\"), "\\\\");
+        Assert.assertEquals(codegen.escapeText("\""), "\\\"");
+        Assert.assertEquals(codegen.escapeText("\\/"), "/");
+    }
+
+    @Test
+    public void testEscapeTextWhileAllowingNewLines() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        // allow new lines
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\n"), "\n");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\r"), "\r");
+
+        // escape other special characters
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\t"), " ");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\"), "\\\\");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\""), "\\\"");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\/"), "/");
+    }
+
+    @Test
     public void updateCodegenPropertyEnum() {
         final DefaultCodegen codegen = new DefaultCodegen();
         CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();

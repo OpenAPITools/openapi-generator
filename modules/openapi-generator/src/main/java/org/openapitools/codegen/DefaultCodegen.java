@@ -415,6 +415,31 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Escape characters while allowing new lines
+     *
+     * @param input String to be escaped
+     * @return escaped string
+     */
+    public String escapeTextWhileAllowingNewLines(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // remove \t
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(
+                StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                        .replaceAll("[\\t]", " ")
+                        .replace("\\", "\\\\")
+                        .replace("\"", "\\\""));
+    }
+
+    /**
      * override with any special text escaping logic to handle unsafe
      * characters so as to avoid code injection
      *
