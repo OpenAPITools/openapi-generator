@@ -49,7 +49,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> url("{{replacedPathName}}")
 {{#requiredParams}}
 {{^isPathParam}}
-    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, :"{{baseName}}", {{#underscored}}{{paramName}}{{/underscored}})
+    |> add_param({{#isBodyParam}}:body{{/isBodyParam}}{{#isFormParam}}{{#isMultipart}}{{#isFile}}:file{{/isFile}}{{^isFile}}:form{{/isFile}}{{/isMultipart}}{{^isMultipart}}:form{{/isMultipart}}{{/isFormParam}}{{#isQueryParam}}:query{{/isQueryParam}}{{#isHeaderParam}}:headers{{/isHeaderParam}}, {{#isBodyParam}}:"body", {{/isBodyParam}}{{^isBodyParam}}:"{{baseName}}", {{/isBodyParam}}{{#underscored}}{{paramName}}{{/underscored}})
 {{/isPathParam}}
 {{/requiredParams}}
 {{#optionalParams}}
