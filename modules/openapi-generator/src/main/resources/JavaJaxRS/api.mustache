@@ -28,7 +28,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 {{/useBeanValidation}}
 
-@Path("/{{{baseName}}}")
+{{#commonPath}}@Path("/{{{commonPath}}}"){{/commonPath}}{{^commonPath}}@Path(""){{/commonPath}}
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}
 {{#hasProduces}}@Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 @io.swagger.annotations.Api(description = "the {{{baseName}}} API")

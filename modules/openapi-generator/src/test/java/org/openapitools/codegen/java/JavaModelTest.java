@@ -768,7 +768,8 @@ public class JavaModelTest {
     @Test(description = "convert a boolean parameter")
     public void booleanPropertyTest() {
         final BooleanSchema property = new BooleanSchema();
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setBooleanGetterPrefix("is");
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");

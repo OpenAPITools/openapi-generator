@@ -3,6 +3,7 @@ language: java
 jdk:
   - openjdk8
 
+
 cache:
   directories:
   - $HOME/.m2
@@ -35,6 +36,7 @@ services:
 
 # comment out the host table change to use the public petstore server
 addons:
+  chrome: stable
   hosts:
     - petstore.swagger.io
 

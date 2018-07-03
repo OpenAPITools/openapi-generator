@@ -1,0 +1,69 @@
+{{>licenseInfo}}
+{{#models}}
+{{#model}}
+{{#tsImports}}
+import { {{classname}} } from './{{filename}}';
+{{/tsImports}}
+
+{{#description}}
+/**
+* {{{description}}}
+*/
+{{/description}}
+export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
+{{#vars}}
+{{#description}}
+    /**
+    * {{{description}}}
+    */
+{{/description}}
+    '{{name}}'{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+{{/vars}}
+
+    {{#discriminator}}
+    static discriminator: string | undefined = "{{discriminatorName}}";
+    {{/discriminator}}
+    {{^discriminator}}
+    static discriminator: string | undefined = undefined;
+    {{/discriminator}}
+
+    {{^isArrayModel}}
+    static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+        {{#vars}}
+        {
+            "name": "{{name}}",
+            "baseName": "{{baseName}}",
+            "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}"
+        }{{#hasMore}},
+        {{/hasMore}}
+        {{/vars}}
+    ];
+
+    static getAttributeTypeMap() {
+        {{#parent}}
+        return super.getAttributeTypeMap().concat({{classname}}.attributeTypeMap);
+        {{/parent}}
+        {{^parent}}
+        return {{classname}}.attributeTypeMap;
+        {{/parent}}
+    }
+    {{/isArrayModel}}    
+}
+
+{{#hasEnums}}
+export namespace {{classname}} {
+{{#vars}}
+{{#isEnum}}
+    export enum {{enumName}} {
+        {{#allowableValues}}
+        {{#enumVars}}
+        {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
+        {{/enumVars}}
+        {{/allowableValues}}
+    }
+{{/isEnum}}
+{{/vars}}
+}
+{{/hasEnums}}
+{{/model}}
+{{/models}}

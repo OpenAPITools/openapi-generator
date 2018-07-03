@@ -75,6 +75,8 @@ public interface CodegenConfig {
 
     String escapeText(String text);
 
+    String escapeTextWhileAllowingNewLines(String text);
+
     String escapeUnsafeCharacters(String input);
 
     String escapeReservedWord(String name);
