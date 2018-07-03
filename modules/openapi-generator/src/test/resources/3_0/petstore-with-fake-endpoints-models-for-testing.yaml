@@ -67,7 +67,6 @@ paths:
           description: Status values that need to be considered for filter
           required: true
           style: form
-          explode: false
           schema:
             type: array
             items:
@@ -112,7 +111,6 @@ paths:
           description: Tags to filter by
           required: true
           style: form
-          explode: false
           schema:
             type: array
             items:
@@ -573,7 +571,6 @@ paths:
       parameters:
         - name: enum_header_string_array
           in: header
-          explode: true
           description: Header parameter enum test (string array)
           schema:
             type: array
@@ -912,6 +909,23 @@ paths:
                 $ref: '#/components/schemas/Client'
       requestBody:
         $ref: '#/components/requestBodies/Client'
+  /fake/body-with-file-schema:
+    put:
+      tags:
+        - fake
+      description: >-
+        For this test, the body for this request much reference a schema named
+        `File`.
+      operationId: testBodyWithFileSchema
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileSchemaTestClass'
+        required: true
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1375,6 +1389,12 @@ components:
             enum:
               - UPPER
               - lower
+        direct_map:
+          type: object
+          additionalProperties:
+            type: boolean
+        indirect_map:
+          $ref: '#/components/schemas/StringBooleanMap'
     ArrayTest:
       type: object
       properties:
@@ -1453,6 +1473,25 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+    FileSchemaTestClass:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/File'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+    File:
+      type: object
+      description: Must be named `File` for test.
+      properties:
+        sourceURI:
+          description: Test capitalization
+          type: string
     _special_model.name_:
       properties:
         '$special[property.name]':
