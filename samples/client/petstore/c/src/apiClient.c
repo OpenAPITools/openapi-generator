@@ -4,6 +4,9 @@
 #include "apiClient.h"
 #include "pet.h"
 
+#ifdef API_KEY
+#include "apiKey.h"
+#endif
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
 apiClient_t *apiClient_create() {
@@ -39,6 +42,18 @@ char *assembleTargetUrl(char	*basePath,
 		strcat(targetUrl, "/");
 		strcat(targetUrl, operationParameter);
 	}
+
+	return targetUrl;
+}
+
+char *assembleHeader(char *key, char *value) {
+	char *header = malloc(strlen(key) + strlen(value) + 3);
+
+	strcpy(header, key),
+	strcat(header, ": ");
+	strcat(header, value);
+
+	return header;
 }
 
 void postData(CURL *handle, char *dataToPost) {
@@ -62,6 +77,24 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			curl_slist_append(headers, "accept: application/json");
 		headers = curl_slist_append(headers,
 		                            "Content-Type: application/json");
+
+
+		// this would only be generated for apiKey authentication
+		#ifdef API_KEY
+		listEntry_t *listEntry;
+		list_ForEach(listEntry, apiClient->apiKeys) {
+			apiKey_t *apiKey = listEntry->data;
+			if((apiKey->key != NULL) &&
+			   (apiKey->value != NULL) )
+			{
+				char *headerValueToWrite = assembleHeader(
+					apiKey->key,
+					apiKey->value);
+				curl_slist_append(headers, headerValueToWrite);
+				free(headerValueToWrite);
+			}
+		}
+		#endif // API_KEY
 
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,

@@ -2,17 +2,29 @@
 #include "apiClient.h"
 #include "cJSON.h"
 #include "pet.h"
-
+#ifdef API_KEY
+#include "list.h"
+#include "apiKey.h"
+#endif // API_KEY
 #ifdef DEBUG
 #include <stdio.h>
 #endif // DEBUG
+
 
 #define EXAMPLE_OPERATION_NAME "pet"
 #define EXAMPLE_OPERATION_PARAMETER "3"
 
 int main() {
 	apiClient_t *apiClient = apiClient_create();
+	#ifdef OAUTH2
 	apiClient->accessToken = "thisIsMyExampleAccessToken";
+	#endif // OAUTH2
+	#ifdef API_KEY
+	apiClient->apiKeys = list_create();
+	apiKey_t *apiKey = apiKey_create("X-API-Key", "abcdef12345");
+	list_addElement(apiClient->apiKeys, apiKey);
+	#endif // API_KEY
+
 	apiClient_invoke(apiClient,
 	                 EXAMPLE_OPERATION_NAME,
 	                 EXAMPLE_OPERATION_PARAMETER,
@@ -32,6 +44,12 @@ int main() {
 		cJSON_Delete(petJSONObject);
 	}
 	free(apiClient->dataReceived);
+
+	#ifdef API_KEY
+	free(apiKey);
+	list_free(apiClient->apiKeys);
+	#endif // API_KEY
+
 	apiClient_free(apiClient);
 	pet_free(pet);
 }
