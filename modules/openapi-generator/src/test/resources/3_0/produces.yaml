@@ -33,3 +33,30 @@ paths:
                   timestamp:
                     type: string
               example: '{ "message": "Hello world", "timestamp": "2018-06-29T07:32:23Z"}'
+  /other/issue443:
+    get:
+      operationId: issue443
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationData'
+        default:
+          description: Unexpected error
+          content:
+            application/text:
+              schema:
+                type: string
+components:
+  schemas:
+    LocationData:
+      type: object
+      properties:
+        xPos:
+          type: integer
+          format: int32
+        yPos:
+          type: integer
+          format: int32
