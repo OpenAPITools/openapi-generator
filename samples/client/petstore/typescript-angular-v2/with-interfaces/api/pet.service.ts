@@ -36,12 +36,13 @@ export class PetService implements PetServiceInterface {
     public configuration = new Configuration();
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
+
         if (configuration) {
             this.configuration = configuration;
-            this.basePath = basePath || configuration.basePath || this.basePath;
+            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
+
+        } else {
+            this.configuration.basePath = basePath || this.basePath;
         }
     }
 
@@ -243,7 +244,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet`, requestOptions);
     }
 
     /**
@@ -293,7 +294,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -347,7 +348,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/findByStatus`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/findByStatus`, requestOptions);
     }
 
     /**
@@ -401,7 +402,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/findByTags`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/findByTags`, requestOptions);
     }
 
     /**
@@ -446,7 +447,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -499,7 +500,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet`, requestOptions);
     }
 
     /**
@@ -571,7 +572,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -647,7 +648,7 @@ export class PetService implements PetServiceInterface {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, requestOptions);
     }
 
 }
