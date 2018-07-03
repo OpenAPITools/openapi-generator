@@ -3,8 +3,13 @@
 This page summaries the important changes between major and minor version of OpenAPI-Generator.
 It does not contain a detailed list of changes, for that refer to each individual release notes.
 
-It is written to help migration by indicating the most impacting changes.
+This page is written to help migration by indicating the most impacting changes.
 Do not hesitate to contribute additional notes if you discover something during your migration and think that the information might help other users.
+
+Another approach to find breaking changes is to look at issue and pull requests with following labels:
+
+* link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28with%20fallback%29[Breaking change (with fallback)]
+* link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28without%20fallback%29[Breaking change (without fallback)]
 
 === From 3.0.x to 3.1.0
 
@@ -14,7 +19,7 @@ Projects relying on generated code might need to be adapted.
 
 ==== Java
 
-A new option is introduced to specify the prefix of boolean getters: `booleanGetterPrefix`.
+A new option is introduced with link:https://github.com/OpenAPITools/openapi-generator/pull/432[#432] to specify the prefix of boolean getters: `booleanGetterPrefix`.
 Possible values:
 
 * `is`: the value used in `3.0.x`.
