@@ -89,7 +89,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<Void> deletePet(Long petId, String apiKey) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -128,7 +128,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Flux<Pet> findPetsByStatus(List<String> status) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'status' is set
         if (status == null) {
@@ -165,7 +165,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Flux<Pet> findPetsByTags(List<String> tags) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'tags' is set
         if (tags == null) {
@@ -203,7 +203,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<Pet> getPetById(Long petId) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -276,7 +276,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<Void> updatePetWithForm(Long petId, String name, String status) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -320,7 +320,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File file) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -366,7 +366,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File file, String additionalMetadata) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {

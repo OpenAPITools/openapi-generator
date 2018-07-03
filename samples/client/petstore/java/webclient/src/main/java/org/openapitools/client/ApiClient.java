@@ -1,5 +1,6 @@
 package org.openapitools.client;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -109,6 +110,7 @@ public class ApiClient {
     */
     public static WebClient buildWebClient(ObjectMapper mapper, DateFormat dateFormat) {
         mapper.setDateFormat(dateFormat);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
@@ -383,7 +385,7 @@ public class ApiClient {
      */
     protected BodyInserter<?, ? super ClientHttpRequest> selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
         boolean isForm = MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType) || MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType);
-        return isForm ? BodyInserters.fromMultipartData(formParams) : BodyInserters.fromObject(obj);
+        return isForm ? BodyInserters.fromMultipartData(formParams) : (obj != null ? BodyInserters.fromObject(obj) : null);
     }
 
     /**

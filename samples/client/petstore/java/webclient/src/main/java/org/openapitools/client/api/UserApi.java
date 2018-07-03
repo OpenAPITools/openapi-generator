@@ -147,7 +147,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<Void> deleteUser(String username) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -184,7 +184,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<User> getUserByName(String username) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -223,7 +223,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<String> loginUser(String username, String password) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -263,7 +263,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Mono<Void> logoutUser() throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         String path = UriComponentsBuilder.fromPath("/user/logout").build().toUriString();
         
