@@ -62,6 +62,18 @@ import org.openapitools.client.auth.OAuth;
 
 
 public class ApiClient {
+    public enum CollectionFormat {
+        CSV(","), TSV("\t"), SSV(" "), PIPES("|"), MULTI(null);
+
+        private final String separator;
+        private CollectionFormat(String separator) {
+            this.separator = separator;
+        }
+
+        private String collectionToString(Collection<? extends CharSequence> collection) {
+            return StringUtils.collectionToDelimitedString(collection, separator);
+        }
+    }
 
     private HttpHeaders defaultHeaders = new HttpHeaders();
     
@@ -304,6 +316,52 @@ public class ApiClient {
     }
 
     /**
+     * Converts a parameter to a {@link MultiValueMap} for use in REST requests
+     * @param collectionFormat The format to convert to
+     * @param name The name of the parameter
+     * @param value The parameter's value
+     * @return a Map containing the String value(s) of the input parameter
+     */
+    public MultiValueMap<String, String> parameterToMultiValueMap(CollectionFormat collectionFormat, String name, Object value) {
+        final MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+
+        if (name == null || name.isEmpty() || value == null) {
+            return params;
+        }
+
+        if(collectionFormat == null) {
+            collectionFormat = CollectionFormat.CSV;
+        }
+
+        Collection<?> valueCollection = null;
+        if (value instanceof Collection) {
+            valueCollection = (Collection<?>) value;
+        } else {
+            params.add(name, parameterToString(value));
+            return params;
+        }
+
+        if (valueCollection.isEmpty()){
+            return params;
+        }
+
+        if (collectionFormat.equals(CollectionFormat.MULTI)) {
+            for (Object item : valueCollection) {
+                params.add(name, parameterToString(item));
+            }
+            return params;
+        }
+
+        List<String> values = new ArrayList<String>();
+        for(Object o : valueCollection) {
+            values.add(parameterToString(o));
+        }
+        params.add(name, collectionFormat.collectionToString(values));
+
+        return params;
+    }
+
+    /**
     * Check if the given {@code String} is a JSON MIME.
     * @param mediaType the input MediaType
     * @return boolean true if the MediaType represents JSON, false otherwise
@@ -410,7 +468,6 @@ public class ApiClient {
         return requestBuilder.exchange()
             .flatMap(response -> {
                 HttpStatus statusCode = response.statusCode();
-                ClientResponse.Headers headers = response.headers();
                 if (response.statusCode() == HttpStatus.NO_CONTENT) {
                     return Mono.empty();
                 } else if (statusCode.is2xxSuccessful()) {

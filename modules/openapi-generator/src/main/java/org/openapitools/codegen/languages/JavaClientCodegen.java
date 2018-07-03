@@ -153,6 +153,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
+        if (WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
+            dateLibrary = "java8";
+        }
+
         super.processOpts();
 
         if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
@@ -284,9 +288,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         } else if (WEBCLIENT.equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
-            if ("threetenbp".equals(dateLibrary)) {
-                dateLibrary = "java8";
-            }
         } else if (VERTX.equals(getLibrary())) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
