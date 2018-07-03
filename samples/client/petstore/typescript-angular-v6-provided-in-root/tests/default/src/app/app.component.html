@@ -1,0 +1,44 @@
+<div>
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+<section id="pet-api">
+  <h2>Pet API</h2>
+  <button (click)="addPet()">
+    Add pet
+  </button>
+
+  <button (click)="getPetByID()">
+    Get pet by ID
+  </button>
+
+  <button (click)="updatePet()">
+    Update pet by ID
+  </button>
+
+  <button (click)="deletePet()">
+    Delete pet
+  </button>
+</section>
+<section id="pet">
+  <h2>Pet</h2>
+  <div *ngIf="pet">
+    <p>Name: {{ pet.name }}</p>
+    <p>ID: {{ pet.id }}</p>
+  </div>
+
+</section>
+<section id="store-api">
+  <h2>Store API</h2>
+  <button (click)="getStoreInventory()">
+    Get inventory
+  </button>
+</section>
+<section id="store">
+  <h2>Store</h2>
+  <ul *ngIf="store">
+    <li *ngFor="let item of store">{{item.key}}: {{item.number}}</li>
+  </ul>
+
+</section>
