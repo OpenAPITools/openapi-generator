@@ -5,8 +5,14 @@ typedef struct apiClient_t {
     char *basePath;
     void *dataReceived;
     // this would only be generated for basic authentication
+    #ifdef BASIC_AUTH
     char *username;
     char *password;
+    #endif //BASIC_AUTH
+    // this would only be generated for OAUTH2 authentication
+    #ifdef OAUTH2
+    char *accessToken;
+    #endif // OAUTH2
 
 } apiClient_t;
 

@@ -12,6 +12,7 @@
 
 int main() {
 	apiClient_t *apiClient = apiClient_create();
+	apiClient->accessToken = "thisIsMyExampleAccessToken";
 	apiClient_invoke(apiClient,
 	                 EXAMPLE_OPERATION_NAME,
 	                 EXAMPLE_OPERATION_PARAMETER,
