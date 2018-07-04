@@ -27,7 +27,7 @@
 
 :notebook_with_decorative_cover: For more information, please refer to the [Wiki page](https://github.com/openapitools/openapi-generator/wiki) and [FAQ](https://github.com/openapitools/openapi-generator/wiki/FAQ) :notebook_with_decorative_cover:
 
-:notebook_with_decorative_cover: The eBook [A Beginner's Guide to Code Generation for REST APIs](https://gumroad.com/l/swagger_codegen_beginner) is a good starting point for begineers :notebook_with_decorative_cover:
+:notebook_with_decorative_cover: The eBook [A Beginner's Guide to Code Generation for REST APIs](https://gumroad.com/l/swagger_codegen_beginner) is a good starting point for beginners :notebook_with_decorative_cover:
 
 :warning: If the OpenAPI spec is obtained from an untrusted source, please make sure you've reviewed the spec before using OpenAPI Generator to generate the API client, server stub or documentation as [code injection](https://en.wikipedia.org/wiki/Code_injection) may occur :warning:
 
@@ -138,7 +138,7 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar`
+JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.3/openapi-generator-cli-3.0.3.jar`
 
 For **Mac/Linux** users:
 ```sh
@@ -555,14 +555,14 @@ If you want to join the committee, please kindly apply by sending an email to te
 
 #### Members of Technical Committee
 
-| Languages     | Member (join date) |
+| Languages    | Member (join date) |
 |:-------------|:-------------|
 | ActionScript |      |
-| Ada | @stcarrez (2018/02) @micheleISEP (2018/02) |
-| Android | @jaz-ah (2017/09) |
-| Apex  |     |
-| Bash  | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
-| C++      | @ravinikam (2017/07) @stkrwork (2017/07) @fvarose (2017/11) @etherealjoy (2018/02) @martindelille (2018/03) |
+| Ada       | @stcarrez (2018/02) @micheleISEP (2018/02) |
+| Android   | @jaz-ah (2017/09) |
+| Apex      |  |
+| Bash      | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
+| C++       | @ravinikam (2017/07) @stkrwork (2017/07) @fvarose (2017/11) @etherealjoy (2018/02) @martindelille (2018/03) |
 | C#        | @mandrean (2017/08) @jimschubert (2017/09) |
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) |
@@ -570,18 +570,18 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Elixir    |  |
 | Elm       |  |
 | Erlang    | @tsloughter (2017/11) |
-| Groovy    |  |
 | Go        | @antihax (2017/11) @bvwells (2017/12) |
-| Haskell   | |
+| Groovy    |  |
+| Haskell   |  |
 | Java      | @bbdouglas (2017/07) @JFCote (2017/08) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) |
-| Kotlin     | @jimschubert (2017/09) |
-| Lua     | @daurnimator (2017/08) |
+| Kotlin    | @jimschubert (2017/09) |
+| Lua       | @daurnimator (2017/08) |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
 | Perl      | @wing328 (2017/07) |
-| PHP      | @jebentier (2017/07) @dkarlovi (2017/07) @mandrean (2017/08) @jfastnacht (2017/09) @ackintosh (2017/09) |
-| Python   | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11)|
-| R        |  |
+| PHP       | @jebentier (2017/07) @dkarlovi (2017/07) @mandrean (2017/08) @jfastnacht (2017/09) @ackintosh (2017/09) |
+| Python    | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11)|
+| R         |  |
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) @bjgill (2017/12) |
 | Scala     | @clasnake (2017/07) @jimschubert (2017/09) @shijinkui  (2018/01) @ramzimaalej (2018/03) |
