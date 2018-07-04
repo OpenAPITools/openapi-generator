@@ -25,6 +25,7 @@ then
   mvn -B clean package
 fi
 
+echo "Removing files and folders under samples/server/petstore/jaxrs-cxf"
 rm -rf samples/server/petstore/jaxrs-cxf
 
 # if you've executed sbt assembly previously it will use that instead.
