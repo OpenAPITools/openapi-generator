@@ -20,24 +20,24 @@ namespace api {
 using namespace org::openapitools::server::model;
 
 StoreApi::StoreApi(Pistache::Address addr)
-    : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
+    : httpEndpoint(addr)
 { };
 
 void StoreApi::init(size_t thr = 2) {
     auto opts = Pistache::Http::Endpoint::options()
         .threads(thr)
         .flags(Pistache::Tcp::Options::InstallSignalHandler);
-    httpEndpoint->init(opts);
+    httpEndpoint.init(opts);
     setupRoutes();
 }
 
 void StoreApi::start() {
-    httpEndpoint->setHandler(router.handler());
-    httpEndpoint->serve();
+    httpEndpoint.setHandler(router.handler());
+    httpEndpoint.serve();
 }
 
 void StoreApi::shutdown() {
-    httpEndpoint->shutdown();
+    httpEndpoint.shutdown();
 }
 
 void StoreApi::setupRoutes() {

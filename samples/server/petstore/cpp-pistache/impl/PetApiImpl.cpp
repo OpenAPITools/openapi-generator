@@ -26,13 +26,13 @@ PetApiImpl::PetApiImpl(Pistache::Address addr)
 void PetApiImpl::add_pet(const std::shared_ptr<Pet> &pet, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void PetApiImpl::delete_pet(const int64_t &petId, const Optional<Net::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) {
+void PetApiImpl::delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void PetApiImpl::find_pets_by_status(const Optional<std::string> &status, Pistache::Http::ResponseWriter &response) {
+void PetApiImpl::find_pets_by_status(const Pistache::Optional<std::string> &status, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void PetApiImpl::find_pets_by_tags(const Optional<std::string> &tags, Pistache::Http::ResponseWriter &response) {
+void PetApiImpl::find_pets_by_tags(const Pistache::Optional<std::string> &tags, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void PetApiImpl::get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response) {

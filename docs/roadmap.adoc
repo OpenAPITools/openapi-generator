@@ -1,0 +1,79 @@
+== Roadmap
+
+This document lists short-term, medium-term, and long-term goals for the project.
+
+[NOTE]
+====
+These are goals, not necessarily commitments. The sections are not intended to represent exclusive focus during these terms. For example, when you start at a college or university you may have a long-term goal to graduate and a short-term goal to find a job for supplemental income. We will similarly work toward many of our medium-term and long-term goals in the near future as we move toward meeting our short-term goals.
+====
+
+=== Short-term
+
+> Usability, stability, and marketing.
+
+Short term are focused on improving contributor and user productivity (part of this is getting the word out).
+
+* CLI improvements
+** Search functionality (e.g. what generators support retrofit, what generators are available for kotlin)
+* Build automation improvements
+** Discuss consolidating current third-party build systems
+** Investigate custom docker containerization for prepared build environments
+** Automated release stability
+* General
+** OAS3.0 features support: anyOf, oneOf, callbacks, etc
+** Consider opt-in telemetry about generators being used, limited to a counter of invocations by generator name). This would allow us to make prioritization decisions based on statistics.
+** Code clean up
+*** centralize build scripts
+*** organize samples/bin scripts according to new generator names
+*** consolidate typescript generators
+*** jaxrs => use Swagger core v3 (see https://github.com/OpenAPITools/openapi-generator/issues/27[#27])
+* Documentation
+** Static pages, preferably on gh-pages, devoted to each generator
+** Explain generator options
+** Centralized docs on generated code usage/examples/configuration
+
+=== Medium-term
+
+> Feature set, well-defined API (code and templates), and extensibility improvements.
+
+* API
+** Typed representation of the model bound to our templates. As it is, everything is treated an an Object, and this can lead to changes in the interface which might be unexpected from the template perspective.
+* Feature set (potential generators to add; not an exhaustive list)
+** Azure functions (node.js, server)
+** Finagle HTTP Client (Scala, client)
+** Finagle Http Server (Scala, server)
+** Finatra (Scala, server)
+** Kotlin Spring MVC/Springboot (server)
+** C++ Server, any framework (server)
+* General
+** Migrate from Maven to Gradle
+** Java 9+ support
+* Feature set (other options to investigate)
+** SPI plugins
+*** Templating engine
+*** Language extensions
+*** Custom extensions (e.g. allowing users to load support for https://github.com/Azure/azure-rest-api-specs[azure-rest-api-specs])
+** Customizable templating engines (handlebars support)
+** Unit-testing templates (to previously mentioned explicit type as an interface to the template)
+* Reduce coupling
+** Make types extending `CodegenConfig` become the generation entrypoint
+** Allow current `CodegenConfig` types to define templating engine
+** Allow current `CodegenConfig` types to modify workflow (currently encapsulated in `DefaultGenerator` and tightly coupled to the template engine
+** Clearer reuse of "language" features, outside of "generator" types. That is, rather than enforcing polymorphic sharing of "language" which currently allows the super type to redefine framework-specific mapping functionality, generators could compose one or more language support types.
+* Define template deprecation/removal process
+
+=== Long-term
+
+> Expanding tooling offered, integrations, potentially SaaS offering to partially fund efforts.
+
+* Generator UI wrappers
+** Move jimschubert/intellij-swagger-codegen plugin under the org, and rename
+** Look into an Eclipse UI wrapper around the generator
+** Look at Visual Studio Code (and/or Atom, sublime text) integration
+* Provide a native GUI for viewing/editing specs. Most tools are currently geared toward developers, but often times it may be non-technical business users who are interested in an API.
+* A paid service (SaaS) for generation may be enticing for some users. Such a service would allow for statistics (mentioned earlier in telemetry)
+* Additional tools
+** node.js build system(s) integration (grunt/gulp/webpack/etc)
+** ruby gem
+** others (which may require previously mentioned SaaS API)
+
