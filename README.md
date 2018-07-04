@@ -467,6 +467,7 @@ Here is a list of template creators:
    * Java (Jersey2): @xhh
    * Java (okhttp-gson): @xhh
    * Java (RestTemplate): @nbruno
+   * Java (Spring 5 WebClient): @daonomic
    * Java (RESTEasy): @gayathrigs
    * Java (Vertx): @lopesmcc
    * Java (Google APIs Client Library): @charlescapps
