@@ -33,7 +33,6 @@
 
 :bangbang: Both "OpenAPI Tools" (https://OpenAPITools.org - the parent organization of OpenAPI Generator) and "OpenAPI Generator" are not affiliated with OpenAPI Initiative (OAI) :bangbang:
 
-
 </div>
 
 ## Overview
@@ -580,6 +579,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | ObjC      |  |
 | Perl      | @wing328 (2017/07) |
 | PHP       | @jebentier (2017/07) @dkarlovi (2017/07) @mandrean (2017/08) @jfastnacht (2017/09) @ackintosh (2017/09) |
+| PowerShell | |
 | Python    | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11)|
 | R         |  |
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) |
@@ -662,6 +662,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ---
-
-
-
