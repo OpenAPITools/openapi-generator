@@ -26,7 +26,12 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.CookieParameter;
 import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -43,6 +48,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -1489,7 +1495,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.getVendorExtensions().putAll(schema.getExtensions());
         }
         m.isAlias = typeAliases.containsKey(name);
-        m.discriminator = schema.getDiscriminator();
+        m.discriminator = createDiscriminator(schema, allDefinitions);
 
         if (schema.getXml() != null) {
             m.xmlPrefix = schema.getXml().getPrefix();
@@ -1516,7 +1522,7 @@ public class DefaultCodegen implements CodegenConfig {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
                     for (Schema innerModel : composed.getAllOf()) {
                         if (m.discriminator == null) {
-                            m.discriminator = schema.getDiscriminator();
+                            m.discriminator = createDiscriminator(schema, allDefinitions);
                         }
                         if (innerModel.getXml() != null) {
                             m.xmlPrefix = innerModel.getXml().getPrefix();
@@ -1629,6 +1635,27 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromModel return: " + m);
 
         return m;
+    }
+
+    private CodegenDiscriminator createDiscriminator(Schema schema, Map<String, Schema> allDefinitions) {
+        if(schema.getDiscriminator() == null) {
+            return null;
+        }
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setPropertyName(schema.getDiscriminator().getPropertyName());
+        discriminator.setMapping(schema.getDiscriminator().getMapping());
+        if(schema.getDiscriminator().getMapping() != null) {
+            for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
+                String name = ModelUtils.getSimpleRef(e.getValue());
+                Schema referencedSchema = allDefinitions.get(name);
+                CodegenModel model = fromModel(name, referencedSchema, allDefinitions);
+                MappedModel mappedModel = new MappedModel();
+                mappedModel.setMappingName(e.getKey());
+                mappedModel.setModel(model);
+                discriminator.getMappedModels().add(mappedModel);
+            }
+        }
+        return discriminator;
     }
 
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
