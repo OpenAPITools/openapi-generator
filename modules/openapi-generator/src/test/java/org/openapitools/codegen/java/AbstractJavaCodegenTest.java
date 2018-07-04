@@ -73,6 +73,7 @@ public class AbstractJavaCodegenTest {
        Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
        Assert.assertEquals(fakeJavaCodegen.toVarName("user-name"), "userName");
        Assert.assertEquals(fakeJavaCodegen.toVarName("user_name"), "userName");
+       Assert.assertEquals(fakeJavaCodegen.toVarName("user|name"), "userName");
    }
 
    @Test
