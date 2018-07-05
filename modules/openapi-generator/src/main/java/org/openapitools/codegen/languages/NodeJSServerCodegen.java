@@ -57,6 +57,18 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     public NodeJSServerCodegen() {
         super();
 
+        StringBuilder message = new StringBuilder();
+        message.append(System.lineSeparator()).append(System.lineSeparator())
+                .append("=======================================================================================")
+                .append(System.lineSeparator())
+                .append("Currently, Node.js server doesn't work as its dependency doesn't support OpenAPI Spec3.")
+                .append(System.lineSeparator())
+                .append("For further details, see https://github.com/OpenAPITools/openapi-generator/issues/34")
+                .append(System.lineSeparator())
+                .append("=======================================================================================")
+                .append(System.lineSeparator()).append(System.lineSeparator());
+        LOGGER.warn(message.toString());
+
         // set the output folder here
         outputFolder = "generated-code/nodejs";
 
@@ -226,7 +238,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")

@@ -415,6 +415,31 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Escape characters while allowing new lines
+     *
+     * @param input String to be escaped
+     * @return escaped string
+     */
+    public String escapeTextWhileAllowingNewLines(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // remove \t
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(
+                StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                        .replaceAll("[\\t]", " ")
+                        .replace("\\", "\\\\")
+                        .replace("\"", "\\\""));
+    }
+
+    /**
      * override with any special text escaping logic to handle unsafe
      * characters so as to avoid code injection
      *
@@ -3606,6 +3631,9 @@ public class DefaultCodegen implements CodegenConfig {
         // input-name => input_name
         name = name.replaceAll("-", "_");
 
+        // a|b => a_b
+        name = name.replace("|", "_");
+
         // input name and age => input_name_and_age
         name = name.replaceAll(" ", "_");
 
@@ -4006,6 +4034,11 @@ public class DefaultCodegen implements CodegenConfig {
                     mediaType.put("hasMore", "true");
                 } else {
                     mediaType.put("hasMore", null);
+                }
+
+                if (!codegenOperation.produces.isEmpty()) {
+                    final Map<String, String> lastMediaType = codegenOperation.produces.get(codegenOperation.produces.size() - 1);
+                    lastMediaType.put("hasMore", "true");
                 }
 
                 codegenOperation.produces.add(mediaType);

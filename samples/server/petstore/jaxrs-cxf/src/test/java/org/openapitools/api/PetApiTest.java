@@ -213,7 +213,7 @@ public class PetApiTest {
     }
     
     /**
-     * uploads an image
+     * uploads an image (required)
      *
      * @throws ApiException
      *          if the Api call fails
