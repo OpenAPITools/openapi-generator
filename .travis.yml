@@ -88,6 +88,7 @@ script:
   - mvn --quiet clean install
 after_success:
   ## docker build and push images to DockerHub (openapi-generator-online, openapi-generator-cli)
+  - mvn --quiet package
   - read -r MVN_VERSION_FOR_DOCKER_TAG < target/ci/version-for-docker-tag.txt
   - echo "Tag for Docker derived from maven version -> $MVN_VERSION_FOR_DOCKER_TAG"
   - if [ $DOCKER_HUB_USERNAME ]; then 
