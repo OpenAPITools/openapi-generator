@@ -103,7 +103,7 @@ after_success:
           docker build -t $DOCKER_GENERATOR_IMAGE_NAME:$MVN_VERSION_FOR_DOCKER_TAG ./modules/openapi-generator-online;
           docker build -t $DOCKER_GENERATOR_IMAGE_NAME:$MVN_VERSION_FOR_DOCKER_TAG ./modules/openapi-generator-cli;
         fi;
-        if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "3.1.x" ] || [ "$TRAVIS_BRANCH" == "4.0.x" ]; then
+        if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ([ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "3.1.x" ] || [ "$TRAVIS_BRANCH" == "4.0.x" ]); then
           docker push $DOCKER_GENERATOR_IMAGE_NAME;
           echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME";
           docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME;
