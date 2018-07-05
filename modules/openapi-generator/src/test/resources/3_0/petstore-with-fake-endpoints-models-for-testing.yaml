@@ -67,6 +67,7 @@ paths:
           description: Status values that need to be considered for filter
           required: true
           style: form
+          explode: false
           schema:
             type: array
             items:
@@ -111,6 +112,7 @@ paths:
           description: Tags to filter by
           required: true
           style: form
+          explode: false
           schema:
             type: array
             items:
@@ -571,6 +573,7 @@ paths:
       parameters:
         - name: enum_header_string_array
           in: header
+          explode: true
           description: Header parameter enum test (string array)
           schema:
             type: array
