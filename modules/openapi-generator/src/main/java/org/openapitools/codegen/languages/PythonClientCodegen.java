@@ -200,15 +200,16 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageVersion("1.0.0");
         }
 
+        Boolean onlyPackage = false;
         if (additionalProperties.containsKey(CodegenConstants.ONLYPACKAGE_GENERATION)) {
-            setOnlyPackage(true);
+            onlyPackage = true;
         }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
-        if (getOnlyPackage()) {
+        if (onlyPackage) {
             // tests in <package>/test
             testFolder = packageName + File.separatorChar + testFolder;
             // api/model docs in <package>/docs
@@ -225,13 +226,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         String readmePath ="README.md";
         String readmeTemplate = "README.mustache";
-        if (getOnlyPackage()) {
+        if (onlyPackage) {
             readmePath = packageName + "_" + readmePath;
             readmeTemplate = "README_onlypackage.mustache";
         }
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
-        if (!getOnlyPackage()){
+        if (!onlyPackage){
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
             supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
             supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
@@ -265,16 +266,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
 
-    }
-
-    private boolean onlyPackage = false;
-
-    private void setOnlyPackage(boolean onlyPackage) {
-        this.onlyPackage = onlyPackage;
-    }
-
-    private boolean getOnlyPackage() {
-        return this.onlyPackage;
     }
 
     private static String dropDots(String str) {
