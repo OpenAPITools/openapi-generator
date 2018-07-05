@@ -3631,6 +3631,9 @@ public class DefaultCodegen implements CodegenConfig {
         // input-name => input_name
         name = name.replaceAll("-", "_");
 
+        // a|b => a_b
+        name = name.replace("|", "_");
+
         // input name and age => input_name_and_age
         name = name.replaceAll(" ", "_");
 
