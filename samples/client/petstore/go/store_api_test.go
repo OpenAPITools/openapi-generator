@@ -1,11 +1,11 @@
 package main
 
 import (
+	"context"
 	"testing"
 	"time"
 
 	sw "./go-petstore"
-	"golang.org/x/net/context"
 )
 
 func TestPlaceOrder(t *testing.T) {
