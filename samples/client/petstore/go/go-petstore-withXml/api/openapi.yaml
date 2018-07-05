@@ -973,6 +973,22 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
+  /fake/body-with-file-schema:
+    put:
+      description: For this test, the body for this request much reference a schema named `File`.
+      operationId: testBodyWithFileSchema
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileSchemaTestClass'
+        required: true
+      responses:
+        200:
+          content: {}
+          description: Success
+      tags:
+      - fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile
@@ -1413,6 +1429,21 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    FileSchemaTestClass:
+      example:
+        file:
+          sourceURI: sourceURI
+        files:
+        - sourceURI: sourceURI
+        - sourceURI: sourceURI
+      properties:
+        file:
+          $ref: '#/components/schemas/File'
+        files:
+          items:
+            $ref: '#/components/schemas/File'
+          type: array
+      type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1475,6 +1506,14 @@ components:
       items:
         $ref: '#/components/schemas/Animal'
       type: array
+    File:
+      example:
+        sourceURI: sourceURI
+      properties:
+        sourceURI:
+          description: Test capitalization
+          type: string
+      type: object
     Pet:
       example:
         photoUrls:
