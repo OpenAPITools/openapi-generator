@@ -112,7 +112,7 @@ public class PetApiServiceImpl implements PetApi {
     }
     
     /**
-     * uploads an image
+     * uploads an image (required)
      *
      */
     public ModelApiResponse uploadFileWithRequiredFile(Long petId,  Attachment fileDetail, String additionalMetadata) {
