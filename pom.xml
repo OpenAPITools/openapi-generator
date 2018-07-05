@@ -125,7 +125,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/</outputDirectory>
+                            <outputDirectory>${project.build.directory}/ci</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/CI/resources</directory>
