@@ -25,7 +25,7 @@ then
   mvn -B clean package
 fi
 
-echo "Removing files and folders under samples/client/petstore/go/samples/client/petstore/go/go-petstore-withXml"
+echo "Removing files and folders under samples/client/petstore/go/go-petstore-withXml"
 rm -rf samples/client/petstore/go/go-petstore-withXml
 
 # if you've executed sbt assembly previously it will use that instead.
