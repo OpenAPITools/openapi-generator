@@ -90,7 +90,7 @@ after_success:
   ## docker build and push images to DockerHub (openapi-generator-online, openapi-generator-cli)
   - mvn --quiet package
   - read -r MVN_VERSION_FOR_DOCKER_TAG < target/ci/version-for-docker-tag.txt
-  - echo "Tag for Docker derived from maven version -> $MVN_VERSION_FOR_DOCKER_TAG"
+  - echo "Tag for Docker derived from maven version -> $MVN_VERSION_FOR_DOCKER_TAG"; sleep 5;
   - if [ $DOCKER_HUB_USERNAME ]; then 
         echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
         if [ ! -z "$TRAVIS_TAG" ]; then
@@ -110,5 +110,6 @@ after_success:
           echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
         fi;
     fi;
+    sleep 5;
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test
