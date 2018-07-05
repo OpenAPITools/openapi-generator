@@ -120,9 +120,9 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>package</phase>
+                        <phase>process-resources</phase>
                         <goals>
-                            <goal>process-resources</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/ci</outputDirectory>
