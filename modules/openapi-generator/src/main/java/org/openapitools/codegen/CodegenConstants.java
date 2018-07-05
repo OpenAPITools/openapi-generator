@@ -213,6 +213,9 @@ public class CodegenConstants {
     public static final String EXCLUDE_TESTS = "excludeTests";
     public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
 
+    public static final String ONLYPACKAGE_GENERATION = "onlyPackage";
+    public static final String ONLYPACKAGE_GENERATION_DESC = "Specifies that only a library client package is to be generated.";
+
     // Not user-configurable. System provided for use in templates.
 
     public static final String GENERATE_APIS = "generateApis";

@@ -159,6 +159,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.ONLYPACKAGE_GENERATION, CodegenConstants.ONLYPACKAGE_GENERATION_DESC)
+            .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
@@ -198,10 +200,21 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageVersion("1.0.0");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.ONLYPACKAGE_GENERATION)) {
+            setOnlyPackage(true);
+        }
+
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
+        if (getOnlyPackage()) {
+            // tests in <package>/test
+            testFolder = packageName + File.separatorChar + testFolder;
+            // api/model docs in <package>/docs
+            apiDocPath = packageName + File.separatorChar + apiDocPath;
+            modelDocPath = packageName + File.separatorChar + modelDocPath;
+        }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -210,12 +223,24 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
         }
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        String readmePath ="README.md";
+        String readmeTemplate = "README.mustache";
+        if (getOnlyPackage()) {
+            readmePath = packageName + "_" + readmePath;
+            readmeTemplate = "README_onlypackage.mustache";
+        }
+        supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
-        supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
-        supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-        supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+        if (!getOnlyPackage()){
+            supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
+            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
 
+            supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+            supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+            supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+        }
         supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
@@ -224,10 +249,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+
         supportingFiles.add(new SupportingFile("api_client.mustache", packageName, "api_client.py"));
 
         if ("asyncio".equals(getLibrary())) {
@@ -243,6 +265,16 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
 
+    }
+
+    private boolean onlyPackage = false;
+
+    private void setOnlyPackage(boolean onlyPackage) {
+        this.onlyPackage = onlyPackage;
+    }
+
+    private boolean getOnlyPackage() {
+        return this.onlyPackage;
     }
 
     private static String dropDots(String str) {
