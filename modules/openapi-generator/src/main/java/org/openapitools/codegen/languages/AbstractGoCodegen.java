@@ -298,7 +298,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")

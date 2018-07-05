@@ -227,7 +227,7 @@ public class JavaClientCodegenTest {
 
         Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
 
-        javaClientCodegen.postProcessOperations(objs);
+        javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
         Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
         Assert.assertTrue(pathParam1.hasMore);

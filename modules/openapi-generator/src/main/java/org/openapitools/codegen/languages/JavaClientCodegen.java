@@ -370,8 +370,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
         if (usesAnyRetrofitLibrary()) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {

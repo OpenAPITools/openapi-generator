@@ -185,7 +185,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         String classname = (String) operations.get("classname");
         operations.put("classnameSnakeUpperCase", DefaultCodegen.underscore(classname).toUpperCase());

@@ -17,22 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.*;
-
 import java.io.File;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Comparator;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -102,7 +100,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
