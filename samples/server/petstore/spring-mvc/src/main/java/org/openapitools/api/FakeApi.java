@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
@@ -69,6 +70,15 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     ResponseEntity<String> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody String body);
+
+
+    @ApiOperation(value = "", nickname = "testBodyWithFileSchema", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    @RequestMapping(value = "/fake/body-with-file-schema",
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+    ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass);
 
 
     @ApiOperation(value = "", nickname = "testBodyWithQueryParams", notes = "", tags={ "fake", })

@@ -947,6 +947,23 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Client'
+  /fake/body-with-file-schema:
+    put:
+      tags:
+        - fake
+      description: 'For this test, the body for this request much reference a schema named `File`.'
+      operationId: testBodyWithFileSchema
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FileSchemaTestClass'
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1474,7 +1491,7 @@ definitions:
       #        - Cat
       #        - Dog
   OuterEnum:
-    type: "string"
+    type: string
     enum:
     - "placed"
     - "approved"
@@ -1498,3 +1515,19 @@ definitions:
   StringBooleanMap:
     additionalProperties:
       type: boolean
+  FileSchemaTestClass:
+    type: object
+    properties:
+      file:
+        $ref: "#/definitions/File"
+      files:
+        type: array
+        items:
+          $ref: "#/definitions/File"
+  File:
+    type: object
+    desription: 'Must be named `File` for test.'
+    properties:
+      sourceURI:
+        description: 'Test capitalization'
+        type: string

@@ -184,6 +184,30 @@ class FakeApi extends Controller
         return response('How about implementing testEnumParameters as a get method ?');
     }
     /**
+     * Operation testBodyWithFileSchema
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function testBodyWithFileSchema()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['file_schema_test_class'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $file_schema_test_class when calling testBodyWithFileSchema');
+        }
+        $file_schema_test_class = $input['file_schema_test_class'];
+
+
+        return response('How about implementing testBodyWithFileSchema as a put method ?');
+    }
+    /**
      * Operation testBodyWithQueryParams
      *
      * .

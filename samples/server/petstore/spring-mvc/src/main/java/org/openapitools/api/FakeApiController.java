@@ -2,6 +2,7 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
@@ -79,6 +80,11 @@ public class FakeApiController implements FakeApi {
                 break;
             }
         }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    public ResponseEntity<Void> testBodyWithFileSchema(@ApiParam(value = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

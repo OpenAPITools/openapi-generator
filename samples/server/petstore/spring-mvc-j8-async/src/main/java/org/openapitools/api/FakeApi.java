@@ -7,6 +7,7 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
@@ -128,6 +129,18 @@ public interface FakeApi {
             });
             return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
         }, Runnable::run);
+
+    }
+
+
+    @ApiOperation(value = "", nickname = "testBodyWithFileSchema", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    @RequestMapping(value = "/fake/body-with-file-schema",
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+    default CompletableFuture<ResponseEntity<Void>> testBodyWithFileSchema(@ApiParam(value = "" ,required=true )  @Valid @RequestBody FileSchemaTestClass fileSchemaTestClass) {
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 

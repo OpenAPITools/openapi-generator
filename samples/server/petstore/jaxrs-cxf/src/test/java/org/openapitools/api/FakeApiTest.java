@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
@@ -129,6 +130,20 @@ public class FakeApiTest {
         String body = null;
         //String response = api.fakeOuterStringSerialize(body);
         //assertNotNull(response);
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        //api.testBodyWithFileSchema(fileSchemaTestClass);
+        
         // TODO: test validations
         
         

@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
@@ -47,6 +48,12 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response fakeOuterStringSerialize(String body, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
