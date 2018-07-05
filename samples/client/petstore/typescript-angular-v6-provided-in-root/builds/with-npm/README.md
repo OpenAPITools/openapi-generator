@@ -1,4 +1,4 @@
-## @swagger/typescript-angular-petstore@1.0.0
+## @
 
 ### Building
 
@@ -10,7 +10,7 @@ npm run build
 
 ### publishing
 
-First build the package than run ```npm publish dist``` (don't forget to specify the `dist` folder!)
+First build the package than run ```npm publish```
 
 ### consuming
 
@@ -19,25 +19,25 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```
-npm install @swagger/typescript-angular-petstore@1.0.0 --save
+npm install @ --save
 ```
 
 _without publishing (not recommended):_
 
 ```
-npm install PATH_TO_GENERATED_PACKAGE/dist --save
+npm install PATH_TO_GENERATED_PACKAGE --save
 ```
 
 _using `npm link`:_
 
-In PATH_TO_GENERATED_PACKAGE/dist:
+In PATH_TO_GENERATED_PACKAGE:
 ```
 npm link
 ```
 
 In your project:
 ```
-npm link @swagger/typescript-angular-petstore
+npm link 
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
@@ -52,7 +52,7 @@ In your Angular project:
 
 ```
 // without configuring providers
-import { ApiModule } from '@swagger/typescript-angular-petstore';
+import { ApiModule } from '';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -72,7 +72,7 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '@swagger/typescript-angular-petstore';
+import { ApiModule, Configuration, ConfigurationParameters } from '';
 
 export function apiConfigFactory (): Configuration => {
   const params: ConfigurationParameters = {
@@ -91,7 +91,7 @@ export class AppModule {}
 ```
 
 ```
-import { DefaultApi } from '@swagger/typescript-angular-petstore';
+import { DefaultApi } from '';
 
 export class AppComponent {
 	 constructor(private apiGateway: DefaultApi) { }
@@ -130,7 +130,7 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
 
 ```
-import { BASE_PATH } from '@swagger/typescript-angular-petstore';
+import { BASE_PATH } from '';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
@@ -139,7 +139,7 @@ bootstrap(AppComponent, [
 or
 
 ```
-import { BASE_PATH } from '@swagger/typescript-angular-petstore';
+import { BASE_PATH } from '';
 
 @NgModule({
     imports: [],
@@ -163,7 +163,7 @@ export const environment = {
 
 In the src/app/app.module.ts:
 ```
-import { BASE_PATH } from '@swagger/typescript-angular-petstore';
+import { BASE_PATH } from '';
 import { environment } from '../environments/environment';
 
 @NgModule({
