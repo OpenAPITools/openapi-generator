@@ -12,6 +12,8 @@
 """
 
 
+__version__ = "1.0.0"
+
 from __future__ import absolute_import
 
 # import apis into sdk package
@@ -62,3 +64,4 @@ from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.string_boolean_map import StringBooleanMap
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
+
