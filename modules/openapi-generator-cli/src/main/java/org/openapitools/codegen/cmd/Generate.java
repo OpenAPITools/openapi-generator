@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.cmd;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import org.openapitools.codegen.ClientOptInput;
@@ -32,6 +34,8 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
@@ -201,6 +205,19 @@ public class Generate implements Runnable {
 
     @Override
     public void run() {
+        Stream.of("debugSwagger", "debugModels", "debugOperations", "debugSupportingFiles")
+                .map(System::getProperty)
+                .filter(Objects::nonNull)
+                .findAny()
+                .ifPresent(property -> {
+                    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+                    Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
+                            .map(lc::getLogger)
+                            .peek(logger -> logger.detachAppender("STDOUT"))
+                            .reduce((logger, next) -> logger.getName().equals(Logger.ROOT_LOGGER_NAME) ? logger : next)
+                            .map(root -> root.getAppender("STDERR"))
+                            .ifPresent(FilterAttachable::clearAllFilters);
+                });
 
         // attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
