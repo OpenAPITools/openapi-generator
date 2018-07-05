@@ -122,7 +122,7 @@
                         <id>copy-resources</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy-resources</goal>
+                            <goal>process-resources</goal>
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/ci</outputDirectory>
