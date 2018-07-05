@@ -279,7 +279,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         ArrayList<CodegenOperation> oplist = (ArrayList<CodegenOperation>) operations.get("operation");
 

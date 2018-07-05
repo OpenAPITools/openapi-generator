@@ -683,20 +683,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> ret = super.postProcessOperations(objs);
-
-        HashMap<String, Object> pathOps = (HashMap<String, Object>) ret.get("operations");
-        ArrayList<CodegenOperation> ops = (ArrayList<CodegenOperation>) pathOps.get("operation");
-        if (ops.size() > 0) {
-            ops.get(0).vendorExtensions.put(X_HAS_NEW_TAG, true);
-        }
-
-        updateGlobalAdditionalProps();
-        return ret;
-    }
-
-    @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         updateGlobalAdditionalProps();
         return super.postProcessAllModels(objs);
@@ -728,6 +714,16 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> ret = super.postProcessOperationsWithModels(objs, allModels);
+
+        HashMap<String, Object> pathOps = (HashMap<String, Object>) ret.get("operations");
+        ArrayList<CodegenOperation> ops = (ArrayList<CodegenOperation>) pathOps.get("operation");
+        if (ops.size() > 0) {
+            ops.get(0).vendorExtensions.put(X_HAS_NEW_TAG, true);
+        }
+
+        updateGlobalAdditionalProps();
+
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
             CodegenModel m = (CodegenModel) h.get("model");
@@ -746,9 +742,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                     }
                 }
             }
-
         }
-        return objs;
+        return ret;
     }
 
     @Override

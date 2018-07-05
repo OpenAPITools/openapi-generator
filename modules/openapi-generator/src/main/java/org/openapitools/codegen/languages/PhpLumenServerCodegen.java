@@ -22,10 +22,6 @@ import io.swagger.models.properties.*;
 
 import java.util.*;
 import java.io.File;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class PhpLumenServerCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
@@ -115,7 +111,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
 
     // override with any special post-processing
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
