@@ -1,15 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"testing"
 
-	sw "./go-petstore"
-	"golang.org/x/net/context"
-
 	"github.com/antihax/optional"
 	"github.com/stretchr/testify/assert"
+
+	sw "./go-petstore"
 )
 
 var client *sw.APIClient
