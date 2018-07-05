@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
@@ -65,6 +66,17 @@ public class FakeApi {
         @ApiResponse(code = 200, message = "Output string", response = String.class)
     })
     public Response fakeOuterStringSerialize(@Valid String body) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @PUT
+    @Path("/body-with-file-schema")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success", response = Void.class)
+    })
+    public Response testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass) {
         return Response.ok().entity("magic!").build();
     }
 

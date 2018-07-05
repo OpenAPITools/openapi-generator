@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.joda.time.DateTime;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
@@ -115,6 +116,30 @@ public interface FakeApi {
   @POST("/fake/outer/string")
   void fakeOuterStringSerialize(
     @retrofit.http.Body String body, Callback<String> cb
+  );
+  /**
+   * 
+   * Sync method
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   * @param fileSchemaTestClass  (required)
+   * @return Void
+   */
+  
+  @PUT("/fake/body-with-file-schema")
+  Void testBodyWithFileSchema(
+    @retrofit.http.Body FileSchemaTestClass fileSchemaTestClass
+  );
+
+  /**
+   * 
+   * Async method
+   * @param fileSchemaTestClass  (required)
+   * @param cb callback method
+   */
+  
+  @PUT("/fake/body-with-file-schema")
+  void testBodyWithFileSchema(
+    @retrofit.http.Body FileSchemaTestClass fileSchemaTestClass, Callback<Void> cb
   );
   /**
    * 
