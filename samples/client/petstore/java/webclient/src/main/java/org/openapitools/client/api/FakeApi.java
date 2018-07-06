@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -166,6 +167,39 @@ public class FakeApi {
 
         ParameterizedTypeReference<String> returnType = new ParameterizedTypeReference<String>() {};
         return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * 
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * <p><b>200</b> - Success
+     * @param fileSchemaTestClass The fileSchemaTestClass parameter
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws RestClientException {
+        Object postBody = fileSchemaTestClass;
+        
+        // verify the required parameter 'fileSchemaTestClass' is set
+        if (fileSchemaTestClass == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+        }
+        
+        String path = UriComponentsBuilder.fromPath("/fake/body-with-file-schema").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "application/json"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * 
