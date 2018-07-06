@@ -1,1 +1,0 @@
-${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.x
