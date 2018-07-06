@@ -120,7 +120,7 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 </dependency>
 ```
 * See the different versions of the [openapi-generator-maven-plugin](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-maven-plugin) artifact available on maven central.
-* [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.adoc)
+* [Readme](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md)
 
 **Gradle plugin:**
 ```xml
