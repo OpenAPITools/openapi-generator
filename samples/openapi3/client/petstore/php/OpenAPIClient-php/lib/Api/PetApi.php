@@ -756,7 +756,7 @@ class PetApi
 
         // query params
         if (is_array($status)) {
-            $status = ObjectSerializer::serializeCollection($status, 'multi', true);
+            $status = ObjectSerializer::serializeCollection($status, 'csv', true);
         }
         if ($status !== null) {
             $queryParams['status'] = ObjectSerializer::toQueryValue($status);
@@ -1040,7 +1040,7 @@ class PetApi
 
         // query params
         if (is_array($tags)) {
-            $tags = ObjectSerializer::serializeCollection($tags, 'multi', true);
+            $tags = ObjectSerializer::serializeCollection($tags, 'csv', true);
         }
         if ($tags !== null) {
             $queryParams['tags'] = ObjectSerializer::toQueryValue($tags);
