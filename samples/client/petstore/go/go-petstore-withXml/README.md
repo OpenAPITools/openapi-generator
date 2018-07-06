@@ -35,6 +35,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
+*FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -83,6 +84,8 @@ Class | Method | HTTP request | Description
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
+ - [File](docs/File.md)
+ - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [FormatTest](docs/FormatTest.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [List](docs/List.md)
