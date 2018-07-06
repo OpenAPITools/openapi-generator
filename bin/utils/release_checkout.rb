@@ -19,6 +19,38 @@ def check_homebrew
   end
 end
 
+def check_openapi_generator_online_docker
+  print "Checking openapi-generator-online docker ... "
+
+  url = "https://hub.docker.com/r/openapitools/openapi-generator-online/tags/"
+  docker_tag = "v#{$version}"
+  open(url) do |f|
+    content = f.read
+    if !content.nil? && content.include?(docker_tag)
+      puts "[OK]"
+    else
+      puts "[ERROR]"
+      puts "> #{url} does not have tag #{docker_tag}"
+    end
+  end
+end
+
+def check_openapi_generator_cli_docker
+  print "Checking openapi-generator-cli docker ... "
+
+  url = "https://hub.docker.com/r/openapitools/openapi-generator-cli/tags/"
+  docker_tag = "v#{$version}"
+  open(url) do |f|
+    content = f.read
+    if !content.nil? && content.include?(docker_tag)
+      puts "[OK]"
+    else
+      puts "[ERROR]"
+      puts "> #{url} does not have tag #{docker_tag}"
+    end
+  end
+end
+
 def check_readme
   print "Checking openapi-generator README.md ... "
 
@@ -160,3 +192,5 @@ check_openapi_generator_gradle_plugin_jar
 check_openapi_generator_online_jar
 check_openapi_generator_project_pom
 check_readme
+check_openapi_generator_online_docker
+check_openapi_generator_cli_docker
