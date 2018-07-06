@@ -48,13 +48,11 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         variableNamingConvention = "camelCase";
         artifactVersion = "1.0.0";
         packagePath = ""; // empty packagePath (top folder)
-        invokerPackage = camelize("OpenAPIServer");
-        modelPackage = packagePath + "\\Models";
-        apiPackage = packagePath;
+        setInvokerPackage("OpenAPIServer");
+        apiPackage = invokerPackage + "\\" + apiDirName;
+        modelPackage = invokerPackage + "\\" + modelDirName;
         outputFolder = "generated-code" + File.separator + "slim";
 
-        // no api files
-        apiTemplateFiles.clear();
         // no test files
         apiTestTemplateFiles.clear();
         // no doc files
@@ -63,11 +61,9 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
         embeddedTemplateDir = templateDir = "php-slim-server";
 
-        // additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        // additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        
+
         // override cliOptions from AbstractPhpCodegen
         for (CliOption co : cliOptions) {
             if (co.getOpt().equals(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION)) {
@@ -76,12 +72,6 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
                 break;
             }
         }
-
-        supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
-        supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
-        supportingFiles.add(new SupportingFile(".gitignore", packagePath.replace('/', File.separatorChar), ".gitignore"));
     }
 
     @Override
@@ -97,6 +87,37 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     @Override
     public String getHelp() {
         return "Generates a PHP Slim Framework server library.";
+    }
+
+    @Override
+    public String apiFileFolder() {
+        if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+            // need to strip out invokerPackage from path
+            return (outputFolder + File.separator + toPackagePath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+        }
+        return (outputFolder + File.separator + toPackagePath(apiPackage, srcBasePath));
+    }
+
+    @Override
+    public String modelFileFolder() {
+        if (modelPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+            // need to strip out invokerPackage from path
+            return (outputFolder + File.separator + toPackagePath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+        }
+        return (outputFolder + File.separator + toPackagePath(modelPackage, srcBasePath));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
+        supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", getPackagePath(), "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", getPackagePath(), ".htaccess"));
+        supportingFiles.add(new SupportingFile(".gitignore", getPackagePath(), ".gitignore"));
+        supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));
+        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
     }
 
     @Override

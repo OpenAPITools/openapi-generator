@@ -1,15 +1,18 @@
 <?php
-{{#models}}{{#model}}/*
+{{#models}}{{#model}}/**
  * {{classname}}
  */
-namespace {{package}};
+namespace {{modelPackage}};
 
-/*
+/**
  * {{classname}}
  */
 class {{classname}} {
-    {{#vars}}/* @var {{dataType}} ${{name}} {{#description}}{{description}}{{/description}} */
+
+    {{#vars}}
+    /** @var {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}*/
     private ${{name}};
+
     {{/vars}}
 }
 {{/model}}{{/models}}
