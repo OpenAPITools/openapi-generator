@@ -3,6 +3,7 @@ package org.openapitools.client.api.rxjava;
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -109,6 +110,27 @@ public class FakeApi {
     public Single<String> rxFakeOuterStringSerialize(String body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.fakeOuterStringSerialize(body, fut);
+        }));
+    }
+    /**
+     * 
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * @param fileSchemaTestClass  (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithFileSchema(fileSchemaTestClass, resultHandler);
+    }
+
+    /**
+     * 
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * @param fileSchemaTestClass  (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testBodyWithFileSchema(fileSchemaTestClass, fut);
         }));
     }
     /**

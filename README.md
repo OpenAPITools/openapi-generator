@@ -193,22 +193,6 @@ To reinstall with the latest master, run `brew reinstall --HEAD openapi-generato
  - [https://hub.docker.com/r/openapitools/openapi-generator-cli/](https://hub.docker.com/r/openapitools/openapi-generator-cli/) (official CLI)
  - [https://hub.docker.com/r/openapitools/openapi-generator-online/](https://hub.docker.com/r/openapitools/openapi-generator-online/) (official web service)
 
-#### Docker tags
-
-`lastest` Tag contains the continuously built version from our `master` branch.
-
-`v0.0.0` Tags correspond to a released version in this git repository. Examples:
-
-* `v3.0.0` Tag
-* `v3.0.1` Tag
-* `v3.0.2` Tag
-
-`0.0.x` Tags correspond to continuously built versions (after each commit), regardless of the branch it is built from. Examples:
-
-* `3.0.x` Tag: contains first `3.0.2-SNAPSHOT` and after the `3.0.2` release it contains `3.0.3-SNAPSHOT` and so on.
-* `3.1.x` Tag: contains first `3.1.0-SNAPSHOT` and after the `3.1.0` release it contains `3.1.1-SNAPSHOT` and so on.
-* `4.0.x` Tag: contains first `4.0.0-SNAPSHOT` and after the `4.0.0` release it contains `4.0.1-SNAPSHOT` and so on.
-
 
 #### OpenAPI Generator CLI Docker Image
 

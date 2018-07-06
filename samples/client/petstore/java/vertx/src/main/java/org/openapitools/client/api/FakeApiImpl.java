@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -154,6 +155,40 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarAuthNames = new String[] {  };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+    }
+    /**
+     * 
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * @param fileSchemaTestClass  (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = fileSchemaTestClass;
+        
+        // verify the required parameter 'fileSchemaTestClass' is set
+        if (fileSchemaTestClass == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/body-with-file-schema";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * 

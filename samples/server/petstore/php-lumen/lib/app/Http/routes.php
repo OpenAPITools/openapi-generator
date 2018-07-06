@@ -50,6 +50,13 @@ $app->post('/v2/fake', 'FakeApi@testEndpointParameters');
  */
 $app->get('/v2/fake', 'FakeApi@testEnumParameters');
 /**
+ * put testBodyWithFileSchema
+ * Summary: 
+ * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
+ */
+$app->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
+/**
  * put testBodyWithQueryParams
  * Summary: 
  * Notes: 

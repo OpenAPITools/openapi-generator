@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -22,6 +23,8 @@ public interface FakeApi {
     void fakeOuterNumberSerialize(BigDecimal body, Handler<AsyncResult<BigDecimal>> handler);
 
     void fakeOuterStringSerialize(String body, Handler<AsyncResult<String>> handler);
+
+    void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> handler);
 
     void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> handler);
 
