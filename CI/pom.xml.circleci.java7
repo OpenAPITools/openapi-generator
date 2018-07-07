@@ -854,6 +854,7 @@
                 <module>samples/client/petstore/kotlin/</module>
                 <!-- test non-java projects -->
                 <!--<module>samples/client/petstore/go</module>-->
+                <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!-- servers -->
                 <module>samples/server/petstore/java-vertx/rx</module>
                 <module>samples/server/petstore/java-vertx/async</module>

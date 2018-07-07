@@ -82,6 +82,10 @@ public class PetApi {
         return new UploadFileOper(reqSpec);
     }
 
+    public UploadFileWithRequiredFileOper uploadFileWithRequiredFile() {
+        return new UploadFileWithRequiredFileOper(reqSpec);
+    }
+
     /**
      * Customise request specification
      * @param consumer consumer
@@ -734,6 +738,110 @@ public class PetApi {
          * @return operation
          */
         public UploadFileOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * uploads an image (required)
+     * 
+     *
+     * @see #petIdPath ID of pet to update (required)
+     * @see #fileMultiPart file to upload (required)
+     * @see #additionalMetadataForm Additional data to pass to server (optional, default to null)
+     * return ModelApiResponse
+     */
+    public class UploadFileWithRequiredFileOper {
+
+        public static final String REQ_URI = "/fake/{petId}/uploadImageWithRequiredFile";
+
+        private RequestSpecBuilder reqSpec;
+
+        private ResponseSpecBuilder respSpec;
+
+        public UploadFileWithRequiredFileOper() {
+            this.reqSpec = new RequestSpecBuilder();
+            reqSpec.setContentType("multipart/form-data");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        public UploadFileWithRequiredFileOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setContentType("multipart/form-data");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * POST /fake/{petId}/uploadImageWithRequiredFile
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+        }
+
+        /**
+         * POST /fake/{petId}/uploadImageWithRequiredFile
+         * @param handler handler
+         * @return ModelApiResponse
+         */
+        public ModelApiResponse executeAs(Function<Response, Response> handler) {
+            Type type = new TypeToken<ModelApiResponse>(){}.getType();
+            return execute(handler).as(type);
+        }
+
+        public static final String PET_ID_PATH = "petId";
+
+        /**
+         * @param petId (Long) ID of pet to update (required)
+         * @return operation
+         */
+        public UploadFileWithRequiredFileOper petIdPath(Object petId) {
+            reqSpec.addPathParam(PET_ID_PATH, petId);
+            return this;
+        }
+
+         public static final String ADDITIONAL_METADATA_FORM = "additionalMetadata";
+
+         /**
+         * @param additionalMetadata (String) Additional data to pass to server (optional, default to null)
+         * @return operation
+         */
+         public UploadFileWithRequiredFileOper additionalMetadataForm(Object... additionalMetadata) {
+            reqSpec.addFormParam(ADDITIONAL_METADATA_FORM, additionalMetadata);
+            return this;
+         }
+
+         /**
+         * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
+         * @see #reqSpec for customise
+         * @param file (File) file to upload (required)
+         * @return operation
+         */
+         public UploadFileWithRequiredFileOper fileMultiPart(File file) {
+            reqSpec.addMultiPart(file);
+            return this;
+         }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public UploadFileWithRequiredFileOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public UploadFileWithRequiredFileOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
             return this;
         }

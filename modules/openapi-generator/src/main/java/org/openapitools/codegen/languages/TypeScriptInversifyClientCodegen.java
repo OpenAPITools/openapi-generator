@@ -207,7 +207,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
         // Add filename information for api imports

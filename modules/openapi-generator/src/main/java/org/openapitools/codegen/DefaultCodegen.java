@@ -24,11 +24,9 @@ import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.CookieParameter;
 import io.swagger.v3.oas.models.parameters.HeaderParameter;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -218,7 +216,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                     parent.getChildren().add(cm);
                     if (parent.getDiscriminator() == null) {
-                        parent = allModels.get(parent.parent);
+                        parent = allModels.get(parent.getParent());
                     } else {
                         parent = null;
                     }
@@ -412,6 +410,31 @@ public class DefaultCodegen implements CodegenConfig {
                         StringEscapeUtils.escapeJava(input)
                                 .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
+                        .replace("\\", "\\\\")
+                        .replace("\"", "\\\""));
+    }
+
+    /**
+     * Escape characters while allowing new lines
+     *
+     * @param input String to be escaped
+     * @return escaped string
+     */
+    public String escapeTextWhileAllowingNewLines(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // remove \t
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(
+                StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                        .replaceAll("[\\t]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
     }
@@ -1084,6 +1107,66 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the example value of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter Parameter
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+            return;
+        }
+
+        if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if(example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+                return;
+            }
+        }
+
+        Schema schema = parameter.getSchema();
+        if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
+            return;
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
+    /**
+     * Return the example value of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param requestBody Request body
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
+        Content content = requestBody.getContent();
+
+        if (content.size() > 1) {
+            // @see ModelUtils.getSchemaFromContent()
+            LOGGER.warn("Multiple MediaTypes found, using only the first one");
+        }
+
+        MediaType mediaType = content.values().iterator().next();
+        if (mediaType.getExample() != null) {
+            codegenParameter.example = mediaType.getExample().toString();
+            return;
+        }
+
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            Example example = mediaType.getExamples().values().iterator().next();
+            if(example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+                return;
+            }
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
+    /**
      * Return the example value of the property
      *
      * @param schema Property schema
@@ -1524,6 +1607,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
+                m.isMapModel = true;
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
@@ -2718,7 +2802,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the parameter excample value
         // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter);
+        setParameterExampleValue(codegenParameter, parameter);
 
         postProcessParameter(codegenParameter);
         LOGGER.debug("debugging codegenParameter return: " + codegenParameter);
@@ -3547,6 +3631,9 @@ public class DefaultCodegen implements CodegenConfig {
         // input-name => input_name
         name = name.replaceAll("-", "_");
 
+        // a|b => a_b
+        name = name.replace("|", "_");
+
         // input name and age => input_name_and_age
         name = name.replaceAll(" ", "_");
 
@@ -3949,6 +4036,11 @@ public class DefaultCodegen implements CodegenConfig {
                     mediaType.put("hasMore", null);
                 }
 
+                if (!codegenOperation.produces.isEmpty()) {
+                    final Map<String, String> lastMediaType = codegenOperation.produces.get(codegenOperation.produces.size() - 1);
+                    lastMediaType.put("hasMore", "true");
+                }
+
                 codegenOperation.produces.add(mediaType);
                 codegenOperation.hasProduces = Boolean.TRUE;
             }
@@ -4327,7 +4419,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set the parameter's example value
         // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter);
+        setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
     }

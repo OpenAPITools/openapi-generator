@@ -150,4 +150,14 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     public function testUploadFile()
     {
     }
+
+    /**
+     * Test case for uploadFileWithRequiredFile
+     *
+     * uploads an image (required).
+     *
+     */
+    public function testUploadFileWithRequiredFile()
+    {
+    }
 }

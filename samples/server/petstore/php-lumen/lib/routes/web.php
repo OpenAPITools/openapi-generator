@@ -46,6 +46,12 @@ $router->post('/v2/fake', 'FakeApi@testEndpointParameters');
  */
 $router->get('/v2/fake', 'FakeApi@testEnumParameters');
 /**
+ * put testBodyWithFileSchema
+ * Summary: 
+ * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ */
+$router->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
+/**
  * put testBodyWithQueryParams
  * Summary: 
  * Notes: 
@@ -93,6 +99,12 @@ $router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
  * Notes: To test class name in snake case
  */
 $router->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
+/**
+ * post uploadFileWithRequiredFile
+ * Summary: uploads an image (required)
+ * Notes: 
+ */
+$router->post('/v2/fake/{petId}/uploadImageWithRequiredFile', 'PetApi@uploadFileWithRequiredFile');
 /**
  * post addPet
  * Summary: Add a new pet to the store

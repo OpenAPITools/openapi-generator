@@ -835,6 +835,7 @@
                 <!-- clients -->
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-httpclient</module>
@@ -850,6 +851,7 @@
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
+                <module>samples/client/petstore/java/webclient</module>
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>

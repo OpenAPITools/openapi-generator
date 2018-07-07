@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **add_pet**
@@ -402,6 +403,60 @@ Name | Type | Description  | Notes
  **pet_id** | **Integer**| ID of pet to update | 
  **additional_metadata** | **String**| Additional data to pass to server | [optional] 
  **file** | **File**| file to upload | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+
+
+# **upload_file_with_required_file**
+> ApiResponse upload_file_with_required_file(pet_id, file, opts)
+
+uploads an image (required)
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
+
+api_instance = Petstore::PetApi.new
+pet_id = 56 # Integer | ID of pet to update
+file = File.new('/path/to/file') # File | file to upload
+opts = {
+  additional_metadata: 'additional_metadata_example' # String | Additional data to pass to server
+}
+
+begin
+  #uploads an image (required)
+  result = api_instance.upload_file_with_required_file(pet_id, file, opts)
+  p result
+rescue Petstore::ApiError => e
+  puts "Exception when calling PetApi->upload_file_with_required_file: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **Integer**| ID of pet to update | 
+ **file** | **File**| file to upload | 
+ **additional_metadata** | **String**| Additional data to pass to server | [optional] 
 
 ### Return type
 

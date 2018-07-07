@@ -112,6 +112,26 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for testBodyWithFileSchema
+     *
+     * .
+     *
+     */
+    public function testTestBodyWithFileSchema()
+    {
+    }
+
+    /**
+     * Test case for testBodyWithQueryParams
+     *
+     * .
+     *
+     */
+    public function testTestBodyWithQueryParams()
+    {
+    }
+
+    /**
      * Test case for testClientModel
      *
      * To test \"client\" model.
