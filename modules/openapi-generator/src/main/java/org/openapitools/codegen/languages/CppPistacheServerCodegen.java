@@ -403,4 +403,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
+    
+    @Override
+    public String getTypeDeclaration(String str) {
+        return toModelName(str);
+    }
 }

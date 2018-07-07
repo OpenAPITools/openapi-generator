@@ -22,6 +22,8 @@
 #include "json.hpp"
 #include <ctime>
 #include <string>
+#include <vector>
+#include <map>
 
 namespace org {
 namespace openapitools {
@@ -45,9 +47,54 @@ public:
     static int64_t toJson( int64_t const value );
     static double toJson( double const value );
     static bool toJson( bool const value );
-    static nlohmann::json toJson(ModelBase const& content );
+    static nlohmann::json toJson(ModelBase const& content ); 
+};
+
+class  ModelArrayHelper {
+public:
+template <typename T>
+	static std::vector<T> fromJson(nlohmann::json& json) {
+		T *ptrTest;
+		std::vector<T> val;
+		if (dynamic_cast<ModelBase*>(ptrTest) != nullptr) {
+			if (!json.empty()) {
+				for (auto &item : json.items()){
+					T entry;
+					entry.fromJson(item.value());
+					val.push_back(entry);
+				}
+			}
+		} else {
+			// TODO Primitives
+		}
+		return val;
+}
 
 };
+
+class  ModelMapHelper {
+public:
+
+template <typename T>
+static std::map<std::string, T> & fromJson(nlohmann::json& json){
+	T *ptrTest;
+	std::map<std::string, T> val;
+	if (dynamic_cast<ModelBase*>(ptrTest) != nullptr) {
+		if (!json.empty()) {
+			for (auto &item : json.items()){
+				T entry;
+				entry.fromJson(item.value());
+				val.insert(val.end(), std::pair<std::string ,T>(item.key(),entry));
+			}
+		}
+	} else {
+		// TODO Primitives
+	}
+    return val;
+}
+
+};
+
 
 }
 }

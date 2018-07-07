@@ -91,7 +91,7 @@ void Pet::fromJson(nlohmann::json& val)
     {
         if(!val["category"].is_null())
         {
-            Category newItem(Category());
+            Category newItem;
             newItem.fromJson(val["category"]);
             setCategory( newItem );
         }
@@ -117,11 +117,11 @@ void Pet::fromJson(nlohmann::json& val)
             
             if(item.is_null())
             {
-                m_Tags.push_back( Tag(nullptr) );
+                m_Tags.push_back( Tag() );
             }
             else
             {
-                Tag newItem(Tag());
+                Tag newItem;
                 newItem.fromJson(item);
                 m_Tags.push_back( newItem );
             }
