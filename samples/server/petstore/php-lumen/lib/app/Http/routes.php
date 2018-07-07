@@ -50,6 +50,13 @@ $app->post('/v2/fake', 'FakeApi@testEndpointParameters');
  */
 $app->get('/v2/fake', 'FakeApi@testEnumParameters');
 /**
+ * put testBodyWithFileSchema
+ * Summary: 
+ * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
+ */
+$app->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
+/**
  * put testBodyWithQueryParams
  * Summary: 
  * Notes: 
@@ -105,6 +112,13 @@ $app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
  * Output-Formats: [application/json]
  */
 $app->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
+/**
+ * post uploadFileWithRequiredFile
+ * Summary: uploads an image (required)
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+$app->post('/v2/fake/{petId}/uploadImageWithRequiredFile', 'PetApi@uploadFileWithRequiredFile');
 /**
  * post addPet
  * Summary: Add a new pet to the store

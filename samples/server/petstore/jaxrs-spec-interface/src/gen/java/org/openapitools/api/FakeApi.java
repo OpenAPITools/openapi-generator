@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 
@@ -56,6 +58,14 @@ public interface FakeApi {
     String fakeOuterStringSerialize(@Valid String body);
 
     @PUT
+    @Path("/body-with-file-schema")
+    @Consumes({ "application/json" })
+    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success", response = Void.class) })
+    void testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass);
+
+    @PUT
     @Path("/body-with-query-params")
     @Consumes({ "application/json" })
     @ApiOperation(value = "", notes = "", tags={ "fake",  })
@@ -101,8 +111,23 @@ public interface FakeApi {
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake" })
+    @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     void testJsonFormData(@FormParam(value = "param")  String param,@FormParam(value = "param2")  String param2);
+
+    @POST
+    @Path("/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "uploads an image (required)", notes = "", authorizations = {
+        @Authorization(value = "petstore_auth", scopes = {
+            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @AuthorizationScope(scope = "read:pets", description = "read your pets")
+        })
+    }, tags={ "pet" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "file") InputStream fileInputStream,
+   @FormParam(value = "file") Attachment fileDetail,@FormParam(value = "additionalMetadata")  String additionalMetadata);
 }

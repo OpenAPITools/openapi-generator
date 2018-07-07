@@ -947,6 +947,60 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Client'
+  /fake/body-with-file-schema:
+    put:
+      tags:
+        - fake
+      description: 'For this test, the body for this request much reference a schema named `File`.'
+      operationId: testBodyWithFileSchema
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FileSchemaTestClass'
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
+  '/fake/{petId}/uploadImageWithRequiredFile':
+    post:
+      tags:
+        - pet
+      summary: uploads an image (required)
+      description: ''
+      operationId: uploadFileWithRequiredFile
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          type: integer
+          format: int64
+        - name: additionalMetadata
+          in: formData
+          description: Additional data to pass to server
+          required: false
+          type: string
+        - name: file
+          in: formData
+          description: file to upload
+          required: true
+          type: file
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
 securityDefinitions:
   petstore_auth:
     type: oauth2
@@ -1355,6 +1409,12 @@ definitions:
           enum:
             - UPPER
             - lower
+      direct_map:
+        type: object
+        additionalProperties:
+          type: boolean
+      indirect_map:
+        $ref: "#/definitions/StringBooleanMap"
   ArrayTest:
     type: object
     properties:
@@ -1431,7 +1491,7 @@ definitions:
       #        - Cat
       #        - Dog
   OuterEnum:
-    type: "string"
+    type: string
     enum:
     - "placed"
     - "approved"
@@ -1452,3 +1512,22 @@ definitions:
   OuterBoolean:
     type: boolean
     x-codegen-body-parameter-name: boolean_post_body
+  StringBooleanMap:
+    additionalProperties:
+      type: boolean
+  FileSchemaTestClass:
+    type: object
+    properties:
+      file:
+        $ref: "#/definitions/File"
+      files:
+        type: array
+        items:
+          $ref: "#/definitions/File"
+  File:
+    type: object
+    desription: 'Must be named `File` for test.'
+    properties:
+      sourceURI:
+        description: 'Test capitalization'
+        type: string

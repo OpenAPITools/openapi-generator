@@ -99,8 +99,8 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        objs = super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
 
         HashSet<String> modelImports = new HashSet<>();
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");

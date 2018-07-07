@@ -53,56 +53,56 @@ public:
     /// 
     /// </summary>
     int64_t getId() const;
-    void setId(int64_t value);
+    void setId(int64_t const value);
     bool idIsSet() const;
     void unsetId();
     /// <summary>
     /// 
     /// </summary>
     std::string getUsername() const;
-    void setUsername(std::string value);
+    void setUsername(std::string const& value);
     bool usernameIsSet() const;
     void unsetUsername();
     /// <summary>
     /// 
     /// </summary>
     std::string getFirstName() const;
-    void setFirstName(std::string value);
+    void setFirstName(std::string const& value);
     bool firstNameIsSet() const;
     void unsetFirstName();
     /// <summary>
     /// 
     /// </summary>
     std::string getLastName() const;
-    void setLastName(std::string value);
+    void setLastName(std::string const& value);
     bool lastNameIsSet() const;
     void unsetLastName();
     /// <summary>
     /// 
     /// </summary>
     std::string getEmail() const;
-    void setEmail(std::string value);
+    void setEmail(std::string const& value);
     bool emailIsSet() const;
     void unsetEmail();
     /// <summary>
     /// 
     /// </summary>
     std::string getPassword() const;
-    void setPassword(std::string value);
+    void setPassword(std::string const& value);
     bool passwordIsSet() const;
     void unsetPassword();
     /// <summary>
     /// 
     /// </summary>
     std::string getPhone() const;
-    void setPhone(std::string value);
+    void setPhone(std::string const& value);
     bool phoneIsSet() const;
     void unsetPhone();
     /// <summary>
     /// User Status
     /// </summary>
     int32_t getUserStatus() const;
-    void setUserStatus(int32_t value);
+    void setUserStatus(int32_t const value);
     bool userStatusIsSet() const;
     void unsetUserStatus();
 

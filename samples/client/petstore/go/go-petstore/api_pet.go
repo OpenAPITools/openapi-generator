@@ -27,7 +27,7 @@ var (
 
 type PetApiService service
 
-/* 
+/*
 PetApiService Add a new pet to the store
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param pet Pet object that needs to be added to the store
@@ -93,7 +93,7 @@ func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, er
 	return localVarHttpResponse, nil
 }
 
-/* 
+/*
 PetApiService Deletes a pet
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId Pet id to delete
@@ -168,7 +168,7 @@ func (a *PetApiService) DeletePet(ctx context.Context, petId int64, localVarOpti
 	return localVarHttpResponse, nil
 }
 
-/* 
+/*
 PetApiService Finds Pets by status
 Multiple status values can be provided with comma separated strings
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -228,7 +228,7 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -254,7 +254,7 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
 PetApiService Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -314,7 +314,7 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pe
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -340,7 +340,7 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pe
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
 PetApiService Find pet by ID
 Returns a single pet
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -391,7 +391,6 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 				key = auth.Key
 			}
 			localVarHeaderParams["api_key"] = key
-			
 		}
 	}
 
@@ -414,7 +413,7 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -440,7 +439,7 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
 PetApiService Update an existing pet
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param pet Pet object that needs to be added to the store
@@ -506,7 +505,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response,
 	return localVarHttpResponse, nil
 }
 
-/* 
+/*
 PetApiService Updates a pet in the store with form data
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet that needs to be updated
@@ -586,7 +585,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx context.Context, petId int64, loca
 	return localVarHttpResponse, nil
 }
 
-/* 
+/*
 PetApiService uploads an image
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
@@ -671,7 +670,110 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
+			return localVarReturnValue, localVarHttpResponse, err
+		}
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		if localVarHttpResponse.StatusCode == 200 {
+			var v ApiResponse
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+				if err != nil {
+					newErr.error = err.Error()
+					return localVarReturnValue, localVarHttpResponse, newErr
+				}
+				newErr.model = v
+				return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHttpResponse, nil
+}
+
+/*
+PetApiService uploads an image (required)
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param petId ID of pet to update
+ * @param file file to upload
+ * @param optional nil or *UploadFileWithRequiredFileOpts - Optional Parameters:
+ * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
+@return ApiResponse
+*/
+
+type UploadFileWithRequiredFileOpts struct {
+    AdditionalMetadata optional.String
+}
+
+func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId int64, file *os.File, localVarOptionals *UploadFileWithRequiredFileOpts) (ApiResponse, *http.Response, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Post")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+		localVarReturnValue ApiResponse
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/{petId}/uploadImageWithRequiredFile"
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", fmt.Sprintf("%v", petId), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{"multipart/form-data"}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
+		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
+	}
+	localVarFile := file
+	if localVarFile != nil {
+		fbs, _ := ioutil.ReadAll(localVarFile)
+		localVarFileBytes = fbs
+		localVarFileName = localVarFile.Name()
+		localVarFile.Close()
+	}
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}

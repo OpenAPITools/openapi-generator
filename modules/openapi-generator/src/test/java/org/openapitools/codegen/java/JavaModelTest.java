@@ -384,17 +384,17 @@ public class JavaModelTest {
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("ApiModel", "List", "ArrayList", "Children")).size(), 4);
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema schema = new Schema()
-                .description("an map model")
+                .description("a map model")
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.description, "an map model");
+        Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, "HashMap<String, Children>");
         Assert.assertEquals(cm.imports.size(), 4);
@@ -768,7 +768,8 @@ public class JavaModelTest {
     @Test(description = "convert a boolean parameter")
     public void booleanPropertyTest() {
         final BooleanSchema property = new BooleanSchema();
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setBooleanGetterPrefix("is");
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
@@ -943,11 +944,11 @@ public class JavaModelTest {
         Assert.assertTrue(cp.isNotContainer);
         Assert.assertFalse(cp.isLong);
         Assert.assertFalse(cp.isInteger);
-        // Assert.assertTrue(cp.isString); //TODO: issue swagger-api/swagger-codegen#8001
+        Assert.assertTrue(cp.isString);
         Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
-        // Assert.assertEquals(cp.minLength, Integer.valueOf(3)); //TODO: issue swagger-api/swagger-codegen#8001
-        // Assert.assertEquals(cp.maxLength, Integer.valueOf(10)); //TODO: issue swagger-api/swagger-codegen#8001
-        // Assert.assertEquals(cp.pattern, "^[A-Z]+$"); //TODO: issue swagger-api/swagger-codegen#8001
+        Assert.assertEquals(cp.minLength, Integer.valueOf(3));
+        Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
+        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
     }
 
     @Test(description = "convert an array schema")
@@ -1007,7 +1008,7 @@ public class JavaModelTest {
         Assert.assertTrue(co.imports.contains("Pet"));
     }
 
-    @Test(description = "convert an array schema in a ApiResponse")
+    @Test(description = "convert an array schema in an ApiResponse")
     public void arraySchemaTestInOperationResponse() {
         final Schema testSchema = new ArraySchema()
                         .items(new Schema<>().$ref("#/components/schemas/Pet"));
@@ -1029,7 +1030,7 @@ public class JavaModelTest {
         Assert.assertTrue(co.imports.contains("Pet"));
     }
 
-    @Test(description = "convert a array of array schema")
+    @Test(description = "convert an array of array schema")
     public void arrayOfArraySchemaTest() {
         final Schema testSchema = new ObjectSchema()
                 .addProperties("pets", new ArraySchema()
@@ -1087,7 +1088,7 @@ public class JavaModelTest {
         Assert.assertTrue(co.imports.contains("List"));
     }
 
-    @Test(description = "convert a array schema in a ApiResponse")
+    @Test(description = "convert an array schema in an ApiResponse")
     public void arrayOfArraySchemaTestInOperationResponse() {
         final Schema testSchema = new ArraySchema()
                 .items(new ArraySchema()

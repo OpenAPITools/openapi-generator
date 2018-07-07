@@ -21,13 +21,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.samskivert.mustache.Mustache;
 
+import io.swagger.v3.oas.models.OpenAPI;
+
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-
+import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URL;
 import java.util.*;
 
 import static java.util.UUID.randomUUID;
@@ -42,6 +45,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
 
     private boolean useSwashbuckle = true;
+    protected int serverPort = 8080;
+    protected String serverHost = "0.0.0.0";
+
 
     public AspNetCoreServerCodegen() {
         super();
@@ -111,6 +117,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String getHelp() {
         return "Generates an ASP.NET Core Web API server.";
+    }
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI);
+        additionalProperties.put("serverHost", url.getHost());
+        additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
     }
 
     @Override

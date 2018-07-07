@@ -255,7 +255,7 @@ public class PhpModelTest {
         // skip import test as import is not used by PHP codegen
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .description("a map model")
@@ -310,12 +310,14 @@ public class PhpModelTest {
         Assert.assertTrue(prope.isEnum);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
-        HashMap<String, String> fish= new HashMap<String, String>();
+        HashMap<String, Object> fish= new HashMap<String, Object>();
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
-        HashMap<String, String> crab= new HashMap<String, String>();
+        fish.put("isString", false);
+        HashMap<String, Object> crab= new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
+        crab.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items
@@ -343,12 +345,14 @@ public class PhpModelTest {
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 
-        HashMap<String, String> one = new HashMap<String, String>();
+        HashMap<String, Object> one = new HashMap<String, Object>();
         one.put("name", "1");
         one.put("value", "1");
-        HashMap<String, String> minusOne = new HashMap<String, String>();
+        one.put("isString", false);
+        HashMap<String, Object> minusOne = new HashMap<String, Object>();
         minusOne.put("name", "MINUS_1");
         minusOne.put("value", "-1");
+        minusOne.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
     }
 

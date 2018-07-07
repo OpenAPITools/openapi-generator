@@ -23,7 +23,7 @@ public class Cat extends Animal {
    * @return declawed
   **/
   @JsonProperty("declawed")
-  public Boolean isDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 
