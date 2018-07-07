@@ -114,7 +114,7 @@ after_success:
         ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
         echo "Finished ./gradlew uploadArchives";
         popd;
-      elif ([ "$TRAVIS_BRANCH" == "3.1.x" ] || [ "$TRAVIS_BRANCH" == "4.0.x" ]) ; then
+      elif ([ "$TRAVIS_BRANCH" == "3.2.x" ] || [ "$TRAVIS_BRANCH" == "4.0.x" ]) ; then
         mvn clean deploy --settings CI/settings.xml;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
