@@ -144,7 +144,7 @@ testPetOps mgr config =
         _ -> pendingWith "no petId") $
       it "uploadFile" $ \petId -> do
           let uploadFileRequest = S.uploadFile (S.PetId petId)
-                  `S.applyOptionalParam` S.File "package.yaml"
+                  `S.applyOptionalParam` S.File2 "package.yaml"
                   `S.applyOptionalParam` S.AdditionalMetadata "a package.yaml file"
           uploadFileRequestResult <- S.dispatchMime mgr config uploadFileRequest 
           NH.responseStatus (S.mimeResultResponse uploadFileRequestResult) `shouldBe` NH.status200
