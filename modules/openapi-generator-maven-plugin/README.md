@@ -103,4 +103,8 @@ Specifying a custom generator is a bit different. It doesn't support the classpa
 
 ### Sample configuration
 
-- Please see [an example configuration](examples) for using the plugin
+Please see [an example configuration](examples) for using the plugin. To run these examples, explicitly pass the file to maven. Example:
+
+```bash
+mvn -f non-java.xml compile
+```
