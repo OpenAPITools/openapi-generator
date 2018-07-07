@@ -33,6 +33,7 @@ public class TypeScriptNodeClientOptionsProvider implements OptionsProvider {
     public static final String NMP_NAME = "npmName";
     public static final String NMP_VERSION = "1.1.2";
     public static final String NPM_REPOSITORY = "https://registry.npmjs.org";
+    public static final String API_SUFFIX = "Api";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
 

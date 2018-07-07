@@ -1,0 +1,14 @@
+<?php
+{{#apiInfo}}/**
+ * {{appName}}
+ * @version {{appVersion}}
+ */
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use {{invokerPackage}}\SlimRouter;
+{{/apiInfo}}
+
+$router = new SlimRouter();
+$app = $router->getSlimApp();
+$app->run();

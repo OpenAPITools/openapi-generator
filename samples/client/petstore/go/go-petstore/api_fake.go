@@ -26,7 +26,7 @@ var (
 
 type FakeApiService service
 
-/* 
+/*
 FakeApiService
 Test serialization of outer boolean types
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -96,7 +96,7 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -122,7 +122,7 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
 FakeApiService
 Test serialization of object with outer number type
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -196,7 +196,7 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -222,7 +222,7 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
 FakeApiService
 Test serialization of outer number types
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -292,7 +292,7 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarO
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -318,7 +318,7 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarO
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
 FakeApiService
 Test serialization of outer string types
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -388,7 +388,7 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -414,7 +414,74 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
+FakeApiService
+For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param fileSchemaTestClass
+*/
+func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, fileSchemaTestClass FileSchemaTestClass) (*http.Response, error) {
+	var (
+		localVarHttpMethod = strings.ToUpper("Put")
+		localVarPostBody   interface{}
+		localVarFileName   string
+		localVarFileBytes  []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/body-with-file-schema"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	// body params
+	localVarPostBody = &fileSchemaTestClass
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body: localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
+}
+
+/*
 FakeApiService
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param query
@@ -482,8 +549,8 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 	return localVarHttpResponse, nil
 }
 
-/* 
-FakeApiService To test \&quot;client\&quot; model
+/*
+FakeApiService To test \"client\" model
 To test \&quot;client\&quot; model
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param client client model
@@ -543,7 +610,7 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Cl
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
 	}
@@ -569,7 +636,7 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Cl
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
-/* 
+/*
 FakeApiService Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -719,7 +786,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 	return localVarHttpResponse, nil
 }
 
-/* 
+/*
 FakeApiService To test enum parameters
 To test enum parameters
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -828,7 +895,7 @@ func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptiona
 	return localVarHttpResponse, nil
 }
 
-/* 
+/*
 FakeApiService test inline additionalProperties
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param requestBody request body
@@ -894,7 +961,7 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, req
 	return localVarHttpResponse, nil
 }
 
-/* 
+/*
 FakeApiService test json serialization of form data
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param param field1

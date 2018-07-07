@@ -75,6 +75,8 @@ public interface CodegenConfig {
 
     String escapeText(String text);
 
+    String escapeTextWhileAllowingNewLines(String text);
+
     String escapeUnsafeCharacters(String input);
 
     String escapeReservedWord(String name);
@@ -165,6 +167,12 @@ public interface CodegenConfig {
 
     Map<String, Object> postProcessModels(Map<String, Object> objs);
 
+    /**
+     * @deprecated use {@link #postProcessOperationsWithModels(Map, List)} instead. This method will be removed
+     * @param objs the objects map that will be passed to the templating engine
+     * @return the the objects map instance.
+     */
+    @Deprecated
     Map<String, Object> postProcessOperations(Map<String, Object> objs);
 
     Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels);

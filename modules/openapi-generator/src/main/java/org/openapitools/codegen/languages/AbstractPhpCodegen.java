@@ -452,7 +452,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
-            name = modelNamePrefix + name + modelNameSuffix;
+            if (!StringUtils.isEmpty(modelNamePrefix)) {
+                name = modelNamePrefix + "_" + name;
+            }
+
+            if (!StringUtils.isEmpty(modelNameSuffix)) {
+                name = name + "_" + modelNameSuffix;
+            }
         }
 
         // camelize the model name
@@ -650,7 +656,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
