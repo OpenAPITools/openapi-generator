@@ -129,16 +129,16 @@ You can find our released artefacts on maven central:
 
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar`
+JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.0/openapi-generator-cli-3.1.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar -O openapi-generator-cli.jar
+wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.0/openapi-generator-cli-3.1.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.0.0/openapi-generator-cli-3.0.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.0/openapi-generator-cli-3.1.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -147,6 +147,49 @@ For Mac users, please make sure Java 8 is installed (Tips: run `java -version` t
 ```sh
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
+```
+
+### Launcher Script
+
+One downside to manual jar downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](./bin/utils/openapi-generator.cli.sh) which resolves this issue.
+
+To install the launcher script, copy the contents of the script to a location on your path and make the script executable.
+
+An example of setting this up (NOTE: Always evaluate scripts curled from external systems before executing them).
+
+```
+mkdir -p ~/bin/openapitools
+curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator.cli.sh > ~/bin/openapitools/openapi-generator-cli
+chmod u+x ~/bin/openapitools/openapi-generator-cli
+export PATH=$PATH:~/bin/openapitools/
+```
+
+Now, `openapi-generator-cli` is "installed". On invocation, it will query the GitHub repository for the most recently released version. If this matches the last downloaded jar,
+it will execute as normal. If a newer version is found, the script will download the latest release and execute it.
+
+If you need to invoke an older version of the generator, you can define the variable `OPENAPI_GENERATOR_VERSION` either ad hoc or globally. You can export this variable if you'd like to persist a specific release version.
+
+Examples:
+
+```
+# Execute latest released openapi-generator-cli
+openapi-generator-cli version
+
+# Execute version 3.1.0 for the current invocation, regardless of the latest released version
+OPENAPI_GENERATOR_VERSION=3.1.0 openapi-generator-cli version
+
+# Execute version 3.1.0-SNAPSHOT for the current invocation
+OPENAPI_GENERATOR_VERSION=3.1.0-SNAPSHOT openapi-generator-cli version
+
+# Execute version 3.0.2 for every invocation in the current shell session
+export OPENAPI_GENERATOR_VERSION=3.0.2
+openapi-generator-cli version # is 3.0.2
+openapi-generator-cli version # is also 3.0.2
+
+# To "install" a specific version, set the variable in .bashrc/.bash_profile
+echo "export OPENAPI_GENERATOR_VERSION=3.0.2" >> ~/.bashrc
+source ~/.bashrc
+openapi-generator-cli version # is always 3.0.2, unless any of the above overrides are done ad hoc
 ```
 
 ### [1.4 - Build Projects](#table-of-contents)
