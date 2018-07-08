@@ -69,8 +69,11 @@ public:
 	}
 	template<typename T>
 	static nlohmann::json toJson(std::vector<T> val) {
-		// TODO
-		return nlohmann::json();
+		nlohmann::json json;
+		for(auto item : val){
+			json.push_back(item.toJson());
+		}
+		return json;
 	}
 };
 
@@ -82,7 +85,6 @@ public:
 		nlohmann::from_json(json, val);
 		return val;
 	}
-
 	template<typename T>
 	static nlohmann::json toJson(std::vector<T> val) {
 		nlohmann::json json;
@@ -93,7 +95,6 @@ public:
 
 class ModelMapHelper {
 public:
-
 	template<typename T>
 	static std::map<std::string, T> & fromJson(nlohmann::json& json) {
 		T *ptrTest;
@@ -113,14 +114,15 @@ public:
 	template<typename T>
 	static nlohmann::json toJson(std::map<std::string, T> val) {
 		nlohmann::json json;
-		// TODO
+		for (auto const& item : val) {
+		  json[item.first] = item.second.toJson();
+		}
 		return json;
 	}
 };
 
 class MapHelper {
 public:
-
 	template<typename T>
 	static std::map<std::string, T> & fromJson(nlohmann::json& json) {
 		std::map<std::string, T> val;
@@ -136,7 +138,10 @@ public:
 	template<typename T>
 	static nlohmann::json toJson(std::map<std::string, T> val) {
 		nlohmann::json json;
-		// TODO
+		for (auto const& item : val) {
+		  nlohmann::json jitem = item.second;
+		  json[item.first] = jitem;
+		}
 		return json;
 	}
 };
