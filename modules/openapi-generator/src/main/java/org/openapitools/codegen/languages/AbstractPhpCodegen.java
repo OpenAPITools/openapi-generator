@@ -651,6 +651,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toEnumName(CodegenProperty property) {
         String enumName = underscore(toModelName(property.name)).toUpperCase();
 
+        // remove [] for array or map of enum
+        enumName = enumName.replace("[]", "");
+
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
         } else {
