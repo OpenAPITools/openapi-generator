@@ -179,15 +179,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
 
-        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-        } else {
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             // Update model package to contain the specified model package name and the invoker package
             modelPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
         }
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-        } else {
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             // Update api package to contain the specified api package name and the invoker package
             apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
         }
