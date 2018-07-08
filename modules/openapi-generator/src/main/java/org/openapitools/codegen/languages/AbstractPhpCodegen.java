@@ -692,6 +692,16 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public String escapeText(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // Trim the string to avoid leading and trailing spaces.
+        return super.escapeText(input).trim();
+    }
+
     protected String extractSimpleName(String phpClassName) {
         if (phpClassName == null) {
             return null;
