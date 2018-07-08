@@ -158,6 +158,9 @@ samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
 samples/client/petstore/python/.coverage
 samples/client/petstore/python/.projectile
 samples/client/petstore/python/.venv/
+samples/client/petstore/python-asyncio/.venv/
+samples/client/petstore/python-asyncio/.pytest_cache/
+samples/client/petstore/python-tornado/.venv/
 
 # ts
 samples/client/petstore/typescript-node/npm/node_modules
