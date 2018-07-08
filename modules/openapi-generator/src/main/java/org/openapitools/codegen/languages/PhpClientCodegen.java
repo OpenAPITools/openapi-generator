@@ -121,50 +121,10 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(PACKAGE_PATH)) {
-            this.setPackagePath((String) additionalProperties.get(PACKAGE_PATH));
-        } else {
-            additionalProperties.put(PACKAGE_PATH, packagePath);
-        }
-
-        if (additionalProperties.containsKey(SRC_BASE_PATH)) {
-            this.setSrcBasePath((String) additionalProperties.get(SRC_BASE_PATH));
-        } else {
-            additionalProperties.put(SRC_BASE_PATH, srcBasePath);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
-
-            // Update the invokerPackage for the default apiPackage and modelPackage
-            apiPackage = invokerPackage + "\\" + apiDirName;
-            modelPackage = invokerPackage + "\\" + modelDirName;
-        } else {
-            additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            // Update model package to contain the specified model package name and the invoker package
-            modelPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
-        }
-        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-
-        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            // Update model package to contain the specified model package name and the invoker package
-            apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
-        }
-        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-
         if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
             this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
         } else {
             additionalProperties.put(COMPOSER_PROJECT_NAME, composerProjectName);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
-            this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_USER_ID, gitUserId);
         }
 
         if (additionalProperties.containsKey(COMPOSER_VENDOR_NAME)) {
@@ -172,37 +132,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
         } else {
             additionalProperties.put(COMPOSER_VENDOR_NAME, composerVendorName);
         }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
-            this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_REPO_ID, gitRepoId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
-        } else {
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        }
-
-        if (additionalProperties.containsKey(VARIABLE_NAMING_CONVENTION)) {
-            this.setParameterNamingConvention((String) additionalProperties.get(VARIABLE_NAMING_CONVENTION));
-        }
-
-        additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
-
-        // make api and model src path available in mustache template
-        additionalProperties.put("apiSrcPath", "./" + toSrcPath(apiPackage, srcBasePath));
-        additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage, srcBasePath));
-        additionalProperties.put("apiTestPath", "./" + testBasePath + "/" + apiDirName);
-        additionalProperties.put("modelTestPath", "./" + testBasePath + "/" + modelDirName);
-
-        // make api and model doc path available in mustache template
-        additionalProperties.put("apiDocPath", apiDocPath);
-        additionalProperties.put("modelDocPath", modelDocPath);
-
-        // make test path available in mustache template
-        additionalProperties.put("testBasePath", testBasePath);
 
         supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiException.php"));
         supportingFiles.add(new SupportingFile("Configuration.mustache", toPackagePath(invokerPackage, srcBasePath), "Configuration.php"));
