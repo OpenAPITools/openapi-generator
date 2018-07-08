@@ -553,9 +553,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
-                example = p.paramName + "_example";
+                example = "'" + p.paramName + "_example'";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = escapeText(example);
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -578,11 +578,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 example = "2013-10-20";
             }
             example = "new \\DateTime(\"" + escapeText(example) + "\")";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
+        } else if ("\\DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
             example = "new \\DateTime(\"" + escapeText(example) + "\")";
+        } else if ("object".equals(type)) {
+            example = "new \\stdClass";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = "new " + getTypeDeclaration(type) + "()";
