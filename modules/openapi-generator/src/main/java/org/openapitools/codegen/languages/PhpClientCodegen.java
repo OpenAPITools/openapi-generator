@@ -138,16 +138,4 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     public void setComposerProjectName(String composerProjectName) {
         this.composerProjectName = composerProjectName;
     }
-
-    @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation op : operationList) {
-            // for API test method name
-            // e.g. public function test{{vendorExtensions.x-testOperationId}}()
-            op.vendorExtensions.put("x-testOperationId", camelize(op.operationId));
-        }
-        return objs;
-    }
 }

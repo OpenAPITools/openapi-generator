@@ -672,6 +672,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+            // for API test method name
+            // e.g. public function test{{vendorExtensions.x-testOperationId}}()
             op.vendorExtensions.put("x-testOperationId", camelize(op.operationId));
         }
         return objs;
