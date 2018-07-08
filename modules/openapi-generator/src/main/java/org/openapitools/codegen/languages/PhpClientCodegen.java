@@ -85,14 +85,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
                 .defaultValue(Boolean.TRUE.toString()));
     }
 
-    public String getPackagePath() {
-        return packagePath;
-    }
-
-    public String toPackagePath(String packageName, String basePath) {
-        return (getPackagePath() + File.separatorChar + toSrcPath(packageName, basePath));
-    }
-
     @Override
     public String escapeText(String input) {
         if (input != null) {
@@ -155,46 +147,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public String apiFileFolder() {
-        return (outputFolder + "/" + toPackagePath(apiPackage, srcBasePath));
-    }
-
-    @Override
-    public String modelFileFolder() {
-        return (outputFolder + "/" + toPackagePath(modelPackage, srcBasePath));
-    }
-
-    @Override
-    public String apiTestFileFolder() {
-        return (outputFolder + "/" + getPackagePath() + "/" + testBasePath + "/" + apiDirName);
-    }
-
-    @Override
-    public String modelTestFileFolder() {
-        return (outputFolder + "/" + getPackagePath() + "/" + testBasePath + "/" + modelDirName);
-    }
-
-    @Override
-    public String apiDocFileFolder() {
-        return (outputFolder + "/" + getPackagePath() + "/" + apiDocPath);
-    }
-
-    @Override
-    public String modelDocFileFolder() {
-        return (outputFolder + "/" + getPackagePath() + "/" + modelDocPath);
-    }
-
-    @Override
-    public String toModelDocFilename(String name) {
-        return toModelName(name);
-    }
-
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -211,102 +163,12 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         return super.getTypeDeclaration(p);
     }
 
-    @Override
-    public String getTypeDeclaration(String name) {
-        if (!languageSpecificPrimitives.contains(name)) {
-            return "\\" + modelPackage + "\\" + name;
-        }
-        return super.getTypeDeclaration(name);
-    }
-
-    public String getInvokerPackage() {
-        return invokerPackage;
-    }
-
-    public void setInvokerPackage(String invokerPackage) {
-        this.invokerPackage = invokerPackage;
-    }
-
-    public void setArtifactVersion(String artifactVersion) {
-        this.artifactVersion = artifactVersion;
-    }
-
-    public void setPackagePath(String packagePath) {
-        this.packagePath = packagePath;
-    }
-
-    public void setSrcBasePath(String srcBasePath) {
-        this.srcBasePath = srcBasePath;
-    }
-
-    public void setParameterNamingConvention(String variableNamingConvention) {
-        this.variableNamingConvention = variableNamingConvention;
-    }
-
     public void setComposerVendorName(String composerVendorName) {
         this.composerVendorName = composerVendorName;
     }
 
     public void setComposerProjectName(String composerProjectName) {
         this.composerProjectName = composerProjectName;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if ("camelCase".equals(variableNamingConvention)) {
-            // return the name in camelCase style
-            // phone_number => phoneNumber
-            name = camelize(name, true);
-        } else { // default to snake case
-            // return the name in underscore style
-            // PhoneNumber => phone_number
-            name = underscore(name);
-        }
-
-        // parameter name starting with number won't compile
-        // need to escape it by appending _ at the beginning
-        if (name.matches("^\\d.*")) {
-            name = "_" + name;
-        }
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-        // should be the same as the model name
-        return toModelName(name);
-    }
-
-    @Override
-    public String toModelTestFilename(String name) {
-        // should be the same as the model name
-        return toModelName(name) + "Test";
-    }
-
-    @Override
-    public String toOperationId(String operationId) {
-        // throw exception if method name is empty
-        if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
-        }
-
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
-            operationId = "call_" + operationId;
-        }
-
-        return camelize(sanitizeName(operationId), true);
     }
 
     @Override
@@ -377,20 +239,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
-            return "\'" + escapeText(value) + "\'";
-        }
-    }
-
-    @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
-    }
-
-    @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
             return "EMPTY";
@@ -437,12 +285,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
-    }
-
-    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
@@ -452,12 +294,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
             op.vendorExtensions.put("x-testOperationId", camelize(op.operationId));
         }
         return objs;
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
     }
 
     @Override
