@@ -177,35 +177,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
         return (getPackagePath() + File.separatorChar + toSrcPath(packageName, basePath));
     }
 
-    public String toSrcPath(String packageName, String basePath) {
-        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        }
-
-        String regFirstPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regFirstPathSeparator = "^/";
-        } else { // for windows
-            regFirstPathSeparator = "^\\\\";
-        }
-
-        String regLastPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regLastPathSeparator = "/$";
-        } else { // for windows
-            regLastPathSeparator = "\\\\$";
-        }
-
-        return (basePath
-                // Replace period, backslash, forward slash with file separator in package name
-                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
-                // Trim prefix file separators from package path
-                .replaceAll(regFirstPathSeparator, ""))
-                // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator + "$", "");
-    }
-
     @Override
     public String escapeText(String input) {
         if (input != null) {
@@ -403,27 +374,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
         return super.getTypeDeclaration(name);
     }
 
-    @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-
-        String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            } else if (instantiationTypes.containsKey(type)) {
-                return type;
-            }
-        } else {
-            type = openAPIType;
-        }
-        if (type == null) {
-            return null;
-        }
-        return toModelName(type);
-    }
-
     public String getInvokerPackage() {
         return invokerPackage;
     }
@@ -487,45 +437,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
     }
 
     @Override
-    public String toModelName(String name) {
-        // remove [
-        name = name.replaceAll("\\]", "");
-
-        // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
-        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // remove dollar sign
-        name = name.replaceAll("$", "");
-
-        // model name cannot use reserved keyword
-        if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
-        if (!name.matches("^\\\\.*")) {
-            if (!StringUtils.isEmpty(modelNamePrefix)) {
-                name = modelNamePrefix + "_" + name;
-            }
-
-            if (!StringUtils.isEmpty(modelNameSuffix)) {
-                name = name + "_" + modelNameSuffix;
-            }
-        }
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
-    }
-
-    @Override
     public String toModelFilename(String name) {
         // should be the same as the model name
         return toModelName(name);
@@ -551,39 +462,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
         }
 
         return camelize(sanitizeName(operationId), true);
-    }
-
-    /**
-     * Return the default value of the property
-     *
-     * @param p property schema
-     * @return string presentation of the default value of the property
-     */
-    @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + p.getDefault() + "'";
-            }
-        }
-
-        return null;
     }
 
     @Override
