@@ -645,6 +645,7 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
 		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
 	}
+	localVarFormFileName = "file"
 	var localVarFile *os.File
 	if localVarOptionals != nil && localVarOptionals.File.IsSet() {
 		localVarFileOk := false
@@ -653,7 +654,6 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 				return localVarReturnValue, nil, reportError("file should be *os.File")
 		}
 	}
-	localVarFormFileName = "file"
 	if localVarFile != nil {
 		fbs, _ := ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
@@ -757,8 +757,8 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId in
 	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
 		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
 	}
-	localVarFile := requiredFile
 	localVarFormFileName = "requiredFile"
+	localVarFile := requiredFile
 	if localVarFile != nil {
 		fbs, _ := ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs

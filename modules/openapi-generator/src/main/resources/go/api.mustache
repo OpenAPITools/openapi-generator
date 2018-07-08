@@ -178,6 +178,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
+	localVarFormFileName = "{{baseName}}"
 {{#required}}
 	localVarFile := {{paramName}}
 {{/required}}
@@ -191,7 +192,6 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		}
 	}
 {{/required}}
-	localVarFormFileName = "{{baseName}}"
 	if localVarFile != nil {
 		fbs, _ := ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs

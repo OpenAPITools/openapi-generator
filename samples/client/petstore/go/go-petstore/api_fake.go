@@ -741,6 +741,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 	}
 	localVarFormParams.Add("pattern_without_delimiter", parameterToString(patternWithoutDelimiter, ""))
 	localVarFormParams.Add("byte", parameterToString(byte_, ""))
+	localVarFormFileName = "binary"
 	var localVarFile *os.File
 	if localVarOptionals != nil && localVarOptionals.Binary.IsSet() {
 		localVarFileOk := false
@@ -749,7 +750,6 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 				return nil, reportError("binary should be *os.File")
 		}
 	}
-	localVarFormFileName = "binary"
 	if localVarFile != nil {
 		fbs, _ := ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
