@@ -438,8 +438,9 @@ func CacheExpires(r *http.Response) time.Time {
 		lifetime, err := time.ParseDuration(maxAge + "s")
 		if err != nil {
 			expires = now
+		} else {
+			expires = now.Add(lifetime)
 		}
-		expires = now.Add(lifetime)
 	} else {
 		expiresHeader := r.Header.Get("Expires")
 		if expiresHeader != "" {
