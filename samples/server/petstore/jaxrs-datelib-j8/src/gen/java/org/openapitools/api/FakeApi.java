@@ -239,11 +239,11 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
 ,
-            @FormDataParam("file") InputStream fileInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetail
+            @FormDataParam("requiredFile") InputStream requiredFileInputStream,
+            @FormDataParam("requiredFile") FormDataContentDisposition requiredFileDetail
 ,@ApiParam(value = "Additional data to pass to server", defaultValue="null")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFileWithRequiredFile(petId,fileInputStream, fileDetail,additionalMetadata,securityContext);
+        return delegate.uploadFileWithRequiredFile(petId,requiredFileInputStream, requiredFileDetail,additionalMetadata,securityContext);
     }
 }
