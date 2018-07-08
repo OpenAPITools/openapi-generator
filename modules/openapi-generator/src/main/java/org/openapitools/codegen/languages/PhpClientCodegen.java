@@ -53,10 +53,8 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
 
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
-    protected String invokerPackage = "OpenAPI\\Client";
     protected String composerVendorName = null;
     protected String composerProjectName = null;
-    protected String packagePath = "OpenAPIClient-php";
 
     public PhpClientCodegen() {
         super();
@@ -65,8 +63,12 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         // at the moment
         importMapping.clear();
 
+        setInvokerPackage("OpenAPI\\Client");
+        setApiPackage(getInvokerPackage() + "\\" + apiDirName);
+        setModelPackage(getInvokerPackage() + "\\" + modelDirName);
+        setPackagePath("OpenAPIClient-php");
         supportsInheritance = true;
-        outputFolder = "generated-code" + File.separator + "php";
+        setOutputDir("generated-code" + File.separator + "php");
         modelTestTemplateFiles.put("model_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php";
 
