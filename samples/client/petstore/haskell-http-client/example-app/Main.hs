@@ -135,7 +135,7 @@ runPet mgr config = do
 
         -- multipart/form-data file uploads are just a different content-type
         let uploadFileRequest = S.uploadFile (S.PetId pid)
-                `S.applyOptionalParam` S.File "package.yaml" -- the file contents of the path are read when dispatched
+                `S.applyOptionalParam` S.File2 "package.yaml" -- the file contents of the path are read when dispatched
                 `S.applyOptionalParam` S.AdditionalMetadata "a package.yaml file"
         uploadFileRequestResult <- S.dispatchMime mgr config uploadFileRequest 
         mapM_ (\r -> putStrLn $ "uploadFile: " <> show r) uploadFileRequestResult 
