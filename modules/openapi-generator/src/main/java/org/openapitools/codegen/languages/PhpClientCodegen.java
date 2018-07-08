@@ -47,7 +47,7 @@ import io.swagger.v3.oas.models.media.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
 
