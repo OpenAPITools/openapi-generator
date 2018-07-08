@@ -51,24 +51,12 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
 
-    public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
-    public static final String PACKAGE_PATH = "packagePath";
-    public static final String SRC_BASE_PATH = "srcBasePath";
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
     protected String invokerPackage = "OpenAPI\\Client";
     protected String composerVendorName = null;
     protected String composerProjectName = null;
     protected String packagePath = "OpenAPIClient-php";
-    protected String artifactVersion = null;
-    protected String srcBasePath = "lib";
-    protected String testBasePath = "test";
-    protected String docsBasePath = "docs";
-    protected String apiDirName = "Api";
-    protected String modelDirName = "Model";
-    protected String variableNamingConvention = "snake_case";
-    protected String apiDocPath = docsBasePath + "/" + apiDirName;
-    protected String modelDocPath = docsBasePath + "/" + modelDirName;
 
     public PhpClientCodegen() {
         super();
