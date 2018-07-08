@@ -88,15 +88,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public String escapeText(String input) {
-        if (input != null) {
-            // Trim the string to avoid leading and trailing spaces.
-            return super.escapeText(input).trim();
-        }
-        return input;
-    }
-
-    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -138,14 +129,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php_cs", getPackagePath(), ".php_cs"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
-    }
-
-    @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
     }
 
     public void setComposerVendorName(String composerVendorName) {
