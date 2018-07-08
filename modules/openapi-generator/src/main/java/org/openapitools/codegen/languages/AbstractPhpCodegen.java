@@ -551,7 +551,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type)) {
+        if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
@@ -568,12 +568,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             if (example == null) {
                 example = "True";
             }
-        } else if ("\\SplFileObject".equalsIgnoreCase(type)) {
+        } else if ("\\SplFileObject".equalsIgnoreCase(type) || p.isFile) {
             if (example == null) {
-                example = "/path/to/file";
+                example = "/path/to/file.txt";
             }
             example = "\"" + escapeText(example) + "\"";
-        } else if ("Date".equalsIgnoreCase(type)) {
+        } else if ("\\Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
