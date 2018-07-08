@@ -148,23 +148,6 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         return "_" + name;
     }
 
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getTypeDeclaration(inner) + "[]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (StringUtils.isNotBlank(p.get$ref())) {
-            String type = super.getTypeDeclaration(p);
-            return (!languageSpecificPrimitives.contains(type))
-                    ? "\\" + modelPackage + "\\" + type : type;
-        }
-        return super.getTypeDeclaration(p);
-    }
-
     public void setComposerVendorName(String composerVendorName) {
         this.composerVendorName = composerVendorName;
     }
