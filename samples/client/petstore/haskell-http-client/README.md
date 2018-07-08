@@ -36,7 +36,7 @@ to obtain and use the openapi-generator cli tool lives at
 
 https://openapi-generator.tech
 
-The _generator-name_ argument (`--generator-name`) passed to the cli tool used should be 
+The _generator-name_ argument (`--generator-name`) passed to the cli tool used should be
 
 ```
 haskell-http-client
