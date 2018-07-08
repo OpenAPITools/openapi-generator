@@ -685,7 +685,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "");
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     protected String extractSimpleName(String phpClassName) {

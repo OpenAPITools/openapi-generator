@@ -150,10 +150,4 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         }
         return objs;
     }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
 }
