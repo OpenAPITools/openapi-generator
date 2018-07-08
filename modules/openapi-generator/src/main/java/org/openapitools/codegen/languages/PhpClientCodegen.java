@@ -67,51 +67,11 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
 
         supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "php";
-        modelTemplateFiles.put("model.mustache", ".php");
-        apiTemplateFiles.put("api.mustache", ".php");
         modelTestTemplateFiles.put("model_test.mustache", ".php");
-        apiTestTemplateFiles.put("api_test.mustache", ".php");
         embeddedTemplateDir = templateDir = "php";
-        apiPackage = invokerPackage + "\\" + apiDirName;
-        modelPackage = invokerPackage + "\\" + modelDirName;
-
-        modelDocTemplateFiles.put("model_doc.mustache", ".md");
-        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
-
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // local variables used in api methods (endpoints)
-                        "resourcePath", "httpBody", "queryParams", "headerParams",
-                        "formParams", "_header_accept", "_tempBody",
-
-                        // PHP reserved words
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
-        );
-
-        // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "bool",
-                        "boolean",
-                        "int",
-                        "integer",
-                        "double",
-                        "float",
-                        "string",
-                        "object",
-                        "DateTime",
-                        "mixed",
-                        "number",
-                        "void",
-                        "byte")
-        );
-
-        instantiationTypes.put("array", "array");
-        instantiationTypes.put("map", "map");
-
 
         // provide primitives to mustache template
         List sortedLanguageSpecificPrimitives = new ArrayList(languageSpecificPrimitives);
@@ -119,40 +79,8 @@ public class PhpClientCodegen extends AbstractPhpCodegen implements CodegenConfi
         String primitives = "'" + StringUtils.join(sortedLanguageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
 
-        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "int");
-        typeMapping.put("number", "float");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("string", "string");
-        typeMapping.put("byte", "int");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "\\DateTime");
-        typeMapping.put("Date", "\\DateTime");
-        typeMapping.put("DateTime", "\\DateTime");
-        typeMapping.put("file", "\\SplFileObject");
-        typeMapping.put("map", "map");
-        typeMapping.put("array", "array");
-        typeMapping.put("list", "array");
-        typeMapping.put("object", "object");
-        typeMapping.put("binary", "\\SplFileObject");
-        typeMapping.put("ByteArray", "string");
-        typeMapping.put("UUID", "string");
-
-        cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
-        cliOptions.add(new CliOption(VARIABLE_NAMING_CONVENTION, "naming convention of variable name, e.g. camelCase.")
-                .defaultValue("snake_case"));
-        cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
-        cliOptions.add(new CliOption(PACKAGE_PATH, "The main package name for classes. e.g. GeneratedPetstore"));
-        cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory under packagePath to serve as source root."));
         cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next openapi-generator release"));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
         cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next openapi-generator release"));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
     }
