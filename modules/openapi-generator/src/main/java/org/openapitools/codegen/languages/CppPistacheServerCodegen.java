@@ -45,7 +45,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
     protected boolean isAddExternalLibs = true;
     public static final String OPTIONAL_EXTERNAL_LIB = "addExternalLibs";
-    public static final String OPTIONL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
+    public static final String OPTIONAL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -79,7 +79,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         embeddedTemplateDir = templateDir = "cpp-pistache-server";
 
         cliOptions.clear();
-        addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);
+        addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONAL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);
 
         reservedWords = new HashSet<>();
 
