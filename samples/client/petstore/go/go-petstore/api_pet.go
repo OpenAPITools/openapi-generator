@@ -709,7 +709,7 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 PetApiService uploads an image (required)
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param petId ID of pet to update
- * @param file file to upload
+ * @param requiredFile file to upload
  * @param optional nil or *UploadFileWithRequiredFileOpts - Optional Parameters:
  * @param "AdditionalMetadata" (optional.String) -  Additional data to pass to server
 @return ApiResponse
@@ -719,7 +719,7 @@ type UploadFileWithRequiredFileOpts struct {
     AdditionalMetadata optional.String
 }
 
-func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId int64, file *os.File, localVarOptionals *UploadFileWithRequiredFileOpts) (ApiResponse, *http.Response, error) {
+func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId int64, requiredFile *os.File, localVarOptionals *UploadFileWithRequiredFileOpts) (ApiResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody     interface{}
@@ -757,8 +757,8 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId in
 	if localVarOptionals != nil && localVarOptionals.AdditionalMetadata.IsSet() {
 		localVarFormParams.Add("additionalMetadata", parameterToString(localVarOptionals.AdditionalMetadata.Value(), ""))
 	}
-	localVarFile := file
-	localVarFormFileName = "file"
+	localVarFile := requiredFile
+	localVarFormFileName = "requiredFile"
 	if localVarFile != nil {
 		fbs, _ := ioutil.ReadAll(localVarFile)
 		localVarFileBytes = fbs
