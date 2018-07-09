@@ -2,13 +2,12 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-{{#imports}}
-#include "{{{.}}}.h"
-{{/imports}}
+#include "{import=models.array}.h"
+#include "{import=models.user}.h"
 
 #define MAX_BUFFER_LENGTH 4096
 
-{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}},{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+void *UserAPI_(apiClient_t *apiClient) {
 	pet_t *pet;
 
 
@@ -19,27 +18,13 @@
 
 
     // TODO header parameters
-    {{#headerParams}}
-    // header parameter {{paramName}} ({{baseName}}) not yet supported
-    {{/headerParams}}
 
     // TODO query parameters
-    {{#queryParams}}
-    // query parameter {{paramName}} ({{baseName}}) not yet supported
-    {{/queryParams}}
 
     // TODO form parameters
-    {{#formParams}}
-    // form parameter {{paramName}} ({{baseName}}) not yet supported
-    {{/formParams}}
 
     // http body (model)
-    {{^bodyParam}}
     post_body = nil
-    {{/bodyParam}}
-    {{#bodyParam}}
-    {{paramName}}JSONObject = {{dataType}}_convertToJSON({{paramName}});
-    {{/bodyParam}}
 
 	apiClient_invoke(apiClient,
 	                 "pet",
@@ -54,15 +39,7 @@
 		cJSON_Delete(jsonObject);
 	}
 
-	{{#allParams}}
-	free({{{paramName}}}String);
-	{{/allParams}}
-    {{#returnType}}
-	return {{{returnType}}};
-	{{/returnType}}
-    {{^returnType}}
 	return;
-	{{/returnType}}
 
 }
 
