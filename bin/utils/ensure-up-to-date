@@ -17,9 +17,9 @@ sleep 5
 ./bin/kotlin-client-petstore.sh > /dev/null 2>&1
 ./bin/kotlin-client-string.sh > /dev/null 2>&1
 ./bin/kotlin-client-threetenbp.sh > /dev/null 2>&1
-./bin/kotlin-server-petstore.shl> /dev/null 2>&1
+./bin/kotlin-server-petstore.sh > /dev/null 2>&1
 ./bin/php-petstore.sh > /dev/null 2>&1
-./bin/php-silex-petstore-server.shj> /dev/null 2>&1
+./bin/php-silex-petstore-server.sh > /dev/null 2>&1
 ./bin/php-symfony-petstore.sh > /dev/null 2>&1
 ./bin/php-lumen-petstore-server.sh > /dev/null 2>&1
 ./bin/php-slim-petstore-server.sh > /dev/null 2>&1
