@@ -70,14 +70,14 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separator + "C";
-        modelTemplateFiles.put("model.mustache", ".rb");
-        apiTemplateFiles.put("api.mustache", ".rb");
+        modelTemplateFiles.put("model.mustache", ".c");
+        apiTemplateFiles.put("api.mustache", ".c");
         //modelDocTemplateFiles.put("model_doc.mustache", ".md");
         //apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C";
 
-        modelTestTemplateFiles.put("model_test.mustache", ".rb");
-        apiTestTemplateFiles.put("api_test.mustache", ".rb");
+        modelTestTemplateFiles.put("model_test.mustache", ".c");
+        apiTestTemplateFiles.put("api_test.mustache", ".c");
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -406,9 +406,7 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = name.toLowerCase();
         }
 
-        // camelize (lower first character) the variable name
-        // pet_id => petId
-        name = camelize(name);
+        name = underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -421,7 +419,7 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        return toVarName(name);
+        return camelize(toVarName(name));
     }
 
     @Override
@@ -451,7 +449,7 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return underscore(name);
     }
 
     @Override
