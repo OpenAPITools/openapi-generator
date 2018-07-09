@@ -1,0 +1,42 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "apiClient.h"
+#include "cJSON.h"
+{{#imports}}
+#include "{{{.}}}.h"
+{{/imports}}
+
+#define MAX_BUFFER_LENGTH 256
+
+{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}},{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+	pet_t *pet;
+
+
+	char *petIdString = malloc(MAX_BUFFER_LENGTH);
+
+	snprintf(petIdString, MAX_BUFFER_LENGTH, "%li", petId);
+
+	apiClient_invoke(apiClient,
+	                 "pet",
+	                 petIdString,
+	                 NULL);
+	pet = pet_parseFromJSON(apiClient->dataReceived);
+	free(apiClient->dataReceived);
+	if(pet == NULL) {
+		return 0;
+	} else {
+		cJSON *jsonObject = pet_convertToJSON(pet);
+		cJSON_Delete(jsonObject);
+	}
+
+	{{#allParams}}
+	free({{{paramName}}}String);
+	{{/allParams}}
+    {{#returnType}}
+	return {{{returnType}}};
+	{{/returnType}}
+    {{^returnType}}
+	return;
+	{{/returnType}}
+
+}
