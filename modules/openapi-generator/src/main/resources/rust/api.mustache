@@ -63,6 +63,16 @@ impl<C: hyper::client::Connect>{{classname}} for {{classname}}Client<C> {
             .with_header_param("{{baseName}}".to_string(), {{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
         {{/headerParams}}
         {{/hasHeaderParams}}
+        {{#hasFormParams}}
+        {{#formParams}}
+        {{#isFile}}
+            .with_form_param("{{baseName}}".to_string(), unimplemented!())
+        {{/isFile}}
+        {{^isFile}}
+            .with_form_param("{{baseName}}".to_string(), {{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
+        {{/isFile}}
+        {{/formParams}}
+        {{/hasFormParams}}
         {{#hasBodyParam}}
         {{#bodyParams}}
             .with_body_param({{paramName}})

@@ -107,6 +107,8 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
         __internal_request::Request::new(hyper::Method::Post, "/pet/{petId}/uploadImage".to_string())
             .with_auth(__internal_request::Auth::Oauth)
             .with_path_param("petId".to_string(), pet_id.to_string())
+            .with_form_param("additionalMetadata".to_string(), additional_metadata.to_string())
+            .with_form_param("file".to_string(), unimplemented!())
             .execute(self.configuration.borrow())
     }
 

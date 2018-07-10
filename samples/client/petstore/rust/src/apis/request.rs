@@ -38,6 +38,7 @@ pub(crate) struct Request {
     query_params: HashMap<String, String>,
     no_return_type: bool,
     path_params: HashMap<String, String>,
+    form_params: HashMap<String, String>,
     header_params: HashMap<String, String>,
     // TODO: multiple body params are possible technically, but not supported here.
     serialized_body: Option<String>,
@@ -51,6 +52,7 @@ impl Request {
             path: path,
             query_params: HashMap::new(),
             path_params: HashMap::new(),
+            form_params: HashMap::new(),
             header_params: HashMap::new(),
             serialized_body: None,
             no_return_type: false,
@@ -179,6 +181,15 @@ impl Request {
             for (key, val) in raw_headers {
                 req_headers.set_raw(key, val);
             }
+        }
+
+        if self.form_params.len() > 0 {
+            req.headers_mut().set(hyper::header::ContentType::form_url_encoded());
+            let mut enc = ::url::form_urlencoded::Serializer::new("".to_owned());
+            for (k, v) in self.form_params {
+                enc.append_pair(&k, &v);
+            }
+            req.set_body(enc.finish());
         }
 
         if let Some(body) = self.serialized_body {
