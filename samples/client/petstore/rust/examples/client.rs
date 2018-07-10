@@ -20,16 +20,16 @@ fn main() {
         ),
     );
 
-    let new_pet = petstore_client::models::Pet::new("barker".to_owned(), vec![]).with_id(1337);
+    let new_pet = petstore_client::models::Pet::new("ferris".to_owned(), vec![]).with_id(128149);
     let work = apicli
         .pet_api()
         .add_pet(new_pet)
         .and_then(|_| {
             apicli
                 .pet_api()
-                .update_pet_with_form(1337, "barko", "escaped")
+                .update_pet_with_form(128149, "ferris", "rusted")
         })
-        .and_then(|_| apicli.pet_api().get_pet_by_id(1337))
+        .and_then(|_| apicli.pet_api().get_pet_by_id(128149))
         .and_then(|pet| {
             println!("pet: {:?}", pet);
             futures::future::ok(())
