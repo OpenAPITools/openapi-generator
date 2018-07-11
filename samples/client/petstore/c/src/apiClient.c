@@ -56,10 +56,10 @@ char *assembleHeader(char *key, char *value) {
 	return header;
 }
 
-void postData(CURL *handle, char *dataToPost) {
-	curl_easy_setopt(handle, CURLOPT_POSTFIELDS, dataToPost);
+void postData(CURL *handle, char *bodyParameters) {
+	curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
 	curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
-	                 strlen(dataToPost));
+	                 strlen(bodyParameters));
 	curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "POST");
 }
 
@@ -67,7 +67,7 @@ void postData(CURL *handle, char *dataToPost) {
 void apiClient_invoke(apiClient_t	*apiClient,
                       char		*operationName,
                       char		*operationParameter,
-                      char		*dataToPost) {
+                      char		*bodyParameters) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
 
@@ -148,8 +148,8 @@ void apiClient_invoke(apiClient_t	*apiClient,
 
 		#endif // BASIC_AUTH
 
-		if(dataToPost != NULL) {
-			postData(handle, dataToPost);
+		if(bodyParameters != NULL) {
+			postData(handle, bodyParameters);
 		}
 
 		res = curl_easy_perform(handle);
