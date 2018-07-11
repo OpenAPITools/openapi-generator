@@ -86,7 +86,7 @@ jobs:
     # Test
     #   This would typically be a build job when using workflows, possibly combined with build
     # This is based on your 1.0 configuration file or project settings
-    - run: ls ~/ivy2/cache
+    - run: ls ~/.ivy2/cache
     #- run: java -version
     #- run: mvn --quiet clean install
     #- run: mvn --quiet verify -Psamples
