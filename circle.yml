@@ -86,16 +86,17 @@ jobs:
     # Test
     #   This would typically be a build job when using workflows, possibly combined with build
     # This is based on your 1.0 configuration file or project settings
-    - run: java -version
-    - run: mvn --quiet clean install
-    - run: mvn --quiet verify -Psamples
-    - run: if [ $? -ne 0 ]; then exit 1; fi
-    - run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-    - run: java -version
-    - run: cp CI/pom.xml.circleci.java7 pom.xml
-    - run: mvn --quiet clean install
-    - run: mvn --quiet verify -Psamples
-    - run: if [ $? -ne 0 ]; then exit 1; fi
+    - run: ls ~/ivy2/cache
+    #- run: java -version
+    #- run: mvn --quiet clean install
+    #- run: mvn --quiet verify -Psamples
+    #- run: if [ $? -ne 0 ]; then exit 1; fi
+    #- run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+    #- run: java -version
+    #- run: cp CI/pom.xml.circleci.java7 pom.xml
+    #- run: mvn --quiet clean install
+    #- run: mvn --quiet verify -Psamples
+    #- run: if [ $? -ne 0 ]; then exit 1; fi
     # Teardown
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
     # Save test results
