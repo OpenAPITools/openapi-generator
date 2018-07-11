@@ -73,13 +73,13 @@ jobs:
     #- run: java -version
     - run: mvn --quiet clean install
     - run: mvn --quiet verify -Psamples
-    #- run: if [ $? -ne 0 ]; then exit 1; fi
-    #- run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-    #- run: java -version
-    #- run: cp CI/pom.xml.circleci.java7 pom.xml
-    #- run: mvn --quiet clean install
-    #- run: mvn --quiet verify -Psamples
-    #- run: if [ $? -ne 0 ]; then exit 1; fi
+    - run: if [ $? -ne 0 ]; then exit 1; fi
+    - run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+    - run: java -version
+    - run: cp CI/pom.xml.circleci.java7 pom.xml
+    - run: mvn --quiet clean install
+    - run: mvn --quiet verify -Psamples
+    - run: if [ $? -ne 0 ]; then exit 1; fi
     # Save dependency cache
     - save_cache:
         key: source-v1-{{ .Branch }}-{{ .Revision }}
