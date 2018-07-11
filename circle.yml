@@ -67,6 +67,7 @@ jobs:
     - run: cat /etc/hosts
     # This is based on your 1.0 configuration file or project settings
     - run: cp CI/pom.xml.circleci pom.xml
+    - run: ls ~/.ivy2/cache
     # Save dependency cache
     - save_cache:
         key: v1-dep-{{ .Branch }}
