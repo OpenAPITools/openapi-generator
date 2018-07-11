@@ -3,6 +3,7 @@ package org.openapitools.codegen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CodegenDiscriminator {
     private String propertyName;
@@ -52,5 +53,19 @@ public class CodegenDiscriminator {
         public void setModel(CodegenModel model) {
             this.model = model;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CodegenDiscriminator that = (CodegenDiscriminator) o;
+        return Objects.equals(propertyName, that.propertyName) &&
+            Objects.equals(mapping, that.mapping);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(propertyName, mapping);
     }
 }

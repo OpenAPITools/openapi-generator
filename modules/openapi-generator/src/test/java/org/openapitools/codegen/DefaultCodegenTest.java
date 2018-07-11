@@ -356,6 +356,28 @@ public class DefaultCodegenTest {
         Assert.assertEquals(codegenParameter2.example, "An example4 value");
     }
 
+    @Test
+    public void testInherinceWithCustomMapping() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        String path = "/person/display/{personId}";
+        Operation operation = openAPI.getPaths().get(path).getGet();
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI.getComponents().getSchemas());
+        verifyDiscriminator(codegenOperation.discriminator);
+
+        Schema person = openAPI.getComponents().getSchemas().get("Person");
+        CodegenModel personModel = codegen.fromModel(person.getName(), person, openAPI.getComponents().getSchemas());
+        verifyDiscriminator(personModel.discriminator);
+    }
+
+    private void verifyDiscriminator(CodegenDiscriminator discriminator) {
+        Assert.assertNotNull(discriminator);
+        Assert.assertEquals(discriminator.getMappedModels().size(), 2);
+        Assert.assertEquals(discriminator.getMappedModels().get(0).getMappingName(), "a");
+        Assert.assertEquals(discriminator.getMappedModels().get(1).getMappingName(), "c");
+    }
+
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
         CodegenProperty array = new CodegenProperty();
         final CodegenProperty items = new CodegenProperty();

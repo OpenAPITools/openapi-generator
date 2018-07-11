@@ -1,7 +1,8 @@
 {{#jackson}}
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{{discriminatorName}}}", visible = true )
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "{{{discriminatorName}}}", visible = true)
 @JsonSubTypes({
-  {{#children}}
-  @JsonSubTypes.Type(value = {{classname}}.class, name = "{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"),
-  {{/children}}
+  {{#discriminator.mappedModels}}
+  @JsonSubTypes.Type(value = {{model.name}}.class, name = "{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"),
+  {{/discriminator.mappedModels}}
 }){{/jackson}}
