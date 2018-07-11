@@ -1475,6 +1475,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         // unalias schema
         schema = ModelUtils.unaliasSchema(allDefinitions, schema);
+        if (schema == null) {
+            LOGGER.warn("Schema {} not found", name);
+            return null;
+        }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
 
