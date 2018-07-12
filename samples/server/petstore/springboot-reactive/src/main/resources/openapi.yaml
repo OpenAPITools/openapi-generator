@@ -1321,6 +1321,14 @@ components:
       type: object
       xml:
         name: Order
+    EnumClassDuplicate:
+      default: -efg
+      description: This schema is to test duplicate constant names. To be used with `EnumClass`.
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
     AdditionalPropertiesClass:
       properties:
         map_property:

@@ -130,6 +130,7 @@ Class | Method | HTTP request | Description
  - [Dog](docs/Model/Dog.md)
  - [EnumArrays](docs/Model/EnumArrays.md)
  - [EnumClass](docs/Model/EnumClass.md)
+ - [EnumClassDuplicate](docs/Model/EnumClassDuplicate.md)
  - [EnumTest](docs/Model/EnumTest.md)
  - [FormatTest](docs/Model/FormatTest.md)
  - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
