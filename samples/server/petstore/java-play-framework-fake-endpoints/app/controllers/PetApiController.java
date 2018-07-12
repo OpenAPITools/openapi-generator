@@ -177,4 +177,25 @@ public class PetApiController extends Controller {
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
+
+    @ApiAction
+    public Result uploadFileWithRequiredFile(Long petId) throws Exception {
+        String valueadditionalMetadata = (request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
+        String additionalMetadata;
+        if (valueadditionalMetadata != null) {
+            additionalMetadata = valueadditionalMetadata;
+        } else {
+            additionalMetadata = "null";
+        }
+        Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
+        if ((file == null || ((File) file.getFile()).length() == 0)) {
+            throw new IllegalArgumentException("'file' file cannot be empty");
+        }
+        ModelApiResponse obj = imp.uploadFileWithRequiredFile(petId, file, additionalMetadata);
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+        }
+        JsonNode result = mapper.valueToTree(obj);
+        return ok(result);
+    }
 }
