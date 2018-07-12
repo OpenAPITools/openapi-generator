@@ -4,9 +4,7 @@
 
 use futures::{self, Future};
 use chrono;
-{{#apiHasFile}}use futures::Stream;{{/apiHasFile}}
 use std::collections::HashMap;
-{{#apiHasFile}}use std::io::Error;{{/apiHasFile}}
 use std::marker::PhantomData;
 {{#apiUsesUuid}}use uuid;{{/apiUsesUuid}}
 use swagger;

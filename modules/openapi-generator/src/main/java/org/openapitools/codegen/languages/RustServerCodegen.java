@@ -710,8 +710,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
             }
-
-            // additionalProperties.put("apiHasFile", true);
         }
 
         return objs;

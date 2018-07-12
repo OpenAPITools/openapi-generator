@@ -6,9 +6,7 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-
 extern crate serde_urlencoded;
-
 
 
 use hyper;
@@ -298,8 +296,6 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -377,8 +373,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -452,8 +446,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_COMPOSITE_SERIALIZE.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -531,8 +523,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -606,8 +596,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_STRING_SERIALIZE.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -687,8 +675,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -750,8 +736,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLIENT_MODEL.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -846,8 +830,6 @@ if let Some(body) = body {
             }
         });
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -936,8 +918,6 @@ if let Some(body) = body {
         param_enum_header_string.map(|header| request.headers_mut().set(RequestEnumHeaderString(header)));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1010,8 +990,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1074,8 +1052,6 @@ if let Some(body) = body {
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1141,8 +1117,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLASSNAME.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1220,8 +1194,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1283,8 +1255,6 @@ if let Some(body) = body {
         param_api_key.map(|header| request.headers_mut().set(RequestApiKey(header)));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1344,8 +1314,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1430,8 +1398,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1508,8 +1474,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1605,8 +1569,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1689,8 +1651,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1753,8 +1713,6 @@ if let Some(body) = body {
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1824,8 +1782,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1890,8 +1846,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1959,8 +1913,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -2056,8 +2008,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2144,8 +2094,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2207,8 +2155,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_ARRAY_INPUT.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -2274,8 +2220,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2331,8 +2275,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -2399,8 +2341,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -2496,8 +2436,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2586,8 +2524,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2649,8 +2585,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_USER.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)

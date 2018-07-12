@@ -7,7 +7,6 @@ extern crate openssl;
 extern crate mime;
 {{^apiUsesUuid}}extern crate uuid;{{/apiUsesUuid}}
 extern crate chrono;
-{{#apiHasFile}}extern crate multipart;{{/apiHasFile}}
 extern crate percent_encoding;
 extern crate url;
 
@@ -20,8 +19,6 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-{{#apiHasFile}}use self::multipart::server::Multipart;
-use self::multipart::server::save::SaveResult;{{/apiHasFile}}
 
 use serde_json;
 {{#usesXml}}use serde_xml_rs;{{/usesXml}}
@@ -277,47 +274,7 @@ where
                                 };
 {{/required}}
 {{/-first}}{{/bodyParams}}
-{{^bodyParams}}{{#vendorExtensions}}{{#hasFile}}
-                let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
-                };
-
-                Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
-                        match result {
-                            Ok(body) => {
-                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
-                                    SaveResult::Full(entries) => {
-                                        entries
-                                    },
-                                    _ => {
-                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
-                                    },
-                                };
-{{#formParams}}{{#-first}}
-                                // Form parameters
-{{/-first}}
-                                let param_{{paramName}} = entries.fields.remove("{{paramName}}");
-                                let param_{{paramName}} = match param_{{paramName}} {
-                                    Some(entry) =>
-                                        match entry.parse::<{{{dataType}}}>() {
-                                            Ok(entry) => {{^required}}Some({{/required}}entry{{^required}}){{/required}},
-{{#required}}
-                                            Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse form parameter {{baseName}} - doesn't match schema: {}", e)))),
-{{/required}}{{^required}}
-                                            Err(_) => None,
-{{/required}}
-                                        },
-{{#required}}
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter {{paramName}}")))),
-{{/required}}{{^required}}
-                                    None => None,
-{{/required}}
-                                };
-{{^required}}{{/required}}
-{{/formParams}}
-{{/hasFile}}{{^hasFile}}
+{{^bodyParams}}{{#vendorExtensions}}
                 Box::new({
                         {{
 {{#formParams}}{{#-first}}
@@ -325,7 +282,7 @@ where
 {{/-first}}
                                 let param_{{paramName}} = {{^isContainer}}{{#vendorExtensions}}{{{example}}};{{/vendorExtensions}}{{/isContainer}}{{#isListContainer}}{{#required}}Vec::new();{{/required}}{{^required}}None;{{/required}}{{/isListContainer}}{{#isMapContainer}}None;{{/isMapContainer}}
 {{/formParams}}
-{{/hasFile}}{{/vendorExtensions}}{{/bodyParams}}
+{{/vendorExtensions}}{{/bodyParams}}
                                 Box::new(api_impl.{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}param_{{paramName}}{{#isListContainer}}.as_ref(){{/isListContainer}}, {{/allParams}}&context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -395,17 +352,10 @@ where
                                         future::ok(response)
                                     }
                                 ))
-{{^bodyParams}}{{#vendorExtensions}}{{^hasFile}}
+{{^bodyParams}}{{#vendorExtensions}}
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
-{{/hasFile}}{{#hasFile}}
-                                as Box<Future<Item=Response, Error=Error>>
-                            },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
-                        }
-                    })
-                )
-{{/hasFile}}{{/vendorExtensions}}{{/bodyParams}}
+{{/vendorExtensions}}{{/bodyParams}}
 {{#bodyParams}}{{#-first}}
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter {{baseName}}: {}", e)))),
@@ -417,35 +367,6 @@ where
 
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
-        }
-    }
-}
-
-{{#apiHasFile}}
-/// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
-        if mime.type_() == mime::MULTIPART && mime.subtype() == mime::FORM_DATA {
-            mime.get_param(mime::BOUNDARY).map(|x| x.as_str())
-        } else {
-            None
-        }
-    })
-}
-{{/apiHasFile}}
-
-/// Request parser for `Api`.
-pub struct ApiRequestParser;
-
-impl RequestParser for ApiRequestParser {
-    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
-        let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-            // {{operationId}} - {{httpMethod}} {{path}}
-            &hyper::Method::{{vendorExtensions.HttpMethod}} if path.matched(paths::ID_{{vendorExtensions.PATH_ID}}) => Ok("{{operationId}}"),
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}            _ => Err(()),
         }
     }
 }

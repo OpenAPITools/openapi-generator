@@ -4,9 +4,7 @@
 
 use futures::{self, Future};
 use chrono;
-
 use std::collections::HashMap;
-
 use std::marker::PhantomData;
 
 use swagger;

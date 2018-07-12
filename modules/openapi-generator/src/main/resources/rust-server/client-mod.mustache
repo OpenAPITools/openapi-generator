@@ -6,11 +6,9 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-{{#apiHasFile}}extern crate multipart;{{/apiHasFile}}
 {{#usesUrlEncodedForm}}extern crate serde_urlencoded;{{/usesUrlEncodedForm}}
 
 {{#apiUsesUuid}}use uuid;{{/apiUsesUuid}}
-{{#apiHasFile}}use self::multipart::client::lazy::Multipart;{{/apiHasFile}}
 use hyper;
 use hyper::header::{Headers, ContentType};
 use hyper::Uri;
@@ -259,13 +257,13 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::{{#vendorExtensions}}{{HttpMethod}}{{/vendorExtensions}}, uri);
 
-{{#vendorExtensions}}{{^hasFile}}{{#formParams}}{{#-first}}        let params = &[{{/-first}}
+{{#vendorExtensions}}{{#formParams}}{{#-first}}        let params = &[{{/-first}}
             ("{{baseName}}", {{#vendorExtensions}}{{#required}}Some({{#isString}}param_{{paramName}}{{/isString}}{{^isString}}format!("{:?}", param_{{paramName}}){{/isString}}){{/required}}{{^required}}{{#isString}}param_{{paramName}}{{/isString}}{{^isString}}param_{{paramName}}.map(|param| format!("{:?}", param)){{/isString}}{{/required}}),{{/vendorExtensions}}{{#-last}}
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
         request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}.clone()));
-        request.set_body(body.into_bytes());{{/-last}}{{/formParams}}{{/hasFile}}{{/vendorExtensions}}{{#bodyParam}}{{#-first}}
+        request.set_body(body.into_bytes());{{/-last}}{{/formParams}}{{/vendorExtensions}}{{#bodyParam}}{{#-first}}
         // Body parameter
 {{/-first}}{{#vendorExtensions}}{{#required}}{{#consumesPlainText}}        let body = param_{{paramName}};{{/consumesPlainText}}{{#consumesXml}}
 {{^has_namespace}}        let body = serde_xml_rs::to_string(&param_{{paramName}}).expect("impossible to fail to serialize");{{/has_namespace}}{{#has_namespace}}
@@ -305,11 +303,6 @@ impl<F, C> Api<C> for Client<F> where
 {{/required}}{{^required}}        param_{{paramName}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.typeName}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
 {{/required}}{{/isMapContainer}}{{#isMapContainer}}                let param_{{paramName}}: Option<{{{dataType}}}> = None;
 {{/isMapContainer}}{{/headerParams}}
-
-{{#vendorExtensions}}{{#hasFile}}
-        request.headers_mut().set(ContentType(multipart_header));
-        request.set_body(body_string.into_bytes());
-{{/hasFile}}{{/vendorExtensions}}
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
