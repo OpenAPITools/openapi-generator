@@ -1228,6 +1228,14 @@ definitions:
       - _abc
       - '-efg'
       - (xyz)
+  EnumClassDuplicate:
+    description: This schema is to test duplicate constant names. To be used with `EnumClass`.
+    type: string
+    default: '-efg'
+    enum:
+      - _abc
+      - '-efg'
+      - (xyz)
   Enum_Test:
     type: object
     required:
