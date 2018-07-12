@@ -72,6 +72,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -1499,7 +1500,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.getVendorExtensions().putAll(schema.getExtensions());
         }
         m.isAlias = typeAliases.containsKey(name);
-        m.discriminator = createDiscriminator(schema, allDefinitions);
+        m.discriminator = createDiscriminator(name, schema, allDefinitions);
 
         if (schema.getXml() != null) {
             m.xmlPrefix = schema.getXml().getPrefix();
@@ -1526,7 +1527,7 @@ public class DefaultCodegen implements CodegenConfig {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
                     for (Schema innerModel : composed.getAllOf()) {
                         if (m.discriminator == null) {
-                            m.discriminator = createDiscriminator(schema, allDefinitions);
+                            m.discriminator = createDiscriminator(name, schema, allDefinitions);
                         }
                         if (innerModel.getXml() != null) {
                             m.xmlPrefix = innerModel.getXml().getPrefix();
@@ -1641,23 +1642,30 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private CodegenDiscriminator createDiscriminator(Schema schema, Map<String, Schema> allDefinitions) {
+    private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, Map<String, Schema> allDefinitions) {
         if(schema.getDiscriminator() == null) {
             return null;
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(schema.getDiscriminator().getPropertyName());
         discriminator.setMapping(schema.getDiscriminator().getMapping());
-        if(schema.getDiscriminator().getMapping() != null) {
+        if(schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
                 String name = ModelUtils.getSimpleRef(e.getValue());
-                Schema referencedSchema = allDefinitions.get(name);
-                CodegenModel model = fromModel(name, referencedSchema, allDefinitions);
-                MappedModel mappedModel = new MappedModel();
-                mappedModel.setMappingName(e.getKey());
-                mappedModel.setModel(model);
-                discriminator.getMappedModels().add(mappedModel);
+                discriminator.getMappedModels().add(new MappedModel(e.getKey(), name));
             }
+        } else {
+            allDefinitions.forEach((childName, child) -> {
+                if (child instanceof ComposedSchema && ((ComposedSchema) child).getAllOf() != null) {
+                    Set<String> parentSchemas = ((ComposedSchema) child).getAllOf().stream()
+                        .filter(s -> s.get$ref() != null)
+                        .map(s -> ModelUtils.getSimpleRef(s.get$ref()))
+                        .collect(Collectors.toSet());
+                    if (parentSchemas.contains(schemaName)) {
+                        discriminator.getMappedModels().add(new MappedModel(childName, childName));
+                    }
+                }
+            });
         }
         return discriminator;
     }

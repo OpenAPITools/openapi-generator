@@ -1,14 +1,11 @@
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenDiscriminator {
     private String propertyName;
     private Map<String, String> mapping;
-    private List<MappedModel> mappedModels = new ArrayList<>();
+    private Set<MappedModel> mappedModels = new LinkedHashSet<>();
 
     public String getPropertyName() {
         return propertyName;
@@ -26,17 +23,22 @@ public class CodegenDiscriminator {
         this.mapping = mapping;
     }
 
-    public List<MappedModel> getMappedModels() {
+    public Set<MappedModel> getMappedModels() {
         return mappedModels;
     }
 
-    public void setMappedModels(List<MappedModel> mappedModels) {
+    public void setMappedModels(Set<MappedModel> mappedModels) {
         this.mappedModels = mappedModels;
     }
 
     public static class MappedModel {
         private String mappingName;
-        private CodegenModel model;
+        private String modelName;
+
+        public MappedModel(String mappingName, String modelName) {
+            this.mappingName = mappingName;
+            this.modelName = modelName;
+        }
 
         public String getMappingName() {
             return mappingName;
@@ -46,12 +48,26 @@ public class CodegenDiscriminator {
             this.mappingName = mappingName;
         }
 
-        public CodegenModel getModel() {
-            return model;
+        public String getModelName() {
+            return modelName;
         }
 
-        public void setModel(CodegenModel model) {
-            this.model = model;
+        public void setModelName(String modelName) {
+            this.modelName = modelName;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            MappedModel that = (MappedModel) o;
+            return Objects.equals(mappingName, that.mappingName) &&
+                Objects.equals(modelName, that.modelName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(mappingName, modelName);
         }
     }
 
@@ -61,11 +77,12 @@ public class CodegenDiscriminator {
         if (o == null || getClass() != o.getClass()) return false;
         CodegenDiscriminator that = (CodegenDiscriminator) o;
         return Objects.equals(propertyName, that.propertyName) &&
-            Objects.equals(mapping, that.mapping);
+            Objects.equals(mapping, that.mapping) &&
+            Objects.equals(mappedModels, that.mappedModels);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(propertyName, mapping);
+        return Objects.hash(propertyName, mapping, mappedModels);
     }
 }

@@ -357,25 +357,44 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testInherinceWithCustomMapping() {
+    public void testDiscriminator() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema animal = openAPI.getComponents().getSchemas().get("Animal");
+        CodegenModel animalModel = codegen.fromModel("Animal", animal, openAPI.getComponents().getSchemas());
+        CodegenDiscriminator discriminator = animalModel.getDiscriminator();
+        CodegenDiscriminator test = new CodegenDiscriminator();
+        test.setPropertyName("className");
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Dog", "Dog"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
+        Assert.assertEquals(discriminator, test);
+    }
+
+    @Test
+    public void testDiscriminatorWithCustomMapping() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
         DefaultCodegen codegen = new DefaultCodegen();
 
         String path = "/person/display/{personId}";
         Operation operation = openAPI.getPaths().get(path).getGet();
         CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI.getComponents().getSchemas());
-        verifyDiscriminator(codegenOperation.discriminator);
+        verifyPersonDiscriminator(codegenOperation.discriminator);
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");
-        CodegenModel personModel = codegen.fromModel(person.getName(), person, openAPI.getComponents().getSchemas());
-        verifyDiscriminator(personModel.discriminator);
+        CodegenModel personModel = codegen.fromModel("Person", person, openAPI.getComponents().getSchemas());
+        verifyPersonDiscriminator(personModel.discriminator);
     }
 
-    private void verifyDiscriminator(CodegenDiscriminator discriminator) {
-        Assert.assertNotNull(discriminator);
-        Assert.assertEquals(discriminator.getMappedModels().size(), 2);
-        Assert.assertEquals(discriminator.getMappedModels().get(0).getMappingName(), "a");
-        Assert.assertEquals(discriminator.getMappedModels().get(1).getMappingName(), "c");
+    private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
+        CodegenDiscriminator test = new CodegenDiscriminator();
+        test.setPropertyName("$_type");
+        test.setMapping(new HashMap<>());
+        test.getMapping().put("a", "#/components/schemas/Adult");
+        test.getMapping().put("c", "#/components/schemas/Child");
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
+        Assert.assertEquals(discriminator, test);
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
