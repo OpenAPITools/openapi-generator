@@ -22,7 +22,7 @@
 #include "../ApiClient.h"
 
 #include "../model/ApiResponse.h"
-#include "HttpContent.h"
+#include "../HttpContent.h"
 #include "../model/Pet.h"
 #include <cpprest/details/basic_types.h>
 
