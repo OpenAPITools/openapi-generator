@@ -360,12 +360,12 @@ public class PetApi {
      * 
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update
-     * @param file file to upload
+     * @param requiredFile file to upload
      * @param additionalMetadata Additional data to pass to server
      * @return ModelApiResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File file, String additionalMetadata) throws RestClientException {
+    public Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'petId' is set
@@ -373,9 +373,9 @@ public class PetApi {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
         }
         
-        // verify the required parameter 'file' is set
-        if (file == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'file' when calling uploadFileWithRequiredFile");
+        // verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
         }
         
         // create path and map variables
@@ -389,8 +389,8 @@ public class PetApi {
         
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
-        if (file != null)
-            formParams.add("file", new FileSystemResource(file));
+        if (requiredFile != null)
+            formParams.add("requiredFile", new FileSystemResource(requiredFile));
 
         final String[] accepts = { 
             "application/json"

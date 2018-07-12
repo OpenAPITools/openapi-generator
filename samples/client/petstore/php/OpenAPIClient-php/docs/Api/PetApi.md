@@ -438,7 +438,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **uploadFileWithRequiredFile**
-> \OpenAPI\Client\Model\ApiResponse uploadFileWithRequiredFile($pet_id, $file, $additional_metadata)
+> \OpenAPI\Client\Model\ApiResponse uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata)
 
 uploads an image (required)
 
@@ -457,11 +457,11 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     $config
 );
 $pet_id = 56; // int | ID of pet to update
-$file = "/path/to/file.txt"; // \SplFileObject | file to upload
+$required_file = "/path/to/file.txt"; // \SplFileObject | file to upload
 $additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
 
 try {
-    $result = $apiInstance->uploadFileWithRequiredFile($pet_id, $file, $additional_metadata);
+    $result = $apiInstance->uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->uploadFileWithRequiredFile: ', $e->getMessage(), PHP_EOL;
@@ -474,7 +474,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
- **file** | **\SplFileObject****\SplFileObject**| file to upload |
+ **required_file** | **\SplFileObject****\SplFileObject**| file to upload |
  **additional_metadata** | **string**| Additional data to pass to server | [optional]
 
 ### Return type
