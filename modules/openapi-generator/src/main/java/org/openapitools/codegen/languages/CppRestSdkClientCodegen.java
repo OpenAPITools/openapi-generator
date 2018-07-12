@@ -208,7 +208,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + name + ".h\"";
+            // Use relative imports unless this model is explicitly import-mapped.
+            return "#include \"../model/" + name + ".h\"";
         }
     }
 
