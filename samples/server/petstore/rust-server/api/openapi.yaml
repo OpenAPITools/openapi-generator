@@ -453,6 +453,26 @@ paths:
         schema:
           type: string
       responses:
+        200:
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                format: int32
+                type: integer
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                format: date-time
+                type: string
         400:
           content: {}
           description: Invalid username/password supplied
@@ -1229,14 +1249,18 @@ components:
           type: array
       type: object
     OuterComposite:
-      example: {}
+      example:
+        my_string: my_string
+        my_number: 0.80082819046101150206595775671303272247314453125
+        my_boolean: true
       properties:
         my_number:
-          $ref: '#/components/schemas/OuterNumber'
+          type: number
         my_string:
-          $ref: '#/components/schemas/OuterString'
+          type: string
         my_boolean:
-          $ref: '#/components/schemas/OuterBoolean'
+          type: boolean
+          x-codegen-body-parameter-name: boolean_post_body
       type: object
     format_test:
       properties:
