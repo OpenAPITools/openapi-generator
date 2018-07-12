@@ -2934,6 +2934,30 @@ where
 
                                         match result {
                                             Ok(rsp) => match rsp {
+                                                LoginUserResponse::SuccessfulOperation
+
+                                                    {
+                                                        body,
+                                                        x_rate_limit, 
+
+                                                        x_expires_after
+                                                    }
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+                                                    header! { (ResponseXRateLimit, "X-Rate-Limit") => [i32] }
+                                                    response.headers_mut().set(ResponseXRateLimit(x_rate_limit));
+                                                    header! { (ResponseXExpiresAfter, "X-Expires-After") => [chrono::DateTime<chrono::Utc>] }
+                                                    response.headers_mut().set(ResponseXExpiresAfter(x_expires_after));
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::LOGIN_USER_SUCCESSFUL_OPERATION.clone()));
+
+
+                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+
+                                                    response.set_body(body);
+                                                },
                                                 LoginUserResponse::InvalidUsername
 
 
