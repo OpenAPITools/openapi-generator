@@ -2180,16 +2180,16 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $file file to upload (required)
+     * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\ApiResponse
      */
-    public function uploadFileWithRequiredFile($pet_id, $file, $additional_metadata = null)
+    public function uploadFileWithRequiredFile($pet_id, $required_file, $additional_metadata = null)
     {
-        list($response) = $this->uploadFileWithRequiredFileWithHttpInfo($pet_id, $file, $additional_metadata);
+        list($response) = $this->uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata);
         return $response;
     }
 
@@ -2199,16 +2199,16 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $file file to upload (required)
+     * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\ApiResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function uploadFileWithRequiredFileWithHttpInfo($pet_id, $file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileWithHttpInfo($pet_id, $required_file, $additional_metadata = null)
     {
-        $request = $this->uploadFileWithRequiredFileRequest($pet_id, $file, $additional_metadata);
+        $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2295,15 +2295,15 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $file file to upload (required)
+     * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileWithRequiredFileAsync($pet_id, $file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileAsync($pet_id, $required_file, $additional_metadata = null)
     {
-        return $this->uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $file, $additional_metadata)
+        return $this->uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2317,16 +2317,16 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $file file to upload (required)
+     * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileAsyncWithHttpInfo($pet_id, $required_file, $additional_metadata = null)
     {
         $returnType = '\OpenAPI\Client\Model\ApiResponse';
-        $request = $this->uploadFileWithRequiredFileRequest($pet_id, $file, $additional_metadata);
+        $request = $this->uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2369,13 +2369,13 @@ class PetApi
      * Create request for operation 'uploadFileWithRequiredFile'
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $file file to upload (required)
+     * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function uploadFileWithRequiredFileRequest($pet_id, $file, $additional_metadata = null)
+    protected function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -2383,10 +2383,10 @@ class PetApi
                 'Missing the required parameter $pet_id when calling uploadFileWithRequiredFile'
             );
         }
-        // verify the required parameter 'file' is set
-        if ($file === null || (is_array($file) && count($file) === 0)) {
+        // verify the required parameter 'required_file' is set
+        if ($required_file === null || (is_array($required_file) && count($required_file) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $file when calling uploadFileWithRequiredFile'
+                'Missing the required parameter $required_file when calling uploadFileWithRequiredFile'
             );
         }
 
@@ -2412,9 +2412,9 @@ class PetApi
             $formParams['additionalMetadata'] = ObjectSerializer::toFormValue($additional_metadata);
         }
         // form params
-        if ($file !== null) {
+        if ($required_file !== null) {
             $multipart = true;
-            $formParams['file'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($file), 'rb');
+            $formParams['requiredFile'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($required_file), 'rb');
         }
         // body params
         $_tempBody = null;

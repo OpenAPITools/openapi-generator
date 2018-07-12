@@ -747,7 +747,7 @@ public class PetApi {
      * 
      *
      * @see #petIdPath ID of pet to update (required)
-     * @see #fileMultiPart file to upload (required)
+     * @see #requiredFileMultiPart file to upload (required)
      * @see #additionalMetadataForm Additional data to pass to server (optional, default to null)
      * return ModelApiResponse
      */
@@ -818,11 +818,11 @@ public class PetApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param file (File) file to upload (required)
+         * @param requiredFile (File) file to upload (required)
          * @return operation
          */
-         public UploadFileWithRequiredFileOper fileMultiPart(File file) {
-            reqSpec.addMultiPart(file);
+         public UploadFileWithRequiredFileOper requiredFileMultiPart(File requiredFile) {
+            reqSpec.addMultiPart(requiredFile);
             return this;
          }
 

@@ -719,13 +719,13 @@ public class PetApi {
     * uploads an image (required)
     * <p><b>200</b> - successful operation
     * @param petId ID of pet to update
-    * @param file file to upload
+    * @param requiredFile file to upload
     * @param additionalMetadata Additional data to pass to server
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File file, String additionalMetadata) throws IOException {
-        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, file, additionalMetadata);
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws IOException {
+        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, additionalMetadata);
         TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
@@ -734,24 +734,24 @@ public class PetApi {
     * uploads an image (required)
     * <p><b>200</b> - successful operation
     * @param petId ID of pet to update
-    * @param file file to upload
+    * @param requiredFile file to upload
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File file, Map<String, Object> params) throws IOException {
-        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, file, params);
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
+        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, params);
         TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File file, String additionalMetadata) throws IOException {
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, String additionalMetadata) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
-        }// verify the required parameter 'file' is set
-        if (file == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'file' when calling uploadFileWithRequiredFile");
+        }// verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
         }
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
@@ -765,13 +765,13 @@ public class PetApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File file, Map<String, Object> params) throws IOException {
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
-        }// verify the required parameter 'file' is set
-        if (file == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'file' when calling uploadFileWithRequiredFile");
+        }// verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
         }
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
