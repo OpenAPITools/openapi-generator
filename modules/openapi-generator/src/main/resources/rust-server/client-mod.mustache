@@ -239,7 +239,7 @@ impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}}{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
+    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{paramName}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
 {{#queryParams}}{{#-first}}
         // Query parameters
 {{/-first}}{{#required}}        let query_{{paramName}} = format!("{{baseName}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{paramName}}=param_{{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
@@ -259,41 +259,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::{{#vendorExtensions}}{{HttpMethod}}{{/vendorExtensions}}, uri);
 
-{{#vendorExtensions}}{{#hasFile}}        // Form data body
-        let mut multipart = Multipart::new();
-
-        // Helper function to convert a Stream into a String. The String can then be used to build the HTTP body.
-        fn convert_stream_to_string(stream: Box<Stream<Item=Vec<u8>, Error=Error> + Send>) -> Result<String, ApiError> {
-
-            stream.concat2()
-              .wait()
-              .map_err(|e| ApiError(format!("Unable to collect stream: {}", e)))
-              .and_then(|body| String::from_utf8(body)
-                .map_err(|e| ApiError(format!("Failed to convert utf8 stream to String: {}", e))))
-        }{{/hasFile}}{{/vendorExtensions}}{{#formParams}}{{#isFile}}
-
-{{^required}}        if let Ok(Some(param_{{paramName}})) = param_{{paramName}}.wait() { {{/required}}
-{{^required}}    {{/required}}        match convert_stream_to_string(param_{{paramName}}) {
-{{^required}}    {{/required}}            Ok(param_{{paramName}}) => {
-                    // Add file to multipart form.
-                    multipart.add_text("{{paramName}}", param_{{paramName}});
-                },
-{{^required}}    {{/required}}            Err(err) => return Box::new(futures::done(Err(err))),
-{{^required}}    {{/required}}        }
-        {{^required}}}{{/required}}{{/isFile}}{{/formParams}}{{#vendorExtensions}}{{#hasFile}}
-
-        let mut fields = match multipart.prepare() {
-            Ok(fields) => fields,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
-        };
-
-        let mut body_string = String::new();
-        let body = fields.to_body().read_to_string(&mut body_string);
-        let boundary = fields.boundary();
-        let multipart_header = match mime::Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
-            Ok(multipart_header) => multipart_header,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
-        };{{/hasFile}}{{^hasFile}}{{#formParams}}{{#-first}}        let params = &[{{/-first}}
+{{#vendorExtensions}}{{^hasFile}}{{#formParams}}{{#-first}}        let params = &[{{/-first}}
             ("{{baseName}}", {{#vendorExtensions}}{{#required}}Some({{#isString}}param_{{paramName}}{{/isString}}{{^isString}}format!("{:?}", param_{{paramName}}){{/isString}}){{/required}}{{^required}}{{#isString}}param_{{paramName}}{{/isString}}{{^isString}}param_{{paramName}}.map(|param| format!("{:?}", param)){{/isString}}{{/required}}),{{/vendorExtensions}}{{#-last}}
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
@@ -357,13 +323,9 @@ impl<F, C> Api<C> for Client<F> where
                         None => return Box::new(future::err(ApiError(String::from("Required response header {{baseName}} for response {{code}} was not found.")))) as Box<Future<Item=_, Error=_>>,
                     };
 {{/headers}}
-                    {{^isFile}}let body = response.body();{{/isFile}}{{#isFile}}let body = Box::new(response.body()
-                                        .map(|chunk| chunk.to_vec())
-                                        .map_err(|_|
-                                                 Error::new(ErrorKind::Other, "Received error reading response.")
-                                        ));{{/isFile}}
+                    let body = response.body();
                     Box::new(
-{{#dataType}}{{^isFile}}
+{{#dataType}}
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -383,9 +345,6 @@ impl<F, C> Api<C> for Client<F> where
 {{/producesPlainText}}{{/vendorExtensions}}
                                              ))
                         .map(move |body|
-{{/isFile}}{{#isFile}}
-                        future::ok(
-{{/isFile}}
                             {{operationId}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body: body, {{/-first}}{{name}}: response_{{name}}{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/headers}}
                         )
 {{/dataType}}{{^dataType}}

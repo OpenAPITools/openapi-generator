@@ -657,6 +657,19 @@ paths:
           - -1.2
           format: double
           type: number
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                enum_form_string:
+                  default: -efg
+                  description: Form parameter enum test (string)
+                  enum:
+                  - _abc
+                  - -efg
+                  - (xyz)
+                  type: string
       responses:
         400:
           content: {}
@@ -738,6 +751,10 @@ paths:
                   description: None
                   pattern: ^[A-Z].*
                   type: string
+                byte:
+                  description: None
+                  format: byte
+                  type: string
                 binary:
                   description: None
                   format: binary
@@ -760,6 +777,7 @@ paths:
                   description: None
                   type: string
               required:
+              - byte
               - double
               - number
               - pattern_without_delimiter
@@ -1247,6 +1265,13 @@ components:
               $ref: '#/components/schemas/ReadOnlyFirst'
             type: array
           type: array
+        array_of_enum:
+          items:
+            enum:
+            - UPPER
+            - lower
+            type: string
+          type: array
       type: object
     OuterComposite:
       example:
@@ -1297,6 +1322,9 @@ components:
           format: byte
           pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
           type: string
+        binary:
+          format: binary
+          type: string
         date:
           format: date
           type: string
@@ -1330,6 +1358,15 @@ components:
             - fish
             - crab
             type: string
+          type: array
+        array_array_enum:
+          items:
+            items:
+              enum:
+              - Cat
+              - Dog
+              type: string
+            type: array
           type: array
       type: object
     OuterString:
@@ -1367,6 +1404,15 @@ components:
         map_map_of_string:
           additionalProperties:
             additionalProperties:
+              type: string
+            type: object
+          type: object
+        map_map_of_enum:
+          additionalProperties:
+            additionalProperties:
+              enum:
+              - UPPER
+              - lower
               type: string
             type: object
           type: object
