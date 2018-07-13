@@ -1,6 +1,6 @@
 # Petstore::FakeApi
 
-All URIs are relative to *petstore.swagger.io */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r*
+All URIs are relative to *http://petstore.swagger.io */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
