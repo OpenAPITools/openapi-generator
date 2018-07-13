@@ -9,13 +9,13 @@
 #define EXAMPLE_BASE_PATH "localhost"
 #define EXAMPLE_OPERATION_NAME "pets"
 #define OPERATION_PARAMETER "5"
-#define EXAMPLE_KEY_1 "color"
+#define EXAMPLE_KEY_1 "skin color"
 #define EXAMPLE_VALUE_1 "red"
 #define EXAMPLE_KEY_2 "legs"
 #define EXAMPLE_VALUE_2 "4"
 
-#define OUTPUT_URL_1 "localhost/pets/5?color=red"
-#define OUTPUT_URL_2 "localhost/pets/5?color=red&legs=4"
+#define OUTPUT_URL_1 "localhost/pets/5?skin+color=red"
+#define OUTPUT_URL_2 "localhost/pets/5?skin+color=red&legs=4"
 
 char *assembleTargetUrl(char	*basePath,
                         char	*operationName,

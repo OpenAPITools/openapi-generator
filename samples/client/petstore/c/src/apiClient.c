@@ -26,6 +26,14 @@ void apiClient_free(apiClient_t *apiClient) {
 	curl_global_cleanup();
 }
 
+void replaceSpaceWithPlus(char *stringToProcess) {
+	for(int i = 0; i < strlen(stringToProcess); i++) {
+		if(stringToProcess[i] == ' ') {
+			stringToProcess[i] = '+';
+		}
+	}
+}
+
 char *assembleTargetUrl(char	*basePath,
                         char	*operationName,
                         char	*operationParameter,
@@ -74,8 +82,10 @@ char *assembleTargetUrl(char	*basePath,
 		strcat(targetUrl, "?");
 		list_ForEach(listEntry, queryParameters) {
 			keyValuePair_t *pair = listEntry->data;
+			replaceSpaceWithPlus(pair->key);
 			strcat(targetUrl, pair->key);
 			strcat(targetUrl, "=");
+			replaceSpaceWithPlus(pair->value);
 			strcat(targetUrl, pair->value);
 			if(listEntry->nextListEntry != NULL) {
 				strcat(targetUrl, "&");
