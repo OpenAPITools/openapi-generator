@@ -762,15 +762,15 @@ impl ::std::ops::DerefMut for OuterBoolean {
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub my_number: Option<models::OuterNumber>,
+    pub my_number: Option<f64>,
 
     #[serde(rename = "my_string")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub my_string: Option<models::OuterString>,
+    pub my_string: Option<String>,
 
     #[serde(rename = "my_boolean")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub my_boolean: Option<models::OuterBoolean>,
+    pub my_boolean: Option<bool>,
 
 }
 

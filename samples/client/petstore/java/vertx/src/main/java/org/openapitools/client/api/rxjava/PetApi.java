@@ -205,25 +205,25 @@ public class PetApi {
      * uploads an image (required)
      * 
      * @param petId ID of pet to update (required)
-     * @param file file to upload (required)
+     * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional, default to null)
      * @param resultHandler Asynchronous result handler
      */
-    public void uploadFileWithRequiredFile(Long petId, AsyncFile file, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
-        delegate.uploadFileWithRequiredFile(petId, file, additionalMetadata, resultHandler);
+    public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        delegate.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, resultHandler);
     }
 
     /**
      * uploads an image (required)
      * 
      * @param petId ID of pet to update (required)
-     * @param file file to upload (required)
+     * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional, default to null)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<ModelApiResponse> rxUploadFileWithRequiredFile(Long petId, AsyncFile file, String additionalMetadata) {
+    public Single<ModelApiResponse> rxUploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.uploadFileWithRequiredFile(petId, file, additionalMetadata, fut);
+            delegate.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, fut);
         }));
     }
 

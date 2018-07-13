@@ -2526,6 +2526,38 @@ if let Some(body) = body {
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
+                200 => {
+                    header! { (ResponseXRateLimit, "X-Rate-Limit") => [i32] }
+                    let response_x_rate_limit = match response.headers().get::<ResponseXRateLimit>() {
+                        Some(response_x_rate_limit) => response_x_rate_limit.0.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header X-Rate-Limit for response 200 was not found.")))) as Box<Future<Item=_, Error=_>>,
+                    };
+                    header! { (ResponseXExpiresAfter, "X-Expires-After") => [chrono::DateTime<chrono::Utc>] }
+                    let response_x_expires_after = match response.headers().get::<ResponseXExpiresAfter>() {
+                        Some(response_x_expires_after) => response_x_expires_after.0.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header X-Expires-After for response 200 was not found.")))) as Box<Future<Item=_, Error=_>>,
+                    };
+                    let body = response.body();
+                    Box::new(
+
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body| str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+
+                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                                 serde_xml_rs::from_str::<String>(body)
+                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+
+                                             ))
+                        .map(move |body|
+                            LoginUserResponse::SuccessfulOperation{ body: body, x_rate_limit: response_x_rate_limit, x_expires_after: response_x_expires_after }
+                        )
+                    ) as Box<Future<Item=_, Error=_>>
+                },
                 400 => {
                     let body = response.body();
                     Box::new(

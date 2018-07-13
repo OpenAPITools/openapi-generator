@@ -70,31 +70,32 @@ class StoreApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['order_id']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_order" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'order_id' is set
-        if ('order_id' not in params or
-                params['order_id'] is None):
+        if ('order_id' not in local_var_params or
+                local_var_params['order_id'] is None):
             raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
 
         collection_formats = {}
 
         path_params = {}
-        if 'order_id' in params:
-            path_params['order_id'] = params['order_id']  # noqa: E501
+        if 'order_id' in local_var_params:
+            path_params['order_id'] = local_var_params['order_id']  # noqa: E501
 
         query_params = []
 
@@ -117,10 +118,10 @@ class StoreApi(object):
             files=local_var_files,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
-            async_req=params.get('async_req'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def get_inventory(self, **kwargs):  # noqa: E501
@@ -159,21 +160,22 @@ class StoreApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = []  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_inventory" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
 
         collection_formats = {}
 
@@ -204,10 +206,10 @@ class StoreApi(object):
             files=local_var_files,
             response_type='dict(str, int)',  # noqa: E501
             auth_settings=auth_settings,
-            async_req=params.get('async_req'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def get_order_by_id(self, order_id, **kwargs):  # noqa: E501
@@ -248,35 +250,36 @@ class StoreApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['order_id']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_order_by_id" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'order_id' is set
-        if ('order_id' not in params or
-                params['order_id'] is None):
+        if ('order_id' not in local_var_params or
+                local_var_params['order_id'] is None):
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
 
-        if 'order_id' in params and params['order_id'] > 5:  # noqa: E501
+        if 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
             raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
-        if 'order_id' in params and params['order_id'] < 1:  # noqa: E501
+        if 'order_id' in local_var_params and local_var_params['order_id'] < 1:  # noqa: E501
             raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1`")  # noqa: E501
         collection_formats = {}
 
         path_params = {}
-        if 'order_id' in params:
-            path_params['order_id'] = params['order_id']  # noqa: E501
+        if 'order_id' in local_var_params:
+            path_params['order_id'] = local_var_params['order_id']  # noqa: E501
 
         query_params = []
 
@@ -303,10 +306,10 @@ class StoreApi(object):
             files=local_var_files,
             response_type='Order',  # noqa: E501
             auth_settings=auth_settings,
-            async_req=params.get('async_req'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def place_order(self, order, **kwargs):  # noqa: E501
@@ -345,24 +348,25 @@ class StoreApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['order']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method place_order" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'order' is set
-        if ('order' not in params or
-                params['order'] is None):
+        if ('order' not in local_var_params or
+                local_var_params['order'] is None):
             raise ValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
 
         collection_formats = {}
@@ -377,8 +381,8 @@ class StoreApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'order' in params:
-            body_params = params['order']
+        if 'order' in local_var_params:
+            body_params = local_var_params['order']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501
@@ -396,8 +400,8 @@ class StoreApi(object):
             files=local_var_files,
             response_type='Order',  # noqa: E501
             auth_settings=auth_settings,
-            async_req=params.get('async_req'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)

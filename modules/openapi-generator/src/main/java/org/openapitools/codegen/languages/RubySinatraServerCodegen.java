@@ -56,7 +56,7 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
         // no model
         modelTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".rb");
-        embeddedTemplateDir = templateDir = "sinatra";
+        embeddedTemplateDir = templateDir = "ruby-sinatra-server";
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();

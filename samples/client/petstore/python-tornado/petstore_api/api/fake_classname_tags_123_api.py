@@ -70,24 +70,25 @@ class FakeClassnameTags123Api(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['client']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_classname" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'client' is set
-        if ('client' not in params or
-                params['client'] is None):
+        if ('client' not in local_var_params or
+                local_var_params['client'] is None):
             raise ValueError("Missing the required parameter `client` when calling `test_classname`")  # noqa: E501
 
         collection_formats = {}
@@ -102,8 +103,8 @@ class FakeClassnameTags123Api(object):
         local_var_files = {}
 
         body_params = None
-        if 'client' in params:
-            body_params = params['client']
+        if 'client' in local_var_params:
+            body_params = local_var_params['client']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -125,8 +126,8 @@ class FakeClassnameTags123Api(object):
             files=local_var_files,
             response_type='Client',  # noqa: E501
             auth_settings=auth_settings,
-            async_req=params.get('async_req'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)

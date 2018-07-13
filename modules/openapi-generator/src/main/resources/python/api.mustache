@@ -82,26 +82,27 @@ class {{classname}}(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method {{operationId}}" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
 {{#allParams}}
 {{#required}}
         # verify the required parameter '{{paramName}}' is set
-        if ('{{paramName}}' not in params or
-                params['{{paramName}}'] is None):
+        if ('{{paramName}}' not in local_var_params or
+                local_var_params['{{paramName}}'] is None):
             raise ValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")  # noqa: E501
 {{/required}}
 {{/allParams}}
@@ -109,35 +110,35 @@ class {{classname}}(object):
 {{#allParams}}
 {{#hasValidation}}
     {{#maxLength}}
-        if ('{{paramName}}' in params and
-                len(params['{{paramName}}']) > {{maxLength}}):
+        if ('{{paramName}}' in local_var_params and
+                len(local_var_params['{{paramName}}']) > {{maxLength}}):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
     {{/maxLength}}
     {{#minLength}}
-        if ('{{paramName}}' in params and
-                len(params['{{paramName}}']) < {{minLength}}):
+        if ('{{paramName}}' in local_var_params and
+                len(local_var_params['{{paramName}}']) < {{minLength}}):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
     {{/minLength}}
     {{#maximum}}
-        if '{{paramName}}' in params and params['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
+        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")  # noqa: E501
     {{/maximum}}
     {{#minimum}}
-        if '{{paramName}}' in params and params['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
+        if '{{paramName}}' in local_var_params and local_var_params['{{paramName}}'] <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
     {{/minimum}}
     {{#pattern}}
-        if '{{paramName}}' in params and not re.search('{{{vendorExtensions.x-regex}}}', params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
+        if '{{paramName}}' in local_var_params and not re.search('{{{vendorExtensions.x-regex}}}', local_var_params['{{paramName}}']{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, must conform to the pattern `{{{pattern}}}`")  # noqa: E501
     {{/pattern}}
     {{#maxItems}}
-        if ('{{paramName}}' in params and
-                len(params['{{paramName}}']) > {{maxItems}}):
+        if ('{{paramName}}' in local_var_params and
+                len(local_var_params['{{paramName}}']) > {{maxItems}}):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
     {{/maxItems}}
     {{#minItems}}
-        if ('{{paramName}}' in params and
-                len(params['{{paramName}}']) < {{minItems}}):
+        if ('{{paramName}}' in local_var_params and
+                len(local_var_params['{{paramName}}']) < {{minItems}}):
             raise ValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
     {{/minItems}}
 {{/hasValidation}}
@@ -148,37 +149,37 @@ class {{classname}}(object):
 
         path_params = {}
 {{#pathParams}}
-        if '{{paramName}}' in params:
-            path_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}  # noqa: E501
+        if '{{paramName}}' in local_var_params:
+            path_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
 {{/pathParams}}
 
         query_params = []
 {{#queryParams}}
-        if '{{paramName}}' in params:
-            query_params.append(('{{baseName}}', params['{{paramName}}'])){{#isListContainer}}  # noqa: E501
+        if '{{paramName}}' in local_var_params:
+            query_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
 {{/queryParams}}
 
         header_params = {}
 {{#headerParams}}
-        if '{{paramName}}' in params:
-            header_params['{{baseName}}'] = params['{{paramName}}']{{#isListContainer}}  # noqa: E501
+        if '{{paramName}}' in local_var_params:
+            header_params['{{baseName}}'] = local_var_params['{{paramName}}']{{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
 {{/headerParams}}
 
         form_params = []
         local_var_files = {}
 {{#formParams}}
-        if '{{paramName}}' in params:
-            {{^isFile}}form_params.append(('{{baseName}}', params['{{paramName}}'])){{/isFile}}{{#isFile}}local_var_files['{{baseName}}'] = params['{{paramName}}']{{/isFile}}{{#isListContainer}}  # noqa: E501
+        if '{{paramName}}' in local_var_params:
+            {{^isFile}}form_params.append(('{{baseName}}', local_var_params['{{paramName}}'])){{/isFile}}{{#isFile}}local_var_files['{{baseName}}'] = local_var_params['{{paramName}}']{{/isFile}}{{#isListContainer}}  # noqa: E501
             collection_formats['{{baseName}}'] = '{{collectionFormat}}'{{/isListContainer}}  # noqa: E501
 {{/formParams}}
 
         body_params = None
 {{#bodyParam}}
-        if '{{paramName}}' in params:
-            body_params = params['{{paramName}}']
+        if '{{paramName}}' in local_var_params:
+            body_params = local_var_params['{{paramName}}']
 {{/bodyParam}}
         {{#hasProduces}}
         # HTTP header `Accept`
@@ -205,10 +206,10 @@ class {{classname}}(object):
             files=local_var_files,
             response_type={{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}},  # noqa: E501
             auth_settings=auth_settings,
-            async_req=params.get('async_req'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 {{/operation}}
 {{/operations}}
