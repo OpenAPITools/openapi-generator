@@ -1129,12 +1129,12 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
-                file:
+                requiredFile:
                   description: file to upload
                   format: binary
                   type: string
               required:
-              - file
+              - requiredFile
         required: true
       responses:
         200:
@@ -1634,6 +1634,7 @@ components:
         $ref: '#/components/schemas/Animal'
       type: array
     File:
+      description: Must be named `File` for test.
       example:
         sourceURI: sourceURI
       properties:

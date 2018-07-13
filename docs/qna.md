@@ -37,3 +37,6 @@ Swagger is a trademark owned by SmartBear and the use of the term "Swagger" foun
 
 OpenAPI Generator is based on Swagger Codegen 2.4.0-SNAPSHOT version so the migration should be easy, straightforward and almost seamless. Please refer to the [migration guide](migration-from-swagger-codegen.md) for more information. 
 
+#### May I know who maintains this Q&A page?
+
+This Q&A page is maintained by the [core team members](../README.md#openapi-generator-core-team). It's not maintained by a single person nor do these Q&As represent the view of an individual.
