@@ -56,6 +56,11 @@ android {
         {{/androidSdkVersion}}
     }
     compileOptions {
+        {{#supportJava6}}
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+        {{/supportJava6}}
+        {{^supportJava6}}
         {{#java8}}
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -64,6 +69,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
         {{/java8}}
+        {{/supportJava6}}
     }
 
     // Rename the aar correctly
