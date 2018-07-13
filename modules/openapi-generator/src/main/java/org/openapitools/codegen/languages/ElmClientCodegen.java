@@ -374,7 +374,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     @SuppressWarnings({"static-method", "unchecked"})
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 

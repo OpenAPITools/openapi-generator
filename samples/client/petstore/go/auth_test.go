@@ -1,13 +1,12 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"net/http/httputil"
 	"strings"
 	"testing"
 	"time"
-
-	"golang.org/x/net/context"
 
 	"golang.org/x/oauth2"
 

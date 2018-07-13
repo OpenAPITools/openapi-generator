@@ -23,18 +23,41 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.GeneratorNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 @Command(name = "config-help", description = "Config help for chosen lang")
 public class ConfigHelp implements Runnable {
 
-    @Option(name = {"-l", "--lang"}, title = "language", required = true,
+    private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
+
+    @Option(name = {"-l", "--lang"}, title = "language",
             description = "language to get config help for")
     private String lang;
 
+    @Option(name = {"-g", "--generator-name"}, title = "generator name",
+            description = "generator to get config help for")
+    private String generatorName;
+
     @Override
     public void run() {
+
+        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
+        if (isEmpty(generatorName)) {
+            if (isNotEmpty(lang)) {
+                LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
+                generatorName = lang;
+            } else {
+                System.err.println("[error] A generator name (--generator-name / -g) is required.");
+                System.exit(1);
+            }
+        }
+
         try {
-            CodegenConfig config = CodegenConfigLoader.forName(lang);
+            CodegenConfig config = CodegenConfigLoader.forName(generatorName);
             System.out.println();
             System.out.println("CONFIG OPTIONS");
             for (CliOption langCliOption : config.cliOptions()) {

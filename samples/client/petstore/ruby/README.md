@@ -78,6 +78,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*Petstore::FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *Petstore::FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *Petstore::FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \"client\" model
 *Petstore::FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -93,6 +94,7 @@ Class | Method | HTTP request | Description
 *Petstore::PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 *Petstore::PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *Petstore::PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+*Petstore::PetApi* | [**upload_file_with_required_file**](docs/PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *Petstore::StoreApi* | [**delete_order**](docs/StoreApi.md#delete_order) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *Petstore::StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
 *Petstore::StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -125,6 +127,8 @@ Class | Method | HTTP request | Description
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
+ - [Petstore::File](docs/File.md)
+ - [Petstore::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::List](docs/List.md)
@@ -140,6 +144,7 @@ Class | Method | HTTP request | Description
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
+ - [Petstore::StringBooleanMap](docs/StringBooleanMap.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
 
