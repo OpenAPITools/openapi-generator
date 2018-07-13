@@ -13,6 +13,7 @@ OpenAPI Generator version: 4.0.0-SNAPSHOT
 require 'date'
 
 module Petstore
+  # Must be named `File` for test.
   class File
     # Test capitalization
     attr_accessor :source_uri

@@ -226,8 +226,8 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId,
-        @FormDataParam("file") InputStream inputStream,
-        @FormDataParam("file") FormDataContentDisposition fileDetail,
+        @FormDataParam("requiredFile") InputStream inputStream,
+        @FormDataParam("requiredFile") FormDataContentDisposition fileDetail,
         @FormDataParam("additionalMetadata")  String additionalMetadata,
         @Context SecurityContext securityContext)
     throws NotFoundException {

@@ -33,7 +33,7 @@ namespace OpenAPI\Client;
  * FileTest Class Doc Comment
  *
  * @category    Class
- * @description File
+ * @description Must be named &#x60;File&#x60; for test.
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
