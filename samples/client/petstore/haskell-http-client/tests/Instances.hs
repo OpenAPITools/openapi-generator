@@ -185,6 +185,17 @@ instance Arbitrary EnumTest where
       <*> arbitrary -- enumTestEnumNumber :: Maybe Double
       <*> arbitrary -- enumTestOuterEnum :: Maybe OuterEnum
     
+instance Arbitrary File where
+  arbitrary =
+    File
+      <$> arbitrary -- fileSourceUri :: Maybe Text
+    
+instance Arbitrary FileSchemaTestClass where
+  arbitrary =
+    FileSchemaTestClass
+      <$> arbitrary -- fileSchemaTestClassFile :: Maybe File
+      <*> arbitrary -- fileSchemaTestClassFiles :: Maybe [File]
+    
 instance Arbitrary FormatTest where
   arbitrary =
     FormatTest
@@ -213,6 +224,8 @@ instance Arbitrary MapTest where
     MapTest
       <$> arbitrary -- mapTestMapMapOfString :: Maybe (Map.Map String (Map.Map String Text))
       <*> arbitrary -- mapTestMapOfEnumString :: Maybe (Map.Map String Text)
+      <*> arbitrary -- mapTestDirectMap :: Maybe (Map.Map String Bool)
+      <*> arbitrary -- mapTestIndirectMap :: Maybe StringBooleanMap
     
 instance Arbitrary MixedPropertiesAndAdditionalPropertiesClass where
   arbitrary =
@@ -288,6 +301,11 @@ instance Arbitrary SpecialModelName where
     SpecialModelName
       <$> arbitrary -- specialModelNameSpecialPropertyName :: Maybe Integer
     
+instance Arbitrary StringBooleanMap where
+  arbitrary =
+    
+    pure StringBooleanMap
+     
 instance Arbitrary Tag where
   arbitrary =
     Tag

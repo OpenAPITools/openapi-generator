@@ -348,7 +348,7 @@ Name | Type | Description  | Notes
 
 <a name="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
-> ModelApiResponse uploadFileWithRequiredFile(petId, file, additionalMetadata)
+> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 
@@ -365,7 +365,7 @@ PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
 
 api.uploadFileWithRequiredFile()
     .petIdPath(petId)
-    .fileMultiPart(file).execute(r -> r.prettyPeek());
+    .requiredFileMultiPart(requiredFile).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
@@ -373,7 +373,7 @@ api.uploadFileWithRequiredFile()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **file** | **File**| file to upload | [default to null]
+ **requiredFile** | **File**| file to upload | [default to null]
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type
