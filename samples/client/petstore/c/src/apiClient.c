@@ -96,7 +96,7 @@ char *assembleTargetUrl(char	*basePath,
 	return targetUrl;
 }
 
-char *assembleHeader(char *key, char *value) {
+char *assembleAPIKeyAuthentication(char *key, char *value) {
 	char *header = malloc(strlen(key) + strlen(value) + 3);
 
 	strcpy(header, key),
@@ -110,7 +110,6 @@ void postData(CURL *handle, char *bodyParameters) {
 	curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
 	curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
 	                 strlen(bodyParameters));
-	curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "POST");
 }
 
 
@@ -118,7 +117,8 @@ void apiClient_invoke(apiClient_t	*apiClient,
                       char		*operationName,
                       char		*operationParameter,
                       list_t		*queryParameters,
-                      char		*bodyParameters) {
+                      char		*bodyParameters,
+                      char		*requestType) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
 
@@ -128,7 +128,11 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			curl_slist_append(headers, "accept: application/json");
 		headers = curl_slist_append(headers,
 		                            "Content-Type: application/json");
-
+		if(requestType != NULL) {
+			curl_easy_setopt(handle,
+			                 CURLOPT_CUSTOMREQUEST,
+			                 requestType);
+		}
 
 		// this would only be generated for apiKey authentication
 		#ifdef API_KEY
@@ -138,9 +142,10 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			if((apiKey->key != NULL) &&
 			   (apiKey->value != NULL) )
 			{
-				char *headerValueToWrite = assembleHeader(
-					apiKey->key,
-					apiKey->value);
+				char *headerValueToWrite =
+					assembleAPIKeyAuthentication(
+						apiKey->key,
+						apiKey->value);
 				curl_slist_append(headers, headerValueToWrite);
 				free(headerValueToWrite);
 			}
