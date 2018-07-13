@@ -53,8 +53,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         modelPackage = invokerPackage + "\\" + modelDirName;
         outputFolder = "generated-code" + File.separator + "slim";
 
-        // no test files
-        apiTestTemplateFiles.clear();
+        modelTestTemplateFiles.put("model_test.mustache", ".php");
         // no doc files
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
