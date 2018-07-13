@@ -85,7 +85,7 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         modelPackage = "app/models";
         modelTemplateFiles.put("model.mustache", ".rb");
 
-        embeddedTemplateDir = templateDir = "rails5";
+        embeddedTemplateDir = templateDir = "ruby-on-rails-server";
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();
