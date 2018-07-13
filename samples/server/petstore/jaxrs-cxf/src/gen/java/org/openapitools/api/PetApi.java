@@ -150,6 +150,6 @@ public interface PetApi  {
     @ApiOperation(value = "uploads an image (required)", tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "file" ) Attachment fileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata);
+    public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "requiredFile" ) Attachment requiredFileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata);
 }
 

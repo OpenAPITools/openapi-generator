@@ -259,7 +259,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile(ctx, petId, file, optional)
+> ApiResponse UploadFileWithRequiredFile(ctx, petId, requiredFile, optional)
 uploads an image (required)
 
 ### Required Parameters
@@ -268,7 +268,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **petId** | **int64**| ID of pet to update | 
-  **file** | ***os.File*****os.File**| file to upload | 
+  **requiredFile** | ***os.File*****os.File**| file to upload | 
  **optional** | ***UploadFileWithRequiredFileOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters

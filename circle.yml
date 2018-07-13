@@ -12,6 +12,13 @@ jobs:
       DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
       DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
     steps:
+    # Restore the dependency cache
+    - restore_cache:
+        keys:
+        # Default branch if not
+        - source-v1-{{ .Branch }}-{{ .Revision }}
+        - source-v1-{{ .Branch }}-
+        - source-v1-
     # Machine Setup
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
     # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
@@ -31,13 +38,6 @@ jobs:
          ' | sudo tee -a /etc/hosts
     # Dependencies
     #   This would typically go in either a build or a build-and-test job when using workflows
-    # Restore the dependency cache
-    - restore_cache:
-        keys:
-        # This branch if available
-        - v1-dep-{{ .Branch }}-
-        # Default branch if not
-        - v1-dep-master-
     # This is based on your 1.0 configuration file or project settings
     - run: sudo add-apt-repository ppa:duggan/bats --yes
     - run: sudo apt-get update -qq
@@ -67,9 +67,22 @@ jobs:
     - run: cat /etc/hosts
     # This is based on your 1.0 configuration file or project settings
     - run: cp CI/pom.xml.circleci pom.xml
+    # Test
+    #   This would typically be a build job when using workflows, possibly combined with build
+    # This is based on your 1.0 configuration file or project settings
+    #- run: java -version
+    - run: mvn --quiet clean install
+    - run: mvn --quiet verify -Psamples
+    - run: if [ $? -ne 0 ]; then exit 1; fi
+    - run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+    - run: java -version
+    - run: cp CI/pom.xml.circleci.java7 pom.xml
+    - run: mvn --quiet clean install
+    - run: mvn --quiet verify -Psamples
+    - run: if [ $? -ne 0 ]; then exit 1; fi
     # Save dependency cache
     - save_cache:
-        key: v1-dep-{{ .Branch }}
+        key: source-v1-{{ .Branch }}-{{ .Revision }}
         paths:
         # This is a broad list of cache paths to include many possible development environments
         # You can probably delete some of these entries
@@ -81,21 +94,7 @@ jobs:
         - ~/.go_workspace
         - ~/.gradle
         - ~/.cache/bower
-        # These cache paths were specified in the 1.0 config
-        - ~/.sbt
-    # Test
-    #   This would typically be a build job when using workflows, possibly combined with build
-    # This is based on your 1.0 configuration file or project settings
-    - run: java -version
-    - run: mvn --quiet clean install
-    - run: mvn --quiet verify -Psamples
-    - run: if [ $? -ne 0 ]; then exit 1; fi
-    - run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-    - run: java -version
-    - run: cp CI/pom.xml.circleci.java7 pom.xml
-    - run: mvn --quiet clean install
-    - run: mvn --quiet verify -Psamples
-    - run: if [ $? -ne 0 ]; then exit 1; fi
+        - ".git"
     # Teardown
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
     # Save test results

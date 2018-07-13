@@ -200,29 +200,14 @@
     <dependencies>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>${swagger-core-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-core</artifactId>
             <version>${swagger-core-version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
-            <artifactId>swagger-parser-core</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
-            <artifactId>swagger-parser-v3</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
-            <artifactId>swagger-parser</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
+        <dependency> 
+            <groupId>io.swagger.parser.v3</groupId> 
+            <artifactId>swagger-parser</artifactId> 
+            <version>${swagger-parser-version}</version> 
+        </dependency> 
         <dependency>
             <groupId>com.samskivert</groupId>
             <artifactId>jmustache</artifactId>

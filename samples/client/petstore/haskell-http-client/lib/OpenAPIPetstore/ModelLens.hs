@@ -275,6 +275,29 @@ enumTestOuterEnumL f EnumTest{..} = (\enumTestOuterEnum -> EnumTest { enumTestOu
 
 
 
+-- * File
+
+-- | 'fileSourceUri' Lens
+fileSourceUriL :: Lens_' File (Maybe Text)
+fileSourceUriL f File{..} = (\fileSourceUri -> File { fileSourceUri, ..} ) <$> f fileSourceUri
+{-# INLINE fileSourceUriL #-}
+
+
+
+-- * FileSchemaTestClass
+
+-- | 'fileSchemaTestClassFile' Lens
+fileSchemaTestClassFileL :: Lens_' FileSchemaTestClass (Maybe File)
+fileSchemaTestClassFileL f FileSchemaTestClass{..} = (\fileSchemaTestClassFile -> FileSchemaTestClass { fileSchemaTestClassFile, ..} ) <$> f fileSchemaTestClassFile
+{-# INLINE fileSchemaTestClassFileL #-}
+
+-- | 'fileSchemaTestClassFiles' Lens
+fileSchemaTestClassFilesL :: Lens_' FileSchemaTestClass (Maybe [File])
+fileSchemaTestClassFilesL f FileSchemaTestClass{..} = (\fileSchemaTestClassFiles -> FileSchemaTestClass { fileSchemaTestClassFiles, ..} ) <$> f fileSchemaTestClassFiles
+{-# INLINE fileSchemaTestClassFilesL #-}
+
+
+
 -- * FormatTest
 
 -- | 'formatTestInteger' Lens
@@ -369,6 +392,16 @@ mapTestMapMapOfStringL f MapTest{..} = (\mapTestMapMapOfString -> MapTest { mapT
 mapTestMapOfEnumStringL :: Lens_' MapTest (Maybe (Map.Map String E'Inner))
 mapTestMapOfEnumStringL f MapTest{..} = (\mapTestMapOfEnumString -> MapTest { mapTestMapOfEnumString, ..} ) <$> f mapTestMapOfEnumString
 {-# INLINE mapTestMapOfEnumStringL #-}
+
+-- | 'mapTestDirectMap' Lens
+mapTestDirectMapL :: Lens_' MapTest (Maybe (Map.Map String Bool))
+mapTestDirectMapL f MapTest{..} = (\mapTestDirectMap -> MapTest { mapTestDirectMap, ..} ) <$> f mapTestDirectMap
+{-# INLINE mapTestDirectMapL #-}
+
+-- | 'mapTestIndirectMap' Lens
+mapTestIndirectMapL :: Lens_' MapTest (Maybe StringBooleanMap)
+mapTestIndirectMapL f MapTest{..} = (\mapTestIndirectMap -> MapTest { mapTestIndirectMap, ..} ) <$> f mapTestIndirectMap
+{-# INLINE mapTestIndirectMapL #-}
 
 
 
@@ -567,6 +600,10 @@ readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { re
 specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe Integer)
 specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelNameSpecialPropertyName -> SpecialModelName { specialModelNameSpecialPropertyName, ..} ) <$> f specialModelNameSpecialPropertyName
 {-# INLINE specialModelNameSpecialPropertyNameL #-}
+
+
+
+-- * StringBooleanMap
 
 
 

@@ -19,6 +19,7 @@ package org.openapitools.codegen;
 
 import io.airlift.airline.Cli;
 import io.airlift.airline.Help;
+import io.airlift.airline.ParseArgumentsUnexpectedException;
 import io.airlift.airline.ParseOptionMissingException;
 import io.airlift.airline.ParseOptionMissingValueException;
 import org.openapitools.codegen.cmd.*;
@@ -67,6 +68,9 @@ public class OpenAPIGenerator {
             if (args.length == 0) {
                 System.exit(1);
             }
+        } catch (ParseArgumentsUnexpectedException e) {
+            System.err.printf("[error] %s%n%nSee 'openapi-generator-cli help' for usage.%n", e.getMessage());
+            System.exit(1);
         } catch (ParseOptionMissingException | ParseOptionMissingValueException e) {
             System.err.printf("[error] %s%n", e.getMessage());
             System.exit(1);

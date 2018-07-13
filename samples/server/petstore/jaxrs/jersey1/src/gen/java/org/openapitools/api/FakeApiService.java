@@ -50,6 +50,6 @@ public abstract class FakeApiService {
       throws NotFoundException;
       public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response uploadFileWithRequiredFile(Long petId,InputStream fileInputStream, FormDataContentDisposition fileDetail,String additionalMetadata,SecurityContext securityContext)
+      public abstract Response uploadFileWithRequiredFile(Long petId,InputStream requiredFileInputStream, FormDataContentDisposition requiredFileDetail,String additionalMetadata,SecurityContext securityContext)
       throws NotFoundException;
 }

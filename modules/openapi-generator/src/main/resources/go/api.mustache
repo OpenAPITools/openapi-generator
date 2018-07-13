@@ -67,9 +67,10 @@ type {{{nickname}}}Opts struct {
 func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("{{httpMethod}}")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		{{#returnType}}
 		localVarReturnValue {{{returnType}}}
 		{{/returnType}}
@@ -177,6 +178,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
+	localVarFormFileName = "{{baseName}}"
 {{#required}}
 	localVarFile := {{paramName}}
 {{/required}}
@@ -254,7 +256,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 
 {{/isApiKey}}
 {{/authMethods}}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}
