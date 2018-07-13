@@ -3,10 +3,8 @@
 #include <string.h>
 #include "apiClient.h"
 #include "pet.h"
+#include "keyValuePair.h"
 
-#ifdef API_KEY
-#include "apiKey.h"
-#endif
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
 apiClient_t *apiClient_create() {
@@ -30,17 +28,59 @@ void apiClient_free(apiClient_t *apiClient) {
 
 char *assembleTargetUrl(char	*basePath,
                         char	*operationName,
-                        char	*operationParameter) {
+                        char	*operationParameter,
+                        list_t	*queryParameters) {
+	int neededBufferSizeForQueryParameters = 0;
+	listEntry_t *listEntry;
+
+	if(queryParameters != NULL) {
+		list_ForEach(listEntry, queryParameters) {
+			keyValuePair_t *pair = listEntry->data;
+			neededBufferSizeForQueryParameters +=
+				strlen(pair->key) + strlen(pair->value);
+		}
+
+		neededBufferSizeForQueryParameters +=
+			(queryParameters->count * 2); // each keyValuePair is separated by a = and a & except the last, but this makes up for the ? at the beginning
+	}
+
+	int operationParameterLength = 0;
+	int basePathLength = strlen(basePath);
+	bool slashNeedsToBeAppendedToBasePath = false;
+
+	if(operationParameter != NULL) {
+		operationParameterLength = (1 + strlen(operationParameter));
+	}
+	if(basePath[strlen(basePath) - 1] != '/') {
+		slashNeedsToBeAppendedToBasePath = true;
+		basePathLength++;
+	}
+
 	char *targetUrl =
-		malloc(strlen(operationName) + strlen(
-			       basePath) +
-		       ((operationParameter == NULL) ? 1 : (2 + strlen(
-								    operationParameter))));
+		malloc(strlen(
+			       operationName) + neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
+		       );
 	strcpy(targetUrl, basePath);
+	if(slashNeedsToBeAppendedToBasePath) {
+		strcat(targetUrl, "/");
+	}
 	strcat(targetUrl, operationName);
 	if(operationParameter != NULL) {
 		strcat(targetUrl, "/");
 		strcat(targetUrl, operationParameter);
+	}
+
+	if(queryParameters != NULL) {
+		strcat(targetUrl, "?");
+		list_ForEach(listEntry, queryParameters) {
+			keyValuePair_t *pair = listEntry->data;
+			strcat(targetUrl, pair->key);
+			strcat(targetUrl, "=");
+			strcat(targetUrl, pair->value);
+			if(listEntry->nextListEntry != NULL) {
+				strcat(targetUrl, "&");
+			}
+		}
 	}
 
 	return targetUrl;
@@ -67,6 +107,7 @@ void postData(CURL *handle, char *bodyParameters) {
 void apiClient_invoke(apiClient_t	*apiClient,
                       char		*operationName,
                       char		*operationParameter,
+                      list_t		*queryParameters,
                       char		*bodyParameters) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
@@ -83,7 +124,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		#ifdef API_KEY
 		listEntry_t *listEntry;
 		list_ForEach(listEntry, apiClient->apiKeys) {
-			apiKey_t *apiKey = listEntry->data;
+			keyValuePair_t *apiKey = listEntry->data;
 			if((apiKey->key != NULL) &&
 			   (apiKey->value != NULL) )
 			{
@@ -99,7 +140,8 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,
 			                  operationName,
-			                  operationParameter);
+			                  operationParameter,
+			                  queryParameters);
 
 		curl_easy_setopt(handle, CURLOPT_URL, targetUrl);
 		curl_easy_setopt(handle,

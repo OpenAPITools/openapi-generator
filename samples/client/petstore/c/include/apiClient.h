@@ -1,9 +1,11 @@
 #ifndef INCLUDE_API_CLIENT_H
 #define INCLUDE_API_CLIENT_H
 
-#ifdef API_KEY
 #include "list.h"
-#endif // API_KEY
+
+typedef int bool;
+#define true 1
+#define false 0
 
 typedef struct apiClient_t {
     char *basePath;
@@ -25,6 +27,6 @@ typedef struct apiClient_t {
 
 apiClient_t* apiClient_create();
 void apiClient_free(apiClient_t *apiClient);
-void apiClient_invoke(apiClient_t *apiClient, char* operationName, char* operationParameter, char *bodyParameters);
+void apiClient_invoke(apiClient_t *apiClient, char* operationName, char* operationParameter, list_t *queryParameters, char *bodyParameters);
 
 #endif // INCLUDE_API_CLIENT_H
