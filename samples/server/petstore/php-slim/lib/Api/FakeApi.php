@@ -104,6 +104,21 @@ class FakeApi extends AbstractApiController {
     }
     
     /**
+     * PUT testBodyWithFileSchema
+     * Summary: 
+     * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
+     * @param \Psr\Http\Message\ResponseInterface      $response Response
+     * @param array|null                               $args     Path arguments
+     */
+    public function testBodyWithFileSchema($request, $response, $args) {
+        $body = $request->getParsedBody();
+        $response->write('How about implementing testBodyWithFileSchema as a PUT method ?');
+        return $response;
+    }
+    
+    /**
      * PUT testBodyWithQueryParams
      * Summary: 
      * Notes: 
