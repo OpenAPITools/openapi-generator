@@ -41,7 +41,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
     private static final SimpleDateFormat MIGRATE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");

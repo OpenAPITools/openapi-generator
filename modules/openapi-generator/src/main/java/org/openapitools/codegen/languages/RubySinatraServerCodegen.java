@@ -39,7 +39,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class RubySinatraServerCodegen extends AbstractRubyCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);
 
