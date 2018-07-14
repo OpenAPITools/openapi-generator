@@ -61,7 +61,7 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$unknown_base_type = new \OpenAPI\Client\Model\UNKNOWN_BASE_TYPE(); // object | 
+$unknown_base_type = new \OpenAPI\Client\Model\UNKNOWN_BASE_TYPE(); // \OpenAPI\Client\Model\UNKNOWN_BASE_TYPE | 
 
 try {
     $apiInstance->testCodeInjectEndRnNR($unknown_base_type);
@@ -74,7 +74,7 @@ try {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *http://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
