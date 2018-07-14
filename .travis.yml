@@ -44,6 +44,7 @@ before_install:
 install:
   - jdk_switcher use openjdk6 
   - java -version
+  - which java
   - export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64
   - ls /usr/lib/jvm/
   - ls /usr/lib/jvm/java-6-openjdk-amd64/
