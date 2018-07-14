@@ -1,5 +1,13 @@
 sudo: required
 language: java
+# comment out the host table change to use the public petstore server
+addons:
+  chrome: stable
+  hosts:
+    - petstore.swagger.io
+  apt:
+    packages:
+      - openjdk-6-jdk
 jdk:
   - openjdk6
 
@@ -34,14 +42,6 @@ cache:
 services:
   - docker
 
-# comment out the host table change to use the public petstore server
-addons:
-  chrome: stable
-  hosts:
-    - petstore.swagger.io
-  apt:
-    packages:
-      - openjdk-6-jdk
 before_install:
 #  # install haskell
 #  - curl -sSL https://get.haskellstack.org/ | sh
