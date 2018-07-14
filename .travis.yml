@@ -30,7 +30,7 @@ install:
    - sdk install gradle 2.9
    - sdk list gradle
    - sdk version
-   - gradle version
+   - gradle --version
 
 script:
   # fail fast
