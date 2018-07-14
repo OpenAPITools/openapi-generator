@@ -42,6 +42,11 @@ before_install:
   - cat /etc/hosts
 
 install:
+  - ls $HOME
+
+script:
+  # fail fast
+  - set -e
   - jdk_switcher use openjdk6 
   - java -version
   - which java
@@ -52,13 +57,8 @@ install:
   - export M2_HOME=$HOME/apache-maven-3.2.5
   - wget http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
   - tar zxvf apache-maven-3.2.5-bin.tar.gz -C $HOME
-  - ls $HOME
   - ls $HOME/apache-maven-3.2.5/bin/
   - $HOME/apache-maven-3.2.5/bin/mvn -version
-
-script:
-  # fail fast
-  - set -e
   #- mvn --quiet clean install
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
