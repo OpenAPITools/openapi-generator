@@ -1,7 +1,7 @@
 dist: trusty
 sudo: required
 language: java
-addons:
+Eaddons:
   apt:
     packages:
       - openjdk-6-jdk
@@ -48,8 +48,8 @@ install:
 script:
   # fail fast
   - set -e
-  - wget http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip
-  - unzip apache-maven-3.2.5-bin.zip -d ./maven
+  - wget http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
+  - tar zxvf apache-maven-3.2.5-bin.tar.gz
   #- mvn --quiet clean install
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
