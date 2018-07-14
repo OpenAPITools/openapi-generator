@@ -164,12 +164,6 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
-    }
-
-    @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("=end", "=_end").replace("=begin", "=_begin");
     }

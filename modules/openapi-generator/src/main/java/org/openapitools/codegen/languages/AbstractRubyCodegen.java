@@ -142,4 +142,10 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         return underscore(operationId);
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove ' to avoid code injection
+        return input.replace("'", "");
+    }
 }
