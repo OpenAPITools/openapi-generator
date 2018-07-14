@@ -46,6 +46,7 @@ install:
   - java -version
   - export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64
   - ls /usr/lib/jvm/
+  - ls /usr/lib/jvm/java-6-openjdk-amd64/
   - ls /usr/lib/jvm/java-6-openjdk-amd64/bin
   - export M2_HOME=$HOME/apache-maven-3.2.5
   - wget http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
