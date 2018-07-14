@@ -48,17 +48,10 @@ install:
 script:
   # fail fast
   - set -e
-  # fail if templates/generators contain carriage return '\r'
-  - /bin/bash ./bin/utils/detect_carriage_return.sh
-  # fail if generators contain merge conflicts
-  - /bin/bash ./bin/utils/detect_merge_conflict.sh
-  # fail if generators contain tab '\t'
-  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
-  # run integration tests defined in maven pom.xml
   #- mvn --quiet clean install
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
-  #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
-  - cd samples/client/petstore/java/jersey2-java6 && mvn test
+  - ./mvnw -f samples/client/petstore/java/jersey2-java6 test
+  #- cd samples/client/petstore/java/jersey2-java6 && mvn test
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test
