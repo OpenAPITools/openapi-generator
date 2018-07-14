@@ -44,7 +44,6 @@ before_install:
 install:
    - jdk_switcher use openjdk6 
    - java -version
-   - mvn -version
 
 script:
   # fail fast
@@ -54,5 +53,3 @@ script:
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
   - cd samples/client/petstore/java/jersey2-java6 && gradle test
 
-env:
-  - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test
