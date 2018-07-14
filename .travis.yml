@@ -30,6 +30,7 @@ install:
    - sdk install gradle 2.9
    - sdk list gradle
    - sdk version
+   - gradle version
 
 script:
   # fail fast
@@ -38,7 +39,7 @@ script:
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
   - cd samples/client/petstore/java/jersey2-java6
-  - gradle wrapper --gradle-version 2.9
-  - chmod +x gradlew
+  #- gradle wrapper --gradle-version 2.9
+  #- chmod +x gradlew
   - gradle test
 
