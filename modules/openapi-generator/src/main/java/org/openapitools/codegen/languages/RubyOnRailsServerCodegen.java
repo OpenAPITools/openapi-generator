@@ -195,19 +195,6 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        }
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
     public String toDefaultValue(Schema p) {
         return "null";
     }

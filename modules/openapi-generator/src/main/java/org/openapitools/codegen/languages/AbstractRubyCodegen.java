@@ -17,7 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.Arrays;
 
@@ -76,5 +79,18 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
+        }
+        return super.getTypeDeclaration(p);
     }
 }
