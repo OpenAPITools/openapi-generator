@@ -49,11 +49,11 @@ script:
   # fail fast
   - set -e
   - wget http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.zip
-  - unzip apache-maven-3.2.5-bin.zip 
+  - unzip apache-maven-3.2.5-bin.zip -d ./maven
   #- mvn --quiet clean install
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
-  - cd samples/client/petstore/java/jersey2-java6 && $HOME/apache-maven-3.2.5/bin/mvn test
+  - cd samples/client/petstore/java/jersey2-java6 && $HOME/maven/bin/mvn test
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test
