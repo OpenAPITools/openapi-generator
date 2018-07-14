@@ -159,7 +159,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.ONLYPACKAGE_GENERATION, CodegenConstants.ONLYPACKAGE_GENERATION_DESC)
+        cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
             .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
@@ -200,16 +200,16 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageVersion("1.0.0");
         }
 
-        Boolean onlyPackage = false;
-        if (additionalProperties.containsKey(CodegenConstants.ONLYPACKAGE_GENERATION)) {
-            onlyPackage = true;
+        Boolean generateSourceCodeOnly = false;
+        if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
+            generateSourceCodeOnly = true;
         }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
-        if (onlyPackage) {
+        if (generateSourceCodeOnly) {
             // tests in <package>/test
             testFolder = packageName + File.separatorChar + testFolder;
             // api/model docs in <package>/docs
@@ -226,13 +226,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         String readmePath ="README.md";
         String readmeTemplate = "README.mustache";
-        if (onlyPackage) {
+        if (generateSourceCodeOnly) {
             readmePath = packageName + "_" + readmePath;
             readmeTemplate = "README_onlypackage.mustache";
         }
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
-        if (!onlyPackage){
+        if (!generateSourceCodeOnly){
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
             supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
             supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
