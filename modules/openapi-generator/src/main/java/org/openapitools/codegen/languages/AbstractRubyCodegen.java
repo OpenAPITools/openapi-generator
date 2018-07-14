@@ -120,4 +120,10 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         return name;
     }
+
+    @Override
+    public String toParamName(String name) {
+        // should be the same as variable name
+        return toVarName(name);
+    }
 }

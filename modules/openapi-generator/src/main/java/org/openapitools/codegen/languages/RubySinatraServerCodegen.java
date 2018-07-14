@@ -114,12 +114,6 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
