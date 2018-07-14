@@ -1,6 +1,6 @@
 dist: trusty
 sudo: false 
-language: java
+language: ruby
 # comment out the host table change to use the public petstore server
 addons:
   chrome: stable
