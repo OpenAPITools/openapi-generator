@@ -118,13 +118,14 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.17"
-    jackson_version = "2.8.9"
     {{#supportJava6}}
+    jackson_version = "2.6.4"
     jersey_version = "2.6"
     commons_io_version=2.5
     commons_lang3_version=3.6
     {{/supportJava6}}
     {{^supportJava6}}
+    jackson_version = "2.8.9"
     jersey_version = "2.25.1"
     {{/supportJava6}}
     junit_version = "4.12"
@@ -139,17 +140,17 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     {{#joda}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version",
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
     {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version",
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{#supportJava6}}
     compile "commons-io:commons-io:$commons_io_version"
     compile "org.apache.commons:commons-lang3:$commons_lang3_version"
     {{/supportJava6}}
     {{#threetenbp}}
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version",
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
     {{/threetenbp}}
     {{^java8}}
     compile "com.brsanthu:migbase64:2.2"

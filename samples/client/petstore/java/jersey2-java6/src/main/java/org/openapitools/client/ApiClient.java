@@ -1,4 +1,3 @@
-jdfklasj;fasdfl
 package org.openapitools.client;
 
 import javax.ws.rs.client.Client;

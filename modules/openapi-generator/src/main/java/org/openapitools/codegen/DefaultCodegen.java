@@ -4392,7 +4392,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (StringUtils.isEmpty(bodyParameterName)) {
                         codegenParameter.baseName = codegenModelName;
                     } else {
-                        codegenParameter.baseNme = bodyParameterName;
+                        codegenParameter.baseName = bodyParameterName;
                     }
 
                     codegenParameter.paramName = toParamName(codegenParameter.baseName);
