@@ -148,4 +148,9 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
         // remove ' to avoid code injection
         return input.replace("'", "");
     }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("=end", "=_end").replace("=begin", "=_begin");
+    }
 }

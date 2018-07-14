@@ -255,9 +255,4 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "=_end").replace("=begin", "=_begin");
-    }
 }
