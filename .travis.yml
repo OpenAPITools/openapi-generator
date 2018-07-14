@@ -1,4 +1,5 @@
-sudo: required
+dist: trusty
+sudo: false 
 language: java
 # comment out the host table change to use the public petstore server
 addons:
