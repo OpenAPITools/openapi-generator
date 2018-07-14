@@ -31,5 +31,8 @@ script:
   #- mvn --quiet clean install
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
-  - cd samples/client/petstore/java/jersey2-java6 && gradle test
+  - cd samples/client/petstore/java/jersey2-java
+  - gradle wrapper --gradle-version 2.9
+  - chmod +x gradlew
+  - gradle test
 
