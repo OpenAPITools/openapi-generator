@@ -91,14 +91,6 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + apiPackage.replace("/", File.separator);
     }

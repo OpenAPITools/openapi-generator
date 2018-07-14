@@ -69,4 +69,12 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
     }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
+    }
 }
