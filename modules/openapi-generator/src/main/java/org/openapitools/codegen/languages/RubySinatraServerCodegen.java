@@ -57,38 +57,6 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
         modelTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".rb");
         embeddedTemplateDir = templateDir = "ruby-sinatra-server";
-
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
-
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
-        );
-
-        languageSpecificPrimitives.add("int");
-        languageSpecificPrimitives.add("array");
-        languageSpecificPrimitives.add("map");
-        languageSpecificPrimitives.add("string");
-        languageSpecificPrimitives.add("DateTime");
-
-        typeMapping.put("long", "int");
-        typeMapping.put("integer", "int");
-        typeMapping.put("Array", "array");
-        typeMapping.put("String", "string");
-        typeMapping.put("List", "array");
-        typeMapping.put("map", "map");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "string");
-        typeMapping.put("UUID", "string");
-
-        // remove modelPackage and apiPackage added by default
-        cliOptions.clear();
     }
 
     @Override

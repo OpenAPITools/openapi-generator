@@ -19,8 +19,54 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 
+import java.util.Arrays;
+
 abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
     AbstractRubyCodegen() {
         super();
+
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
+                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
+                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
+                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
+                        "if", "not", "return", "undef", "yield")
+        );
+
+        languageSpecificPrimitives.clear();
+        languageSpecificPrimitives.add("String");
+        languageSpecificPrimitives.add("Integer");
+        languageSpecificPrimitives.add("Float");
+        languageSpecificPrimitives.add("Date");
+        languageSpecificPrimitives.add("DateTime");
+        languageSpecificPrimitives.add("Array");
+        languageSpecificPrimitives.add("Hash");
+        languageSpecificPrimitives.add("File");
+        languageSpecificPrimitives.add("Object");
+
+        typeMapping.clear();
+        typeMapping.put("string", "String");
+        typeMapping.put("char", "String");
+        typeMapping.put("int", "Integer");
+        typeMapping.put("integer", "Integer");
+        typeMapping.put("long", "Integer");
+        typeMapping.put("short", "Integer");
+        typeMapping.put("float", "Float");
+        typeMapping.put("double", "Float");
+        typeMapping.put("number", "Float");
+        typeMapping.put("date", "Date");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("array", "Array");
+        typeMapping.put("List", "Array");
+        typeMapping.put("map", "Hash");
+        typeMapping.put("object", "Object");
+        typeMapping.put("file", "File");
+        typeMapping.put("binary", "String");
+        typeMapping.put("ByteArray", "String");
+        typeMapping.put("UUID", "String");
+
+        // remove modelPackage and apiPackage added by default
+        cliOptions.clear();
     }
 }

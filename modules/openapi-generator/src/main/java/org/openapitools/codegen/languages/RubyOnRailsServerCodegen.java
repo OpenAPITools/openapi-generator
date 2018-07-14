@@ -87,36 +87,14 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
         embeddedTemplateDir = templateDir = "ruby-on-rails-server";
 
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
-
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
-        );
-
+        // In order to adapt to DB migrate script, overwrite typeMapping
         typeMapping.put("string", "string");
-        typeMapping.put("char", "string");
         typeMapping.put("int", "integer");
         typeMapping.put("integer", "integer");
         typeMapping.put("long", "integer");
         typeMapping.put("short", "integer");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "decimal");
-        typeMapping.put("number", "float");
-        typeMapping.put("date", "date");
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("boolean", "boolean");
-        typeMapping.put("binary", "string");
-        typeMapping.put("ByteArray", "string");
-        typeMapping.put("UUID", "string");
-
-        // remove modelPackage and apiPackage added by default
-        cliOptions.clear();
     }
 
     @Override
