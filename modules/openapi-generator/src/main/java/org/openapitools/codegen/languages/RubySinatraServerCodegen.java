@@ -114,11 +114,6 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        return "null";
-    }
-
-    @Override
     public String toVarName(String name) {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.

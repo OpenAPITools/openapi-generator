@@ -93,4 +93,9 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
         }
         return super.getTypeDeclaration(p);
     }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        return "null";
+    }
 }
