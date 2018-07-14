@@ -46,7 +46,7 @@ install:
 
 script:
   # fail fast
-  - set -e
+  #- set -e
   - jdk_switcher use openjdk6 
   - java -version
   - which java
