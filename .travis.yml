@@ -13,26 +13,6 @@ cache:
   - $HOME/.ivy2
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
-  - $HOME/samples/client/petstore/javascript/node_modules
-  - $HOME/samples/client/petstore/php/OpenAPIToolsClient-php/vendor
-  - $HOME/samples/client/petstore/ruby/vendor/bundle
-  - $HOME/samples/client/petstore/python/.venv/
-  - $HOME/samples/client/petstore/typescript-node/npm/node_modules
-  - $HOME/samples/client/petstore/typescript-node/npm/typings/
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/tests/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/default/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/builds/es6-target/typings
-  - $HOME/samples/client/petstore/typescript-fetch/builds/with-npm-version/node_modules
-  - $HOME/samples/client/petstore/typescript-fetch/npm/with-npm-version/typings
-  - $HOME/samples/client/petstore/typescript-angular/node_modules
-  - $HOME/samples/client/petstore/typescript-angular/typings
-  - $HOME/samples/server/petstore/rust-server/target
-  - $HOME/perl5
-  - $HOME/.cargo
-  - $HOME/.stack
 
 services:
   - docker
@@ -47,7 +27,7 @@ install:
 
 script:
   # fail fast
-  - set -e
+  #- set -e
   #- mvn --quiet clean install
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
