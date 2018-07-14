@@ -195,28 +195,6 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // if it's all uppper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
-        }
-
-        // camelize (lower first character) the variable name
-        // petId => pet_id
-        name = underscore(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
-    }
-
-    @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
