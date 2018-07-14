@@ -158,18 +158,6 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toOperationId(String operationId) {
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
-            return newOperationId;
-        }
-
-        return underscore(operationId);
-    }
-
-    @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);

@@ -21,10 +21,14 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
 abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
+
     AbstractRubyCodegen() {
         super();
 
@@ -125,5 +129,17 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     public String toParamName(String name) {
         // should be the same as variable name
         return toVarName(name);
+    }
+
+    @Override
+    public String toOperationId(String operationId) {
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            String newOperationId = underscore("call_" + operationId);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
+        return underscore(operationId);
     }
 }
