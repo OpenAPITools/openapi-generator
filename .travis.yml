@@ -24,6 +24,12 @@ before_install:
 install:
    - jdk_switcher use openjdk6 
    - java -version
+   - curl -s "https://get.sdkman.io" | bash
+   - source "$HOME/.sdkman/bin/sdkman-init.sh"
+   - sdk version
+   - sdk install gradle 2.9
+   - sdk list gradle
+   - sdk version
 
 script:
   # fail fast
@@ -31,7 +37,7 @@ script:
   #- mvn --quiet clean install
   #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
   #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
-  - cd samples/client/petstore/java/jersey2-java
+  - cd samples/client/petstore/java/jersey2-java6
   - gradle wrapper --gradle-version 2.9
   - chmod +x gradlew
   - gradle test
