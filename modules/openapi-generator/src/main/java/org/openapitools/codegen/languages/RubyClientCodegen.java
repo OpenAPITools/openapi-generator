@@ -302,19 +302,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String getTypeDeclaration(Schema schema) {
-        if (ModelUtils.isArraySchema(schema)) {
-            Schema inner = ((ArraySchema) schema).getItems();
-            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = (Schema) schema.getAdditionalProperties();
-            return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
-        }
-
-        return super.getTypeDeclaration(schema);
-    }
-
-    @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {

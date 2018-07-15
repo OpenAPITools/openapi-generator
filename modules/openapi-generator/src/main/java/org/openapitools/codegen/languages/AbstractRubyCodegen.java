@@ -83,16 +83,16 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
+    public String getTypeDeclaration(Schema schema) {
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema inner = ((ArraySchema) schema).getItems();
+            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(schema)) {
+            Schema inner = (Schema) schema.getAdditionalProperties();
+            return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
-        return super.getTypeDeclaration(p);
+
+        return super.getTypeDeclaration(schema);
     }
 
     @Override
