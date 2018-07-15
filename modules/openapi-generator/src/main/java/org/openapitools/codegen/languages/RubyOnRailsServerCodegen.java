@@ -95,6 +95,9 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         typeMapping.put("short", "integer");
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("boolean", "boolean");
+
+        // remove modelPackage and apiPackage added by default
+        cliOptions.clear();
     }
 
     @Override

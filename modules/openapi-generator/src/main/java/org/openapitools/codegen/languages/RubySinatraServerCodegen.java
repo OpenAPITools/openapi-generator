@@ -57,6 +57,9 @@ public class RubySinatraServerCodegen extends AbstractRubyCodegen {
         modelTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".rb");
         embeddedTemplateDir = templateDir = "ruby-sinatra-server";
+
+        // remove modelPackage and apiPackage added by default
+        cliOptions.clear();
     }
 
     @Override

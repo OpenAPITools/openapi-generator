@@ -72,9 +72,6 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
-
-        // remove modelPackage and apiPackage added by default
-        cliOptions.clear();
     }
 
     @Override
