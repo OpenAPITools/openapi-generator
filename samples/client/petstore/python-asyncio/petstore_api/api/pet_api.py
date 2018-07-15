@@ -812,17 +812,17 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def upload_file_with_required_file(self, pet_id, file, **kwargs):  # noqa: E501
+    def upload_file_with_required_file(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async=True
-        >>> thread = api.upload_file_with_required_file(pet_id, file, async=True)
+        >>> thread = api.upload_file_with_required_file(pet_id, required_file, async=True)
         >>> result = thread.get()
 
         :param async bool
         :param int pet_id: ID of pet to update (required)
-        :param file file: file to upload (required)
+        :param file required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
         :return: ApiResponse
                  If the method is called asynchronously,
@@ -830,22 +830,22 @@ class PetApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async'):
-            return self.upload_file_with_required_file_with_http_info(pet_id, file, **kwargs)  # noqa: E501
+            return self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
         else:
-            (data) = self.upload_file_with_required_file_with_http_info(pet_id, file, **kwargs)  # noqa: E501
+            (data) = self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
             return data
 
-    def upload_file_with_required_file_with_http_info(self, pet_id, file, **kwargs):  # noqa: E501
+    def upload_file_with_required_file_with_http_info(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async=True
-        >>> thread = api.upload_file_with_required_file_with_http_info(pet_id, file, async=True)
+        >>> thread = api.upload_file_with_required_file_with_http_info(pet_id, required_file, async=True)
         >>> result = thread.get()
 
         :param async bool
         :param int pet_id: ID of pet to update (required)
-        :param file file: file to upload (required)
+        :param file required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
         :return: ApiResponse
                  If the method is called asynchronously,
@@ -854,7 +854,7 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet_id', 'file', 'additional_metadata']  # noqa: E501
+        all_params = ['pet_id', 'required_file', 'additional_metadata']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -872,10 +872,10 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
-        # verify the required parameter 'file' is set
-        if ('file' not in local_var_params or
-                local_var_params['file'] is None):
-            raise ValueError("Missing the required parameter `file` when calling `upload_file_with_required_file`")  # noqa: E501
+        # verify the required parameter 'required_file' is set
+        if ('required_file' not in local_var_params or
+                local_var_params['required_file'] is None):
+            raise ValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
 
         collection_formats = {}
 
@@ -891,8 +891,8 @@ class PetApi(object):
         local_var_files = {}
         if 'additional_metadata' in local_var_params:
             form_params.append(('additionalMetadata', local_var_params['additional_metadata']))  # noqa: E501
-        if 'file' in local_var_params:
-            local_var_files['file'] = local_var_params['file']  # noqa: E501
+        if 'required_file' in local_var_params:
+            local_var_files['requiredFile'] = local_var_params['required_file']  # noqa: E501
 
         body_params = None
         # HTTP header `Accept`
@@ -920,113 +920,4 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
-
-    def upload_file_with_required_file(self, pet_id, file, **kwargs):  # noqa: E501
-        """uploads an image (required)  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.upload_file_with_required_file(pet_id, file, async=True)
-        >>> result = thread.get()
-
-        :param async bool
-        :param int pet_id: ID of pet to update (required)
-        :param file file: file to upload (required)
-        :param str additional_metadata: Additional data to pass to server
-        :return: ApiResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-        kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
-            return self.upload_file_with_required_file_with_http_info(pet_id, file, **kwargs)  # noqa: E501
-        else:
-            (data) = self.upload_file_with_required_file_with_http_info(pet_id, file, **kwargs)  # noqa: E501
-            return data
-
-    def upload_file_with_required_file_with_http_info(self, pet_id, file, **kwargs):  # noqa: E501
-        """uploads an image (required)  # noqa: E501
-
-        This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.upload_file_with_required_file_with_http_info(pet_id, file, async=True)
-        >>> result = thread.get()
-
-        :param async bool
-        :param int pet_id: ID of pet to update (required)
-        :param file file: file to upload (required)
-        :param str additional_metadata: Additional data to pass to server
-        :return: ApiResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
-        """
-
-        all_params = ['pet_id', 'file', 'additional_metadata']  # noqa: E501
-        all_params.append('async')
-        all_params.append('_return_http_data_only')
-        all_params.append('_preload_content')
-        all_params.append('_request_timeout')
-
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
-            if key not in all_params:
-                raise TypeError(
-                    "Got an unexpected keyword argument '%s'"
-                    " to method upload_file_with_required_file" % key
-                )
-            params[key] = val
-        del params['kwargs']
-        # verify the required parameter 'pet_id' is set
-        if ('pet_id' not in params or
-                params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
-        # verify the required parameter 'file' is set
-        if ('file' not in params or
-                params['file'] is None):
-            raise ValueError("Missing the required parameter `file` when calling `upload_file_with_required_file`")  # noqa: E501
-
-        collection_formats = {}
-
-        path_params = {}
-        if 'pet_id' in params:
-            path_params['petId'] = params['pet_id']  # noqa: E501
-
-        query_params = []
-
-        header_params = {}
-
-        form_params = []
-        local_var_files = {}
-        if 'additional_metadata' in params:
-            form_params.append(('additionalMetadata', params['additional_metadata']))  # noqa: E501
-        if 'file' in params:
-            local_var_files['file'] = params['file']  # noqa: E501
-
-        body_params = None
-        # HTTP header `Accept`
-        header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['multipart/form-data'])  # noqa: E501
-
-        # Authentication setting
-        auth_settings = ['petstore_auth']  # noqa: E501
-
-        return self.api_client.call_api(
-            '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
-            path_params,
-            query_params,
-            header_params,
-            body=body_params,
-            post_params=form_params,
-            files=local_var_files,
-            response_type='ApiResponse',  # noqa: E501
-            auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
             collection_formats=collection_formats)
