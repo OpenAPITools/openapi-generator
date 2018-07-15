@@ -371,12 +371,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
     public String toModelName(String name) {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -639,16 +633,4 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         //
         //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "=_end").replace("=begin", "=_begin");
-    }
-
 }
