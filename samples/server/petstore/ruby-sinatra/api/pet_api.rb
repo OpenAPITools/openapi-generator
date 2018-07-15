@@ -34,13 +34,13 @@ MyApp.add_route('DELETE', '/v2/pet/{petId}', {
     {
       "name" => "pet_id",
       "description" => "Pet id to delete",
-      "dataType" => "int",
+      "dataType" => "Integer",
       "paramType" => "path",
     },
     {
       "name" => "api_key",
       "description" => "",
-      "dataType" => "string",
+      "dataType" => "String",
       "paramType" => "header",
     },
     ]}) do
@@ -55,14 +55,14 @@ MyApp.add_route('GET', '/v2/pet/findByStatus', {
   "resourcePath" => "/Pet",
   "summary" => "Finds Pets by status",
   "nickname" => "find_pets_by_status", 
-  "responseClass" => "array[Pet]", 
+  "responseClass" => "Array&lt;Pet&gt;", 
   "endpoint" => "/pet/findByStatus", 
   "notes" => "Multiple status values can be provided with comma separated strings",
   "parameters" => [
     {
       "name" => "status",
       "description" => "Status values that need to be considered for filter",
-      "dataType" => "array[string]",
+      "dataType" => "Array&lt;String&gt;",
       "collectionFormat" => "csv",
       "paramType" => "query",
     },
@@ -78,14 +78,14 @@ MyApp.add_route('GET', '/v2/pet/findByTags', {
   "resourcePath" => "/Pet",
   "summary" => "Finds Pets by tags",
   "nickname" => "find_pets_by_tags", 
-  "responseClass" => "array[Pet]", 
+  "responseClass" => "Array&lt;Pet&gt;", 
   "endpoint" => "/pet/findByTags", 
   "notes" => "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
   "parameters" => [
     {
       "name" => "tags",
       "description" => "Tags to filter by",
-      "dataType" => "array[string]",
+      "dataType" => "Array&lt;String&gt;",
       "collectionFormat" => "csv",
       "paramType" => "query",
     },
@@ -108,7 +108,7 @@ MyApp.add_route('GET', '/v2/pet/{petId}', {
     {
       "name" => "pet_id",
       "description" => "ID of pet to return",
-      "dataType" => "int",
+      "dataType" => "Integer",
       "paramType" => "path",
     },
     ]}) do
@@ -152,7 +152,7 @@ MyApp.add_route('POST', '/v2/pet/{petId}', {
     {
       "name" => "pet_id",
       "description" => "ID of pet that needs to be updated",
-      "dataType" => "int",
+      "dataType" => "Integer",
       "paramType" => "path",
     },
     ]}) do
@@ -174,7 +174,7 @@ MyApp.add_route('POST', '/v2/pet/{petId}/uploadImage', {
     {
       "name" => "pet_id",
       "description" => "ID of pet to update",
-      "dataType" => "int",
+      "dataType" => "Integer",
       "paramType" => "path",
     },
     ]}) do

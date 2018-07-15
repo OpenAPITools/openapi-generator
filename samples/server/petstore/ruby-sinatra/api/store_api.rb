@@ -12,7 +12,7 @@ MyApp.add_route('DELETE', '/v2/store/order/{orderId}', {
     {
       "name" => "order_id",
       "description" => "ID of the order that needs to be deleted",
-      "dataType" => "string",
+      "dataType" => "String",
       "paramType" => "path",
     },
     ]}) do
@@ -27,7 +27,7 @@ MyApp.add_route('GET', '/v2/store/inventory', {
   "resourcePath" => "/Store",
   "summary" => "Returns pet inventories by status",
   "nickname" => "get_inventory", 
-  "responseClass" => "map[string,int]", 
+  "responseClass" => "Hash&lt;String, Integer&gt;", 
   "endpoint" => "/store/inventory", 
   "notes" => "Returns a map of status codes to quantities",
   "parameters" => [
@@ -50,7 +50,7 @@ MyApp.add_route('GET', '/v2/store/order/{orderId}', {
     {
       "name" => "order_id",
       "description" => "ID of pet that needs to be fetched",
-      "dataType" => "int",
+      "dataType" => "Integer",
       "paramType" => "path",
     },
     ]}) do

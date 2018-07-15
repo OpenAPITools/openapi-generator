@@ -34,7 +34,7 @@ MyApp.add_route('POST', '/v2/user/createWithArray', {
     {
       "name" => "body",
       "description" => "List of user object",
-      "dataType" => "array[User]",
+      "dataType" => "Array&lt;User&gt;",
       "paramType" => "body",
     }
     ]}) do
@@ -56,7 +56,7 @@ MyApp.add_route('POST', '/v2/user/createWithList', {
     {
       "name" => "body",
       "description" => "List of user object",
-      "dataType" => "array[User]",
+      "dataType" => "Array&lt;User&gt;",
       "paramType" => "body",
     }
     ]}) do
@@ -78,7 +78,7 @@ MyApp.add_route('DELETE', '/v2/user/{username}', {
     {
       "name" => "username",
       "description" => "The name that needs to be deleted",
-      "dataType" => "string",
+      "dataType" => "String",
       "paramType" => "path",
     },
     ]}) do
@@ -100,7 +100,7 @@ MyApp.add_route('GET', '/v2/user/{username}', {
     {
       "name" => "username",
       "description" => "The name that needs to be fetched. Use user1 for testing.",
-      "dataType" => "string",
+      "dataType" => "String",
       "paramType" => "path",
     },
     ]}) do
@@ -115,21 +115,21 @@ MyApp.add_route('GET', '/v2/user/login', {
   "resourcePath" => "/User",
   "summary" => "Logs user into the system",
   "nickname" => "login_user", 
-  "responseClass" => "string", 
+  "responseClass" => "String", 
   "endpoint" => "/user/login", 
   "notes" => "",
   "parameters" => [
     {
       "name" => "username",
       "description" => "The user name for login",
-      "dataType" => "string",
+      "dataType" => "String",
       "allowableValues" => "",
       "paramType" => "query",
     },
     {
       "name" => "password",
       "description" => "The password for login in clear text",
-      "dataType" => "string",
+      "dataType" => "String",
       "allowableValues" => "",
       "paramType" => "query",
     },
@@ -168,7 +168,7 @@ MyApp.add_route('PUT', '/v2/user/{username}', {
     {
       "name" => "username",
       "description" => "name that need to be deleted",
-      "dataType" => "string",
+      "dataType" => "String",
       "paramType" => "path",
     },
     {
