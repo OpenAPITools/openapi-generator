@@ -302,21 +302,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + escapeText((String) p.getDefault()) + "'";
-            }
-        }
-
-        return null;
-    }
-
-    @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
         String type = null;

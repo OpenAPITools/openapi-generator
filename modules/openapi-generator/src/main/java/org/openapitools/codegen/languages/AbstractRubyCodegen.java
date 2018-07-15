@@ -97,7 +97,17 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toDefaultValue(Schema p) {
-        return "null";
+        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + escapeText((String) p.getDefault()) + "'";
+            }
+        }
+
+        return null;
     }
 
     @Override
