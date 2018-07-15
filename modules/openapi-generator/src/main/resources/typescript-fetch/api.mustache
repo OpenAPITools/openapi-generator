@@ -264,14 +264,14 @@ export class {{classname}} extends BaseAPI {
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formData.set('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
             {{/isCollectionFormatMulti}}
         }
 
         {{/isListContainer}}
         {{^isListContainer}}
         if (requestParameters.{{paramName}} !== undefined) {
-            formData.set('{{baseName}}', requestParameters.{{paramName}} as any);
+            formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
         }
 
         {{/isListContainer}}

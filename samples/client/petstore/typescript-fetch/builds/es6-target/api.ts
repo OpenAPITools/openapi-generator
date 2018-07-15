@@ -488,11 +488,11 @@ export class PetApi extends BaseAPI {
 
         const formData = new FormData();
         if (requestParameters.name !== undefined) {
-            formData.set('name', requestParameters.name as any);
+            formData.append('name', requestParameters.name as any);
         }
 
         if (requestParameters.status !== undefined) {
-            formData.set('status', requestParameters.status as any);
+            formData.append('status', requestParameters.status as any);
         }
 
         return this.request<Response>({
@@ -525,11 +525,11 @@ export class PetApi extends BaseAPI {
 
         const formData = new FormData();
         if (requestParameters.additionalMetadata !== undefined) {
-            formData.set('additionalMetadata', requestParameters.additionalMetadata as any);
+            formData.append('additionalMetadata', requestParameters.additionalMetadata as any);
         }
 
         if (requestParameters.file !== undefined) {
-            formData.set('file', requestParameters.file as any);
+            formData.append('file', requestParameters.file as any);
         }
 
         return this.request<ApiResponse>({
