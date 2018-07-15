@@ -18,14 +18,11 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;

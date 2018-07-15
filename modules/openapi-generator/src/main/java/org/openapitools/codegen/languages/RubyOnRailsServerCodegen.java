@@ -18,26 +18,15 @@
 package org.openapitools.codegen.languages;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.core.util.Yaml;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
