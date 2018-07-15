@@ -97,46 +97,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
 
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
-
         // primitives in ruby lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("array");
         languageSpecificPrimitives.add("map");
         languageSpecificPrimitives.add("string");
         // primitives in the typeMapping
-        languageSpecificPrimitives.add("String");
-        languageSpecificPrimitives.add("Integer");
-        languageSpecificPrimitives.add("Float");
-        languageSpecificPrimitives.add("Date");
-        languageSpecificPrimitives.add("DateTime");
         languageSpecificPrimitives.add("BOOLEAN");
-        languageSpecificPrimitives.add("Array");
-        languageSpecificPrimitives.add("Hash");
-        languageSpecificPrimitives.add("File");
-        languageSpecificPrimitives.add("Object");
-
-        typeMapping.put("string", "String");
-        typeMapping.put("char", "String");
-        typeMapping.put("int", "Integer");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Integer");
-        typeMapping.put("short", "Integer");
-        typeMapping.put("float", "Float");
-        typeMapping.put("double", "Float");
-        typeMapping.put("number", "Float");
-        typeMapping.put("date", "Date");
-        typeMapping.put("DateTime", "DateTime");
         typeMapping.put("boolean", "BOOLEAN");
-        typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
-        typeMapping.put("map", "Hash");
-        typeMapping.put("object", "Object");
-        typeMapping.put("file", "File");
-        typeMapping.put("binary", "String");
-        typeMapping.put("ByteArray", "String");
-        typeMapping.put("UUID", "String");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
