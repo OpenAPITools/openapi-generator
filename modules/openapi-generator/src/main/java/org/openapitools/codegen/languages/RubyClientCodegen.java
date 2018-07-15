@@ -89,18 +89,13 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // local variable names used in API methods (endpoints)
-                        "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
-                        "_header_content_type", "form_params", "post_body", "auth_names",
-                        // ruby reserved keywords
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
-        );
+        // local variable names used in API methods (endpoints)
+        for (String word : Arrays.asList(
+                "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
+                "_header_content_type", "form_params", "post_body", "auth_names")) {
+            reservedWords.add(word.toLowerCase());
+        }
+
 
         typeMapping.clear();
         languageSpecificPrimitives.clear();
