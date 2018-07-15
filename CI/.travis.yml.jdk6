@@ -14,13 +14,6 @@ cache:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
 
-services:
-  - docker
-
-before_install:
-  # show host table to confirm petstore.swagger.io is mapped to localhost
-  - cat /etc/hosts
-
 install:
    - jdk_switcher use openjdk6 
    - java -version
@@ -33,13 +26,4 @@ install:
    - gradle --version
 
 script:
-  # fail fast
-  #- set -e
-  #- mvn --quiet clean install
-  #- mvn --quiet verify -Psamples/client/petstore/java/jersey2-java6
-  #- ./mvnw -f samples/client/petstore/java/jersey2-java6 test
-  - cd samples/client/petstore/java/jersey2-java6
-  #- gradle wrapper --gradle-version 2.9
-  #- chmod +x gradlew
-  - gradle test
-
+  - cd samples/client/petstore/java/jersey2-java6 && gradle test
