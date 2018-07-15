@@ -93,10 +93,11 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.17"
-    jackson_version = "2.8.9"
-    jersey_version = "2.25.1"
+    swagger_annotations_version = "1.5.20"
+    jackson_version = "2.9.6"
+    jersey_version = "2.27"
     junit_version = "4.12"
+    threetenbp_version = "2.6.4"
 }
 
 dependencies {
@@ -107,7 +108,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
     compile "com.brsanthu:migbase64:2.2"
     testCompile "junit:junit:$junit_version"
 }
