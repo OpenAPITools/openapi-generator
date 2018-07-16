@@ -96,7 +96,7 @@ char *assembleTargetUrl(char	*basePath,
 	return targetUrl;
 }
 
-char *assembleAPIKeyAuthentication(char *key, char *value) {
+char *assembleHeaderField(char *key, char *value) {
 	char *header = malloc(strlen(key) + strlen(value) + 3);
 
 	strcpy(header, key),
@@ -117,6 +117,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
                       char		*operationName,
                       char		*operationParameter,
                       list_t		*queryParameters,
+                      list_t		*headerParameters,
                       char		*bodyParameters,
                       char		*requestType) {
 	CURL *handle = curl_easy_init();
@@ -133,17 +134,30 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			                 CURLOPT_CUSTOMREQUEST,
 			                 requestType);
 		}
+		listEntry_t *listEntry;
+		list_ForEach(listEntry, headerParameters) {
+			keyValuePair_t *keyValuePair = listEntry->data;
+			if((keyValuePair->key != NULL) &&
+			   (keyValuePair->value != NULL) )
+			{
+				char *headerValueToWrite =
+					assembleHeaderField(
+						keyValuePair->key,
+						keyValuePair->value);
+				curl_slist_append(headers, headerValueToWrite);
+				free(headerValueToWrite);
+			}
+		}
 
 		// this would only be generated for apiKey authentication
 		#ifdef API_KEY
-		listEntry_t *listEntry;
 		list_ForEach(listEntry, apiClient->apiKeys) {
 			keyValuePair_t *apiKey = listEntry->data;
 			if((apiKey->key != NULL) &&
 			   (apiKey->value != NULL) )
 			{
 				char *headerValueToWrite =
-					assembleAPIKeyAuthentication(
+					assembleHeaderField(
 						apiKey->key,
 						apiKey->value);
 				curl_slist_append(headers, headerValueToWrite);
