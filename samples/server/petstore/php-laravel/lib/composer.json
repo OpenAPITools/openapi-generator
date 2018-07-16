@@ -1,0 +1,68 @@
+{
+  "name": "GIT_USER_ID/GIT_REPO_ID",
+  "description": ".",
+  "keywords": ["framework", "laravel"],
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=7.0.0",
+    "doctrine/dbal": "^2.6",
+    "laravel/framework": "5.5.*",
+    "laravel/tinker": "~1.0"
+  },
+  "require-dev": {
+    "fzaninotto/faker": "~1.4",
+    "mockery/mockery": "~1.0",
+    "phpspec/phpspec": "^4.2",
+    "phpunit/phpunit": "~6.0",
+    "squizlabs/php_codesniffer": "^3.0"
+  },
+  "autoload": {
+    "classmap": [
+      "database/seeds",
+      "database/migrations",
+      "database/factories"
+    ],
+    "psr-4": {
+      "App\\": "app/",
+      "Tests\\": "tests/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": [
+      ]
+    }
+  },
+  "scripts": {
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "@php artisan key:generate"
+    ],
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover"
+    ],
+    "post-install-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postInstall"
+    ],
+    "post-update-cmd": [
+      "Illuminate\\Foundation\\ComposerScripts::postUpdate"
+    ],
+    "test": [
+      "vendor/bin/phpunit"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  }
+}
