@@ -1,7 +1,14 @@
 {{>licenseInfo}}
 #include "ApiClient.h"
+
+{{#supportingFilesDirectory}}
+#include "{{{supportingFilesDirectory}}}/MultipartFormData.h"
+#include "{{{supportingFilesDirectory}}}/ModelBase.h"
+{{/supportingFilesDirectory}}
+{{^supportingFilesDirectory}}
 #include "MultipartFormData.h"
 #include "ModelBase.h"
+{{/supportingFilesDirectory}}
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {

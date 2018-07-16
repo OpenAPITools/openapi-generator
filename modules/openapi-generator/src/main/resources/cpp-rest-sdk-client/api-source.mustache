@@ -2,9 +2,16 @@
 {{#operations}}
 
 #include "{{classname}}.h"
-#include "IHttpBody.h"
-#include "JsonBody.h"
-#include "MultipartFormData.h"
+{{#supportingFilesDirectory}}
+#include "{{{supportingFilesDirectory}}}/IHttpBody.h"
+#include "{{{supportingFilesDirectory}}}/JsonBody.h"
+#include "{{{supportingFilesDirectory}}}/MultipartFormData.h"
+{{/supportingFilesDirectory}}
+{{^supportingFilesDirectory}}
+#include "../IHttpBody.h"
+#include "../JsonBody.h"
+#include "../MultipartFormData.h"
+{{/supportingFilesDirectory}}
 
 #include <unordered_set>
 
@@ -15,6 +22,17 @@ namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
 using namespace {{modelNamespace}};
+
+{{#supportingFilesNamespace}}
+using {{{supportingFilesNamespace}}}ApiClient;
+using {{{supportingFilesNamespace}}}ApiConfiguration;
+using {{{supportingFilesNamespace}}}ApiException;
+using {{{supportingFilesNamespace}}}HttpContent;
+using {{{supportingFilesNamespace}}}IHttpBody;
+using {{{supportingFilesNamespace}}}JsonBody;
+using {{{supportingFilesNamespace}}}ModelBase;
+using {{{supportingFilesNamespace}}}MultipartFormData;
+{{/supportingFilesNamespace}}
 
 {{classname}}::{{classname}}( std::shared_ptr<ApiClient> apiClient )
     : m_ApiClient(apiClient)

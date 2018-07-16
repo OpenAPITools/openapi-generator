@@ -9,10 +9,18 @@
 #define {{apiHeaderGuardPrefix}}_ApiClient_H_
 
 {{{defaultInclude}}}
+{{#supportingFilesDirectory}}
+#include "{{{supportingFilesDirectory}}}/ApiConfiguration.h"
+#include "{{{supportingFilesDirectory}}}/ApiException.h"
+#include "{{{supportingFilesDirectory}}}/IHttpBody.h"
+#include "{{{supportingFilesDirectory}}}/HttpContent.h"
+{{/supportingFilesDirectory}}
+{{^supportingFilesDirectory}}
 #include "ApiConfiguration.h"
 #include "ApiException.h"
 #include "IHttpBody.h"
 #include "HttpContent.h"
+{{/supportingFilesDirectory}}
 
 #include <memory>
 #include <vector>

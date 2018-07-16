@@ -20,7 +20,7 @@ public:
     using Base = I{{classname}};
 
     {{classname}}Mock() = default;
-    explicit {{classname}}Mock( std::shared_ptr<ApiClient> apiClient ) { };
+    explicit {{classname}}Mock( std::shared_ptr<{{{supportingFilesNamespace}}}ApiClient> apiClient ) { };
     ~{{classname}}Mock() override = default;
 
     {{#operation}}

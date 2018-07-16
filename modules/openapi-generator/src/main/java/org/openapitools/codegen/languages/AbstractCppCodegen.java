@@ -265,4 +265,12 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             objs.put("lambda", lambdas);
         }
     }
+
+    public String globalInclude(String file) {
+        return "#include <" + file + ">";
+    }
+
+    public String quoteInclude(String file) {
+        return "#include \"" + file + "\"";
+    }
 }

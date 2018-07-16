@@ -1,6 +1,11 @@
 {{>licenseInfo}}
 #include "MultipartFormData.h"
+{{#supportingFilesDirectory}}
+#include "{{{supportingFilesDirectory}}}/ModelBase.h"
+{{/supportingFilesDirectory}}
+{{^supportingFilesDirectory}}
 #include "ModelBase.h"
+{{/supportingFilesDirectory}}
 
 #include <boost/uuid/random_generator.hpp>
 #include <boost/uuid/uuid_io.hpp>
