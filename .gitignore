@@ -101,7 +101,6 @@ samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/logs/
 
 #PHP-laravel
 samples/server/petstore/php-laravel/node_modules
-samples/server/petstore/php-laravel/vendor
 
 # Perl
 samples/client/petstore/perl/deep_module_test/

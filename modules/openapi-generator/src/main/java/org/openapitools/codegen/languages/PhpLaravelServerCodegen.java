@@ -38,7 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
+public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     protected String apiVersion = "1.0.0";
     protected String variableNamingConvention = "camelCase";
@@ -118,23 +118,93 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
         supportingFiles.add(new SupportingFile("composer.mustache", outputFolder, "composer.json"));
         supportingFiles.add(new SupportingFile("README.md", outputFolder, "README.md"));
         supportingFiles.add(new SupportingFile("artisan", outputFolder, "artisan"));
+        supportingFiles.add(new SupportingFile("package.json", outputFolder, "package.json"));
+        supportingFiles.add(new SupportingFile("phpunit.xml", outputFolder, "v"));
+        supportingFiles.add(new SupportingFile("webpack.mix.js", outputFolder, "webpack.mix.js"));
+        supportingFiles.add(new SupportingFile(".env.example", outputFolder, ".env.example"));
 
         supportingFiles.add(new SupportingFile("bootstrap/cache/.gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
         supportingFiles.add(new SupportingFile("bootstrap/app.php", outputFolder + File.separator + "bootstrap", "app.php"));
         supportingFiles.add(new SupportingFile("bootstrap/testingAutoload.php", outputFolder + File.separator + "bootstrap", "testingAutoload.php"));
 
         /* /public/ */
+        supportingFiles.add(new SupportingFile("public/css/app.css", outputFolder + File.separator + "public" + File.separator + "css", "app.css"));
+        supportingFiles.add(new SupportingFile("public/js/app.js", outputFolder + File.separator + "public" + File.separator + "js", "app.js"));
         supportingFiles.add(new SupportingFile("public/.htaccess", outputFolder + File.separator + "public", ".htaccess"));
         supportingFiles.add(new SupportingFile("public/favicon.ico", outputFolder + File.separator + "public", "favicon.ico"));
         supportingFiles.add(new SupportingFile("public/index.php", outputFolder + File.separator + "public", "index.php"));
         supportingFiles.add(new SupportingFile("public/robots.txt", outputFolder + File.separator + "public", "robots.txt"));
+        supportingFiles.add(new SupportingFile("public/web.config", outputFolder + File.separator + "public", "web.config"));
 
-        /* routes */
+        /* /routes/ */
         supportingFiles.add(new SupportingFile("routes/api.mustache", outputFolder + File.separator + "routes", "api.php"));
         supportingFiles.add(new SupportingFile("routes/web.mustache", outputFolder + File.separator + "routes", "web.php"));
+        supportingFiles.add(new SupportingFile("routes/channels.mustache", outputFolder + File.separator + "routes", "channels.php"));
+        supportingFiles.add(new SupportingFile("routes/console.mustache", outputFolder + File.separator + "routes", "console.php"));
 
         /* /app/Http/Controllers/ */
         supportingFiles.add(new SupportingFile("app/Http/Controllers/Controller.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers", "Controller.php"));
+
+        // /app/Console
+        supportingFiles.add(new SupportingFile("app/Console/Kernel.php", outputFolder + File.separator + "app" + File.separator + "Console", "Kernel.php"));
+        // /app/Exceptions
+        supportingFiles.add(new SupportingFile("app/Exceptions/Handler.php", outputFolder + File.separator + "app" + File.separator + "Exceptions", "Handler.php"));
+        // /app/Providers
+        supportingFiles.add(new SupportingFile("app/Providers/AppServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "AppServiceProvider.php"));
+        supportingFiles.add(new SupportingFile("app/Providers/AuthServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "AuthServiceProvider.php"));
+        supportingFiles.add(new SupportingFile("app/Providers/BroadcastServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "BroadcastServiceProvider.php"));
+        supportingFiles.add(new SupportingFile("app/Providers/EventServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "EventServiceProvider.php"));
+        supportingFiles.add(new SupportingFile("app/Providers/RouteServiceProvider.php", outputFolder + File.separator + "app" + File.separator + "Providers", "RouteServiceProvider.php"));
+
+        // /database/
+        supportingFiles.add(new SupportingFile("database/factories/UserFactory.php", outputFolder + File.separator + "database" + File.separator + "factories", "UserFactory.php"));
+        supportingFiles.add(new SupportingFile("database/migrations/2014_10_12_000000_create_users_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2014_10_12_000000_create_users_table.php"));
+        supportingFiles.add(new SupportingFile("database/migrations/2014_10_12_100000_create_password_resets_table.php", outputFolder + File.separator + "database" + File.separator + "migrations", "2014_10_12_100000_create_password_resets_table.php"));
+        supportingFiles.add(new SupportingFile("database/seeds/DatabaseSeeder.php", outputFolder + File.separator + "database" + File.separator + "seeds", "DatabaseSeeder.php"));
+        supportingFiles.add(new SupportingFile("database/.gitignore", outputFolder + File.separator + "database", ".gitignore"));
+
+        // /config/
+        supportingFiles.add(new SupportingFile("config/app.php", outputFolder + File.separator + "config", "app.php"));
+        supportingFiles.add(new SupportingFile("config/auth.php", outputFolder + File.separator + "config", "auth.php"));
+        supportingFiles.add(new SupportingFile("config/broadcasting.php", outputFolder + File.separator + "config", "broadcasting.php"));
+        supportingFiles.add(new SupportingFile("config/cache.php", outputFolder + File.separator + "config", "cache.php"));
+        supportingFiles.add(new SupportingFile("config/database.php", outputFolder + File.separator + "config", "database.php"));
+        supportingFiles.add(new SupportingFile("config/filesystems.php", outputFolder + File.separator + "config", "filesystems.php"));
+        supportingFiles.add(new SupportingFile("config/hashing.php", outputFolder + File.separator + "config", "hashing.php"));
+        supportingFiles.add(new SupportingFile("config/logging.php", outputFolder + File.separator + "config", "logging.php"));
+        supportingFiles.add(new SupportingFile("config/mail.php", outputFolder + File.separator + "config", "mail.php"));
+        supportingFiles.add(new SupportingFile("config/queue.php", outputFolder + File.separator + "config", "queue.php"));
+        supportingFiles.add(new SupportingFile("config/services.php", outputFolder + File.separator + "config", "services.php"));
+        supportingFiles.add(new SupportingFile("config/session.php", outputFolder + File.separator + "config", "session.php"));
+        supportingFiles.add(new SupportingFile("config/view.php", outputFolder + File.separator + "config", "view.php"));
+
+        // /resources/
+        supportingFiles.add(new SupportingFile("resources/assets/js/components/ExampleComponent.vue", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js" + File.separator + "components", "ExampleComponent.vue"));
+        supportingFiles.add(new SupportingFile("resources/assets/js/app.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "app.js"));
+        supportingFiles.add(new SupportingFile("resources/assets/js/bootstrap.js", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "js", "bootstrap.js"));
+        supportingFiles.add(new SupportingFile("resources/assets/sass/_variables.scss", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "sass", "_variables.scss"));
+        supportingFiles.add(new SupportingFile("resources/assets/sass/app.scss", outputFolder + File.separator + "resources" + File.separator + "assets" + File.separator + "sass", "app.scss"));
+        supportingFiles.add(new SupportingFile("resources/lang/en/auth.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "auth.php"));
+        supportingFiles.add(new SupportingFile("resources/lang/en/pagination.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "pagination.php"));
+        supportingFiles.add(new SupportingFile("resources/lang/en/passwords.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "passwords.php"));
+        supportingFiles.add(new SupportingFile("resources/lang/en/validation.php", outputFolder + File.separator + "resources" + File.separator + "lang" + File.separator + "en", "validation.php"));
+        supportingFiles.add(new SupportingFile("resources/views/welcome.blade.php", outputFolder + File.separator + "resources" + File.separator + "views", "welcome.blade.php"));
+
+        // /storage/
+        supportingFiles.add(new SupportingFile("storage/app/.gitignore", outputFolder + File.separator + "storage" + File.separator + "app", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/app/public/.gitignore", outputFolder + File.separator + "storage" + File.separator + "app" + File.separator + "public", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/cache/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/session/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "session", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/testing/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "testing", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/views/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/logs/.gitignore", outputFolder + File.separator + "storage" + File.separator + "logs", ".gitignore"));
+
+        // /tests/
+        supportingFiles.add(new SupportingFile("tests/Feature/ExampleTest.php", outputFolder + File.separator + "tests" + File.separator + "Feature", "ExampleTest.php"));
+        supportingFiles.add(new SupportingFile("tests/Unit/ExampleTest.php", outputFolder + File.separator + "tests" + File.separator + "Unit", "ExampleTest.php"));
+        supportingFiles.add(new SupportingFile("tests/CreatesApplication.php", outputFolder + File.separator + "tests", "CreatesApplication.php"));
+        supportingFiles.add(new SupportingFile("tests/TestCase.php", outputFolder + File.separator + "tests", "TestCase.php"));
     }
 
     // override with any special post-processing
@@ -151,6 +221,16 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen implements Codeg
             // ref: https://github.com/swagger-api/swagger-codegen/issues/6897
             if (op.path != null && op.path.contains(".")) {
                 throw new IllegalArgumentException("'.' (dot) is not supported by PHP laravel. Please refer to https://github.com/swagger-api/swagger-codegen/issues/6897 for more info.");
+            }
+
+            if (op.hasProduces) {
+                // need to escape */* values because they breakes current mustaches
+                List<Map<String, String>> c = op.produces;
+                for (Map<String, String> mediaType : c) {
+                    if ("*/*".equals(mediaType.get("mediaType"))) {
+                        mediaType.put("mediaType", "*_/_*");
+                    }
+                }
             }
         }
 
