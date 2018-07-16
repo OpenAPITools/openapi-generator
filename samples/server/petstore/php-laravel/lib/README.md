@@ -12,3 +12,12 @@ This example uses the [laravel Framework](http://laravel.com/).  To see how to m
 
 Using `composer install` to install the framework and dependencies via [Composer](http://getcomposer.org/).
 
+### post installation steps
+
+Change into application folder and execute following commands to get started:
+
+```sh
+cp .env.example .env
+php artisan key:generate
+php artisan serve
+```

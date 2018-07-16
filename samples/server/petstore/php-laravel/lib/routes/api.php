@@ -76,28 +76,28 @@ Route::get('/v2/fake/jsonFormData', 'FakeController@testJsonFormData');
  * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 Route::post('/v2/fake/outer/boolean', 'FakeController@fakeOuterBooleanSerialize');
 /**
  * post fakeOuterCompositeSerialize
  * Summary: 
  * Notes: Test serialization of object with outer number type
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 Route::post('/v2/fake/outer/composite', 'FakeController@fakeOuterCompositeSerialize');
 /**
  * post fakeOuterNumberSerialize
  * Summary: 
  * Notes: Test serialization of outer number types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 Route::post('/v2/fake/outer/number', 'FakeController@fakeOuterNumberSerialize');
 /**
  * post fakeOuterStringSerialize
  * Summary: 
  * Notes: Test serialization of outer string types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
 /**
