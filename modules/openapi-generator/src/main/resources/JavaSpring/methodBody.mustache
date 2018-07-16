@@ -43,5 +43,8 @@ return {{#jdk8}}{{#async}}CompletableFuture.completedFuture({{/async}}{{/jdk8}}n
         }
         {{/-last}}
     {{/examples}}
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body({{^isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.then({{/isBodyParam}}{{/allParams}}{{/isListContainer}}{{#isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.thenMany({{/isBodyParam}}{{/allParams}}{{/isListContainer}}result{{#allParams}}{{#isBodyParam}}){{/isBodyParam}}{{/allParams}});
+        {{#reactive}}
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return {{^isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.then({{/isBodyParam}}{{/allParams}}{{/isListContainer}}{{#isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.thenMany({{/isBodyParam}}{{/allParams}}{{/isListContainer}}result{{#allParams}}{{#isBodyParam}}){{/isBodyParam}}{{/allParams}};
+        {{/reactive}}
 {{/reactive}}

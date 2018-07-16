@@ -6,9 +6,17 @@ package {{package}};
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+{{^reactive}}
 import org.springframework.http.ResponseEntity;
+{{/reactive}}
 {{/jdk8}}
+{{^reactive}}
 import org.springframework.stereotype.Controller;
+{{/reactive}}
+{{#reactive}}
+import org.springframework.web.bind.annotation.RestController;
+{{/reactive}}
+
 {{^jdk8}}
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +49,7 @@ import java.util.concurrent.Callable;
     {{/async}}
 {{/jdk8}}
 {{>generatedAnnotation}}
-@Controller
+@{{#reactive}}Rest{{/reactive}}Controller
 {{=<% %>=}}
 @RequestMapping("${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
@@ -87,7 +95,7 @@ public class {{classname}}Controller implements {{classname}} {
 
 {{^jdk8}}
 {{#operation}}
-    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}{{^reactive}}ResponseEntity<{{/reactive}}{{>returnTypes}}{{^reactive}}>{{/reactive}}{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
     {{^isDelegate}}
         {{^async}}
         {{>methodBody}}
