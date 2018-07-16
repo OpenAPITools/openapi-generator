@@ -39,7 +39,7 @@ if( NOT DEFINED CPPREST_ROOT )
     message( FATAL_ERROR "Failed to find cpprest SDK (or missing components). Double check that \"CPPREST_ROOT\" is properly set")
 endif( NOT DEFINED CPPREST_ROOT )
 
-include_directories(${PROJECT_SOURCE_DIR} api model ${CPPREST_INCLUDE_DIR})
+include_directories(${PROJECT_SOURCE_DIR} ${CPPREST_INCLUDE_DIR})
 
 #SUPPORTING FILES
 set(SUPPORTING_FILES  "ApiClient" "ApiConfiguration" "ApiException" "HttpContent" "IHttpBody" "JsonBody" "ModelBase" "MultipartFormData" "Object")
