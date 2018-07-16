@@ -26,6 +26,7 @@ namespace api {
 
 using namespace org::openapitools::client::model;
 
+
 PetApi::PetApi( std::shared_ptr<ApiClient> apiClient )
     : m_ApiClient(apiClient)
 {

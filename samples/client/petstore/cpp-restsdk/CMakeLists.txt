@@ -31,7 +31,7 @@ message("A ${CMAKE_BUILD_TYPE} build configuration is detected")
 #find_package(Boost 1.45.0 REQUIRED COMPONENTS ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_DATE_TIME_LIBRARY} ${Boost_PROGRAM_OPTIONS_LIBRARY} ${Boost_FILESYSTEM_LIBRARY})
 
 # build and set path to cpp rest sdk
-#set(CPPREST_ROOT ${PROJECT_SOURCE_DIR}/../../../developmentTools/3rdParty/cpprest)
+set(CPPREST_ROOT /usr/local)
 set(CPPREST_INCLUDE_DIR ${CPPREST_ROOT}/include)
 set(CPPREST_LIBRARY_DIR ${CPPREST_ROOT}/lib)
 

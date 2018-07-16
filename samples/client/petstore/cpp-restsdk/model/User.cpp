@@ -18,6 +18,7 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
 User::User()
 {
     m_Id = 0L;

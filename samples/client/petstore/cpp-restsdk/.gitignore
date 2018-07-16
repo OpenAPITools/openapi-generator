@@ -27,3 +27,9 @@
 *.exe
 *.out
 *.app
+
+# CMake build artifacts
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
