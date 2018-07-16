@@ -119,9 +119,10 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("README.md", outputFolder, "README.md"));
         supportingFiles.add(new SupportingFile("artisan", outputFolder, "artisan"));
         supportingFiles.add(new SupportingFile("package.json", outputFolder, "package.json"));
-        supportingFiles.add(new SupportingFile("phpunit.xml", outputFolder, "v"));
+        supportingFiles.add(new SupportingFile("phpunit.xml", outputFolder, "phpunit.xml"));
         supportingFiles.add(new SupportingFile("webpack.mix.js", outputFolder, "webpack.mix.js"));
         supportingFiles.add(new SupportingFile(".env.example", outputFolder, ".env.example"));
+        supportingFiles.add(new SupportingFile("server.php", outputFolder, "server.php"));
 
         supportingFiles.add(new SupportingFile("bootstrap/cache/.gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
         supportingFiles.add(new SupportingFile("bootstrap/app.php", outputFolder + File.separator + "bootstrap", "app.php"));
@@ -143,7 +144,13 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("routes/console.mustache", outputFolder + File.separator + "routes", "console.php"));
 
         /* /app/Http/Controllers/ */
+        supportingFiles.add(new SupportingFile("app/Http/Kernel.php", outputFolder + File.separator + "app" + File.separator + "Http", "Kernel.php"));
         supportingFiles.add(new SupportingFile("app/Http/Controllers/Controller.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers", "Controller.php"));
+        supportingFiles.add(new SupportingFile("app/Http/Middleware/EncryptCookies.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "EncryptCookies.php"));
+        supportingFiles.add(new SupportingFile("app/Http/Middleware/RedirectIfAuthenticated.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "RedirectIfAuthenticated.php"));
+        supportingFiles.add(new SupportingFile("app/Http/Middleware/TrimStrings.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "TrimStrings.php"));
+        supportingFiles.add(new SupportingFile("app/Http/Middleware/TrustProxies.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "TrustProxies.php"));
+        supportingFiles.add(new SupportingFile("app/Http/Middleware/VerifyCsrfToken.php", outputFolder + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware", "VerifyCsrfToken.php"));
 
         // /app/Console
         supportingFiles.add(new SupportingFile("app/Console/Kernel.php", outputFolder + File.separator + "app" + File.separator + "Console", "Kernel.php"));
@@ -195,7 +202,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("storage/app/public/.gitignore", outputFolder + File.separator + "storage" + File.separator + "app" + File.separator + "public", ".gitignore"));
         supportingFiles.add(new SupportingFile("storage/framework/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework", ".gitignore"));
         supportingFiles.add(new SupportingFile("storage/framework/cache/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/session/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "session", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/sessions/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "sessions", ".gitignore"));
         supportingFiles.add(new SupportingFile("storage/framework/testing/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "testing", ".gitignore"));
         supportingFiles.add(new SupportingFile("storage/framework/views/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
         supportingFiles.add(new SupportingFile("storage/logs/.gitignore", outputFolder + File.separator + "storage" + File.separator + "logs", ".gitignore"));
