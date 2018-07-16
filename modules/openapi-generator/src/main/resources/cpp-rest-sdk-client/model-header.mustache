@@ -29,7 +29,8 @@ namespace {{this}} {
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}{{{supportingFilesNamespace}}}ModelBase{{/parent}} {
+    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}{{{supportingFilesNamespace}}}ModelBase{{/parent}}
+{
 public:
     {{classname}}();
     virtual ~{{classname}}();

@@ -174,11 +174,17 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         updateImportMapping();
     }
 
-    private String supportingFilePath(String filename) {
+    private String supportingFilePath(String filename, String defaultPath) {
         if(!supportingFilesDirectory.isEmpty()) {
             return Paths.get(supportingFilesDirectory, filename).toString();
+        } else if(!defaultPath.isEmpty()) {
+            return Paths.get(defaultPath, filename).toString();
         }
         return filename;
+    }
+
+    private String supportingFilePath(String filename) {
+        return supportingFilePath(filename, "");
     }
 
     private void updateImportMapping() {
@@ -187,7 +193,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         importMapping.put("std::string", globalInclude("string"));
         importMapping.put("utility::string_t", globalInclude("cpprest/details/basic_types.h"));
         importMapping.put("utility::datetime", globalInclude("cpprest/details/basic_types.h"));
-        importMapping.put("HttpContent", quoteInclude(supportingFilePath("HttpContent.h")));
+        importMapping.put("HttpContent", quoteInclude(supportingFilePath("HttpContent.h", "../")));
         importMapping.put("ModelBase", quoteInclude(supportingFilePath("ModelBase.h")));
         importMapping.put("Object", quoteInclude(supportingFilePath("Object.h")));
     }
@@ -218,7 +224,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         }
 
         // Ensure that the supportingFilesNamespace always ends with "::"
-        if(!supportingFilesNamespace.endsWith("::")) {
+        if(!supportingFilesNamespace.isEmpty() && !supportingFilesNamespace.endsWith("::")) {
             supportingFilesNamespace += "::";
         }
 
@@ -230,9 +236,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase());
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
-        additionalProperties.put("supportingFilesNamespace", supportingFilesNamespace);
         // Intentionally omitting:
         //  - supportingFilesDirectory
+        //  - additionalProperties.put("supportingFilesNamespace", supportingFilesNamespace);
         // These have context-dependant defaults in the individual templates
     }
 
