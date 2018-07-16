@@ -66,6 +66,7 @@ class SlimRouter {
         $app->POST('/v2/fake/outer/composite', FakeApi::class . ':fakeOuterCompositeSerialize');
         $app->POST('/v2/fake/outer/number', FakeApi::class . ':fakeOuterNumberSerialize');
         $app->POST('/v2/fake/outer/string', FakeApi::class . ':fakeOuterStringSerialize');
+        $app->PUT('/v2/fake/body-with-file-schema', FakeApi::class . ':testBodyWithFileSchema');
         $app->PUT('/v2/fake/body-with-query-params', FakeApi::class . ':testBodyWithQueryParams');
         $app->PATCH('/v2/fake', FakeApi::class . ':testClientModel');
         $app->POST('/v2/fake', FakeApi::class . ':testEndpointParameters');

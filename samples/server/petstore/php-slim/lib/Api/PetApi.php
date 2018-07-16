@@ -184,7 +184,7 @@ class PetApi extends AbstractApiController {
     public function uploadFileWithRequiredFile($request, $response, $args) {
         $petId = $args['petId'];
         $additionalMetadata = $request->getParsedBodyParam('additionalMetadata');
-        $file = (key_exists('file', $request->getUploadedFiles())) ? $request->getUploadedFiles()['file'] : null;
+        $requiredFile = (key_exists('requiredFile', $request->getUploadedFiles())) ? $request->getUploadedFiles()['requiredFile'] : null;
         $response->write('How about implementing uploadFileWithRequiredFile as a POST method ?');
         return $response;
     }
