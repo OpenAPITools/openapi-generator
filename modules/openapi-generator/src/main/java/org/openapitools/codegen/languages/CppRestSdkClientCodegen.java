@@ -194,8 +194,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         importMapping.put("utility::string_t", globalInclude("cpprest/details/basic_types.h"));
         importMapping.put("utility::datetime", globalInclude("cpprest/details/basic_types.h"));
         importMapping.put("HttpContent", quoteInclude(supportingFilePath("HttpContent.h", "../")));
-        importMapping.put("ModelBase", quoteInclude(supportingFilePath("ModelBase.h")));
-        importMapping.put("Object", quoteInclude(supportingFilePath("Object.h")));
+        importMapping.put("ModelBase", quoteInclude(supportingFilePath("ModelBase.h", "../")));
+        importMapping.put("Object", quoteInclude(supportingFilePath("Object.h", "../")));
     }
 
     @Override
@@ -236,10 +236,15 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase());
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
-        // Intentionally omitting:
-        //  - supportingFilesDirectory
-        //  - additionalProperties.put("supportingFilesNamespace", supportingFilesNamespace);
-        // These have context-dependant defaults in the individual templates
+
+        // These have context-dependant defaults in the individual templates,
+        // and should be unset in `additionalProperties` unless explicitly set.
+        if(!supportingFilesDirectory.isEmpty()) {
+            additionalProperties.put("supportingFilesDirectory", supportingFilesDirectory);
+        }
+        if(!supportingFilesNamespace.isEmpty()) {
+            additionalProperties.put("supportingFilesNamespace", supportingFilesNamespace);
+        }
     }
 
     /**
