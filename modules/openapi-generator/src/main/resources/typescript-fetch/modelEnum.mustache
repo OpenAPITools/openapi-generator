@@ -1,8 +1,12 @@
-{{#description}}// {{description}}{{/description}}
+/**
+ * {{{description}}}
+ * @export
+ * @enum {string}
+ */
 export enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
-    {{{name}}} = {{{value}}}{{^-last}},{{/-last}} {{#description}}// {{description}}{{/description}}
+    {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}} {{#description}}// {{description}}{{/description}}
 {{/enumVars}}
 {{/allowableValues}}
 }
