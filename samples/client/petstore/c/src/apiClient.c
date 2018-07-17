@@ -118,13 +118,17 @@ void apiClient_invoke(apiClient_t	*apiClient,
                       char		*operationParameter,
                       list_t		*queryParameters,
                       list_t		*headerParameters,
+                      list_t		*formParameters,
                       char		*bodyParameters,
                       char		*requestType) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
 
 	if(handle) {
+		listEntry_t *listEntry;
+		curl_mime *mime = NULL;
 		struct curl_slist *headers = NULL;
+
 		headers =
 			curl_slist_append(headers, "accept: application/json");
 		headers = curl_slist_append(headers,
@@ -134,7 +138,27 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			                 CURLOPT_CUSTOMREQUEST,
 			                 requestType);
 		}
-		listEntry_t *listEntry;
+		if(formParameters != NULL) {
+			mime = curl_mime_init(handle);
+
+			list_ForEach(listEntry, formParameters) {
+				keyValuePair_t *keyValuePair = listEntry->data;
+				if((keyValuePair->key != NULL) &&
+				   (keyValuePair->value != NULL) )
+				{
+					curl_mimepart *part = curl_mime_addpart(
+						mime);
+					curl_mime_data(part,
+					               keyValuePair->key,
+					               CURL_ZERO_TERMINATED);
+					curl_mime_name(part,
+					               keyValuePair->value);
+				}
+			}
+
+			curl_easy_setopt(handle, CURLOPT_MIMEPOST, mime);
+		}
+
 		list_ForEach(listEntry, headerParameters) {
 			keyValuePair_t *keyValuePair = listEntry->data;
 			if((keyValuePair->key != NULL) &&
@@ -148,7 +172,6 @@ void apiClient_invoke(apiClient_t	*apiClient,
 				free(headerValueToWrite);
 			}
 		}
-
 		// this would only be generated for apiKey authentication
 		#ifdef API_KEY
 		list_ForEach(listEntry, apiClient->apiKeys) {
@@ -241,6 +264,9 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		}
 		#endif // BASIC_AUTH
 		curl_easy_cleanup(handle);
+		if(formParameters != NULL) {
+			curl_mime_free(mime);
+		}
 	}
 }
 

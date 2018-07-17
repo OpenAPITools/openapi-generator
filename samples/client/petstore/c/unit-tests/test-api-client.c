@@ -53,6 +53,7 @@ int main() {
 	                 NULL,
 	                 customHeaderFields,
 	                 NULL,
+	                 NULL,
 	                 NULL);
 	pet_t *pet = pet_parseFromJSON(apiClient->dataReceived);
 	if(pet == NULL) {
