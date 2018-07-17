@@ -11,16 +11,16 @@
 >
     <testsuites>
         <testsuite name="Apis">
-            <directory>.\test\Api</directory>
+            <directory>./test/Api</directory>
         </testsuite>
         <testsuite name="Models">
-            <directory>.\test\Model</directory>
+            <directory>./test/Model</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">.\lib\Api</directory>
-            <directory suffix=".php">.\lib\Model</directory>
+            <directory suffix=".php">./lib/Api</directory>
+            <directory suffix=".php">./lib/Model</directory>
         </whitelist>
     </filter>
 </phpunit>
