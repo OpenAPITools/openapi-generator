@@ -39,7 +39,7 @@ public class URLPathUtils {
             LOGGER.warn("Server information seems not defined in the spec. Default to {}.", LOCAL_HOST);
             return getDefaultUrl();
         }
-        // TOOD need a way to obtain all server URLs
+        // TODO need a way to obtain all server URLs
         final Server server = servers.get(0);
         String url = sanitizeUrl(server.getUrl());
 
@@ -135,9 +135,21 @@ public class URLPathUtils {
     }
 
     private static String sanitizeUrl(String url) {
-        if (url.startsWith("/")) {
-            LOGGER.warn("'host' not defined in the spec (2.0). Default to " + LOCAL_HOST);
+        if (url.startsWith("//")) {
+            url = "http:" + url;
+            LOGGER.warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
+        } else if (url.startsWith("/")) {
             url = LOCAL_HOST + url;
+            LOGGER.warn("'host' not defined in the spec (2.0). Default to [{}] for server URL [{}]", LOCAL_HOST, url);
+        } else if (!url.matches("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+")) {
+            // Add http scheme for urls without a scheme.
+            // 2.0 spec is restricted to the following schemes: "http", "https", "ws", "wss"
+            // 3.0 spec does not have an enumerated list of schemes
+            // This regex attempts to capture all schemes in IANA example schemes which
+            // can have alpha-numeric characters and [.+-]. Examples are here:
+            // https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
+            url = "http://" + url;
+            LOGGER.warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
         }
 
         return url;

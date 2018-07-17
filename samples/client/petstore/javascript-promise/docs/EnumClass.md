@@ -1,4 +1,4 @@
-# SwaggerPetstore.EnumClass
+# OpenApiPetstore.EnumClass
 
 ## Enum
 

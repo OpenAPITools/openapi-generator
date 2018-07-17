@@ -1,0 +1,66 @@
+{{>licenseInfo}}
+#ifndef _{{prefix}}_OBJECT_H_
+#define _{{prefix}}_OBJECT_H_
+
+#include <QJsonObject>
+#include <QJsonDocument>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}Object {
+  public:
+    virtual QJsonObject asJsonObject() {
+        if(jObj != nullptr){
+            return *jObj;
+        }
+        return QJsonObject();
+    }
+
+    {{prefix}}Object() {
+        jObj = nullptr;
+    }
+
+    virtual ~{{prefix}}Object() {
+        if(jObj != nullptr){
+            delete jObj;
+        }
+    }
+
+    virtual {{prefix}}Object* fromJson(QString jsonString) {
+        QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
+        auto ret = new {{prefix}}Object();
+        ret->fromJsonObject(doc.object());
+        return ret;
+    }
+
+    virtual void fromJsonObject(QJsonObject json) {
+        if(jObj != nullptr)
+        {
+            delete jObj;
+        }
+        jObj = new QJsonObject(json);
+    }
+
+    virtual QString asJson() {
+        if(jObj != nullptr)
+        {
+            QJsonDocument doc(*jObj);
+            return doc.toJson(QJsonDocument::Compact);
+        }
+        return QString();
+    }
+
+    virtual bool isSet() {
+        return false;
+    }
+private :
+   QJsonObject *jObj;
+};
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
+
+#endif /* _{{prefix}}_OBJECT_H_ */

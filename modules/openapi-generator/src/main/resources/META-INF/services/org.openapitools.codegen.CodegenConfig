@@ -10,7 +10,7 @@ org.openapitools.codegen.languages.ConfluenceWikiCodegen
 org.openapitools.codegen.languages.CppQt5ClientCodegen
 org.openapitools.codegen.languages.CppPistacheServerCodegen
 org.openapitools.codegen.languages.CppRestbedServerCodegen
-org.openapitools.codegen.languages.CppRestClientCodegen
+org.openapitools.codegen.languages.CppRestSdkClientCodegen
 org.openapitools.codegen.languages.CppTizenClientCodegen
 org.openapitools.codegen.languages.CSharpClientCodegen
 org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
@@ -45,8 +45,9 @@ org.openapitools.codegen.languages.JavaResteasyServerCodegen
 org.openapitools.codegen.languages.JavaResteasyEapServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen
 org.openapitools.codegen.languages.JavascriptClientCodegen
+org.openapitools.codegen.languages.JavascriptFlowtypedClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
-org.openapitools.codegen.languages.JMeterCodegen
+org.openapitools.codegen.languages.JMeterClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.NodeJSServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen

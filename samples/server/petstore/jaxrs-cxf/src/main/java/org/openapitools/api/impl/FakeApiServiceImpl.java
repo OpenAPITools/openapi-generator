@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
@@ -52,6 +53,12 @@ public class FakeApiServiceImpl implements FakeApi {
         // TODO: Implement...
         
         return null;
+    }
+    
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+        // TODO: Implement...
+        
+        
     }
     
     public void testBodyWithQueryParams(String query, User user) {

@@ -16,9 +16,11 @@ There are several reasons:
 1. According to SmartBear, [Swagger Codegen 2.x and 3.x should be supported in parallel for a while](https://github.com/swagger-api/swagger-codegen/issues/7754#issuecomment-375039048) without the possibility to work with git branches to merge the fixes from one branch to the next. Having to implement everything twice is not a good idea and the best use of the Swagger Codegen community resources.
 1. Having a community-driven version can bring the project to the next level.
 
+UPDATE: After the public launch of OpenAPI Generator, some of the core team members were contacted by Ron (SmartBear) and we explained to him the reasons of the fork as explained above. We also asked him to contact team@openapitools.org if he wants to discuss further but so far we don't see any email from him to team@openapitools.org.
+
 #### Has anything been done in attempt to address the issues before deciding to fork Swagger Codegen and maintain a community-driven version?
 
-There was several conversations with SmartBear (Ron, Hugo) via emails, gitter, Skype call and GitHub issues.
+There were several conversations with SmartBear (Ron, Hugo) via emails, gitter, Skype call and GitHub issues.
 But there was no consensus on the next steps and on the direction for Swagger Codegen 3.0.0.
 
 #### Is there any change to the project license?
@@ -35,3 +37,6 @@ Swagger is a trademark owned by SmartBear and the use of the term "Swagger" foun
 
 OpenAPI Generator is based on Swagger Codegen 2.4.0-SNAPSHOT version so the migration should be easy, straightforward and almost seamless. Please refer to the [migration guide](migration-from-swagger-codegen.md) for more information. 
 
+#### May I know who maintains this Q&A page?
+
+This Q&A page is maintained by the [core team members](../README.md#openapi-generator-core-team). It's not maintained by a single person nor do these Q&As represent the view of an individual.

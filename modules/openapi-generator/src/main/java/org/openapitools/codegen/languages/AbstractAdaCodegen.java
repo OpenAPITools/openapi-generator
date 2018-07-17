@@ -378,7 +378,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     /**
      * Post process the media types (produces and consumes) for Ada code generator.
      * <p>
-     * For each media type, add a adaMediaType member that gives the Ada enum constant
+     * For each media type, add an adaMediaType member that gives the Ada enum constant
      * for the corresponding type.
      *
      * @param types the list of media types.
@@ -419,7 +419,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 

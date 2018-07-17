@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -67,6 +68,10 @@ public class FakeApi {
 
     public FakeOuterStringSerializeOper fakeOuterStringSerialize() {
         return new FakeOuterStringSerializeOper(reqSpec);
+    }
+
+    public TestBodyWithFileSchemaOper testBodyWithFileSchema() {
+        return new TestBodyWithFileSchemaOper(reqSpec);
     }
 
     public TestBodyWithQueryParamsOper testBodyWithQueryParams() {
@@ -411,6 +416,73 @@ public class FakeApi {
          * @return operation
          */
         public FakeOuterStringSerializeOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * 
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @see #body  (required)
+     */
+    public class TestBodyWithFileSchemaOper {
+
+        public static final String REQ_URI = "/fake/body-with-file-schema";
+
+        private RequestSpecBuilder reqSpec;
+
+        private ResponseSpecBuilder respSpec;
+
+        public TestBodyWithFileSchemaOper() {
+            this.reqSpec = new RequestSpecBuilder();
+            reqSpec.setContentType("application/json");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        public TestBodyWithFileSchemaOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setContentType("application/json");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * PUT /fake/body-with-file-schema
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
+        }
+
+         /**
+         * @param fileSchemaTestClass (FileSchemaTestClass)  (required)
+         * @return operation
+         */
+        public TestBodyWithFileSchemaOper body(FileSchemaTestClass fileSchemaTestClass) {
+            reqSpec.setBody(fileSchemaTestClass);
+            return this;
+        }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestBodyWithFileSchemaOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestBodyWithFileSchemaOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
             return this;
         }

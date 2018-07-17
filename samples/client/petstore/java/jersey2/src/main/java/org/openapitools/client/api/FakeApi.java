@@ -11,6 +11,7 @@ import javax.ws.rs.core.GenericType;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -229,6 +230,57 @@ public class FakeApi {
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
+  /**
+   * 
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   * @param fileSchemaTestClass  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+
+    testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
+  }
+
+  /**
+   * 
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   * @param fileSchemaTestClass  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+    Object localVarPostBody = fileSchemaTestClass;
+    
+    // verify the required parameter 'fileSchemaTestClass' is set
+    if (fileSchemaTestClass == null) {
+      throw new ApiException(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/body-with-file-schema";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    return apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
   /**
    * 
    * 

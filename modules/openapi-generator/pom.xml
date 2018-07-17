@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>3.0.1-SNAPSHOT</version>
+        <version>3.1.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -200,29 +200,14 @@
     <dependencies>
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-models</artifactId>
-            <version>${swagger-core-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-core</artifactId>
             <version>${swagger-core-version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
-            <artifactId>swagger-parser-core</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
-            <artifactId>swagger-parser-v3</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
-            <artifactId>swagger-parser</artifactId>
-            <version>${swagger-parser-version}</version>
-        </dependency>
+        <dependency> 
+            <groupId>io.swagger.parser.v3</groupId> 
+            <artifactId>swagger-parser</artifactId> 
+            <version>${swagger-parser-version}</version> 
+        </dependency> 
         <dependency>
             <groupId>com.samskivert</groupId>
             <artifactId>jmustache</artifactId>

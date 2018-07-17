@@ -75,7 +75,6 @@ int main() {
 	free(apiKey);
 	list_free(apiClient->apiKeys);
 	#endif // API_KEY
-
 	free(keyOne);
 	free(valueOne);
 	free(keyTwo);

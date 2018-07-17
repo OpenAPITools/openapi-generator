@@ -41,7 +41,7 @@ public class Cat extends Animal implements Serializable {
    **/
   @JsonProperty("declawed")
   @ApiModelProperty(value = "")
-  public Boolean isDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 

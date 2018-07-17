@@ -341,7 +341,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .build();
 
         if (objs.containsKey("lambda")) {
-            LOGGER.warn("An property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
+            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'. " +
                     "You'll likely need to use a custom template, " +
                     "see https://github.com/swagger-api/swagger-codegen#modifying-the-client-library-format. ");
             objs.put("_lambda", lambdas);
@@ -514,8 +514,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
         if (objs != null) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {

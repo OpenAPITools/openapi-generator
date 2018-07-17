@@ -545,7 +545,7 @@ class ApiClient(object):
             return data
 
     def __deserialize_object(self, value):
-        """Return a original value.
+        """Return an original value.
 
         :return: object.
         """

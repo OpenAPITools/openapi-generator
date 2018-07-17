@@ -5,6 +5,12 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/releases/"
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -21,9 +27,11 @@ This plugin supports common functionality found in Open API Generator CLI as a g
 This gives you the ability to generate client SDKs, documentation, new generators, and to validate Open API 2.0 and 3.x
 specifications as part of your build. Other tasks are available as command line tasks.
 """
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
 apply plugin: 'java-gradle-plugin'
-apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'kotlin'
 apply plugin: "org.gradle.kotlin.kotlin-dsl"
 
@@ -33,6 +41,12 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
     mavenLocal()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/releases/"
+    }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 
 dependencies {
@@ -67,12 +81,92 @@ test {
     }
 }
 
-
 gradlePlugin {
     plugins {
         openApiGenerator {
             id = 'org.openapi.generator'
             implementationClass = 'org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin'
+        }
+    }
+}
+
+// signing will require three keys to be defined: signing.keyId, signing.password, and signing.secretKeyRingFile.
+// These can be passed to the gradle command:
+//     ./gradlew -Psigning.keyId=yourid
+// or stored as key=value pairs in ~/.gradle/gradle.properties
+// You can also apply them in CI via environment variables. See Gradle's docs for details.
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+def pomConfig = {
+    description project.description
+    name 'OpenAPI-Generator Contributors'
+    url 'https://openapi-generator.tech'
+    organization {
+        name 'org.openapitools'
+        url 'https://github.com/OpenAPITools'
+    }
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "openapitools"
+            name "OpenAPI-Generator Contributors"
+            email "team@openapitools.org"
+        }
+    }
+    scm {
+        url 'https://github.com/OpenAPITools/openapi-generator'
+        connection 'scm:git:git://github.com/OpenAPITools/openapi-generator.git'
+        developerConnection 'scm:git:ssh://git@github.com:OpenAPITools/openapi-generator.git'
+    }
+    issueManagement {
+        system 'GitHub'
+        url 'https://github.com/OpenAPITools/openapi-generator/issues'
+    }
+}
+
+uploadArchives {
+    repositories {
+
+        // credentials here would need to be passed along with the gradle command:
+        //   ./gradlew -P ossrhUsername=yourUser
+        // or stored in ~/.gradle/gradle.properties as key=value pairs
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', project.description)
+                root.children().last() + pomConfig
+            }
         }
     }
 }

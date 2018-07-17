@@ -477,7 +477,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -576,7 +576,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                 allParams.add(p);
             }
         }
-        allParams.get(allParams.size()-1).hasMore =false;
+        if (!allParams.isEmpty()) {
+            allParams.get(allParams.size()-1).hasMore =false;
+        }
     }
 
     @Override
