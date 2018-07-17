@@ -158,7 +158,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         importMapping.put("std::vector", "#include <vector>");
         importMapping.put("std::map", "#include <map>");
         importMapping.put("std::string", "#include <string>");
-        importMapping.put("HttpContent", "#include \"HttpContent.h\"");
+        importMapping.put("HttpContent", "#include \"../HttpContent.h\"");
         importMapping.put("Object", "#include \"Object.h\"");
         importMapping.put("utility::string_t", "#include <cpprest/details/basic_types.h>");
         importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
@@ -208,7 +208,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + name + ".h\"";
+            // Use relative imports unless this model is explicitly import-mapped.
+            return "#include \"../model/" + name + ".h\"";
         }
     }
 
