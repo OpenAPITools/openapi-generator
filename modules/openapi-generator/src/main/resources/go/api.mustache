@@ -20,15 +20,15 @@ var (
 type {{classname}}Service service
 {{#operation}}
 
-/* 
-{{{classname}}}Service{{#summary}} {{.}}{{/summary}}
+/*
+{{{classname}}}Service{{#summary}} {{{.}}}{{/summary}}
 {{#notes}}
 {{notes}}
 {{/notes}}
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 {{#allParams}}
 {{#required}}
- * @param {{paramName}}{{#description}} {{.}}{{/description}}
+ * @param {{paramName}}{{#description}} {{{.}}}{{/description}}
 {{/required}}
 {{/allParams}}
 {{#hasOptionalParams}}
@@ -67,9 +67,10 @@ type {{{nickname}}}Opts struct {
 func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("{{httpMethod}}")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		{{#returnType}}
 		localVarReturnValue {{{returnType}}}
 		{{/returnType}}
@@ -177,6 +178,10 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
+	localVarFormFileName = "{{baseName}}"
+{{#required}}
+	localVarFile := {{paramName}}
+{{/required}}
 {{^required}}
 	var localVarFile {{dataType}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
@@ -240,14 +245,18 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 			} else {
 				key = auth.Key
 			}
-			{{#isKeyInHeader}}localVarHeaderParams["{{keyParamName}}"] = key{{/isKeyInHeader}}
-			{{#isKeyInQuery}}localVarQueryParams.Add("{{keyParamName}}", key){{/isKeyInQuery}}
+			{{#isKeyInHeader}}
+			localVarHeaderParams["{{keyParamName}}"] = key
+			{{/isKeyInHeader}}
+			{{#isKeyInQuery}}
+			localVarQueryParams.Add("{{keyParamName}}", key)
+			{{/isKeyInQuery}}
 		}
 	}
 
 {{/isApiKey}}
 {{/authMethods}}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}
@@ -267,7 +276,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
+		if err == nil {
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, err
 		}
 	}

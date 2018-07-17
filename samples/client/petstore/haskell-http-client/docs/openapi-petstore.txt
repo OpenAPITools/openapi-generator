@@ -657,9 +657,9 @@ EnumQueryString :: E'EnumFormString -> EnumQueryString
 newtype EnumQueryStringArray
 EnumQueryStringArray :: [E'EnumFormStringArray] -> EnumQueryStringArray
 [unEnumQueryStringArray] :: EnumQueryStringArray -> [E'EnumFormStringArray]
-newtype File
-File :: FilePath -> File
-[unFile] :: File -> FilePath
+newtype File2
+File2 :: FilePath -> File2
+[unFile2] :: File2 -> FilePath
 newtype Int32
 Int32 :: Int -> Int32
 [unInt32] :: Int32 -> Int
@@ -714,6 +714,9 @@ PatternWithoutDelimiter :: Text -> PatternWithoutDelimiter
 newtype PetId
 PetId :: Integer -> PetId
 [unPetId] :: PetId -> Integer
+newtype Query
+Query :: Text -> Query
+[unQuery] :: Query -> Text
 newtype RequestBody
 RequestBody :: (Map String Text) -> RequestBody
 [unRequestBody] :: RequestBody -> (Map String Text)
@@ -1018,6 +1021,39 @@ EnumTest :: !(Maybe E'EnumString) -> !(E'EnumString) -> !(Maybe E'EnumInteger) -
 --   fields, if any)
 mkEnumTest :: E'EnumString -> EnumTest
 
+-- | File Must be named <a>File</a> for test.
+data File
+File :: !(Maybe Text) -> File
+
+-- | "sourceURI" - Test capitalization
+[fileSourceUri] :: File -> !(Maybe Text)
+
+-- | FromJSON File
+
+-- | ToJSON File
+
+-- | Construct a value of type <a>File</a> (by applying it's required
+--   fields, if any)
+mkFile :: File
+
+-- | FileSchemaTestClass
+data FileSchemaTestClass
+FileSchemaTestClass :: !(Maybe File) -> !(Maybe [File]) -> FileSchemaTestClass
+
+-- | "file"
+[fileSchemaTestClassFile] :: FileSchemaTestClass -> !(Maybe File)
+
+-- | "files"
+[fileSchemaTestClassFiles] :: FileSchemaTestClass -> !(Maybe [File])
+
+-- | FromJSON FileSchemaTestClass
+
+-- | ToJSON FileSchemaTestClass
+
+-- | Construct a value of type <a>FileSchemaTestClass</a> (by applying it's
+--   required fields, if any)
+mkFileSchemaTestClass :: FileSchemaTestClass
+
 -- | FormatTest
 data FormatTest
 FormatTest :: !(Maybe Int) -> !(Maybe Int) -> !(Maybe Integer) -> !(Double) -> !(Maybe Float) -> !(Maybe Double) -> !(Maybe Text) -> !(ByteArray) -> !(Maybe FilePath) -> !(Date) -> !(Maybe DateTime) -> !(Maybe Text) -> !(Text) -> FormatTest
@@ -1089,13 +1125,19 @@ mkHasOnlyReadOnly :: HasOnlyReadOnly
 
 -- | MapTest
 data MapTest
-MapTest :: !(Maybe (Map String (Map String Text))) -> !(Maybe (Map String E'Inner)) -> MapTest
+MapTest :: !(Maybe (Map String (Map String Text))) -> !(Maybe (Map String E'Inner)) -> !(Maybe (Map String Bool)) -> !(Maybe StringBooleanMap) -> MapTest
 
 -- | "map_map_of_string"
 [mapTestMapMapOfString] :: MapTest -> !(Maybe (Map String (Map String Text)))
 
 -- | "map_of_enum_string"
 [mapTestMapOfEnumString] :: MapTest -> !(Maybe (Map String E'Inner))
+
+-- | "direct_map"
+[mapTestDirectMap] :: MapTest -> !(Maybe (Map String Bool))
+
+-- | "indirect_map"
+[mapTestIndirectMap] :: MapTest -> !(Maybe StringBooleanMap)
 
 -- | FromJSON MapTest
 
@@ -1327,6 +1369,18 @@ SpecialModelName :: !(Maybe Integer) -> SpecialModelName
 -- | Construct a value of type <a>SpecialModelName</a> (by applying it's
 --   required fields, if any)
 mkSpecialModelName :: SpecialModelName
+
+-- | StringBooleanMap
+data StringBooleanMap
+StringBooleanMap :: StringBooleanMap
+
+-- | FromJSON StringBooleanMap
+
+-- | ToJSON StringBooleanMap
+
+-- | Construct a value of type <a>StringBooleanMap</a> (by applying it's
+--   required fields, if any)
+mkStringBooleanMap :: StringBooleanMap
 
 -- | Tag
 data Tag
@@ -1782,6 +1836,8 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.User
 instance GHC.Show.Show OpenAPIPetstore.Model.User
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Tag
 instance GHC.Show.Show OpenAPIPetstore.Model.Tag
+instance GHC.Classes.Eq OpenAPIPetstore.Model.StringBooleanMap
+instance GHC.Show.Show OpenAPIPetstore.Model.StringBooleanMap
 instance GHC.Classes.Eq OpenAPIPetstore.Model.SpecialModelName
 instance GHC.Show.Show OpenAPIPetstore.Model.SpecialModelName
 instance GHC.Classes.Eq OpenAPIPetstore.Model.ArrayTest
@@ -1806,6 +1862,10 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.HasOnlyReadOnly
 instance GHC.Show.Show OpenAPIPetstore.Model.HasOnlyReadOnly
 instance GHC.Classes.Eq OpenAPIPetstore.Model.FormatTest
 instance GHC.Show.Show OpenAPIPetstore.Model.FormatTest
+instance GHC.Classes.Eq OpenAPIPetstore.Model.FileSchemaTestClass
+instance GHC.Show.Show OpenAPIPetstore.Model.FileSchemaTestClass
+instance GHC.Classes.Eq OpenAPIPetstore.Model.File
+instance GHC.Show.Show OpenAPIPetstore.Model.File
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Dog
 instance GHC.Show.Show OpenAPIPetstore.Model.Dog
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Client
@@ -1839,6 +1899,8 @@ instance GHC.Classes.Eq OpenAPIPetstore.Model.StatusText
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.RequestBody
 instance GHC.Show.Show OpenAPIPetstore.Model.RequestBody
 instance GHC.Classes.Eq OpenAPIPetstore.Model.RequestBody
+instance GHC.Show.Show OpenAPIPetstore.Model.Query
+instance GHC.Classes.Eq OpenAPIPetstore.Model.Query
 instance GHC.Show.Show OpenAPIPetstore.Model.PetId
 instance GHC.Classes.Eq OpenAPIPetstore.Model.PetId
 instance GHC.Show.Show OpenAPIPetstore.Model.PatternWithoutDelimiter
@@ -1875,8 +1937,8 @@ instance GHC.Show.Show OpenAPIPetstore.Model.Int64
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Int64
 instance GHC.Show.Show OpenAPIPetstore.Model.Int32
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Int32
-instance GHC.Show.Show OpenAPIPetstore.Model.File
-instance GHC.Classes.Eq OpenAPIPetstore.Model.File
+instance GHC.Show.Show OpenAPIPetstore.Model.File2
+instance GHC.Classes.Eq OpenAPIPetstore.Model.File2
 instance GHC.Show.Show OpenAPIPetstore.Model.Callback
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Callback
 instance GHC.Show.Show OpenAPIPetstore.Model.Byte
@@ -1977,6 +2039,8 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.User
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.User
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Tag
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Tag
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.StringBooleanMap
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.StringBooleanMap
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.SpecialModelName
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.SpecialModelName
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.ArrayTest
@@ -2001,6 +2065,10 @@ instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.HasOnlyReadOnl
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.HasOnlyReadOnly
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.FormatTest
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.FormatTest
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.FileSchemaTestClass
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.FileSchemaTestClass
+instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.File
+instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.File
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Dog
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.Dog
 instance Data.Aeson.Types.FromJSON.FromJSON OpenAPIPetstore.Model.Client
@@ -2394,8 +2462,32 @@ data UploadFile
 -- | <pre>
 --   application/json
 --   </pre>
+
+-- | <pre>
+--   POST /fake/{petId}/uploadImageWithRequiredFile
+--   </pre>
+--   
+--   uploads an image (required)
+--   
+--   AuthMethod: <a>AuthOAuthPetstoreAuth</a>
+uploadFileWithRequiredFile :: (Consumes UploadFileWithRequiredFile MimeMultipartFormData) => File2 -> PetId -> OpenAPIPetstoreRequest UploadFileWithRequiredFile MimeMultipartFormData ApiResponse MimeJSON
+data UploadFileWithRequiredFile
+
+-- | <i>Optional Param</i> "additionalMetadata" - Additional data to pass
+--   to server
+
+-- | <pre>
+--   multipart/form-data
+--   </pre>
+
+-- | <pre>
+--   application/json
+--   </pre>
+instance OpenAPIPetstore.Core.HasOptionalParam OpenAPIPetstore.API.Pet.UploadFileWithRequiredFile OpenAPIPetstore.Model.AdditionalMetadata
+instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Pet.UploadFileWithRequiredFile OpenAPIPetstore.MimeTypes.MimeMultipartFormData
+instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Pet.UploadFileWithRequiredFile OpenAPIPetstore.MimeTypes.MimeJSON
 instance OpenAPIPetstore.Core.HasOptionalParam OpenAPIPetstore.API.Pet.UploadFile OpenAPIPetstore.Model.AdditionalMetadata
-instance OpenAPIPetstore.Core.HasOptionalParam OpenAPIPetstore.API.Pet.UploadFile OpenAPIPetstore.Model.File
+instance OpenAPIPetstore.Core.HasOptionalParam OpenAPIPetstore.API.Pet.UploadFile OpenAPIPetstore.Model.File2
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Pet.UploadFile OpenAPIPetstore.MimeTypes.MimeMultipartFormData
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Pet.UploadFile OpenAPIPetstore.MimeTypes.MimeJSON
 instance OpenAPIPetstore.Core.HasOptionalParam OpenAPIPetstore.API.Pet.UpdatePetWithForm OpenAPIPetstore.Model.Name2
@@ -2520,6 +2612,29 @@ data FakeOuterStringSerialize
 
 -- | <pre>
 --   */*
+--   </pre>
+
+-- | <pre>
+--   PUT /fake/body-with-file-schema
+--   </pre>
+--   
+--   For this test, the body for this request much reference a schema named
+--   <a>File</a>.
+testBodyWithFileSchema :: (Consumes TestBodyWithFileSchema MimeJSON, MimeRender MimeJSON FileSchemaTestClass) => FileSchemaTestClass -> OpenAPIPetstoreRequest TestBodyWithFileSchema MimeJSON NoContent MimeNoContent
+data TestBodyWithFileSchema
+
+-- | <pre>
+--   application/json
+--   </pre>
+
+-- | <pre>
+--   PUT /fake/body-with-query-params
+--   </pre>
+testBodyWithQueryParams :: (Consumes TestBodyWithQueryParams MimeJSON, MimeRender MimeJSON User) => User -> Query -> OpenAPIPetstoreRequest TestBodyWithQueryParams MimeJSON NoContent MimeNoContent
+data TestBodyWithQueryParams
+
+-- | <pre>
+--   application/json
 --   </pre>
 
 -- | <pre>
@@ -2671,6 +2786,12 @@ instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.TestEndpoin
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.TestClientModel OpenAPIPetstore.Model.Client
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.TestClientModel OpenAPIPetstore.MimeTypes.MimeJSON
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.TestClientModel OpenAPIPetstore.MimeTypes.MimeJSON
+instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.TestBodyWithQueryParams OpenAPIPetstore.Model.User
+instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.TestBodyWithQueryParams OpenAPIPetstore.MimeTypes.MimeJSON
+instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.TestBodyWithQueryParams OpenAPIPetstore.MimeTypes.MimeNoContent
+instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.TestBodyWithFileSchema OpenAPIPetstore.Model.FileSchemaTestClass
+instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.TestBodyWithFileSchema OpenAPIPetstore.MimeTypes.MimeJSON
+instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.TestBodyWithFileSchema OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.FakeOuterStringSerialize OpenAPIPetstore.Model.BodyText
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.FakeOuterStringSerialize OpenAPIPetstore.MimeTypes.MimeJSON
 instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.FakeOuterStringSerialize mtype
@@ -2821,6 +2942,15 @@ enumTestEnumNumberL :: Lens_' EnumTest (Maybe E'EnumNumber)
 -- | <a>enumTestOuterEnum</a> Lens
 enumTestOuterEnumL :: Lens_' EnumTest (Maybe OuterEnum)
 
+-- | <a>fileSourceUri</a> Lens
+fileSourceUriL :: Lens_' File (Maybe Text)
+
+-- | <a>fileSchemaTestClassFile</a> Lens
+fileSchemaTestClassFileL :: Lens_' FileSchemaTestClass (Maybe File)
+
+-- | <a>fileSchemaTestClassFiles</a> Lens
+fileSchemaTestClassFilesL :: Lens_' FileSchemaTestClass (Maybe [File])
+
 -- | <a>formatTestInteger</a> Lens
 formatTestIntegerL :: Lens_' FormatTest (Maybe Int)
 
@@ -2871,6 +3001,12 @@ mapTestMapMapOfStringL :: Lens_' MapTest (Maybe (Map String (Map String Text)))
 
 -- | <a>mapTestMapOfEnumString</a> Lens
 mapTestMapOfEnumStringL :: Lens_' MapTest (Maybe (Map String E'Inner))
+
+-- | <a>mapTestDirectMap</a> Lens
+mapTestDirectMapL :: Lens_' MapTest (Maybe (Map String Bool))
+
+-- | <a>mapTestIndirectMap</a> Lens
+mapTestIndirectMapL :: Lens_' MapTest (Maybe StringBooleanMap)
 
 -- | <a>mixedPropertiesAndAdditionalPropertiesClassUuid</a> Lens
 mixedPropertiesAndAdditionalPropertiesClassUuidL :: Lens_' MixedPropertiesAndAdditionalPropertiesClass (Maybe Text)

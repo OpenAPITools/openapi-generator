@@ -53,7 +53,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
 
-        embeddedTemplateDir = templateDir = "restbed";
+        embeddedTemplateDir = templateDir = "cpp-restbed-server";
 
         cliOptions.clear();
 
@@ -215,7 +215,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();

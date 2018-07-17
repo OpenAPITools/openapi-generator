@@ -1,7 +1,7 @@
 [package]
 name = "petstore_api"
 version = "1.0.0"
-authors = ["apiteam@swagger.io"]
+authors = []
 description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
 license = "Unlicense"
 
@@ -17,7 +17,7 @@ chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
 hyper = {version = "0.11", optional = true}
 hyper-tls = {version = "0.1.2", optional = true}
-swagger = "0.10.0"
+swagger = "0.12.1"
 
 # Not required by example server.
 #
@@ -45,4 +45,4 @@ serde-xml-rs = {git = "git://github.com/Metaswitch/serde-xml-rs.git" , branch = 
 
 [dev-dependencies]
 clap = "2.25"
-error-chain = "0.11"
+error-chain = "0.12"

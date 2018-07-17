@@ -13,6 +13,7 @@ import okhttp3.MultipartBody;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -66,6 +67,20 @@ public interface FakeApi {
   @POST("fake/outer/string")
   Observable<String> fakeOuterStringSerialize(
     @retrofit2.http.Body String body
+  );
+
+  /**
+   * 
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   * @param fileSchemaTestClass  (required)
+   * @return Completable
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @PUT("fake/body-with-file-schema")
+  Completable testBodyWithFileSchema(
+    @retrofit2.http.Body FileSchemaTestClass fileSchemaTestClass
   );
 
   /**

@@ -139,8 +139,20 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</source>
-                    <target>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</target>
+                {{#supportJava6}}
+                    <source>1.6</source>
+                    <target>1.6</target>
+                {{/supportJava6}}
+                {{^supportJava6}}
+                {{#java8}}
+                    <source>1.8</source>
+                    <target>1.8</target>
+                {{/java8}}
+                {{^java8}}
+                    <source>1.7</source>
+                    <target>1.7</target>
+                {{/java8}}
+                {{/supportJava6}}
                 </configuration>
             </plugin>
             <plugin>

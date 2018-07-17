@@ -1,0 +1,110 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://petstore.swagger.io/v2'
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /example1/singular:
+    get:
+      operationId: example1GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example1 value'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+  /example1/plural:
+    get:
+      operationId: example1GetPlural
+      parameters:
+        - name: parameter
+          in: query
+          examples:
+            AnExample:
+              value: 'An example1 value'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+  /example2/singular:
+    get:
+      operationId: example2GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          schema:
+            type: string
+            example: 'example2 value'
+      responses:
+        '200':
+          description: successful operation
+  /example3/singular:
+    get:
+      operationId: example3GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example3: parameter value'
+          schema:
+            type: string
+            example: 'example3: schema value'
+      responses:
+        '200':
+          description: successful operation
+  /example3/plural:
+    get:
+      operationId: example3GetSingular
+      parameters:
+        - name: parameter
+          in: query
+          example: 'example3: parameter value'
+          examples:
+            AnExample:
+              value: 'An example3 value'
+          schema:
+            type: string
+            example: 'example3: schema value'
+      responses:
+        '200':
+          description: successful operation
+  /example4/singular:
+    post:
+      operationId: example4PostSingular
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            example: 'example4 value'
+      responses:
+        '200':
+          description: successful operation
+  /example4/plural:
+    post:
+      operationId: example4PostSingular
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              AnExample:
+                value: 'An example4 value'
+      responses:
+        '200':
+          description: successful operation
+

@@ -84,7 +84,7 @@
       var authNames = [<#authMethods>'<name>'<#hasMore>, </hasMore></authMethods>];
       var contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
       var accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
-      var returnType = <#returnType><&returnType></returnType><^returnType>null</returnType>;
+      var returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
 
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',

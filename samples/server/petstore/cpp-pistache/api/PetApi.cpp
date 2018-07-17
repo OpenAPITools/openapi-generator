@@ -20,24 +20,24 @@ namespace api {
 using namespace org::openapitools::server::model;
 
 PetApi::PetApi(Pistache::Address addr)
-    : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
+    : httpEndpoint(addr)
 { };
 
 void PetApi::init(size_t thr = 2) {
     auto opts = Pistache::Http::Endpoint::options()
         .threads(thr)
         .flags(Pistache::Tcp::Options::InstallSignalHandler);
-    httpEndpoint->init(opts);
+    httpEndpoint.init(opts);
     setupRoutes();
 }
 
 void PetApi::start() {
-    httpEndpoint->setHandler(router.handler());
-    httpEndpoint->serve();
+    httpEndpoint.setHandler(router.handler());
+    httpEndpoint.serve();
 }
 
 void PetApi::shutdown() {
-    httpEndpoint->shutdown();
+    httpEndpoint.shutdown();
 }
 
 void PetApi::setupRoutes() {
