@@ -39,7 +39,7 @@ class Capitalization
      */
     public $sca_eth_flow_points;
     /**
-     * Name of the pet 
+     * Name of the pet
      * @DTA\Data(field="ATT_NAME", nullable=true)
      * @DTA\Validator(name="Type", options={"type":"string"})
      * @var string
