@@ -7,7 +7,7 @@ MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
   "resourcePath" => "/{{{baseName}}}",
   "summary" => "{{{summary}}}",
   "nickname" => "{{nickname}}", 
-  "responseClass" => "{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}", 
+  "responseClass" => "{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}",
   "endpoint" => "{{{path}}}", 
   "notes" => "{{{notes}}}",
   "parameters" => [
@@ -15,7 +15,7 @@ MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
     {
       "name" => "{{paramName}}",
       "description" => "{{description}}",
-      "dataType" => "{{dataType}}",
+      "dataType" => "{{{dataType}}}",
       {{#collectionFormat}}
       "collectionFormat" => "{{collectionFormat}}",
       {{/collectionFormat}}
@@ -32,7 +32,7 @@ MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
     {
       "name" => "{{paramName}}",
       "description" => "{{description}}",
-      "dataType" => "{{dataType}}",
+      "dataType" => "{{{dataType}}}",
       "paramType" => "path",
     },
     {{/pathParams}}
@@ -40,7 +40,7 @@ MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
     {
       "name" => "{{paramName}}",
       "description" => "{{description}}",
-      "dataType" => "{{dataType}}",
+      "dataType" => "{{{dataType}}}",
       "paramType" => "header",
     },
     {{/headerParams}}
@@ -48,7 +48,7 @@ MyApp.add_route('{{httpMethod}}', '{{{basePathWithoutHost}}}{{{path}}}', {
     {
       "name" => "body",
       "description" => "{{description}}",
-      "dataType" => "{{dataType}}",
+      "dataType" => "{{{dataType}}}",
       "paramType" => "body",
     }
     {{/bodyParams}}
