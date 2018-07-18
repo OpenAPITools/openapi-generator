@@ -71,10 +71,10 @@ public class AbstractPhpCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
-        Assert.assertEquals(codegen.modelPackage(), "PHPmodel");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "PHPmodel");
-        Assert.assertEquals(codegen.apiPackage(), "PHPapi");
-        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "PHPapi");
+        Assert.assertEquals(codegen.modelPackage(), "PHPinvoker\\PHPmodel");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.MODEL_PACKAGE), "PHPinvoker\\PHPmodel");
+        Assert.assertEquals(codegen.apiPackage(), "PHPinvoker\\PHPapi");
+        Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "PHPinvoker\\PHPapi");
         Assert.assertEquals(codegen.getInvokerPackage(), "PHPinvoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "PHPinvoker");
     }
