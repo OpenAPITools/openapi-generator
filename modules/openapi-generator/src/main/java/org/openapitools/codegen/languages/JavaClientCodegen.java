@@ -523,25 +523,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> allProcessedModels = super.postProcessAllModels(objs);
-        if (!additionalProperties.containsKey("gsonFactoryMethod")) {
-            List<Object> allModels = new ArrayList<Object>();
-            for (String name : allProcessedModels.keySet()) {
-                Map<String, Object> models = (Map<String, Object>) allProcessedModels.get(name);
-                try {
-                    allModels.add(((List<Object>) models.get("models")).get(0));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            additionalProperties.put("parent", modelInheritanceSupportInGson(allModels));
-        }
-        return allProcessedModels;
-    }
-
     @Override
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
@@ -562,34 +543,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
         return objs;
-    }
-
-    public static List<Map<String, Object>> modelInheritanceSupportInGson(List<?> allModels) {
-        Map<CodegenModel, List<CodegenModel>> byParent = new LinkedHashMap<>();
-        for (Object model : allModels) {
-            Map entry = (Map) model;
-            CodegenModel parent = ((CodegenModel)entry.get("model")).parentModel;
-            if(null!= parent) {
-                byParent.computeIfAbsent(parent, k -> new LinkedList<>()).add((CodegenModel)entry.get("model"));
-            }
-        }
-        List<Map<String, Object>> parentsList = new ArrayList<>();
-        for (CodegenModel parentModel : byParent.keySet()) {
-            List<Map<String, Object>> childrenList = new ArrayList<>();
-            Map<String, Object> parent = new HashMap<>();
-            parent.put("classname", parentModel.classname);
-            List<CodegenModel> childrenModels = byParent.get(parentModel);
-            for (CodegenModel model : childrenModels) {
-                Map<String, Object> child = new HashMap<>();
-                child.put("name", model.name);
-                child.put("classname", model.classname);
-                childrenList.add(child);
-            }
-            parent.put("children", childrenList);
-            parent.put("discriminator", parentModel.discriminator);
-            parentsList.add(parent);
-        }
-        return parentsList;
     }
 
     public void setUseRxJava(boolean useRxJava) {
