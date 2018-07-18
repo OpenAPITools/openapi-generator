@@ -35,8 +35,8 @@ $router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
 $router->patch('/v2/fake', 'FakeApi@testClientModel');
 /**
  * post testEndpointParameters
- * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
- * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+ * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
  */
 $router->post('/v2/fake', 'FakeApi@testEndpointParameters');
 /**

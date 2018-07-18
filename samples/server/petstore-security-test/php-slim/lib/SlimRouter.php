@@ -57,7 +57,7 @@ class SlimRouter {
     public function __construct($container = []) {
         $app = new App($container);
 
-        $app->PUT('/fake', FakeApi::class . ':testCodeInjectEndRnNR');
+        $app->PUT('/ ' \" =end -- \\r\\n \\n \\r/v2  ' \" =end -- \\r\\n \\n \\r/fake', FakeApi::class . ':testCodeInjectEndRnNR');
 
         $this->slimApp = $app;
     }
