@@ -1117,7 +1117,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
-     * @param parameter Parameter
+     * @param parameter        Parameter
      */
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         if (parameter.getExample() != null) {
@@ -1127,7 +1127,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
-            if(example.getValue() != null) {
+            if (example.getValue() != null) {
                 codegenParameter.example = example.getValue().toString();
                 return;
             }
@@ -1146,7 +1146,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
-     * @param requestBody Request body
+     * @param requestBody      Request body
      */
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         Content content = requestBody.getContent();
@@ -1164,7 +1164,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
             Example example = mediaType.getExamples().values().iterator().next();
-            if(example.getValue() != null) {
+            if (example.getValue() != null) {
                 codegenParameter.example = example.getValue().toString();
                 return;
             }
@@ -1625,7 +1625,7 @@ public class DefaultCodegen implements CodegenConfig {
                     m.isInteger = Boolean.TRUE;
                 }
             }
-            if (ModelUtils.isStringSchema(schema)){
+            if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
             }
 
@@ -4412,15 +4412,32 @@ public class DefaultCodegen implements CodegenConfig {
                 if (schema.getAdditionalProperties() != null) {// http body is map
                     LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
                 } else if (codegenProperty != null) {
+                    String codegenModelName, codegenModelDescription;
+
+                    if (codegenModel != null) {
+                        codegenModelName = codegenModel.classname;
+                        codegenModelDescription = codegenModel.description;
+                    } else {
+                        LOGGER.warn("The following schema has undefined (null) baseType. " +
+                                "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                                "A correct 'consumes' for form parameters should be " +
+                                "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                        LOGGER.warn("schema: " + schema);
+                        LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
+                        codegenModelName = "UNKNOWN_BASE_TYPE";
+                        codegenModelDescription = "UNKNOWN_DESCRIPTION";
+                    }
+
                     if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = codegenModel.classname;
+                        codegenParameter.baseName = codegenModelName;
                     } else {
                         codegenParameter.baseName = bodyParameterName;
                     }
+
                     codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                    codegenParameter.baseType = codegenModel.classname;
-                    codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
-                    codegenParameter.description = codegenModel.description;
+                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                    codegenParameter.description = codegenModelDescription;
                     imports.add(codegenParameter.baseType);
 
                     if (codegenProperty.complexType != null) {
@@ -4504,6 +4521,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public boolean isDataTypeString(String dataType) {
-        return  "String".equals(dataType);
+        return "String".equals(dataType);
     }
 }
