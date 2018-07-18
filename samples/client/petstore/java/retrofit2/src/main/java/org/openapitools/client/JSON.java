@@ -52,14 +52,15 @@ public class JSON {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("Cat".toUpperCase(), Cat.class);
                 classByDiscriminatorValue.put("Dog".toUpperCase(), Dog.class);
+                classByDiscriminatorValue.put("Cat".toUpperCase(), Cat.class);
                 classByDiscriminatorValue.put("Animal".toUpperCase(), Animal.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
-                            getDiscriminatorValue(readElement, ""));
+                            getDiscriminatorValue(readElement, "className"));
             }
           })
+        
         ;
         return fireBuilder.createGsonBuilder();
     }
