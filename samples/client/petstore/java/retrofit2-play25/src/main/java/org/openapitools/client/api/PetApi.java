@@ -125,4 +125,18 @@ public interface PetApi {
     @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part("file") MultipartBody.Part file
   );
 
+  /**
+   * uploads an image (required)
+   * 
+   * @param petId ID of pet to update (required)
+   * @param requiredFile file to upload (required)
+   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @return Call&lt;ModelApiResponse&gt;
+   */
+  @retrofit2.http.Multipart
+  @POST("fake/{petId}/uploadImageWithRequiredFile")
+  CompletionStage<Response<ModelApiResponse>> uploadFileWithRequiredFile(
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("requiredFile") MultipartBody.Part requiredFile, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
+  );
+
 }

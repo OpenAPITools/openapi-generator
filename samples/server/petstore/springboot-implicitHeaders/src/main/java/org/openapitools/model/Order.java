@@ -7,14 +7,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Order
  */
-@Validated
 
 public class Order   {
   @JsonProperty("id")
@@ -181,7 +179,7 @@ public class Order   {
   @ApiModelProperty(value = "")
 
 
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 

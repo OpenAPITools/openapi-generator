@@ -27,6 +27,8 @@
 
 #include <StoreApi.h>
 
+#include <pistache/optional.h>
+
 #include "Order.h"
 #include <map>
 #include <string>

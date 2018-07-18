@@ -62,6 +62,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String WITH_XML = "withXml";
     public static final String SUPPORT_JAVA6 = "supportJava6";
+    public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
+    public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
+    public static final String BOOLEAN_GETTER_PREFIX_DEFAULT = "get";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -93,7 +96,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean serializeBigDecimalAsString = false;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected boolean supportJava6 = false;
+    protected boolean supportJava6= false;
+    protected boolean disableHtmlEscaping = false;
+    protected String booleanGetterPrefix = BOOLEAN_GETTER_PREFIX_DEFAULT;
 
     public AbstractJavaCodegen() {
         super();
@@ -185,6 +190,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         java8Mode.setEnum(java8ModeOptions);
         cliOptions.add(java8Mode);
 
+        cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)"));
+        cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix (default value '" + BOOLEAN_GETTER_PREFIX_DEFAULT + "')"));
     }
 
     @Override
@@ -196,6 +203,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         additionalProperties.put(SUPPORT_JAVA6, supportJava6);
 
+        if (additionalProperties.containsKey(DISABLE_HTML_ESCAPING)) {
+            this.setDisableHtmlEscaping(Boolean.valueOf(additionalProperties.get(DISABLE_HTML_ESCAPING).toString()));
+        }
+        additionalProperties.put(DISABLE_HTML_ESCAPING, disableHtmlEscaping);
+
+        if (additionalProperties.containsKey(BOOLEAN_GETTER_PREFIX)) {
+            this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
+        }
+        additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -929,7 +945,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         // Remove imports of List, ArrayList, Map and HashMap as they are
         // imported in the template already.
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
@@ -1222,6 +1238,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.supportAsync = enabled;
     }
 
+    public void setDisableHtmlEscaping(boolean disabled) {
+        this.disableHtmlEscaping = disabled;
+    }
+
+    public void setBooleanGetterPrefix(String booleanGetterPrefix) {
+        this.booleanGetterPrefix = booleanGetterPrefix;
+    }
+
     @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
@@ -1280,7 +1304,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return getter name based on naming convention
      */
     public String toBooleanGetter(String name) {
-        return "is" + getterAndSetterCapitalize(name);
+        return booleanGetterPrefix + getterAndSetterCapitalize(name);
     }
 
     @Override

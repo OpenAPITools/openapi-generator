@@ -27,6 +27,26 @@ class PetApi extends Controller
     }
 
     /**
+     * Operation uploadFileWithRequiredFile
+     *
+     * uploads an image (required).
+     *
+     * @param int $pet_id ID of pet to update (required)
+     *
+     * @return Http response
+     */
+    public function uploadFileWithRequiredFile($pet_id)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing uploadFileWithRequiredFile as a post method ?');
+    }
+    /**
      * Operation addPet
      *
      * Add a new pet to the store.

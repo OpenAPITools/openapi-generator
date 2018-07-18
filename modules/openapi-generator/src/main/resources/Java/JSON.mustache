@@ -76,7 +76,11 @@ public class JSON {
           })
         {{/parent}}
         ;
-        return fireBuilder.createGsonBuilder();
+        GsonBuilder builder = fireBuilder.createGsonBuilder();
+        {{#disableHtmlEscaping}}
+        builder.disableHtmlEscaping();
+        {{/disableHtmlEscaping}}
+        return builder;
     }
 
     private static String getDiscriminatorValue(JsonElement readElement, String discriminatorField) {

@@ -111,8 +111,8 @@ newtype EnumQueryString = EnumQueryString { unEnumQueryString :: E'EnumFormStrin
 -- ** EnumQueryStringArray
 newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: [E'EnumFormStringArray] } deriving (P.Eq, P.Show)
 
--- ** File
-newtype File = File { unFile :: FilePath } deriving (P.Eq, P.Show)
+-- ** File2
+newtype File2 = File2 { unFile2 :: FilePath } deriving (P.Eq, P.Show)
 
 -- ** Int32
 newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
@@ -167,6 +167,9 @@ newtype PatternWithoutDelimiter = PatternWithoutDelimiter { unPatternWithoutDeli
 
 -- ** PetId
 newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
+
+-- ** Query
+newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
 
 -- ** RequestBody
 newtype RequestBody = RequestBody { unRequestBody :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
@@ -698,6 +701,67 @@ mkEnumTest enumTestEnumStringRequired =
   , enumTestOuterEnum = Nothing
   }
 
+-- ** File
+-- | File
+-- Must be named `File` for test.
+data File = File
+  { fileSourceUri :: !(Maybe Text) -- ^ "sourceURI" - Test capitalization
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON File
+instance A.FromJSON File where
+  parseJSON = A.withObject "File" $ \o ->
+    File
+      <$> (o .:? "sourceURI")
+
+-- | ToJSON File
+instance A.ToJSON File where
+  toJSON File {..} =
+   _omitNulls
+      [ "sourceURI" .= fileSourceUri
+      ]
+
+
+-- | Construct a value of type 'File' (by applying it's required fields, if any)
+mkFile
+  :: File
+mkFile =
+  File
+  { fileSourceUri = Nothing
+  }
+
+-- ** FileSchemaTestClass
+-- | FileSchemaTestClass
+data FileSchemaTestClass = FileSchemaTestClass
+  { fileSchemaTestClassFile :: !(Maybe File) -- ^ "file"
+  , fileSchemaTestClassFiles :: !(Maybe [File]) -- ^ "files"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON FileSchemaTestClass
+instance A.FromJSON FileSchemaTestClass where
+  parseJSON = A.withObject "FileSchemaTestClass" $ \o ->
+    FileSchemaTestClass
+      <$> (o .:? "file")
+      <*> (o .:? "files")
+
+-- | ToJSON FileSchemaTestClass
+instance A.ToJSON FileSchemaTestClass where
+  toJSON FileSchemaTestClass {..} =
+   _omitNulls
+      [ "file" .= fileSchemaTestClassFile
+      , "files" .= fileSchemaTestClassFiles
+      ]
+
+
+-- | Construct a value of type 'FileSchemaTestClass' (by applying it's required fields, if any)
+mkFileSchemaTestClass
+  :: FileSchemaTestClass
+mkFileSchemaTestClass =
+  FileSchemaTestClass
+  { fileSchemaTestClassFile = Nothing
+  , fileSchemaTestClassFiles = Nothing
+  }
+
 -- ** FormatTest
 -- | FormatTest
 data FormatTest = FormatTest
@@ -815,6 +879,8 @@ mkHasOnlyReadOnly =
 data MapTest = MapTest
   { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
   , mapTestMapOfEnumString :: !(Maybe (Map.Map String E'Inner)) -- ^ "map_of_enum_string"
+  , mapTestDirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
+  , mapTestIndirectMap :: !(Maybe StringBooleanMap) -- ^ "indirect_map"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON MapTest
@@ -823,6 +889,8 @@ instance A.FromJSON MapTest where
     MapTest
       <$> (o .:? "map_map_of_string")
       <*> (o .:? "map_of_enum_string")
+      <*> (o .:? "direct_map")
+      <*> (o .:? "indirect_map")
 
 -- | ToJSON MapTest
 instance A.ToJSON MapTest where
@@ -830,6 +898,8 @@ instance A.ToJSON MapTest where
    _omitNulls
       [ "map_map_of_string" .= mapTestMapMapOfString
       , "map_of_enum_string" .= mapTestMapOfEnumString
+      , "direct_map" .= mapTestDirectMap
+      , "indirect_map" .= mapTestIndirectMap
       ]
 
 
@@ -840,6 +910,8 @@ mkMapTest =
   MapTest
   { mapTestMapMapOfString = Nothing
   , mapTestMapOfEnumString = Nothing
+  , mapTestDirectMap = Nothing
+  , mapTestIndirectMap = Nothing
   }
 
 -- ** MixedPropertiesAndAdditionalPropertiesClass
@@ -1230,6 +1302,34 @@ mkSpecialModelName
 mkSpecialModelName =
   SpecialModelName
   { specialModelNameSpecialPropertyName = Nothing
+  }
+
+-- ** StringBooleanMap
+-- | StringBooleanMap
+data StringBooleanMap = StringBooleanMap
+  { 
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON StringBooleanMap
+instance A.FromJSON StringBooleanMap where
+  parseJSON = A.withObject "StringBooleanMap" $ \o ->
+    pure StringBooleanMap
+      
+
+-- | ToJSON StringBooleanMap
+instance A.ToJSON StringBooleanMap where
+  toJSON StringBooleanMap  =
+   _omitNulls
+      [ 
+      ]
+
+
+-- | Construct a value of type 'StringBooleanMap' (by applying it's required fields, if any)
+mkStringBooleanMap
+  :: StringBooleanMap
+mkStringBooleanMap =
+  StringBooleanMap
+  { 
   }
 
 -- ** Tag

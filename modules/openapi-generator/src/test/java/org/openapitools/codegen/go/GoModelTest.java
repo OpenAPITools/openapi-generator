@@ -238,7 +238,7 @@ public class GoModelTest {
         Assert.assertEquals(cm.imports.size(), 1);
     }
 
-    @Test(description = "convert an map model")
+    @Test(description = "convert a map model")
     public void mapModelTest() {
         final Schema model = new Schema()
                 .additionalProperties(new Schema().$ref("#/definitions/Children"))
@@ -252,6 +252,22 @@ public class GoModelTest {
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
+    }
+
+    @Test(description = "convert file type and file schema models")
+    public void filePropertyTest() {
+        final DefaultCodegen codegen = new GoClientCodegen();
+        final Schema model1 = new Schema().type("file");
+        Assert.assertEquals(codegen.getSchemaType(model1), "*os.File");
+        Assert.assertEquals(codegen.getTypeDeclaration(model1), "*os.File");
+
+        final Schema model2 = new Schema().$ref("#/definitions/File");
+        Assert.assertEquals(codegen.getSchemaType(model2), "File");
+        Assert.assertEquals(codegen.getTypeDeclaration(model2), "File");
+
+        final Schema model3 = new Schema().$ref("#/components/schemas/File");
+        Assert.assertEquals(codegen.getSchemaType(model3), "File");
+        Assert.assertEquals(codegen.getTypeDeclaration(model3), "File");
     }
 
     @DataProvider(name = "modelNames")

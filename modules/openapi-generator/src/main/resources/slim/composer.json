@@ -1,6 +1,0 @@
-{
-  "minimum-stability": "RC",
-  "require": {
-    "slim/slim": "3.*"
-  }
-}

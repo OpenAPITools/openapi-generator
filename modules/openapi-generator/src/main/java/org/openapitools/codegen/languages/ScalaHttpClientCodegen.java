@@ -43,7 +43,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         outputFolder = "generated-code/scala-http-client";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "scala";
+        embeddedTemplateDir = templateDir = "scala-httpclient";
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
 

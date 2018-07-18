@@ -72,4 +72,21 @@ public class GoClientCodegenTest {
         Assert.assertFalse(bp.isPrimitiveType);
     }
 
+    @Test
+    public void testFilenames() throws Exception {
+        final GoClientCodegen codegen = new GoClientCodegen();
+
+        // Model names are generated from schema / definition names
+        Assert.assertEquals(codegen.toModelFilename("Animal"), "model_animal");
+        Assert.assertEquals(codegen.toModelFilename("AnimalTest"), "model_animal_test_");
+        Assert.assertEquals(codegen.toModelFilename("AnimalFarm"), "model_animal_farm");
+        Assert.assertEquals(codegen.toModelFilename("AnimalFarmTest"), "model_animal_farm_test_");
+
+        // API names are generated from tag names
+        Assert.assertEquals(codegen.toApiFilename("Animal"), "api_animal");
+        Assert.assertEquals(codegen.toApiFilename("Animal Test"), "api_animal_test_");
+        Assert.assertEquals(codegen.toApiFilename("Animal Farm"), "api_animal_farm");
+        Assert.assertEquals(codegen.toApiFilename("Animal Farm Test"), "api_animal_farm_test_");
+    }
+
 }

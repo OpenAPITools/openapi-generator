@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 <a name="addPet"></a>
@@ -422,6 +423,61 @@ Name | Type | Description  | Notes
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
  **file** | **AsyncFile**| file to upload | [optional] [default to null]
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+<a name="uploadFileWithRequiredFile"></a>
+# **uploadFileWithRequiredFile**
+> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
+
+uploads an image (required)
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.Configuration;
+//import org.openapitools.client.auth.*;
+//import org.openapitools.client.api.PetApi;
+
+ApiClient defaultClient = Configuration.getDefaultApiClient();
+
+// Configure OAuth2 access token for authorization: petstore_auth
+OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
+PetApi apiInstance = new PetApi();
+Long petId = 56L; // Long | ID of pet to update
+AsyncFile requiredFile = new AsyncFile(); // AsyncFile | file to upload
+String additionalMetadata = "null"; // String | Additional data to pass to server
+try {
+    ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **Long**| ID of pet to update |
+ **requiredFile** | **AsyncFile**| file to upload | [default to null]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

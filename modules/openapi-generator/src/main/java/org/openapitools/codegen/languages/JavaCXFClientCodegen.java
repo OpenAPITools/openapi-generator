@@ -146,8 +146,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        objs = super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
         return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
     }
 

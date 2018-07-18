@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.1.2-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -572,7 +572,43 @@
             </modules>
         </profile>
         <profile>
-            <id>scala-client</id>
+            <id>javascript-client-es6</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-es6</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javascript-client-promise</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-promise</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javascript-client-promise-es6</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>javascript</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/javascript-promise-es6</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>scala-httpclient</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -580,7 +616,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/scala</module>
+                <module>samples/client/petstore/scala-httpclient</module>
             </modules>
         </profile>
         <profile>
@@ -901,9 +937,11 @@
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/client/petstore/scala</module>
-                <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
+                <module>samples/client/petstore/javascript-es6</module>
+                <module>samples/client/petstore/javascript-promise</module>
+                <module>samples/client/petstore/javascript-promise-es6</module>
+                <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/client/petstore/python-asyncio</module>
@@ -919,8 +957,32 @@
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
                 <module>samples/client/petstore/typescript-angular-v4/npm</module>
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
+                <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby</module>
+                <module>samples/server/petstore/rust-server</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.shippable</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.shippable</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/elixir</module>
+                <module>samples/client/petstore/erlang-client</module>
+                <!-- servers -->
+                <!-- disable erlang server test due to dependency issues
+                <module>samples/server/petstore/erlang-server</module> -->
+                <module>samples/server/petstore/jaxrs/jersey2</module>
+                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
+                <module>samples/server/petstore/spring-mvc</module>
+                <module>samples/server/petstore/spring-mvc-j8-async</module>
+                <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
             </modules>
         </profile>
     </profiles>

@@ -1,54 +1,107 @@
-# Java-related client, server tests
-machine:
-  java:
-    version: openjdk8
-  services:
-    - docker
-  # Override /etc/hosts
-  hosts:
-    petstore.swagger.io: 127.0.0.1
-  environment:
-    DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
-    DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
+version: 2
+jobs:
+  build:
+    machine:
+      docker_layer_caching: true
+    working_directory: ~/OpenAPITools/openapi-generator
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
+      DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
+    steps:
+    # Restore the dependency cache
+    - restore_cache:
+        keys:
+        # Default branch if not
+        - source-v1-{{ .Branch }}-{{ .Revision }}
+        - source-v1-{{ .Branch }}-
+        - source-v1-
+    # Machine Setup
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
+    - checkout
+    # Prepare for artifact and test results  collection equivalent to how it was done on 1.0.
+    # In many cases you can simplify this from what is generated here.
+    # 'See docs on artifact collection here https://circleci.com/docs/2.0/artifacts/'
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    # This is based on your 1.0 configuration file or project settings
+    - run:
+        command: sudo update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java; sudo update-alternatives --set javac /usr/lib/jvm/java-8-openjdk-amd64/bin/javac; echo -e "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+    - run:
+        command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
+    - run:
+       command: |-
+         printf '127.0.0.1       petstore.swagger.io
+         ' | sudo tee -a /etc/hosts
+    # Dependencies
+    #   This would typically go in either a build or a build-and-test job when using workflows
+    # This is based on your 1.0 configuration file or project settings
+    - run: sudo add-apt-repository ppa:duggan/bats --yes
+    - run: sudo apt-get update -qq
+    - run: sudo apt-get install -qq bats
+    - run: sudo apt-get install -qq curl
+    # Install latest stable node for angular 6
+    - run:
+        name: Install node@stable (for angular 6)
+        command: |
+          set +e
+          curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+          export NVM_DIR="/opt/circleci/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm install stable
+          nvm alias default stable
 
-dependencies:
-  cache_directories:
-    - "~/.m2"
-    - "~/.sbt"
-    - "~/.ivy2/cache"
-
-  pre:
-    - sudo add-apt-repository ppa:duggan/bats --yes
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq bats
-    - sudo apt-get install -qq curl
-    # to run petstore server locally via docker
-    - docker pull swaggerapi/petstore
-    - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-    - docker ps -a
-    # show host table to confirm petstore.swagger.io is mapped to localhost
-    - cat /etc/hosts
-  override:
-    - cp CI/pom.xml.circleci pom.xml
-
-test:
-  override:
-    ## test with jdk8
-    - java -version
-    - mvn --quiet clean install
-    - mvn --quiet verify -Psamples
-    # skip the rest if previous mvn task fails
-    - if [ $? -ne 0 ]; then exit 1; fi
-    ## test with jdk7
-    - sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-    - java -version
-    - cp CI/pom.xml.circleci.java7 pom.xml # use jdk7 pom
-    - mvn --quiet clean install
-    - mvn --quiet verify -Psamples
-    # skip the rest if previous mvn task fails
-    - if [ $? -ne 0 ]; then exit 1; fi
-    ## docker push done in Travis instead
-    ## docker: build generator image and push to Docker Hub
-    #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build --rm=false -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/opeanapi-generator && if [ ! -z "$CIRCLE_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$CIRCLE_TAG; fi && if [ ! -z "$CIRCLE_TAG" ] || [ "$CIRCLE_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME; fi; fi
-    ### docker: build cli image and push to Docker Hub
-    #- if [ $DOCKER_HUB_USERNAME ]; then docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD && docker build --rm=false -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$CIRCLE_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$CIRCLE_TAG; fi && if [ ! -z "$CIRCLE_TAG" ] || [ "$CIRCLE_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME; fi; fi
+          # Each step uses the same `$BASH_ENV`, so need to modify it
+          echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+          echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
+    - run: node --version
+#    - run: docker pull openapitools/openapi-petstore
+#    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
+    - run: docker pull swaggerapi/petstore
+    - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - run: docker ps -a
+    - run: sleep 30
+    - run: cat /etc/hosts
+    # This is based on your 1.0 configuration file or project settings
+    - run: cp CI/pom.xml.circleci pom.xml
+    # Test
+    #   This would typically be a build job when using workflows, possibly combined with build
+    # This is based on your 1.0 configuration file or project settings
+    #- run: java -version
+    - run: mvn --quiet clean install
+    - run: mvn --quiet verify -Psamples
+    - run: if [ $? -ne 0 ]; then exit 1; fi
+    - run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+    - run: java -version
+    - run: cp CI/pom.xml.circleci.java7 pom.xml
+    - run: mvn --quiet clean install
+    - run: mvn --quiet verify -Psamples
+    - run: if [ $? -ne 0 ]; then exit 1; fi
+    # Save dependency cache
+    - save_cache:
+        key: source-v1-{{ .Branch }}-{{ .Revision }}
+        paths:
+        # This is a broad list of cache paths to include many possible development environments
+        # You can probably delete some of these entries
+        - vendor/bundle
+        - ~/virtualenvs
+        - ~/.m2
+        - ~/.ivy2
+        - ~/.bundle
+        - ~/.go_workspace
+        - ~/.gradle
+        - ~/.cache/bower
+        - ".git"
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # Save test results
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    # Save artifacts
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: /tmp/circleci-test-results
