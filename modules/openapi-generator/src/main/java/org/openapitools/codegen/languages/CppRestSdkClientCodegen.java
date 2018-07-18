@@ -49,6 +49,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
+    public static final String GENERATE_GMOCKS_FOR_APIS = "generateGMocksForApis";
 
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
@@ -114,6 +115,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
+        addOption(GENERATE_GMOCKS_FOR_APIS,
+                "Generate Google Mock classes for APIs.",
+                null);
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));
@@ -174,6 +178,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         if (additionalProperties.containsKey(DEFAULT_INCLUDE)) {
             defaultInclude = additionalProperties.get(DEFAULT_INCLUDE).toString();
+        }
+
+        if (convertPropertyToBoolean(GENERATE_GMOCKS_FOR_APIS)) {
+            apiTemplateFiles.put("api-gmock.mustache", "GMock.h");
         }
 
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));

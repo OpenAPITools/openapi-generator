@@ -22,11 +22,24 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-class {{declspec}} {{classname}}
+class {{declspec}} I{{classname}}
+{
+public:
+    virtual ~I{{classname}}() = default;
+    {{#operation}}
+    virtual pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
+        {{#allParams}}
+        {{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{/allParams}}
+    ) = 0;
+    {{/operation}}
+};
+
+class {{declspec}} {{classname}} : public I{{classname}}
 {
 public:
     {{classname}}( std::shared_ptr<ApiClient> apiClient );
-    virtual ~{{classname}}();
+    ~{{classname}}() override;
     {{#operation}}
     /// <summary>
     /// {{summary}}
@@ -41,7 +54,7 @@ public:
         {{#allParams}}
         {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}
-    );
+    ) override;
     {{/operation}}
 
 protected:
