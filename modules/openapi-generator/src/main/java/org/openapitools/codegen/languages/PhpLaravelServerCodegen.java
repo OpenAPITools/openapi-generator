@@ -96,10 +96,9 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         /*
          * Model Package.  Optional, if needed, this can be used in templates
          */
-        modelPackage = "models";
+        modelPackage = "app.Models";
 
         // template files want to be ignored
-        modelTemplateFiles.clear();
         apiTestTemplateFiles.clear();
         apiDocTemplateFiles.clear();
         modelDocTemplateFiles.clear();

@@ -32,8 +32,8 @@ Route::patch('/v2/another-fake/dummy', 'AnotherFakeController@testSpecialTags');
 Route::patch('/v2/fake', 'FakeController@testClientModel');
 /**
  * post testEndpointParameters
- * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
- * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+ * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
  */
 Route::post('/v2/fake', 'FakeController@testEndpointParameters');
