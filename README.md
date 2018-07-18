@@ -87,7 +87,8 @@ OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
 ---------------------------- | ------------ | -------------------------- | -----
 4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes (no fallback)
 3.2.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.2.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Minor release with breaking changes (with fallbacks)
-3.1.1 (current master, upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.1.1/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Bugfix release
+3.1.2-SNAPSHOT (current master, upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.1.2-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Bugfix release
+[3.1.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.1.1) | 18.07.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
 [3.1.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.1.0) | 06.07.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Minor release with breaking changes (with fallbacks)
 [3.0.3](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.3) | 27.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
 [3.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.2) | 18.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
@@ -144,16 +145,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.0/openapi-generator-cli-3.1.0.jar`
+JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.1/openapi-generator-cli-3.1.1.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.0/openapi-generator-cli-3.1.0.jar -O openapi-generator-cli.jar
+wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.1/openapi-generator-cli-3.1.1.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.0/openapi-generator-cli-3.1.0.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.1/openapi-generator-cli-3.1.1.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
