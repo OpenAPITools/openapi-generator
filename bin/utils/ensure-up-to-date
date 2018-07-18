@@ -22,7 +22,7 @@ sleep 5
 ./bin/php-silex-petstore-server.sh > /dev/null 2>&1
 ./bin/php-symfony-petstore.sh > /dev/null 2>&1
 ./bin/php-lumen-petstore-server.sh > /dev/null 2>&1
-./bin/php-slim-petstore-server.sh > /dev/null 2>&1
+./bin/php-slim-server-petstore.sh > /dev/null 2>&1
 ./bin/php-ze-ph-petstore-server.sh > /dev/null 2>&1
 ./bin/openapi3/php-petstore.sh > /dev/null 2>&1
 ./bin/typescript-angular-petstore-all.sh > /dev/null 2>&1
