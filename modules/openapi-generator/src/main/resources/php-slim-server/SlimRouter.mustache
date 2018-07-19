@@ -39,6 +39,7 @@ use {{apiPackage}}\{{classname}};
 use Slim\App;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
+use {{invokerPackage}}\Middleware\AuthBasic;
 
 /**
  * SlimRouter Class Doc Comment
@@ -65,11 +66,22 @@ class SlimRouter {
      */
     public function __construct($container = []) {
         $app = new App($container);
+        $container = $app->getContainer();
 
         {{#apis}}
         {{#operations}}
         {{#operation}}
-        $app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', {{classname}}::class . ':{{operationId}}');
+        $app->{{httpMethod}}(
+            '{{{basePathWithoutHost}}}{{{path}}}', {{classname}}::class . ':{{operationId}}'
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+        )->add(
+            new AuthBasic($container)
+{{/isBasic}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+        );
         {{/operation}}
         {{/operations}}
         {{/apis}}

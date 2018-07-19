@@ -37,6 +37,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
+    protected String middlewarePackage = "";
+    protected String middlewareDirName = "Middleware";
 
     public PhpSlimServerCodegen() {
         super();
@@ -51,6 +53,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         setInvokerPackage("OpenAPIServer");
         apiPackage = invokerPackage + "\\" + apiDirName;
         modelPackage = invokerPackage + "\\" + modelDirName;
+        middlewarePackage = invokerPackage + "\\" + middlewareDirName;
         outputFolder = "generated-code" + File.separator + "slim";
 
         modelTestTemplateFiles.put("model_test.mustache", ".php");
@@ -110,6 +113,11 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        // Update the invokerPackage for the default middlewarePackage
+        middlewarePackage = invokerPackage + "\\" + middlewareDirName;
+
+        additionalProperties.put("middlewarePackage", middlewarePackage);
+
         supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", getPackagePath(), "index.php"));
@@ -118,6 +126,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("AuthBasic.mustache", toSrcPath(middlewarePackage, srcBasePath), "AuthBasic.php"));
     }
 
     @Override
