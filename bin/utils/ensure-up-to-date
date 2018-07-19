@@ -29,6 +29,7 @@ sleep 5
 ./bin/typescript-fetch-petstore-all.sh > /dev/null 2>&1
 ./bin/typescript-node-petstore-all.sh > /dev/null 2>&1
 ./bin/typescript-inversify-petstore.sh > /dev/null 2>&1
+./bin/rust-server-petstore.sh > /dev/null 2>&1
 
 
 # Check:
