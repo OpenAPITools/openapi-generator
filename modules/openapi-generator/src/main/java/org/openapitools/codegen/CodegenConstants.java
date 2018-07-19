@@ -56,6 +56,9 @@ public class CodegenConstants {
     public static final String PYTHON_PACKAGE_NAME = "pythonPackageName";
     public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
 
+    public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
+    public static final String WITH_GO_CODEGEN_COMMENT_DESC = "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs";
+
     public static final String GROUP_ID = "groupId";
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
@@ -212,6 +215,9 @@ public class CodegenConstants {
 
     public static final String EXCLUDE_TESTS = "excludeTests";
     public static final String EXCLUDE_TESTS_DESC = "Specifies that no tests are to be generated.";
+
+    public static final String SOURCECODEONLY_GENERATION = "generateSourceCodeOnly";
+    public static final String SOURCECODEONLY_GENERATION_DESC = "Specifies that only a library source code is to be generated.";
 
     // Not user-configurable. System provided for use in templates.
 

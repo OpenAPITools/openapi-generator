@@ -15,6 +15,10 @@ pet_t *petApi_getPetById(apiClient_t *apiClient, long petId) {
 	apiClient_invoke(apiClient,
 	                 "pet",
 	                 petIdString,
+	                 NULL,
+	                 NULL,
+	                 NULL,
+	                 NULL,
 	                 NULL);
 	pet = pet_parseFromJSON(apiClient->dataReceived);
 	free(apiClient->dataReceived);
@@ -38,7 +42,11 @@ void *petApi_addPet(apiClient_t *apiClient, pet_t *pet) {
 	apiClient_invoke(apiClient,
 	                 "pet",
 	                 NULL,
-	                 petJSONString);
+	                 NULL,
+	                 NULL,
+	                 NULL,
+	                 petJSONString,
+	                 "POST");
 	free(apiClient->dataReceived);
 	free(petJSONString);
 	cJSON_Delete(petJSONObject);

@@ -6,7 +6,7 @@
 export enum {{classname}} {
 {{#allowableValues}}
 {{#enumVars}}
-    {{{name}}} = <any> {{{value}}}{{^-last}},{{/-last}} {{#description}}// {{description}}{{/description}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
 {{/enumVars}}
 {{/allowableValues}}
 }

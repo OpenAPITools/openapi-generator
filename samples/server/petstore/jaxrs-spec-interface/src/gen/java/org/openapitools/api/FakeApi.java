@@ -128,6 +128,6 @@ public interface FakeApi {
     }, tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "file") InputStream fileInputStream,
-   @FormParam(value = "file") Attachment fileDetail,@FormParam(value = "additionalMetadata")  String additionalMetadata);
+    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") @ApiParam("ID of pet to update") Long petId, @FormParam(value = "requiredFile") InputStream requiredFileInputStream,
+   @FormParam(value = "requiredFile") Attachment requiredFileDetail,@FormParam(value = "additionalMetadata")  String additionalMetadata);
 }

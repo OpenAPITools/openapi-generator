@@ -387,12 +387,12 @@ if (file != null)
    * uploads an image (required)
    * 
    * @param petId ID of pet to update (required)
-   * @param file file to upload (required)
+   * @param requiredFile file to upload (required)
    * @param additionalMetadata Additional data to pass to server (optional, default to null)
    * @return a {@code ModelApiResponse}
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFileWithRequiredFile(Long petId, File file, String additionalMetadata) throws ApiException {
+  public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
     Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
@@ -400,9 +400,9 @@ if (file != null)
       throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
     }
     
-    // verify the required parameter 'file' is set
-    if (file == null) {
-      throw new ApiException(400, "Missing the required parameter 'file' when calling uploadFileWithRequiredFile");
+    // verify the required parameter 'requiredFile' is set
+    if (requiredFile == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
     }
     
     // create path and map variables
@@ -418,8 +418,8 @@ if (file != null)
     
     if (additionalMetadata != null)
       localVarFormParams.put("additionalMetadata", additionalMetadata);
-if (file != null)
-      localVarFormParams.put("file", file);
+if (requiredFile != null)
+      localVarFormParams.put("requiredFile", requiredFile);
 
     final String[] localVarAccepts = {
       "application/json"

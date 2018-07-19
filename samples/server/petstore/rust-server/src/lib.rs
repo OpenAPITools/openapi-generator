@@ -242,6 +242,8 @@ pub enum GetUserByNameResponse {
 
 #[derive(Debug, PartialEq)]
 pub enum LoginUserResponse {
+    /// successful operation
+    SuccessfulOperation { body: String, x_rate_limit: i32, x_expires_after: chrono::DateTime<chrono::Utc> } ,
     /// Invalid username/password supplied
     InvalidUsername ,
 }

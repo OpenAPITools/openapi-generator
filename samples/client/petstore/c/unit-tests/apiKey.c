@@ -1,6 +1,6 @@
-#include "apiKey.h"
+#include "keyValuePair.h"
 
 int main() {
-	apiKey_t *apiKey = apiKey_create("key", "value");
-	apiKey_free(apiKey);
+	keyValuePair_t *keyValuePair = keyValuePair_create("key", "value");
+	keyValuePair_free(keyValuePair);
 }

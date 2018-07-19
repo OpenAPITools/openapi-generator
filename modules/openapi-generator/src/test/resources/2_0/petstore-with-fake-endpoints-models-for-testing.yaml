@@ -987,7 +987,7 @@ paths:
           description: Additional data to pass to server
           required: false
           type: string
-        - name: file
+        - name: requiredFile
           in: formData
           description: file to upload
           required: true
@@ -1526,7 +1526,7 @@ definitions:
           $ref: "#/definitions/File"
   File:
     type: object
-    desription: 'Must be named `File` for test.'
+    description: 'Must be named `File` for test.'
     properties:
       sourceURI:
         description: 'Test capitalization'

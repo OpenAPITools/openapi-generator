@@ -114,9 +114,9 @@ export namespace Order {
      * @enum {string}
      */
     export enum StatusEnum {
-        Placed = <any> 'placed',
-        Approved = <any> 'approved',
-        Delivered = <any> 'delivered'
+        Placed = 'placed',
+        Approved = 'approved',
+        Delivered = 'delivered'
     }
 }
 
@@ -174,9 +174,9 @@ export namespace Pet {
      * @enum {string}
      */
     export enum StatusEnum {
-        Available = <any> 'available',
-        Pending = <any> 'pending',
-        Sold = <any> 'sold'
+        Available = 'available',
+        Pending = 'pending',
+        Sold = 'sold'
     }
 }
 
@@ -443,7 +443,7 @@ export class BaseAPI {
 };
 
 export class RequiredError extends Error {
-    name = 'RequiredError';
+    name: "RequiredError" = "RequiredError";
     constructor(public field: string, msg?: string) {
         super(msg);
     }

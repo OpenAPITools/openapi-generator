@@ -70,21 +70,22 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['body']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_boolean_serialize" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
 
         collection_formats = {}
 
@@ -98,8 +99,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in params:
-            body_params = params['body']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -117,10 +118,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type='bool',  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def fake_outer_composite_serialize(self, **kwargs):  # noqa: E501
@@ -161,21 +162,22 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['outer_composite']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_composite_serialize" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
 
         collection_formats = {}
 
@@ -189,8 +191,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'outer_composite' in params:
-            body_params = params['outer_composite']
+        if 'outer_composite' in local_var_params:
+            body_params = local_var_params['outer_composite']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -208,10 +210,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type='OuterComposite',  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def fake_outer_number_serialize(self, **kwargs):  # noqa: E501
@@ -252,21 +254,22 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['body']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_number_serialize" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
 
         collection_formats = {}
 
@@ -280,8 +283,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in params:
-            body_params = params['body']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -299,10 +302,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type='float',  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def fake_outer_string_serialize(self, **kwargs):  # noqa: E501
@@ -343,21 +346,22 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['body']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_string_serialize" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
 
         collection_formats = {}
 
@@ -371,8 +375,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in params:
-            body_params = params['body']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -390,10 +394,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type='str',  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def test_body_with_file_schema(self, file_schema_test_class, **kwargs):  # noqa: E501
@@ -434,24 +438,25 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['file_schema_test_class']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_file_schema" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'file_schema_test_class' is set
-        if ('file_schema_test_class' not in params or
-                params['file_schema_test_class'] is None):
+        if ('file_schema_test_class' not in local_var_params or
+                local_var_params['file_schema_test_class'] is None):
             raise ValueError("Missing the required parameter `file_schema_test_class` when calling `test_body_with_file_schema`")  # noqa: E501
 
         collection_formats = {}
@@ -466,8 +471,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'file_schema_test_class' in params:
-            body_params = params['file_schema_test_class']
+        if 'file_schema_test_class' in local_var_params:
+            body_params = local_var_params['file_schema_test_class']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -485,10 +490,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def test_body_with_query_params(self, query, user, **kwargs):  # noqa: E501
@@ -529,28 +534,29 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['query', 'user']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_query_params" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'query' is set
-        if ('query' not in params or
-                params['query'] is None):
+        if ('query' not in local_var_params or
+                local_var_params['query'] is None):
             raise ValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
         # verify the required parameter 'user' is set
-        if ('user' not in params or
-                params['user'] is None):
+        if ('user' not in local_var_params or
+                local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `test_body_with_query_params`")  # noqa: E501
 
         collection_formats = {}
@@ -558,8 +564,8 @@ class FakeApi(object):
         path_params = {}
 
         query_params = []
-        if 'query' in params:
-            query_params.append(('query', params['query']))  # noqa: E501
+        if 'query' in local_var_params:
+            query_params.append(('query', local_var_params['query']))  # noqa: E501
 
         header_params = {}
 
@@ -567,8 +573,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in params:
-            body_params = params['user']
+        if 'user' in local_var_params:
+            body_params = local_var_params['user']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -586,10 +592,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def test_client_model(self, client, **kwargs):  # noqa: E501
@@ -630,24 +636,25 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['client']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_client_model" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'client' is set
-        if ('client' not in params or
-                params['client'] is None):
+        if ('client' not in local_var_params or
+                local_var_params['client'] is None):
             raise ValueError("Missing the required parameter `client` when calling `test_client_model`")  # noqa: E501
 
         collection_formats = {}
@@ -662,8 +669,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'client' in params:
-            body_params = params['client']
+        if 'client' in local_var_params:
+            body_params = local_var_params['client']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -685,10 +692,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type='Client',  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
@@ -755,65 +762,66 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_endpoint_parameters" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'number' is set
-        if ('number' not in params or
-                params['number'] is None):
+        if ('number' not in local_var_params or
+                local_var_params['number'] is None):
             raise ValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'double' is set
-        if ('double' not in params or
-                params['double'] is None):
+        if ('double' not in local_var_params or
+                local_var_params['double'] is None):
             raise ValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'pattern_without_delimiter' is set
-        if ('pattern_without_delimiter' not in params or
-                params['pattern_without_delimiter'] is None):
+        if ('pattern_without_delimiter' not in local_var_params or
+                local_var_params['pattern_without_delimiter'] is None):
             raise ValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'byte' is set
-        if ('byte' not in params or
-                params['byte'] is None):
+        if ('byte' not in local_var_params or
+                local_var_params['byte'] is None):
             raise ValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
 
-        if 'number' in params and params['number'] > 543.2:  # noqa: E501
+        if 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
             raise ValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
-        if 'number' in params and params['number'] < 32.1:  # noqa: E501
+        if 'number' in local_var_params and local_var_params['number'] < 32.1:  # noqa: E501
             raise ValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value greater than or equal to `32.1`")  # noqa: E501
-        if 'double' in params and params['double'] > 123.4:  # noqa: E501
+        if 'double' in local_var_params and local_var_params['double'] > 123.4:  # noqa: E501
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
-        if 'double' in params and params['double'] < 67.8:  # noqa: E501
+        if 'double' in local_var_params and local_var_params['double'] < 67.8:  # noqa: E501
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
-        if 'pattern_without_delimiter' in params and not re.search('^[A-Z].*', params['pattern_without_delimiter']):  # noqa: E501
+        if 'pattern_without_delimiter' in local_var_params and not re.search('^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
             raise ValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
-        if 'integer' in params and params['integer'] > 100:  # noqa: E501
+        if 'integer' in local_var_params and local_var_params['integer'] > 100:  # noqa: E501
             raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
-        if 'integer' in params and params['integer'] < 10:  # noqa: E501
+        if 'integer' in local_var_params and local_var_params['integer'] < 10:  # noqa: E501
             raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")  # noqa: E501
-        if 'int32' in params and params['int32'] > 200:  # noqa: E501
+        if 'int32' in local_var_params and local_var_params['int32'] > 200:  # noqa: E501
             raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")  # noqa: E501
-        if 'int32' in params and params['int32'] < 20:  # noqa: E501
+        if 'int32' in local_var_params and local_var_params['int32'] < 20:  # noqa: E501
             raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
-        if 'float' in params and params['float'] > 987.6:  # noqa: E501
+        if 'float' in local_var_params and local_var_params['float'] > 987.6:  # noqa: E501
             raise ValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
-        if 'string' in params and not re.search('[a-z]', params['string'], flags=re.IGNORECASE):  # noqa: E501
+        if 'string' in local_var_params and not re.search('[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
             raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
-        if ('password' in params and
-                len(params['password']) > 64):
+        if ('password' in local_var_params and
+                len(local_var_params['password']) > 64):
             raise ValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
-        if ('password' in params and
-                len(params['password']) < 10):
+        if ('password' in local_var_params and
+                len(local_var_params['password']) < 10):
             raise ValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
         collection_formats = {}
 
@@ -825,34 +833,34 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'integer' in params:
-            form_params.append(('integer', params['integer']))  # noqa: E501
-        if 'int32' in params:
-            form_params.append(('int32', params['int32']))  # noqa: E501
-        if 'int64' in params:
-            form_params.append(('int64', params['int64']))  # noqa: E501
-        if 'number' in params:
-            form_params.append(('number', params['number']))  # noqa: E501
-        if 'float' in params:
-            form_params.append(('float', params['float']))  # noqa: E501
-        if 'double' in params:
-            form_params.append(('double', params['double']))  # noqa: E501
-        if 'string' in params:
-            form_params.append(('string', params['string']))  # noqa: E501
-        if 'pattern_without_delimiter' in params:
-            form_params.append(('pattern_without_delimiter', params['pattern_without_delimiter']))  # noqa: E501
-        if 'byte' in params:
-            form_params.append(('byte', params['byte']))  # noqa: E501
-        if 'binary' in params:
-            local_var_files['binary'] = params['binary']  # noqa: E501
-        if 'date' in params:
-            form_params.append(('date', params['date']))  # noqa: E501
-        if 'date_time' in params:
-            form_params.append(('dateTime', params['date_time']))  # noqa: E501
-        if 'password' in params:
-            form_params.append(('password', params['password']))  # noqa: E501
-        if 'param_callback' in params:
-            form_params.append(('callback', params['param_callback']))  # noqa: E501
+        if 'integer' in local_var_params:
+            form_params.append(('integer', local_var_params['integer']))  # noqa: E501
+        if 'int32' in local_var_params:
+            form_params.append(('int32', local_var_params['int32']))  # noqa: E501
+        if 'int64' in local_var_params:
+            form_params.append(('int64', local_var_params['int64']))  # noqa: E501
+        if 'number' in local_var_params:
+            form_params.append(('number', local_var_params['number']))  # noqa: E501
+        if 'float' in local_var_params:
+            form_params.append(('float', local_var_params['float']))  # noqa: E501
+        if 'double' in local_var_params:
+            form_params.append(('double', local_var_params['double']))  # noqa: E501
+        if 'string' in local_var_params:
+            form_params.append(('string', local_var_params['string']))  # noqa: E501
+        if 'pattern_without_delimiter' in local_var_params:
+            form_params.append(('pattern_without_delimiter', local_var_params['pattern_without_delimiter']))  # noqa: E501
+        if 'byte' in local_var_params:
+            form_params.append(('byte', local_var_params['byte']))  # noqa: E501
+        if 'binary' in local_var_params:
+            local_var_files['binary'] = local_var_params['binary']  # noqa: E501
+        if 'date' in local_var_params:
+            form_params.append(('date', local_var_params['date']))  # noqa: E501
+        if 'date_time' in local_var_params:
+            form_params.append(('dateTime', local_var_params['date_time']))  # noqa: E501
+        if 'password' in local_var_params:
+            form_params.append(('password', local_var_params['password']))  # noqa: E501
+        if 'param_callback' in local_var_params:
+            form_params.append(('callback', local_var_params['param_callback']))  # noqa: E501
 
         body_params = None
         # HTTP header `Content-Type`
@@ -872,10 +880,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def test_enum_parameters(self, **kwargs):  # noqa: E501
@@ -930,51 +938,52 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double', 'enum_form_string_array', 'enum_form_string']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_enum_parameters" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
 
         collection_formats = {}
 
         path_params = {}
 
         query_params = []
-        if 'enum_query_string_array' in params:
-            query_params.append(('enum_query_string_array', params['enum_query_string_array']))  # noqa: E501
+        if 'enum_query_string_array' in local_var_params:
+            query_params.append(('enum_query_string_array', local_var_params['enum_query_string_array']))  # noqa: E501
             collection_formats['enum_query_string_array'] = 'csv'  # noqa: E501
-        if 'enum_query_string' in params:
-            query_params.append(('enum_query_string', params['enum_query_string']))  # noqa: E501
-        if 'enum_query_integer' in params:
-            query_params.append(('enum_query_integer', params['enum_query_integer']))  # noqa: E501
-        if 'enum_query_double' in params:
-            query_params.append(('enum_query_double', params['enum_query_double']))  # noqa: E501
+        if 'enum_query_string' in local_var_params:
+            query_params.append(('enum_query_string', local_var_params['enum_query_string']))  # noqa: E501
+        if 'enum_query_integer' in local_var_params:
+            query_params.append(('enum_query_integer', local_var_params['enum_query_integer']))  # noqa: E501
+        if 'enum_query_double' in local_var_params:
+            query_params.append(('enum_query_double', local_var_params['enum_query_double']))  # noqa: E501
 
         header_params = {}
-        if 'enum_header_string_array' in params:
-            header_params['enum_header_string_array'] = params['enum_header_string_array']  # noqa: E501
+        if 'enum_header_string_array' in local_var_params:
+            header_params['enum_header_string_array'] = local_var_params['enum_header_string_array']  # noqa: E501
             collection_formats['enum_header_string_array'] = 'csv'  # noqa: E501
-        if 'enum_header_string' in params:
-            header_params['enum_header_string'] = params['enum_header_string']  # noqa: E501
+        if 'enum_header_string' in local_var_params:
+            header_params['enum_header_string'] = local_var_params['enum_header_string']  # noqa: E501
 
         form_params = []
         local_var_files = {}
-        if 'enum_form_string_array' in params:
-            form_params.append(('enum_form_string_array', params['enum_form_string_array']))  # noqa: E501
+        if 'enum_form_string_array' in local_var_params:
+            form_params.append(('enum_form_string_array', local_var_params['enum_form_string_array']))  # noqa: E501
             collection_formats['enum_form_string_array'] = 'csv'  # noqa: E501
-        if 'enum_form_string' in params:
-            form_params.append(('enum_form_string', params['enum_form_string']))  # noqa: E501
+        if 'enum_form_string' in local_var_params:
+            form_params.append(('enum_form_string', local_var_params['enum_form_string']))  # noqa: E501
 
         body_params = None
         # HTTP header `Content-Type`
@@ -994,10 +1003,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def test_inline_additional_properties(self, request_body, **kwargs):  # noqa: E501
@@ -1036,24 +1045,25 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['request_body']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_inline_additional_properties" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'request_body' is set
-        if ('request_body' not in params or
-                params['request_body'] is None):
+        if ('request_body' not in local_var_params or
+                local_var_params['request_body'] is None):
             raise ValueError("Missing the required parameter `request_body` when calling `test_inline_additional_properties`")  # noqa: E501
 
         collection_formats = {}
@@ -1068,8 +1078,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'request_body' in params:
-            body_params = params['request_body']
+        if 'request_body' in local_var_params:
+            body_params = local_var_params['request_body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -1087,10 +1097,10 @@ class FakeApi(object):
             files=local_var_files,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
     def test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
@@ -1131,28 +1141,29 @@ class FakeApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
+
         all_params = ['param', 'param2']  # noqa: E501
         all_params.append('async')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
 
-        params = locals()
-        for key, val in six.iteritems(params['kwargs']):
+        for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_json_form_data" % key
                 )
-            params[key] = val
-        del params['kwargs']
+            local_var_params[key] = val
+        del local_var_params['kwargs']
         # verify the required parameter 'param' is set
-        if ('param' not in params or
-                params['param'] is None):
+        if ('param' not in local_var_params or
+                local_var_params['param'] is None):
             raise ValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
         # verify the required parameter 'param2' is set
-        if ('param2' not in params or
-                params['param2'] is None):
+        if ('param2' not in local_var_params or
+                local_var_params['param2'] is None):
             raise ValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
 
         collection_formats = {}
@@ -1165,10 +1176,10 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
-        if 'param' in params:
-            form_params.append(('param', params['param']))  # noqa: E501
-        if 'param2' in params:
-            form_params.append(('param2', params['param2']))  # noqa: E501
+        if 'param' in local_var_params:
+            form_params.append(('param', local_var_params['param']))  # noqa: E501
+        if 'param2' in local_var_params:
+            form_params.append(('param2', local_var_params['param2']))  # noqa: E501
 
         body_params = None
         # HTTP header `Content-Type`
@@ -1188,8 +1199,8 @@ class FakeApi(object):
             files=local_var_files,
             response_type=None,  # noqa: E501
             auth_settings=auth_settings,
-            async=params.get('async'),
-            _return_http_data_only=params.get('_return_http_data_only'),
-            _preload_content=params.get('_preload_content', True),
-            _request_timeout=params.get('_request_timeout'),
+            async=local_var_params.get('async'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
