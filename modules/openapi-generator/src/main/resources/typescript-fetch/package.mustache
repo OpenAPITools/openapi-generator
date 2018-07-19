@@ -1,7 +1,7 @@
 {
-  "name": "@swagger/typescript-fetch-petstore",
-  "version": "1.0.0",
-  "description": "OpenAPI client for @swagger/typescript-fetch-petstore",
+  "name": "{{npmName}}",
+  "version": "{{npmVersion}}",
+  "description": "OpenAPI client for {{npmName}}",
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -11,8 +11,10 @@
   },
   "devDependencies": {
     "typescript": "^2.9"
-  },
+  }{{#npmRepository}},{{/npmRepository}}
+{{#npmRepository}}
   "publishConfig":{
-    "registry":"https://skimdb.npmjs.com/registry"
+    "registry":"{{npmRepository}}"
   }
+{{/npmRepository}}
 }
