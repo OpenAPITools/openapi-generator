@@ -638,7 +638,7 @@ public class ApiClient {
 
     for (Entry<String, String> defaultHeaderEnrty: defaultHeaderMap.entrySet()) {
       if (!headerParams.containsKey(defaultHeaderEnrty.getKey())) {
-        String value = defaultHeaderEnrty.getKey();
+        String value = defaultHeaderEnrty.getValue();
         if (value != null) {
           invocationBuilder = invocationBuilder.header(defaultHeaderEnrty.getKey(), value);
         }
