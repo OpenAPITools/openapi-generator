@@ -54,7 +54,7 @@ public class CodegenProperty implements Cloneable {
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
     public boolean hasMore, required, secondaryParam;
-    public boolean hasMoreNonReadOnly; // for model constructor, true if next properyt is not readonly
+    public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType, isContainer, isNotContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
