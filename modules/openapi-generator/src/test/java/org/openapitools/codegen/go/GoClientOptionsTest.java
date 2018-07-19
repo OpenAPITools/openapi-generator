@@ -47,6 +47,8 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setPackageName(GoClientOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
+            clientCodegen.setWithGoCodegenComment(GoClientOptionsProvider.WITH_GO_CODEGEN_COMMENT_VALUE);
+            times = 1;
             clientCodegen.setWithXml(GoClientOptionsProvider.WITH_XML_VALUE);
             times = 1;
             clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(GoClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
