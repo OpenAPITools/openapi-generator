@@ -37,6 +37,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
 
+    protected boolean withGoCodegenComment = false;
     protected boolean withXml = false;
 
     protected String packageName = "openapi";
@@ -582,6 +583,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else {
             return enumName;
         }
+    }
+
+    public void setWithGoCodegenComment(boolean withGoCodegenComment) {
+        this.withGoCodegenComment = withGoCodegenComment;
     }
 
     public void setWithXml(boolean withXml) {
