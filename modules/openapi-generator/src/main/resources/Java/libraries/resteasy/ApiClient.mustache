@@ -636,11 +636,11 @@ public class ApiClient {
       }
     }
 
-    for (Entry<String, String> defaultHeaderEnrty: defaultHeaderMap.entrySet()) {
-      if (!headerParams.containsKey(defaultHeaderEnrty.getKey())) {
-        String value = defaultHeaderEnrty.getKey();
+    for (Entry<String, String> entry: defaultHeaderMap.entrySet()) {
+      if (!headerParams.containsKey(entry.getKey())) {
+        String value = entry.getValue();
         if (value != null) {
-          invocationBuilder = invocationBuilder.header(defaultHeaderEnrty.getKey(), value);
+          invocationBuilder = invocationBuilder.header(entry.getKey(), value);
         }
       }
     }
