@@ -194,7 +194,7 @@ public class ExampleGenerator {
                 if (arrayLength == Integer.MAX_VALUE) {
                     // swagger-jersey2-jaxrs generated spec may contain maxItem = 2147483647
                     // semantically this means there is no upper limit
-                    // treating this as if the property was not present at all					
+                    // treating this as if the property was not present at all
                     LOGGER.warn("The max items allowed in property {} of {} equals Integer.MAX_VALUE. Treating this as if no max items has been specified.", property, arrayLength);
                     arrayLength = 2;
                 } else if (arrayLength > 1024) {
