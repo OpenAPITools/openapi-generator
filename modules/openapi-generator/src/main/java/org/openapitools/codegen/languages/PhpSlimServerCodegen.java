@@ -118,6 +118,9 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
         additionalProperties.put("middlewarePackage", middlewarePackage);
 
+        // make middleware src path available in mustache template
+        additionalProperties.put("middlewareSrcPath", "." + File.separator + toSrcPath(middlewarePackage, srcBasePath));
+
         supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", getPackagePath(), "index.php"));
