@@ -1,0 +1,18 @@
+{{#models}}
+{{#model}}
+{{>partial_header}}
+{{#description}}
+# {{{description}}}
+{{/description}}
+type {{classname}} {
+
+{{#vars}}
+  {{#description}}
+  # {{{descriptoin}}}
+  {{/description}}
+  {{baseName}}: {{{dataType}}}{{#required}}!{{/required}}
+
+{{/vars}}
+}
+{{/model}}
+{{/models}}

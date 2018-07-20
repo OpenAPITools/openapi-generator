@@ -17,53 +17,48 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
+public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLClientCodegen.class);
 
     protected String specFolder = "spec";
     protected String packageName = "openapi-client";
-    protected String packageVersion = "1.0.0-1";
+    protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected String luaRocksFilename = "openapi-client-1.0.0-1.rockspec";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
 
     public String getName() {
-        return "lua";
+        return "graphql-client";
     }
 
     public String getHelp() {
-        return "Generates a Lua client library (beta).";
+        return "Generates a GraphQL client (beta)";
     }
 
-    public LuaClientCodegen() {
+    public GraphQLClientCodegen() {
         super();
-        outputFolder = "generated-code/lua";
-        modelTemplateFiles.put("model.mustache", ".lua");
-        apiTemplateFiles.put("api.mustache", ".lua");
+        outputFolder = "generated-code/graphql";
+        modelTemplateFiles.put("model.mustache", ".graphql");
+        apiTemplateFiles.put("api.mustache", ".graphql");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-        embeddedTemplateDir = templateDir = "lua";
+        embeddedTemplateDir = templateDir = "graphql-client";
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -71,14 +66,10 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // data type
-                        "nil", "string", "boolean", "number", "userdata", "thread",
-                        "table",
+                        "null", "Int", "Float", "String", "Boolean", "ID",
 
-                        // reserved words: http://www.lua.org/manual/5.1/manual.html#2.1
-                        "and", "break", "do", "else", "elseif",
-                        "end", "false", "for", "function", "if",
-                        "in", "local", "nil", "not", "or",
-                        "repeat", "return", "then", "true", "until", "while"
+                        // reserved words: TODO
+                        "type", "implements", "query", "union", "interface"
                 )
         );
 
@@ -97,39 +88,30 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         );
 
         instantiationTypes.clear();
-        /*instantiationTypes.put("array", "LuaArray");
-        instantiationTypes.put("map", "LuaMap");*/
 
         typeMapping.clear();
-        typeMapping.put("integer", "number");
-        typeMapping.put("long", "number");
-        typeMapping.put("number", "number");
-        typeMapping.put("float", "number");
-        typeMapping.put("double", "number");
-        typeMapping.put("boolean", "boolean");
-        typeMapping.put("string", "string");
-        typeMapping.put("UUID", "string");
-        typeMapping.put("date", "string");
-        typeMapping.put("DateTime", "string");
-        typeMapping.put("password", "string");
-        // TODO fix file mapping
-        typeMapping.put("file", "string");
-        // map binary to string as a workaround
-        // the correct solution is to use []byte
-        typeMapping.put("binary", "string");
-        typeMapping.put("ByteArray", "string");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("long", "Int");
+        typeMapping.put("number", "Float");
+        typeMapping.put("float", "Float");
+        typeMapping.put("double", "Float");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("string", "String");
+        typeMapping.put("UUID", "ID");
+        typeMapping.put("date", "String");
+        typeMapping.put("DateTime", "String");
+        typeMapping.put("password", "String");
+        // TODO fix  mapping
+        typeMapping.put("file", "String");
+        typeMapping.put("binary", "String");
+        typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
-        importMapping = new HashMap<String, String>();
-        importMapping.put("time.Time", "time");
-        importMapping.put("*os.File", "os");
-        importMapping.put("os", "io/ioutil");
-
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Lua package name (convention: lowercase).")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GrapQL package name (convention: lowercase).")
                 .defaultValue("openapi-client"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Lua package version.")
-                .defaultValue("1.0.0-1"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL package version.")
+                .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
@@ -150,14 +132,12 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
-        // set rockspec based on package name, version
-        setLuaRocksFilename(packageName + "-" + packageVersion + ".rockspec");
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        apiTestTemplateFiles.put("api_test.mustache", ".lua");
-        modelTestTemplateFiles.put("model_test.mustache", ".lua");
+        //apiTestTemplateFiles.put("api_test.mustache", ".graphql");
+        //modelTestTemplateFiles.put("model_test.mustache", ".graphql");
 
         apiDocTemplateFiles.clear(); // TODO: add api doc template
         modelDocTemplateFiles.clear(); // TODO: add model doc template
@@ -166,19 +146,17 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = packageName;
 
         //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("luarocks.mustache", "", luaRocksFilename));
-        //supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.lua"));
-        //supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.lua"));
-        //supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.lua"));
+        //supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        //supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.graphql"));
+        //supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.graphql"));
+        //supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.graphql"));
         //supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
     @Override
     public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
-        // UppercaseLetter so that Lua treats them as public/visible.
 
         // Options?
         // - MyName
@@ -212,9 +190,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (name.matches("^[A-Z_]*$"))
             return name;
 
-        // convert variable name to snake case
-        // PetId => pet_id
-        name = underscore(name);
+        name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -222,19 +198,19 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // for reserved word or word starting with number, append _
         if (name.matches("^\\d.*"))
-            name = "Var" + name;
+            name = camelize("var_" + name);
 
         return name;
     }
 
     @Override
     public String toParamName(String name) {
-        return toVarName(name);
+        return "$" + toVarName(name);
     }
 
     @Override
     public String toModelName(String name) {
-        return toModelFilename(name);
+        return camelize(toModelFilename(name));
     }
 
     @Override
@@ -269,7 +245,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        // e.g. PetApi.lua => pet_api.lua
+        // e.g. PetApi.graphql => pet_api.graphql
         return underscore(name) + "_api";
     }
 
@@ -383,11 +359,12 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return underscore(sanitizedOperationId);
+        return camelize(sanitizedOperationId, false);
     }
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        /*
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
@@ -414,6 +391,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             op.vendorExtensions.put("x-codegen-path", luaPath);
         }
+        */
         return objs;
     }
 
@@ -459,10 +437,6 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
-    }
-
-    public void setLuaRocksFilename(String luaRocksFilename) {
-        this.luaRocksFilename = luaRocksFilename;
     }
 
     @Override

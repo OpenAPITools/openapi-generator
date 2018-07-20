@@ -1,0 +1,23 @@
+{{>partial_header}}
+# package {{packageName}}
+
+{{#operations}}
+# {{classname}}
+
+type Query {
+{{#operation}}
+  {{#summary}}
+  # {{{summary}}}
+  {{/summary}}
+  {{#notes}}
+  # {{{notes}}}
+  {{/notes}}
+  {{#allParams}}
+  # @param {{{dataType}}} {{paramName}} {{{description}}}
+  {{/allParams}}
+  # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}]
+  {{{operationId}}}({{#allParams}}{{paramName}}: {{dataType}}{{#required}}!{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}null{{/returnType}}
+
+{{/operation}}
+}
+{{/operations}}
