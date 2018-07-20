@@ -114,6 +114,8 @@ public class DefaultCodegen implements CodegenConfig {
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
+    // The extension of the generated documentation files (defaults to markdown .md)
+    protected String docExtension;
 
     protected String ignoreFilePathOverride;
 
@@ -171,6 +173,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
             this.setRemoveOperationIdPrefix(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)){
+            this.setDocExtension(String.valueOf(additionalProperties
+                    .get(CodegenConstants.DOCEXTENSION).toString()));
         }
     }
 
@@ -3415,7 +3422,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the API documentation file name with full path
      */
     public String apiDocFilename(String templateName, String tag) {
-        String suffix = apiDocTemplateFiles().get(templateName);
+        String docExtension = getDocExtension();
+        String suffix = docExtension != null ? docExtension: apiDocTemplateFiles().get(templateName);
         return apiDocFileFolder() + File.separator + toApiDocFilename(tag) + suffix;
     }
 
@@ -3551,6 +3559,25 @@ public class DefaultCodegen implements CodegenConfig {
     public String getReleaseNote() {
         return releaseNote;
     }
+
+    /**
+     * Documentation files extension
+     *
+     * @return Documentation files extension
+     */
+    public String getDocExtension() {
+        return docExtension;
+    }
+
+    /**
+     * Set Documentation files extension
+     *
+     * @param userDocExtension documentation files extension
+     */
+    public void setDocExtension(String userDocExtension) {
+        this.docExtension = userDocExtension;
+    }
+
 
     /**
      * Set HTTP user agent.
