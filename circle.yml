@@ -63,7 +63,7 @@ jobs:
     - run: docker pull swaggerapi/petstore
     - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
     - run: docker ps -a
--    - run: sleep 30
+    - run: sleep 30
     - run: cat /etc/hosts
     # Test
     #
