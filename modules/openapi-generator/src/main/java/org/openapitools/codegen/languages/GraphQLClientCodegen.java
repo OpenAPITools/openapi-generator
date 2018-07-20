@@ -311,7 +311,7 @@ public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfi
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getTypeDeclaration(inner);
+            return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);
@@ -360,69 +360,6 @@ public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfi
         }
 
         return camelize(sanitizedOperationId, false);
-    }
-
-    @Override
-    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        /*
-        @SuppressWarnings("unchecked")
-        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
-        @SuppressWarnings("unchecked")
-        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-        for (CodegenOperation op : operations) {
-
-            String[] items = op.path.split("/", -1);
-            String luaPath = "";
-            int pathParamIndex = 0;
-
-            for (int i = 0; i < items.length; ++i) {
-                if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
-                    // find the datatype of the parameter
-                    //final CodegenParameter cp = op.pathParams.get(pathParamIndex);
-                    // TODO: Handle non-primitives…
-                    //luaPath = luaPath + cp.dataType.toLowerCase();
-                    luaPath = luaPath + "/%s";
-                    pathParamIndex++;
-                } else if (items[i].length() != 0) {
-                    luaPath = luaPath + "/" + items[i];
-                } else {
-                    //luaPath = luaPath + "/";
-                }
-            }
-            op.vendorExtensions.put("x-codegen-path", luaPath);
-        }
-        */
-        return objs;
-    }
-
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // remove model imports to avoid error
-        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        final String prefix = modelPackage();
-        Iterator<Map<String, String>> iterator = imports.iterator();
-        while (iterator.hasNext()) {
-            String _import = iterator.next().get("import");
-            if (_import.startsWith(prefix))
-                iterator.remove();
-        }
-
-        // recursively add import for mapping one type to multiple imports
-        List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
-        if (recursiveImports == null)
-            return objs;
-
-        ListIterator<Map<String, String>> listIterator = imports.listIterator();
-        while (listIterator.hasNext()) {
-            String _import = listIterator.next().get("import");
-            // if the import package happens to be found in the importMapping (key)
-            // add the corresponding import package to the list
-            if (importMapping.containsKey(_import)) {
-                listIterator.add(createMapping("import", importMapping.get(_import)));
-            }
-        }
-
-        return postProcessModelsEnum(objs);
     }
 
     @Override

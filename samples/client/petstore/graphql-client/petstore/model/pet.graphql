@@ -13,9 +13,9 @@ type Pet {
 
   name: String!
 
-  photoUrls: String!
+  photoUrls: [String]!
 
-  tags: Tag
+  tags: [Tag]
 
   # 
   status: String

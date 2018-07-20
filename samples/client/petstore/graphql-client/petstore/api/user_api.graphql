@@ -16,14 +16,14 @@ type Query {
   CreateUser($user: User!): null
 
   # Creates list of users with given input array
-  # @param User $user List of user object
+  # @param [User] $user List of user object
   # @return [null]
-  CreateUsersWithArrayInput($user: User!): null
+  CreateUsersWithArrayInput($user: [User]!): null
 
   # Creates list of users with given input array
-  # @param User $user List of user object
+  # @param [User] $user List of user object
   # @return [null]
-  CreateUsersWithListInput($user: User!): null
+  CreateUsersWithListInput($user: [User]!): null
 
   # Delete user
   # This can only be done by the logged in user.
