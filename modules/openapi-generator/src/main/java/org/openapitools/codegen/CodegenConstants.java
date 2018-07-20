@@ -254,4 +254,7 @@ public class CodegenConstants {
 
     public static final String STRIP_PACKAGE_NAME = "stripPackageName";
     public static final String STRIP_PACKAGE_NAME_DESC = "Whether to strip leading dot-separated packages from generated model classes";
+
+    public static final String DOCEXTENSION = "docExtension";
+    public static final String DOCEXTENSION_DESC = "The extension of the generated documentation files, defaults to markdown, .md";
 }
