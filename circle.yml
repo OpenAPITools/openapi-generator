@@ -2,11 +2,11 @@ version: 2
 jobs:
   build:
     docker:
-      - image: openapitools/openapi-generator
+      #- image: openapitools/openapi-generator
       - image: swaggerapi/petstore
-          environment:
-            SWAGGER_HOST=http://petstore.swagger.io
-            SWAGGER_BASE_PATH=/v2
+        environment:
+          SWAGGER_HOST=http://petstore.swagger.io
+          SWAGGER_BASE_PATH=/v2
     machine:
       docker_layer_caching: true
     working_directory: ~/OpenAPITools/openapi-generator
