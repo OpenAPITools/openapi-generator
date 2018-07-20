@@ -1,12 +1,12 @@
 version: 2
 jobs:
   build:
-          #    docker:
-          #      #- image: openapitools/openapi-generator
-          #      - image: swaggerapi/petstore
-          #        environment:
-          #          SWAGGER_HOST=http://petstore.swagger.io
-          #          SWAGGER_BASE_PATH=/v2
+    #    docker:
+    #      #- image: openapitools/openapi-generator
+    #      - image: swaggerapi/petstore
+    #        environment:
+    #          SWAGGER_HOST=http://petstore.swagger.io
+    #          SWAGGER_BASE_PATH=/v2
     machine:
       docker_layer_caching: true
     working_directory: ~/OpenAPITools/openapi-generator
@@ -66,7 +66,7 @@ jobs:
     - run: sleep 30
     - run: cat /etc/hosts
     # Test
-    #
+    - run: mvn --quiet clean install
     - run: ./CI/circle_parallel.sh 
     # Save dependency cache
     - save_cache:
