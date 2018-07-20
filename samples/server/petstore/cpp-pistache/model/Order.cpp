@@ -99,7 +99,6 @@ void Order::fromJson(nlohmann::json& val)
     if(val.find("status") != val.end())
     {
         setStatus(val.at("status"));
-        
     }
     if(val.find("complete") != val.end())
     {
