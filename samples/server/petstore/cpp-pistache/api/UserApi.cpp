@@ -59,11 +59,14 @@ void UserApi::setupRoutes() {
 void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
+    
     User user;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
+    
       user.fromJson(request_body);
+    
       this->create_user(user, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
@@ -75,11 +78,11 @@ void UserApi::create_user_handler(const Pistache::Rest::Request &request, Pistac
 void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
-    std::vector user;
+    std::vector<User> user;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
-      user.fromJson(request_body);
+      user =   ModelArrayHelper::fromJson<User>(request_body);
       this->create_users_with_array_input(user, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
@@ -91,11 +94,11 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
 void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
-    std::vector user;
+    std::vector<User> user;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
-      user.fromJson(request_body);
+      user =   ModelArrayHelper::fromJson<User>(request_body);
       this->create_users_with_list_input(user, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
@@ -161,11 +164,14 @@ void UserApi::update_user_handler(const Pistache::Rest::Request &request, Pistac
     auto username = request.param(":username").as<std::string>();
     
     // Getting the body param
+    
     User user;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
+    
       user.fromJson(request_body);
+    
       this->update_user(username, user, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
