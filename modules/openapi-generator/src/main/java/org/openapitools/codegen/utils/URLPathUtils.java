@@ -19,6 +19,8 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariable;
+import io.swagger.v3.oas.models.servers.ServerVariables;
 
 import org.openapitools.codegen.CodegenConfig;
 import org.slf4j.Logger;
@@ -27,11 +29,14 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class URLPathUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtils.class);
     public static final String LOCAL_HOST = "http://localhost";
+    public static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{([^\\}]+)\\}");
 
     public static URL getServerURL(OpenAPI openAPI) {
         final List<Server> servers = openAPI.getServers();
@@ -41,7 +46,36 @@ public class URLPathUtils {
         }
         // TODO need a way to obtain all server URLs
         final Server server = servers.get(0);
-        String url = sanitizeUrl(server.getUrl());
+        return getServerURL(server);
+    }
+
+    static URL getServerURL(final Server server) {
+        String url = server.getUrl();
+        ServerVariables variables = server.getVariables();
+        if(variables == null) {
+            variables = new ServerVariables();
+        }
+        Matcher matcher = VARIABLE_PATTERN.matcher(url);
+        while(matcher.find()) {
+            ServerVariable variable = variables.get(matcher.group(1));
+            String replacement;
+            if(variable != null) {
+                if(variable.getDefault() != null) {
+                    replacement = variable.getDefault();
+                } else if(variable.getEnum() != null && !variable.getEnum().isEmpty()) {
+                    replacement = variable.getEnum().get(0);
+                } else {
+                    LOGGER.warn("No value found for variable '{}' in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
+                    replacement = "";
+                }
+            } else {
+                LOGGER.warn("No variable '{}' found in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
+                replacement = "";
+            }
+            url = url.replace(matcher.group(), replacement);
+            matcher = VARIABLE_PATTERN.matcher(url);
+        }
+        url = sanitizeUrl(url);
 
         try {
             return new URL(url);
