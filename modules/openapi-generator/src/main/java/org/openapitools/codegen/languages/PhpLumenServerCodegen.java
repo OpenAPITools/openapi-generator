@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
-import io.swagger.models.properties.*;
 
 import java.util.*;
 import java.io.File;
