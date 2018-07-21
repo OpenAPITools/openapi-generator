@@ -74,6 +74,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         this.opts = opts;
         this.openAPI = opts.getOpenAPI();
         this.config = opts.getConfig();
+
+        if (hasStructureTemplate()){
+            return new StructureTemplateGenerator().opts(opts);
+        }
+
         this.config.additionalProperties().putAll(opts.getOpts().getProperties());
 
         String ignoreFileLocation = this.config.getIgnoreFilePathOverride();
@@ -91,6 +96,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         return this;
+    }
+
+    private boolean hasStructureTemplate() {
+        try{
+            getTemplateReader(getFullTemplateFile(config, "structure.mustache"));
+            return true;
+        }catch(RuntimeException ignored){
+            return false;
+        }
     }
 
     /**
