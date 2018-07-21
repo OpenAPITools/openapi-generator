@@ -10,9 +10,24 @@ type {{classname}} {
   {{#description}}
   # {{{descriptoin}}}
   {{/description}}
-  {{baseName}}: {{{dataType}}}{{#required}}!{{/required}}
+  {{baseName}}: {{{datatypeWithEnum}}}{{#required}}!{{/required}}
 
 {{/vars}}
 }
+{{#vars}}
+{{#isEnum}}
+
+{{#description}}
+# {{{descriptoin}}}
+{{/description}}
+enum {{enumName}} {
+  {{#allowableValues}}
+  {{#values}}
+  {{{.}}}
+  {{/values}}
+  {{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
 {{/model}}
 {{/models}}

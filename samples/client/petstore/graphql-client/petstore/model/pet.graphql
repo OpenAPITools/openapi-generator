@@ -18,6 +18,13 @@ type Pet {
   tags: [Tag]
 
   # 
-  status: String
+  status: Status
 
+}
+
+# 
+enum Status {
+  available
+  pending
+  sold
 }

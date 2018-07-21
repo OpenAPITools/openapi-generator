@@ -16,8 +16,15 @@ type Order {
   shipDate: String
 
   # 
-  status: String
+  status: Status
 
   complete: Boolean
 
+}
+
+# 
+enum Status {
+  placed
+  approved
+  delivered
 }

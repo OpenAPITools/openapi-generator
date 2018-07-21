@@ -442,7 +442,7 @@ public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase();
+        String enumName = toModelName(property.name);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
