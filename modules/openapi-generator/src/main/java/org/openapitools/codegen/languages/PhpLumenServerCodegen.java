@@ -133,6 +133,8 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
             }
         });
 
+        escapeMediaType(operations);
+
         return objs;
     }
 }
