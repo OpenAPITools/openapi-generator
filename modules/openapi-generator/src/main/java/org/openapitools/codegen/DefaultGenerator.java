@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.google.common.collect.Maps;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
@@ -52,7 +51,6 @@ import java.util.*;
 import java.net.*;
 import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -74,16 +72,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private String basePathWithoutHost;
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
-    private GeneratedStructure generatedStructure = new GeneratedStructure();
+    private Map<String, List<GeneratedStructureElement>> generatedStructure = new HashMap<>();
     private boolean hasStructureTemplate = false;
 
     class GeneratedStructureElement{
         public String folder;
-        public String fileName;
+        public String name;
         public String template;
-        public GeneratedStructureElement(String folder, String fileName, String template){
+        public GeneratedStructureElement(String folder, String name, String template){
             this.folder = folder;
-            this.fileName = fileName;
+            this.name = name;
             this.template = template;
         }
         public GeneratedStructureElement folder(String folder){
@@ -95,16 +93,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         public String toString() {
             return "GeneratedStructureElement{" +
                     "folder='" + folder + '\'' +
-                    ", fileName='" + fileName + '\'' +
+                    ", name='" + name + '\'' +
                     ", template='" + template + '\'' +
                     '}';
         }
-    }
-
-    class GeneratedStructure{
-        public List<GeneratedStructureElement> supportingFiles;
-        public List<GeneratedStructureElement> apis;
-        public List<GeneratedStructureElement> models;
     }
 
     @Override
@@ -172,7 +164,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    protected GeneratedStructure getGeneratedStructure(Map<String, Object> bundle) {
+    protected Map<String, List<GeneratedStructureElement>> getGeneratedStructure(Map<String, Object> bundle) {
         String templateFile = getFullTemplateFile(config, "structure.mustache");
         String template = readTemplate(templateFile);
         Mustache.Compiler compiler = Mustache.compiler();
@@ -190,10 +182,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Yaml yaml = new Yaml();
         try {
             Map<String, Object> objectMap = (Map<String, Object>) yaml.load(structureString);
-            GeneratedStructure structure = new GeneratedStructure();
-            structure.supportingFiles = flatten((Map<String, Object>) objectMap.getOrDefault("supportingFiles", new HashMap<String, Object>()));
-            structure.apis = flatten((Map<String, Object>) objectMap.getOrDefault("apis", new HashMap<String, Object>()));
-            structure.models = flatten((Map<String, Object>) objectMap.getOrDefault("models", new HashMap<String, Object>()));
+            Map<String, List<GeneratedStructureElement>> structure = new HashMap<String, List<GeneratedStructureElement>>();
+
+            for (String key: objectMap.keySet()){
+                Object value = objectMap.get(key);
+                structure.put(key, flatten((Map<String, Object>) value));
+            }
+            structure.putIfAbsent("models", new ArrayList());
+            structure.putIfAbsent("modelDocs", new ArrayList());
+            structure.putIfAbsent("modelTests", new ArrayList());
+            structure.putIfAbsent("apis", new ArrayList());
+            structure.putIfAbsent("apiDocs", new ArrayList());
+            structure.putIfAbsent("apiTests", new ArrayList());
+
+            structure.putIfAbsent("supportingFiles", new ArrayList());
+
             return structure;
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -551,10 +554,25 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 allModels.add(modelTemplate);
 
                 if (this.hasStructureTemplate) {
-                    for (GeneratedStructureElement element : generatedStructure.models) {
-                        String suffix = element.fileName;
-                        String templateName = element.template;
-                        String filename =  element.folder + File.separator + config.toModelFilename(modelName) + suffix;
+                    List<String[]> toGenerate = new ArrayList<>();
+
+                    for (GeneratedStructureElement element : generatedStructure.get("models")) {
+                        String filename =  element.folder + File.separator + config.toModelFilename(modelName) + element.name;
+                        toGenerate.add(new String[]{element.template, filename});
+                    }
+                    for (GeneratedStructureElement element : generatedStructure.get("modelDocs")) {
+                        String filename =  element.folder + File.separator + config.toModelDocFilename(modelName) + element.name;
+                        toGenerate.add(new String[]{element.template, filename});
+                    }
+                    for (GeneratedStructureElement element : generatedStructure.get("modelTests")) {
+                        String filename =  element.folder + File.separator + config.toModelTestFilename(modelName) + element.name;
+                        toGenerate.add(new String[]{element.template, filename});
+                    }
+
+                    for (String[] toGenerateElement : toGenerate) {
+                        String templateName = toGenerateElement[0];
+                        String filename = toGenerateElement[1];
+
                         String outputFileName = config.outputFolder() + File.separator + filename;
                         if (!config.shouldOverwrite(filename)) {
                             LOGGER.info("Skipped overwriting " + filename);
@@ -665,10 +683,24 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 if (this.hasStructureTemplate) {
-                    for (GeneratedStructureElement element : generatedStructure.models) {
-                        String suffix = element.fileName;
-                        String templateName = element.template;
-                        String filename = element.folder + File.separator + config.toApiFilename(tag) + suffix;
+                    List<String[]> toGenerate = new ArrayList<>();
+
+                    for (GeneratedStructureElement element : generatedStructure.get("apis")) {
+                        String filename =  element.folder + File.separator + config.toApiFilename(tag) + element.name;
+                        toGenerate.add(new String[]{element.template, filename});
+                    }
+                    for (GeneratedStructureElement element : generatedStructure.get("apiDocs")) {
+                        String filename =  element.folder + File.separator + config.toApiDocFilename(tag) + element.name;
+                        toGenerate.add(new String[]{element.template, filename});
+                    }
+                    for (GeneratedStructureElement element : generatedStructure.get("apiTests")) {
+                        String filename =  element.folder + File.separator + config.toApiTestFilename(tag) + element.name;
+                        toGenerate.add(new String[]{element.template, filename});
+                    }
+
+                    for (String[] element : toGenerate) {
+                        String templateName = element[0];
+                        String filename = element[1];
                         String outputFileName = config.outputFolder() + File.separator + filename;
                         if (!config.shouldOverwrite(filename)) {
                             LOGGER.info("Skipped overwriting " + filename);
@@ -747,10 +779,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         if (this.hasStructureTemplate){
             String outputFolder = config.outputFolder();
-            for (GeneratedStructureElement element : generatedStructure.supportingFiles) {
+            for (GeneratedStructureElement element : generatedStructure.get("supportingFiles")) {
                 try {
                     String templateName = element.template;
-                    String filename = Strings.isNullOrEmpty(element.folder) ? element.fileName : element.folder + File.separator + element.fileName;
+                    String filename = Strings.isNullOrEmpty(element.folder) ? element.name : element.folder + File.separator + element.name;
                     String outputFilename = outputFolder + File.separator + filename;
                     if (!config.shouldOverwrite(filename)) {
                         LOGGER.info("Skipped overwriting " + filename);
@@ -778,10 +810,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         files.add(outputFile);
                     }
                 } catch (Exception e) {
-                    throw new RuntimeException("Could not generate supporting file '" + element.fileName + "'", e);
+                    throw new RuntimeException("Could not generate supporting file '" + element.name + "'", e);
                 }
             }
-        }
+            return;
+        }else {
 
 
         Set<String> supportingFilesToGenerate = null;
@@ -858,6 +891,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
 
+        }
         // Consider .openapi-generator-ignore a supporting file
         // Output .openapi-generator-ignore if it doesn't exist and wasn't explicitly created by a generator
         final String openapiGeneratorIgnore = ".openapi-generator-ignore";

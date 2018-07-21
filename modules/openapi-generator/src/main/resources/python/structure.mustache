@@ -4,7 +4,7 @@ supportingFiles:
   test-requirements.txt: test-requirements.mustache
   requirements.txt: requirements.mustache
   setup.py: setup.mustache
-  README.{{ docExtension }}: README.mustache
+  README{{ docExtension }}: README.mustache
   .gitignore: gitignore.mustache
   git_push.sh: git_push.sh.mustache
 
@@ -25,16 +25,22 @@ supportingFiles:
     api_client.py: api_client.mustache
     models:
       __init__.py: __init__model.mustache
+    api:
+      __init__.py: __init__api.mustache
 
 apis:
   {{ packageName }}:
     api:
       .py: api.mustache
   {{# generateApiDocs }}
+
+apiDocs:
   docs:
     {{docExtension}}: api_doc.mustache
   {{/ generateApiDocs }}
   {{# generateApiTests }}
+
+apiTests:
   test:
     .py: api_test.mustache
   {{/ generateApiTests }}
@@ -43,12 +49,16 @@ apis:
 models:
   {{ packageName }}:
     models:
-    .py: model.mustache
+      .py: model.mustache
   {{# generateModelDocs }}
+
+modelDocs:
   docs:
     {{docExtension}}: model_doc.mustache
   {{/ generateModelDocs }}
   {{# generateModelTests }}
+
+modelTests:
   test:
     .py: model_test.mustache
   {{/ generateModelTests }}
