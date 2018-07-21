@@ -43,7 +43,7 @@ import java.util.Set;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
-    protected boolean isAddExternalLibs = true;
+    protected boolean isAddExternalLibs = false;
     public static final String OPTIONAL_EXTERNAL_LIB = "addExternalLibs";
     public static final String OPTIONAL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
     @Override
@@ -120,9 +120,11 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
-        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
-        if(isAddExternalLibs){
-            additionalProperties.put("isAddExternalLibs", isAddExternalLibs);
+        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));   
+        if (additionalProperties.containsKey(OPTIONAL_EXTERNAL_LIB)) {
+            setAddExternalLibs(convertPropertyToBooleanAndWriteBack(OPTIONAL_EXTERNAL_LIB));
+        } else {
+            additionalProperties.put(OPTIONAL_EXTERNAL_LIB, isAddExternalLibs);
         }
     }
 
@@ -408,5 +410,12 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    /**
+     * specify whether external libraries will be added during the generation 
+     */
+    public void setAddExternalLibs(boolean value){
+        isAddExternalLibs = value;
     }
 }

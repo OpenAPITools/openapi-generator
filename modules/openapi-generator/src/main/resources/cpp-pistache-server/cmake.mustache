@@ -4,7 +4,7 @@ project(server)
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++11)
 
-{{#isAddExternalLibs}}
+{{#addExternalLibs}}
 include(ExternalProject)
 
 set(EXTERNAL_INSTALL_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/external)
@@ -22,7 +22,7 @@ ExternalProject_Add(NLOHMANN
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include/nlohmann)
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
-{{/isAddExternalLibs}}
+{{/addExternalLibs}}
 
 link_directories(/usr/local/lib/)
 
