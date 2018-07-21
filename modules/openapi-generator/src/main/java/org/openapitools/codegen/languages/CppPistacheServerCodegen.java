@@ -425,7 +425,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * specify whether external libraries will be added during the generation 
+     * Specify whether external libraries will be added during the generation 
+     * @param value the value to be set
      */
     public void setAddExternalLibs(boolean value){
         isAddExternalLibs = value;   
