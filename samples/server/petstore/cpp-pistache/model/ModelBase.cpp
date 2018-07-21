@@ -55,7 +55,7 @@ bool ModelBase::toJson( bool const value )
     return value;
 }
 
-nlohmann::json ModelBase::toJson(ModelBase const& content )
+nlohmann::json ModelBase::toJson(ModelBase content )
 {
     return content.toJson();
 }

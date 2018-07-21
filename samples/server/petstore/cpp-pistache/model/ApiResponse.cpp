@@ -68,10 +68,12 @@ void ApiResponse::fromJson(nlohmann::json& val)
     if(val.find("type") != val.end())
     {
         setType(val.at("type"));
+        
     }
     if(val.find("message") != val.end())
     {
         setMessage(val.at("message"));
+        
     }
     
 }

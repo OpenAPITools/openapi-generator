@@ -71,7 +71,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="pet">Pet object that needs to be added to the store</param>
-    virtual void add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void add_pet(const std::shared_ptr<Pet> &pet, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Deletes a pet
@@ -117,7 +117,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="pet">Pet object that needs to be added to the store</param>
-    virtual void update_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void update_pet(const std::shared_ptr<Pet> &pet, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Updates a pet in the store with form data
