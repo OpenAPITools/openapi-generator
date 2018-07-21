@@ -114,6 +114,8 @@ public class DefaultCodegen implements CodegenConfig {
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
+    // The extension of the generated documentation files (defaults to markdown .md)
+    protected String docExtension;
 
     protected String ignoreFilePathOverride;
 
@@ -171,6 +173,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.REMOVE_OPERATION_ID_PREFIX)) {
             this.setRemoveOperationIdPrefix(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)){
+            this.setDocExtension(String.valueOf(additionalProperties
+                    .get(CodegenConstants.DOCEXTENSION).toString()));
         }
     }
 
@@ -1110,7 +1117,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
-     * @param parameter Parameter
+     * @param parameter        Parameter
      */
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         if (parameter.getExample() != null) {
@@ -1120,7 +1127,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
             Example example = parameter.getExamples().values().iterator().next();
-            if(example.getValue() != null) {
+            if (example.getValue() != null) {
                 codegenParameter.example = example.getValue().toString();
                 return;
             }
@@ -1139,7 +1146,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Return the example value of the parameter.
      *
      * @param codegenParameter Codegen parameter
-     * @param requestBody Request body
+     * @param requestBody      Request body
      */
     public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
         Content content = requestBody.getContent();
@@ -1157,7 +1164,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
             Example example = mediaType.getExamples().values().iterator().next();
-            if(example.getValue() != null) {
+            if (example.getValue() != null) {
                 codegenParameter.example = example.getValue().toString();
                 return;
             }
@@ -1614,7 +1621,7 @@ public class DefaultCodegen implements CodegenConfig {
                     m.isInteger = Boolean.TRUE;
                 }
             }
-            if (ModelUtils.isStringSchema(schema)){
+            if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
             }
 
@@ -3415,7 +3422,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the API documentation file name with full path
      */
     public String apiDocFilename(String templateName, String tag) {
-        String suffix = apiDocTemplateFiles().get(templateName);
+        String docExtension = getDocExtension();
+        String suffix = docExtension != null ? docExtension: apiDocTemplateFiles().get(templateName);
         return apiDocFileFolder() + File.separator + toApiDocFilename(tag) + suffix;
     }
 
@@ -3551,6 +3559,25 @@ public class DefaultCodegen implements CodegenConfig {
     public String getReleaseNote() {
         return releaseNote;
     }
+
+    /**
+     * Documentation files extension
+     *
+     * @return Documentation files extension
+     */
+    public String getDocExtension() {
+        return docExtension;
+    }
+
+    /**
+     * Set Documentation files extension
+     *
+     * @param userDocExtension documentation files extension
+     */
+    public void setDocExtension(String userDocExtension) {
+        this.docExtension = userDocExtension;
+    }
+
 
     /**
      * Set HTTP user agent.
@@ -4373,19 +4400,33 @@ public class DefaultCodegen implements CodegenConfig {
                 if (schema.getAdditionalProperties() != null) {// http body is map
                     LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
                 } else if (codegenProperty != null) {
-                    LOGGER.warn("The following schema has undefined (null) baseType. " +
-                            "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
-                            "A correct 'consumes' for form parameters should be " +
-                            "'application/x-www-form-urlencoded' or 'multipart/form-data'");
-                    LOGGER.warn("schema: " + schema);
-                    LOGGER.warn("Defaulting baseType to UNKNOWN_BASE_TYPE");
-                    codegenProperty.baseType = "UNKNOWN_BASE_TYPE";
+                    String codegenModelName, codegenModelDescription;
 
-                    codegenParameter.baseName = codegenProperty.baseType;
-                    codegenParameter.baseType = codegenProperty.baseType;
-                    codegenParameter.dataType = codegenProperty.dataType;
-                    codegenParameter.description = codegenProperty.description;
-                    codegenParameter.paramName = toParamName(codegenProperty.baseType);
+                    if (codegenModel != null) {
+                        codegenModelName = codegenModel.classname;
+                        codegenModelDescription = codegenModel.description;
+                    } else {
+                        LOGGER.warn("The following schema has undefined (null) baseType. " +
+                                "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                                "A correct 'consumes' for form parameters should be " +
+                                "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                        LOGGER.warn("schema: " + schema);
+                        LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
+                        codegenModelName = "UNKNOWN_BASE_TYPE";
+                        codegenModelDescription = "UNKNOWN_DESCRIPTION";
+                    }
+
+                    if (StringUtils.isEmpty(bodyParameterName)) {
+                        codegenParameter.baseName = codegenModelName;
+                    } else {
+                        codegenParameter.baseName = bodyParameterName;
+                    }
+
+                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
+                    codegenParameter.baseType = codegenModelName;
+                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
+                    codegenParameter.description = codegenModelDescription;
+                    imports.add(codegenParameter.baseType);
 
                     if (codegenProperty.complexType != null) {
                         imports.add(codegenProperty.complexType);
@@ -4468,6 +4509,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public boolean isDataTypeString(String dataType) {
-        return  "String".equals(dataType);
+        return "String".equals(dataType);
     }
 }

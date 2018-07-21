@@ -17,29 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.core.util.Yaml;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class RubySinatraServerCodegen extends AbstractRubyCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RubySinatraServerCodegen.class);
 
@@ -56,36 +45,7 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
         // no model
         modelTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".rb");
-        embeddedTemplateDir = templateDir = "sinatra";
-
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
-
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
-        );
-
-        languageSpecificPrimitives.add("int");
-        languageSpecificPrimitives.add("array");
-        languageSpecificPrimitives.add("map");
-        languageSpecificPrimitives.add("string");
-        languageSpecificPrimitives.add("DateTime");
-
-        typeMapping.put("long", "int");
-        typeMapping.put("integer", "int");
-        typeMapping.put("Array", "array");
-        typeMapping.put("String", "string");
-        typeMapping.put("List", "array");
-        typeMapping.put("map", "map");
-        //TODO binary should be mapped to byte array
-        // mapped to String as a workaround
-        typeMapping.put("binary", "string");
-        typeMapping.put("UUID", "string");
+        embeddedTemplateDir = templateDir = "ruby-sinatra-server";
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
@@ -123,29 +83,8 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + apiPackage.replace("/", File.separator);
-    }
-
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        }
-        return super.getTypeDeclaration(p);
     }
 
     @Override
@@ -164,39 +103,6 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
             return null;
         }
         return type;
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        return "null";
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // if it's all uppper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
-        }
-
-        // camelize (lower first character) the variable name
-        // petId => pet_id
-        name = underscore(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
     }
 
     @Override
@@ -244,31 +150,8 @@ public class RubySinatraServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String toOperationId(String operationId) {
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
-            return newOperationId;
-        }
-
-        return underscore(operationId);
-    }
-
-    @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "=_end").replace("=begin", "=_begin");
     }
 }

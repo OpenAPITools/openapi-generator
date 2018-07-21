@@ -153,6 +153,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "std::string");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
+        typeMapping.put("ByteArray", "utility::string_t");        
 
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
@@ -300,7 +301,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
-                || ModelUtils.isFileSchema(p)
+                || ModelUtils.isFileSchema(p) || ModelUtils.isUUIDSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }

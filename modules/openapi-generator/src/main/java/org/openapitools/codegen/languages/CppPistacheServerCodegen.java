@@ -105,6 +105,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "std::string");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
@@ -300,6 +301,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         }
+        else if (ModelUtils.isByteArraySchema(p)) {
+            return "std::string";
+        }
         if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p)
                 || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
@@ -328,6 +332,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 return "0L";
             }
             return "0";
+        } 
+        else if (ModelUtils.isByteArraySchema(p)) {
+            return "";
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";
@@ -412,10 +419,15 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public String getTypeDeclaration(String str) {
+        return toModelName(str);
+    }
+
     /**
      * specify whether external libraries will be added during the generation 
      */
     public void setAddExternalLibs(boolean value){
-        isAddExternalLibs = value;
+        isAddExternalLibs = value;   
     }
 }

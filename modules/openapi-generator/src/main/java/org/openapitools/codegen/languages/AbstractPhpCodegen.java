@@ -127,6 +127,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
+        typeMapping.put("date", "\\DateTime");
         typeMapping.put("Date", "\\DateTime");
         typeMapping.put("DateTime", "\\DateTime");
         typeMapping.put("file", "\\SplFileObject");
@@ -170,17 +171,25 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+
+            // Update the invokerPackage for the default apiPackage and modelPackage
+            apiPackage = invokerPackage + "\\" + apiDirName;
+            modelPackage = invokerPackage + "\\" + modelDirName;
         } else {
             additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
 
-        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            // Update model package to contain the specified model package name and the invoker package
+            modelPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
         }
+        additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
-        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            // Update api package to contain the specified api package name and the invoker package
+            apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
         }
+        additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
 
         // if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
         //     this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
@@ -219,10 +228,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
 
         // make api and model src path available in mustache template
-        additionalProperties.put("apiSrcPath", "." + File.separator + toSrcPath(apiPackage, srcBasePath));
-        additionalProperties.put("modelSrcPath", "." + File.separator + toSrcPath(modelPackage, srcBasePath));
-        additionalProperties.put("apiTestPath", "." + File.separator + testBasePath + File.separator + apiDirName);
-        additionalProperties.put("modelTestPath", "." + File.separator + testBasePath + File.separator + modelDirName);
+        additionalProperties.put("apiSrcPath", "./" + toSrcPath(apiPackage, srcBasePath));
+        additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage, srcBasePath));
+        additionalProperties.put("apiTestPath", "./" + testBasePath + "/" + apiDirName);
+        additionalProperties.put("modelTestPath", "./" + testBasePath + "/" + modelDirName);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -246,7 +255,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toSrcPath(String packageName, String basePath) {
         packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
         String regFirstPathSeparator;
@@ -265,7 +274,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         return (basePath
                 // Replace period, backslash, forward slash with file separator in package name
-                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
+                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
                 // Trim prefix file separators from package path
                 .replaceAll(regFirstPathSeparator, ""))
                 // Trim trailing file separators from the overall path
@@ -329,7 +338,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (!StringUtils.isEmpty(p.get$ref())) { // model
+        } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + type : type;
@@ -542,11 +551,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type)) {
+        if ("String".equalsIgnoreCase(type) || p.isString) {
             if (example == null) {
-                example = p.paramName + "_example";
+                example = "'" + p.paramName + "_example'";
             }
-            example = "\"" + escapeText(example) + "\"";
+            example = escapeText(example);
         } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
                 example = "56";
@@ -559,21 +568,23 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             if (example == null) {
                 example = "True";
             }
-        } else if ("\\SplFileObject".equalsIgnoreCase(type)) {
+        } else if ("\\SplFileObject".equalsIgnoreCase(type) || p.isFile) {
             if (example == null) {
-                example = "/path/to/file";
+                example = "/path/to/file.txt";
             }
             example = "\"" + escapeText(example) + "\"";
-        } else if ("Date".equalsIgnoreCase(type)) {
+        } else if ("\\Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
             example = "new \\DateTime(\"" + escapeText(example) + "\")";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
+        } else if ("\\DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
             example = "new \\DateTime(\"" + escapeText(example) + "\")";
+        } else if ("object".equals(type)) {
+            example = "new \\stdClass";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = "new " + getTypeDeclaration(type) + "()";
@@ -631,8 +642,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
-            return "_" + enumName;
+        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+            return escapeReservedWord(enumName);
         } else {
             return enumName;
         }
@@ -641,6 +652,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public String toEnumName(CodegenProperty property) {
         String enumName = underscore(toModelName(property.name)).toUpperCase();
+
+        // remove [] for array or map of enum
+        enumName = enumName.replace("[]", "");
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -660,6 +674,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
+            // for API test method name
+            // e.g. public function test{{vendorExtensions.x-testOperationId}}()
             op.vendorExtensions.put("x-testOperationId", camelize(op.operationId));
         }
         return objs;
@@ -673,7 +689,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "");
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public String escapeText(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // Trim the string to avoid leading and trailing spaces.
+        return super.escapeText(input).trim();
     }
 
     protected String extractSimpleName(String phpClassName) {

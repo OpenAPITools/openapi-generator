@@ -53,8 +53,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         modelPackage = invokerPackage + "\\" + modelDirName;
         outputFolder = "generated-code" + File.separator + "slim";
 
-        // no test files
-        apiTestTemplateFiles.clear();
+        modelTestTemplateFiles.put("model_test.mustache", ".php");
         // no doc files
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
@@ -118,6 +117,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".gitignore", getPackagePath(), ".gitignore"));
         supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
+        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
     }
 
     @Override

@@ -89,7 +89,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void deletePet(Long petId, String apiKey) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -128,7 +128,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public List<Pet> findPetsByStatus(List<String> status) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'status' is set
         if (status == null) {
@@ -165,7 +165,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public List<Pet> findPetsByTags(List<String> tags) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'tags' is set
         if (tags == null) {
@@ -203,7 +203,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Pet getPetById(Long petId) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -276,7 +276,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void updatePetWithForm(Long petId, String name, String status) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -320,7 +320,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -360,22 +360,22 @@ public class PetApi {
      * 
      * <p><b>200</b> - successful operation
      * @param petId ID of pet to update
-     * @param file file to upload
+     * @param requiredFile file to upload
      * @param additionalMetadata Additional data to pass to server
      * @return ModelApiResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File file, String additionalMetadata) throws RestClientException {
-        Object postBody = new Object();
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
         }
         
-        // verify the required parameter 'file' is set
-        if (file == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'file' when calling uploadFileWithRequiredFile");
+        // verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
         }
         
         // create path and map variables
@@ -389,8 +389,8 @@ public class PetApi {
         
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
-        if (file != null)
-            formParams.add("file", new FileSystemResource(file));
+        if (requiredFile != null)
+            formParams.add("requiredFile", new FileSystemResource(requiredFile));
 
         final String[] accepts = { 
             "application/json"

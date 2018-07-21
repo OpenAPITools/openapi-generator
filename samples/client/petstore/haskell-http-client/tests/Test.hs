@@ -36,6 +36,8 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy EnumArrays)
       propMimeEq MimeJSON (Proxy :: Proxy EnumClass)
       propMimeEq MimeJSON (Proxy :: Proxy EnumTest)
+      propMimeEq MimeJSON (Proxy :: Proxy File)
+      propMimeEq MimeJSON (Proxy :: Proxy FileSchemaTestClass)
       propMimeEq MimeJSON (Proxy :: Proxy FormatTest)
       propMimeEq MimeJSON (Proxy :: Proxy HasOnlyReadOnly)
       propMimeEq MimeJSON (Proxy :: Proxy MapTest)
@@ -51,6 +53,7 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy Pet)
       propMimeEq MimeJSON (Proxy :: Proxy ReadOnlyFirst)
       propMimeEq MimeJSON (Proxy :: Proxy SpecialModelName)
+      propMimeEq MimeJSON (Proxy :: Proxy StringBooleanMap)
       propMimeEq MimeJSON (Proxy :: Proxy Tag)
       propMimeEq MimeJSON (Proxy :: Proxy User)
       

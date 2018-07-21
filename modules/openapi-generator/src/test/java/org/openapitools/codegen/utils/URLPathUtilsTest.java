@@ -55,4 +55,24 @@ public class URLPathUtilsTest {
         Assert.assertEquals(URLPathUtils.getPort(serverURL, "8081"), "9999");
         Assert.assertEquals(URLPathUtils.getPath(serverURL, "/abc"), "/some/path");
     }
+
+    @Test
+    public void testSanitizeUrl() throws Exception {
+        String[][] testData = {
+            { "https://abc1.xyz:9999/some/path", "https://abc1.xyz:9999/some/path" },
+            { "HTTPS://abc2.xyz:9999/some/path", "https://abc2.xyz:9999/some/path" },
+            { "http://abc3.xyz:9999/some/path", "http://abc3.xyz:9999/some/path" },
+            { "HTTP://abc4.xyz:9999/some/path", "http://abc4.xyz:9999/some/path" },
+            { "//abc5.xyz:9999/some/path", "http://abc5.xyz:9999/some/path" },
+            { "abc6.xyz:9999/some/path", "http://abc6.xyz:9999/some/path" },
+            { "localhost:9000/api", "http://localhost:9000/api" },
+            { "/some/path", "http://localhost/some/path" } };
+
+        for (String[] t:testData) {
+            OpenAPI openAPI = new OpenAPI();
+            openAPI.addServersItem(new Server().url(t[0]));
+
+            Assert.assertEquals(URLPathUtils.getServerURL(openAPI).toString(), t[1]);
+        }
+    }
 }
