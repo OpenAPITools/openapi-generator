@@ -702,6 +702,22 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return super.escapeText(input).trim();
     }
 
+    public void escapeMediaType(List<CodegenOperation> operationList) {
+        for (CodegenOperation op : operationList) {
+            if (!op.hasProduces) {
+                continue;
+            }
+
+            List<Map<String, String>> c = op.produces;
+            for (Map<String, String> mediaType : c) {
+                // "*/*" causes a syntax error
+                if ("*/*".equals(mediaType.get("mediaType"))) {
+                    mediaType.put("mediaType", "*_/_*");
+                }
+            }
+        }
+    }
+
     protected String extractSimpleName(String phpClassName) {
         if (phpClassName == null) {
             return null;
