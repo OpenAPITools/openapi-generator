@@ -108,5 +108,10 @@ public class URLPathUtilsTest {
 
         Server s8 = new Server().url("https://api.example.com/{wrong}").variables(new ServerVariables().addServerVariable("other", new ServerVariable()._default("something")));
         Assert.assertEquals(URLPathUtils.getServerURL(s8).toString(), "https://api.example.com/");
+
+        Server s9 = new Server().url("https://{user}.example.com/{version}").variables(
+                    new ServerVariables().addServerVariable("version", new ServerVariable()._default("v1"))
+                        .addServerVariable("user", new ServerVariable()._default("{user}")));
+        Assert.assertEquals(URLPathUtils.getServerURL(s9).toString(), "https://{user}.example.com/v1");
     }
 }

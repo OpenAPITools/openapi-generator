@@ -28,7 +28,9 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,8 +47,7 @@ public class URLPathUtils {
             return getDefaultUrl();
         }
         // TODO need a way to obtain all server URLs
-        final Server server = servers.get(0);
-        return getServerURL(server);
+        return getServerURL(servers.get(0));
     }
 
     static URL getServerURL(final Server server) {
@@ -55,25 +56,29 @@ public class URLPathUtils {
         if(variables == null) {
             variables = new ServerVariables();
         }
+        Set<String> replacedVariables = new HashSet<>();
         Matcher matcher = VARIABLE_PATTERN.matcher(url);
         while(matcher.find()) {
-            ServerVariable variable = variables.get(matcher.group(1));
-            String replacement;
-            if(variable != null) {
-                if(variable.getDefault() != null) {
-                    replacement = variable.getDefault();
-                } else if(variable.getEnum() != null && !variable.getEnum().isEmpty()) {
-                    replacement = variable.getEnum().get(0);
+            if(!replacedVariables.contains(matcher.group())) {
+                ServerVariable variable = variables.get(matcher.group(1));
+                String replacement;
+                if(variable != null) {
+                    if(variable.getDefault() != null) {
+                        replacement = variable.getDefault();
+                    } else if(variable.getEnum() != null && !variable.getEnum().isEmpty()) {
+                        replacement = variable.getEnum().get(0);
+                    } else {
+                        LOGGER.warn("No value found for variable '{}' in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
+                        replacement = "";
+                    }
                 } else {
-                    LOGGER.warn("No value found for variable '{}' in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
+                    LOGGER.warn("No variable '{}' found in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
                     replacement = "";
                 }
-            } else {
-                LOGGER.warn("No variable '{}' found in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
-                replacement = "";
+                url = url.replace(matcher.group(), replacement);
+                replacedVariables.add(matcher.group());
+                matcher = VARIABLE_PATTERN.matcher(url);
             }
-            url = url.replace(matcher.group(), replacement);
-            matcher = VARIABLE_PATTERN.matcher(url);
         }
         url = sanitizeUrl(url);
 
