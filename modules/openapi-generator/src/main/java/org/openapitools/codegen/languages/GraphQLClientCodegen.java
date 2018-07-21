@@ -462,4 +462,17 @@ public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfi
 
         return name;
     }
+
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+
+        for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
+            if (!"GET".equals(op.httpMethod.toUpperCase()) && !"HEAD".equals(op.httpMethod.toUpperCase())) {
+                op.vendorExtensions.put("x-is-mutation", Boolean.TRUE);
+            }
+        }
+
+        return objs;
+    }
 }

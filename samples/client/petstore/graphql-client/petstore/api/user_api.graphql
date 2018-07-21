@@ -8,7 +8,7 @@
 
 # user_api
 
-type Query {
+type mutation {
   # Create user
   # This can only be done by the logged in user.
   # @param User $user Created user object
@@ -31,6 +31,16 @@ type Query {
   # @return [null]
   DeleteUser($username: String!): null
 
+  # Updated user
+  # This can only be done by the logged in user.
+  # @param String $username name that need to be deleted
+  # @param User $user Updated user object
+  # @return [null]
+  UpdateUser($username: String!, $user: User!): null
+
+}
+
+type query {
   # Get user by user name
   # @param String $username The name that needs to be fetched. Use user1 for testing.
   # @return [User]
@@ -46,11 +56,5 @@ type Query {
   # @return [null]
   LogoutUser(): null
 
-  # Updated user
-  # This can only be done by the logged in user.
-  # @param String $username name that need to be deleted
-  # @param User $user Updated user object
-  # @return [null]
-  UpdateUser($username: String!, $user: User!): null
-
 }
+

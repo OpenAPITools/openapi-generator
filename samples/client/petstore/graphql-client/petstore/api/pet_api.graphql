@@ -8,7 +8,7 @@
 
 # pet_api
 
-type Query {
+type mutation {
   # Add a new pet to the store
   # @param Pet $pet Pet object that needs to be added to the store
   # @return [null]
@@ -19,24 +19,6 @@ type Query {
   # @param String $apiKey 
   # @return [null]
   DeletePet($petId: Int!, $apiKey: String): null
-
-  # Finds Pets by status
-  # Multiple status values can be provided with comma separated strings
-  # @param [String] $status Status values that need to be considered for filter
-  # @return [[Pet]]
-  FindPetsByStatus($status: [String]!): [Pet]
-
-  # Finds Pets by tags
-  # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  # @param [String] $tags Tags to filter by
-  # @return [[Pet]]
-  FindPetsByTags($tags: [String]!): [Pet]
-
-  # Find pet by ID
-  # Returns a single pet
-  # @param Int $petId ID of pet to return
-  # @return [Pet]
-  GetPetById($petId: Int!): Pet
 
   # Update an existing pet
   # @param Pet $pet Pet object that needs to be added to the store
@@ -58,3 +40,25 @@ type Query {
   UploadFile($petId: Int!, $additionalMetadata: String, $file: String): ApiResponse
 
 }
+
+type query {
+  # Finds Pets by status
+  # Multiple status values can be provided with comma separated strings
+  # @param [String] $status Status values that need to be considered for filter
+  # @return [[Pet]]
+  FindPetsByStatus($status: [String]!): [Pet]
+
+  # Finds Pets by tags
+  # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+  # @param [String] $tags Tags to filter by
+  # @return [[Pet]]
+  FindPetsByTags($tags: [String]!): [Pet]
+
+  # Find pet by ID
+  # Returns a single pet
+  # @param Int $petId ID of pet to return
+  # @return [Pet]
+  GetPetById($petId: Int!): Pet
+
+}
+

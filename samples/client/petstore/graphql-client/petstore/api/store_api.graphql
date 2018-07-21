@@ -8,13 +8,21 @@
 
 # store_api
 
-type Query {
+type mutation {
   # Delete purchase order by ID
   # For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
   # @param String $orderId ID of the order that needs to be deleted
   # @return [null]
   DeleteOrder($orderId: String!): null
 
+  # Place an order for a pet
+  # @param Order $order order placed for purchasing the pet
+  # @return [Order]
+  PlaceOrder($order: Order!): Order
+
+}
+
+type query {
   # Returns pet inventories by status
   # Returns a map of status codes to quantities
   # @return [Int]
@@ -26,9 +34,5 @@ type Query {
   # @return [Order]
   GetOrderById($orderId: Int!): Order
 
-  # Place an order for a pet
-  # @param Order $order order placed for purchasing the pet
-  # @return [Order]
-  PlaceOrder($order: Order!): Order
-
 }
+
