@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.google.common.collect.Maps;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
@@ -34,6 +35,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.tags.Tag;
 
+import joptsimple.internal.Strings;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -49,6 +51,10 @@ import java.io.*;
 import java.util.*;
 import java.net.*;
 import java.time.ZonedDateTime;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.yaml.snakeyaml.Yaml;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
@@ -68,6 +74,38 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private String basePathWithoutHost;
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
+    private GeneratedStructure generatedStructure = new GeneratedStructure();
+    private boolean hasStructureTemplate = false;
+
+    class GeneratedStructureElement{
+        public String folder;
+        public String fileName;
+        public String template;
+        public GeneratedStructureElement(String folder, String fileName, String template){
+            this.folder = folder;
+            this.fileName = fileName;
+            this.template = template;
+        }
+        public GeneratedStructureElement folder(String folder){
+            this.folder=folder;
+            return this;
+        }
+
+        @Override
+        public String toString() {
+            return "GeneratedStructureElement{" +
+                    "folder='" + folder + '\'' +
+                    ", fileName='" + fileName + '\'' +
+                    ", template='" + template + '\'' +
+                    '}';
+        }
+    }
+
+    class GeneratedStructure{
+        public List<GeneratedStructureElement> supportingFiles;
+        public List<GeneratedStructureElement> apis;
+        public List<GeneratedStructureElement> models;
+    }
 
     @Override
     public Generator opts(ClientOptInput opts) {
@@ -75,11 +113,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         this.openAPI = opts.getOpenAPI();
         this.config = opts.getConfig();
 
-        if (hasStructureTemplate()){
-            return new StructureTemplateGenerator().opts(opts);
-        }
-
         this.config.additionalProperties().putAll(opts.getOpts().getProperties());
+
+        this.hasStructureTemplate = hasStructureTemplate();
+        this.hasStructureTemplate = hasStructureTemplate();
 
         String ignoreFileLocation = this.config.getIgnoreFilePathOverride();
         if (ignoreFileLocation != null) {
@@ -96,6 +133,72 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         return this;
+    }
+
+
+    public List<GeneratedStructureElement> flatten(Map<String, Object> multiFieldMap) {
+        // recursively flatten
+        /* e.g. yaml dict:
+
+        apis:
+          folder1:
+            file1: value1
+          file2: value2
+
+        to list of objects
+        { folder: apis/folder1  filename:file1   template:value }
+        { folder: apis/         filename:file2   template:value }
+
+         */
+        List<GeneratedStructureElement> retVal = new ArrayList<GeneratedStructureElement>();
+        for (Map.Entry<String, Object> entry: multiFieldMap.entrySet()){
+            Object value = entry.getValue();
+            String key = entry.getKey();
+
+            if (value instanceof Map) {
+                List<GeneratedStructureElement> flattened = flatten((Map) value);
+                flattened.stream().map(el -> {
+                    if (Strings.isNullOrEmpty(key)){
+                        return el.folder(key);
+                    }
+                    return el.folder(key + File.separator + el.folder);
+                }).collect(Collectors.toList());
+                retVal.addAll(flattened);
+            } else if (value instanceof String){
+                retVal.add(new GeneratedStructureElement("", (String) key, (String) value));
+            }
+        }
+        return retVal;
+    }
+
+
+    protected GeneratedStructure getGeneratedStructure(Map<String, Object> bundle) {
+        String templateFile = getFullTemplateFile(config, "structure.mustache");
+        String template = readTemplate(templateFile);
+        Mustache.Compiler compiler = Mustache.compiler();
+        compiler = config.processCompiler(compiler);
+        Template tmpl = compiler
+                .withLoader(new Mustache.TemplateLoader() {
+                    @Override
+                    public Reader getTemplate(String name) {
+                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                    }
+                })
+                .defaultValue("")
+                .compile(template);
+        String structureString = tmpl.execute(bundle);
+        Yaml yaml = new Yaml();
+        try {
+            Map<String, Object> objectMap = (Map<String, Object>) yaml.load(structureString);
+            GeneratedStructure structure = new GeneratedStructure();
+            structure.supportingFiles = flatten((Map<String, Object>) objectMap.getOrDefault("supportingFiles", new HashMap<String, Object>()));
+            structure.apis = flatten((Map<String, Object>) objectMap.getOrDefault("apis", new HashMap<String, Object>()));
+            structure.models = flatten((Map<String, Object>) objectMap.getOrDefault("models", new HashMap<String, Object>()));
+            return structure;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new RuntimeException("Couldnt process structure.mustache Structure template");
+        }
     }
 
     private boolean hasStructureTemplate() {
@@ -194,6 +297,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         config.processOpts();
+
         config.preprocessOpenAPI(openAPI);
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
@@ -446,6 +550,24 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 allModels.add(modelTemplate);
 
+                if (this.hasStructureTemplate) {
+                    for (GeneratedStructureElement element : generatedStructure.models) {
+                        String suffix = element.fileName;
+                        String templateName = element.template;
+                        String filename =  element.folder + File.separator + config.toModelFilename(modelName) + suffix;
+                        String outputFileName = config.outputFolder() + File.separator + filename;
+                        if (!config.shouldOverwrite(filename)) {
+                            LOGGER.info("Skipped overwriting " + filename);
+                            continue;
+                        }
+                        File written = processTemplateToFile(models, templateName, outputFileName);
+                        if (written != null) {
+                            files.add(written);
+                        }
+                    }
+                    continue;
+                }
+
                 for (String templateName : config.modelTemplateFiles().keySet()) {
                     String suffix = config.modelTemplateFiles().get(templateName);
                     String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
@@ -542,6 +664,24 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
 
+                if (this.hasStructureTemplate) {
+                    for (GeneratedStructureElement element : generatedStructure.models) {
+                        String suffix = element.fileName;
+                        String templateName = element.template;
+                        String filename = element.folder + File.separator + config.toApiFilename(tag) + suffix;
+                        String outputFileName = config.outputFolder() + File.separator + filename;
+                        if (!config.shouldOverwrite(filename)) {
+                            LOGGER.info("Skipped overwriting " + filename);
+                            continue;
+                        }
+                        File written = processTemplateToFile(operation, templateName, outputFileName);
+                        if (written != null) {
+                            files.add(written);
+                        }
+                    }
+                    continue;
+                }
+
                 for (String templateName : config.apiTemplateFiles().keySet()) {
                     String filename = config.apiFilename(templateName, tag);
                     if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
@@ -604,6 +744,46 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateSupportingFiles) {
             return;
         }
+
+        if (this.hasStructureTemplate){
+            String outputFolder = config.outputFolder();
+            for (GeneratedStructureElement element : generatedStructure.supportingFiles) {
+                try {
+                    String templateName = element.template;
+                    String filename = Strings.isNullOrEmpty(element.folder) ? element.fileName : element.folder + File.separator + element.fileName;
+                    String outputFilename = outputFolder + File.separator + filename;
+                    if (!config.shouldOverwrite(filename)) {
+                        LOGGER.info("Skipped overwriting " + filename);
+                        continue;
+                    }
+
+                    String templateFile =  getFullTemplateFile(config, templateName);
+                    if (templateFile.endsWith("mustache")) {
+                        File written = processTemplateToFile(bundle, templateName, outputFilename);
+                        if (written != null) {
+                            files.add(written);
+                        }
+                    }else{
+                        InputStream in = null;
+
+                        try {
+                            in = new FileInputStream(templateFile);
+                        } catch (Exception e) {
+                            // continue
+                        }
+                        if (in == null) {
+                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                        }
+                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
+                        files.add(outputFile);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not generate supporting file '" + element.fileName + "'", e);
+                }
+            }
+        }
+
+
         Set<String> supportingFilesToGenerate = null;
         String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
         if (supportingFiles != null && !supportingFiles.isEmpty()) {
@@ -786,6 +966,46 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return bundle;
     }
 
+    private Map<String, Object> buildStructureBundle() {
+
+        Map<String, Object> bundle = new HashMap<String, Object>();
+        bundle.putAll(config.additionalProperties());
+        bundle.put("apiPackage", config.apiPackage());
+        bundle.put("docExtension", config.getDocExtension()!=null ? config.getDocExtension() : ".md");
+
+
+        URL url = URLPathUtils.getServerURL(openAPI);
+
+        bundle.put("openAPI", openAPI);
+        bundle.put("basePath", basePath);
+        bundle.put("basePathWithoutHost", basePathWithoutHost);
+        bundle.put("scheme", URLPathUtils.getScheme(url, config));
+        bundle.put("host", url.getHost());
+        bundle.put("contextPath", contextPath);
+        bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
+        bundle.put("modelPackage", config.modelPackage());
+
+        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
+        if (authMethods != null && !authMethods.isEmpty()) {
+            bundle.put("authMethods", authMethods);
+            bundle.put("hasAuthMethods", true);
+        }
+
+        if (openAPI.getExternalDocs() != null) {
+            bundle.put("externalDocs", openAPI.getExternalDocs());
+        }
+
+        config.postProcessSupportingFileData(bundle);
+
+        if (System.getProperty("debugSupportingFiles") != null) {
+            LOGGER.info("############ Supporting file info ############");
+            Json.prettyPrint(bundle);
+        }
+        return bundle;
+    }
+
+
     @Override
     public List<File> generate() {
 
@@ -804,6 +1024,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         //InlineModelResolver inlineModelResolver = new InlineModelResolver();
         //inlineModelResolver.flatten(openAPI);
 
+        if (hasStructureTemplate) {
+            generatedStructure = getGeneratedStructure(buildStructureBundle());
+        }
+
         List<File> files = new ArrayList<File>();
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
@@ -819,7 +1043,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.processOpenAPI(openAPI);
         return files;
     }
-
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);

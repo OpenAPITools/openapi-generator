@@ -21,6 +21,34 @@ supportingFiles:
     rest.py: rest.mustache
       {{/ tornado}}
     {{/ asyncio}}
-
     configuration.py: configuration.mustache
     api_client.py: api_client.mustache
+    models:
+      __init__.py: __init__model.mustache
+
+apis:
+  {{ packageName }}:
+    api:
+      .py: api.mustache
+  {{# generateApiDocs }}
+  docs:
+    {{docExtension}}: api_doc.mustache
+  {{/ generateApiDocs }}
+  {{# generateApiTests }}
+  test:
+    .py: api_test.mustache
+  {{/ generateApiTests }}
+
+
+models:
+  {{ packageName }}:
+    models:
+    .py: model.mustache
+  {{# generateModelDocs }}
+  docs:
+    {{docExtension}}: model_doc.mustache
+  {{/ generateModelDocs }}
+  {{# generateModelTests }}
+  test:
+    .py: model_test.mustache
+  {{/ generateModelTests }}
