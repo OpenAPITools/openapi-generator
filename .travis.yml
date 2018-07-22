@@ -30,6 +30,7 @@ cache:
   - $HOME/perl5
   - $HOME/.cargo
   - $HOME/.stack
+  - $HOME/samples/server/petstore/cpp-pistache/pistache
 
 services:
   - docker

@@ -3,10 +3,10 @@
 #
 echo "Installing Pistache ..."
 
-git clone https://github.com/oktal/pistache.git
+git clone https://github.com/oktal/pistache.git || true
 cd pistache
 git submodule update --init
-mkdir build
+mkdir -p build
 cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 make
