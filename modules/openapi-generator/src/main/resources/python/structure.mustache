@@ -32,33 +32,33 @@ apis:
   {{ packageName }}:
     api:
       .py: api.mustache
-  {{# generateApiDocs }}
 
+{{# generateApiDocs }}
 apiDocs:
   docs:
     {{docExtension}}: api_doc.mustache
-  {{/ generateApiDocs }}
-  {{# generateApiTests }}
+{{/ generateApiDocs }}
 
+{{# generateApiTests }}
 apiTests:
   test:
     .py: api_test.mustache
-  {{/ generateApiTests }}
+{{/ generateApiTests }}
 
 
 models:
   {{ packageName }}:
     models:
       .py: model.mustache
-  {{# generateModelDocs }}
 
+{{# generateModelDocs }}
 modelDocs:
   docs:
     {{docExtension}}: model_doc.mustache
-  {{/ generateModelDocs }}
-  {{# generateModelTests }}
+{{/ generateModelDocs }}
 
+{{# generateModelTests }}
 modelTests:
   test:
     .py: model_test.mustache
-  {{/ generateModelTests }}
+{{/ generateModelTests }}

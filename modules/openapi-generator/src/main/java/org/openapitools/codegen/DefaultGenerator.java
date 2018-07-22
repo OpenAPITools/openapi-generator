@@ -104,10 +104,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         this.opts = opts;
         this.openAPI = opts.getOpenAPI();
         this.config = opts.getConfig();
-
         this.config.additionalProperties().putAll(opts.getOpts().getProperties());
 
-        this.hasStructureTemplate = hasStructureTemplate();
         this.hasStructureTemplate = hasStructureTemplate();
 
         String ignoreFileLocation = this.config.getIgnoreFilePathOverride();
@@ -300,7 +298,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         config.processOpts();
-
         config.preprocessOpenAPI(openAPI);
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
@@ -554,6 +551,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 allModels.add(modelTemplate);
 
                 if (this.hasStructureTemplate) {
+                    // generate files that are related to models
                     List<String[]> toGenerate = new ArrayList<>();
 
                     for (GeneratedStructureElement element : generatedStructure.get("models")) {
@@ -683,6 +681,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 if (this.hasStructureTemplate) {
+                    // generate files that are related to apis
                     List<String[]> toGenerate = new ArrayList<>();
 
                     for (GeneratedStructureElement element : generatedStructure.get("apis")) {
@@ -778,6 +777,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         if (this.hasStructureTemplate){
+            // generate supporting files
             String outputFolder = config.outputFolder();
             for (GeneratedStructureElement element : generatedStructure.get("supportingFiles")) {
                 try {
@@ -815,82 +815,79 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
             return;
         }else {
-
-
-        Set<String> supportingFilesToGenerate = null;
-        String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
-        if (supportingFiles != null && !supportingFiles.isEmpty()) {
-            supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
-        }
-
-        for (SupportingFile support : config.supportingFiles()) {
-            try {
-                String outputFolder = config.outputFolder();
-                if (StringUtils.isNotEmpty(support.folder)) {
-                    outputFolder += File.separator + support.folder;
-                }
-                File of = new File(outputFolder);
-                if (!of.isDirectory()) {
-                    of.mkdirs();
-                }
-                String outputFilename = outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
-                if (!config.shouldOverwrite(outputFilename)) {
-                    LOGGER.info("Skipped overwriting " + outputFilename);
-                    continue;
-                }
-                String templateFile;
-                if (support instanceof GlobalSupportingFile) {
-                    templateFile = config.getCommonTemplateDir() + File.separator + support.templateFile;
-                } else {
-                    templateFile = getFullTemplateFile(config, support.templateFile);
-                }
-                boolean shouldGenerate = true;
-                if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
-                    shouldGenerate = supportingFilesToGenerate.contains(support.destinationFilename);
-                }
-                if (!shouldGenerate) {
-                    continue;
-                }
-
-                if (ignoreProcessor.allowsFile(new File(outputFilename))) {
-                    if (templateFile.endsWith("mustache")) {
-                        String template = readTemplate(templateFile);
-                        Mustache.Compiler compiler = Mustache.compiler();
-                        compiler = config.processCompiler(compiler);
-                        Template tmpl = compiler
-                                .withLoader(new Mustache.TemplateLoader() {
-                                    @Override
-                                    public Reader getTemplate(String name) {
-                                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
-                                    }
-                                })
-                                .defaultValue("")
-                                .compile(template);
-
-                        writeToFile(outputFilename, tmpl.execute(bundle));
-                        files.add(new File(outputFilename));
-                    } else {
-                        InputStream in = null;
-
-                        try {
-                            in = new FileInputStream(templateFile);
-                        } catch (Exception e) {
-                            // continue
-                        }
-                        if (in == null) {
-                            in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                        }
-                        File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                        files.add(outputFile);
-                    }
-                } else {
-                    LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .openapi-generator-ignore");
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
+            Set<String> supportingFilesToGenerate = null;
+            String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
+            if (supportingFiles != null && !supportingFiles.isEmpty()) {
+                supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
             }
-        }
 
+            for (SupportingFile support : config.supportingFiles()) {
+                try {
+                    String outputFolder = config.outputFolder();
+                    if (StringUtils.isNotEmpty(support.folder)) {
+                        outputFolder += File.separator + support.folder;
+                    }
+                    File of = new File(outputFolder);
+                    if (!of.isDirectory()) {
+                        of.mkdirs();
+                    }
+                    String outputFilename = outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
+                    if (!config.shouldOverwrite(outputFilename)) {
+                        LOGGER.info("Skipped overwriting " + outputFilename);
+                        continue;
+                    }
+                    String templateFile;
+                    if (support instanceof GlobalSupportingFile) {
+                        templateFile = config.getCommonTemplateDir() + File.separator + support.templateFile;
+                    } else {
+                        templateFile = getFullTemplateFile(config, support.templateFile);
+                    }
+                    boolean shouldGenerate = true;
+                    if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
+                        shouldGenerate = supportingFilesToGenerate.contains(support.destinationFilename);
+                    }
+                    if (!shouldGenerate) {
+                        continue;
+                    }
+
+                    if (ignoreProcessor.allowsFile(new File(outputFilename))) {
+                        if (templateFile.endsWith("mustache")) {
+                            String template = readTemplate(templateFile);
+                            Mustache.Compiler compiler = Mustache.compiler();
+                            compiler = config.processCompiler(compiler);
+                            Template tmpl = compiler
+                                    .withLoader(new Mustache.TemplateLoader() {
+                                        @Override
+                                        public Reader getTemplate(String name) {
+                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                                        }
+                                    })
+                                    .defaultValue("")
+                                    .compile(template);
+
+                            writeToFile(outputFilename, tmpl.execute(bundle));
+                            files.add(new File(outputFilename));
+                        } else {
+                            InputStream in = null;
+
+                            try {
+                                in = new FileInputStream(templateFile);
+                            } catch (Exception e) {
+                                // continue
+                            }
+                            if (in == null) {
+                                in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
+                            }
+                            File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
+                            files.add(outputFile);
+                        }
+                    } else {
+                        LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .openapi-generator-ignore");
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
+                }
+            }
         }
         // Consider .openapi-generator-ignore a supporting file
         // Output .openapi-generator-ignore if it doesn't exist and wasn't explicitly created by a generator
@@ -1001,7 +998,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     private Map<String, Object> buildStructureBundle() {
-
+        // copied from supportingFilesBundle, removing fields dependeing on models/operations
         Map<String, Object> bundle = new HashMap<String, Object>();
         bundle.putAll(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
