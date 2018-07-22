@@ -28,28 +28,28 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLClientCodegen.class);
+public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLServerCodegen.class);
 
     protected String specFolder = "spec";
-    protected String packageName = "openapi-client";
+    protected String packageName = "openapi-server";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
     public CodegenType getTag() {
-        return CodegenType.CLIENT;
+        return CodegenType.SERVER;
     }
 
     public String getName() {
-        return "graphql-client";
+        return "graphql-server";
     }
 
     public String getHelp() {
-        return "Generates a GraphQL client (beta)";
+        return "Generates a GraphQL server (beta)";
     }
 
-    public GraphQLClientCodegen() {
+    public GraphQLServerCodegen() {
         super();
         outputFolder = "generated-code/graphql";
         modelTemplateFiles.put("model.mustache", ".graphql");
@@ -58,7 +58,7 @@ public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfi
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-        embeddedTemplateDir = templateDir = "graphql-client";
+        embeddedTemplateDir = templateDir = "graphql-server";
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -108,7 +108,7 @@ public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfi
         typeMapping.put("object", "TODO_OBJECT_MAPPING");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GrapQL package name (convention: lowercase).")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GraphQL package name (convention: lowercase).")
                 .defaultValue("openapi-client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL package version.")
                 .defaultValue("1.0.0"));
@@ -205,7 +205,7 @@ public class GraphQLClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toParamName(String name) {
-        return "$" + toVarName(name);
+        return toVarName(name);
     }
 
     @Override
