@@ -93,7 +93,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="order">order placed for purchasing the pet</param>
-    virtual void place_order(const std::shared_ptr<Order> &order, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void place_order(const Order &order, Pistache::Http::ResponseWriter &response) = 0;
 
 };
 
