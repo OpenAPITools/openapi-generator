@@ -43,7 +43,9 @@ import java.util.Set;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
-
+    protected boolean isAddExternalLibs = false;
+    public static final String OPTIONAL_EXTERNAL_LIB = "addExternalLibs";
+    public static final String OPTIONAL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -77,6 +79,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         embeddedTemplateDir = templateDir = "cpp-pistache-server";
 
         cliOptions.clear();
+        addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONAL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);
 
         reservedWords = new HashSet<>();
 
@@ -118,7 +121,12 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
-        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
+        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));   
+        if (additionalProperties.containsKey(OPTIONAL_EXTERNAL_LIB)) {
+            setAddExternalLibs(convertPropertyToBooleanAndWriteBack(OPTIONAL_EXTERNAL_LIB));
+        } else {
+            additionalProperties.put(OPTIONAL_EXTERNAL_LIB, isAddExternalLibs);
+        }
     }
 
     /**
@@ -410,9 +418,17 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
-    
+
     @Override
     public String getTypeDeclaration(String str) {
         return toModelName(str);
+    }
+
+    /**
+     * Specify whether external libraries will be added during the generation 
+     * @param value the value to be set
+     */
+    public void setAddExternalLibs(boolean value){
+        isAddExternalLibs = value;   
     }
 }
