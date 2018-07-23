@@ -182,6 +182,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         if (convertPropertyToBoolean(GENERATE_GMOCKS_FOR_APIS)) {
             apiTemplateFiles.put("api-gmock.mustache", "GMock.h");
+            additionalProperties.put("gmockApis", "true");
         }
 
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));

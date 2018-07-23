@@ -22,6 +22,7 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
+{{#gmockApis}}
 class {{declspec}} I{{classname}}
 {
 public:
@@ -33,13 +34,24 @@ public:
         {{/allParams}}
     ) = 0;
     {{/operation}}
-};
+};{{/gmockApis}}
 
-class {{declspec}} {{classname}} : public I{{classname}}
+class {{declspec}} {{classname}} {{#gmockApis}} : public I{{classname}} {{/gmockApis}}
 {
 public:
+    {{#gmockApis}}
+    using Base = I{{classname}};
+    {{/gmockApis}}
+
     {{classname}}( std::shared_ptr<ApiClient> apiClient );
+
+    {{#gmockApis}}
     ~{{classname}}() override;
+    {{/gmockApis}}
+    {{^gmockApis}}
+    virtual ~{{classname}}();
+    {{/gmockApis}}
+
     {{#operation}}
     /// <summary>
     /// {{summary}}
@@ -54,7 +66,7 @@ public:
         {{#allParams}}
         {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}
-    ) override;
+    ){{#gmockApis}} override{{/gmockApis}};
     {{/operation}}
 
 protected:

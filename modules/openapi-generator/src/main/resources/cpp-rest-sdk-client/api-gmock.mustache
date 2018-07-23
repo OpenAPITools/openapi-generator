@@ -14,7 +14,7 @@ namespace {{this}} {
 using namespace {{modelNamespace}};
 
 
-class {{declspec}} {{classname}}Mock : public I{{classname}}
+class {{declspec}} {{classname}}Mock {{#gmockApis}} : public I{{classname}} {{/gmockApis}}
 {
 public:
     {{#operation}}
