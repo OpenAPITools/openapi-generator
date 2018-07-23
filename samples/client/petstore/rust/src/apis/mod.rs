@@ -4,6 +4,7 @@ use serde_json;
 
 #[derive(Debug)]
 pub enum Error<T> {
+    UriError(hyper::error::UriError),
     Hyper(hyper::Error),
     Serde(serde_json::Error),
     ApiError(ApiError<T>),
@@ -49,6 +50,8 @@ impl<T> From<serde_json::Error> for Error<T> {
 }
 
 use super::models::*;
+
+mod request;
 
 mod pet_api;
 pub use self::pet_api::{ PetApi, PetApiClient };
