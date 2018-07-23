@@ -19,12 +19,8 @@ class {{declspec}} {{classname}}Mock : public I{{classname}}
 public:
     using Base = I{{classname}};
 
-    {{classname}}Mock() { };
-
-    // `apiClient` argument not used. Constructor only provided to match
-    // constructor of the non-mocked API
-    {{classname}}Mock( std::shared_ptr<ApiClient> apiClient ) { };
-
+    {{classname}}Mock() = default;
+    explicit {{classname}}Mock( std::shared_ptr<ApiClient> apiClient ) { };
     ~{{classname}}Mock() override;
 
     {{#operation}}
