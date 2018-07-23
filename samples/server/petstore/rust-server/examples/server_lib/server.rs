@@ -4,9 +4,7 @@
 
 use futures::{self, Future};
 use chrono;
-use futures::Stream;
 use std::collections::HashMap;
-use std::io::Error;
 use std::marker::PhantomData;
 
 use swagger;
@@ -111,17 +109,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
+    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("test_endpoint_parameters({}, {}, \"{}\", {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", number, double, pattern_without_delimiter, integer, int32, int64, float, string, date, date_time, password, callback, context.get().0.clone());
-        let _ = binary; //Suppresses unused param warning
+        println!("test_endpoint_parameters({}, {}, \"{}\", {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
     /// To test enum parameters
-    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string: Option<String>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, context.get().0.clone());
+        println!("test_enum_parameters({:?}, {:?}, {:?}, {:?}, {:?}, {:?}, {:?}) - X-Span-ID: {:?}", enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -196,10 +193,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// uploads an image
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Option<swagger::ByteArray>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("upload_file({}, {:?}, ) - X-Span-ID: {:?}", pet_id, additional_metadata, context.get().0.clone());
-        let _ = file; //Suppresses unused param warning
+        println!("upload_file({}, {:?}, {:?}) - X-Span-ID: {:?}", pet_id, additional_metadata, file, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
