@@ -1,4 +1,4 @@
-//! Server implementation of {{externCrateName}}.
+//! Server implementation of {{{externCrateName}}}.
 
 #![allow(unused_imports)]
 
@@ -10,10 +10,10 @@ use std::marker::PhantomData;
 use swagger;
 use swagger::{Has, XSpanIdString};
 
-use {{externCrateName}}::{Api, ApiError{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-                      {{operationId}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+use {{{externCrateName}}}::{Api, ApiError{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
+                      {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 };
-use {{externCrateName}}::models;
+use {{{externCrateName}}}::models;
 
 #[derive(Copy, Clone)]
 pub struct Server<C> {
@@ -29,9 +29,9 @@ impl<C> Server<C> {
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 {{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{{operationId}}}Response, Error=ApiError>> {
         let context = context.clone();
-        println!("{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{paramName}}{{/allParams}}, context.get().0.clone());{{#allParams}}{{/allParams}}
+        println!("{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{{paramName}}}{{/allParams}}, context.get().0.clone());{{#allParams}}{{/allParams}}
         Box::new(futures::failed("Generic failure".into()))
     }
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
