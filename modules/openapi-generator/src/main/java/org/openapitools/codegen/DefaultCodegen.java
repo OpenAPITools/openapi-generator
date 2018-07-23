@@ -846,28 +846,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the name with escaped characters.
-     *
-     * @param name the name to be escaped
-     * @return the escaped word
-     * <p>
-     * throws Runtime exception as word is not escaped properly.
-     */
-    public String escapeSpecialCharacters(String name) {
-        String result = (String) ((CharSequence) name).chars().mapToObj(c -> {
-          String character = "" + (char) c;
-          if (specialCharReplacements.containsKey(character)) {
-              return specialCharReplacements.get(character);
-          } else {
-              return character;
-          }
-        }).reduce( (c1, c2) -> "" + c1 + c2).orElse(null);
-
-        if (result != null) return result;
-        throw new RuntimeException("Word '" + name + "' could not be escaped.");
-    }
-
-    /**
      * Return the fully-qualified "Model" name for import
      *
      * @param name the name of the "Model"
