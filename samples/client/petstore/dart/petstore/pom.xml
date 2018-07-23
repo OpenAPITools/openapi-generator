@@ -40,7 +40,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>pub-get</id>
+                        <id>pub-test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
