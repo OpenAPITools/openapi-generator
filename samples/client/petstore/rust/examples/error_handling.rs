@@ -3,12 +3,12 @@ extern crate hyper;
 extern crate petstore_client;
 extern crate tokio_core;
 
-use hyper::Client;
-use hyper::client::HttpConnector;
-use tokio_core::reactor::Core;
 use futures::Future;
+use hyper::client::HttpConnector;
+use hyper::Client;
 use petstore_client::apis::client::APIClient;
 use petstore_client::apis::Error;
+use tokio_core::reactor::Core;
 
 fn main() {
     let mut core = Core::new().expect("failed to init core");
