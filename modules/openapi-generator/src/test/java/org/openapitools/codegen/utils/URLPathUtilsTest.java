@@ -19,11 +19,14 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariable;
+import io.swagger.v3.oas.models.servers.ServerVariables;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.net.URL;
+import java.util.Arrays;
 
 public class URLPathUtilsTest {
 
@@ -74,5 +77,41 @@ public class URLPathUtilsTest {
 
             Assert.assertEquals(URLPathUtils.getServerURL(openAPI).toString(), t[1]);
         }
+    }
+
+    @Test
+    public void testGetServerURLWithVariables() throws Exception {
+        Server s1 = new Server().url("http://localhost:{port}/").variables(new ServerVariables().addServerVariable("port", new ServerVariable()._default("8080").description("the server port")));
+        Assert.assertEquals(URLPathUtils.getServerURL(s1).toString(), "http://localhost:8080/");
+
+        Server s2 = new Server().url("http://{version}.test.me/{version}").variables(new ServerVariables().addServerVariable("version", new ServerVariable()._default("v1")));
+        Assert.assertEquals(URLPathUtils.getServerURL(s2).toString(), "http://v1.test.me/v1");
+
+        Server s3 = new Server().url("http://localhost:{port}/{version}").variables(
+                    new ServerVariables().addServerVariable("version", new ServerVariable()._default("v4"))
+                        .addServerVariable("port", new ServerVariable()._default("8080"))
+                        .addServerVariable("other", new ServerVariable()._default("something"))
+                );
+        Assert.assertEquals(URLPathUtils.getServerURL(s3).toString(), "http://localhost:8080/v4");
+
+        Server s4 = new Server().url("http://91.161.147.64/{targetEnv}").variables(new ServerVariables().addServerVariable("targetEnv", new ServerVariable().description("target environment")._enum(Arrays.asList("dev", "int", "prd"))._default("prd")));
+        Assert.assertEquals(URLPathUtils.getServerURL(s4).toString(), "http://91.161.147.64/prd");
+
+        Server s5 = new Server().url("https://api.stats.com/{country1}").variables(new ServerVariables().addServerVariable("country1", new ServerVariable()._enum(Arrays.asList("france", "germany", "italy"))));
+        Assert.assertEquals(URLPathUtils.getServerURL(s5).toString(), "https://api.stats.com/france");
+
+        Server s6 = new Server().url("https://api.example.com/{wrong}");
+        Assert.assertEquals(URLPathUtils.getServerURL(s6).toString(), "https://api.example.com/");
+
+        Server s7 = new Server().url("https://api.example.com/{wrong}").variables(new ServerVariables());
+        Assert.assertEquals(URLPathUtils.getServerURL(s7).toString(), "https://api.example.com/");
+
+        Server s8 = new Server().url("https://api.example.com/{wrong}").variables(new ServerVariables().addServerVariable("other", new ServerVariable()._default("something")));
+        Assert.assertEquals(URLPathUtils.getServerURL(s8).toString(), "https://api.example.com/");
+
+        Server s9 = new Server().url("https://{user}.example.com/{version}").variables(
+                    new ServerVariables().addServerVariable("version", new ServerVariable()._default("v1"))
+                        .addServerVariable("user", new ServerVariable()._default("{user}")));
+        Assert.assertEquals(URLPathUtils.getServerURL(s9).toString(), "https://{user}.example.com/v1");
     }
 }
