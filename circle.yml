@@ -1,10 +1,16 @@
 version: 2
 jobs:
   build:
+    #    docker:
+    #      #- image: openapitools/openapi-generator
+    #      - image: swaggerapi/petstore
+    #        environment:
+    #          SWAGGER_HOST=http://petstore.swagger.io
+    #          SWAGGER_BASE_PATH=/v2
     machine:
       docker_layer_caching: true
     working_directory: ~/OpenAPITools/openapi-generator
-    parallelism: 1
+    parallelism: 2
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
@@ -37,12 +43,6 @@ jobs:
          printf '127.0.0.1       petstore.swagger.io
          ' | sudo tee -a /etc/hosts
     # Dependencies
-    #   This would typically go in either a build or a build-and-test job when using workflows
-    # This is based on your 1.0 configuration file or project settings
-    - run: sudo add-apt-repository ppa:duggan/bats --yes
-    - run: sudo apt-get update -qq
-    - run: sudo apt-get install -qq bats
-    - run: sudo apt-get install -qq curl
     # Install latest stable node for angular 6
     - run:
         name: Install node@stable (for angular 6)
@@ -65,21 +65,9 @@ jobs:
     - run: docker ps -a
     - run: sleep 30
     - run: cat /etc/hosts
-    # This is based on your 1.0 configuration file or project settings
-    - run: cp CI/pom.xml.circleci pom.xml
     # Test
-    #   This would typically be a build job when using workflows, possibly combined with build
-    # This is based on your 1.0 configuration file or project settings
-    #- run: java -version
     - run: mvn --quiet clean install
-    - run: mvn --quiet verify -Psamples
-    - run: if [ $? -ne 0 ]; then exit 1; fi
-    - run: sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-    - run: java -version
-    - run: cp CI/pom.xml.circleci.java7 pom.xml
-    - run: mvn --quiet clean install
-    - run: mvn --quiet verify -Psamples
-    - run: if [ $? -ne 0 ]; then exit 1; fi
+    - run: ./CI/circle_parallel.sh 
     # Save dependency cache
     - save_cache:
         key: source-v1-{{ .Branch }}-{{ .Revision }}

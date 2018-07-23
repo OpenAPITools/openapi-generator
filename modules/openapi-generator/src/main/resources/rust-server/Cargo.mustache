@@ -9,8 +9,8 @@ license = "Unlicense"
 
 [features]
 default = ["client", "server"]
-client = ["serde_json", {{#usesUrlEncodedForm}}"serde_urlencoded", {{/usesUrlEncodedForm}} {{#usesXml}}"serde-xml-rs", {{/usesXml}}"serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "url", "uuid"{{#apiHasFile}}, "multipart"{{/apiHasFile}}]
-server = ["serde_json", {{#usesXml}}"serde-xml-rs", {{/usesXml}}"serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "tokio-proto", "tokio-tls", "regex", "percent-encoding", "url", "uuid"{{#apiHasFile}}, "multipart"{{/apiHasFile}}]
+client = ["serde_json", {{#usesUrlEncodedForm}}"serde_urlencoded", {{/usesUrlEncodedForm}} {{#usesXml}}"serde-xml-rs", {{/usesXml}}"serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "url", "uuid"]
+server = ["serde_json", {{#usesXml}}"serde-xml-rs", {{/usesXml}}"serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "tokio-proto", "tokio-tls", "regex", "percent-encoding", "url", "uuid"]
 
 [dependencies]
 # Required by example server.

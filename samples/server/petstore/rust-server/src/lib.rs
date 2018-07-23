@@ -288,10 +288,10 @@ pub trait Api<C> {
     fn test_client_model(&self, client: models::Client, context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>>;
 
     /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
+    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
 
     /// To test enum parameters
-    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
+    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string: Option<String>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
 
     /// test inline additionalProperties
     fn test_inline_additional_properties(&self, request_body: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>>;
@@ -324,7 +324,7 @@ pub trait Api<C> {
     fn update_pet_with_form(&self, pet_id: i64, name: Option<String>, status: Option<String>, context: &C) -> Box<Future<Item=UpdatePetWithFormResponse, Error=ApiError>>;
 
     /// uploads an image
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Option<swagger::ByteArray>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>>;
 
     /// Delete purchase order by ID
     fn delete_order(&self, order_id: String, context: &C) -> Box<Future<Item=DeleteOrderResponse, Error=ApiError>>;
@@ -389,10 +389,10 @@ pub trait ApiNoContext {
     fn test_client_model(&self, client: models::Client) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>>;
 
     /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
+    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>>;
 
     /// To test enum parameters
-    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
+    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string: Option<String>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>>;
 
     /// test inline additionalProperties
     fn test_inline_additional_properties(&self, request_body: HashMap<String, String>) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>>;
@@ -425,7 +425,7 @@ pub trait ApiNoContext {
     fn update_pet_with_form(&self, pet_id: i64, name: Option<String>, status: Option<String>) -> Box<Future<Item=UpdatePetWithFormResponse, Error=ApiError>>;
 
     /// uploads an image
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>) -> Box<Future<Item=UploadFileResponse, Error=ApiError>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Option<swagger::ByteArray>) -> Box<Future<Item=UploadFileResponse, Error=ApiError>>;
 
     /// Delete purchase order by ID
     fn delete_order(&self, order_id: String) -> Box<Future<Item=DeleteOrderResponse, Error=ApiError>>;
@@ -515,13 +515,13 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
     /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
-        self.api().test_endpoint_parameters(number, double, pattern_without_delimiter, integer, int32, int64, float, string, binary, date, date_time, password, callback, &self.context())
+    fn test_endpoint_parameters(&self, number: f64, double: f64, pattern_without_delimiter: String, byte: swagger::ByteArray, integer: Option<i32>, int32: Option<i32>, int64: Option<i64>, float: Option<f32>, string: Option<String>, binary: Option<swagger::ByteArray>, date: Option<chrono::DateTime<chrono::Utc>>, date_time: Option<chrono::DateTime<chrono::Utc>>, password: Option<String>, callback: Option<String>) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
+        self.api().test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer, int32, int64, float, string, binary, date, date_time, password, callback, &self.context())
     }
 
     /// To test enum parameters
-    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
-        self.api().test_enum_parameters(enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, &self.context())
+    fn test_enum_parameters(&self, enum_header_string_array: Option<&Vec<String>>, enum_header_string: Option<String>, enum_query_string_array: Option<&Vec<String>>, enum_query_string: Option<String>, enum_query_integer: Option<i32>, enum_query_double: Option<f64>, enum_form_string: Option<String>) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+        self.api().test_enum_parameters(enum_header_string_array, enum_header_string, enum_query_string_array, enum_query_string, enum_query_integer, enum_query_double, enum_form_string, &self.context())
     }
 
     /// test inline additionalProperties
@@ -575,7 +575,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
     /// uploads an image
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<String>, file: Option<swagger::ByteArray>) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
         self.api().upload_file(pet_id, additional_metadata, file, &self.context())
     }
 

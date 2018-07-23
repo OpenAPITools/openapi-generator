@@ -185,6 +185,11 @@ pub struct ArrayTest {
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_array_of_model: Option<Vec<Vec<models::ReadOnlyFirst>>>,
 
+    // Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "array_of_enum")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub array_of_enum: Option<Vec<String>>,
+
 }
 
 impl ArrayTest {
@@ -193,6 +198,7 @@ impl ArrayTest {
             array_of_string: None,
             array_array_of_integer: None,
             array_array_of_model: None,
+            array_of_enum: None,
         }
     }
 }
@@ -356,6 +362,11 @@ pub struct EnumArrays {
     #[serde(skip_serializing_if="Option::is_none")]
     pub array_enum: Option<Vec<String>>,
 
+    // Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "array_array_enum")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub array_array_enum: Option<Vec<Vec<String>>>,
+
 }
 
 impl EnumArrays {
@@ -363,6 +374,7 @@ impl EnumArrays {
         EnumArrays {
             just_symbol: None,
             array_enum: None,
+            array_array_enum: None,
         }
     }
 }
@@ -475,6 +487,10 @@ pub struct FormatTest {
     #[serde(rename = "byte")]
     pub byte: swagger::ByteArray,
 
+    #[serde(rename = "binary")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub binary: Option<swagger::ByteArray>,
+
     #[serde(rename = "date")]
     pub date: chrono::DateTime<chrono::Utc>,
 
@@ -502,6 +518,7 @@ impl FormatTest {
             double: None,
             string: None,
             byte: byte,
+            binary: None,
             date: date,
             date_time: None,
             uuid: None,
@@ -554,6 +571,11 @@ pub struct MapTest {
     pub map_map_of_string: Option<HashMap<String, HashMap<String, String>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
+    #[serde(rename = "map_map_of_enum")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub map_map_of_enum: Option<HashMap<String, HashMap<String, String>>>,
+
+    // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_of_enum_string")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub map_of_enum_string: Option<HashMap<String, String>>,
@@ -564,6 +586,7 @@ impl MapTest {
     pub fn new() -> MapTest {
         MapTest {
             map_map_of_string: None,
+            map_map_of_enum: None,
             map_of_enum_string: None,
         }
     }
