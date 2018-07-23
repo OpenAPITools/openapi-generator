@@ -7,8 +7,8 @@ license = "Unlicense"
 
 [features]
 default = ["client", "server"]
-client = ["serde_json", "serde_urlencoded",  "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "url", "uuid", "multipart"]
-server = ["serde_json", "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "tokio-proto", "tokio-tls", "regex", "percent-encoding", "url", "uuid", "multipart"]
+client = ["serde_json", "serde_urlencoded",  "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "url", "uuid"]
+server = ["serde_json", "serde-xml-rs", "serde_ignored", "hyper", "hyper-tls", "native-tls", "openssl", "tokio-core", "tokio-proto", "tokio-tls", "regex", "percent-encoding", "url", "uuid"]
 
 [dependencies]
 # Required by example server.

@@ -6,11 +6,9 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-extern crate multipart;
 extern crate serde_urlencoded;
 
 
-use self::multipart::client::lazy::Multipart;
 use hyper;
 use hyper::header::{Headers, ContentType};
 use hyper::Uri;
@@ -96,26 +94,37 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 }
 
 /// A client that implements the API by making HTTP calls out to a server.
-#[derive(Clone)]
-pub struct Client {
-    hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
+pub struct Client<F> where
+  F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
+    client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
     base_path: String,
 }
 
-impl fmt::Debug for Client {
+impl<F> fmt::Debug for Client<F> where
+   F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Client {{ base_path: {} }}", self.base_path)
     }
 }
 
-impl Client {
+impl<F> Clone for Client<F> where
+   F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
+    fn clone(&self) -> Self {
+        Client {
+            client_service: self.client_service.clone(),
+            base_path: self.base_path.clone()
+        }
+    }
+}
+
+impl Client<hyper::client::FutureResponse> {
 
     /// Create an HTTP client.
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
     /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
-    pub fn try_new_http(handle: Handle, base_path: &str) -> Result<Client, ClientInitError> {
+    pub fn try_new_http(handle: Handle, base_path: &str) -> Result<Client<hyper::client::FutureResponse>, ClientInitError> {
         let http_connector = swagger::http_connector();
         Self::try_new_with_connector::<hyper::client::HttpConnector>(
             handle,
@@ -135,7 +144,7 @@ impl Client {
         handle: Handle,
         base_path: &str,
         ca_certificate: CA,
-    ) -> Result<Client, ClientInitError>
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         CA: AsRef<Path>,
     {
@@ -156,13 +165,13 @@ impl Client {
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
-    pub fn try_new_https_mutual<CA, K, C, T>(
+    pub fn try_new_https_mutual<CA, K, C>(
         handle: Handle,
         base_path: &str,
         ca_certificate: CA,
         client_key: K,
         client_certificate: C,
-    ) -> Result<Client, ClientInitError>
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         CA: AsRef<Path>,
         K: AsRef<Path>,
@@ -199,17 +208,17 @@ impl Client {
         base_path: &str,
         protocol: Option<&'static str>,
         connector_fn: Box<Fn(&Handle) -> C + Send + Sync>,
-    ) -> Result<Client, ClientInitError>
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
         C: hyper::client::Connect + hyper::client::Service,
     {
         let connector = connector_fn(&handle);
-        let hyper_client = Box::new(hyper::Client::configure().connector(connector).build(
+        let client_service = Box::new(hyper::Client::configure().connector(connector).build(
             &handle,
         ));
 
         Ok(Client {
-            hyper_client: Arc::new(hyper_client),
+            client_service: Arc::new(client_service),
             base_path: into_base_path(base_path, protocol)?,
         })
     }
@@ -223,19 +232,41 @@ impl Client {
     /// The reason for this function's existence is to support legacy test code, which did mocking at the hyper layer.
     /// This is not a recommended way to write new tests. If other reasons are found for using this function, they
     /// should be mentioned here.
-    pub fn try_new_with_hyper_client(hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
-                                     handle: Handle,
-                                     base_path: &str)
-                                    -> Result<Client, ClientInitError>
+    #[deprecated(note="Use try_new_with_client_service instead")]
+    pub fn try_new_with_hyper_client(
+        hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
+        handle: Handle,
+        base_path: &str
+    ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     {
         Ok(Client {
-            hyper_client: hyper_client,
+            client_service: hyper_client,
             base_path: into_base_path(base_path, None)?,
         })
     }
 }
 
-impl<C> Api<C> for Client where C: Has<XSpanIdString> + Has<Option<AuthData>>{
+impl<F> Client<F> where
+    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static
+{
+    /// Constructor for creating a `Client` by passing in a pre-made `hyper` client Service.
+    ///
+    /// This allows adding custom wrappers around the underlying transport, for example for logging.
+    pub fn try_new_with_client_service(client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
+                                       handle: Handle,
+                                       base_path: &str)
+                                    -> Result<Client<F>, ClientInitError>
+    {
+        Ok(Client {
+            client_service: client_service,
+            base_path: into_base_path(base_path, None)?,
+        })
+    }
+}
+
+impl<F, C> Api<C> for Client<F> where
+    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
+    C: Has<XSpanIdString> + Has<Option<AuthData>>{
 
     fn test_special_tags(&self, param_client: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
 
@@ -265,16 +296,13 @@ impl<C> Api<C> for Client where C: Has<XSpanIdString> + Has<Option<AuthData>>{
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -345,16 +373,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -423,16 +448,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -501,16 +523,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -579,16 +598,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -659,9 +675,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -724,16 +738,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -774,7 +785,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
+    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Option<swagger::ByteArray>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -789,41 +800,26 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        // Form data body
-        let mut multipart = Multipart::new();
+        let params = &[
+            ("integer", param_integer.map(|param| format!("{:?}", param))),
+            ("int32", param_int32.map(|param| format!("{:?}", param))),
+            ("int64", param_int64.map(|param| format!("{:?}", param))),
+            ("number", Some(format!("{:?}", param_number))),
+            ("float", param_float.map(|param| format!("{:?}", param))),
+            ("double", Some(format!("{:?}", param_double))),
+            ("string", param_string),
+            ("pattern_without_delimiter", Some(param_pattern_without_delimiter)),
+            ("byte", Some(format!("{:?}", param_byte))),
+            ("binary", param_binary.map(|param| format!("{:?}", param))),
+            ("date", param_date.map(|param| format!("{:?}", param))),
+            ("dateTime", param_date_time.map(|param| format!("{:?}", param))),
+            ("password", param_password),
+            ("callback", param_callback),
+        ];
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        // Helper function to convert a Stream into a String. The String can then be used to build the HTTP body.
-        fn convert_stream_to_string(stream: Box<Stream<Item=Vec<u8>, Error=Error> + Send>) -> Result<String, ApiError> {
-
-            stream.concat2()
-              .wait()
-              .map_err(|e| ApiError(format!("Unable to collect stream: {}", e)))
-              .and_then(|body| String::from_utf8(body)
-                .map_err(|e| ApiError(format!("Failed to convert utf8 stream to String: {}", e))))
-        }
-
-        if let Ok(Some(param_binary)) = param_binary.wait() { 
-            match convert_stream_to_string(param_binary) {
-                Ok(param_binary) => {
-                    // Add file to multipart form.
-                    multipart.add_text("binary", param_binary);
-                },
-                Err(err) => return Box::new(futures::done(Err(err))),
-            }
-        }
-
-        let mut fields = match multipart.prepare() {
-            Ok(fields) => fields,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
-        };
-
-        let mut body_string = String::new();
-        let body = fields.to_body().read_to_string(&mut body_string);
-        let boundary = fields.boundary();
-        let multipart_header = match mime::Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
-            Ok(multipart_header) => multipart_header,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
-        };
+        request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENDPOINT_PARAMETERS.clone()));
+        request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
         (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
@@ -834,12 +830,7 @@ if let Some(body) = body {
             }
         });
 
-
-        request.headers_mut().set(ContentType(multipart_header));
-        request.set_body(body_string.into_bytes());
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -885,7 +876,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string: Option<String>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
 
         // Query parameters
         let query_enum_query_string_array = param_enum_query_string_array.map_or_else(String::new, |query| format!("enum_query_string_array={enum_query_string_array}&", enum_query_string_array=query.join(",")));
@@ -910,7 +901,13 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
+        let params = &[
+            ("enum_form_string", param_enum_form_string),
+        ];
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
+        request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENUM_PARAMETERS.clone()));
+        request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
@@ -921,9 +918,7 @@ if let Some(body) = body {
         param_enum_header_string.map(|header| request.headers_mut().set(RequestEnumHeaderString(header)));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -995,9 +990,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1061,9 +1054,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1128,16 +1119,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1206,9 +1194,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1269,9 +1255,7 @@ if let Some(body) = body {
         param_api_key.map(|header| request.headers_mut().set(RequestApiKey(header)));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1332,16 +1316,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1417,16 +1398,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1498,16 +1476,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1594,9 +1569,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1678,9 +1651,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1717,7 +1688,7 @@ if let Some(body) = body {
 
     }
 
-    fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
+    fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Option<swagger::ByteArray>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -1732,58 +1703,25 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        // Form data body
-        let mut multipart = Multipart::new();
+        let params = &[
+            ("additionalMetadata", param_additional_metadata),
+            ("file", param_file.map(|param| format!("{:?}", param))),
+        ];
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        // Helper function to convert a Stream into a String. The String can then be used to build the HTTP body.
-        fn convert_stream_to_string(stream: Box<Stream<Item=Vec<u8>, Error=Error> + Send>) -> Result<String, ApiError> {
-
-            stream.concat2()
-              .wait()
-              .map_err(|e| ApiError(format!("Unable to collect stream: {}", e)))
-              .and_then(|body| String::from_utf8(body)
-                .map_err(|e| ApiError(format!("Failed to convert utf8 stream to String: {}", e))))
-        }
-
-        if let Ok(Some(param_file)) = param_file.wait() { 
-            match convert_stream_to_string(param_file) {
-                Ok(param_file) => {
-                    // Add file to multipart form.
-                    multipart.add_text("file", param_file);
-                },
-                Err(err) => return Box::new(futures::done(Err(err))),
-            }
-        }
-
-        let mut fields = match multipart.prepare() {
-            Ok(fields) => fields,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
-        };
-
-        let mut body_string = String::new();
-        let body = fields.to_body().read_to_string(&mut body_string);
-        let boundary = fields.boundary();
-        let multipart_header = match mime::Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
-            Ok(multipart_header) => multipart_header,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
-        };
+        request.headers_mut().set(ContentType(mimetypes::requests::UPLOAD_FILE.clone()));
+        request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-        request.headers_mut().set(ContentType(multipart_header));
-        request.set_body(body_string.into_bytes());
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1844,9 +1782,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -1912,16 +1848,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1982,16 +1915,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2078,16 +2008,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2167,9 +2094,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2232,9 +2157,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2297,9 +2220,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2356,9 +2277,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2424,16 +2343,13 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2520,9 +2436,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2539,7 +2453,6 @@ if let Some(body) = body {
                     };
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2611,9 +2524,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {
@@ -2676,9 +2587,7 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
-        Box::new(self.hyper_client.call(request)
+        Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
             match response.status().as_u16() {

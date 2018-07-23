@@ -160,12 +160,12 @@ fn main() {
         //  },
 
         Some("TestEndpointParameters") => {
-            let result = core.run(client.test_endpoint_parameters(8.14, 1.2, "pattern_without_delimiter_example".to_string(), Some(56), Some(56), Some(789), Some(3.4), Some("string_example".to_string()), Box::new(future::ok(Some(Box::new(stream::once(Ok(b"hello".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>))) as Box<Future<Item=_, Error=_> + Send>, None, None, Some("password_example".to_string()), Some("callback_example".to_string())));
+            let result = core.run(client.test_endpoint_parameters(8.14, 1.2, "pattern_without_delimiter_example".to_string(), swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE")), Some(56), Some(56), Some(789), Some(3.4), Some("string_example".to_string()), Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE"))), None, None, Some("password_example".to_string()), Some("callback_example".to_string())));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
         Some("TestEnumParameters") => {
-            let result = core.run(client.test_enum_parameters(Some(&Vec::new()), Some("enum_header_string_example".to_string()), Some(&Vec::new()), Some("enum_query_string_example".to_string()), Some(56), Some(1.2)));
+            let result = core.run(client.test_enum_parameters(Some(&Vec::new()), Some("enum_header_string_example".to_string()), Some(&Vec::new()), Some("enum_query_string_example".to_string()), Some(56), Some(1.2), Some("enum_form_string_example".to_string())));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
@@ -224,7 +224,7 @@ fn main() {
          },
 
         Some("UploadFile") => {
-            let result = core.run(client.upload_file(789, Some("additional_metadata_example".to_string()), Box::new(future::ok(Some(Box::new(stream::once(Ok(b"hello".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>))) as Box<Future<Item=_, Error=_> + Send>));
+            let result = core.run(client.upload_file(789, Some("additional_metadata_example".to_string()), Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")))));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
