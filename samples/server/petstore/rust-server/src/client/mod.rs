@@ -6,11 +6,9 @@ extern crate openssl;
 extern crate mime;
 extern crate chrono;
 extern crate url;
-extern crate multipart;
 extern crate serde_urlencoded;
 
 
-use self::multipart::client::lazy::Multipart;
 use hyper;
 use hyper::header::{Headers, ContentType};
 use hyper::Uri;
@@ -298,8 +296,6 @@ impl<F, C> Api<C> for Client<F> where
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -307,7 +303,6 @@ impl<F, C> Api<C> for Client<F> where
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -378,8 +373,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -387,7 +380,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -456,8 +448,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -465,7 +455,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -534,8 +523,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -543,7 +530,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -612,8 +598,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -621,7 +605,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -692,8 +675,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -757,8 +738,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -766,7 +745,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -807,7 +785,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
+    fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Option<swagger::ByteArray>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -822,41 +800,26 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        // Form data body
-        let mut multipart = Multipart::new();
+        let params = &[
+            ("integer", param_integer.map(|param| format!("{:?}", param))),
+            ("int32", param_int32.map(|param| format!("{:?}", param))),
+            ("int64", param_int64.map(|param| format!("{:?}", param))),
+            ("number", Some(format!("{:?}", param_number))),
+            ("float", param_float.map(|param| format!("{:?}", param))),
+            ("double", Some(format!("{:?}", param_double))),
+            ("string", param_string),
+            ("pattern_without_delimiter", Some(param_pattern_without_delimiter)),
+            ("byte", Some(format!("{:?}", param_byte))),
+            ("binary", param_binary.map(|param| format!("{:?}", param))),
+            ("date", param_date.map(|param| format!("{:?}", param))),
+            ("dateTime", param_date_time.map(|param| format!("{:?}", param))),
+            ("password", param_password),
+            ("callback", param_callback),
+        ];
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        // Helper function to convert a Stream into a String. The String can then be used to build the HTTP body.
-        fn convert_stream_to_string(stream: Box<Stream<Item=Vec<u8>, Error=Error> + Send>) -> Result<String, ApiError> {
-
-            stream.concat2()
-              .wait()
-              .map_err(|e| ApiError(format!("Unable to collect stream: {}", e)))
-              .and_then(|body| String::from_utf8(body)
-                .map_err(|e| ApiError(format!("Failed to convert utf8 stream to String: {}", e))))
-        }
-
-        if let Ok(Some(param_binary)) = param_binary.wait() { 
-            match convert_stream_to_string(param_binary) {
-                Ok(param_binary) => {
-                    // Add file to multipart form.
-                    multipart.add_text("binary", param_binary);
-                },
-                Err(err) => return Box::new(futures::done(Err(err))),
-            }
-        }
-
-        let mut fields = match multipart.prepare() {
-            Ok(fields) => fields,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
-        };
-
-        let mut body_string = String::new();
-        let body = fields.to_body().read_to_string(&mut body_string);
-        let boundary = fields.boundary();
-        let multipart_header = match mime::Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
-            Ok(multipart_header) => multipart_header,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
-        };
+        request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENDPOINT_PARAMETERS.clone()));
+        request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
         (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
@@ -866,11 +829,6 @@ if let Some(body) = body {
                 ))
             }
         });
-
-
-        request.headers_mut().set(ContentType(multipart_header));
-        request.set_body(body_string.into_bytes());
-
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -918,7 +876,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+    fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string: Option<String>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
 
         // Query parameters
         let query_enum_query_string_array = param_enum_query_string_array.map_or_else(String::new, |query| format!("enum_query_string_array={enum_query_string_array}&", enum_query_string_array=query.join(",")));
@@ -943,7 +901,13 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
+        let params = &[
+            ("enum_form_string", param_enum_form_string),
+        ];
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
+        request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENUM_PARAMETERS.clone()));
+        request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
@@ -952,8 +916,6 @@ if let Some(body) = body {
         param_enum_header_string_array.map(|header| request.headers_mut().set(RequestEnumHeaderStringArray(header.clone())));
         header! { (RequestEnumHeaderString, "enum_header_string") => [String] }
         param_enum_header_string.map(|header| request.headers_mut().set(RequestEnumHeaderString(header)));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1028,8 +990,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1092,8 +1052,6 @@ if let Some(body) = body {
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1161,8 +1119,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1170,7 +1126,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1239,8 +1194,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1300,8 +1253,6 @@ if let Some(body) = body {
         // Header parameters
         header! { (RequestApiKey, "api_key") => [String] }
         param_api_key.map(|header| request.headers_mut().set(RequestApiKey(header)));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1365,8 +1316,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1374,7 +1323,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1450,8 +1398,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1459,7 +1405,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1531,8 +1476,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1540,7 +1483,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1627,8 +1569,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1711,8 +1651,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1750,7 +1688,7 @@ if let Some(body) = body {
 
     }
 
-    fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Box<Future<Item=Option<Box<Stream<Item=Vec<u8>, Error=Error> + Send>>, Error=Error> + Send>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
+    fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Option<swagger::ByteArray>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -1765,48 +1703,16 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        // Form data body
-        let mut multipart = Multipart::new();
+        let params = &[
+            ("additionalMetadata", param_additional_metadata),
+            ("file", param_file.map(|param| format!("{:?}", param))),
+        ];
+        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        // Helper function to convert a Stream into a String. The String can then be used to build the HTTP body.
-        fn convert_stream_to_string(stream: Box<Stream<Item=Vec<u8>, Error=Error> + Send>) -> Result<String, ApiError> {
-
-            stream.concat2()
-              .wait()
-              .map_err(|e| ApiError(format!("Unable to collect stream: {}", e)))
-              .and_then(|body| String::from_utf8(body)
-                .map_err(|e| ApiError(format!("Failed to convert utf8 stream to String: {}", e))))
-        }
-
-        if let Ok(Some(param_file)) = param_file.wait() { 
-            match convert_stream_to_string(param_file) {
-                Ok(param_file) => {
-                    // Add file to multipart form.
-                    multipart.add_text("file", param_file);
-                },
-                Err(err) => return Box::new(futures::done(Err(err))),
-            }
-        }
-
-        let mut fields = match multipart.prepare() {
-            Ok(fields) => fields,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
-        };
-
-        let mut body_string = String::new();
-        let body = fields.to_body().read_to_string(&mut body_string);
-        let boundary = fields.boundary();
-        let multipart_header = match mime::Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
-            Ok(multipart_header) => multipart_header,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
-        };
+        request.headers_mut().set(ContentType(mimetypes::requests::UPLOAD_FILE.clone()));
+        request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
-
-        request.headers_mut().set(ContentType(multipart_header));
-        request.set_body(body_string.into_bytes());
 
 
         Box::new(self.client_service.call(request)
@@ -1816,7 +1722,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -1875,8 +1780,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -1945,8 +1848,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -1954,7 +1855,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2015,8 +1915,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2024,7 +1922,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2111,8 +2008,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2120,7 +2015,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2200,8 +2094,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2263,8 +2155,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_ARRAY_INPUT.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -2330,8 +2220,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2387,8 +2275,6 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
@@ -2457,8 +2343,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2466,7 +2350,6 @@ if let Some(body) = body {
                 200 => {
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2553,8 +2436,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2572,7 +2453,6 @@ if let Some(body) = body {
                     };
                     let body = response.body();
                     Box::new(
-
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
@@ -2644,8 +2524,6 @@ if let Some(body) = body {
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
-
-
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
                              .and_then(|mut response| {
@@ -2707,8 +2585,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_USER.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
 
 
         Box::new(self.client_service.call(request)
