@@ -45,12 +45,12 @@ public:
     PetApiImpl(Pistache::Address addr);
     ~PetApiImpl() { };
 
-    void add_pet(const std::shared_ptr<Pet> &pet, Pistache::Http::ResponseWriter &response);
+    void add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response);
     void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response);
     void find_pets_by_status(const Pistache::Optional<std::string> &status, Pistache::Http::ResponseWriter &response);
     void find_pets_by_tags(const Pistache::Optional<std::string> &tags, Pistache::Http::ResponseWriter &response);
     void get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response);
-    void update_pet(const std::shared_ptr<Pet> &pet, Pistache::Http::ResponseWriter &response);
+    void update_pet(const Pet &pet, Pistache::Http::ResponseWriter &response);
     void update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
     void upload_file(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
 
