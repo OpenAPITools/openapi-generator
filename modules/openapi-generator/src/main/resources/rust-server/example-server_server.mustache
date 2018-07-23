@@ -4,9 +4,7 @@
 
 use futures::{self, Future};
 use chrono;
-{{#apiHasFile}}use futures::Stream;{{/apiHasFile}}
 use std::collections::HashMap;
-{{#apiHasFile}}use std::io::Error;{{/apiHasFile}}
 use std::marker::PhantomData;
 {{#apiUsesUuid}}use uuid;{{/apiUsesUuid}}
 use swagger;
@@ -31,10 +29,9 @@ impl<C> Server<C> {
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 {{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
+    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
         let context = context.clone();
-        println!("{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^isFile}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/isFile}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}{{^isFile}}, {{paramName}}{{/isFile}}{{/allParams}}, context.get().0.clone());{{#allParams}}{{#isFile}}
-        let _ = {{paramName}}; //Suppresses unused param warning{{/isFile}}{{/allParams}}
+        println!("{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}, {{paramName}}{{/allParams}}, context.get().0.clone());{{#allParams}}{{/allParams}}
         Box::new(futures::failed("Generic failure".into()))
     }
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}

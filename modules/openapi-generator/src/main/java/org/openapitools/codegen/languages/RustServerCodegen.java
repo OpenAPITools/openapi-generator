@@ -164,8 +164,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "chrono::DateTime<chrono::Utc>");
         typeMapping.put("DateTime", "chrono::DateTime<chrono::Utc>");
         typeMapping.put("password", "String");
-        typeMapping.put("File", "Box<Stream<Item=Vec<u8>, Error=Error> + Send>");
-        typeMapping.put("file", "Box<Stream<Item=Vec<u8>, Error=Error> + Send>");
+        typeMapping.put("File", "swagger::ByteArray");
+        typeMapping.put("file", "swagger::ByteArray");
         typeMapping.put("array", "Vec");
         typeMapping.put("map", "HashMap");
 
@@ -710,8 +710,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
             }
-
-            additionalProperties.put("apiHasFile", true);
         }
 
         return objs;
@@ -1069,22 +1067,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
 
-        if (param.isFile) {
-            param.vendorExtensions.put("formatString", "{:?}");
-            op.vendorExtensions.put("hasFile", true);
-            additionalProperties.put("apiHasFile", true);
-            example = "Box::new(stream::once(Ok(b\"hello\".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>";
-        } else if (param.isString) {
-            if (param.dataFormat != null && param.dataFormat.equals("byte")) {
-                param.vendorExtensions.put("formatString", "\\\"{:?}\\\"");
-                example = "swagger::ByteArray(\"" + ((param.example != null) ? param.example : "") + "\".to_string().into_bytes())";
-            } else {
-                param.vendorExtensions.put("formatString", "\\\"{}\\\"");
-                example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
-            }
+        if (param.isString) {
+            param.vendorExtensions.put("formatString", "\\\"{}\\\"");
+            example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
         } else if (param.isPrimitiveType) {
-            if ((param.isByteArray) ||
-                    (param.isBinary)) {
+            if ((param.isByteArray) || (param.isBinary)) {
                 // Binary primitive types don't implement `Display`.
                 param.vendorExtensions.put("formatString", "{:?}");
                 example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
@@ -1119,12 +1106,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             // Not required, so override the format string and example
             param.vendorExtensions.put("formatString", "{:?}");
-            if (param.isFile) {
-                // Optional file types are wrapped in a future
-                param.vendorExtensions.put("example", (example != null) ? "Box::new(future::ok(Some(" + example + "))) as Box<Future<Item=_, Error=_> + Send>" : "None");
-            } else {
-                param.vendorExtensions.put("example", (example != null) ? "Some(" + example + ")" : "None");
-            }
+            param.vendorExtensions.put("example", (example != null) ? "Some(" + example + ")" : "None");
         }
     }
 }

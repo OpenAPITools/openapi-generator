@@ -7,7 +7,6 @@ extern crate openssl;
 extern crate mime;
 extern crate uuid;
 extern crate chrono;
-extern crate multipart;
 extern crate percent_encoding;
 extern crate url;
 
@@ -20,8 +19,6 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
-use self::multipart::server::Multipart;
-use self::multipart::server::save::SaveResult;
 
 use serde_json;
 use serde_xml_rs;
@@ -832,185 +829,26 @@ where
 
 
 
-                let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
-                };
-
-                Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
-                        match result {
-                            Ok(body) => {
-                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
-                                    SaveResult::Full(entries) => {
-                                        entries
-                                    },
-                                    _ => {
-                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
-                                    },
-                                };
+                Box::new({
+                        {{
 
                                 // Form parameters
-                                let param_integer = entries.fields.remove("integer");
-                                let param_integer = match param_integer {
-                                    Some(entry) =>
+                                let param_integer = Some(56);
+                                let param_int32 = Some(56);
+                                let param_int64 = Some(789);
+                                let param_number = 8.14;
+                                let param_float = Some(3.4);
+                                let param_double = 1.2;
+                                let param_string = Some("string_example".to_string());
+                                let param_pattern_without_delimiter = "pattern_without_delimiter_example".to_string();
+                                let param_byte = swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE"));
+                                let param_binary = Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
+                                let param_date = None;
+                                let param_date_time = None;
+                                let param_password = Some("password_example".to_string());
+                                let param_callback = Some("callback_example".to_string());
 
-                                        match entry.parse::<i32>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_int32 = entries.fields.remove("int32");
-                                let param_int32 = match param_int32 {
-                                    Some(entry) =>
-
-                                        match entry.parse::<i32>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_int64 = entries.fields.remove("int64");
-                                let param_int64 = match param_int64 {
-                                    Some(entry) =>
-
-                                        match entry.parse::<i64>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_number = entries.fields.remove("number");
-                                let param_number = match param_number {
-                                    Some(entry) =>
-
-                                        match entry.parse::<f64>() {
-                                            Ok(entry) => entry,
-                                            Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse form parameter number - doesn't match schema: {}", e)))),
-                                        },
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter number")))),
-                                };
-
-                                let param_float = entries.fields.remove("float");
-                                let param_float = match param_float {
-                                    Some(entry) =>
-
-                                        match entry.parse::<f32>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_double = entries.fields.remove("double");
-                                let param_double = match param_double {
-                                    Some(entry) =>
-
-                                        match entry.parse::<f64>() {
-                                            Ok(entry) => entry,
-                                            Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse form parameter double - doesn't match schema: {}", e)))),
-                                        },
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter double")))),
-                                };
-
-                                let param_string = entries.fields.remove("string");
-                                let param_string = match param_string {
-                                    Some(entry) =>
-
-                                        match entry.parse::<String>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_pattern_without_delimiter = entries.fields.remove("pattern_without_delimiter");
-                                let param_pattern_without_delimiter = match param_pattern_without_delimiter {
-                                    Some(entry) =>
-
-                                        match entry.parse::<String>() {
-                                            Ok(entry) => entry,
-                                            Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse form parameter pattern_without_delimiter - doesn't match schema: {}", e)))),
-                                        },
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter pattern_without_delimiter")))),
-                                };
-
-                                let param_binary = entries.fields.remove("binary");
-                                let param_binary = match param_binary {
-                                    Some(entry) =>
-                                        Some(Box::new(stream::once(Ok(entry.as_bytes().to_vec()))) as Box<Stream<Item=Vec<u8>, Error=io::Error> + Send>),
-
-                                    None => None,
-                                };
-                                let param_binary = Box::new(future::ok(param_binary));
-                                let param_date = entries.fields.remove("date");
-                                let param_date = match param_date {
-                                    Some(entry) =>
-
-                                        match entry.parse::<chrono::DateTime<chrono::Utc>>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_date_time = entries.fields.remove("date_time");
-                                let param_date_time = match param_date_time {
-                                    Some(entry) =>
-
-                                        match entry.parse::<chrono::DateTime<chrono::Utc>>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_password = entries.fields.remove("password");
-                                let param_password = match param_password {
-                                    Some(entry) =>
-
-                                        match entry.parse::<String>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_callback = entries.fields.remove("callback");
-                                let param_callback = match param_callback {
-                                    Some(entry) =>
-
-                                        match entry.parse::<String>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-
-                                Box::new(api_impl.test_endpoint_parameters(param_number, param_double, param_pattern_without_delimiter, param_integer, param_int32, param_int64, param_float, param_string, param_binary, param_date, param_date_time, param_password, param_callback, &context)
+                                Box::new(api_impl.test_endpoint_parameters(param_number, param_double, param_pattern_without_delimiter, param_byte, param_integer, param_int32, param_int64, param_float, param_string, param_binary, param_date, param_date_time, param_password, param_callback, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -1044,12 +882,8 @@ where
                                     }
                                 ))
 
-                                as Box<Future<Item=Response, Error=Error>>
-                            },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
-                        }
-                    })
-                )
+                        }}
+                }) as Box<Future<Item=Response, Error=Error>>
 
 
             },
@@ -1099,7 +933,10 @@ where
                 Box::new({
                         {{
 
-                                Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, &context)
+                                // Form parameters
+                                let param_enum_form_string = Some("enum_form_string_example".to_string());
+
+                                Box::new(api_impl.test_enum_parameters(param_enum_header_string_array.as_ref(), param_enum_header_string, param_enum_query_string_array.as_ref(), param_enum_query_string, param_enum_query_integer, param_enum_query_double, param_enum_form_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -2108,46 +1945,12 @@ where
 
 
 
-                let boundary = match multipart_boundary(&headers) {
-                    Some(boundary) => boundary.to_string(),
-                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Couldn't find valid multipart body"))),
-                };
-
-                Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
-                        match result {
-                            Ok(body) => {
-                                let mut entries = match Multipart::with_body(&body.to_vec()[..], boundary).save().temp() {
-                                    SaveResult::Full(entries) => {
-                                        entries
-                                    },
-                                    _ => {
-                                        return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Unable to process all message parts"))))
-                                    },
-                                };
+                Box::new({
+                        {{
 
                                 // Form parameters
-                                let param_additional_metadata = entries.fields.remove("additional_metadata");
-                                let param_additional_metadata = match param_additional_metadata {
-                                    Some(entry) =>
-
-                                        match entry.parse::<String>() {
-                                            Ok(entry) => Some(entry),
-
-                                            Err(_) => None,
-                                        },
-
-                                    None => None,
-                                };
-
-                                let param_file = entries.fields.remove("file");
-                                let param_file = match param_file {
-                                    Some(entry) =>
-                                        Some(Box::new(stream::once(Ok(entry.as_bytes().to_vec()))) as Box<Stream<Item=Vec<u8>, Error=io::Error> + Send>),
-
-                                    None => None,
-                                };
-                                let param_file = Box::new(future::ok(param_file));
+                                let param_additional_metadata = Some("additional_metadata_example".to_string());
+                                let param_file = Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE")));
 
                                 Box::new(api_impl.upload_file(param_pet_id, param_additional_metadata, param_file, &context)
                                     .then(move |result| {
@@ -2184,12 +1987,8 @@ where
                                     }
                                 ))
 
-                                as Box<Future<Item=Response, Error=Error>>
-                            },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read multipart body")))),
-                        }
-                    })
-                )
+                        }}
+                }) as Box<Future<Item=Response, Error=Error>>
 
 
             },
@@ -3137,126 +2936,6 @@ where
 
 
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
-        }
-    }
-}
-
-/// Utility function to get the multipart boundary marker (if any) from the Headers.
-fn multipart_boundary<'a>(headers: &'a Headers) -> Option<&'a str> {
-    headers.get::<ContentType>().and_then(|content_type| {
-        let ContentType(ref mime) = *content_type;
-        if mime.type_() == mime::MULTIPART && mime.subtype() == mime::FORM_DATA {
-            mime.get_param(mime::BOUNDARY).map(|x| x.as_str())
-        } else {
-            None
-        }
-    })
-}
-
-/// Request parser for `Api`.
-pub struct ApiRequestParser;
-
-impl RequestParser for ApiRequestParser {
-    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
-        let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
-        match request.method() {
-
-            // TestSpecialTags - PATCH /another-fake/dummy
-            &hyper::Method::Patch if path.matched(paths::ID_ANOTHER_FAKE_DUMMY) => Ok("TestSpecialTags"),
-
-            // FakeOuterBooleanSerialize - POST /fake/outer/boolean
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_BOOLEAN) => Ok("FakeOuterBooleanSerialize"),
-
-            // FakeOuterCompositeSerialize - POST /fake/outer/composite
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_COMPOSITE) => Ok("FakeOuterCompositeSerialize"),
-
-            // FakeOuterNumberSerialize - POST /fake/outer/number
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_NUMBER) => Ok("FakeOuterNumberSerialize"),
-
-            // FakeOuterStringSerialize - POST /fake/outer/string
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_OUTER_STRING) => Ok("FakeOuterStringSerialize"),
-
-            // TestBodyWithQueryParams - PUT /fake/body-with-query-params
-            &hyper::Method::Put if path.matched(paths::ID_FAKE_BODY_WITH_QUERY_PARAMS) => Ok("TestBodyWithQueryParams"),
-
-            // TestClientModel - PATCH /fake
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE) => Ok("TestClientModel"),
-
-            // TestEndpointParameters - POST /fake
-            &hyper::Method::Post if path.matched(paths::ID_FAKE) => Ok("TestEndpointParameters"),
-
-            // TestEnumParameters - GET /fake
-            &hyper::Method::Get if path.matched(paths::ID_FAKE) => Ok("TestEnumParameters"),
-
-            // TestInlineAdditionalProperties - POST /fake/inline-additionalProperties
-            &hyper::Method::Post if path.matched(paths::ID_FAKE_INLINE_ADDITIONALPROPERTIES) => Ok("TestInlineAdditionalProperties"),
-
-            // TestJsonFormData - GET /fake/jsonFormData
-            &hyper::Method::Get if path.matched(paths::ID_FAKE_JSONFORMDATA) => Ok("TestJsonFormData"),
-
-            // TestClassname - PATCH /fake_classname_test
-            &hyper::Method::Patch if path.matched(paths::ID_FAKE_CLASSNAME_TEST) => Ok("TestClassname"),
-
-            // AddPet - POST /pet
-            &hyper::Method::Post if path.matched(paths::ID_PET) => Ok("AddPet"),
-
-            // DeletePet - DELETE /pet/{petId}
-            &hyper::Method::Delete if path.matched(paths::ID_PET_PETID) => Ok("DeletePet"),
-
-            // FindPetsByStatus - GET /pet/findByStatus
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYSTATUS) => Ok("FindPetsByStatus"),
-
-            // FindPetsByTags - GET /pet/findByTags
-            &hyper::Method::Get if path.matched(paths::ID_PET_FINDBYTAGS) => Ok("FindPetsByTags"),
-
-            // GetPetById - GET /pet/{petId}
-            &hyper::Method::Get if path.matched(paths::ID_PET_PETID) => Ok("GetPetById"),
-
-            // UpdatePet - PUT /pet
-            &hyper::Method::Put if path.matched(paths::ID_PET) => Ok("UpdatePet"),
-
-            // UpdatePetWithForm - POST /pet/{petId}
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID) => Ok("UpdatePetWithForm"),
-
-            // UploadFile - POST /pet/{petId}/uploadImage
-            &hyper::Method::Post if path.matched(paths::ID_PET_PETID_UPLOADIMAGE) => Ok("UploadFile"),
-
-            // DeleteOrder - DELETE /store/order/{order_id}
-            &hyper::Method::Delete if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("DeleteOrder"),
-
-            // GetInventory - GET /store/inventory
-            &hyper::Method::Get if path.matched(paths::ID_STORE_INVENTORY) => Ok("GetInventory"),
-
-            // GetOrderById - GET /store/order/{order_id}
-            &hyper::Method::Get if path.matched(paths::ID_STORE_ORDER_ORDER_ID) => Ok("GetOrderById"),
-
-            // PlaceOrder - POST /store/order
-            &hyper::Method::Post if path.matched(paths::ID_STORE_ORDER) => Ok("PlaceOrder"),
-
-            // CreateUser - POST /user
-            &hyper::Method::Post if path.matched(paths::ID_USER) => Ok("CreateUser"),
-
-            // CreateUsersWithArrayInput - POST /user/createWithArray
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHARRAY) => Ok("CreateUsersWithArrayInput"),
-
-            // CreateUsersWithListInput - POST /user/createWithList
-            &hyper::Method::Post if path.matched(paths::ID_USER_CREATEWITHLIST) => Ok("CreateUsersWithListInput"),
-
-            // DeleteUser - DELETE /user/{username}
-            &hyper::Method::Delete if path.matched(paths::ID_USER_USERNAME) => Ok("DeleteUser"),
-
-            // GetUserByName - GET /user/{username}
-            &hyper::Method::Get if path.matched(paths::ID_USER_USERNAME) => Ok("GetUserByName"),
-
-            // LoginUser - GET /user/login
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGIN) => Ok("LoginUser"),
-
-            // LogoutUser - GET /user/logout
-            &hyper::Method::Get if path.matched(paths::ID_USER_LOGOUT) => Ok("LogoutUser"),
-
-            // UpdateUser - PUT /user/{username}
-            &hyper::Method::Put if path.matched(paths::ID_USER_USERNAME) => Ok("UpdateUser"),
-            _ => Err(()),
         }
     }
 }
