@@ -14,9 +14,19 @@ namespace {{this}} {
 using namespace {{modelNamespace}};
 
 
-class {{declspec}} {{classname}}Mock {{#gmockApis}} : public I{{classname}} {{/gmockApis}}
+class {{declspec}} {{classname}}Mock : public I{{classname}}
 {
 public:
+    using Base = I{{classname}};
+
+    {{classname}}Mock() { };
+
+    // `apiClient` argument not used. Constructor only provided to match
+    // constructor of the non-mocked API
+    {{classname}}Mock( std::shared_ptr<ApiClient> apiClient ) { };
+
+    ~{{classname}}Mock() override;
+
     {{#operation}}
     MOCK_METHOD{{allParams.size}}( {{operationId}}, pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> (
         {{#allParams}}
