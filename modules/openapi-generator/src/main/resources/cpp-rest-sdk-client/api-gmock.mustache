@@ -21,7 +21,7 @@ public:
 
     {{classname}}Mock() = default;
     explicit {{classname}}Mock( std::shared_ptr<ApiClient> apiClient ) { };
-    ~{{classname}}Mock() override;
+    ~{{classname}}Mock() override = default;
 
     {{#operation}}
     MOCK_METHOD{{allParams.size}}( {{operationId}}, pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> (

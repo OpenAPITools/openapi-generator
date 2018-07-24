@@ -51,7 +51,7 @@ public:
     ~{{classname}}() override;
     {{/gmockApis}}
     {{^gmockApis}}
-    virtual ~{{classname}}();
+    virtual ~{{classname}}() = default;
     {{/gmockApis}}
 
     {{#operation}}
