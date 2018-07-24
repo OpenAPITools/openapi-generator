@@ -41,7 +41,7 @@ class  PetApi
 {
 public:
 
-    PetApi( std::shared_ptr<ApiClient> apiClient );
+    explicit PetApi( std::shared_ptr<ApiClient> apiClient );
 
     virtual ~PetApi();
 

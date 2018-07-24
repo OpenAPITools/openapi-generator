@@ -40,7 +40,7 @@ class  StoreApi
 {
 public:
 
-    StoreApi( std::shared_ptr<ApiClient> apiClient );
+    explicit StoreApi( std::shared_ptr<ApiClient> apiClient );
 
     virtual ~StoreApi();
 

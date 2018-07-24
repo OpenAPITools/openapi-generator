@@ -40,7 +40,7 @@ class  UserApi
 {
 public:
 
-    UserApi( std::shared_ptr<ApiClient> apiClient );
+    explicit UserApi( std::shared_ptr<ApiClient> apiClient );
 
     virtual ~UserApi();
 
