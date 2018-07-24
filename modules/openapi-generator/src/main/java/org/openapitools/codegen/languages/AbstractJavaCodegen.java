@@ -65,6 +65,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String BOOLEAN_GETTER_PREFIX_DEFAULT = "get";
+    public static final String USE_NULL_FOR_UNKNOWN_ENUM_VALUE = "useNullForUnknownEnumValue";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -99,6 +100,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean supportJava6= false;
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = BOOLEAN_GETTER_PREFIX_DEFAULT;
+    protected boolean useNullForUnknownEnumValue = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -212,6 +214,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
+
+        if (additionalProperties.containsKey(USE_NULL_FOR_UNKNOWN_ENUM_VALUE)) {
+            this.setUseNullForUnknownEnumValue(Boolean.valueOf(additionalProperties.get(USE_NULL_FOR_UNKNOWN_ENUM_VALUE).toString()));
+        }
+        additionalProperties.put(USE_NULL_FOR_UNKNOWN_ENUM_VALUE, useNullForUnknownEnumValue);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -1244,6 +1251,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setBooleanGetterPrefix(String booleanGetterPrefix) {
         this.booleanGetterPrefix = booleanGetterPrefix;
+    }
+
+    public void setUseNullForUnknownEnumValue(boolean useNullForUnknownEnumValue) {
+        this.useNullForUnknownEnumValue = useNullForUnknownEnumValue;
     }
 
     @Override
