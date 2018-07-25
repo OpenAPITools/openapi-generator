@@ -254,8 +254,8 @@ impl<F, C> Api<C> for Client<F> where
 
         let uri = format!(
             "{}{{{basePathWithoutHost}}}{{path}}{{#queryParams}}{{#-first}}?{{/-first}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}",
-            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), USERINFO_ENCODE_SET){{/pathParams}}{{#queryParams}},
-            {{{paramName}}}=utf8_percent_encode(&query_{{{paramName}}}, ID_ENCODE_SET){{/queryParams}}
+            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}{{#queryParams}},
+            {{{paramName}}}=utf8_percent_encode(&query_{{{paramName}}}, QUERY_ENCODE_SET){{/queryParams}}
         );
 
         let uri = match Uri::from_str(&uri) {
