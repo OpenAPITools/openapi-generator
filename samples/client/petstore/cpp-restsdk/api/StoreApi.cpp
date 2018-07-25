@@ -11,9 +11,9 @@
 
 
 #include "StoreApi.h"
-#include "IHttpBody.h"
-#include "JsonBody.h"
-#include "MultipartFormData.h"
+#include "../IHttpBody.h"
+#include "../JsonBody.h"
+#include "../MultipartFormData.h"
 
 #include <unordered_set>
 
