@@ -245,29 +245,35 @@ void {{classname}}::fromJson(web::json::value& val)
         {{#isString}}
         {{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
         {{/isString}}
-        {{#isByteArray}}{{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));{{/isByteArray}}
+        {{#isByteArray}}
+        {{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
+        {{/isByteArray}}
         {{^isString}}
         {{#isDateTime}}
         {{setter}}(ModelBase::dateFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
         {{/isDateTime}}
-        {{^isDateTime}}{{^isByteArray}}
+        {{^isDateTime}}
+        {{^isByteArray}}
         if(!val[utility::conversions::to_string_t("{{baseName}}")].is_null())
         {
             {{{dataType}}} newItem({{{defaultValue}}});
             newItem->fromJson(val[utility::conversions::to_string_t("{{baseName}}")]);
             {{setter}}( newItem );
         }
-        {{/isByteArray}}{{/isDateTime}}
+        {{/isByteArray}}
+        {{/isDateTime}}
         {{/isString}}
     }
     {{/required}}
     {{#required}}
     {{#isString}}
     {{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
-    {{/isString}}{{#isByteArray}}
+    {{/isString}}
+    {{#isByteArray}}
     {{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
     {{/isByteArray}}
-    {{^isString}}{{^isByteArray}}
+    {{^isString}}
+    {{^isByteArray}}
     {{#isDateTime}}
     {{setter}}
     (ModelBase::dateFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
@@ -282,7 +288,8 @@ void {{classname}}::fromJson(web::json::value& val)
     {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}
     {{/isDateTime}}
-    {{/isByteArray}}{{/isString}}
+    {{/isByteArray}}
+    {{/isString}}
     {{/required}}
     {{/isPrimitiveType}}
     {{/isMapContainer}}
@@ -356,33 +363,47 @@ void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, co
     {{^required}}
     if(m_{{name}}IsSet)
     {
-        {{#isString}}multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));{{/isString}}{{#isByteArray}}multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
-        {{/isByteArray}}{{^isString}}{{#isDateTime}}multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
-        {{/isDateTime}}{{^isDateTime}}{{^isByteArray}}if (m_{{name}}.get())
+        {{#isString}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        {{/isString}}
+        {{#isByteArray}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        {{/isByteArray}}
+        {{^isString}}
+        {{#isDateTime}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        {{/isDateTime}}
+        {{^isDateTime}}
+        {{^isByteArray}}if (m_{{name}}.get())
         {
             m_{{name}}->toMultipart(multipart, utility::conversions::to_string_t("{{baseName}}."));
         }
-       {{/isByteArray}}{{/isDateTime}}{{/isString}}
+        {{/isByteArray}}
+        {{/isDateTime}}
+        {{/isString}}
     }
     {{/required}}
     {{#required}}
     {{#isString}}
     multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
-    {{/isString}}{{#isByteArray}}
+    {{/isString}}
+    {{#isByteArray}}
     multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
     {{/isByteArray}}
     {{^isString}}
     {{#isDateTime}}
     multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
     {{/isDateTime}}
-    {{^isDateTime}}{{^isByteArray}}
+    {{^isDateTime}}
+    {{^isByteArray}}
     {{#vendorExtensions.x-codegen-file}}
     multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
     {{/vendorExtensions.x-codegen-file}}
     {{^vendorExtensions.x-codegen-file}}
     m_{{name}}->toMultipart(multipart, utility::conversions::to_string_t("{{baseName}}."));
     {{/vendorExtensions.x-codegen-file}}
-    {{/isByteArray}}{{/isDateTime}}
+    {{/isByteArray}}
+    {{/isDateTime}}
     {{/isString}}
     {{/required}}
     {{/isPrimitiveType}}
@@ -513,8 +534,11 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         {{#isString}}
         {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
         {{/isString}}
-        {{#isByteArray}}{{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));{{/isByteArray}}
-        {{^isString}}{{^isByteArray}}
+        {{#isByteArray}}
+        {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+        {{/isByteArray}}
+        {{^isString}}
+        {{^isByteArray}}
         {{#isDateTime}}
         {{setter}}(ModelBase::dateFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
         {{/isDateTime}}
@@ -526,14 +550,19 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
             {{setter}}( newItem );
         }
         {{/isDateTime}}
-        {{/isByteArray}}{{/isString}}
+        {{/isByteArray}}
+        {{/isString}}
     }
     {{/required}}
     {{#required}}
     {{#isString}}
     {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
-    {{/isString}}{{#isByteArray}}{{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));{{/isByteArray}}
-    {{^isString}}{{^isByteArray}}
+    {{/isString}}
+    {{#isByteArray}}
+    {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/isByteArray}}
+    {{^isString}}
+    {{^isByteArray}}
     {{#isDateTime}}
     {{setter}}(ModelBase::dateFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
     {{/isDateTime}}
@@ -547,7 +576,8 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
     {{setter}}( new{{name}} );
     {{/vendorExtensions.x-codegen-file}}
     {{/isDateTime}}
-    {{/isByteArray}}{{/isString}}
+    {{/isByteArray}}
+    {{/isString}}
     {{/required}}
     {{/isPrimitiveType}}
     {{/isMapContainer}}

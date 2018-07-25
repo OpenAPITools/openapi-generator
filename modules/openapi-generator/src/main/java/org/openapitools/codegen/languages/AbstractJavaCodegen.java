@@ -574,6 +574,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             name = name.substring(0, 2).toLowerCase() + name.substring(2);
         }
 
+        // If name contains special chars -> replace them.
+        if ((((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains( "" + ((char) character))))) {
+            List<String> allowedCharacters = new ArrayList<>();
+            allowedCharacters.add("_");
+            allowedCharacters.add("$");
+            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+        }
+
         // camelize (lower first character) the variable name
         // pet_id => petId
         name = camelize(name, true);
