@@ -13,6 +13,7 @@ POST     /v2/fake/outer/boolean                     controllers.FakeApiControlle
 POST     /v2/fake/outer/composite                     controllers.FakeApiController.fakeOuterCompositeSerialize()
 POST     /v2/fake/outer/number                     controllers.FakeApiController.fakeOuterNumberSerialize()
 POST     /v2/fake/outer/string                     controllers.FakeApiController.fakeOuterStringSerialize()
+PUT     /v2/fake/body-with-file-schema                     controllers.FakeApiController.testBodyWithFileSchema()
 PUT     /v2/fake/body-with-query-params                     controllers.FakeApiController.testBodyWithQueryParams()
 PATCH     /v2/fake                     controllers.FakeApiController.testClientModel()
 POST     /v2/fake                     controllers.FakeApiController.testEndpointParameters()
@@ -32,6 +33,7 @@ GET     /v2/pet/:petId                     controllers.PetApiController.getPetBy
 PUT     /v2/pet                     controllers.PetApiController.updatePet()
 POST     /v2/pet/:petId                     controllers.PetApiController.updatePetWithForm(petId: Long)
 POST     /v2/pet/:petId/uploadImage                     controllers.PetApiController.uploadFile(petId: Long)
+POST     /v2/fake/:petId/uploadImageWithRequiredFile                     controllers.PetApiController.uploadFileWithRequiredFile(petId: Long)
 
 #Functions for Store API
 DELETE     /v2/store/order/:orderId                     controllers.StoreApiController.deleteOrder(orderId: String)
