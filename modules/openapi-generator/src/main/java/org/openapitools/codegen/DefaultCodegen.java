@@ -2390,6 +2390,13 @@ public class DefaultCodegen implements CodegenConfig {
 
                 CodegenParameter p = fromParameter(param, imports);
 
+                // ensure unique params
+                if (ensureUniqueParams) {
+                    if (!isParameterNameUnique(p, allParams)) {
+                        p.paramName = generateNextName(p.paramName);
+                    }
+                }
+
                 allParams.add(p);
 
                 if (param instanceof QueryParameter || "query".equalsIgnoreCase(param.getIn())) {
@@ -2415,17 +2422,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (CodegenParameter cp : bodyParams) {
                 allParams.add(cp.copy());
-            }
-        }
-
-        // ensure unique parameter name
-        for (CodegenParameter cp : allParams) {
-            if (ensureUniqueParams) {
-                if (isParameterNameUnique(cp, allParams)) {
-                    continue;
-                } else {
-                    cp.paramName = generateNextName(cp.paramName);
-                }
             }
         }
 
