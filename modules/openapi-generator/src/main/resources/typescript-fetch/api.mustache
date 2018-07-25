@@ -56,11 +56,15 @@ export class BaseAPI {
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
             switch(context.responseType) {
-                case 'JSON':
+                case ResponseType.response:
+                    return response as any as T;
+                case ResponseType.text:
+                    return await response.text() as any as T;
+                case ResponseType.file:
+                    return await response.blob() as any as T;
+                case ResponseType.json:
                     const result = await response.json() as T;
                     return transformPropertyNames(result, context.modelPropertyNaming);
-                case 'text':
-                    return await response.text() as any as T;
                 default:
                     return response as any as T;
             }
@@ -110,10 +114,12 @@ export class BaseAPI {
      */
     protected getResponseType(returnType: string): ResponseType {
         switch (returnType) {
+            case 'file':
+                return 'blob';
             case 'string':
-                return 'text'
+                return 'text';
             default:
-                return 'JSON'
+                return 'json';
         }
     }
 
@@ -292,7 +298,20 @@ export class {{classname}} extends BaseAPI {
             body: formData,
             {{/hasFormParams}}
             {{#returnType}}
-            responseType: this.getResponseType('{{{returnType}}}'),
+            {{#isResponseFile}}
+            responseType: ResponseType.file
+            {{/isResponseFile}}
+            {{^isResponseFile}}
+            {{#returnTypeIsPrimitive}}
+            responseType: this.getResponseType('{{returnType}}'),
+            {{/returnTypeIsPrimitive}}
+            {{^returnTypeIsPrimitive}}
+            responseType: ResponseType.json,
+            {{/returnTypeIsPrimitive}}
+            {{/isResponseFile}}
+            {{/returnType}}
+            {{^returnType}}
+            responseType: ResponseType.response,
             {{/returnType}}
             modelPropertyNaming: '{{modelPropertyNaming}}',
         });
@@ -360,7 +379,13 @@ export interface FetchParams {
     init: RequestInit;
 }
 
-type ResponseType = 'JSON' | 'text';
+enum ResponseType {
+    file = 'file',
+    text = 'text',
+    blob = 'blob',
+    json = 'json',
+    response = 'response',
+}
 
 interface RequestOpts {
     path: string;
