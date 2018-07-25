@@ -26,6 +26,8 @@ import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -42,6 +44,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DefaultCodegenTest {
 
@@ -233,6 +236,26 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
+    }
+    
+    @Test
+    public void testConsistentParameterNameAfterUniquenessRename() throws Exception {
+        Operation operation = new Operation()
+            .operationId("opId")
+            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+            .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        CodegenOperation co = codegen.fromOperation("p/", "get", operation, Collections.emptyMap());
+        Assert.assertEquals(co.path, "p/");
+        Assert.assertEquals(co.allParams.size(), 2);
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(allParamsNames.contains("myparam"));
+        Assert.assertTrue(allParamsNames.contains("myparam2"));
+        List<String> queryParamsNames = co.queryParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(queryParamsNames.contains("myparam"));
+        Assert.assertTrue(queryParamsNames.contains("myparam2"));
     }
 
     @Test
