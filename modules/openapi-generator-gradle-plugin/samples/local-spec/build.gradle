@@ -54,3 +54,16 @@ task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTas
             dateLibrary: "threetenp"
     ]
 }
+
+task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    validateSpec = true
+    generatorName = "go"
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+    additionalProperties = [
+            packageName: "petstore"
+    ]
+    outputDir = "$buildDir/go".toString()
+    configOptions = [
+            dateLibrary: "threetenp"
+    ]
+}

@@ -19,7 +19,8 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>swagger.yaml</inputSpec>
+                            <validateSpec>false</validateSpec>
+                            <inputSpec>petstore-v3.0-invalid.yaml</inputSpec>
                             <generatorName>aspnetcore</generatorName>
                             <configOptions>
                                 <additional-properties>optionalProjectFile=true</additional-properties>
