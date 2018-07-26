@@ -180,6 +180,19 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toModelName(String type) {
+        if (typeMapping.keySet().contains(type) ||
+                typeMapping.values().contains(type) ||
+                importMapping.values().contains(type) ||
+                defaultIncludes.contains(type) ||
+                languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return Character.toUpperCase(type.charAt(0)) + type.substring(1);
+        }
+    }
+
+    @Override
     public String toModelImport(String name) {
         if (name.equals("std::string")) {
             return "#include <string>";
@@ -248,6 +261,24 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String toVarName(String name) {
+        String paramName = name.replaceAll("[^a-zA-Z0-9_]", "");
+        paramName = Character.toLowerCase(paramName.charAt(0)) + paramName.substring(1);
+        if (isReservedWord(paramName)) {
+            return escapeReservedWord(paramName);
+        }
+        return "" + paramName;
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
+    }
+
+    @Override
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
@@ -262,4 +293,16 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
         // add_pet_by_id => addPetById
         return camelize(operationId, true);
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
 }
