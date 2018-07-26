@@ -39,7 +39,7 @@ use swagger;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-     {{operationId}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+     {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
      };
 use models;
 
@@ -237,17 +237,17 @@ impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}}{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{paramName}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{{operationId}}}Response, Error=ApiError>> {
 {{#queryParams}}{{#-first}}
         // Query parameters
-{{/-first}}{{#required}}        let query_{{paramName}} = format!("{{baseName}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{paramName}}=param_{{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
-{{/required}}{{^required}}        let query_{{paramName}} = param_{{paramName}}.map_or_else(String::new, |query| format!("{{baseName}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{paramName}}=query{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}}));
+{{/-first}}{{#required}}        let query_{{{paramName}}} = format!("{{{baseName}}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{{paramName}}}=param_{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+{{/required}}{{^required}}        let query_{{{paramName}}} = param_{{{paramName}}}.map_or_else(String::new, |query| format!("{{{baseName}}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{{paramName}}}=query{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}}));
 {{/required}}{{/queryParams}}
 
         let uri = format!(
-            "{}{{basePathWithoutHost}}{{path}}{{#queryParams}}{{#-first}}?{{/-first}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}",
-            self.base_path{{#pathParams}}, {{baseName}}=utf8_percent_encode(&param_{{paramName}}.to_string(), PATH_SEGMENT_ENCODE_SET){{/pathParams}}{{#queryParams}},
-            {{paramName}}=utf8_percent_encode(&query_{{paramName}}, QUERY_ENCODE_SET){{/queryParams}}
+            "{}{{{basePathWithoutHost}}}{{path}}{{#queryParams}}{{#-first}}?{{/-first}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}",
+            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), PATH_SEGMENT_ENCODE_SET){{/pathParams}}{{#queryParams}},
+            {{{paramName}}}=utf8_percent_encode(&query_{{{paramName}}}, QUERY_ENCODE_SET){{/queryParams}}
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -255,30 +255,30 @@ impl<F, C> Api<C> for Client<F> where
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
         };
 
-        let mut request = hyper::Request::new(hyper::Method::{{#vendorExtensions}}{{HttpMethod}}{{/vendorExtensions}}, uri);
+        let mut request = hyper::Request::new(hyper::Method::{{#vendorExtensions}}{{{HttpMethod}}}{{/vendorExtensions}}, uri);
 
 {{#vendorExtensions}}{{#formParams}}{{#-first}}        let params = &[{{/-first}}
-            ("{{baseName}}", {{#vendorExtensions}}{{#required}}Some({{#isString}}param_{{paramName}}{{/isString}}{{^isString}}format!("{:?}", param_{{paramName}}){{/isString}}){{/required}}{{^required}}{{#isString}}param_{{paramName}}{{/isString}}{{^isString}}param_{{paramName}}.map(|param| format!("{:?}", param)){{/isString}}{{/required}}),{{/vendorExtensions}}{{#-last}}
+            ("{{{baseName}}}", {{#vendorExtensions}}{{#required}}Some({{#isString}}param_{{{paramName}}}{{/isString}}{{^isString}}format!("{:?}", param_{{{paramName}}}){{/isString}}){{/required}}{{^required}}{{#isString}}param_{{{paramName}}}{{/isString}}{{^isString}}param_{{{paramName}}}.map(|param| format!("{:?}", param)){{/isString}}{{/required}}),{{/vendorExtensions}}{{#-last}}
         ];
         let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}.clone()));
+        request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}.clone()));
         request.set_body(body.into_bytes());{{/-last}}{{/formParams}}{{/vendorExtensions}}{{#bodyParam}}{{#-first}}
         // Body parameter
-{{/-first}}{{#vendorExtensions}}{{#required}}{{#consumesPlainText}}        let body = param_{{paramName}};{{/consumesPlainText}}{{#consumesXml}}
-{{^has_namespace}}        let body = serde_xml_rs::to_string(&param_{{paramName}}).expect("impossible to fail to serialize");{{/has_namespace}}{{#has_namespace}}
+{{/-first}}{{#vendorExtensions}}{{#required}}{{#consumesPlainText}}        let body = param_{{{paramName}}};{{/consumesPlainText}}{{#consumesXml}}
+{{^has_namespace}}        let body = serde_xml_rs::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");{{/has_namespace}}{{#has_namespace}}
         let mut namespaces = BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.
-        namespaces.insert("".to_string(), models::namespaces::{{uppercase_data_type}}.clone());
-        let body = serde_xml_rs::to_string_with_namespaces(&param_{{paramName}}, namespaces).expect("impossible to fail to serialize");{{/has_namespace}}{{/consumesXml}}{{#consumesJson}}
-        let body = serde_json::to_string(&param_{{paramName}}).expect("impossible to fail to serialize");{{/consumesJson}}
-{{/required}}{{^required}}{{#consumesPlainText}}        let body = param_{{paramName}};
-{{/consumesPlainText}}{{^consumesPlainText}}        let body = param_{{paramName}}.map(|ref body| {
+        namespaces.insert("".to_string(), models::namespaces::{{{uppercase_data_type}}}.clone());
+        let body = serde_xml_rs::to_string_with_namespaces(&param_{{{paramName}}}, namespaces).expect("impossible to fail to serialize");{{/has_namespace}}{{/consumesXml}}{{#consumesJson}}
+        let body = serde_json::to_string(&param_{{{paramName}}}).expect("impossible to fail to serialize");{{/consumesJson}}
+{{/required}}{{^required}}{{#consumesPlainText}}        let body = param_{{{paramName}}};
+{{/consumesPlainText}}{{^consumesPlainText}}        let body = param_{{{paramName}}}.map(|ref body| {
 {{#consumesXml}}
 {{^has_namespace}}        serde_xml_rs::to_string(body).expect("impossible to fail to serialize"){{/has_namespace}}{{#has_namespace}}
             let mut namespaces = BTreeMap::new();
             // An empty string is used to indicate a global namespace in xmltree.
-            namespaces.insert("".to_string(), models::namespaces::{{uppercase_data_type}}.clone());
+            namespaces.insert("".to_string(), models::namespaces::{{{uppercase_data_type}}}.clone());
             serde_xml_rs::to_string_with_namespaces(body, namespaces).expect("impossible to fail to serialize"){{/has_namespace}}{{/consumesXml}}{{#consumesJson}}
             serde_json::to_string(body).expect("impossible to fail to serialize"){{/consumesJson}}
         });{{/consumesPlainText}}{{/required}}{{/vendorExtensions}}{{/bodyParam}}
@@ -287,7 +287,7 @@ impl<F, C> Api<C> for Client<F> where
     {{/required}}        request.set_body(body.into_bytes());
 {{^required}}        }{{/required}}
 
-        request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}.clone()));
+        request.headers_mut().set(ContentType(mimetypes::requests::{{#vendorExtensions}}{{{uppercase_operation_id}}}{{/vendorExtensions}}.clone()));
 {{/bodyParam}}
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 {{#authMethods}}{{#isBasic}}        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
@@ -298,10 +298,10 @@ impl<F, C> Api<C> for Client<F> where
             }
         });{{/isBasic}}{{/authMethods}}{{#headerParams}}{{#-first}}
         // Header parameters
-{{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.typeName}}, "{{baseName}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
-{{#required}}        request.headers_mut().set(Request{{vendorExtensions.typeName}}(param_{{paramName}}{{#isListContainer}}.clone(){{/isListContainer}}));
-{{/required}}{{^required}}        param_{{paramName}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.typeName}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
-{{/required}}{{/isMapContainer}}{{#isMapContainer}}                let param_{{paramName}}: Option<{{{dataType}}}> = None;
+{{/-first}}{{^isMapContainer}}        header! { (Request{{vendorExtensions.typeName}}, "{{{baseName}}}") => {{#isListContainer}}({{{baseType}}})*{{/isListContainer}}{{^isListContainer}}[{{{dataType}}}]{{/isListContainer}} }
+{{#required}}        request.headers_mut().set(Request{{vendorExtensions.typeName}}(param_{{{paramName}}}{{#isListContainer}}.clone(){{/isListContainer}}));
+{{/required}}{{^required}}        param_{{{paramName}}}.map(|header| request.headers_mut().set(Request{{vendorExtensions.typeName}}(header{{#isListContainer}}.clone(){{/isListContainer}})));
+{{/required}}{{/isMapContainer}}{{#isMapContainer}}                let param_{{{paramName}}}: Option<{{{dataType}}}> = None;
 {{/isMapContainer}}{{/headerParams}}
 
         Box::new(self.client_service.call(request)
@@ -309,11 +309,11 @@ impl<F, C> Api<C> for Client<F> where
                              .and_then(|mut response| {
             match response.status().as_u16() {
 {{#responses}}
-                {{code}} => {
-{{#headers}}                    header! { (Response{{nameInCamelCase}}, "{{baseName}}") => [{{{datatype}}}] }
-                    let response_{{name}} = match response.headers().get::<Response{{nameInCamelCase}}>() {
-                        Some(response_{{name}}) => response_{{name}}.0.clone(),
-                        None => return Box::new(future::err(ApiError(String::from("Required response header {{baseName}} for response {{code}} was not found.")))) as Box<Future<Item=_, Error=_>>,
+                {{{code}}} => {
+{{#headers}}                    header! { (Response{{{nameInCamelCase}}}, "{{{baseName}}}") => [{{{datatype}}}] }
+                    let response_{{{name}}} = match response.headers().get::<Response{{{nameInCamelCase}}}>() {
+                        Some(response_{{{name}}}) => response_{{{name}}}.0.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found.")))) as Box<Future<Item=_, Error=_>>,
                     };
 {{/headers}}
                     let body = response.body();
@@ -338,11 +338,11 @@ impl<F, C> Api<C> for Client<F> where
 {{/producesPlainText}}{{/vendorExtensions}}
                                              ))
                         .map(move |body|
-                            {{operationId}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body: body, {{/-first}}{{name}}: response_{{name}}{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/headers}}
+                            {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{^headers}}(body){{/headers}}{{#headers}}{{#-first}}{ body: body, {{/-first}}{{{name}}}: response_{{{name}}}{{^-last}}, {{/-last}}{{#-last}} }{{/-last}}{{/headers}}
                         )
 {{/dataType}}{{^dataType}}
                         future::ok(
-                            {{operationId}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{#headers}}{{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{name}}: response_{{name}}{{#-last}} }{{/-last}}{{/headers}}
+                            {{{operationId}}}Response::{{#vendorExtensions}}{{x-responseId}}{{/vendorExtensions}}{{#headers}}{{#-first}}{ {{/-first}}{{^-first}}, {{/-first}}{{{name}}}: response_{{{name}}}{{#-last}} }{{/-last}}{{/headers}}
                         )
 {{/dataType}}
                     ) as Box<Future<Item=_, Error=_>>
