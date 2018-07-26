@@ -3,27 +3,6 @@
 
 export const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
 
-{{#models}}
-{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
-{{/models}}
-
-{{#apiInfo}}
-{{#apis}}
-{{#operations}}
-{{#operation}}
-{{#allParams.0}}
-export interface {{operationIdCamelCase}}Request {
-    {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};
-    {{/allParams}}
-}
-
-{{/allParams.0}}
-{{/operation}}
-{{/operations}}
-{{/apis}}
-{{/apiInfo}}
-
 /**
  * This is the base class for all generated API classes.
  */
@@ -115,11 +94,11 @@ export class BaseAPI {
     protected getResponseType(returnType: string): ResponseType {
         switch (returnType) {
             case 'file':
-                return 'blob';
+                return ResponseType.blob;
             case 'string':
-                return 'text';
+                return responseType.text;
             default:
-                return 'json';
+                return responseType.json;
         }
     }
 
@@ -141,186 +120,6 @@ export class RequiredError extends Error {
         super(msg);
     }
 }
-
-{{#apiInfo}}{{#apis}}{{#operations}}
-/**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
- */
-export class {{classname}} extends BaseAPI {
-
-    {{#operation}}
-    /**
-     {{#notes}}
-     * {{&notes}}
-     {{/notes}}
-     {{#summary}}
-     * {{&summary}}
-     {{/summary}}
-     */
-    async {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
-        {{#allParams}}
-        {{#required}}
-        if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
-            throw new RequiredError('{{paramName}}','Required parameter requestParameters.{{paramName}} was null or undefined when calling {{nickname}}.');
-        }
-
-        {{/required}}
-        {{/allParams}}
-        {{#hasQueryParams}}
-        const queryParameters: HTTPQuery = {};
-
-        {{/hasQueryParams}}
-        {{#queryParams}}
-        {{#isListContainer}}
-        if (requestParameters.{{paramName}}) {
-            {{#isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
-            {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
-            {{/isCollectionFormatMulti}}
-        }
-
-        {{/isListContainer}}
-        {{^isListContainer}}
-        if (requestParameters.{{paramName}} !== undefined) {
-            {{#isDateTime}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
-            {{/isDateTime}}
-            {{^isDateTime}}
-            {{#isDate}}
-            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
-            {{/isDate}}
-            {{^isDate}}
-            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
-            {{/isDate}}
-            {{/isDateTime}}
-        }
-
-        {{/isListContainer}}
-        {{/queryParams}}
-        const headerParameters: HTTPHeaders = {};
-
-        {{#bodyParam}}
-        {{^consumes}}
-        headerParameters['Content-Type'] = 'application/json';
-
-        {{/consumes}}
-        {{#consumes.0}}
-        headerParameters['Content-Type'] = '{{{mediaType}}}';
-
-        {{/consumes.0}}
-        {{/bodyParam}}
-        {{#headerParams}}
-        {{#isListContainer}}
-        if (requestParameters.{{paramName}}) {
-            headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
-        }
-
-        {{/isListContainer}}
-        {{^isListContainer}}
-        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
-            headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
-        }
-
-        {{/isListContainer}}
-        {{/headerParams}}
-        {{#authMethods}}
-        {{#isBasic}}
-        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
-        }
-
-        {{/isBasic}}
-        {{#isApiKey}}
-        {{#isKeyInHeader}}
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
-        }
-
-        {{/isKeyInHeader}}
-        {{#isKeyInQuery}}
-        if (this.configuration && this.configuration.apiKey) {
-            queryParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
-        }
-
-        {{/isKeyInQuery}}
-        {{/isApiKey}}
-        {{#isOAuth}}
-        if (this.configuration && this.configuration.accessToken) {
-            // oauth required
-            if (typeof this.configuration.accessToken === 'function') {
-                headerParameters["Authorization"] = this.configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}]);
-            } else {
-                headerParameters["Authorization"] = this.configuration.accessToken;
-            }
-        }
-
-        {{/isOAuth}}
-        {{/authMethods}}
-        {{#hasFormParams}}
-        const formData = new FormData();
-        {{/hasFormParams}}
-        {{#formParams}}
-        {{#isListContainer}}
-        if (requestParameters.{{paramName}}) {
-            {{#isCollectionFormatMulti}}
-            requestParameters.{{paramName}}.forEach((element) => {
-                formData.append('{{baseName}}', element as any);
-            })
-            {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}
-            formData.append('{{baseName}}', requestParameters.{{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
-            {{/isCollectionFormatMulti}}
-        }
-
-        {{/isListContainer}}
-        {{^isListContainer}}
-        if (requestParameters.{{paramName}} !== undefined) {
-            formData.append('{{baseName}}', requestParameters.{{paramName}} as any);
-        }
-
-        {{/isListContainer}}
-        {{/formParams}}
-        return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}>({
-            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
-            method: '{{httpMethod}}',
-            headers: headerParameters,
-            {{#hasQueryParams}}
-            query: queryParameters,
-            {{/hasQueryParams}}
-            {{#hasBodyParam}}
-            {{#bodyParam}}
-            body: requestParameters.{{paramName}},
-            {{/bodyParam}}
-            {{/hasBodyParam}}
-            {{#hasFormParams}}
-            body: formData,
-            {{/hasFormParams}}
-            {{#returnType}}
-            {{#isResponseFile}}
-            responseType: ResponseType.file
-            {{/isResponseFile}}
-            {{^isResponseFile}}
-            {{#returnTypeIsPrimitive}}
-            responseType: this.getResponseType('{{returnType}}'),
-            {{/returnTypeIsPrimitive}}
-            {{^returnTypeIsPrimitive}}
-            responseType: ResponseType.json,
-            {{/returnTypeIsPrimitive}}
-            {{/isResponseFile}}
-            {{/returnType}}
-            {{^returnType}}
-            responseType: ResponseType.response,
-            {{/returnType}}
-            modelPropertyNaming: '{{modelPropertyNaming}}',
-        });
-    }
-
-    {{/operation}}
-}
-{{/operations}}{{/apis}}{{/apiInfo}}
-
 
 export const COLLECTION_FORMATS = {
     csv: ",",
@@ -379,7 +178,7 @@ export interface FetchParams {
     init: RequestInit;
 }
 
-enum ResponseType {
+export enum ResponseType {
     file = 'file',
     text = 'text',
     blob = 'blob',
@@ -387,7 +186,7 @@ enum ResponseType {
     response = 'response',
 }
 
-interface RequestOpts {
+export interface RequestOpts {
     path: string;
     method: HTTPMethod;
     headers: HTTPHeaders;

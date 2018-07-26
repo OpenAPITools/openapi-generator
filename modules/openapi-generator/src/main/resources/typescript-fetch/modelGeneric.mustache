@@ -1,3 +1,11 @@
+{{#hasImports}}
+import {
+    {{#imports}}
+    {{{.}}},
+    {{/imports}}
+} from './';
+
+{{/hasImports}}
 /**
  * {{{description}}}
  * @export

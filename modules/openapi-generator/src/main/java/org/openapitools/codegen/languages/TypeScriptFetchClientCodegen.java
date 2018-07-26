@@ -25,8 +25,9 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
@@ -50,6 +51,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         outputFolder = "generated-code/typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
+
+        this.apiPackage = "apis";
+        this.apiTemplateFiles.put("apis.mustache", ".ts");
+        this.modelPackage = "models";
+        this.modelTemplateFiles.put("models.mustache", ".ts");
+
 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
@@ -97,7 +104,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void processOpts() {
         super.processOpts();
-        supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
+        supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
+        supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
+        supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
@@ -128,6 +138,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> model : models) {
+                CodegenModel codegenModel = (CodegenModel) model.get("model");
+                model.put("hasImports", codegenModel.imports.size() > 0);
+            }
+        }
+        return result;
+    }
+
     private void addNpmPackageGeneration() {
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
@@ -150,6 +174,22 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+        this.addOperationModelImportInfomation(operations);
+        return operations;
+    }
+
+    private void addOperationModelImportInfomation(Map<String, Object> operations) {
+        // This method will add extra infomation to the operations.imports array.
+        // The api template uses this infomation to import all the required
+        // models for a given operation.
+        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
+        for (Map<String, Object> im : imports) {
+            im.put("className", im.get("import").toString().replace("models.", ""));
+        }
     }
 
 }
