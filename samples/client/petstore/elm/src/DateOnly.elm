@@ -4,6 +4,7 @@ import Date
 import Date.Extra exposing (fromIsoString, toFormattedString)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
+import Result
 
 
 type alias DateOnly =
@@ -24,11 +25,8 @@ dateOnlyEncoder model =
 decodeIsoString : String -> Decoder DateOnly
 decodeIsoString str =
     case fromIsoString str of
-        Just date ->
+        Result.Ok date ->
             Decode.succeed date
 
-        Nothing ->
-            Decode.fail <|
-                "Cannot convert "
-                    ++ str
-                    ++ " to DateOnly"
+        Result.Err msg ->
+            Decode.fail msg
