@@ -1,0 +1,124 @@
+{{>licenseInfo}}
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVariantMap>
+#include <QDebug>
+
+#include "{{prefix}}Helpers.h"
+#include "{{classname}}Request.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{classname}}Request::{{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* hdl) : QObject(s), socket(s), handler(hdl) {
+}
+
+{{classname}}Request::~{{classname}}Request(){
+    disconnect(this, nullptr, nullptr, nullptr);
+    qDebug() << "{{classname}}Request::~{{classname}}Request()";
+}
+
+QMap<QString, QString> 
+{{classname}}Request::getDefaultHeaders(){
+    return defaultHeaders;
+}
+
+QHttpEngine::Socket* {{classname}}Request::getRawSocket(){
+    return socket;
+}
+
+{{#operations}}{{#operation}}
+void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}QString {{{paramName}}}str{{/pathParams}}{{/hasPathParams}}){
+    qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
+    connect(this, &{{classname}}Request::{{nickname}}, handler, &{{classname}}Handler::{{nickname}});
+    
+    {{#queryParams}}{{queryParam}}
+    {{{dataType}}} {{paramName}};   
+    if(socket->queryString().keys().contains("{{paramName}}")){
+        fromStringValue(socket->queryString().value{{#isListContainer}}s{{/isListContainer}}("{{paramName}}"), {{paramName}});
+    }
+    {{queryParam}}{{/queryParams}}
+    {{#pathParams}}
+    {{{dataType}}} {{paramName}};
+    fromStringValue({{paramName}}str, {{paramName}});
+    {{/pathParams}}{{#headerParams}}
+    {{{dataType}}} {{paramName}};
+    if(socket->headers().keys().contains("{{paramName}}")){
+        fromStringValue(socket->queryString().value("{{paramName}}"), {{paramName}});
+    }
+    {{/headerParams}}{{#formParams}}
+    {{{dataType}}} {{paramName}};{{/formParams}}{{#bodyParams}} {{#bodyParam}}
+    {{#isListContainer}}
+    QJsonDocument doc;
+    {{{dataType}}} {{paramName}};     
+    if(socket->readJson(doc)){
+        QJsonArray jsonArray = doc.array();
+        foreach(QJsonValue obj, jsonArray) {
+            {{items.baseType}} o;
+            ::{{cppNamespace}}::fromJsonValue(o, obj);
+            {{paramName}}.append(o);
+        }
+    }
+    {{/isListContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{#isPrimitive}}
+    {{{dataType}}} {{paramName}};
+    ::{{cppNamespace}}::fromStringValue((QString(socket->readAll()), {{paramName}});
+    {{/isPrimitive}}
+    {{/isMapContainer}}
+    {{#isMapContainer}}
+    QJsonDocument doc;
+    socket->readJson(doc);
+    QJsonObject obj = doc.object();
+    {{{dataType}}} {{paramName}};   
+    foreach(QString key, obj.keys()) {
+        {{baseType}} val;
+        ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
+        {{paramName}}.insert(key, val);
+    }
+    {{/isMapContainer}}
+    {{^isMapContainer}}
+    {{^isPrimitive}}
+    QJsonDocument doc;
+    socket->readJson(doc);
+    QJsonObject obj = doc.object();
+    {{{dataType}}} {{paramName}};
+    ::{{cppNamespace}}::fromJsonValue({{paramName}}, obj);
+    {{/isPrimitive}}
+    {{/isMapContainer}}
+    {{/isListContainer}}        
+    {{/bodyParam}}{{/bodyParams}}
+
+    emit {{nickname}}({{#allParams}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+}
+
+{{/operation}}{{/operations}}  
+
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}{{{returnType}}} res{{/returnType}}){
+    socket->setStatusCode(QHttpEngine::Socket::OK);
+    if(socket->isOpen()){
+        socket->writeHeaders();
+        socket->close();
+    }
+}
+{{/operation}}{{/operations}}
+
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type);
+    Q_UNUSED(error_str);     
+    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    if(socket->isOpen()){
+        socket->writeHeaders();
+        socket->close();
+    }
+}
+{{/operation}}{{/operations}}
+
+
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
