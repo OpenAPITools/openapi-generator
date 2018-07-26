@@ -60,13 +60,21 @@ export class BaseAPI {
         let fetchParams = { url, init };
         for (const middleware of this.middleware) {
             if (middleware.pre) {
-                fetchParams = await middleware.pre(this.fetchApi, fetchParams.url, fetchParams.init) || fetchParams;
+                fetchParams = await middleware.pre({
+                    fetch: this.fetchApi,
+                    ...fetchParams,
+                }) || fetchParams;
             }
         }
         let response = await this.configuration.fetchApi(fetchParams.url, fetchParams.init);
         for (const middleware of this.middleware) {
             if (middleware.post) {
-                response = await middleware.post(this.fetchApi, url, init, response.clone()) || response;
+                response = await middleware.post({
+                    fetch: this.fetchApi,
+                    url,
+                    init,
+                    response: response.clone(),
+                }) || response;
             }
         }
         return response;
@@ -169,7 +177,20 @@ function querystring(params: HTTPQuery) {
         .join('&');
 }
 
+export interface RequestContext {
+    fetch: FetchAPI;
+    url: string;
+    init: RequestInit;
+}
+
+export interface ResponseContext {
+    fetch: FetchAPI;
+    url: string;
+    init: RequestInit;
+    response: Response;
+}
+
 export interface Middleware {
-    pre?(fetch: FetchAPI, url: string, init: RequestInit): Promise<FetchParams | undefined | void>;
-    post?(fetch: FetchAPI, url: string, init: RequestInit, response: Response): Promise<Response | undefined | void>;
+    pre?(context: RequestContext): Promise<FetchParams | void>;
+    post?(context: ResponseContext): Promise<Response | void>;
 }
