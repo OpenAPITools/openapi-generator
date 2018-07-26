@@ -8,7 +8,7 @@ org.openapitools.codegen.languages.BashClientCodegen
 org.openapitools.codegen.languages.ClojureClientCodegen
 org.openapitools.codegen.languages.ConfluenceWikiCodegen
 org.openapitools.codegen.languages.CppQt5ClientCodegen
-org.openapitools.codegen.languages.CppQt5ServerCodegen
+org.openapitools.codegen.languages.CppQt5QHttpEngineServerCodegen
 org.openapitools.codegen.languages.CppPistacheServerCodegen
 org.openapitools.codegen.languages.CppRestbedServerCodegen
 org.openapitools.codegen.languages.CppRestSdkClientCodegen
