@@ -1,4 +1,4 @@
-//! Main library entry point for petstore_api implementation.
+//! Main library entry point for petstore_with_fake_endpoints_models_for_testing implementation.
 
 mod server;
 
@@ -11,7 +11,7 @@ use std::io;
 use std::clone::Clone;
 use std::marker::PhantomData;
 use hyper;
-use petstore_api;
+use petstore_with_fake_endpoints_models_for_testing;
 use swagger::{Has, XSpanIdString};
 use swagger::auth::Authorization;
 
@@ -29,10 +29,10 @@ impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString> 
     type Request = (hyper::Request, C);
     type Response = hyper::Response;
     type Error = hyper::Error;
-    type Instance = petstore_api::server::Service<server::Server<C>, C>;
+    type Instance = petstore_with_fake_endpoints_models_for_testing::server::Service<server::Server<C>, C>;
 
     /// Instantiate a new server.
     fn new_service(&self) -> io::Result<Self::Instance> {
-        Ok(petstore_api::server::Service::new(server::Server::new()))
+        Ok(petstore_with_fake_endpoints_models_for_testing::server::Service::new(server::Server::new()))
     }
 }

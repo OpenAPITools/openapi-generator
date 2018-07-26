@@ -1,5 +1,5 @@
 [package]
-name = "petstore_api"
+name = "petstore-with-fake-endpoints-models-for-testing"
 version = "1.0.0"
 authors = []
 description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"

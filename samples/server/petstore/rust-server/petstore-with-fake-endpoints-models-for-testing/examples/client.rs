@@ -1,6 +1,6 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
 
-extern crate petstore_api;
+extern crate petstore_with_fake_endpoints_models_for_testing;
 #[allow(unused_extern_crates)]
 extern crate futures;
 #[allow(unused_extern_crates)]
@@ -17,7 +17,7 @@ use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 use futures::{Future, future, Stream, stream};
 use tokio_core::reactor;
 #[allow(unused_imports)]
-use petstore_api::{ApiNoContext, ContextWrapperExt,
+use petstore_with_fake_endpoints_models_for_testing::{ApiNoContext, ContextWrapperExt,
                       ApiError,
                       TestSpecialTagsResponse,
                       FakeOuterBooleanSerializeResponse,
@@ -107,11 +107,11 @@ fn main() {
                            matches.value_of("port").unwrap());
     let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        petstore_api::Client::try_new_https(core.handle(), &base_url, "examples/ca.pem")
+        petstore_with_fake_endpoints_models_for_testing::Client::try_new_https(core.handle(), &base_url, "examples/ca.pem")
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
-        petstore_api::Client::try_new_http(core.handle(), &base_url)
+        petstore_with_fake_endpoints_models_for_testing::Client::try_new_http(core.handle(), &base_url)
             .expect("Failed to create HTTP client")
     };
 
