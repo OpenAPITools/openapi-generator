@@ -234,14 +234,14 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
     }
 
     /**
-     * Returns human-friendly help for the generator. Provide the consumer with help
+     * Returns human-friendly help for the generator.  Provide the consumer with help
      * tips, parameters here
      *
      * @return A string value for the help message
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ Server (beta) using the QHTTPEngine HTTP Library.";
+        return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
     }
 
     @Override
