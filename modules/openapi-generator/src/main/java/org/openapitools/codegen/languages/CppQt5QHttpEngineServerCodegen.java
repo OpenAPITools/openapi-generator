@@ -241,7 +241,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
+        return "Generates a Qt5 C++ Server (beta) using the QHTTPEngine HTTP Library.";
     }
 
     @Override
