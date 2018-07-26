@@ -2,6 +2,9 @@
 import {
     {{#imports}}
     {{{.}}},
+    {{^isOriginalModelPropertyNaming}}
+    {{.}}FromJSON,
+    {{/isOriginalModelPropertyNaming}}
     {{/imports}}
 } from './';
 
@@ -23,7 +26,28 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      */
     {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
-}{{#hasEnums}}
+}
+{{^isOriginalModelPropertyNaming}}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return {
+        {{#vars}}
+        {{#isPrimitiveType}}
+        '{{name}}': json['{{baseName}}'],
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isContainer}}
+        '{{name}}': (json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
+        {{/isContainer}}
+        {{^isContainer}}
+        '{{name}}': {{datatype}}FromJSON(json['{{baseName}}']),
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{/vars}}
+    };
+}
+{{/isOriginalModelPropertyNaming}}
+{{#hasEnums}}
 
 /**
  * @export

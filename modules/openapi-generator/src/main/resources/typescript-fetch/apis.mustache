@@ -6,6 +6,9 @@ import * as runtime from '../runtime';
 import {
     {{#imports}}
     {{className}},
+    {{^isOriginalModelPropertyNaming}}
+    {{className}}FromJSON,
+    {{/isOriginalModelPropertyNaming}}
     {{/imports}}
 } from '../models';
 {{/imports.0}}
@@ -162,7 +165,7 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/isListContainer}}
         {{/formParams}}
-        return this.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}>({
+        const response = await this.request({
             path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
@@ -177,24 +180,42 @@ export class {{classname}} extends runtime.BaseAPI {
             {{#hasFormParams}}
             body: formData,
             {{/hasFormParams}}
-            {{#returnType}}
-            {{#isResponseFile}}
-            responseType: runtime.ResponseType.file
-            {{/isResponseFile}}
-            {{^isResponseFile}}
-            {{#returnTypeIsPrimitive}}
-            responseType: this.getResponseType('{{returnType}}'),
-            {{/returnTypeIsPrimitive}}
-            {{^returnTypeIsPrimitive}}
-            responseType: runtime.ResponseType.json,
-            {{/returnTypeIsPrimitive}}
-            {{/isResponseFile}}
-            {{/returnType}}
-            {{^returnType}}
-            responseType: runtime.ResponseType.response,
-            {{/returnType}}
-            modelPropertyNaming: '{{modelPropertyNaming}}',
         });
+        {{#returnType}}
+        {{#isResponseFile}}
+        return response.blob();
+        {{/isResponseFile}}
+        {{^isResponseFile}}
+        {{#returnTypeIsPrimitive}}
+        {{#isMapContainer}}
+        return response.json();
+        {{/isMapContainer}}
+        {{#isListContainer}}
+        return response.json();
+        {{/isListContainer}}
+        {{#returnSimpleType}}
+        return response.text();
+        {{/returnSimpleType}}
+        {{/returnTypeIsPrimitive}}
+        {{^returnTypeIsPrimitive}}
+        {{#isOriginalModelPropertyNaming}}
+        return await response.json();
+        {{/isOriginalModelPropertyNaming}}
+        {{^isOriginalModelPropertyNaming}}
+        {{#isListContainer}}
+        const json = await response.json() as Array<any>;
+        return json.map({{returnBaseType}}FromJSON);
+        {{/isListContainer}}
+        {{^isListContainer}}
+        return {{returnBaseType}}FromJSON(await response.json());
+        {{/isListContainer}}
+        {{/isOriginalModelPropertyNaming}}
+        {{/returnTypeIsPrimitive}}
+        {{/isResponseFile}}
+        {{/returnType}}
+        {{^returnType}}
+        return response;
+        {{/returnType}}
     }
 
     {{/operation}}

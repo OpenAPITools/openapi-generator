@@ -30,23 +30,11 @@ export class BaseAPI {
         return this.withMiddleware<T>(...middlewares);
     }
 
-    protected async request<T>(context: RequestOpts): Promise<T> {
+    protected async request(context: RequestOpts): Promise<Response> {
         const { url, init } = this.createFetchParams(context);
         const response = await this.fetchApi(url, init);
         if (response.status >= 200 && response.status < 300) {
-            switch(context.responseType) {
-                case ResponseType.response:
-                    return response as any as T;
-                case ResponseType.text:
-                    return await response.text() as any as T;
-                case ResponseType.file:
-                    return await response.blob() as any as T;
-                case ResponseType.json:
-                    const result = await response.json() as T;
-                    return transformPropertyNames(result, context.modelPropertyNaming);
-                default:
-                    return response as any as T;
-            }
+            return response;
         }
         throw response;
     }
@@ -82,24 +70,6 @@ export class BaseAPI {
             }
         }
         return response;
-    }
-
-    /**
-     * https://swagger.io/docs/specification/2-0/describing-responses/
-     *
-     * If the response type for a given API is a 'string' we need to avoid
-     * parsing the response as json because JSON.parse("some string") will
-     * fail when the string isn't actually JSON.
-     */
-    protected getResponseType(returnType: string): ResponseType {
-        switch (returnType) {
-            case 'file':
-                return ResponseType.blob;
-            case 'string':
-                return responseType.text;
-            default:
-                return responseType.json;
-        }
     }
 
     /**
@@ -178,22 +148,12 @@ export interface FetchParams {
     init: RequestInit;
 }
 
-export enum ResponseType {
-    file = 'file',
-    text = 'text',
-    blob = 'blob',
-    json = 'json',
-    response = 'response',
-}
-
 export interface RequestOpts {
     path: string;
     method: HTTPMethod;
     headers: HTTPHeaders;
     query?: HTTPQuery;
     body?: HTTPBody;
-    responseType?: ResponseType;
-    modelPropertyNaming: ModelPropertyNaming;
 }
 
 function querystring(params: HTTPQuery) {
@@ -212,55 +172,4 @@ function querystring(params: HTTPQuery) {
 export interface Middleware {
     pre?(fetch: FetchAPI, url: string, init: RequestInit): Promise<FetchParams | undefined | void>;
     post?(fetch: FetchAPI, url: string, init: RequestInit, response: Response): Promise<Response | undefined | void>;
-}
-
-function capitalize(word: string) {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-}
-
-function toPascalCase(name: string) {
-    return name
-        .split('_')
-        .map(capitalize)
-        .join('');
-}
-
-function toCamelCase(name: string) {
-    const pascalCase = toPascalCase(name);
-    return pascalCase.charAt(0).toLowerCase() + pascalCase.slice(1);
-}
-
-function applyPropertyNameConverter(json: any, converter: (name: string) => string) {
-    if (json instanceof Array) {
-        json.forEach((value) => {
-            if (typeof value === 'object') {
-                return applyPropertyNameConverter(value, converter);
-            }
-        });
-    } else {
-        Object.keys(json).forEach((origKey) => {
-            if (json.hasOwnProperty(origKey)) {
-                let value = json[origKey];
-                if (value instanceof Array || (value !== null && value.constructor === Object)) {
-                    value = applyPropertyNameConverter(value, converter);
-                }
-                const newKey = converter(origKey);
-                json[newKey] = json[origKey];
-                delete json[origKey];
-                json[newKey] = value;
-            }
-        });
-    }
-    return json;
-}
-
-function transformPropertyNames(json: any, modelPropertyNaming: ModelPropertyNaming) {
-    switch (modelPropertyNaming) {
-        case 'camelCase':
-            return applyPropertyNameConverter(json, toCamelCase);
-
-        case 'original':
-        default:
-            return json;
-    }
 }

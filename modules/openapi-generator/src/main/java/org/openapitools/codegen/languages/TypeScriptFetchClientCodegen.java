@@ -22,7 +22,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -63,8 +65,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-
-        this.additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
     }
 
     @Override
@@ -104,11 +104,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void processOpts() {
         super.processOpts();
+        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
+        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
-
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
