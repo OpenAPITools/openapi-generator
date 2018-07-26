@@ -62,7 +62,7 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumStringEnum> {
@@ -115,7 +115,7 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumStringRequiredEnum> {
@@ -166,7 +166,7 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumIntegerEnum> {
@@ -217,7 +217,7 @@ public class EnumTest {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumNumberEnum> {
