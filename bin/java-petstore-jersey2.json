@@ -1,7 +1,7 @@
 {
     "library": "jersey2",
     "artifactId": "petstore-jersey2",
-	"additionalProperties" : {
-		"useNullForUnknownEnumValue" : true
-	}
+        "additionalProperties" : {
+            "useNullForUnknownEnumValue" : true
+        }
 }
