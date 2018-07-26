@@ -33,6 +33,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val verbose = project.objects.property<Boolean>()
 
     /**
+     * Whether or not an input specification should be validated upon generation.
+     */
+    val validateSpec = project.objects.property<Boolean>()
+
+    /**
      * The name of the generator which will handle codegen. (see "openApiGenerators" task)
      */
     val generatorName = project.objects.property<String>()
@@ -262,6 +267,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val configOptions = project.objects.property<Map<String, String>>()
 
     init {
+        applyDefaults()
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun applyDefaults(){
         releaseNote.set("Minor update")
         modelNamePrefix.set("")
         modelNameSuffix.set("")
@@ -271,5 +281,6 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
         generateApiDocumentation.set(true)
         withXml.set(false)
         configOptions.set(mapOf())
+        validateSpec.set(true)
     }
 }

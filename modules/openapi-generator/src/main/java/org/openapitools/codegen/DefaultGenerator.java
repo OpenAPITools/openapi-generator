@@ -278,7 +278,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
-            String suffix = config.modelDocTemplateFiles().get(templateName);
+            String docExtension = config.getDocExtension();
+            String suffix = docExtension!=null ? docExtension : config.modelDocTemplateFiles().get(templateName);
             String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(modelName) + suffix;
             if (!config.shouldOverwrite(filename)) {
                 LOGGER.info("Skipped overwriting " + filename);
@@ -895,8 +896,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (path.getParameters() != null) {
             for (Parameter parameter : path.getParameters()) {
                 //skip propagation if a parameter with the same name is already defined at the operation level
-                if (!operationParameters.contains(generateParameterId(parameter)) && operation.getParameters() != null) {
-                    operation.getParameters().add(parameter);
+                if (!operationParameters.contains(generateParameterId(parameter))) {
+                    operation.addParametersItem(parameter);
                 }
             }
         }

@@ -17,9 +17,9 @@ pub mod requests {
     lazy_static! {
         pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/json{{/consumes}}".parse().unwrap();
     }
-{{/bodyParam}}{{^bodyParam}}{{#vendorExtensions}}{{#formParams}}{{#-first}}{{^hasFile}}   /// Create Mime objects for the request content types for {{operationId}}
+{{/bodyParam}}{{^bodyParam}}{{#vendorExtensions}}{{#formParams}}{{#-first}}   /// Create Mime objects for the request content types for {{operationId}}
     lazy_static! {
         pub static ref {{#vendorExtensions}}{{uppercase_operation_id}}{{/vendorExtensions}}: Mime = "{{#consumes}}{{#-first}}{{{mediaType}}}{{/-first}}{{/consumes}}{{^consumes}}application/x-www-form-urlencoded{{/consumes}}".parse().unwrap();
     }
-{{/hasFile}}{{/-first}}{{/formParams}}{{/vendorExtensions}}{{/bodyParam}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{/-first}}{{/formParams}}{{/vendorExtensions}}{{/bodyParam}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
