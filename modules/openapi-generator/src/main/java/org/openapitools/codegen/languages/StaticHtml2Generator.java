@@ -17,12 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -175,6 +177,22 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         additionalProperties.put("jsModuleName", jsModuleName);
 
         preparHtmlForGlobalDescription(openAPI);
+
+        Map<String, Object> vendorExtensions = openAPI.getExtensions();
+        if (vendorExtensions != null) {
+            for(Map.Entry<String, Object> vendorExtension: vendorExtensions.entrySet()) {
+                // Vendor extensions could be Maps (objects). If we wanted to iterate through them in our template files
+                // without knowing the keys beforehand, the default `toString` method renders them unusable. Instead, we
+                // convert them to JSON strings now, which means we can easily use them later.
+                if (vendorExtension.getValue() instanceof Map) {
+                    this.vendorExtensions().put(vendorExtension.getKey(), Json.mapper().convertValue(vendorExtension.getValue(), JsonNode.class));
+                } else {
+                    this.vendorExtensions().put(vendorExtension.getKey(), vendorExtension.getValue());
+                }
+            }
+        }
+        openAPI.setExtensions(this.vendorExtensions);
+
     }
 
     @Override

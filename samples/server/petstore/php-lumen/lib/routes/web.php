@@ -17,212 +17,246 @@
  * @version 1.0.0
  */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$app->get('/', function () use ($app) {
+    return $app->version();
 });
 
 /**
  * patch testSpecialTags
  * Summary: To test special tags
  * Notes: To test special tags
+ * Output-Formats: [application/json]
  */
-$router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
+$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
  * Notes: To test \&quot;client\&quot; model
+ * Output-Formats: [application/json]
  */
-$router->patch('/v2/fake', 'FakeApi@testClientModel');
+$app->patch('/v2/fake', 'FakeApi@testClientModel');
 /**
  * post testEndpointParameters
  * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
  * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+
  */
-$router->post('/v2/fake', 'FakeApi@testEndpointParameters');
+$app->post('/v2/fake', 'FakeApi@testEndpointParameters');
 /**
  * get testEnumParameters
  * Summary: To test enum parameters
  * Notes: To test enum parameters
+
  */
-$router->get('/v2/fake', 'FakeApi@testEnumParameters');
+$app->get('/v2/fake', 'FakeApi@testEnumParameters');
 /**
  * put testBodyWithFileSchema
  * Summary: 
  * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
  */
-$router->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
+$app->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
 /**
  * put testBodyWithQueryParams
  * Summary: 
  * Notes: 
+
  */
-$router->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams');
+$app->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams');
 /**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
  * Notes: 
+
  */
-$router->post('/v2/fake/inline-additionalProperties', 'FakeApi@testInlineAdditionalProperties');
+$app->post('/v2/fake/inline-additionalProperties', 'FakeApi@testInlineAdditionalProperties');
 /**
  * get testJsonFormData
  * Summary: test json serialization of form data
  * Notes: 
+
  */
-$router->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
+$app->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
 /**
  * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types
+ * Output-Formats: [*_/_*]
  */
-$router->post('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
+$app->post('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
 /**
  * post fakeOuterCompositeSerialize
  * Summary: 
  * Notes: Test serialization of object with outer number type
+ * Output-Formats: [*_/_*]
  */
-$router->post('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
+$app->post('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
 /**
  * post fakeOuterNumberSerialize
  * Summary: 
  * Notes: Test serialization of outer number types
+ * Output-Formats: [*_/_*]
  */
-$router->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
+$app->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
 /**
  * post fakeOuterStringSerialize
  * Summary: 
  * Notes: Test serialization of outer string types
+ * Output-Formats: [*_/_*]
  */
-$router->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
+$app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 /**
  * patch testClassname
  * Summary: To test class name in snake case
  * Notes: To test class name in snake case
+ * Output-Formats: [application/json]
  */
-$router->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
+$app->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
 /**
  * post uploadFileWithRequiredFile
  * Summary: uploads an image (required)
  * Notes: 
+ * Output-Formats: [application/json]
  */
-$router->post('/v2/fake/{petId}/uploadImageWithRequiredFile', 'PetApi@uploadFileWithRequiredFile');
+$app->post('/v2/fake/{petId}/uploadImageWithRequiredFile', 'PetApi@uploadFileWithRequiredFile');
 /**
  * post addPet
  * Summary: Add a new pet to the store
  * Notes: 
+
  */
-$router->post('/v2/pet', 'PetApi@addPet');
+$app->post('/v2/pet', 'PetApi@addPet');
 /**
  * put updatePet
  * Summary: Update an existing pet
  * Notes: 
+
  */
-$router->put('/v2/pet', 'PetApi@updatePet');
+$app->put('/v2/pet', 'PetApi@updatePet');
 /**
  * get findPetsByStatus
  * Summary: Finds Pets by status
  * Notes: Multiple status values can be provided with comma separated strings
+ * Output-Formats: [application/xml, application/json]
  */
-$router->get('/v2/pet/findByStatus', 'PetApi@findPetsByStatus');
+$app->get('/v2/pet/findByStatus', 'PetApi@findPetsByStatus');
 /**
  * get findPetsByTags
  * Summary: Finds Pets by tags
  * Notes: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+ * Output-Formats: [application/xml, application/json]
  */
-$router->get('/v2/pet/findByTags', 'PetApi@findPetsByTags');
+$app->get('/v2/pet/findByTags', 'PetApi@findPetsByTags');
 /**
  * delete deletePet
  * Summary: Deletes a pet
  * Notes: 
+
  */
-$router->delete('/v2/pet/{petId}', 'PetApi@deletePet');
+$app->delete('/v2/pet/{petId}', 'PetApi@deletePet');
 /**
  * get getPetById
  * Summary: Find pet by ID
  * Notes: Returns a single pet
+ * Output-Formats: [application/xml, application/json]
  */
-$router->get('/v2/pet/{petId}', 'PetApi@getPetById');
+$app->get('/v2/pet/{petId}', 'PetApi@getPetById');
 /**
  * post updatePetWithForm
  * Summary: Updates a pet in the store with form data
  * Notes: 
+
  */
-$router->post('/v2/pet/{petId}', 'PetApi@updatePetWithForm');
+$app->post('/v2/pet/{petId}', 'PetApi@updatePetWithForm');
 /**
  * post uploadFile
  * Summary: uploads an image
  * Notes: 
+ * Output-Formats: [application/json]
  */
-$router->post('/v2/pet/{petId}/uploadImage', 'PetApi@uploadFile');
+$app->post('/v2/pet/{petId}/uploadImage', 'PetApi@uploadFile');
 /**
  * get getInventory
  * Summary: Returns pet inventories by status
  * Notes: Returns a map of status codes to quantities
+ * Output-Formats: [application/json]
  */
-$router->get('/v2/store/inventory', 'StoreApi@getInventory');
+$app->get('/v2/store/inventory', 'StoreApi@getInventory');
 /**
  * post placeOrder
  * Summary: Place an order for a pet
  * Notes: 
+ * Output-Formats: [application/xml, application/json]
  */
-$router->post('/v2/store/order', 'StoreApi@placeOrder');
+$app->post('/v2/store/order', 'StoreApi@placeOrder');
 /**
  * delete deleteOrder
  * Summary: Delete purchase order by ID
  * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+
  */
-$router->delete('/v2/store/order/{order_id}', 'StoreApi@deleteOrder');
+$app->delete('/v2/store/order/{order_id}', 'StoreApi@deleteOrder');
 /**
  * get getOrderById
  * Summary: Find purchase order by ID
  * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * Output-Formats: [application/xml, application/json]
  */
-$router->get('/v2/store/order/{order_id}', 'StoreApi@getOrderById');
+$app->get('/v2/store/order/{order_id}', 'StoreApi@getOrderById');
 /**
  * post createUser
  * Summary: Create user
  * Notes: This can only be done by the logged in user.
+
  */
-$router->post('/v2/user', 'UserApi@createUser');
+$app->post('/v2/user', 'UserApi@createUser');
 /**
  * post createUsersWithArrayInput
  * Summary: Creates list of users with given input array
  * Notes: 
+
  */
-$router->post('/v2/user/createWithArray', 'UserApi@createUsersWithArrayInput');
+$app->post('/v2/user/createWithArray', 'UserApi@createUsersWithArrayInput');
 /**
  * post createUsersWithListInput
  * Summary: Creates list of users with given input array
  * Notes: 
+
  */
-$router->post('/v2/user/createWithList', 'UserApi@createUsersWithListInput');
+$app->post('/v2/user/createWithList', 'UserApi@createUsersWithListInput');
 /**
  * get loginUser
  * Summary: Logs user into the system
  * Notes: 
+ * Output-Formats: [application/xml, application/json]
  */
-$router->get('/v2/user/login', 'UserApi@loginUser');
+$app->get('/v2/user/login', 'UserApi@loginUser');
 /**
  * get logoutUser
  * Summary: Logs out current logged in user session
  * Notes: 
+
  */
-$router->get('/v2/user/logout', 'UserApi@logoutUser');
+$app->get('/v2/user/logout', 'UserApi@logoutUser');
 /**
  * delete deleteUser
  * Summary: Delete user
  * Notes: This can only be done by the logged in user.
+
  */
-$router->delete('/v2/user/{username}', 'UserApi@deleteUser');
+$app->delete('/v2/user/{username}', 'UserApi@deleteUser');
 /**
  * get getUserByName
  * Summary: Get user by user name
  * Notes: 
+ * Output-Formats: [application/xml, application/json]
  */
-$router->get('/v2/user/{username}', 'UserApi@getUserByName');
+$app->get('/v2/user/{username}', 'UserApi@getUserByName');
 /**
  * put updateUser
  * Summary: Updated user
  * Notes: This can only be done by the logged in user.
+
  */
-$router->put('/v2/user/{username}', 'UserApi@updateUser');
+$app->put('/v2/user/{username}', 'UserApi@updateUser');
 

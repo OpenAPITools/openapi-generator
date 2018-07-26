@@ -23,13 +23,9 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
@@ -700,6 +696,22 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // Trim the string to avoid leading and trailing spaces.
         return super.escapeText(input).trim();
+    }
+
+    public void escapeMediaType(List<CodegenOperation> operationList) {
+        for (CodegenOperation op : operationList) {
+            if (!op.hasProduces) {
+                continue;
+            }
+
+            List<Map<String, String>> c = op.produces;
+            for (Map<String, String> mediaType : c) {
+                // "*/*" causes a syntax error
+                if ("*/*".equals(mediaType.get("mediaType"))) {
+                    mediaType.put("mediaType", "*_/_*");
+                }
+            }
+        }
     }
 
     protected String extractSimpleName(String phpClassName) {

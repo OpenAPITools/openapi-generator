@@ -58,7 +58,7 @@ public enum EnumClass {
         return b;
       }
     }
-    return null;
+    throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
 
   public static class Adapter extends TypeAdapter<EnumClass> {

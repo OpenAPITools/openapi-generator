@@ -1,6 +1,6 @@
 #![allow(missing_docs, unused_variables, trivial_casts)]
 
-extern crate {{externCrateName}};
+extern crate {{{externCrateName}}};
 #[allow(unused_extern_crates)]
 extern crate futures;
 #[allow(unused_extern_crates)]
@@ -17,9 +17,9 @@ use swagger::{ContextBuilder, EmptyContext, XSpanIdString, Has, Push, AuthData};
 use futures::{Future, future, Stream, stream};
 use tokio_core::reactor;
 #[allow(unused_imports)]
-use {{externCrateName}}::{ApiNoContext, ContextWrapperExt,
+use {{{externCrateName}}}::{ApiNoContext, ContextWrapperExt,
                       ApiError{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-                      {{operationId}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+                      {{{operationId}}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
                      };
 use clap::{App, Arg};
 
@@ -28,7 +28,7 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#vendorExtensions}}{{^noClientExample}}    "{{operationId}}",
+{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#vendorExtensions}}{{^noClientExample}}    "{{{operationId}}}",
 {{/noClientExample}}{{/vendorExtensions}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}])
             .required(true)
             .index(1))
@@ -38,12 +38,12 @@ fn main() {
         .arg(Arg::with_name("host")
             .long("host")
             .takes_value(true)
-            .default_value("{{serverHost}}")
+            .default_value("{{{serverHost}}}")
             .help("Hostname to contact"))
         .arg(Arg::with_name("port")
             .long("port")
             .takes_value(true)
-            .default_value("{{serverPort}}")
+            .default_value("{{{serverPort}}}")
             .help("Port to contact"))
         .get_matches();
 
@@ -55,11 +55,11 @@ fn main() {
                            matches.value_of("port").unwrap());
     let client = if matches.is_present("https") {
         // Using Simple HTTPS
-        {{externCrateName}}::Client::try_new_https(core.handle(), &base_url, "examples/ca.pem")
+        {{{externCrateName}}}::Client::try_new_https(core.handle(), &base_url, "examples/ca.pem")
             .expect("Failed to create HTTPS client")
     } else {
         // Using HTTP
-        {{externCrateName}}::Client::try_new_http(core.handle(), &base_url)
+        {{{externCrateName}}}::Client::try_new_http(core.handle(), &base_url)
             .expect("Failed to create HTTP client")
     };
 
@@ -70,8 +70,8 @@ fn main() {
     match matches.value_of("operation") {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
         {{#vendorExtensions}}{{#noClientExample}}// Disabled because there's no example.
-        // {{/noClientExample}}Some("{{operationId}}") => {
-        {{#noClientExample}}// {{/noClientExample}}    let result = core.run(client.{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^-first}}, {{/-first}}{{#vendorExtensions}}{{{example}}}{{/vendorExtensions}}{{/allParams}}));
+        // {{/noClientExample}}Some("{{{operationId}}}") => {
+        {{#noClientExample}}// {{/noClientExample}}    let result = core.run(client.{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{^-first}}, {{/-first}}{{#vendorExtensions}}{{{example}}}{{/vendorExtensions}}{{/allParams}}));
         {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}}    println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
         {{#vendorExtensions}}{{#noClientExample}}// {{/noClientExample}}{{/vendorExtensions}} },
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
