@@ -1,7 +1,7 @@
 {
-  "name": "@swagger/angular2-typescript-petstore",
+  "name": "@openapitools/typescript-petstore",
   "version": "0.0.1",
-  "description": "OpenAPI client for @swagger/angular2-typescript-petstore",
+  "description": "OpenAPI client for @openapitools/typescript-petstore",
   "author": "OpenAPI-Generator Contributors",
   "keywords": [
     "openapi-client",

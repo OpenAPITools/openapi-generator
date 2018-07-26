@@ -1,5 +1,5 @@
 {
-  "npmName": "@swagger/typescript-fetch-petstore",
+  "npmName": "@openapitools/typescript-fetch-petstore",
   "npmVersion": "1.0.0",
   "npmRepository" : "https://skimdb.npmjs.com/registry",
   "snapshot" : false,
