@@ -33,8 +33,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5ServerCodegen.class);
+public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5QHttpEngineServerCodegen.class);
 
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
@@ -52,13 +52,13 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
     protected Set<String> systemIncludes = new HashSet<String>();
     protected String cppNamespace = "OpenAPI";
 
-    public CppQt5ServerCodegen() {
+    public CppQt5QHttpEngineServerCodegen() {
         super();
 
         // set the output folder here
-        outputFolder = "generated-code/cpp-qt5-server";
+        outputFolder = "generated-code/cpp-qt5-qhttpengine-server";
 
-        // set modelNamePrefix as default for QT5CPP
+        // set modelNamePrefix as default for QHttpEngine Server
         if (StringUtils.isEmpty(modelNamePrefix)) {
             modelNamePrefix = PREFIX;
         }
@@ -102,7 +102,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
          */
-        embeddedTemplateDir = templateDir = "cpp-qt5-server";
+        embeddedTemplateDir = templateDir = "cpp-qt5-qhttpengine-server";
 
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
@@ -230,7 +230,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
      */
     @Override
     public String getName() {
-        return "cpp-qt5-server";
+        return "cpp-qt5-qhttpengine-server";
     }
 
     /**
@@ -241,7 +241,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
+        return "Generates a Qt5 C++ Server (beta) using the QHTTPEngine HTTP Library.";
     }
 
     @Override
