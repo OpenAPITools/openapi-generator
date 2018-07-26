@@ -14,9 +14,7 @@
 #define _OAI_OAIStoreApiHandler_H_
 
 #include <QObject>
-#include <QStringList>
 
-#include <qhttpengine/socket.h>
 #include "OAIOrder.h"
 #include <QMap>
 #include <QString>
@@ -28,19 +26,17 @@ class OAIStoreApiHandler : public QObject
     Q_OBJECT
     
 public:
-    OAIStoreApiHandler(QObject *parent = nullptr);
+    OAIStoreApiHandler();
     virtual ~OAIStoreApiHandler();
 
-    virtual void deleteOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void getInventory(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void getOrderById(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void placeOrder(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
+
+public slots:
+    virtual void deleteOrder(QString order_id);
+    virtual void getInventory();
+    virtual void getOrderById(qint64 order_id);
+    virtual void placeOrder(OAIOrder oai_order);
     
 
-    QMap<QString, QString> getDefaultHeaders();
-
-private:
-    QMap<QString, QString> defaultHeaders;
 };
 
 }

@@ -11,50 +11,33 @@ namespace {{this}} {
 
 class {{prefix}}Object {
   public:
-    virtual QJsonObject asJsonObject() {
-        if(jObj != nullptr){
-            return *jObj;
-        }
-        return QJsonObject();
+    virtual ~{{prefix}}Object(){
+        
+    }
+    
+    virtual QJsonObject asJsonObject() const {
+        return jObj;
     }
 
-    {{prefix}}Object() {
-        jObj = nullptr;
+    virtual QString asJson() const {
+        QJsonDocument doc(jObj);
+        return doc.toJson(QJsonDocument::Compact);
     }
 
-    virtual ~{{prefix}}Object() {
-        if(jObj != nullptr){
-            delete jObj;
-        }
-    }
-
-    virtual {{prefix}}Object* fromJson(QString jsonString) {
+    virtual void fromJson(QString jsonString) {
         QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
-        auto ret = new {{prefix}}Object();
-        ret->fromJsonObject(doc.object());
-        return ret;
+        jObj = doc.object();
     }
 
     virtual void fromJsonObject(QJsonObject json) {
-        if(jObj != nullptr){
-            delete jObj;
-        }
-        jObj = new QJsonObject(json);
+        jObj = json;
     }
 
-    virtual QString asJson() {
-        if(jObj != nullptr){
-            QJsonDocument doc(*jObj);
-            return doc.toJson(QJsonDocument::Compact);
-        }
-        return QString();
-    }
-
-    virtual bool isSet() {
+    virtual bool isSet() const {
         return false;
     }
 private :
-   QJsonObject *jObj;
+   QJsonObject jObj;
 };
 
 {{#cppNamespaceDeclarations}}

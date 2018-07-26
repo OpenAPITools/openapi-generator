@@ -5,8 +5,8 @@
 #include <QVariantMap>
 #include <QRegularExpression>
 
-#include "{{prefix}}apirouter.h"
-{{#apiInfo}}{{#apis}}{{#operations}}#include "{{classname}}.h"
+#include "{{prefix}}ApiRouter.h"
+{{#apiInfo}}{{#apis}}{{#operations}}#include "{{classname}}Request.h"
 {{/operations}}{{/apis}}{{/apiInfo}}
 
 {{#cppNamespaceDeclarations}}
@@ -35,54 +35,54 @@ inline QHttpEngine::Socket::Method toQHttpEngineMethod(QString method){
      return static_cast<QHttpEngine::Socket::Method>(-1);
 }
 
-ApiRouter::ApiRouter(QObject *parent) : QObject(parent){
-
+ApiRouter::ApiRouter() {    
+    {{#apiInfo}}{{#apis}}{{classname}}ApiHandler = new {{classname}}Handler();
+    {{/apis}}{{/apiInfo}} 
 }
+
 ApiRouter::~ApiRouter(){
-    qDebug() << "~ApiRouter()";
+    qDebug() << "~ApiRouter()";    
+    {{#apiInfo}}{{#apis}}delete {{classname}}ApiHandler;
+    {{/apis}}{{/apiInfo}}     
 }
 
-void ApiRouter::onNewRequest(QHttpEngine::Socket *socket){
-    auto queries = socket->queryString();
-    auto rqpath  = socket->path();
-    auto method =  socket->method();
-    auto headers = socket->headers();
-    auto peer = socket->peerAddress();
-    qDebug() << rqpath;
-    socket->setStatusCode(QHttpEngine::Socket::OK);
-    
-    // Creating transient Objects instead of singletons
+void ApiRouter::setUpRoutes() {
+    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^pathParams}}
+    Routes.insert("{{{basePathWithoutHost}}}{{{path}}}",[this](QHttpEngine::Socket *socket) {
+        if(toQHttpEngineMethod("{{httpMethod}}") == socket->method()){
+            auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
+            reqObj->{{nickname}}Request();
+        }
+    });{{/pathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}} 
+}
 
-    do{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-        {            
-            {{^pathParams}}if((toQHttpEngineMethod("{{httpMethod}}") == method) && (QString::compare("{{{basePathWithoutHost}}}{{{path}}}", rqpath, Qt::CaseInsensitive) == 0)){
-                {{classname}} {{classname}}Obj;
-                QString pathparam = QString("");
-                {{classname}}Obj.{{nickname}}(pathparam, queries, rqpath, method, headers, peer, socket);
-                break;
-            } {{/pathParams}}{{#pathParams}}QString completePath("{{{basePathWithoutHost}}}{{{path}}}");
+void ApiRouter::processRequest(QHttpEngine::Socket *socket){
+    if (Routes.contains(socket->path())) {
+        auto itr = Routes.find(socket->path());
+        while (itr != Routes.end() && itr.key() == socket->path()) {
+            itr.value().operator()(socket);
+            ++itr;
+        }
+    } else
+    {  {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#pathParams}}        
+        { 
+            QString completePath("{{{basePathWithoutHost}}}{{{path}}}");
             QString {{paramName}}PathParam("{"); 
             {{paramName}}PathParam.append("{{baseName}}").append("}");
             completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
             completePath.replace({{paramName}}PathParam, "([^\\/]*?)"); // match anything but '/''
             completePath.append("$");  // End of string
             QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(rqpath);
-            if ((toQHttpEngineMethod("{{httpMethod}}") == method) && match.hasMatch() ) {
+            QRegularExpressionMatch match = re.match(socket->path());
+            if ((toQHttpEngineMethod("{{httpMethod}}") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
-                {{classname}} {{classname}}Obj;
-                {{classname}}Obj.{{nickname}}(pathparam, queries, rqpath, method, headers, peer, socket);
-                break; 
-            }{{/pathParams}}
-        }{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-        socket->setStatusCode(QHttpEngine::Socket::NotFound);
-        if(socket->isOpen()){
-            socket->writeHeaders();
-            socket->close();
-        }
-        return;   
-    } while(false);
-    socket->writeHeaders();
+                auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
+                reqObj->{{nickname}}Request({{#hasPathParams}}{{#pathParams}}pathparam{{/pathParams}}{{/hasPathParams}});;
+                return; 
+            }
+        }{{/pathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+    }
+    socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
         socket->close();

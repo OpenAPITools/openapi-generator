@@ -17,13 +17,18 @@
 #include <QStringList>
 #include <QSharedPointer>
 #include <QList>
+#include <QMultiMap>
 
 #include <qhttpengine/socket.h>
 #include <qhttpengine/handler.h>
 #include <qhttpengine/qobjecthandler.h>
 
-namespace OpenAPI {
+#include "OAIPetApiHandler.h"
+#include "OAIStoreApiHandler.h"
+#include "OAIUserApiHandler.h"
 
+
+namespace OpenAPI {
 
 class RequestHandler : public  QHttpEngine::QObjectHandler
 {
@@ -42,11 +47,19 @@ class ApiRouter : public QObject
 {
     Q_OBJECT
 public:
-    ApiRouter(QObject *parent);
+    ApiRouter();
     virtual ~ApiRouter();
 
-    void onNewRequest(QHttpEngine::Socket *socket);
+    void setUpRoutes();
+    void processRequest(QHttpEngine::Socket *socket);
+private:
+    QMultiMap<QString, std::function<void(QHttpEngine::Socket *)>> Routes;  
+    
+    OAIPetApiHandler *OAIPetApiApiHandler;
+    OAIStoreApiHandler *OAIStoreApiApiHandler;
+    OAIUserApiHandler *OAIUserApiApiHandler; 
 };
+
 
 }
 

@@ -26,22 +26,20 @@ class {{classname}}: public {{prefix}}Object {
 public:
     {{classname}}();
     {{classname}}(QString json);
-    ~{{classname}}();
+    ~{{classname}}() override;
     void init();
-    void cleanup();
 
-    QString asJson () override;
-    QJsonObject asJsonObject() override;
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    {{classname}}* fromJson(QString jsonString) override;
+    void fromJson(QString jsonString) override;
 
     {{#vars}}
     {{{dataType}}} {{getter}}();
-    void {{setter}}({{{dataType}}} {{name}});
+    void {{setter}}(const {{{dataType}}} &{{name}});
 
     {{/vars}}
-
-    virtual bool isSet() override;
+    virtual bool isSet() const override;
 
 private:
     {{#vars}}

@@ -20,50 +20,33 @@ namespace OpenAPI {
 
 class OAIObject {
   public:
-    virtual QJsonObject asJsonObject() {
-        if(jObj != nullptr){
-            return *jObj;
-        }
-        return QJsonObject();
+    virtual ~OAIObject(){
+        
+    }
+    
+    virtual QJsonObject asJsonObject() const {
+        return jObj;
     }
 
-    OAIObject() {
-        jObj = nullptr;
+    virtual QString asJson() const {
+        QJsonDocument doc(jObj);
+        return doc.toJson(QJsonDocument::Compact);
     }
 
-    virtual ~OAIObject() {
-        if(jObj != nullptr){
-            delete jObj;
-        }
-    }
-
-    virtual OAIObject* fromJson(QString jsonString) {
+    virtual void fromJson(QString jsonString) {
         QJsonDocument doc = QJsonDocument::fromJson(jsonString.toUtf8());
-        auto ret = new OAIObject();
-        ret->fromJsonObject(doc.object());
-        return ret;
+        jObj = doc.object();
     }
 
     virtual void fromJsonObject(QJsonObject json) {
-        if(jObj != nullptr){
-            delete jObj;
-        }
-        jObj = new QJsonObject(json);
+        jObj = json;
     }
 
-    virtual QString asJson() {
-        if(jObj != nullptr){
-            QJsonDocument doc(*jObj);
-            return doc.toJson(QJsonDocument::Compact);
-        }
-        return QString();
-    }
-
-    virtual bool isSet() {
+    virtual bool isSet() const {
         return false;
     }
 private :
-   QJsonObject *jObj;
+   QJsonObject jObj;
 };
 
 }

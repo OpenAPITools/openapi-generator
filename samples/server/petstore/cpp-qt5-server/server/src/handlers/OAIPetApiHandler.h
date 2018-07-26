@@ -14,12 +14,10 @@
 #define _OAI_OAIPetApiHandler_H_
 
 #include <QObject>
-#include <QStringList>
 
-#include <qhttpengine/socket.h>
 #include "OAIApiResponse.h"
-#include "OAIHttpRequest.h"
 #include "OAIPet.h"
+#include <QIODevice>
 #include <QString>
 
 namespace OpenAPI {
@@ -29,23 +27,21 @@ class OAIPetApiHandler : public QObject
     Q_OBJECT
     
 public:
-    OAIPetApiHandler(QObject *parent = nullptr);
+    OAIPetApiHandler();
     virtual ~OAIPetApiHandler();
 
-    virtual void addPet(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void deletePet(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void findPetsByStatus(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void findPetsByTags(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void getPetById(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void updatePet(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void updatePetWithForm(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void uploadFile(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
+
+public slots:
+    virtual void addPet(OAIPet oai_pet);
+    virtual void deletePet(qint64 pet_id, QString api_key);
+    virtual void findPetsByStatus(QList<QString> status);
+    virtual void findPetsByTags(QList<QString> tags);
+    virtual void getPetById(qint64 pet_id);
+    virtual void updatePet(OAIPet oai_pet);
+    virtual void updatePetWithForm(qint64 pet_id, QString name, QString status);
+    virtual void uploadFile(qint64 pet_id, QString additional_metadata, QIODevice* file);
     
 
-    QMap<QString, QString> getDefaultHeaders();
-
-private:
-    QMap<QString, QString> defaultHeaders;
 };
 
 }

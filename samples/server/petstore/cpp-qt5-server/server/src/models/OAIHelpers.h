@@ -15,39 +15,136 @@
 
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QJsonArray>
 #include <QList>
 #include <QMap>
 #include <QDateTime>
 #include <QByteArray>
 #include <QDate>
+#include <QVariant>
+#include "OAIObject.h"
 
 namespace OpenAPI {
 
-    bool isCompatibleJsonValue(QString type);
+    QString toStringValue(const QString &value);
+    QString toStringValue(const QDateTime &value);
+    QString toStringValue(const QByteArray &value);
+    QString toStringValue(const QDate &value);
+    QString toStringValue(const qint32 &value);
+    QString toStringValue(const qint64 &value);
+    QString toStringValue(const bool &value);
+    QString toStringValue(const float &value);
+    QString toStringValue(const double &value);
 
-    void setValue(void* value, QJsonValue obj, QString type, QString complexType);
-    void toJsonValue(QString name, void* value, QJsonObject& output, QString baseType, QString itemsType = QString());
+    template <typename T>
+    QList<QString> toStringValue(const QList<T> &val) {
+        QList<QString> strArray;
+        for(auto item : val) {
+            strArray.append(toStringValue(item));
+        }
+        return strArray;
+    }
 
-    QString stringValue(QString* value);
-    QString stringValue(QDateTime* value);
-    QString stringValue(QByteArray* value);
-    QString stringValue(QDate* value);
-    QString stringValue(qint32 value);
-    QString stringValue(qint64 value);
-    QString stringValue(bool value);
-    QString stringValue(float value);
-    QString stringValue(double value);
+    template <typename T>
+    QMap<QString, QString> toStringValue(const QMap<QString, T> &val) {
+        QMap<QString, QString> strMap;
+        for(auto itemkey : val.keys()) {
+            strMap.insert(itemkey, toStringValue(val.value(itemkey)));
+        }
+        return strMap;
+    }
 
+    QJsonValue toJsonValue(const QString &value);
+    QJsonValue toJsonValue(const QDateTime &value);
+    QJsonValue toJsonValue(const QByteArray &value);
+    QJsonValue toJsonValue(const QDate &value);
+    QJsonValue toJsonValue(const qint32 &value);
+    QJsonValue toJsonValue(const qint64 &value);
+    QJsonValue toJsonValue(const bool &value);
+    QJsonValue toJsonValue(const float &value);
+    QJsonValue toJsonValue(const double &value);
+    QJsonValue toJsonValue(const OAIObject &value);
 
-    bool toValue(QString inStr, QString *value);
-    bool toValue(QString inStr, QDateTime *value);
-    bool toValue(QString inStr, QByteArray *value);
-    bool toValue(QString inStr, QDate *value);
-    bool toValue(QString inStr, qint32 *value);
-    bool toValue(QString inStr, qint64 *value);
-    bool toValue(QString inStr, bool *value);
-    bool toValue(QString inStr, float *value);
-    bool toValue(QString inStr, double *value);
+    template <typename T>
+    QJsonValue toJsonValue(const QList<T> &val) {
+        QJsonArray jArray;
+        for(auto item : val) {
+            jArray.append(toJsonValue(item));
+        }
+        return jArray;
+    }
+
+    template <typename T>
+    QJsonValue toJsonValue(const QMap<QString, T> &val) {
+        QJsonObject jObject;
+        for(auto itemkey : val.keys()) {
+            jObject.insert(itemkey, toJsonValue(val.value(itemkey)));
+        }
+        return jObject;
+    }
+
+    bool fromStringValue(const QString &inStr, QString &value);
+    bool fromStringValue(const QString &inStr, QDateTime &value);
+    bool fromStringValue(const QString &inStr, QByteArray &value);
+    bool fromStringValue(const QString &inStr, QDate &value);
+    bool fromStringValue(const QString &inStr, qint32 &value);
+    bool fromStringValue(const QString &inStr, qint64 &value);
+    bool fromStringValue(const QString &inStr, bool &value);
+    bool fromStringValue(const QString &inStr, float &value);
+    bool fromStringValue(const QString &inStr, double &value);
+
+    template <typename T>
+    void fromStringValue(const QList<QString> &inStr, QList<T> &val) {
+        for(auto item: inStr){
+            T itemVal;
+            fromStringValue(item, itemVal);
+            val.push_back(itemVal);
+        }
+    }
+
+    template <typename T>
+    void fromStringValue(const QMap<QString, QString> &inStr, QMap<QString, T> &val) {
+        for(auto itemkey : inStr.keys()){
+            T itemVal;
+            fromStringValue(inStr.value(itemkey), itemVal);
+            val.insert(itemkey, itemVal);
+        }
+    }
+
+    void fromJsonValue(QString &value, const QJsonValue &jval);
+    void fromJsonValue(QDateTime &value, const QJsonValue &jval);
+    void fromJsonValue(QByteArray &value, const QJsonValue &jval);
+    void fromJsonValue(QDate &value, const QJsonValue &jval);
+    void fromJsonValue(qint32 &value, const QJsonValue &jval);
+    void fromJsonValue(qint64 &value, const QJsonValue &jval);
+    void fromJsonValue(bool &value, const QJsonValue &jval);
+    void fromJsonValue(float &value, const QJsonValue &jval);
+    void fromJsonValue(double &value, const QJsonValue &jval);
+    void fromJsonValue(OAIObject &value, const QJsonValue &jval);
+
+    template <typename T>
+    void fromJsonValue(QList<T> &val, const QJsonValue &jval) {
+        if(jval.isArray()){
+            for(const QJsonValue &jitem : jval.toArray()){
+                T item;
+                fromJsonValue(item, jitem);
+                val.push_back(item);
+            }
+        }
+    }
+
+    template <typename T>
+    void fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval) {
+        auto varmap = jval.toObject().toVariantMap();
+        if(varmap.count() > 0){
+            for(auto itemkey : varmap.keys() ){
+                T itemVal;
+                fromJsonValue(itemVal, QJsonValue::fromVariant(varmap.value(itemkey)));
+                val.insert(itemkey, val);
+            }
+        }
+        return;
+    }
 
 }
 

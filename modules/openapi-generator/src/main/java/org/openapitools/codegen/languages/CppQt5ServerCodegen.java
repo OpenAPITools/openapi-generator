@@ -43,6 +43,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
     protected final String SRC_DIR = "/src";
     protected final String MODEL_DIR = "/src/models";
     protected final String APIHANDLER_DIR = "/src/handlers";
+    protected final String APIREQUEST_DIR = "/src/requests";
     protected Set<String> foundationClasses = new HashSet<String>();
     // source folder where to write the files
     protected String sourceFolder = "server";
@@ -50,7 +51,6 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
     protected Map<String, String> namespaces = new HashMap<String, String>();
     protected Set<String> systemIncludes = new HashSet<String>();
     protected String cppNamespace = "OpenAPI";
-    protected boolean optionalProjectFileFlag = true;
 
     public CppQt5ServerCodegen() {
         super();
@@ -83,11 +83,19 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
          * class
          */
         apiTemplateFiles.put(
-                "apihandler-header.mustache",   // the template to use
+                "apihandler.h.mustache",   // the template to use
                 ".h");       // the extension for each file to write
 
         apiTemplateFiles.put(
-                "apihandler-body.mustache",   // the template to use
+                "apihandler.cpp.mustache",   // the template to use
+                ".cpp");       // the extension for each file to write
+
+        apiTemplateFiles.put(
+                "apirequest.h.mustache",   // the template to use
+                ".h");       // the extension for each file to write
+    
+        apiTemplateFiles.put(
+                "apirequest.cpp.mustache",   // the template to use
                 ".cpp");       // the extension for each file to write
 
         /*
@@ -126,14 +134,10 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
-        supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + MODEL_DIR, PREFIX + "ModelFactory.h"));
-        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));
-        supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + MODEL_DIR, PREFIX + "QObjectWrapper.h"));
-        supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apirouter.h"));
-        supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "apirouter.cpp"));
+        supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));        
+        supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.h"));
+        supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.cpp"));
 
-        supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "HttpRequest.h"));
-        supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "HttpRequest.cpp"));
 
         supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
         supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
@@ -153,18 +157,17 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         typeMapping.put("boolean", "bool");
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
-        typeMapping.put("file", PREFIX + "HttpRequestInputFileElement");
         typeMapping.put("object", PREFIX + "Object");
         // mapped as "file" type for OAS 3.0
-        typeMapping.put("binary", PREFIX + "HttpRequestInputFileElement");
         typeMapping.put("ByteArray", "QByteArray");
         //   UUID support - possible enhancement : use QUuid instead of QString.
         //   beware though that Serialisation/deserialisation of QUuid does not
         //   come out of the box and will need to be sorted out (at least imply
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
+        typeMapping.put("file", "QIODevice");
+        typeMapping.put("binary", "QIODevice");
         importMapping = new HashMap<String, String>();
-        importMapping.put(PREFIX + "HttpRequestInputFileElement", "#include \"" + PREFIX + "HttpRequest.h\"");
         namespaces = new HashMap<String, String>();
 
         foundationClasses.add("QString");
@@ -175,6 +178,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         systemIncludes.add("QDate");
         systemIncludes.add("QDateTime");
         systemIncludes.add("QByteArray");
+        systemIncludes.add("QIODevice");
     }
 
     @Override
@@ -190,15 +194,10 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
             supportingFiles.clear();
             supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.h"));
             supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.cpp"));
-            supportingFiles.add(new SupportingFile("modelFactory.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "ModelFactory.h"));
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Object.h"));
-            supportingFiles.add(new SupportingFile("QObjectWrapper.h.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "QObjectWrapper.h"));
-            supportingFiles.add(new SupportingFile("apihandler.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "apihandler.h"));
-            supportingFiles.add(new SupportingFile("apihandler.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "apihandler.cpp"));
-            
-            supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "HttpRequest.h"));
-            supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "HttpRequest.cpp"));
-            
+            supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.h"));
+            supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.cpp"));            
+                      
             supportingFiles.add(new SupportingFile("main.cpp.mustache", sourceFolder + SRC_DIR, "main.cpp"));
             supportingFiles.add(new SupportingFile("src-CMakeLists.txt.mustache", sourceFolder + SRC_DIR, "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("README.md.mustache", sourceFolder, "README.MD"));
@@ -206,9 +205,6 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
             supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", sourceFolder, "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("Dockerfile.mustache", sourceFolder, "Dockerfile"));
             supportingFiles.add(new SupportingFile("LICENSE.txt.mustache", sourceFolder, "LICENSE.txt"));
-
-            typeMapping.put("file", modelNamePrefix + "HttpRequestInputFileElement");
-            importMapping.put(modelNamePrefix + "HttpRequestInputFileElement", "#include \"" + modelNamePrefix + "HttpRequest.h\"");            
 
             typeMapping.put("object", modelNamePrefix + "Object");
             additionalProperties().put("prefix", modelNamePrefix);
@@ -245,11 +241,15 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ server library.";
+        return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
     }
 
     @Override
     public String toModelImport(String name) {
+        if( name.isEmpty() ) {
+            return null;
+        }
+
         if (namespaces.containsKey(name)) {
             return "using " + namespaces.get(name) + ";";
         } else if (systemIncludes.contains(name)) {
@@ -295,9 +295,24 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         return outputFolder + "/" + sourceFolder + APIHANDLER_DIR + "/" + apiPackage().replace("::", File.separator);
     }
 
+    private String requestFileFolder() {
+        return outputFolder + "/" + sourceFolder + APIREQUEST_DIR + "/" + apiPackage().replace("::", File.separator);
+    }
+    
     @Override
     public String toModelFilename(String name) {
         return modelNamePrefix + initialCaps(name);
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String result = super.apiFilename(templateName, tag);
+
+        if (templateName.contains("apirequest")) {
+            result = result.replace("ApiHandler", "ApiRequest");
+            result = result.replace(apiFileFolder(), requestFileFolder());
+        }
+        return result;
     }
 
     @Override
@@ -318,17 +333,21 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">*";
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">*";
+            return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isBinarySchema(p)) {
+            return getSchemaType(p) + "*";
+        } else if (ModelUtils.isFileSchema(p)) {
+            return getSchemaType(p) + "*";
         }
         if (foundationClasses.contains(openAPIType)) {
-            return openAPIType + "*";
+            return openAPIType;
         } else if (languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         } else {
-            return openAPIType + "*";
+            return openAPIType;
         }
     }
 
@@ -352,15 +371,15 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
-            return "new QMap<QString, " + getTypeDeclaration(inner) + ">()";
+            return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "new QList<" + getTypeDeclaration(inner) + ">()";
+            return "QList<" + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isStringSchema(p)) {
-            return "new QString(\"\")";
+            return "QString(\"\")";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
-            return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
+            return toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         }
         return "NULL";
     }
@@ -411,23 +430,24 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        String varName = name;
+        varName = sanitizeName(name); 
 
         // if it's all uppper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+        if (varName.matches("^[A-Z_]*$")) {
+            varName = varName.toLowerCase();
         }
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        name = underscore(name);
+        varName = underscore(varName);
 
         // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
+        if (isReservedWord(varName) || varName.matches("^\\d.*")) {
+            varName = escapeReservedWord(varName);
         }
 
-        return name;
+        return varName;
     }
 
     @Override
@@ -437,7 +457,7 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
 
     @Override
     public String toApiName(String type) {
-        return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "ApiHandler";
+        return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
     }
 
     @Override
@@ -449,10 +469,6 @@ public class CppQt5ServerCodegen extends AbstractCppCodegen implements CodegenCo
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
-    public void setOptionalProjectFileFlag(boolean flag) {
-        this.optionalProjectFileFlag = flag;
     }
 
     @Override

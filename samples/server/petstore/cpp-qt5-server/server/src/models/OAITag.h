@@ -32,29 +32,27 @@ class OAITag: public OAIObject {
 public:
     OAITag();
     OAITag(QString json);
-    ~OAITag();
+    ~OAITag() override;
     void init();
-    void cleanup();
 
-    QString asJson () override;
-    QJsonObject asJsonObject() override;
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    OAITag* fromJson(QString jsonString) override;
+    void fromJson(QString jsonString) override;
 
     qint64 getId();
-    void setId(qint64 id);
+    void setId(const qint64 &id);
 
-    QString* getName();
-    void setName(QString* name);
+    QString getName();
+    void setName(const QString &name);
 
-
-    virtual bool isSet() override;
+    virtual bool isSet() const override;
 
 private:
     qint64 id;
     bool m_id_isSet;
 
-    QString* name;
+    QString name;
     bool m_name_isSet;
 
 };

@@ -14,9 +14,7 @@
 #define _OAI_OAIUserApiHandler_H_
 
 #include <QObject>
-#include <QStringList>
 
-#include <qhttpengine/socket.h>
 #include "OAIUser.h"
 #include <QList>
 #include <QString>
@@ -28,23 +26,21 @@ class OAIUserApiHandler : public QObject
     Q_OBJECT
     
 public:
-    OAIUserApiHandler(QObject *parent = nullptr);
+    OAIUserApiHandler();
     virtual ~OAIUserApiHandler();
 
-    virtual void createUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void createUsersWithArrayInput(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void createUsersWithListInput(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void deleteUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void getUserByName(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void loginUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void logoutUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
-    virtual void updateUser(QString pathparam, QHttpEngine::Socket::QueryStringMap queries, QString path, QHttpEngine::Socket::Method method, QHttpEngine::Socket::HeaderMap headers, QHostAddress peer, QHttpEngine::Socket *socket);
+
+public slots:
+    virtual void createUser(OAIUser oai_user);
+    virtual void createUsersWithArrayInput(QList<OAIUser> oai_user);
+    virtual void createUsersWithListInput(QList<OAIUser> oai_user);
+    virtual void deleteUser(QString username);
+    virtual void getUserByName(QString username);
+    virtual void loginUser(QString username, QString password);
+    virtual void logoutUser();
+    virtual void updateUser(QString username, OAIUser oai_user);
     
 
-    QMap<QString, QString> getDefaultHeaders();
-
-private:
-    QMap<QString, QString> defaultHeaders;
 };
 
 }

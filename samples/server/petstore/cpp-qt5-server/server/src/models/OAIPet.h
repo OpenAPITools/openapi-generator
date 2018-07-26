@@ -35,53 +35,51 @@ class OAIPet: public OAIObject {
 public:
     OAIPet();
     OAIPet(QString json);
-    ~OAIPet();
+    ~OAIPet() override;
     void init();
-    void cleanup();
 
-    QString asJson () override;
-    QJsonObject asJsonObject() override;
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    OAIPet* fromJson(QString jsonString) override;
+    void fromJson(QString jsonString) override;
 
     qint64 getId();
-    void setId(qint64 id);
+    void setId(const qint64 &id);
 
-    OAICategory* getCategory();
-    void setCategory(OAICategory* category);
+    OAICategory getCategory();
+    void setCategory(const OAICategory &category);
 
-    QString* getName();
-    void setName(QString* name);
+    QString getName();
+    void setName(const QString &name);
 
-    QList<QString*>* getPhotoUrls();
-    void setPhotoUrls(QList<QString*>* photo_urls);
+    QList<QString> getPhotoUrls();
+    void setPhotoUrls(const QList<QString> &photo_urls);
 
-    QList<OAITag*>* getTags();
-    void setTags(QList<OAITag*>* tags);
+    QList<OAITag> getTags();
+    void setTags(const QList<OAITag> &tags);
 
-    QString* getStatus();
-    void setStatus(QString* status);
+    QString getStatus();
+    void setStatus(const QString &status);
 
-
-    virtual bool isSet() override;
+    virtual bool isSet() const override;
 
 private:
     qint64 id;
     bool m_id_isSet;
 
-    OAICategory* category;
+    OAICategory category;
     bool m_category_isSet;
 
-    QString* name;
+    QString name;
     bool m_name_isSet;
 
-    QList<QString*>* photo_urls;
+    QList<QString> photo_urls;
     bool m_photo_urls_isSet;
 
-    QList<OAITag*>* tags;
+    QList<OAITag> tags;
     bool m_tags_isSet;
 
-    QString* status;
+    QString status;
     bool m_status_isSet;
 
 };

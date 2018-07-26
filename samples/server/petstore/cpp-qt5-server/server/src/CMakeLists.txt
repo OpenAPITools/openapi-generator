@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
-project(cpp-qt5-server)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -24,6 +23,7 @@ find_package(Qt5Network REQUIRED)
 file(GLOB SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/models/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/handlers/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/requests/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
 )
 
@@ -32,6 +32,7 @@ include_directories(
     ${Qt5Network_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/models
     ${CMAKE_CURRENT_SOURCE_DIR}/handlers
+    ${CMAKE_CURRENT_SOURCE_DIR}/requests
 )
 
 link_directories(

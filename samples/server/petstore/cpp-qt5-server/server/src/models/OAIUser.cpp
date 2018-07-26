@@ -23,94 +23,59 @@
 namespace OpenAPI {
 
 OAIUser::OAIUser(QString json) {
-    init();
     this->fromJson(json);
 }
 
 OAIUser::OAIUser() {
-    init();
+    this->init();
 }
 
 OAIUser::~OAIUser() {
-    this->cleanup();
+    
 }
 
 void
 OAIUser::init() {
-    id = 0L;
     m_id_isSet = false;
-    username = new QString("");
     m_username_isSet = false;
-    first_name = new QString("");
     m_first_name_isSet = false;
-    last_name = new QString("");
     m_last_name_isSet = false;
-    email = new QString("");
     m_email_isSet = false;
-    password = new QString("");
     m_password_isSet = false;
-    phone = new QString("");
     m_phone_isSet = false;
-    user_status = 0;
     m_user_status_isSet = false;
 }
 
 void
-OAIUser::cleanup() {
-
-    if(username != nullptr) { 
-        delete username;
-    }
-    if(first_name != nullptr) { 
-        delete first_name;
-    }
-    if(last_name != nullptr) { 
-        delete last_name;
-    }
-    if(email != nullptr) { 
-        delete email;
-    }
-    if(password != nullptr) { 
-        delete password;
-    }
-    if(phone != nullptr) { 
-        delete phone;
-    }
-
-}
-
-OAIUser*
-OAIUser::fromJson(QString json) {
-    QByteArray array (json.toStdString().c_str());
+OAIUser::fromJson(QString jsonString) {
+    QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
-    return this;
 }
 
 void
-OAIUser::fromJsonObject(QJsonObject pJson) {
-    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
+OAIUser::fromJsonObject(QJsonObject json) {
+    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::setValue(&username, pJson["username"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(username, json[QString("username")]);
     
-    ::OpenAPI::setValue(&first_name, pJson["firstName"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(first_name, json[QString("firstName")]);
     
-    ::OpenAPI::setValue(&last_name, pJson["lastName"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(last_name, json[QString("lastName")]);
     
-    ::OpenAPI::setValue(&email, pJson["email"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(email, json[QString("email")]);
     
-    ::OpenAPI::setValue(&password, pJson["password"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(password, json[QString("password")]);
     
-    ::OpenAPI::setValue(&phone, pJson["phone"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(phone, json[QString("phone")]);
     
-    ::OpenAPI::setValue(&user_status, pJson["userStatus"], "qint32", "");
+    ::OpenAPI::fromJsonValue(user_status, json[QString("userStatus")]);
     
 }
 
 QString
-OAIUser::asJson ()
-{
+OAIUser::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -118,33 +83,32 @@ OAIUser::asJson ()
 }
 
 QJsonObject
-OAIUser::asJsonObject() {
+OAIUser::asJsonObject() const {
     QJsonObject obj;
-    if(m_id_isSet){
-        obj.insert("id", QJsonValue(id));
+	if(m_id_isSet){
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-    if(username != nullptr && *username != QString("")){
-        toJsonValue(QString("username"), username, obj, QString("QString"));
+	if(m_username_isSet){
+        obj.insert(QString("username"), ::OpenAPI::toJsonValue(username));
     }
-    if(first_name != nullptr && *first_name != QString("")){
-        toJsonValue(QString("firstName"), first_name, obj, QString("QString"));
+	if(m_first_name_isSet){
+        obj.insert(QString("firstName"), ::OpenAPI::toJsonValue(first_name));
     }
-    if(last_name != nullptr && *last_name != QString("")){
-        toJsonValue(QString("lastName"), last_name, obj, QString("QString"));
+	if(m_last_name_isSet){
+        obj.insert(QString("lastName"), ::OpenAPI::toJsonValue(last_name));
     }
-    if(email != nullptr && *email != QString("")){
-        toJsonValue(QString("email"), email, obj, QString("QString"));
+	if(m_email_isSet){
+        obj.insert(QString("email"), ::OpenAPI::toJsonValue(email));
     }
-    if(password != nullptr && *password != QString("")){
-        toJsonValue(QString("password"), password, obj, QString("QString"));
+	if(m_password_isSet){
+        obj.insert(QString("password"), ::OpenAPI::toJsonValue(password));
     }
-    if(phone != nullptr && *phone != QString("")){
-        toJsonValue(QString("phone"), phone, obj, QString("QString"));
+	if(m_phone_isSet){
+        obj.insert(QString("phone"), ::OpenAPI::toJsonValue(phone));
     }
-    if(m_user_status_isSet){
-        obj.insert("userStatus", QJsonValue(user_status));
+	if(m_user_status_isSet){
+        obj.insert(QString("userStatus"), ::OpenAPI::toJsonValue(user_status));
     }
-
     return obj;
 }
 
@@ -153,67 +117,67 @@ OAIUser::getId() {
     return id;
 }
 void
-OAIUser::setId(qint64 id) {
+OAIUser::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
-QString*
+QString
 OAIUser::getUsername() {
     return username;
 }
 void
-OAIUser::setUsername(QString* username) {
+OAIUser::setUsername(const QString &username) {
     this->username = username;
     this->m_username_isSet = true;
 }
 
-QString*
+QString
 OAIUser::getFirstName() {
     return first_name;
 }
 void
-OAIUser::setFirstName(QString* first_name) {
+OAIUser::setFirstName(const QString &first_name) {
     this->first_name = first_name;
     this->m_first_name_isSet = true;
 }
 
-QString*
+QString
 OAIUser::getLastName() {
     return last_name;
 }
 void
-OAIUser::setLastName(QString* last_name) {
+OAIUser::setLastName(const QString &last_name) {
     this->last_name = last_name;
     this->m_last_name_isSet = true;
 }
 
-QString*
+QString
 OAIUser::getEmail() {
     return email;
 }
 void
-OAIUser::setEmail(QString* email) {
+OAIUser::setEmail(const QString &email) {
     this->email = email;
     this->m_email_isSet = true;
 }
 
-QString*
+QString
 OAIUser::getPassword() {
     return password;
 }
 void
-OAIUser::setPassword(QString* password) {
+OAIUser::setPassword(const QString &password) {
     this->password = password;
     this->m_password_isSet = true;
 }
 
-QString*
+QString
 OAIUser::getPhone() {
     return phone;
 }
 void
-OAIUser::setPhone(QString* phone) {
+OAIUser::setPhone(const QString &phone) {
     this->phone = phone;
     this->m_phone_isSet = true;
 }
@@ -223,26 +187,34 @@ OAIUser::getUserStatus() {
     return user_status;
 }
 void
-OAIUser::setUserStatus(qint32 user_status) {
+OAIUser::setUserStatus(const qint32 &user_status) {
     this->user_status = user_status;
     this->m_user_status_isSet = true;
 }
 
 
 bool
-OAIUser::isSet(){
+OAIUser::isSet() const {
     bool isObjectUpdated = false;
-    do{
+    do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
-        if(username != nullptr && *username != QString("")){ isObjectUpdated = true; break;}
-        if(first_name != nullptr && *first_name != QString("")){ isObjectUpdated = true; break;}
-        if(last_name != nullptr && *last_name != QString("")){ isObjectUpdated = true; break;}
-        if(email != nullptr && *email != QString("")){ isObjectUpdated = true; break;}
-        if(password != nullptr && *password != QString("")){ isObjectUpdated = true; break;}
-        if(phone != nullptr && *phone != QString("")){ isObjectUpdated = true; break;}
+    
+        if(m_username_isSet){ isObjectUpdated = true; break;}
+    
+        if(m_first_name_isSet){ isObjectUpdated = true; break;}
+    
+        if(m_last_name_isSet){ isObjectUpdated = true; break;}
+    
+        if(m_email_isSet){ isObjectUpdated = true; break;}
+    
+        if(m_password_isSet){ isObjectUpdated = true; break;}
+    
+        if(m_phone_isSet){ isObjectUpdated = true; break;}
+    
         if(m_user_status_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
 }
+
 }
 

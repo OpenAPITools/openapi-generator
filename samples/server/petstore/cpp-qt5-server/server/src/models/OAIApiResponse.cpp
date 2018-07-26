@@ -23,61 +23,44 @@
 namespace OpenAPI {
 
 OAIApiResponse::OAIApiResponse(QString json) {
-    init();
     this->fromJson(json);
 }
 
 OAIApiResponse::OAIApiResponse() {
-    init();
+    this->init();
 }
 
 OAIApiResponse::~OAIApiResponse() {
-    this->cleanup();
+    
 }
 
 void
 OAIApiResponse::init() {
-    code = 0;
     m_code_isSet = false;
-    type = new QString("");
     m_type_isSet = false;
-    message = new QString("");
     m_message_isSet = false;
 }
 
 void
-OAIApiResponse::cleanup() {
-
-    if(type != nullptr) { 
-        delete type;
-    }
-    if(message != nullptr) { 
-        delete message;
-    }
-}
-
-OAIApiResponse*
-OAIApiResponse::fromJson(QString json) {
-    QByteArray array (json.toStdString().c_str());
+OAIApiResponse::fromJson(QString jsonString) {
+    QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
-    return this;
 }
 
 void
-OAIApiResponse::fromJsonObject(QJsonObject pJson) {
-    ::OpenAPI::setValue(&code, pJson["code"], "qint32", "");
+OAIApiResponse::fromJsonObject(QJsonObject json) {
+    ::OpenAPI::fromJsonValue(code, json[QString("code")]);
     
-    ::OpenAPI::setValue(&type, pJson["type"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(type, json[QString("type")]);
     
-    ::OpenAPI::setValue(&message, pJson["message"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(message, json[QString("message")]);
     
 }
 
 QString
-OAIApiResponse::asJson ()
-{
+OAIApiResponse::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -85,18 +68,17 @@ OAIApiResponse::asJson ()
 }
 
 QJsonObject
-OAIApiResponse::asJsonObject() {
+OAIApiResponse::asJsonObject() const {
     QJsonObject obj;
-    if(m_code_isSet){
-        obj.insert("code", QJsonValue(code));
+	if(m_code_isSet){
+        obj.insert(QString("code"), ::OpenAPI::toJsonValue(code));
     }
-    if(type != nullptr && *type != QString("")){
-        toJsonValue(QString("type"), type, obj, QString("QString"));
+	if(m_type_isSet){
+        obj.insert(QString("type"), ::OpenAPI::toJsonValue(type));
     }
-    if(message != nullptr && *message != QString("")){
-        toJsonValue(QString("message"), message, obj, QString("QString"));
+	if(m_message_isSet){
+        obj.insert(QString("message"), ::OpenAPI::toJsonValue(message));
     }
-
     return obj;
 }
 
@@ -105,41 +87,44 @@ OAIApiResponse::getCode() {
     return code;
 }
 void
-OAIApiResponse::setCode(qint32 code) {
+OAIApiResponse::setCode(const qint32 &code) {
     this->code = code;
     this->m_code_isSet = true;
 }
 
-QString*
+QString
 OAIApiResponse::getType() {
     return type;
 }
 void
-OAIApiResponse::setType(QString* type) {
+OAIApiResponse::setType(const QString &type) {
     this->type = type;
     this->m_type_isSet = true;
 }
 
-QString*
+QString
 OAIApiResponse::getMessage() {
     return message;
 }
 void
-OAIApiResponse::setMessage(QString* message) {
+OAIApiResponse::setMessage(const QString &message) {
     this->message = message;
     this->m_message_isSet = true;
 }
 
 
 bool
-OAIApiResponse::isSet(){
+OAIApiResponse::isSet() const {
     bool isObjectUpdated = false;
-    do{
+    do{ 
         if(m_code_isSet){ isObjectUpdated = true; break;}
-        if(type != nullptr && *type != QString("")){ isObjectUpdated = true; break;}
-        if(message != nullptr && *message != QString("")){ isObjectUpdated = true; break;}
+    
+        if(m_type_isSet){ isObjectUpdated = true; break;}
+    
+        if(m_message_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
 }
+
 }
 
