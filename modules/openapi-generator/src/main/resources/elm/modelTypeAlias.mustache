@@ -1,5 +1,5 @@
 type alias {{classname}} =
-    { {{#vars}}{{^-first}}    , {{/-first}}{{name}} : {{^required}}Maybe {{/required}}{{#isContainer}}(List {{/isContainer}}{{#isEnum}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isContainer}}){{/isContainer}}
+    { {{#vars}}{{^-first}}    , {{/-first}}{{name}} : {{^required}}Maybe {{#isContainer}}({{/isContainer}}{{/required}}{{#isContainer}}List {{/isContainer}}{{#isEnum}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}{{#isContainer}}){{/isContainer}}{{/required}}
 {{/vars}}    }
 {{#vars}}
 {{#isEnum}}

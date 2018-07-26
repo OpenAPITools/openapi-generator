@@ -26,7 +26,7 @@ type alias Pet =
     { id : Maybe Int
     , category : Maybe Category
     , name : String
-    , photoUrls : (List String)
+    , photoUrls : List String
     , tags : Maybe (List Tag)
     , status : Maybe Status
     }
