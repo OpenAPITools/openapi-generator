@@ -25,6 +25,17 @@ For the templates, this is not an API change, because the same values are availa
 
 If you have your own `Codegen` class (to support your own generator for example) then you might get some compile error due to the change.
 
+==== Java
+
+Schema with enum values are mapped to java enum in the generated code.
+In previous version, when an unknown value was deserialized, the value was set to `null`.
+
+With `3.2.0` a new option is introduced: `useNullForUnknownEnumValue`.
+
+* When set to `false` (default value), an Exception (`IllegalArgumentException`) is thrown when the value not available in the enum.
+* When set to `true`, unknown values are mapped to `null` as it was the case in previous versions.
+
+
 === From 3.0.x to 3.1.0
 
 Version `3.1.0` is the first minor version of OpenAPI-Generator, in comparison to `3.0.3` it contains some breaking changes, but with the possibility to fallback to the old behavior.

@@ -113,7 +113,7 @@ impl<T, C> hyper::server::Service for Service<T, C>
         {{#isApiKey}}
         {{#isKeyInHeader}}
         {
-            header! { (ApiKey{{-index}}, "{{keyParamName}}") => [String] }
+            header! { (ApiKey{{-index}}, "{{{keyParamName}}}") => [String] }
             if let Some(header) = req.headers().get::<ApiKey{{-index}}>().cloned() {
                 let auth_data = AuthData::ApiKey(header.0);
                 let context = context.push(Some(auth_data));
