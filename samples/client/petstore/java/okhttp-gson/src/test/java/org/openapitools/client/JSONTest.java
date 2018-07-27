@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import okio.ByteString;
@@ -46,7 +47,7 @@ public class JSONTest {
         assertEquals(json.deserialize("\"2015-11-07T03:49:09.356" + getCurrentTimezoneOffset() + "\"", java.sql.Date.class).toString(), date.toString());
 
         // custom date format: without day
-        DateFormat format = new SimpleDateFormat("yyyy-MM");
+        DateFormat format = new SimpleDateFormat("yyyy-MM", Locale.ROOT);
         apiClient.setSqlDateFormat(format);
         String dateStr = "\"2015-11\"";
         assertEquals(dateStr, json.serialize(json.deserialize("\"2015-11-07T03:49:09Z\"", java.sql.Date.class)));
@@ -55,7 +56,8 @@ public class JSONTest {
 
     @Test
     public void testDateTypeAdapter() {
-        Calendar cal = new GregorianCalendar(2015, 10, 7, 3, 49, 9);
+        Calendar cal = new GregorianCalendar(Locale.GERMAN);
+        cal.set(2015, 10, 7, 3, 49, 9);
         cal.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         assertEquals(json.deserialize("\"2015-11-07T05:49:09+02\"", Date.class), cal.getTime());
@@ -79,7 +81,7 @@ public class JSONTest {
         assertEquals(utcDate, json.serialize(date));
 
         // custom datetime format: without milli-seconds, custom time zone
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ROOT);
         format.setTimeZone(TimeZone.getTimeZone("GMT+10"));
         apiClient.setDateFormat(format);
 
@@ -190,10 +192,10 @@ public class JSONTest {
     public static String getCurrentTimezoneOffset() {
 
         TimeZone tz = TimeZone.getDefault();
-        Calendar cal = GregorianCalendar.getInstance(tz);
+        Calendar cal = GregorianCalendar.getInstance(tz, Locale.ROOT);
         int offsetInMillis = tz.getOffset(cal.getTimeInMillis());
 
-        String offset = String.format("%02d:%02d", Math.abs(offsetInMillis / 3600000), Math.abs((offsetInMillis / 60000) % 60));
+        String offset = String.format(Locale.ROOT,"%02d:%02d", Math.abs(offsetInMillis / 3600000), Math.abs((offsetInMillis / 60000) % 60));
         offset = (offsetInMillis >= 0 ? "+" : "-") + offset;
 
         return offset;
