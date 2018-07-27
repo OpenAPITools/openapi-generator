@@ -97,7 +97,9 @@ public class UserApi {
      */
     public class CreateUserOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/user";
+        public static final String SUMMARY = "Create user";
 
         private RequestSpecBuilder reqSpec;
 
@@ -164,7 +166,9 @@ public class UserApi {
      */
     public class CreateUsersWithArrayInputOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/user/createWithArray";
+        public static final String SUMMARY = "Creates list of users with given input array";
 
         private RequestSpecBuilder reqSpec;
 
@@ -195,7 +199,7 @@ public class UserApi {
         }
 
          /**
-         * @param user (List&lt;User&gt;) List of user object (required)
+         * @param user (List<User>) List of user object (required)
          * @return operation
          */
         public CreateUsersWithArrayInputOper body(List<User> user) {
@@ -231,7 +235,9 @@ public class UserApi {
      */
     public class CreateUsersWithListInputOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/user/createWithList";
+        public static final String SUMMARY = "Creates list of users with given input array";
 
         private RequestSpecBuilder reqSpec;
 
@@ -262,7 +268,7 @@ public class UserApi {
         }
 
          /**
-         * @param user (List&lt;User&gt;) List of user object (required)
+         * @param user (List<User>) List of user object (required)
          * @return operation
          */
         public CreateUsersWithListInputOper body(List<User> user) {
@@ -298,7 +304,9 @@ public class UserApi {
      */
     public class DeleteUserOper {
 
+        public static final String REQ_METHOD = "DELETE";
         public static final String REQ_URI = "/user/{username}";
+        public static final String SUMMARY = "Delete user";
 
         private RequestSpecBuilder reqSpec;
 
@@ -366,7 +374,9 @@ public class UserApi {
      */
     public class GetUserByNameOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/user/{username}";
+        public static final String SUMMARY = "Get user by user name";
 
         private RequestSpecBuilder reqSpec;
 
@@ -445,7 +455,9 @@ public class UserApi {
      */
     public class LoginUserOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/user/login";
+        public static final String SUMMARY = "Logs user into the system";
 
         private RequestSpecBuilder reqSpec;
 
@@ -532,7 +544,9 @@ public class UserApi {
      */
     public class LogoutUserOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/user/logout";
+        public static final String SUMMARY = "Logs out current logged in user session";
 
         private RequestSpecBuilder reqSpec;
 
@@ -589,7 +603,9 @@ public class UserApi {
      */
     public class UpdateUserOper {
 
+        public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/user/{username}";
+        public static final String SUMMARY = "Updated user";
 
         private RequestSpecBuilder reqSpec;
 
