@@ -55,7 +55,7 @@ fn main() {
         .get_matches();
 
     let service_fn =
-        {{{externCrateName}}}::server::auth::NewService::<_, EmptyContext>::new(
+        {{{externCrateName}}}::server::context::NewAddContext::<_, EmptyContext>::new(
             AllowAllAuthenticator::new(
                 server_lib::NewService::new(),
                 "cosmo"
