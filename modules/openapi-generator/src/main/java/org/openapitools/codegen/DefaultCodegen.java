@@ -20,7 +20,6 @@ package org.openapitools.codegen;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache.Compiler;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -44,7 +43,6 @@ import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +63,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -72,9 +71,9 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class DefaultCodegen implements CodegenConfig {
+public class
+DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     protected String inputSpec;
@@ -355,7 +354,7 @@ public class DefaultCodegen implements CodegenConfig {
             return "EMPTY";
         }
 
-        String var = value.replaceAll("\\W+", "_").toUpperCase();
+        String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {
@@ -2443,7 +2442,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         op.bodyParam = bodyParam;
-        op.httpMethod = httpMethod.toUpperCase();
+        op.httpMethod = httpMethod.toUpperCase(Locale.ROOT);
 
         // move "required" parameters in front of "optional" parameters
         if (sortParamsByRequiredFlag) {
@@ -2896,7 +2895,7 @@ public class DefaultCodegen implements CodegenConfig {
     // TODO revise below as it should be replaced by ModelUtils.isByteArraySchema(parameterSchema)
     public boolean isDataTypeBinary(String dataType) {
         if (dataType != null) {
-            return dataType.toLowerCase().startsWith("byte");
+            return dataType.toLowerCase(Locale.ROOT).startsWith("byte");
         } else {
             return false;
         }
@@ -2905,7 +2904,7 @@ public class DefaultCodegen implements CodegenConfig {
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
-            return dataType.toLowerCase().equals("file");
+            return dataType.toLowerCase(Locale.ROOT).equals("file");
         } else {
             return false;
         }
@@ -2993,12 +2992,12 @@ public class DefaultCodegen implements CodegenConfig {
     protected void setReservedWordsLowerCase(List<String> words) {
         reservedWords = new HashSet<String>();
         for (String word : words) {
-            reservedWords.add(word.toLowerCase());
+            reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
     }
 
     protected boolean isReservedWord(String word) {
-        return word != null && reservedWords.contains(word.toLowerCase());
+        return word != null && reservedWords.contains(word.toLowerCase(Locale.ROOT));
     }
 
     /**
@@ -3124,7 +3123,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.warn("generated unique operationId `" + uniqueName + "`");
         }
         co.operationId = uniqueName;
-        co.operationIdLowerCase = uniqueName.toLowerCase();
+        co.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
         co.operationIdCamelCase = DefaultCodegen.camelize(uniqueName);
         co.operationIdSnakeCase = DefaultCodegen.underscore(uniqueName);
         opList.add(co);
@@ -3170,7 +3169,7 @@ public class DefaultCodegen implements CodegenConfig {
         word = word.replace('-', '_');
         // replace space with underscore
         word = word.replace(' ', '_');
-        word = word.toLowerCase();
+        word = word.toLowerCase(Locale.ROOT);
         return word;
     }
 
@@ -3334,7 +3333,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schemas The complete set of model definitions (schemas).
      * @return A mapping from model name to type alias
      */
-    private static Map<String, String> getAllAliases(Map<String, Schema> schemas) {
+    static Map<String, String> getAllAliases(Map<String, Schema> schemas) {
         if (schemas == null || schemas.isEmpty()) {
             return new HashMap<>();
         }
@@ -3377,7 +3376,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining(""));
         if (result.length() > 0) {
-            result = result.substring(0, 1).toLowerCase() + result.substring(1);
+            result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
         }
         return result;
     }
@@ -3406,7 +3405,7 @@ public class DefaultCodegen implements CodegenConfig {
         Pattern p = Pattern.compile("\\/(.?)");
         Matcher m = p.matcher(word);
         while (m.find()) {
-            word = m.replaceFirst("." + m.group(1)/*.toUpperCase()*/); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            word = m.replaceFirst("." + m.group(1)/*.toUpperCase(Locale.ROOT)*/); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
             m = p.matcher(word);
         }
 
@@ -3422,7 +3421,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         m = p.matcher(word);
         while (m.find()) {
-            word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase()*/);
+            word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase(Locale.ROOT)*/);
             m = p.matcher(word);
         }
 
@@ -3430,7 +3429,7 @@ public class DefaultCodegen implements CodegenConfig {
         p = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
         m = p.matcher(word);
         if (m.find()) {
-            String rep = m.group(1) + m.group(2).toUpperCase() + m.group(3);
+            String rep = m.group(1) + m.group(2).toUpperCase(Locale.ROOT) + m.group(3);
             rep = rep.replaceAll("\\$", "\\\\\\$");
             word = m.replaceAll(rep);
         }
@@ -3440,7 +3439,7 @@ public class DefaultCodegen implements CodegenConfig {
         m = p.matcher(word);
         while (m.find()) {
             String original = m.group(2);
-            String upperCase = original.toUpperCase();
+            String upperCase = original.toUpperCase(Locale.ROOT);
             if (original.equals(upperCase)) {
                 word = word.replaceFirst("_", "");
             } else {
@@ -3453,7 +3452,7 @@ public class DefaultCodegen implements CodegenConfig {
         p = Pattern.compile("(-)(.)");
         m = p.matcher(word);
         while (m.find()) {
-            word = m.replaceFirst(m.group(2).toUpperCase());
+            word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
             m = p.matcher(word);
         }
 
@@ -3465,7 +3464,7 @@ public class DefaultCodegen implements CodegenConfig {
                 charAt = word.charAt(i);
             }
             i = i + 1;
-            word = word.substring(0, i).toLowerCase() + word.substring(i);
+            word = word.substring(0, i).toLowerCase(Locale.ROOT) + word.substring(i);
         }
 
         // remove all underscore

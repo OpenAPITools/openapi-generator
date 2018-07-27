@@ -17,21 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.OpenAPI;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Map;
 
 import static java.util.UUID.randomUUID;
 
@@ -39,7 +39,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
+    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
@@ -141,7 +141,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
         }
 
-        additionalProperties.put("dockerTag", packageName.toLowerCase());
+        additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
 
         apiPackage = packageName + ".Controllers";
         modelPackage = packageName + ".Models";
@@ -211,7 +211,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
 
         // Converts, for example, PUT to HttpPut for controller attributes
-        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase();
+        operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
     }
 
     @Override

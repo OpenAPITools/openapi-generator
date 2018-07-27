@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -28,10 +31,6 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,10 +39,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
@@ -341,8 +339,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(openAPIType.toLowerCase())) {
-            type = typeMapping.get(openAPIType.toLowerCase());
+        if (typeMapping.containsKey(openAPIType.toLowerCase(Locale.ROOT))) {
+            type = typeMapping.get(openAPIType.toLowerCase(Locale.ROOT));
             if (languageSpecificPrimitives.contains(type) && !foundationClasses.contains(type)) {
                 return toModelNameWithoutReservedWordCheck(type);
             }
@@ -417,7 +415,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean isDataTypeBinary(String dataType) {
-        return dataType.toLowerCase().startsWith("nsdata");
+        return dataType.toLowerCase(Locale.ROOT).startsWith("nsdata");
     }
 
     @Override

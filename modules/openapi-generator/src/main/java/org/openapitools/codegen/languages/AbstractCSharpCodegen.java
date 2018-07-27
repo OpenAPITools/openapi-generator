@@ -19,19 +19,12 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -233,7 +226,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            LOGGER.warn(String.format("%s is not used by C# generators. Please use %s",
+            LOGGER.warn(String.format(Locale.ROOT, "%s is not used by C# generators. Please use %s",
                     CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
         }
 
@@ -312,9 +305,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
-            if ("false".equals(useInterfacePrefix.toLowerCase())) {
+            if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
                 setInterfacePrefix("");
-            } else if (!"true".equals(useInterfacePrefix.toLowerCase())) {
+            } else if (!"true".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
                 // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
                 setInterfacePrefix(sanitizeName(useInterfacePrefix));
             }
@@ -751,8 +744,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // NOTE: typeMapping here supports things like string/String, long/Long, datetime/DateTime as lowercase keys.
         //       Should we require explicit casing here (values are not insensitive).
         // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(openAPIType.toLowerCase())) {
-            type = typeMapping.get(openAPIType.toLowerCase());
+        if (typeMapping.containsKey(openAPIType.toLowerCase(Locale.ROOT))) {
+            type = typeMapping.get(openAPIType.toLowerCase(Locale.ROOT));
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }

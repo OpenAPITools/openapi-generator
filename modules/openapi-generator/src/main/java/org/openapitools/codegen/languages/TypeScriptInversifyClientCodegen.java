@@ -29,7 +29,7 @@ import java.util.*;
 
 
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
+    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
 
     public static final String NPM_NAME = "npmName";
@@ -220,7 +220,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
             StringBuilder parameterName = new StringBuilder();
             int insideCurly = 0;
 
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
 
             // Iterate through existing string, one character at a time.
             for (int i = 0; i < op.path.length(); i++) {

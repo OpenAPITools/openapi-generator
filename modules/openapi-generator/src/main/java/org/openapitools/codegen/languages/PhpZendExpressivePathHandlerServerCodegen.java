@@ -17,23 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.PathItem;
-import org.openapitools.codegen.*;
-
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.core.util.Yaml;
-import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodegen {
 
@@ -121,7 +116,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
             }
         }
         if (counter == 0) {
-            co.operationIdLowerCase = co.operationId.toLowerCase();
+            co.operationIdLowerCase = co.operationId.toLowerCase(Locale.ROOT);
             opList.add(co);
             co.baseName = tag;
         }

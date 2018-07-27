@@ -25,6 +25,7 @@ import org.openapitools.codegen.SupportingFile;
 import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
-    private static final SimpleDateFormat MIGRATE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+    private static final SimpleDateFormat MIGRATE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ROOT);
 
     protected String gemName;
     protected String moduleName;

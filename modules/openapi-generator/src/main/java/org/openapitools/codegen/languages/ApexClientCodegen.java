@@ -28,7 +28,6 @@ import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.PasswordSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
@@ -47,6 +46,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ApexClientCodegen extends AbstractJavaCodegen {
@@ -184,7 +184,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         String out = null;
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ((ArraySchema) p).getItems();
-            out = String.format(
+            out = String.format(Locale.ROOT,
                     "new List<%s>()",
                     inner == null ? "Object" : getTypeDeclaration(inner)
             );
@@ -196,11 +196,11 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
-            out = String.format("new Map<String, %s>()", s);
+            out = String.format(Locale.ROOT, "new Map<String, %s>()", s);
         } else if (ModelUtils.isStringSchema(p)) {
             String def = (String) p.getDefault();
             if (def != null) {
-                out = p.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+                out = p.getEnum() == null ? String.format(Locale.ROOT, "'%s'", escapeText(def)) : def;
             }
         } else {
             out = super.toDefaultValue(p);
@@ -481,7 +481,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         if (apiVersion.matches("^\\d{2}(\\.0)?$")) {
             return apiVersion.substring(0, 2) + ".0";
         } else {
-            LOGGER.warn(String.format("specified API version is invalid: %s - defaulting to %s", apiVersion, this.apiVersion));
+            LOGGER.warn(String.format(Locale.ROOT, "specified API version is invalid: %s - defaulting to %s", apiVersion, this.apiVersion));
             return this.apiVersion;
         }
     }
@@ -532,7 +532,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23";
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
+                LOGGER.warn(String.format(Locale.ROOT, "The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
                         .getName(), example));
                 example = "2000, 1, 23";
             }
@@ -543,7 +543,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23, 4, 56, 7";
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
+                LOGGER.warn(String.format(Locale.ROOT, "The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
                         .getName(), example));
                 example = "2000, 1, 23, 4, 56, 7";
             }

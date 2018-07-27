@@ -19,19 +19,28 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.media.*;
-
-import java.io.File;
-import java.util.*;
-import java.io.Writer;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
@@ -287,7 +296,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
-            o.httpMethod = o.httpMethod.toLowerCase();
+            o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
 
             if (o.isListContainer) {
                 o.returnType = "[" + o.returnBaseType + "]";
