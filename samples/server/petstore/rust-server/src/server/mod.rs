@@ -73,7 +73,7 @@ use {Api,
 #[allow(unused_imports)]
 use models;
 
-pub mod auth;
+pub mod context;
 
 header! { (Warning, "Warning") => [String] }
 
@@ -2936,6 +2936,16 @@ where
 
 
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
+        }
+    }
+}
+
+impl<T, C> Clone for Service<T, C>
+{
+    fn clone(&self) -> Self {
+        Service {
+            api_impl: self.api_impl.clone(),
+            marker: self.marker.clone(),
         }
     }
 }
