@@ -234,7 +234,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
+     * Returns human-friendly help for the generator. Provide the consumer with help
      * tips, parameters here
      *
      * @return A string value for the help message

@@ -83,7 +83,7 @@ OAIApiResponse::asJsonObject() const {
 }
 
 qint32
-OAIApiResponse::getCode() {
+OAIApiResponse::getCode() const {
     return code;
 }
 void
@@ -93,7 +93,7 @@ OAIApiResponse::setCode(const qint32 &code) {
 }
 
 QString
-OAIApiResponse::getType() {
+OAIApiResponse::getType() const {
     return type;
 }
 void
@@ -103,7 +103,7 @@ OAIApiResponse::setType(const QString &type) {
 }
 
 QString
-OAIApiResponse::getMessage() {
+OAIApiResponse::getMessage() const {
     return message;
 }
 void

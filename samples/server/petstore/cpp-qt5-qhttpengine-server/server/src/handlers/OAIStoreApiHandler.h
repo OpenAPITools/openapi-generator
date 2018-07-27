@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIStoreApiHandler_H_
-#define _OAI_OAIStoreApiHandler_H_
+#ifndef OAI_OAIStoreApiHandler_H
+#define OAI_OAIStoreApiHandler_H
 
 #include <QObject>
 
@@ -41,4 +41,4 @@ public slots:
 
 }
 
-#endif // _OAI_OAIStoreApiHandler_H_
+#endif // OAI_OAIStoreApiHandler_H

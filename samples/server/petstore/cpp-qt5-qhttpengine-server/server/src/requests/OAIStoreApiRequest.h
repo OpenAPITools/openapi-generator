@@ -10,11 +10,12 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIStoreApiRequest_H_
-#define _OAI_OAIStoreApiRequest_H_
+#ifndef OAI_OAIStoreApiRequest_H
+#define OAI_OAIStoreApiRequest_H
 
 #include <QObject>
 #include <QStringList>
+#include <QMultiMap>
 #include <QNetworkReply>
 #include <QSharedPointer>
 
@@ -52,8 +53,15 @@ public:
     void placeOrderError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str);
     
 
-    QMap<QString, QString> getDefaultHeaders();
+    void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);
+
+    void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
+
+    QMap<QString, QString> getDefaultHeaders() const;
+
     QHttpEngine::Socket* getRawSocket();
+
+    void setHeaders(QMultiMap<QString,QString> headers);
 
 signals:
     void deleteOrder(QString order_id);
@@ -70,4 +78,4 @@ private:
 
 }
 
-#endif // _OAI_OAIStoreApiRequest_H_
+#endif // OAI_OAIStoreApiRequest_H

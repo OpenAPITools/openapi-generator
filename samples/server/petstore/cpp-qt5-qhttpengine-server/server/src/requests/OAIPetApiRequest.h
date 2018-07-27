@@ -10,11 +10,12 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIPetApiRequest_H_
-#define _OAI_OAIPetApiRequest_H_
+#ifndef OAI_OAIPetApiRequest_H
+#define OAI_OAIPetApiRequest_H
 
 #include <QObject>
 #include <QStringList>
+#include <QMultiMap>
 #include <QNetworkReply>
 #include <QSharedPointer>
 
@@ -65,8 +66,15 @@ public:
     void uploadFileError(OAIApiResponse res, QNetworkReply::NetworkError error_type, QString& error_str);
     
 
-    QMap<QString, QString> getDefaultHeaders();
+    void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);
+
+    void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
+
+    QMap<QString, QString> getDefaultHeaders() const;
+
     QHttpEngine::Socket* getRawSocket();
+
+    void setHeaders(QMultiMap<QString,QString> headers);
 
 signals:
     void addPet(OAIPet oai_pet);
@@ -87,4 +95,4 @@ private:
 
 }
 
-#endif // _OAI_OAIPetApiRequest_H_
+#endif // OAI_OAIPetApiRequest_H

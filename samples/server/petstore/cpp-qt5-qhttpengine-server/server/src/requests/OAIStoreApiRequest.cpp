@@ -30,9 +30,14 @@ OAIStoreApiRequest::~OAIStoreApiRequest(){
 }
 
 QMap<QString, QString> 
-OAIStoreApiRequest::getDefaultHeaders(){
+OAIStoreApiRequest::getDefaultHeaders() const {
     return defaultHeaders;
 }
+
+void OAIStoreApiRequest::setHeaders(QMultiMap<QString, QString> headers){
+
+}
+
 
 QHttpEngine::Socket* OAIStoreApiRequest::getRawSocket(){
     return socket;
@@ -95,6 +100,7 @@ void OAIStoreApiRequest::placeOrderRequest(){
   
 
 void OAIStoreApiRequest::deleteOrderResponse(){
+    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -102,6 +108,7 @@ void OAIStoreApiRequest::deleteOrderResponse(){
     }
 }
 void OAIStoreApiRequest::getInventoryResponse(QMap<QString, qint32> res){
+    Q_UNUSED(res);
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -109,6 +116,7 @@ void OAIStoreApiRequest::getInventoryResponse(QMap<QString, qint32> res){
     }
 }
 void OAIStoreApiRequest::getOrderByIdResponse(OAIOrder res){
+    Q_UNUSED(res);
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -116,6 +124,7 @@ void OAIStoreApiRequest::getOrderByIdResponse(OAIOrder res){
     }
 }
 void OAIStoreApiRequest::placeOrderResponse(OAIOrder res){
+    Q_UNUSED(res);
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -126,7 +135,8 @@ void OAIStoreApiRequest::placeOrderResponse(OAIOrder res){
 
 void OAIStoreApiRequest::deleteOrderError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+         
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -135,7 +145,8 @@ void OAIStoreApiRequest::deleteOrderError(QNetworkReply::NetworkError error_type
 }
 void OAIStoreApiRequest::getInventoryError(QMap<QString, qint32> res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+    Q_UNUSED(res);     
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -144,7 +155,8 @@ void OAIStoreApiRequest::getInventoryError(QMap<QString, qint32> res, QNetworkRe
 }
 void OAIStoreApiRequest::getOrderByIdError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+    Q_UNUSED(res);     
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -153,7 +165,8 @@ void OAIStoreApiRequest::getOrderByIdError(OAIOrder res, QNetworkReply::NetworkE
 }
 void OAIStoreApiRequest::placeOrderError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+    Q_UNUSED(res);     
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -162,6 +175,12 @@ void OAIStoreApiRequest::placeOrderError(OAIOrder res, QNetworkReply::NetworkErr
 }
 
 
+void OAIStoreApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
 
+}
+    
+void OAIStoreApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
+
+}
 
 }

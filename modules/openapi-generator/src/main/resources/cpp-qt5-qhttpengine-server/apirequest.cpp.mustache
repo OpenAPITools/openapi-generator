@@ -21,9 +21,14 @@ namespace {{this}} {
 }
 
 QMap<QString, QString> 
-{{classname}}Request::getDefaultHeaders(){
+{{classname}}Request::getDefaultHeaders() const {
     return defaultHeaders;
 }
+
+void {{classname}}Request::setHeaders(QMultiMap<QString, QString> headers){
+
+}
+
 
 QHttpEngine::Socket* {{classname}}Request::getRawSocket(){
     return socket;
@@ -98,6 +103,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 {{/operation}}{{/operations}}  
 
 {{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}{{{returnType}}} res{{/returnType}}){
+    {{#returnType}}Q_UNUSED(res);{{/returnType}}
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -108,7 +114,8 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 
 {{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+    {{#returnType}}Q_UNUSED(res);{{/returnType}}     
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -117,7 +124,13 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 }
 {{/operation}}{{/operations}}
 
+void {{classname}}Request::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
 
+}
+    
+void {{classname}}Request::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
+
+}
 
 {{#cppNamespaceDeclarations}}
 }

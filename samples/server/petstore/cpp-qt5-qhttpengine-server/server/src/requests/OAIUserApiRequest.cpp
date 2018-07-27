@@ -30,9 +30,14 @@ OAIUserApiRequest::~OAIUserApiRequest(){
 }
 
 QMap<QString, QString> 
-OAIUserApiRequest::getDefaultHeaders(){
+OAIUserApiRequest::getDefaultHeaders() const {
     return defaultHeaders;
 }
+
+void OAIUserApiRequest::setHeaders(QMultiMap<QString, QString> headers){
+
+}
+
 
 QHttpEngine::Socket* OAIUserApiRequest::getRawSocket(){
     return socket;
@@ -179,6 +184,7 @@ void OAIUserApiRequest::updateUserRequest(QString usernamestr){
   
 
 void OAIUserApiRequest::createUserResponse(){
+    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -186,6 +192,7 @@ void OAIUserApiRequest::createUserResponse(){
     }
 }
 void OAIUserApiRequest::createUsersWithArrayInputResponse(){
+    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -193,6 +200,7 @@ void OAIUserApiRequest::createUsersWithArrayInputResponse(){
     }
 }
 void OAIUserApiRequest::createUsersWithListInputResponse(){
+    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -200,6 +208,7 @@ void OAIUserApiRequest::createUsersWithListInputResponse(){
     }
 }
 void OAIUserApiRequest::deleteUserResponse(){
+    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -207,6 +216,7 @@ void OAIUserApiRequest::deleteUserResponse(){
     }
 }
 void OAIUserApiRequest::getUserByNameResponse(OAIUser res){
+    Q_UNUSED(res);
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -214,6 +224,7 @@ void OAIUserApiRequest::getUserByNameResponse(OAIUser res){
     }
 }
 void OAIUserApiRequest::loginUserResponse(QString res){
+    Q_UNUSED(res);
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -221,6 +232,7 @@ void OAIUserApiRequest::loginUserResponse(QString res){
     }
 }
 void OAIUserApiRequest::logoutUserResponse(){
+    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -228,6 +240,7 @@ void OAIUserApiRequest::logoutUserResponse(){
     }
 }
 void OAIUserApiRequest::updateUserResponse(){
+    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -238,7 +251,8 @@ void OAIUserApiRequest::updateUserResponse(){
 
 void OAIUserApiRequest::createUserError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+         
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -247,7 +261,8 @@ void OAIUserApiRequest::createUserError(QNetworkReply::NetworkError error_type, 
 }
 void OAIUserApiRequest::createUsersWithArrayInputError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+         
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -256,7 +271,8 @@ void OAIUserApiRequest::createUsersWithArrayInputError(QNetworkReply::NetworkErr
 }
 void OAIUserApiRequest::createUsersWithListInputError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+         
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -265,7 +281,8 @@ void OAIUserApiRequest::createUsersWithListInputError(QNetworkReply::NetworkErro
 }
 void OAIUserApiRequest::deleteUserError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+         
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -274,7 +291,8 @@ void OAIUserApiRequest::deleteUserError(QNetworkReply::NetworkError error_type, 
 }
 void OAIUserApiRequest::getUserByNameError(OAIUser res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+    Q_UNUSED(res);     
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -283,7 +301,8 @@ void OAIUserApiRequest::getUserByNameError(OAIUser res, QNetworkReply::NetworkEr
 }
 void OAIUserApiRequest::loginUserError(QString res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+    Q_UNUSED(res);     
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -292,7 +311,8 @@ void OAIUserApiRequest::loginUserError(QString res, QNetworkReply::NetworkError 
 }
 void OAIUserApiRequest::logoutUserError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+         
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -301,7 +321,8 @@ void OAIUserApiRequest::logoutUserError(QNetworkReply::NetworkError error_type, 
 }
 void OAIUserApiRequest::updateUserError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_str);
+         
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
@@ -310,6 +331,12 @@ void OAIUserApiRequest::updateUserError(QNetworkReply::NetworkError error_type, 
 }
 
 
+void OAIUserApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
 
+}
+    
+void OAIUserApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
+
+}
 
 }

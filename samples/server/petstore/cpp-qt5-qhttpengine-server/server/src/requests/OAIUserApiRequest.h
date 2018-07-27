@@ -10,11 +10,12 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIUserApiRequest_H_
-#define _OAI_OAIUserApiRequest_H_
+#ifndef OAI_OAIUserApiRequest_H
+#define OAI_OAIUserApiRequest_H
 
 #include <QObject>
 #include <QStringList>
+#include <QMultiMap>
 #include <QNetworkReply>
 #include <QSharedPointer>
 
@@ -64,8 +65,15 @@ public:
     void updateUserError(QNetworkReply::NetworkError error_type, QString& error_str);
     
 
-    QMap<QString, QString> getDefaultHeaders();
+    void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);
+
+    void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
+
+    QMap<QString, QString> getDefaultHeaders() const;
+
     QHttpEngine::Socket* getRawSocket();
+
+    void setHeaders(QMultiMap<QString,QString> headers);
 
 signals:
     void createUser(OAIUser oai_user);
@@ -86,4 +94,4 @@ private:
 
 }
 
-#endif // _OAI_OAIUserApiRequest_H_
+#endif // OAI_OAIUserApiRequest_H

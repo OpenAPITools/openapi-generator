@@ -1,9 +1,10 @@
 {{>licenseInfo}}
-#ifndef _{{prefix}}_{{classname}}Request_H_
-#define _{{prefix}}_{{classname}}Request_H_
+#ifndef {{prefix}}_{{classname}}Request_H
+#define {{prefix}}_{{classname}}Request_H
 
 #include <QObject>
 #include <QStringList>
+#include <QMultiMap>
 #include <QNetworkReply>
 #include <QSharedPointer>
 
@@ -33,8 +34,15 @@ public:
     {{#operations}}{{#operation}}void {{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
     {{/operation}}{{/operations}}
 
-    QMap<QString, QString> getDefaultHeaders();
+    void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);
+
+    void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
+
+    QMap<QString, QString> getDefaultHeaders() const;
+
     QHttpEngine::Socket* getRawSocket();
+
+    void setHeaders(QMultiMap<QString,QString> headers);
 
 signals:
     {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
@@ -50,4 +58,4 @@ private:
 }
 {{/cppNamespaceDeclarations}}
 
-#endif // _{{prefix}}_{{classname}}Request_H_
+#endif // {{prefix}}_{{classname}}Request_H
