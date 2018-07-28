@@ -286,7 +286,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         return camelize(operationId, true);
     }
     /**
-     * Output the Getter name for boolean property, e.g. isActive
+     * Output the Getter name for boolean property, e.g. getActive
      *
      * @param name the name of the property
      * @return getter name based on naming convention
