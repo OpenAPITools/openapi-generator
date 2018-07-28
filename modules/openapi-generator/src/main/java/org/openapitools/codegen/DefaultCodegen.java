@@ -2322,9 +2322,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void addHeadersFromRefs(OpenAPI openAPI, ApiResponse response, CodegenOperation op) {
-        for(Entry<String, Header> header : response.getHeaders().entrySet()){
-            if(header.getValue().get$ref() != null){
-                response.addHeaderObject(header.getKey(), getHeaderFromRef(header.getValue().get$ref(), openAPI));
+        if(response.getHeaders() != null) {
+            for (Entry<String, Header> header : response.getHeaders().entrySet()) {
+                if (header.getValue().get$ref() != null) {
+                    response.addHeaderObject(header.getKey(), getHeaderFromRef(header.getValue().get$ref(), openAPI));
+                }
             }
         }
     }
