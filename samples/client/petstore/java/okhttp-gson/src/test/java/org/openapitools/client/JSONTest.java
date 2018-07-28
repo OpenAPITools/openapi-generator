@@ -56,8 +56,7 @@ public class JSONTest {
 
     @Test
     public void testDateTypeAdapter() {
-        Calendar cal = new GregorianCalendar(Locale.GERMAN);
-        cal.set(2015, 10, 7, 3, 49, 9);
+        Calendar cal = new GregorianCalendar(2015, 10, 7, 3, 49, 9);
         cal.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         assertEquals(json.deserialize("\"2015-11-07T05:49:09+02\"", Date.class), cal.getTime());
