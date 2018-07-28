@@ -37,33 +37,33 @@ public:
     virtual ~OAIPetApiRequest();
 
     void addPetRequest();
-    void deletePetRequest(QString pet_id);
+    void deletePetRequest(const QString& pet_id);
     void findPetsByStatusRequest();
     void findPetsByTagsRequest();
-    void getPetByIdRequest(QString pet_id);
+    void getPetByIdRequest(const QString& pet_id);
     void updatePetRequest();
-    void updatePetWithFormRequest(QString pet_id);
-    void uploadFileRequest(QString pet_id);
+    void updatePetWithFormRequest(const QString& pet_id);
+    void uploadFileRequest(const QString& pet_id);
     
 
     void addPetResponse();
     void deletePetResponse();
-    void findPetsByStatusResponse(QList<OAIPet> res);
-    void findPetsByTagsResponse(QList<OAIPet> res);
-    void getPetByIdResponse(OAIPet res);
+    void findPetsByStatusResponse(const QList<OAIPet>& res);
+    void findPetsByTagsResponse(const QList<OAIPet>& res);
+    void getPetByIdResponse(const OAIPet& res);
     void updatePetResponse();
     void updatePetWithFormResponse();
-    void uploadFileResponse(OAIApiResponse res);
+    void uploadFileResponse(const OAIApiResponse& res);
     
 
     void addPetError(QNetworkReply::NetworkError error_type, QString& error_str);
     void deletePetError(QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByStatusError(QList<OAIPet> res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void findPetsByTagsError(QList<OAIPet> res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getPetByIdError(OAIPet res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void findPetsByStatusError(const QList<OAIPet>& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void findPetsByTagsError(const QList<OAIPet>& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getPetByIdError(const OAIPet& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void updatePetError(QNetworkReply::NetworkError error_type, QString& error_str);
     void updatePetWithFormError(QNetworkReply::NetworkError error_type, QString& error_str);
-    void uploadFileError(OAIApiResponse res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void uploadFileError(const OAIApiResponse& res, QNetworkReply::NetworkError error_type, QString& error_str);
     
 
     void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);

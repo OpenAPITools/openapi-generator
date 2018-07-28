@@ -35,22 +35,22 @@ public:
     OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandler* handler);
     virtual ~OAIStoreApiRequest();
 
-    void deleteOrderRequest(QString order_id);
+    void deleteOrderRequest(const QString& order_id);
     void getInventoryRequest();
-    void getOrderByIdRequest(QString order_id);
+    void getOrderByIdRequest(const QString& order_id);
     void placeOrderRequest();
     
 
     void deleteOrderResponse();
-    void getInventoryResponse(QMap<QString, qint32> res);
-    void getOrderByIdResponse(OAIOrder res);
-    void placeOrderResponse(OAIOrder res);
+    void getInventoryResponse(const QMap<QString, qint32>& res);
+    void getOrderByIdResponse(const OAIOrder& res);
+    void placeOrderResponse(const OAIOrder& res);
     
 
     void deleteOrderError(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventoryError(QMap<QString, qint32> res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getInventoryError(const QMap<QString, qint32>& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getOrderByIdError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void placeOrderError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str);
     
 
     void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);

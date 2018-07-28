@@ -38,19 +38,19 @@ public:
     void createUserRequest();
     void createUsersWithArrayInputRequest();
     void createUsersWithListInputRequest();
-    void deleteUserRequest(QString username);
-    void getUserByNameRequest(QString username);
+    void deleteUserRequest(const QString& username);
+    void getUserByNameRequest(const QString& username);
     void loginUserRequest();
     void logoutUserRequest();
-    void updateUserRequest(QString username);
+    void updateUserRequest(const QString& username);
     
 
     void createUserResponse();
     void createUsersWithArrayInputResponse();
     void createUsersWithListInputResponse();
     void deleteUserResponse();
-    void getUserByNameResponse(OAIUser res);
-    void loginUserResponse(QString res);
+    void getUserByNameResponse(const OAIUser& res);
+    void loginUserResponse(const QString& res);
     void logoutUserResponse();
     void updateUserResponse();
     
@@ -59,8 +59,8 @@ public:
     void createUsersWithArrayInputError(QNetworkReply::NetworkError error_type, QString& error_str);
     void createUsersWithListInputError(QNetworkReply::NetworkError error_type, QString& error_str);
     void deleteUserError(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getUserByNameError(OAIUser res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void loginUserError(QString res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getUserByNameError(const OAIUser& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void loginUserError(const QString& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void logoutUserError(QNetworkReply::NetworkError error_type, QString& error_str);
     void updateUserError(QNetworkReply::NetworkError error_type, QString& error_str);
     

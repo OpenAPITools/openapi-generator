@@ -25,13 +25,13 @@ public:
     {{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* handler);
     virtual ~{{classname}}Request();
 
-    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}QString {{{paramName}}}{{/pathParams}}{{/hasPathParams}});
+    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}{{/pathParams}}{{/hasPathParams}});
     {{/operation}}{{/operations}}
 
-    {{#operations}}{{#operation}}void {{nickname}}Response({{#returnType}}{{{returnType}}} res{{/returnType}});
+    {{#operations}}{{#operation}}void {{nickname}}Response({{#returnType}}const {{{returnType}}}& res{{/returnType}});
     {{/operation}}{{/operations}}
 
-    {{#operations}}{{#operation}}void {{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
+    {{#operations}}{{#operation}}void {{nickname}}Error({{#returnType}}const {{{returnType}}}& res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
     {{/operation}}{{/operations}}
 
     void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);

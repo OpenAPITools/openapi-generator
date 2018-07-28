@@ -111,7 +111,7 @@ void OAIUserApiRequest::createUsersWithListInputRequest(){
 }
 
 
-void OAIUserApiRequest::deleteUserRequest(QString usernamestr){
+void OAIUserApiRequest::deleteUserRequest(const QString& usernamestr){
     qDebug() << "/v2/user/{username}";
     connect(this, &OAIUserApiRequest::deleteUser, handler, &OAIUserApiHandler::deleteUser);
     
@@ -124,7 +124,7 @@ void OAIUserApiRequest::deleteUserRequest(QString usernamestr){
 }
 
 
-void OAIUserApiRequest::getUserByNameRequest(QString usernamestr){
+void OAIUserApiRequest::getUserByNameRequest(const QString& usernamestr){
     qDebug() << "/v2/user/{username}";
     connect(this, &OAIUserApiRequest::getUserByName, handler, &OAIUserApiHandler::getUserByName);
     
@@ -169,7 +169,7 @@ void OAIUserApiRequest::logoutUserRequest(){
 }
 
 
-void OAIUserApiRequest::updateUserRequest(QString usernamestr){
+void OAIUserApiRequest::updateUserRequest(const QString& usernamestr){
     qDebug() << "/v2/user/{username}";
     connect(this, &OAIUserApiRequest::updateUser, handler, &OAIUserApiHandler::updateUser);
     
@@ -221,7 +221,7 @@ void OAIUserApiRequest::deleteUserResponse(){
     }
 }
 
-void OAIUserApiRequest::getUserByNameResponse(OAIUser res){
+void OAIUserApiRequest::getUserByNameResponse(const OAIUser& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -230,7 +230,7 @@ void OAIUserApiRequest::getUserByNameResponse(OAIUser res){
     }
 }
 
-void OAIUserApiRequest::loginUserResponse(QString res){
+void OAIUserApiRequest::loginUserResponse(const QString& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -296,7 +296,7 @@ void OAIUserApiRequest::deleteUserError(QNetworkReply::NetworkError error_type, 
     }
 }
 
-void OAIUserApiRequest::getUserByNameError(OAIUser res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIUserApiRequest::getUserByNameError(const OAIUser& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
@@ -307,7 +307,7 @@ void OAIUserApiRequest::getUserByNameError(OAIUser res, QNetworkReply::NetworkEr
     }
 }
 
-void OAIUserApiRequest::loginUserError(QString res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIUserApiRequest::loginUserError(const QString& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string

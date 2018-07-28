@@ -50,7 +50,7 @@ QHttpEngine::Socket* OAIStoreApiRequest::getRawSocket(){
 }
 
 
-void OAIStoreApiRequest::deleteOrderRequest(QString order_idstr){
+void OAIStoreApiRequest::deleteOrderRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
     connect(this, &OAIStoreApiRequest::deleteOrder, handler, &OAIStoreApiHandler::deleteOrder);
     
@@ -74,7 +74,7 @@ void OAIStoreApiRequest::getInventoryRequest(){
 }
 
 
-void OAIStoreApiRequest::getOrderByIdRequest(QString order_idstr){
+void OAIStoreApiRequest::getOrderByIdRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
     connect(this, &OAIStoreApiRequest::getOrderById, handler, &OAIStoreApiHandler::getOrderById);
     
@@ -113,7 +113,7 @@ void OAIStoreApiRequest::deleteOrderResponse(){
     }
 }
 
-void OAIStoreApiRequest::getInventoryResponse(QMap<QString, qint32> res){
+void OAIStoreApiRequest::getInventoryResponse(const QMap<QString, qint32>& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -122,7 +122,7 @@ void OAIStoreApiRequest::getInventoryResponse(QMap<QString, qint32> res){
     }
 }
 
-void OAIStoreApiRequest::getOrderByIdResponse(OAIOrder res){
+void OAIStoreApiRequest::getOrderByIdResponse(const OAIOrder& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -131,7 +131,7 @@ void OAIStoreApiRequest::getOrderByIdResponse(OAIOrder res){
     }
 }
 
-void OAIStoreApiRequest::placeOrderResponse(OAIOrder res){
+void OAIStoreApiRequest::placeOrderResponse(const OAIOrder& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -151,7 +151,7 @@ void OAIStoreApiRequest::deleteOrderError(QNetworkReply::NetworkError error_type
     }
 }
 
-void OAIStoreApiRequest::getInventoryError(QMap<QString, qint32> res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIStoreApiRequest::getInventoryError(const QMap<QString, qint32>& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
@@ -162,7 +162,7 @@ void OAIStoreApiRequest::getInventoryError(QMap<QString, qint32> res, QNetworkRe
     }
 }
 
-void OAIStoreApiRequest::getOrderByIdError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIStoreApiRequest::getOrderByIdError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
@@ -173,7 +173,7 @@ void OAIStoreApiRequest::getOrderByIdError(OAIOrder res, QNetworkReply::NetworkE
     }
 }
 
-void OAIStoreApiRequest::placeOrderError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIStoreApiRequest::placeOrderError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string

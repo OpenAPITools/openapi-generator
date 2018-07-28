@@ -67,7 +67,7 @@ void OAIPetApiRequest::addPetRequest(){
 }
 
 
-void OAIPetApiRequest::deletePetRequest(QString pet_idstr){
+void OAIPetApiRequest::deletePetRequest(const QString& pet_idstr){
     qDebug() << "/v2/pet/{petId}";
     connect(this, &OAIPetApiRequest::deletePet, handler, &OAIPetApiHandler::deletePet);
     
@@ -117,7 +117,7 @@ void OAIPetApiRequest::findPetsByTagsRequest(){
 }
 
 
-void OAIPetApiRequest::getPetByIdRequest(QString pet_idstr){
+void OAIPetApiRequest::getPetByIdRequest(const QString& pet_idstr){
     qDebug() << "/v2/pet/{petId}";
     connect(this, &OAIPetApiRequest::getPetById, handler, &OAIPetApiHandler::getPetById);
     
@@ -147,7 +147,7 @@ void OAIPetApiRequest::updatePetRequest(){
 }
 
 
-void OAIPetApiRequest::updatePetWithFormRequest(QString pet_idstr){
+void OAIPetApiRequest::updatePetWithFormRequest(const QString& pet_idstr){
     qDebug() << "/v2/pet/{petId}";
     connect(this, &OAIPetApiRequest::updatePetWithForm, handler, &OAIPetApiHandler::updatePetWithForm);
     
@@ -162,7 +162,7 @@ void OAIPetApiRequest::updatePetWithFormRequest(QString pet_idstr){
 }
 
 
-void OAIPetApiRequest::uploadFileRequest(QString pet_idstr){
+void OAIPetApiRequest::uploadFileRequest(const QString& pet_idstr){
     qDebug() << "/v2/pet/{petId}/uploadImage";
     connect(this, &OAIPetApiRequest::uploadFile, handler, &OAIPetApiHandler::uploadFile);
     
@@ -194,7 +194,7 @@ void OAIPetApiRequest::deletePetResponse(){
     }
 }
 
-void OAIPetApiRequest::findPetsByStatusResponse(QList<OAIPet> res){
+void OAIPetApiRequest::findPetsByStatusResponse(const QList<OAIPet>& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toArray());
     socket->writeJson(resDoc);
@@ -203,7 +203,7 @@ void OAIPetApiRequest::findPetsByStatusResponse(QList<OAIPet> res){
     }
 }
 
-void OAIPetApiRequest::findPetsByTagsResponse(QList<OAIPet> res){
+void OAIPetApiRequest::findPetsByTagsResponse(const QList<OAIPet>& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toArray());
     socket->writeJson(resDoc);
@@ -212,7 +212,7 @@ void OAIPetApiRequest::findPetsByTagsResponse(QList<OAIPet> res){
     }
 }
 
-void OAIPetApiRequest::getPetByIdResponse(OAIPet res){
+void OAIPetApiRequest::getPetByIdResponse(const OAIPet& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -237,7 +237,7 @@ void OAIPetApiRequest::updatePetWithFormResponse(){
     }
 }
 
-void OAIPetApiRequest::uploadFileResponse(OAIApiResponse res){
+void OAIPetApiRequest::uploadFileResponse(const OAIApiResponse& res){
     writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -267,7 +267,7 @@ void OAIPetApiRequest::deletePetError(QNetworkReply::NetworkError error_type, QS
     }
 }
 
-void OAIPetApiRequest::findPetsByStatusError(QList<OAIPet> res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIPetApiRequest::findPetsByStatusError(const QList<OAIPet>& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
@@ -278,7 +278,7 @@ void OAIPetApiRequest::findPetsByStatusError(QList<OAIPet> res, QNetworkReply::N
     }
 }
 
-void OAIPetApiRequest::findPetsByTagsError(QList<OAIPet> res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIPetApiRequest::findPetsByTagsError(const QList<OAIPet>& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
@@ -289,7 +289,7 @@ void OAIPetApiRequest::findPetsByTagsError(QList<OAIPet> res, QNetworkReply::Net
     }
 }
 
-void OAIPetApiRequest::getPetByIdError(OAIPet res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIPetApiRequest::getPetByIdError(const OAIPet& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
@@ -320,7 +320,7 @@ void OAIPetApiRequest::updatePetWithFormError(QNetworkReply::NetworkError error_
     }
 }
 
-void OAIPetApiRequest::uploadFileError(OAIApiResponse res, QNetworkReply::NetworkError error_type, QString& error_str){
+void OAIPetApiRequest::uploadFileError(const OAIApiResponse& res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string

@@ -41,7 +41,7 @@ QHttpEngine::Socket* {{classname}}Request::getRawSocket(){
 }
 
 {{#operations}}{{#operation}}
-void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}QString {{{paramName}}}str{{/pathParams}}{{/hasPathParams}}){
+void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}str{{/pathParams}}{{/hasPathParams}}){
     qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
     connect(this, &{{classname}}Request::{{nickname}}, handler, &{{classname}}Handler::{{nickname}});
     
@@ -108,7 +108,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 
 {{/operation}}{{/operations}}  
 
-{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}{{{returnType}}} res{{/returnType}}){
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}const {{{returnType}}}& res{{/returnType}}){
     writeResponseHeaders();{{#returnType}}{{^isPrimitiveType}}
     QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());{{/isPrimitiveType}}
     socket->writeJson(resDoc);{{#isPrimitiveType}}
@@ -120,7 +120,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 }
 
 {{/operation}}{{/operations}}
-{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}const {{{returnType}}}& res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();{{#returnType}}
     Q_UNUSED(error_str);  // response will be used instead of error string{{^isPrimitiveType}}
