@@ -35,7 +35,7 @@ import java.util.Set;
 
 public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implements CodegenConfig {
     @SuppressWarnings("unused")
-	private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5QHttpEngineServerCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5QHttpEngineServerCodegen.class);
 
     public static final String CPP_NAMESPACE = "cppNamespace";
     public static final String CPP_NAMESPACE_DESC = "C++ namespace (convention: name::space::for::api).";
