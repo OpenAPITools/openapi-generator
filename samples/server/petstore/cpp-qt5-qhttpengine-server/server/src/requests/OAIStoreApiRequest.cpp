@@ -22,6 +22,10 @@
 namespace OpenAPI {
 
 OAIStoreApiRequest::OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandler* hdl) : QObject(s), socket(s), handler(hdl) {
+    auto headers = s->headers();
+    for(auto itr = headers.begin(); itr != headers.end(); itr++) {
+        requestHeaders.insert(QString(itr.key()), QString(itr.value()));
+    }     
 }
 
 OAIStoreApiRequest::~OAIStoreApiRequest(){
@@ -30,12 +34,14 @@ OAIStoreApiRequest::~OAIStoreApiRequest(){
 }
 
 QMap<QString, QString> 
-OAIStoreApiRequest::getDefaultHeaders() const {
-    return defaultHeaders;
+OAIStoreApiRequest::getRequestHeaders() const {
+    return requestHeaders;
 }
 
-void OAIStoreApiRequest::setHeaders(QMultiMap<QString, QString> headers){
-
+void OAIStoreApiRequest::setResponseHeaders(const QMultiMap<QString, QString>& headers){
+    for(auto itr = headers.begin(); itr != headers.end(); ++itr) {
+        responseHeaders.insert(itr.key(), itr.value());
+    }
 }
 
 
@@ -100,87 +106,133 @@ void OAIStoreApiRequest::placeOrderRequest(){
   
 
 void OAIStoreApiRequest::deleteOrderResponse(){
-    
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIStoreApiRequest::getInventoryResponse(QMap<QString, qint32> res){
-    Q_UNUSED(res);
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIStoreApiRequest::getOrderByIdResponse(OAIOrder res){
-    Q_UNUSED(res);
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIStoreApiRequest::placeOrderResponse(OAIOrder res){
-    Q_UNUSED(res);
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
 
 
 void OAIStoreApiRequest::deleteOrderError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);
-         
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIStoreApiRequest::getInventoryError(QMap<QString, qint32> res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);
-    Q_UNUSED(res);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIStoreApiRequest::getOrderByIdError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);
-    Q_UNUSED(res);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIStoreApiRequest::placeOrderError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);
-    Q_UNUSED(res);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    QHttpEngine::Socket::HeaderMap resHeaders;
+    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+    }
+    socket->setHeaders(resHeaders);
+    socket->writeHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
 
 
 void OAIStoreApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
-
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
 }
     
 void OAIStoreApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
-
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
 }
 
 }

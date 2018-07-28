@@ -70,11 +70,11 @@ public:
 
     void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
 
-    QMap<QString, QString> getDefaultHeaders() const;
+    QMap<QString, QString> getRequestHeaders() const;
 
     QHttpEngine::Socket* getRawSocket();
 
-    void setHeaders(QMultiMap<QString,QString> headers);
+    void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
     void addPet(OAIPet oai_pet);
@@ -88,7 +88,8 @@ signals:
     
 
 private:
-    QMap<QString, QString> defaultHeaders;
+    QMap<QString, QString> requestHeaders;
+    QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
     OAIPetApiHandler *handler;
 };
