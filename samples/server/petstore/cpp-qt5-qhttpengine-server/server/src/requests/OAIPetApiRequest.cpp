@@ -179,12 +179,7 @@ void OAIPetApiRequest::uploadFileRequest(QString pet_idstr){
   
 
 void OAIPetApiRequest::addPetResponse(){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->close();
@@ -192,12 +187,7 @@ void OAIPetApiRequest::addPetResponse(){
 }
 
 void OAIPetApiRequest::deletePetResponse(){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->close();
@@ -205,12 +195,7 @@ void OAIPetApiRequest::deletePetResponse(){
 }
 
 void OAIPetApiRequest::findPetsByStatusResponse(QList<OAIPet> res){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toArray());
     socket->writeJson(resDoc);
     if(socket->isOpen()){
@@ -219,12 +204,7 @@ void OAIPetApiRequest::findPetsByStatusResponse(QList<OAIPet> res){
 }
 
 void OAIPetApiRequest::findPetsByTagsResponse(QList<OAIPet> res){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toArray());
     socket->writeJson(resDoc);
     if(socket->isOpen()){
@@ -233,12 +213,7 @@ void OAIPetApiRequest::findPetsByTagsResponse(QList<OAIPet> res){
 }
 
 void OAIPetApiRequest::getPetByIdResponse(OAIPet res){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
     if(socket->isOpen()){
@@ -247,12 +222,7 @@ void OAIPetApiRequest::getPetByIdResponse(OAIPet res){
 }
 
 void OAIPetApiRequest::updatePetResponse(){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->close();
@@ -260,12 +230,7 @@ void OAIPetApiRequest::updatePetResponse(){
 }
 
 void OAIPetApiRequest::updatePetWithFormResponse(){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->close();
@@ -273,12 +238,7 @@ void OAIPetApiRequest::updatePetWithFormResponse(){
 }
 
 void OAIPetApiRequest::uploadFileResponse(OAIApiResponse res){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
     if(socket->isOpen()){
@@ -289,12 +249,7 @@ void OAIPetApiRequest::uploadFileResponse(OAIApiResponse res){
 
 void OAIPetApiRequest::addPetError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     socket->write(error_str.toUtf8());
     if(socket->isOpen()){
@@ -304,12 +259,7 @@ void OAIPetApiRequest::addPetError(QNetworkReply::NetworkError error_type, QStri
 
 void OAIPetApiRequest::deletePetError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     socket->write(error_str.toUtf8());
     if(socket->isOpen()){
@@ -319,12 +269,7 @@ void OAIPetApiRequest::deletePetError(QNetworkReply::NetworkError error_type, QS
 
 void OAIPetApiRequest::findPetsByStatusError(QList<OAIPet> res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toArray());
     socket->writeJson(resDoc);
@@ -335,12 +280,7 @@ void OAIPetApiRequest::findPetsByStatusError(QList<OAIPet> res, QNetworkReply::N
 
 void OAIPetApiRequest::findPetsByTagsError(QList<OAIPet> res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toArray());
     socket->writeJson(resDoc);
@@ -351,12 +291,7 @@ void OAIPetApiRequest::findPetsByTagsError(QList<OAIPet> res, QNetworkReply::Net
 
 void OAIPetApiRequest::getPetByIdError(OAIPet res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);
@@ -367,12 +302,7 @@ void OAIPetApiRequest::getPetByIdError(OAIPet res, QNetworkReply::NetworkError e
 
 void OAIPetApiRequest::updatePetError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     socket->write(error_str.toUtf8());
     if(socket->isOpen()){
@@ -382,12 +312,7 @@ void OAIPetApiRequest::updatePetError(QNetworkReply::NetworkError error_type, QS
 
 void OAIPetApiRequest::updatePetWithFormError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();    
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     socket->write(error_str.toUtf8());
     if(socket->isOpen()){
@@ -397,12 +322,7 @@ void OAIPetApiRequest::updatePetWithFormError(QNetworkReply::NetworkError error_
 
 void OAIPetApiRequest::uploadFileError(OAIApiResponse res, QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();
+    writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
     QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
     socket->writeJson(resDoc);

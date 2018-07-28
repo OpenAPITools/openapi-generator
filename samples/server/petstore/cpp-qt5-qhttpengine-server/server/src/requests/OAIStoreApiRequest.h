@@ -75,6 +75,15 @@ private:
     QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
     OAIStoreApiHandler *handler;
+
+    inline void writeResponseHeaders(){
+        QHttpEngine::Socket::HeaderMap resHeaders;
+        for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+            resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+        }
+        socket->setHeaders(resHeaders);
+        socket->writeHeaders();        
+    }
 };
 
 }

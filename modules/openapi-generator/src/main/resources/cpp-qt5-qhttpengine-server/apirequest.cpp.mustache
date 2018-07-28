@@ -109,12 +109,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 {{/operation}}{{/operations}}  
 
 {{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}{{{returnType}}} res{{/returnType}}){
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();{{#returnType}}{{^isPrimitiveType}}
+    writeResponseHeaders();{{#returnType}}{{^isPrimitiveType}}
     QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());{{/isPrimitiveType}}
     socket->writeJson(resDoc);{{#isPrimitiveType}}
     socket->write(::{{cppNamespace}}::toStringValue(res).toUtf8());{{/isPrimitiveType}}{{/returnType}}{{^returnType}}    
@@ -127,12 +122,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 {{/operation}}{{/operations}}
 {{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    QHttpEngine::Socket::HeaderMap resHeaders;
-    for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
-        resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
-    }
-    socket->setHeaders(resHeaders);
-    socket->writeHeaders();{{#returnType}}
+    writeResponseHeaders();{{#returnType}}
     Q_UNUSED(error_str);  // response will be used instead of error string{{^isPrimitiveType}}
     QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());{{/isPrimitiveType}}
     socket->writeJson(resDoc);{{#isPrimitiveType}}
