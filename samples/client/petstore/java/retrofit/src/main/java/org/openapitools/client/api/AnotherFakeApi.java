@@ -11,7 +11,6 @@ import org.openapitools.client.model.Client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public interface AnotherFakeApi {
