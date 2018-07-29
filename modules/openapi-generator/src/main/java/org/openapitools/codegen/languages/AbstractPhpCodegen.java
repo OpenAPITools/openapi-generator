@@ -236,8 +236,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // make test path available in mustache template
         additionalProperties.put("testBasePath", testBasePath);
 
-        // // apache v2 license
-        // supportingFiles.add(new SupportingFile("LICENSE", getPackagePath(), "LICENSE"));
+        // apache v2 license
+        // supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
     }
 
     public String getPackagePath() {
@@ -245,7 +245,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     public String toPackagePath(String packageName, String basePath) {
-        return (getPackagePath() + File.separatorChar + toSrcPath(packageName, basePath));
+        return toSrcPath(packageName, basePath);
     }
 
     public String toSrcPath(String packageName, String basePath) {
@@ -297,22 +297,22 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + testBasePath + File.separator + apiDirName);
+        return (outputFolder + File.separator + testBasePath + File.separator + apiDirName);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + testBasePath + File.separator + modelDirName);
+        return (outputFolder + File.separator + testBasePath + File.separator + modelDirName);
     }
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + apiDocPath);
+        return (outputFolder + File.separator + apiDocPath);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + modelDocPath);
+        return (outputFolder + File.separator + modelDocPath);
     }
 
     @Override
