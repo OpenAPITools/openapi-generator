@@ -22,8 +22,8 @@
 #include <QJsonObject>
 
 
-#include "OAIOAICategory.h"
-#include "OAIOAITag.h"
+#include "OAICategory.h"
+#include "OAITag.h"
 #include <QList>
 #include <QString>
 

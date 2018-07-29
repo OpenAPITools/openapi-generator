@@ -112,7 +112,6 @@
           "in" : "query",
           "description" : "Status values that need to be considered for filter",
           "required" : true,
-          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
@@ -169,7 +168,6 @@
           "in" : "query",
           "description" : "Tags to filter by",
           "required" : true,
-          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",

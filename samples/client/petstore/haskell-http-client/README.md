@@ -2,7 +2,7 @@
 
 The library in `lib` provides auto-generated-from-OpenAPI [http-client](https://www.stackage.org/lts-10.0/package/http-client-0.5.7.1) bindings to the OpenAPI Petstore API.
 
-OpenApi Version: 3.0.1
+OpenApi Version: 3.0.0
 
 ## Installation
 
@@ -36,7 +36,7 @@ to obtain and use the openapi-generator cli tool lives at
 
 https://openapi-generator.tech
 
-The _generator-name_ argument (`--generator-name`) passed to the cli tool used should be
+The _generator-name_ argument (`--generator-name`) passed to the cli tool used should be 
 
 ```
 haskell-http-client

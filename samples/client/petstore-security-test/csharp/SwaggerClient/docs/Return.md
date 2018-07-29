@@ -1,4 +1,4 @@
-# Org.OpenAPITools.Model.Return
+# IO.Swagger.Model.Return
 ## Properties
 
 Name | Type | Description | Notes

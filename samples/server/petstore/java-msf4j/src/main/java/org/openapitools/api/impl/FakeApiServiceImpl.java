@@ -25,7 +25,7 @@ import javax.ws.rs.core.SecurityContext;
 
 public class FakeApiServiceImpl extends FakeApiService {
     @Override
-    public Response fakeOuterBooleanSerialize(Boolean body
+    public Response fakeOuterBooleanSerialize(Boolean booleanPostBody
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -94,7 +94,7 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testInlineAdditionalProperties(Map<String, String> requestBody
+    public Response testInlineAdditionalProperties(String requestBody
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

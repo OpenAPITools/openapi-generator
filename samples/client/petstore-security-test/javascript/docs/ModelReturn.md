@@ -1,4 +1,4 @@
-# OpenApiPetstoreEndRnNR.ModelReturn
+# SwaggerPetstoreEndRnNR.ModelReturn
 
 ## Properties
 Name | Type | Description | Notes

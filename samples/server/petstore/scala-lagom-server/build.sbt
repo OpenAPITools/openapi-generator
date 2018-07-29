@@ -2,7 +2,7 @@ version       := "1.0.0"
 
 name          := "scala-lagom-server"
 
-organization  := "org.openapitools"
+organization  := "io.swagger"
 
 scalaVersion  := "2.11.8"
 

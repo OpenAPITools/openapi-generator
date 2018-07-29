@@ -20,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @EnableSwagger2
 @Configuration
-public class OpenAPIDocumentationConfig {
+public class SwaggerDocumentationConfig {
 
     public static final String DEFAULT_INCLUDE_PATTERN = "/pkmst/.*";
 	 @Bean

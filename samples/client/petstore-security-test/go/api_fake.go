@@ -29,7 +29,7 @@ type FakeApiService service
 FakeApiService To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *TestCodeInjectEndRnNROpts - Optional Parameters:
- * @param "UNKNOWNBASETYPE" (optional.Interface of map[string]interface{}) - 
+ * @param "UNKNOWNBASETYPE" (optional.Interface of interface{}) - 
 */
 
 type TestCodeInjectEndRnNROpts struct {
@@ -70,9 +70,9 @@ func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOpti
 	}
 	// body params
 	if localVarOptionals != nil && localVarOptionals.UNKNOWNBASETYPE.IsSet() {
-		localVarOptionalUNKNOWNBASETYPE, localVarOptionalUNKNOWNBASETYPEok := localVarOptionals.UNKNOWNBASETYPE.Value().(map[string]interface{})
+		localVarOptionalUNKNOWNBASETYPE, localVarOptionalUNKNOWNBASETYPEok := localVarOptionals.UNKNOWNBASETYPE.Value().(interface{})
 		if !localVarOptionalUNKNOWNBASETYPEok {
-			return nil, reportError("uNKNOWNBASETYPE should be map[string]interface{}")
+			return nil, reportError("uNKNOWNBASETYPE should be interface{}")
 		}
 		localVarPostBody = &localVarOptionalUNKNOWNBASETYPE
 	}

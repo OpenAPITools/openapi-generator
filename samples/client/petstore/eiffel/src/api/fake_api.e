@@ -339,7 +339,7 @@ feature -- API Access
 			end
 		end	
 
-	test_enum_parameters (enum_header_string_array: detachable LIST [STRING_32]; enum_header_string: STRING_32; enum_query_string_array: detachable LIST [STRING_32]; enum_query_string: STRING_32; enum_query_integer: INTEGER_32; enum_query_double: REAL_64; enum_form_string_array: detachable LIST [STRING_32]; enum_form_string: STRING_32)
+	test_enum_parameters (enum_header_string_array: detachable LIST [STRING_32]; enum_header_string: STRING_32; enum_query_string_array: detachable LIST [STRING_32]; enum_query_string: STRING_32; enum_query_integer: INTEGER_32; enum_query_double: REAL_64; enum_form_string_array: LIST [STRING_32]; enum_form_string: STRING_32)
 			-- To test enum parameters
 			-- To test enum parameters
 			-- 

@@ -50,7 +50,7 @@
    (call-api "/pet/findByStatus" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"status" (with-collection-format status :multi) }
+              :query-params  {"status" (with-collection-format status :csv) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]
@@ -71,7 +71,7 @@
    (call-api "/pet/findByTags" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"tags" (with-collection-format tags :multi) }
+              :query-params  {"tags" (with-collection-format tags :csv) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]

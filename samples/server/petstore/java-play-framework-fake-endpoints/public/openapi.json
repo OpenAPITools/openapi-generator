@@ -108,7 +108,6 @@
           "in" : "query",
           "description" : "Status values that need to be considered for filter",
           "required" : true,
-          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
@@ -163,7 +162,6 @@
           "in" : "query",
           "description" : "Tags to filter by",
           "required" : true,
-          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
@@ -835,8 +833,6 @@
           "name" : "enum_header_string_array",
           "in" : "header",
           "description" : "Header parameter enum test (string array)",
-          "style" : "simple",
-          "explode" : false,
           "schema" : {
             "type" : "array",
             "items" : {
@@ -858,7 +854,6 @@
           "name" : "enum_query_string_array",
           "in" : "query",
           "description" : "Query parameter enum test (string array)",
-          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",

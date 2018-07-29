@@ -11,8 +11,8 @@
         "declaration": true
     },
     "files": [
-        "index.ts",
-        "typings/index.d.ts"
+        "api.ts",
+        "typings/main.d.ts"
     ]
 }
 

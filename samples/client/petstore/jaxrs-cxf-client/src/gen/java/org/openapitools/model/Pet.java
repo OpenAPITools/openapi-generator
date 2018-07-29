@@ -37,6 +37,7 @@ public class Pet  {
   @ApiModelProperty(value = "")
   private List<Tag> tags = null;
 
+
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
 public enum StatusEnum {

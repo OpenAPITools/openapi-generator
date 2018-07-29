@@ -56,12 +56,7 @@ class ObjectSerializer {
                 return expectedType; // the type does not have a discriminator. use it.
             } else {
                 if (data[discriminatorProperty]) {
-                    var discriminatorType = data[discriminatorProperty];
-                    if(typeMap[discriminatorType]){
-                        return discriminatorType; // use the type given in the discriminator
-                    } else {
-                        return expectedType; // discriminator did not map to a type
-                    }
+                    return data[discriminatorProperty]; // use the type given in the discriminator
                 } else {
                     return expectedType; // discriminator was not present (or an empty string)
                 }
@@ -92,9 +87,6 @@ class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
-            // Get the actual type of this object
-            type = this.findCorrectType(data, type);
 
             // get the map for the correct type.
             let attributeTypes = typeMap[type].getAttributeTypeMap();
@@ -152,7 +144,7 @@ export class ApiResponse {
     'type'?: string;
     'message'?: string;
 
-    static discriminator: string | undefined = undefined;
+    static discriminator = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
@@ -183,7 +175,7 @@ export class Category {
     'id'?: number;
     'name'?: string;
 
-    static discriminator: string | undefined = undefined;
+    static discriminator = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
@@ -216,7 +208,7 @@ export class Order {
     'status'?: Order.StatusEnum;
     'complete'?: boolean;
 
-    static discriminator: string | undefined = undefined;
+    static discriminator = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
@@ -276,7 +268,7 @@ export class Pet {
     */
     'status'?: Pet.StatusEnum;
 
-    static discriminator: string | undefined = undefined;
+    static discriminator = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
@@ -329,7 +321,7 @@ export class Tag {
     'id'?: number;
     'name'?: string;
 
-    static discriminator: string | undefined = undefined;
+    static discriminator = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
@@ -364,7 +356,7 @@ export class User {
     */
     'userStatus'?: number;
 
-    static discriminator: string | undefined = undefined;
+    static discriminator = undefined;
 
     static attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {

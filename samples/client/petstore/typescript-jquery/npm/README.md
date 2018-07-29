@@ -19,7 +19,7 @@ It can be used in both TypeScript and JavaScript. In TypeScript, the definition 
 
 ### Building
 
-To build and compile the typescript sources to javascript use:
+To build an compile the typescript sources to javascript use:
 ```
 npm install
 npm run build

@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.openapitools</groupId>
-    <artifactId>openapi-scala-client</artifactId>
+    <groupId>io.swagger</groupId>
+    <artifactId>swagger-scala-client</artifactId>
     <packaging>jar</packaging>
-    <name>openapi-scala-client</name>
+    <name>swagger-scala-client</name>
     <version>1.0.0</version>
 
     <pluginRepositories>
@@ -124,7 +124,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
+                    <source>
+                    1.7</source>
                     <target>1.7</target>
                 </configuration>
             </plugin>
@@ -231,7 +232,7 @@
         <dependency>
             <groupId>com.wordnik.swagger</groupId>
             <artifactId>swagger-async-httpclient_2.11</artifactId>
-            <version>${async-httpclient-version}</version>
+            <version>${swagger-async-httpclient-version}</version>
         </dependency>
     </dependencies>
     <properties>
@@ -247,7 +248,7 @@
         <junit-version>4.12</junit-version>
         <scala-maven-plugin-version>3.1.5</scala-maven-plugin-version>
         <scala-test-version>3.0.4</scala-test-version>
-        <async-httpclient-version>0.3.5</async-httpclient-version>
+        <swagger-async-httpclient-version>0.3.5</swagger-async-httpclient-version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

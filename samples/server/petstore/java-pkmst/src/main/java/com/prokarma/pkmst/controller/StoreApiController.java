@@ -44,35 +44,15 @@ public class StoreApiController implements StoreApi {
         return new ResponseEntity<Map<String, Integer>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true ) @PathVariable("orderId") Long orderId,
+    public ResponseEntity<Order> getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true, allowableValues="{min=1, max=5}" ) @PathVariable("orderId") Long orderId,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-
-        if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
-        }
-
-
-        if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
-        }
-
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
 
     public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )   @RequestBody Order order,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
-
-        if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
-        }
-
-
-        if (accept != null && accept.contains("application/xml")) {
-            return new ResponseEntity<Order>(objectMapper.readValue("", Order.class), HttpStatus.OK);
-        }
-
         return new ResponseEntity<Order>(HttpStatus.OK);
     }
 

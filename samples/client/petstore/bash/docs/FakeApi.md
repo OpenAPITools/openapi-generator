@@ -282,7 +282,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **string** | Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **integer** | Query parameter enum test (double) | [optional]
  **enumQueryDouble** | **float** | Query parameter enum test (double) | [optional]
- **enumFormStringArray** | [**array[string]**](string.md) | Form parameter enum test (string array) | [optional] [default to $]
+ **enumFormStringArray** | **array[string]** | Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string** | Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type

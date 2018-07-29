@@ -93,7 +93,7 @@
 /**
  * Sets API key
  *
- * To remove an apiKey for an identifier, just set the apiKey to nil.
+ * To remove a apiKey for an identifier, just set the apiKey to nil.
  *
  * @param apiKey     API key or token.
  * @param identifier API key identifier (authentication schema).

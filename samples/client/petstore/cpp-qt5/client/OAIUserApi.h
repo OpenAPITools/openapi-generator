@@ -15,7 +15,7 @@
 
 #include "OAIHttpRequest.h"
 
-#include "OAIOAIUser.h"
+#include "OAIUser.h"
 #include <QList>
 #include <QString>
 
