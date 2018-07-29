@@ -1,11 +1,11 @@
-# WWW::SwaggerClient::FakeApi
+# WWW::OpenAPIClient::FakeApi
 
 ## Load the API package
 ```perl
-use WWW::SwaggerClient::Object::FakeApi;
+use WWW::OpenAPIClient::Object::FakeApi;
 ```
 
-All URIs are relative to *https://petstore.swagger.io */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r*
+All URIs are relative to *petstore.swagger.io */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -13,21 +13,21 @@ Method | HTTP request | Description
 
 
 # **test_code_inject____end__rn_n_r**
-> test_code_inject____end__rn_n_r(test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r => $test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r)
+> test_code_inject____end__rn_n_r(unknown_base_type => $unknown_base_type)
 
 To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 
 ### Example 
 ```perl
 use Data::Dumper;
-use WWW::SwaggerClient::FakeApi;
-my $api_instance = WWW::SwaggerClient::FakeApi->new(
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
-my $test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r = 'test_code_inject_*/_'_"_=end____\r\n_\n_\r_example'; # string | To test code injection */ ' \" =_end -- \\r\\n \\n \\r
+my $unknown_base_type = WWW::OpenAPIClient::Object::object->new(); # object | 
 
 eval { 
-    $api_instance->test_code_inject____end__rn_n_r(test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r => $test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r);
+    $api_instance->test_code_inject____end__rn_n_r(unknown_base_type => $unknown_base_type);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_code_inject____end__rn_n_r: $@\n";
@@ -38,7 +38,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **test_code_inject_*/_&#39;_&quot;_&#x3D;end____\r\n_\n_\r** | **string**| To test code injection */ &#39; \&quot; &#x3D;_end -- \\r\\n \\n \\r | [optional] 
+ **unknown_base_type** | [**object**](UNKNOWN_BASE_TYPE.md)|  | [optional] 
 
 ### Return type
 
@@ -51,7 +51,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, */  \" =_end --       
- - **Accept**: application/json, */  \" =_end --       
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

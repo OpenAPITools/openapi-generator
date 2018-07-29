@@ -1,6 +1,6 @@
-# SwaggerPetstoreEndRnNR.FakeApi
+# OpenApiPetstoreEndRnNR.FakeApi
 
-All URIs are relative to *https://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -15,14 +15,12 @@ To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 ### Example
 ```javascript
-var SwaggerPetstoreEndRnNR = require('swagger_petstore____end____rn_n_r');
+var OpenApiPetstoreEndRnNR = require('open_api_petstore____end____rn_n_r');
 
-var apiInstance = new SwaggerPetstoreEndRnNR.FakeApi();
-
-var opts = { 
-  'testCodeInjectEndRnNR': "testCodeInjectEndRnNR_example" // String | To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
+var apiInstance = new OpenApiPetstoreEndRnNR.FakeApi();
+var opts = {
+  'UNKNOWN_BASE_TYPE': new OpenApiPetstoreEndRnNR.UNKNOWN_BASE_TYPE() // Object | 
 };
-
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -37,7 +35,7 @@ apiInstance.testCodeInjectEndRnNR(opts, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testCodeInjectEndRnNR** | **String**| To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r | [optional] 
+ **UNKNOWN_BASE_TYPE** | [**Object**](UNKNOWN_BASE_TYPE.md)|  | [optional] 
 
 ### Return type
 
@@ -50,5 +48,5 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, *_/   =end --       
- - **Accept**: application/json, *_/   =end --       
+ - **Accept**: Not defined
 

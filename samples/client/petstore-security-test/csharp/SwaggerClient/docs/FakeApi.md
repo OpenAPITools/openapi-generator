@@ -1,6 +1,6 @@
-# IO.Swagger.Api.FakeApi
+# Org.OpenAPITools.Api.FakeApi
 
-All URIs are relative to *https://petstore.swagger.io *_/ ' \" =end - - \\r\\n \\n \\r/v2 *_/ ' \" =end - - \\r\\n \\n \\r*
+All URIs are relative to *petstore.swagger.io *_/ ' \" =end - - \\r\\n \\n \\r/v2 *_/ ' \" =end - - \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testcodeinjectendrnnr"></a>
 # **TestCodeInjectEndRnNR**
-> void TestCodeInjectEndRnNR (string testCodeInjectEndRnNR = null)
+> void TestCodeInjectEndRnNR (Object UNKNOWN_BASE_TYPE = null)
 
 To test code injection *_/ ' \" =end - - \\r\\n \\n \\r
 
@@ -17,9 +17,9 @@ To test code injection *_/ ' \" =end - - \\r\\n \\n \\r
 ```csharp
 using System;
 using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -28,12 +28,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var testCodeInjectEndRnNR = testCodeInjectEndRnNR_example;  // string | To test code injection *_/ ' \" =end - - \\r\\n \\n \\r (optional) 
+            var UNKNOWN_BASE_TYPE = new Object(); // Object |  (optional) 
 
             try
             {
                 // To test code injection *_/ ' \" =end - - \\r\\n \\n \\r
-                apiInstance.TestCodeInjectEndRnNR(testCodeInjectEndRnNR);
+                apiInstance.TestCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
             }
             catch (Exception e)
             {
@@ -48,7 +48,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **testCodeInjectEndRnNR** | **string**| To test code injection *_/ &#39; \&quot; &#x3D;end - - \\r\\n \\n \\r | [optional] 
+ **UNKNOWN_BASE_TYPE** | [**Object**](Object.md)|  | [optional] 
 
 ### Return type
 
@@ -61,7 +61,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, *_/ '  =end - -       
- - **Accept**: application/json, *_/ '  =end - -       
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

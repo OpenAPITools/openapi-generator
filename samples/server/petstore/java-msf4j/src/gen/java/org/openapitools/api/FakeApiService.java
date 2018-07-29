@@ -24,7 +24,7 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public abstract class FakeApiService {
-    public abstract Response fakeOuterBooleanSerialize(Boolean booleanPostBody
+    public abstract Response fakeOuterBooleanSerialize(Boolean body
  ) throws NotFoundException;
     public abstract Response fakeOuterCompositeSerialize(OuterComposite outerComposite
  ) throws NotFoundException;
@@ -61,7 +61,7 @@ public abstract class FakeApiService {
  ,List<String> enumFormStringArray
  ,String enumFormString
  ) throws NotFoundException;
-    public abstract Response testInlineAdditionalProperties(String requestBody
+    public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody
  ) throws NotFoundException;
     public abstract Response testJsonFormData(String param
  ,String param2

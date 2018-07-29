@@ -1,0 +1,41 @@
+#Empty configuration placeholder, remove when you add any real configuration settings to this file
+{}
+
+#Enable configuration cache
+#cache_configuration: true
+
+#Enable routing cache for handlers
+#Articus\PathHandler\Router\FastRouteAnnotation:
+#  metadata_cache:
+#    adapter:
+#      name: filesystem
+#      options:
+#        cache_dir: data/cache/ZendCache
+#        namespace: fast-route
+#    plugins:
+#      serializer:
+#        serializer: phpserialize
+
+#Enable consumer, attribute and producer cache for handlers
+#Articus\PathHandler\Middleware:
+#  metadata_cache:
+#    adapter:
+#      name: filesystem
+#      options:
+#        cache_dir: data/cache/ZendCache
+#        namespace: path-handler
+#    plugins:
+#      serializer:
+#        serializer: phpserialize
+
+#Enable data transfer metadata cache for DTOs
+#data_transfer:
+#  metadata_cache:
+#    adapter:
+#      name: filesystem
+#      options:
+#        cache_dir: data/cache/ZendCache
+#        namespace: data-transfer
+#    plugins:
+#      serializer:
+#        serializer: phpserialize

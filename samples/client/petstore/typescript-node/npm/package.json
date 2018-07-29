@@ -16,13 +16,12 @@
         "bluebird": "^3.5.0",
         "request": "^2.81.0",
         "@types/bluebird": "*",
-        "@types/request": "*",
-        "rewire": "^3.0.2"
+        "@types/request": "*"
     },
     "devDependencies": {
         "typescript": "^2.4.2"
     },
-    "publishConfig": {
-        "registry": "https://skimdb.npmjs.com/registry"
+    "publishConfig":{
+        "registry":"https://skimdb.npmjs.com/registry"
     }
 }

@@ -1,0 +1,14 @@
+dependencies:
+  invokables:
+    Zend\Diactoros\Response\EmitterInterface: Zend\Diactoros\Response\SapiStreamEmitter
+    App\ErrorMiddleware: App\ErrorMiddleware
+  factories:
+    Zend\Expressive\Application: Zend\Expressive\Container\ApplicationFactory
+    Articus\PathHandler\Middleware: Articus\PathHandler\MiddlewareFactory
+
+middleware_pipeline:
+  error:
+    middleware: App\ErrorMiddleware
+  api:
+    middleware: Articus\PathHandler\Middleware
+    path: /v2

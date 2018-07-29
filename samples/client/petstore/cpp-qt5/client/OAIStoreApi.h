@@ -15,7 +15,7 @@
 
 #include "OAIHttpRequest.h"
 
-#include "OAIOrder.h"
+#include "OAIOAIOrder.h"
 #include <QMap>
 #include <QString>
 

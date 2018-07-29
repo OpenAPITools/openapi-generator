@@ -1,0 +1,74 @@
+dependencies:
+  factories:
+    Zend\Expressive\Router\RouterInterface: Articus\PathHandler\Router\Factory\FastRouteAnnotation
+
+Articus\PathHandler\Middleware:
+  metadata_cache:
+    adapter:
+      name: blackhole
+  handlers:
+    abstract_factories:
+      - Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
+#  consumers:
+#    factories:
+#    invokables:
+#  attributes:
+#    factories:
+#    invokables:
+#  producers:
+#    factories:
+#    invokables:
+
+Articus\PathHandler\Router\FastRouteAnnotation:
+  metadata_cache:
+    adapter:
+      name: blackhole
+  handlers:
+    - App\Handler\AnotherFakeDummy
+    - App\Handler\Fake
+    - App\Handler\FakeInlineAdditionalProperties
+    - App\Handler\FakeJsonFormData
+    - App\Handler\FakeOuterBoolean
+    - App\Handler\FakeOuterComposite
+    - App\Handler\FakeOuterNumber
+    - App\Handler\FakeOuterString
+    - App\Handler\FakeClassnameTest
+    - App\Handler\Pet
+    - App\Handler\PetFindByStatus
+    - App\Handler\PetFindByTags
+    - App\Handler\PetPetId
+    - App\Handler\PetPetIdUploadImage
+    - App\Handler\StoreInventory
+    - App\Handler\StoreOrder
+    - App\Handler\StoreOrderOrderId
+    - App\Handler\User
+    - App\Handler\UserCreateWithArray
+    - App\Handler\UserCreateWithList
+    - App\Handler\UserLogin
+    - App\Handler\UserLogout
+    - App\Handler\UserUsername
+
+Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+  App\Handler\AnotherFakeDummy: []
+  App\Handler\Fake: []
+  App\Handler\FakeInlineAdditionalProperties: []
+  App\Handler\FakeJsonFormData: []
+  App\Handler\FakeOuterBoolean: []
+  App\Handler\FakeOuterComposite: []
+  App\Handler\FakeOuterNumber: []
+  App\Handler\FakeOuterString: []
+  App\Handler\FakeClassnameTest: []
+  App\Handler\Pet: []
+  App\Handler\PetFindByStatus: []
+  App\Handler\PetFindByTags: []
+  App\Handler\PetPetId: []
+  App\Handler\PetPetIdUploadImage: []
+  App\Handler\StoreInventory: []
+  App\Handler\StoreOrder: []
+  App\Handler\StoreOrderOrderId: []
+  App\Handler\User: []
+  App\Handler\UserCreateWithArray: []
+  App\Handler\UserCreateWithList: []
+  App\Handler\UserLogin: []
+  App\Handler\UserLogout: []
+  App\Handler\UserUsername: []

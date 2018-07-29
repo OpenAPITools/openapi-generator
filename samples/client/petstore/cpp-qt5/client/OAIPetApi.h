@@ -15,9 +15,9 @@
 
 #include "OAIHttpRequest.h"
 
-#include "OAIApiResponse.h"
+#include "OAIOAIApiResponse.h"
 #include "OAIHttpRequest.h"
-#include "OAIPet.h"
+#include "OAIOAIPet.h"
 #include <QString>
 
 #include <QObject>
