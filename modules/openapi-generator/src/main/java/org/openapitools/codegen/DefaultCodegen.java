@@ -4423,7 +4423,11 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
-                codegenParameter.baseName = mostInnerItem.complexType;
+                if(StringUtils.isEmpty(mostInnerItem.complexType)) {
+                    codegenParameter.baseName = "request_body";
+                } else {
+                    codegenParameter.baseName = mostInnerItem.complexType;
+                }
             } else {
                 codegenParameter.baseName = bodyParameterName;
             }
