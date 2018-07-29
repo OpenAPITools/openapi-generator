@@ -91,7 +91,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         srcBasePath = ".";
         setInvokerPackage("OpenAPI\\Server");
         setBundleName("OpenAPIServer");
-        packagePath = "SymfonyBundle-php";
+        packagePath = ""; // empty packagePath (top folder)
         modelDirName = "Model";
         docsBasePath = "Resources" + File.separator + "docs";
         apiDocPath = docsBasePath + File.separator + apiDirName;
