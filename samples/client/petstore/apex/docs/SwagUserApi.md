@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(swagUser)
+> createUser(body)
 
 Create user
 
@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'swagUser' => SwagUser.getExample()
+    'body' => SwagUser.getExample()
 };
 
 try {
@@ -42,7 +42,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **swagUser** | [**SwagUser**](SwagUser.md)| Created user object |
+ **body** | [**SwagUser**](User.md)| Created user object |
 
 ### Return type
 
@@ -54,21 +54,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(swagUser)
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```java
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'swagUser' => new List<SwagUser>{SwagUser.getExample()}
+    'body' => new List<SwagUser>{SwagUser.getExample()}
 };
 
 try {
@@ -83,7 +85,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **swagUser** | [**List&lt;SwagUser&gt;**](List.md)| List of user object |
+ **body** | [**List&lt;SwagUser&gt;**](SwagUser.md)| List of user object |
 
 ### Return type
 
@@ -95,21 +97,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(swagUser)
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
+
+
 
 ### Example
 ```java
 SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'swagUser' => new List<SwagUser>{SwagUser.getExample()}
+    'body' => new List<SwagUser>{SwagUser.getExample()}
 };
 
 try {
@@ -124,7 +128,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **swagUser** | [**List&lt;SwagUser&gt;**](List.md)| List of user object |
+ **body** | [**List&lt;SwagUser&gt;**](SwagUser.md)| List of user object |
 
 ### Return type
 
@@ -136,8 +140,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="deleteUser"></a>
 # **deleteUser**
@@ -179,14 +183,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="getUserByName"></a>
 # **getUserByName**
 > SwagUser getUserByName(username)
 
 Get user by user name
+
+
 
 ### Example
 ```java
@@ -209,7 +215,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing.  |
 
 ### Return type
 
@@ -221,14 +227,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="loginUser"></a>
 # **loginUser**
 > String loginUser(username, password)
 
 Logs user into the system
+
+
 
 ### Example
 ```java
@@ -265,14 +273,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="logoutUser"></a>
 # **logoutUser**
 > logoutUser()
 
 Logs out current logged in user session
+
+
 
 ### Example
 ```java
@@ -299,12 +309,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, swagUser)
+> updateUser(username, body)
 
 Updated user
 
@@ -316,7 +326,7 @@ SwagUserApi api = new SwagUserApi();
 
 Map<String, Object> params = new Map<String, Object>{
     'username' => 'username_example',
-    'swagUser' => SwagUser.getExample()
+    'body' => SwagUser.getExample()
 };
 
 try {
@@ -332,7 +342,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted |
- **swagUser** | [**SwagUser**](SwagUser.md)| Updated user object |
+ **body** | [**SwagUser**](User.md)| Updated user object |
 
 ### Return type
 
@@ -344,6 +354,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 

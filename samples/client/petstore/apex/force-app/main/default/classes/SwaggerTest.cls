@@ -292,7 +292,7 @@ private class SwaggerTest {
             new Swagger.Param('foo', 'bar'),
             new Swagger.Param('bat', '123')
         };
-        String expected = 'https://www.mccombs.utexas.edu/departments/finance?foo=bar&bat=123';
+        String expected = 'callout:Winkelmeyer/departments/finance?foo=bar&bat=123';
         String actual = client.toEndpoint(path, params, queryParams);
         System.assertEquals(expected, actual);
     }
@@ -360,7 +360,8 @@ private class SwaggerTest {
 
     private class MockApiClient extends Swagger.ApiClient {
         public MockApiClient() {
-            basePath = 'https://www.mccombs.utexas.edu';
+            basePath = 'https://blog.winkelmeyer.com';
+            calloutName = 'Winkelmeyer';
         }
     }
 }

@@ -16,9 +16,11 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(swagPet)
+> addPet(body)
 
 Add a new pet to the store
+
+
 
 ### Example
 ```java
@@ -30,7 +32,7 @@ Swagger.OAuth petstore_auth = (Swagger.OAuth) client.getAuthentication('petstore
 petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
-    'swagPet' => SwagPet.getExample()
+    'body' => SwagPet.getExample()
 };
 
 try {
@@ -45,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **swagPet** | [**SwagPet**](SwagPet.md)| Pet object that needs to be added to the store |
+ **body** | [**SwagPet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -57,14 +59,16 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
 
 Deletes a pet
+
+
 
 ### Example
 ```java
@@ -105,8 +109,8 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
@@ -154,8 +158,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
@@ -175,7 +179,7 @@ Swagger.OAuth petstore_auth = (Swagger.OAuth) client.getAuthentication('petstore
 petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
-    'tags' => new List<String>{'\'aeiou\''}
+    'tags' => new List<String>{'aeiou'}
 };
 
 try {
@@ -203,8 +207,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -252,14 +256,16 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(swagPet)
+> updatePet(body)
 
 Update an existing pet
+
+
 
 ### Example
 ```java
@@ -271,7 +277,7 @@ Swagger.OAuth petstore_auth = (Swagger.OAuth) client.getAuthentication('petstore
 petstore_auth.setAccessToken('YOUR ACCESS TOKEN');
 
 Map<String, Object> params = new Map<String, Object>{
-    'swagPet' => SwagPet.getExample()
+    'body' => SwagPet.getExample()
 };
 
 try {
@@ -286,7 +292,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **swagPet** | [**SwagPet**](SwagPet.md)| Pet object that needs to be added to the store |
+ **body** | [**SwagPet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -298,14 +304,16 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
+
+
 
 ### Example
 ```java
@@ -349,13 +357,15 @@ null (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 <a name="uploadFile"></a>
 # **uploadFile**
 > SwagApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
+
+
 
 ### Example
 ```java
@@ -399,6 +409,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: application/json
 
