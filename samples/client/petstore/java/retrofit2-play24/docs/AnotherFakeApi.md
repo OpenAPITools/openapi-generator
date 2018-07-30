@@ -4,16 +4,16 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testSpecialTags**](AnotherFakeApi.md#testSpecialTags) | **PATCH** another-fake/dummy | To test special tags
+[**123testSpecialTags**](AnotherFakeApi.md#123testSpecialTags) | **PATCH** another-fake/dummy | To test special tags
 
 
-<a name="testSpecialTags"></a>
-# **testSpecialTags**
-> Client testSpecialTags(client)
-
-To test special tags
+<a name="123testSpecialTags"></a>
+# **123testSpecialTags**
+> Client 123testSpecialTags(client)
 
 To test special tags
+
+To test special tags and operation ID starting with number
 
 ### Example
 ```java
@@ -25,10 +25,10 @@ To test special tags
 AnotherFakeApi apiInstance = new AnotherFakeApi();
 Client client = new Client(); // Client | client model
 try {
-    Client result = apiInstance.testSpecialTags(client);
+    Client result = apiInstance.123testSpecialTags(client);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling AnotherFakeApi#testSpecialTags");
+    System.err.println("Exception when calling AnotherFakeApi#123testSpecialTags");
     e.printStackTrace();
 }
 ```

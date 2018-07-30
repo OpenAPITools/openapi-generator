@@ -37,28 +37,28 @@ public class AnotherFakeApi {
 
   /**
    * To test special tags
-   * To test special tags
+   * To test special tags and operation ID starting with number
    * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testSpecialTags(Client client) throws ApiException {
-    return testSpecialTagsWithHttpInfo(client).getData();
+  public Client 123testSpecialTags(Client client) throws ApiException {
+    return 123testSpecialTagsWithHttpInfo(client).getData();
       }
 
   /**
    * To test special tags
-   * To test special tags
+   * To test special tags and operation ID starting with number
    * @param client client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> 123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set
     if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling testSpecialTags");
+      throw new ApiException(400, "Missing the required parameter 'client' when calling 123testSpecialTags");
     }
     
     // create path and map variables

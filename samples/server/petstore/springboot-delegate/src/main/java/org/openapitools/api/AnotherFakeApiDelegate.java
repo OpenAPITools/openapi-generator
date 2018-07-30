@@ -16,8 +16,8 @@ import java.util.Map;
 public interface AnotherFakeApiDelegate {
 
     /**
-     * @see AnotherFakeApi#testSpecialTags
+     * @see AnotherFakeApi#123testSpecialTags
      */
-    ResponseEntity<Client> testSpecialTags( Client  client);
+    ResponseEntity<Client> 123testSpecialTags( Client  client);
 
 }

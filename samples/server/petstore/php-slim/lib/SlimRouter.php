@@ -61,7 +61,7 @@ class SlimRouter {
     public function __construct($container = []) {
         $app = new App($container);
 
-        $app->PATCH('/v2/another-fake/dummy', AnotherFakeApi::class . ':testSpecialTags');
+        $app->PATCH('/v2/another-fake/dummy', AnotherFakeApi::class . ':123testSpecialTags');
         $app->POST('/v2/fake/outer/boolean', FakeApi::class . ':fakeOuterBooleanSerialize');
         $app->POST('/v2/fake/outer/composite', FakeApi::class . ':fakeOuterCompositeSerialize');
         $app->POST('/v2/fake/outer/number', FakeApi::class . ':fakeOuterNumberSerialize');

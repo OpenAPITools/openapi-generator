@@ -58,12 +58,12 @@ public class AnotherFakeApi  {
     @Path("/another-fake/dummy")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags", response = Client.class, tags={ "$another-fake?", })
+    @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testSpecialTags(@ApiParam(value = "client model" ,required=true) Client client
+    public Response 123testSpecialTags(@ApiParam(value = "client model" ,required=true) Client client
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testSpecialTags(client,securityContext);
+        return delegate.123testSpecialTags(client,securityContext);
     }
 }

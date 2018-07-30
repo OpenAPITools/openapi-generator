@@ -27,14 +27,14 @@ class AnotherFakeApi extends Controller
     }
 
     /**
-     * Operation testSpecialTags
+     * Operation 123testSpecialTags
      *
      * To test special tags.
      *
      *
      * @return Http response
      */
-    public function testSpecialTags()
+    public function 123testSpecialTags()
     {
         $input = Request::all();
 
@@ -43,11 +43,11 @@ class AnotherFakeApi extends Controller
 
         //not path params validation
         if (!isset($input['client'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $client when calling testSpecialTags');
+            throw new \InvalidArgumentException('Missing the required parameter $client when calling 123testSpecialTags');
         }
         $client = $input['client'];
 
 
-        return response('How about implementing testSpecialTags as a patch method ?');
+        return response('How about implementing 123testSpecialTags as a patch method ?');
     }
 }

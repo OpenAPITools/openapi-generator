@@ -31,7 +31,7 @@ public class AnotherFakeApiController implements AnotherFakeApi {
         this.request = request;
     }
 
-    public ResponseEntity<Client> testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
+    public ResponseEntity<Client> 123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");

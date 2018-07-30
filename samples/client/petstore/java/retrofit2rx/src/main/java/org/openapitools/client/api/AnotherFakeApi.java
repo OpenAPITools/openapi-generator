@@ -19,7 +19,7 @@ import java.util.Map;
 public interface AnotherFakeApi {
   /**
    * To test special tags
-   * To test special tags
+   * To test special tags and operation ID starting with number
    * @param client client model (required)
    * @return Observable&lt;Client&gt;
    */
@@ -27,7 +27,7 @@ public interface AnotherFakeApi {
     "Content-Type:application/json"
   })
   @PATCH("another-fake/dummy")
-  Observable<Client> testSpecialTags(
+  Observable<Client> 123testSpecialTags(
     @retrofit2.http.Body Client client
   );
 

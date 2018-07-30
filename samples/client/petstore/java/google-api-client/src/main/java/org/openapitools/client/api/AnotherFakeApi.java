@@ -42,37 +42,37 @@ public class AnotherFakeApi {
 
   /**
     * To test special tags
-    * To test special tags
+    * To test special tags and operation ID starting with number
     * <p><b>200</b> - successful operation
     * @param client client model
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testSpecialTags(Client client) throws IOException {
-        HttpResponse response = testSpecialTagsForHttpResponse(client);
+    public Client 123testSpecialTags(Client client) throws IOException {
+        HttpResponse response = 123testSpecialTagsForHttpResponse(client);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
   /**
     * To test special tags
-    * To test special tags
+    * To test special tags and operation ID starting with number
     * <p><b>200</b> - successful operation
     * @param client client model
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testSpecialTags(Client client, Map<String, Object> params) throws IOException {
-        HttpResponse response = testSpecialTagsForHttpResponse(client, params);
+    public Client 123testSpecialTags(Client client, Map<String, Object> params) throws IOException {
+        HttpResponse response = 123testSpecialTagsForHttpResponse(client, params);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse testSpecialTagsForHttpResponse(Client client) throws IOException {
+    public HttpResponse 123testSpecialTagsForHttpResponse(Client client) throws IOException {
         // verify the required parameter 'client' is set
         if (client == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testSpecialTags");
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling 123testSpecialTags");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 
@@ -83,10 +83,10 @@ public class AnotherFakeApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
-      public HttpResponse testSpecialTagsForHttpResponse(java.io.InputStream client, String mediaType) throws IOException {
+      public HttpResponse 123testSpecialTagsForHttpResponse(java.io.InputStream client, String mediaType) throws IOException {
           // verify the required parameter 'client' is set
               if (client == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'client' when calling testSpecialTags");
+              throw new IllegalArgumentException("Missing the required parameter 'client' when calling 123testSpecialTags");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 
@@ -99,10 +99,10 @@ public class AnotherFakeApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
       }
 
-    public HttpResponse testSpecialTagsForHttpResponse(Client client, Map<String, Object> params) throws IOException {
+    public HttpResponse 123testSpecialTagsForHttpResponse(Client client, Map<String, Object> params) throws IOException {
         // verify the required parameter 'client' is set
         if (client == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testSpecialTags");
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling 123testSpecialTags");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 

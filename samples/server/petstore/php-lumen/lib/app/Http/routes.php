@@ -22,12 +22,12 @@ $app->get('/', function () use ($app) {
 });
 
 /**
- * patch testSpecialTags
+ * patch 123testSpecialTags
  * Summary: To test special tags
- * Notes: To test special tags
+ * Notes: To test special tags and operation ID starting with number
  * Output-Formats: [application/json]
  */
-$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
+$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@123testSpecialTags');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model

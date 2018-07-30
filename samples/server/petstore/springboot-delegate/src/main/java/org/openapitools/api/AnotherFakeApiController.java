@@ -29,8 +29,8 @@ public class AnotherFakeApiController implements AnotherFakeApi {
         this.delegate = delegate;
     }
 
-    public ResponseEntity<Client> testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-        return delegate.testSpecialTags(client);
+    public ResponseEntity<Client> 123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
+        return delegate.123testSpecialTags(client);
     }
 
 }
