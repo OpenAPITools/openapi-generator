@@ -112,7 +112,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     writeResponseHeaders();{{#returnType}}{{^isPrimitiveType}}
     QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());{{/isPrimitiveType}}
     socket->writeJson(resDoc);{{#isPrimitiveType}}
-    socket->write(::{{cppNamespace}}::toStringValue(res).toUtf8());{{/isPrimitiveType}}{{/returnType}}{{^returnType}}    
+    socket->write(::{{cppNamespace}}{{#isListContainer}}QString("["+{{/isListContainer}}::toStringValue(res){{#isListContainer}}+"]"){{/isListContainer}}.toUtf8());{{/isPrimitiveType}}{{/returnType}}{{^returnType}}    
     socket->setStatusCode(QHttpEngine::Socket::OK);{{/returnType}}
     if(socket->isOpen()){
         socket->close();
