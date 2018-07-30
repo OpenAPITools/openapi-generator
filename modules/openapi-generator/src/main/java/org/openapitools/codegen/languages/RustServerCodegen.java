@@ -1036,7 +1036,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // with multiple parameters.
                 cm.dataType = null;
             } else if (cm.dataType != null) {
-                if (cm.dataType == "map") {
+                if (cm.dataType.equals("map")) {
                     // We don't yet support `additionalProperties`. We ignore
                     // the `additionalProperties` type ('map') and warn the
                     // user. This will produce code that compiles, but won't
