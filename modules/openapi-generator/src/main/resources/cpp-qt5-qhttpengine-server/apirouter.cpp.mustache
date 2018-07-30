@@ -75,7 +75,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("{{httpMethod}}") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
-                reqObj->{{nickname}}Request({{#hasPathParams}}{{#pathParams}}pathparam{{/pathParams}}{{/hasPathParams}});;
+                reqObj->{{nickname}}Request({{#hasPathParams}}{{#pathParams}}pathparam{{/pathParams}}{{/hasPathParams}});
                 return; 
             }
         }{{/pathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}

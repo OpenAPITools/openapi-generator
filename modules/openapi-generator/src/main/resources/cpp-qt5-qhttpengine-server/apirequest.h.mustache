@@ -25,7 +25,7 @@ public:
     {{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* handler);
     virtual ~{{classname}}Request();
 
-    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}{{/pathParams}}{{/hasPathParams}});
+    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{/hasPathParams}});
     {{/operation}}{{/operations}}
 
     {{#operations}}{{#operation}}void {{nickname}}Response({{#returnType}}const {{{returnType}}}& res{{/returnType}});
