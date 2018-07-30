@@ -321,7 +321,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // operationId starts with a number
         if (sanitizedOperationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId));
-            sanitizedOperationId = "call_" + operationId;
+            sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
         return camelize(sanitizedOperationId);

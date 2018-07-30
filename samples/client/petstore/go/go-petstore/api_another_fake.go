@@ -31,7 +31,7 @@ To test special tags and operation ID starting with number
  * @param client client model
 @return Client
 */
-func (a *AnotherFakeApiService) Call123Test@$%SpecialTags(ctx context.Context, client Client) (Client, *http.Response, error) {
+func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, client Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Patch")
 		localVarPostBody     interface{}

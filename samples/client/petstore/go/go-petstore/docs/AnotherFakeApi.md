@@ -4,11 +4,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Call123Test@$%SpecialTags**](AnotherFakeApi.md#Call123Test@$%SpecialTags) | **Patch** /another-fake/dummy | To test special tags
+[**Call123TestSpecialTags**](AnotherFakeApi.md#Call123TestSpecialTags) | **Patch** /another-fake/dummy | To test special tags
 
 
-# **Call123Test@$%SpecialTags**
-> Client Call123Test@$%SpecialTags(ctx, client)
+# **Call123TestSpecialTags**
+> Client Call123TestSpecialTags(ctx, client)
 To test special tags
 
 To test special tags and operation ID starting with number
