@@ -1,15 +1,31 @@
-package io.swagger.codegen.languages;
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright 2018 SmartBear Software
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import io.swagger.codegen.*;
-import io.swagger.models.Info;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.*;
+package org.openapitools.codegen.languages;
+
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.info.*;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.*;
 
@@ -73,29 +89,29 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reserved_words.htm
         setReservedWordsLowerCase(
-            Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
-                "begin", "bigdecimal", "blob", "break", "bulk", "by", "byte", "case", "cast",
-                "catch", "char", "class", "collect", "commit", "const", "continue",
-                "convertcurrency", "currency", "date", "datetime", "decimal", "default", "delete", "desc", "do", "else",
-                "end", "enum", "exception", "exit", "export", "extends", "false", "final",
-                "finally", "float", "for", "from", "future", "global", "goto", "group", "having",
-                "hint", "if", "implements", "import", "in", "inner", "insert", "instanceof", "int",
-                "interface", "into", "join", "last_90_days", "last_month", "last_n_days",
-                "last_week", "like", "limit", "list", "long", "loop", "map", "merge", "new",
-                "next_90_days", "next_month", "next_n_days", "next_week", "not", "null", "nulls",
-                "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
-                "pragma", "private", "protected", "public", "retrieve", "return", "returning",
-                "rollback", "savepoint", "search", "select", "set", "short", "sort", "stat",
-                "static", "super", "switch", "synchronized", "system", "testmethod", "then", "this",
-                "this_month", "this_week", "throw", "time", "today", "tolabel", "tomorrow", "transaction",
-                "trigger", "true", "try", "type", "undelete", "update", "upsert", "using",
-                "virtual", "webservice", "when", "where", "while", "yesterday"
-            ));
+                Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
+                        "begin", "bigdecimal", "blob", "break", "bulk", "by", "byte", "case", "cast",
+                        "catch", "char", "class", "collect", "commit", "const", "continue",
+                        "convertcurrency", "currency", "date", "datetime", "decimal", "default", "delete", "desc", "do", "else",
+                        "end", "enum", "exception", "exit", "export", "extends", "false", "final",
+                        "finally", "float", "for", "from", "future", "global", "goto", "group", "having",
+                        "hint", "if", "implements", "import", "in", "inner", "insert", "instanceof", "int",
+                        "interface", "into", "join", "last_90_days", "last_month", "last_n_days",
+                        "last_week", "like", "limit", "list", "long", "loop", "map", "merge", "new",
+                        "next_90_days", "next_month", "next_n_days", "next_week", "not", "null", "nulls",
+                        "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
+                        "pragma", "private", "protected", "public", "retrieve", "return", "returning",
+                        "rollback", "savepoint", "search", "select", "set", "short", "sort", "stat",
+                        "static", "super", "switch", "synchronized", "system", "testmethod", "then", "this",
+                        "this_month", "this_week", "throw", "time", "today", "tolabel", "tomorrow", "transaction",
+                        "trigger", "true", "try", "type", "undelete", "update", "upsert", "using",
+                        "virtual", "webservice", "when", "where", "while", "yesterday"
+                ));
 
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList("Blob", "Boolean", "Date", "Datetime", "Decimal", "Double", "ID",
-                "Integer", "Long", "Object", "String", "Time"
-            ));
+                Arrays.asList("Blob", "Boolean", "Date", "Datetime", "Decimal", "Double", "ID",
+                        "Integer", "Long", "Object", "String", "Time"
+                ));
 
         primitiveDefaults.put("Boolean", true);
         primitiveDefaults.put("Decimal", 1);
@@ -124,12 +140,12 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         additionalProperties.put(API_VERSION, apiVersion);
 
         if (additionalProperties.containsKey(BUILD_METHOD)) {
-            setBuildMethod((String)additionalProperties.get(BUILD_METHOD));
+            setBuildMethod((String) additionalProperties.get(BUILD_METHOD));
         }
         additionalProperties.put(BUILD_METHOD, buildMethod);
 
         if (additionalProperties.containsKey(NAMED_CREDENTIAL)) {
-            setNamedCredential((String)additionalProperties.get(NAMED_CREDENTIAL));
+            setNamedCredential((String) additionalProperties.get(NAMED_CREDENTIAL));
         }
         additionalProperties.put(NAMED_CREDENTIAL, namedCredential);
 
@@ -137,14 +153,14 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     }
 
     @Override
-    public void preprocessSwagger(Swagger swagger) {
-        Info info = swagger.getInfo();
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        Info info = openAPI.getInfo();
         String calloutLabel = info.getTitle();
         additionalProperties.put("calloutLabel", calloutLabel);
         String sanitized = sanitizeName(calloutLabel);
         additionalProperties.put("calloutName", sanitized);
         supportingFiles.add(new SupportingFile("namedCredential.mustache", srcPath + "/namedCredentials",
-            sanitized + ".namedCredential-meta.xml"
+                sanitized + ".namedCredential-meta.xml"
         ));
 
         if (additionalProperties.get(BUILD_METHOD).equals("sfdx")) {
@@ -196,29 +212,30 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     }
 
     @Override
-    public String toDefaultValue(Property p) {
+    public String toDefaultValue(Schema p) {
         String out = null;
-        if (p instanceof ArrayProperty) {
-            Property inner = ((ArrayProperty) p).getItems();
+        if (ModelUtils.isArraySchema(p)) {
+            Schema inner = ((ArraySchema) p).getItems();
             out = String.format(
-                "new List<%s>()",
-                inner == null ? "Object" : getTypeDeclaration(inner)
+                    "new List<%s>()",
+                    inner == null ? "Object" : getTypeDeclaration(inner)
             );
-        } else if (p instanceof BooleanProperty) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             // true => "true", false => "false", null => "null"
-            out = String.valueOf(((BooleanProperty) p).getDefault());
-        } else if (p instanceof LongProperty) {
-            Long def = ((LongProperty) p).getDefault();
+            out = String.valueOf(((BooleanSchema) p).getDefault());
+        } else if (ModelUtils.isLongSchema(p)) {
+            Long def = (Long) p.getDefault();
             out = def == null ? out : def.toString() + "L";
-        } else if (p instanceof MapProperty) {
-            Property inner = ((MapProperty) p).getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format("new Map<String, %s>()", s);
-        } else if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            String def = sp.getDefault();
-            if (def != null) {
-                out = sp.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                String def = p.getDefault().toString();
+                if (def != null) {
+                    out = p.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+                }
             }
         } else {
             out = super.toDefaultValue(p);
@@ -262,9 +279,9 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
     private void postProcessOpts() {
         supportingFiles.add(
-            new SupportingFile("client.mustache", srcPath + "classes", classPrefix + "Client.cls"));
+                new SupportingFile("client.mustache", srcPath + "classes", classPrefix + "Client.cls"));
         supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes",
-            classPrefix + "Client.cls-meta.xml"
+                classPrefix + "Client.cls-meta.xml"
         ));
     }
 
@@ -273,7 +290,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         super.updateCodegenPropertyEnum(var);
         if (var.isEnum && var.example != null) {
             String example = var.example.replace("'", "");
-            example = toEnumVarName(example, var.datatype);
+            example = toEnumVarName(example, var.dataType);
             var.example = toEnumDefaultValue(example, var.datatypeWithEnum);
         }
     }

@@ -1,24 +1,43 @@
-package io.swagger.codegen.languages;
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright 2018 SmartBear Software
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import java.io.File;
+package org.openapitools.codegen.languages;
+
 import java.util.*;
-
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.base.Strings;
-
-import io.swagger.codegen.*;
-import io.swagger.models.Model;
-import io.swagger.models.Operation;
-import io.swagger.models.Path;
-import io.swagger.models.Swagger;
-import io.swagger.models.parameters.FormParameter;
-import io.swagger.models.parameters.Parameter;
-import io.swagger.models.properties.*;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);
 
     protected Boolean serializableModel = false;
 
@@ -48,7 +67,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -75,8 +94,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             return "propertyClass";
         }
 
-        if("_".equals(name)) {
-          name = "_u";
+        if ("_".equals(name)) {
+            name = "_u";
         }
 
         // if it's all uppper case, do nothing
@@ -87,7 +106,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             return name;
         }
 
-        if(startsWithTwoUppercaseLetters(name)){
+        if (startsWithTwoUppercaseLetters(name)) {
             name = name.substring(0, 2).toLowerCase() + name.substring(2);
         }
 
@@ -105,7 +124,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     private boolean startsWithTwoUppercaseLetters(String name) {
         boolean startsWithTwoUppercaseLetters = false;
-        if(name.length() > 1) {
+        if (name.length() > 1) {
             startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase());
         }
         return startsWithTwoUppercaseLetters;
@@ -166,25 +185,25 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String getTypeDeclaration(Property p) {
-        if (p instanceof ArrayProperty) {
-            ArrayProperty ap = (ArrayProperty) p;
-            Property inner = ap.getItems();
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
             if (inner == null) {
                 LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined");
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
-            return getSwaggerType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof MapProperty) {
-            MapProperty mp = (MapProperty) p;
-            Property inner = mp.getAdditionalProperties();
+            return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+
             if (inner == null) {
-                LOGGER.warn(mp.getName() + "(map property) does not have a proper inner type defined");
+                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
                 // TODO maybe better defaulting to StringProperty than returning null
                 return null;
             }
-            return getSwaggerType(p) + "<String, " + getTypeDeclaration(inner) + ">";
+            return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
     }
@@ -198,58 +217,52 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Property p) {
-        if (p instanceof ArrayProperty) {
-            final ArrayProperty ap = (ArrayProperty) p;
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            final ArraySchema ap = (ArraySchema) p;
             final String pattern = "new ArrayList<%s>()";
             if (ap.getItems() == null) {
                 return null;
             }
 
             return String.format(pattern, getTypeDeclaration(ap.getItems()));
-        } else if (p instanceof MapProperty) {
-            final MapProperty ap = (MapProperty) p;
+        } else if (ModelUtils.isMapSchema(p)) {
+            final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
             if (ap.getAdditionalProperties() == null) {
                 return null;
             }
 
-            return String.format(pattern, String.format("String, %s", getTypeDeclaration(ap.getAdditionalProperties())));
-        } else if (p instanceof IntegerProperty) {
-            IntegerProperty dp = (IntegerProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            return String.format(pattern, String.format("String, %s", getTypeDeclaration((Schema) ap.getAdditionalProperties())));
+        } else if (ModelUtils.isLongSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString() + "l";
             }
             return "null";
-        } else if (p instanceof LongProperty) {
-            LongProperty dp = (LongProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString()+"l";
-            }
-           return "null";
-        } else if (p instanceof DoubleProperty) {
-            DoubleProperty dp = (DoubleProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString() + "d";
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
             return "null";
-        } else if (p instanceof FloatProperty) {
-            FloatProperty dp = (FloatProperty) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString() + "f";
+        } else if (ModelUtils.isFloatSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString() + "f";
             }
             return "null";
-        } else if (p instanceof BooleanProperty) {
-            BooleanProperty bp = (BooleanProperty) p;
-            if (bp.getDefault() != null) {
-                return bp.getDefault().toString();
+        } else if (ModelUtils.isDoubleSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString() + "d";
             }
             return "null";
-        } else if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            if (sp.getDefault() != null) {
-                String _default = sp.getDefault();
-                if (sp.getEnum() == null) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return "null";
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                String _default = (String) p.getDefault();
+                if (p.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
                     // convert to enum var name later in postProcessModels
@@ -263,7 +276,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
- 
+
         if (Boolean.TRUE.equals(p.isLong)) {
             p.example = "2147483648L";
         } else if (Boolean.TRUE.equals(p.isFile)) {
@@ -273,9 +286,13 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (Boolean.TRUE.equals(p.isDateTime)) {
             p.example = "Datetime.newInstanceGmt(2013, 11, 12, 3, 3, 3)";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            p.example = "new " + p.dataType + "{" + p.items.example + "}";
+            if (p.items != null && p.items.example != null) {
+                p.example = "new " + p.dataType + "{" + p.items.example + "}";
+            }
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            p.example = "new " + p.dataType + "{" + p.items.example + "}";
+            if (p.items != null && p.items.example != null) {
+                p.example = "new " + p.dataType + "{" + p.items.example + "}";
+            }
         } else if (Boolean.TRUE.equals(p.isString)) {
             p.example = "'" + p.example + "'";
         } else if ("".equals(p.example) || p.example == null && p.dataType != "Object") {
@@ -290,7 +307,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toExampleValue(Property p) {
+    public String toExampleValue(Schema p) {
         if (p == null) {
             return "";
         }
@@ -298,90 +315,83 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         Object obj = p.getExample();
         String example = obj == null ? "" : obj.toString();
 
-        if (p instanceof ArrayProperty) {
+        if (ModelUtils.isArraySchema(p)) {
             example = "new " + getTypeDeclaration(p) + "{" + toExampleValue(
-                ((ArrayProperty) p).getItems()) + "}";
-        } else if (p instanceof BooleanProperty) {
+                    ((ArraySchema) p).getItems()) + "}";
+        } else if (ModelUtils.isBooleanSchema(p)) {
             example = String.valueOf(!"false".equals(example));
-        } else if (p instanceof ByteArrayProperty) {
+        } else if (ModelUtils.isByteArraySchema(p)) {
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
             }
-            ((ByteArrayProperty) p).setExample(example);
+            ((ByteArraySchema) p).setExample(example);
             example = "EncodingUtil.base64Decode('" + example + "')";
-        } else if (p instanceof DateProperty) {
+        } else if (ModelUtils.isDateSchema(p)) {
             if (example.matches("^\\d{4}(-\\d{2}){2}")) {
                 example = example.substring(0, 10).replaceAll("-0?", ", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23";
             } else {
                 LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
-                    .getName(), example));
+                        .getName(), example));
                 example = "2000, 1, 23";
             }
             example = "Date.newInstance(" + example + ")";
-        } else if (p instanceof DateTimeProperty) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             if (example.matches("^\\d{4}([-T:]\\d{2}){5}.+")) {
                 example = example.substring(0, 19).replaceAll("[-T:]0?", ", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23, 4, 56, 7";
             } else {
                 LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
-                    .getName(), example));
+                        .getName(), example));
                 example = "2000, 1, 23, 4, 56, 7";
             }
             example = "Datetime.newInstanceGmt(" + example + ")";
-        } else if (p instanceof DecimalProperty) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             example = example.replaceAll("[^-0-9.]", "");
             example = example.isEmpty() ? "1.3579" : example;
-        } else if (p instanceof FileProperty) {
+        } else if (ModelUtils.isFileSchema(p)) {
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
-                ((FileProperty) p).setExample(example);
+                p.setExample(example);
             }
             example = "EncodingUtil.base64Decode(" + example + ")";
-        } else if (p instanceof EmailProperty) {
+        } else if (ModelUtils.isEmailSchema(p)) {
             if (example.isEmpty()) {
                 example = "example@example.com";
-                ((EmailProperty) p).setExample(example);
+                p.setExample(example);
             }
             example = "'" + example + "'";
-        } else if (p instanceof LongProperty) {
+        } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
-        } else if (p instanceof MapProperty) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(
-                ((MapProperty) p).getAdditionalProperties()) + "}";
-        } else if (p instanceof ObjectProperty) {
-            example = example.isEmpty() ? "null" : example;
-        } else if (p instanceof PasswordProperty) {
+        } else if (ModelUtils.isMapSchema(p)) {
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue((Schema) p.getAdditionalProperties()) + "}";
+
+        } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
-            ((PasswordProperty) p).setExample(example);
+            p.setExample(example);
             example = "'" + example + "'";
-        } else if (p instanceof RefProperty) {
-            if(languageSpecificPrimitives().contains(getTypeDeclaration(p))) {
-                example = getTypeDeclaration(p) + ".getExample()";
-            } else {
-                example = "''";
-            }
-        } else if (p instanceof StringProperty) {
-            StringProperty sp = (StringProperty) p;
-            List<String> enums = sp.getEnum();
+        } else if (ModelUtils.isStringSchema(p)) {
+            List<String> enums = p.getEnum();
             if (enums != null && example.isEmpty()) {
                 example = enums.get(0);
-                sp.setExample(example);
+                p.setExample(example);
             } else if (example.isEmpty()) {
                 example = "";
             } else {
                 example = escapeText(example);
-                sp.setExample(example);
+                p.setExample(example);
             }
             example = "'" + example + "'";
-        } else if (p instanceof UUIDProperty) {
+        } else if (ModelUtils.isUUIDSchema(p)) {
             example = example.isEmpty()
-                ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
-                : "'" + escapeText(example) + "'";
-        } else if (p instanceof BaseIntegerProperty) {
+                    ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
+                    : "'" + escapeText(example) + "'";
+        } else if (ModelUtils.isIntegerSchema(p)) {
             example = example.matches("^-?\\d+$") ? example : "0";
+        } else if (ModelUtils.isObjectSchema(p)) {
+            example = example.isEmpty() ? "null" : example;
         } else {
             example = super.toExampleValue(p);
         }
@@ -389,20 +399,20 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String getSwaggerType(Property p) {
-        String swaggerType = super.getSwaggerType(p);
+    public String getSchemaType(Schema p) {
+        String schemaType = super.getSchemaType(p);
 
-        swaggerType = getAlias(swaggerType);
+        schemaType = getAlias(schemaType);
 
         // don't apply renaming on types from the typeMapping
-        if (typeMapping.containsKey(swaggerType)) {
-            return typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType);
         }
 
-        if (null == swaggerType) {
+        if (null == schemaType) {
             LOGGER.error("No Type defined for Property " + p);
         }
-        return toModelName(swaggerType);
+        return toModelName(schemaType);
     }
 
     @Override
@@ -425,7 +435,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenModel fromModel(String name, Model model, Map<String, Model> allDefinitions) {
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel cm = super.fromModel(name, model, allDefinitions);
 
         // TODO Check enum model handling
@@ -471,6 +481,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return postProcessModelsEnum(objs);
     }
 
+    /* the following function is not used anywhere in this class so we'll remove it later
     private static String getAccept(Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
@@ -495,7 +506,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         return accepts;
-    }
+    }*/
 
     @Override
     protected boolean needToImport(String type) {
@@ -520,7 +531,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
         // number
         if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-            "Float".equals(datatype) || "Double".equals(datatype)) {
+                "Float".equals(datatype) || "Double".equals(datatype)) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -553,7 +564,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Model> definitions, Swagger swagger) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+        /* TODO the following logic revised. Maybe we should simply use the consumes, produces provided by the spec
         Boolean hasFormParams = false;
         for (Parameter p : operation.getParameters()) {
             if ("formData".equals(p.getIn())) {
@@ -564,19 +576,22 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
         // only support serialization into JSON and urlencoded forms for now
         operation.setConsumes(
-            Collections.singletonList(hasFormParams
-                ? "application/x-www-form-urlencoded"
-                : "application/json"));
+                Collections.singletonList(hasFormParams
+                        ? "application/x-www-form-urlencoded"
+                        : "application/json"));
 
         // only support deserialization from JSON for now
         operation.setProduces(Collections.singletonList("application/json"));
+        */
 
         CodegenOperation op = super.fromOperation(
-            path, httpMethod, operation, definitions, swagger);
+                path, httpMethod, operation, definitions, openAPI);
+
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes
-            Property responseProperty = findMethodResponse(operation.getResponses()).getSchema();
-            String deserializedExample = toExampleValue(responseProperty);
+            ApiResponse apiResponse = findMethodResponse(operation.getResponses());
+            final Schema responseSchema = ModelUtils.getSchemaFromResponse(apiResponse);
+            String deserializedExample = toExampleValue(responseSchema);
             for (Map<String, String> example : op.examples) {
                 example.put("example", escapeText(example.get("example")));
                 example.put("deserializedExample", deserializedExample);
@@ -594,7 +609,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if  (!parentCodegenModel.hasEnums) {
+        if (!parentCodegenModel.hasEnums) {
             return codegenModel;
         }
 
@@ -622,10 +637,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         }
 
-        if(removedChildEnum) {
+        if (removedChildEnum) {
             // If we removed an entry from this model's vars, we need to ensure hasMore is updated
             int count = 0, numVars = codegenProperties.size();
-            for(CodegenProperty codegenProperty : codegenProperties) {
+            for (CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
                 codegenProperty.hasMore = (count < numVars) ? true : false;
             }
@@ -637,7 +652,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     private static String sanitizePackageName(String packageName) {
         packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
-        if(Strings.isNullOrEmpty(packageName)) {
+        if (Strings.isNullOrEmpty(packageName)) {
             return "invalidPackageName";
         }
         return packageName;
@@ -663,7 +678,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
         }
 
-       return booleanValue;
+        return booleanValue;
     }
 
     public void writePropertyBack(String propertyKey, boolean value) {
