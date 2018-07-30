@@ -77,7 +77,7 @@ OAICategory::asJsonObject() const {
 }
 
 qint64
-OAICategory::getId() {
+OAICategory::getId() const {
     return id;
 }
 void
@@ -87,7 +87,7 @@ OAICategory::setId(const qint64 &id) {
 }
 
 QString
-OAICategory::getName() {
+OAICategory::getName() const {
     return name;
 }
 void
