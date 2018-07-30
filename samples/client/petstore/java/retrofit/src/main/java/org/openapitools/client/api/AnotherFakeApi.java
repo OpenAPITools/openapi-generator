@@ -23,7 +23,7 @@ public interface AnotherFakeApi {
    */
   
   @PATCH("/another-fake/dummy")
-  Client 123testSpecialTags(
+  Client call123testSpecialTags(
     @retrofit.http.Body Client client
   );
 
@@ -35,7 +35,7 @@ public interface AnotherFakeApi {
    */
   
   @PATCH("/another-fake/dummy")
-  void 123testSpecialTags(
+  void call123testSpecialTags(
     @retrofit.http.Body Client client, Callback<Client> cb
   );
 }

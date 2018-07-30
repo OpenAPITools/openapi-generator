@@ -27,7 +27,7 @@ public interface AnotherFakeApi {
     "Content-Type:application/json"
   })
   @PATCH("another-fake/dummy")
-  Call<Client> 123testSpecialTags(
+  Call<Client> call123testSpecialTags(
     @retrofit2.http.Body Client client
   );
 

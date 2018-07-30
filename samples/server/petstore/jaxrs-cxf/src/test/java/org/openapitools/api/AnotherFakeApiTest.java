@@ -80,9 +80,9 @@ public class AnotherFakeApiTest {
      *          if the Api call fails
      */
     @Test
-    public void 123testSpecialTagsTest() {
+    public void call123testSpecialTagsTest() {
         Client client = null;
-        //Client response = api.123testSpecialTags(client);
+        //Client response = api.call123testSpecialTags(client);
         //assertNotNull(response);
         // TODO: test validations
         

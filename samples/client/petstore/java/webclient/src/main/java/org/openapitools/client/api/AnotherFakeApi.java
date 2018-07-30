@@ -53,12 +53,12 @@ public class AnotherFakeApi {
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> 123testSpecialTags(Client client) throws RestClientException {
+    public Mono<Client> call123testSpecialTags(Client client) throws RestClientException {
         Object postBody = client;
         
         // verify the required parameter 'client' is set
         if (client == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'client' when calling 123testSpecialTags");
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'client' when calling call123testSpecialTags");
         }
         
         String path = UriComponentsBuilder.fromPath("/another-fake/dummy").build().toUriString();

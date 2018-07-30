@@ -42,6 +42,6 @@ public interface AnotherFakeApi  {
     @ApiOperation(value = "To test special tags", tags={ "$another-fake?" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client 123testSpecialTags(@Valid Client client);
+    public Client call123testSpecialTags(@Valid Client client);
 }
 

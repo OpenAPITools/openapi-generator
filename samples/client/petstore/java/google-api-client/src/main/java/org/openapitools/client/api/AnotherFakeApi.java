@@ -48,8 +48,8 @@ public class AnotherFakeApi {
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client 123testSpecialTags(Client client) throws IOException {
-        HttpResponse response = 123testSpecialTagsForHttpResponse(client);
+    public Client call123testSpecialTags(Client client) throws IOException {
+        HttpResponse response = call123testSpecialTagsForHttpResponse(client);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
@@ -63,16 +63,16 @@ public class AnotherFakeApi {
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client 123testSpecialTags(Client client, Map<String, Object> params) throws IOException {
-        HttpResponse response = 123testSpecialTagsForHttpResponse(client, params);
+    public Client call123testSpecialTags(Client client, Map<String, Object> params) throws IOException {
+        HttpResponse response = call123testSpecialTagsForHttpResponse(client, params);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse 123testSpecialTagsForHttpResponse(Client client) throws IOException {
+    public HttpResponse call123testSpecialTagsForHttpResponse(Client client) throws IOException {
         // verify the required parameter 'client' is set
         if (client == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'client' when calling 123testSpecialTags");
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling call123testSpecialTags");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 
@@ -83,10 +83,10 @@ public class AnotherFakeApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
-      public HttpResponse 123testSpecialTagsForHttpResponse(java.io.InputStream client, String mediaType) throws IOException {
+      public HttpResponse call123testSpecialTagsForHttpResponse(java.io.InputStream client, String mediaType) throws IOException {
           // verify the required parameter 'client' is set
               if (client == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'client' when calling 123testSpecialTags");
+              throw new IllegalArgumentException("Missing the required parameter 'client' when calling call123testSpecialTags");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 
@@ -99,10 +99,10 @@ public class AnotherFakeApi {
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
       }
 
-    public HttpResponse 123testSpecialTagsForHttpResponse(Client client, Map<String, Object> params) throws IOException {
+    public HttpResponse call123testSpecialTagsForHttpResponse(Client client, Map<String, Object> params) throws IOException {
         // verify the required parameter 'client' is set
         if (client == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'client' when calling 123testSpecialTags");
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling call123testSpecialTags");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/another-fake/dummy");
 

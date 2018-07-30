@@ -47,8 +47,8 @@ public class AnotherFakeApi {
     }
 
 
-    public 123testSpecialTagsOper 123testSpecialTags() {
-        return new 123testSpecialTagsOper(reqSpec);
+    public Call123testSpecialTagsOper call123testSpecialTags() {
+        return new Call123testSpecialTagsOper(reqSpec);
     }
 
     /**
@@ -68,7 +68,7 @@ public class AnotherFakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public class 123testSpecialTagsOper {
+    public class Call123testSpecialTagsOper {
 
         public static final String REQ_URI = "/another-fake/dummy";
 
@@ -76,14 +76,14 @@ public class AnotherFakeApi {
 
         private ResponseSpecBuilder respSpec;
 
-        public 123testSpecialTagsOper() {
+        public Call123testSpecialTagsOper() {
             this.reqSpec = new RequestSpecBuilder();
             reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
-        public 123testSpecialTagsOper(RequestSpecBuilder reqSpec) {
+        public Call123testSpecialTagsOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
@@ -114,7 +114,7 @@ public class AnotherFakeApi {
          * @param client (Client) client model (required)
          * @return operation
          */
-        public 123testSpecialTagsOper body(Client client) {
+        public Call123testSpecialTagsOper body(Client client) {
             reqSpec.setBody(client);
             return this;
         }
@@ -124,7 +124,7 @@ public class AnotherFakeApi {
          * @param consumer consumer
          * @return operation
          */
-        public 123testSpecialTagsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        public Call123testSpecialTagsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
             return this;
         }
@@ -134,7 +134,7 @@ public class AnotherFakeApi {
          * @param consumer consumer
          * @return operation
          */
-        public 123testSpecialTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+        public Call123testSpecialTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
             return this;
         }

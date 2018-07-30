@@ -35,7 +35,7 @@ public interface AnotherFakeApi {
         return Optional.empty();
     }
 
-    @ApiOperation(value = "To test special tags", nickname = "123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
+    @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
@@ -44,7 +44,7 @@ public interface AnotherFakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> 123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
+    default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

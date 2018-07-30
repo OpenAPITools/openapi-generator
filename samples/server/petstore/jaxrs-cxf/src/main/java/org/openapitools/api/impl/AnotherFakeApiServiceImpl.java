@@ -29,7 +29,7 @@ public class AnotherFakeApiServiceImpl implements AnotherFakeApi {
      * To test special tags and operation ID starting with number
      *
      */
-    public Client 123testSpecialTags(Client client) {
+    public Client call123testSpecialTags(Client client) {
         // TODO: Implement...
         
         return null;

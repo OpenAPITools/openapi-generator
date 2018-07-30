@@ -42,8 +42,8 @@ public class AnotherFakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client 123testSpecialTags(Client client) throws ApiException {
-    return 123testSpecialTagsWithHttpInfo(client).getData();
+  public Client call123testSpecialTags(Client client) throws ApiException {
+    return call123testSpecialTagsWithHttpInfo(client).getData();
       }
 
   /**
@@ -53,12 +53,12 @@ public class AnotherFakeApi {
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> 123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
     Object localVarPostBody = client;
     
     // verify the required parameter 'client' is set
     if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling 123testSpecialTags");
+      throw new ApiException(400, "Missing the required parameter 'client' when calling call123testSpecialTags");
     }
     
     // create path and map variables

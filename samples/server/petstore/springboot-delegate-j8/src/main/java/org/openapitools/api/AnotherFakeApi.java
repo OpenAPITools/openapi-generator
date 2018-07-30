@@ -31,15 +31,15 @@ public interface AnotherFakeApi {
         return new AnotherFakeApiDelegate() {};
     }
 
-    @ApiOperation(value = "To test special tags", nickname = "123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
+    @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @RequestMapping(value = "/another-fake/dummy",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> 123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-        return getDelegate().123testSpecialTags(client);
+    default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
+        return getDelegate().call123testSpecialTags(client);
     }
 
 }

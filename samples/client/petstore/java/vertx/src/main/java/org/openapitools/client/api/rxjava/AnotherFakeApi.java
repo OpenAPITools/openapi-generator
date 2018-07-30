@@ -27,8 +27,8 @@ public class AnotherFakeApi {
      * @param client client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void 123testSpecialTags(Client client, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.123testSpecialTags(client, resultHandler);
+    public void call123testSpecialTags(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.call123testSpecialTags(client, resultHandler);
     }
 
     /**
@@ -37,9 +37,9 @@ public class AnotherFakeApi {
      * @param client client model (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Client> rx123testSpecialTags(Client client) {
+    public Single<Client> rxCall123testSpecialTags(Client client) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.123testSpecialTags(client, fut);
+            delegate.call123testSpecialTags(client, fut);
         }));
     }
 

@@ -4,12 +4,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**123testSpecialTags**](AnotherFakeApi.md#123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**call123testSpecialTags**](AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-<a name="123testSpecialTags"></a>
-# **123testSpecialTags**
-> Client 123testSpecialTags(client)
+<a name="call123testSpecialTags"></a>
+# **call123testSpecialTags**
+> Client call123testSpecialTags(client)
 
 To test special tags
 
@@ -26,7 +26,7 @@ AnotherFakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSuppl
                 () -> new RequestSpecBuilder()
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).anotherFake();
 
-api.123testSpecialTags()
+api.call123testSpecialTags()
     .body(client).execute(r -> r.prettyPeek());
 ```
 

@@ -32,7 +32,7 @@ public interface AnotherFakeApi {
     "Content-Type:application/json"
   })
   @PATCH("another-fake/dummy")
-  CompletionStage<Response<Client>> 123testSpecialTags(
+  CompletionStage<Response<Client>> call123testSpecialTags(
     @retrofit2.http.Body Client client
   );
 

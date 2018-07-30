@@ -55,14 +55,14 @@ public class AnotherFakeApi {
     }
 
     /**
-     * Build call for 123testSpecialTags
+     * Build call for call123testSpecialTags
      * @param client client model (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call 123testSpecialTagsCall(Client client, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call call123testSpecialTagsCall(Client client, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = client;
 
         // create path and map variables
@@ -104,15 +104,15 @@ public class AnotherFakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call 123testSpecialTagsValidateBeforeCall(Client client, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call call123testSpecialTagsValidateBeforeCall(Client client, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'client' is set
         if (client == null) {
-            throw new ApiException("Missing the required parameter 'client' when calling 123testSpecialTags(Async)");
+            throw new ApiException("Missing the required parameter 'client' when calling call123testSpecialTags(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = 123testSpecialTagsCall(client, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = call123testSpecialTagsCall(client, progressListener, progressRequestListener);
         return call;
 
     }
@@ -124,8 +124,8 @@ public class AnotherFakeApi {
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Client 123testSpecialTags(Client client) throws ApiException {
-        ApiResponse<Client> resp = 123testSpecialTagsWithHttpInfo(client);
+    public Client call123testSpecialTags(Client client) throws ApiException {
+        ApiResponse<Client> resp = call123testSpecialTagsWithHttpInfo(client);
         return resp.getData();
     }
 
@@ -136,8 +136,8 @@ public class AnotherFakeApi {
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Client> 123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
-        com.squareup.okhttp.Call call = 123testSpecialTagsValidateBeforeCall(client, null, null);
+    public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client client) throws ApiException {
+        com.squareup.okhttp.Call call = call123testSpecialTagsValidateBeforeCall(client, null, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -150,7 +150,7 @@ public class AnotherFakeApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call 123testSpecialTagsAsync(Client client, final ApiCallback<Client> callback) throws ApiException {
+    public com.squareup.okhttp.Call call123testSpecialTagsAsync(Client client, final ApiCallback<Client> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -171,7 +171,7 @@ public class AnotherFakeApi {
             };
         }
 
-        com.squareup.okhttp.Call call = 123testSpecialTagsValidateBeforeCall(client, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = call123testSpecialTagsValidateBeforeCall(client, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

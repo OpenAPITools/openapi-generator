@@ -9,6 +9,6 @@ import java.util.*;
 
 public interface AnotherFakeApi {
 
-    void 123testSpecialTags(Client client, Handler<AsyncResult<Client>> handler);
+    void call123testSpecialTags(Client client, Handler<AsyncResult<Client>> handler);
 
 }

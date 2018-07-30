@@ -43,12 +43,12 @@ public class AnotherFakeApiImpl implements AnotherFakeApi {
      * @param client client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void 123testSpecialTags(Client client, Handler<AsyncResult<Client>> resultHandler) {
+    public void call123testSpecialTags(Client client, Handler<AsyncResult<Client>> resultHandler) {
         Object localVarBody = client;
         
         // verify the required parameter 'client' is set
         if (client == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling 123testSpecialTags"));
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling call123testSpecialTags"));
             return;
         }
         

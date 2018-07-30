@@ -26,5 +26,5 @@ public interface AnotherFakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  Client 123testSpecialTags(Client client);
+  Client call123testSpecialTags(Client client);
 }
