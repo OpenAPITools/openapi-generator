@@ -19,6 +19,9 @@ extern crate hyper;
 
 extern crate swagger;
 
+#[macro_use]
+extern crate url;
+
 use futures::Stream;
 use std::io::Error;
 
