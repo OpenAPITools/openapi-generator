@@ -17,6 +17,13 @@ Version `3.2.0` is a minor version of OpenAPI-Generator, in comparison to `3.1.x
 The default value of some options might change.
 Projects relying on generated code might need to be adapted.
 
+==== Validate spec on generation by default
+
+The default is to validate the spec during generation. If the spec has errors,
+we will output errors as well as warnings to the user.
+
+The option can be disabled by passing `false` to `validateSpec` (for the Maven or Gradle plugin) or with `--skip-validate-spec` (CLI).
+
 ==== Model (all languages)
 
 In `CodegenModel` and in `CodegenOperation` we use now our own class `org.openapitools.codegen.CodegenDiscriminator` instead of `io.swagger.v3.oas.models.media.Discriminator`.
