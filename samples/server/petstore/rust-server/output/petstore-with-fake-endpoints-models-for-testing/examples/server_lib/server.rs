@@ -1,4 +1,4 @@
-//! Server implementation of petstore_api.
+//! Server implementation of petstore_with_fake_endpoints_models_for_testing.
 
 #![allow(unused_imports)]
 
@@ -10,7 +10,7 @@ use std::marker::PhantomData;
 use swagger;
 use swagger::{Has, XSpanIdString};
 
-use petstore_api::{Api, ApiError,
+use petstore_with_fake_endpoints_models_for_testing::{Api, ApiError,
                       TestSpecialTagsResponse,
                       FakeOuterBooleanSerializeResponse,
                       FakeOuterCompositeSerializeResponse,
@@ -44,7 +44,7 @@ use petstore_api::{Api, ApiError,
                       LogoutUserResponse,
                       UpdateUserResponse
 };
-use petstore_api::models;
+use petstore_with_fake_endpoints_models_for_testing::models;
 
 #[derive(Copy, Clone)]
 pub struct Server<C> {

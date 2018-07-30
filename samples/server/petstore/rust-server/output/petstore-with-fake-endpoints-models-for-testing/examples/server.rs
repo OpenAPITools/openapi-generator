@@ -1,10 +1,10 @@
-//! Main binary entry point for petstore_api implementation.
+//! Main binary entry point for petstore_with_fake_endpoints_models_for_testing implementation.
 
 #![allow(missing_docs)]
 
 // Imports required by this file.
 // extern crate <name of this crate>;
-extern crate petstore_api;
+extern crate petstore_with_fake_endpoints_models_for_testing;
 extern crate swagger;
 extern crate hyper;
 extern crate openssl;
@@ -14,7 +14,7 @@ extern crate tokio_tls;
 extern crate clap;
 
 // Imports required by server library.
-// extern crate petstore_api;
+// extern crate petstore_with_fake_endpoints_models_for_testing;
 // extern crate swagger;
 extern crate futures;
 extern crate chrono;
@@ -55,7 +55,7 @@ fn main() {
         .get_matches();
 
     let service_fn =
-        petstore_api::server::context::NewAddContext::<_, EmptyContext>::new(
+        petstore_with_fake_endpoints_models_for_testing::server::context::NewAddContext::<_, EmptyContext>::new(
             AllowAllAuthenticator::new(
                 server_lib::NewService::new(),
                 "cosmo"
