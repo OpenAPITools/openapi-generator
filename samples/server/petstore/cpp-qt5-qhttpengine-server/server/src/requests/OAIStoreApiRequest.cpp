@@ -22,6 +22,10 @@
 namespace OpenAPI {
 
 OAIStoreApiRequest::OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandler* hdl) : QObject(s), socket(s), handler(hdl) {
+    auto headers = s->headers();
+    for(auto itr = headers.begin(); itr != headers.end(); itr++) {
+        requestHeaders.insert(QString(itr.key()), QString(itr.value()));
+    }     
 }
 
 OAIStoreApiRequest::~OAIStoreApiRequest(){
@@ -30,16 +34,23 @@ OAIStoreApiRequest::~OAIStoreApiRequest(){
 }
 
 QMap<QString, QString> 
-OAIStoreApiRequest::getDefaultHeaders(){
-    return defaultHeaders;
+OAIStoreApiRequest::getRequestHeaders() const {
+    return requestHeaders;
 }
+
+void OAIStoreApiRequest::setResponseHeaders(const QMultiMap<QString, QString>& headers){
+    for(auto itr = headers.begin(); itr != headers.end(); ++itr) {
+        responseHeaders.insert(itr.key(), itr.value());
+    }
+}
+
 
 QHttpEngine::Socket* OAIStoreApiRequest::getRawSocket(){
     return socket;
 }
 
 
-void OAIStoreApiRequest::deleteOrderRequest(QString order_idstr){
+void OAIStoreApiRequest::deleteOrderRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
     connect(this, &OAIStoreApiRequest::deleteOrder, handler, &OAIStoreApiHandler::deleteOrder);
     
@@ -63,7 +74,7 @@ void OAIStoreApiRequest::getInventoryRequest(){
 }
 
 
-void OAIStoreApiRequest::getOrderByIdRequest(QString order_idstr){
+void OAIStoreApiRequest::getOrderByIdRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
     connect(this, &OAIStoreApiRequest::getOrderById, handler, &OAIStoreApiHandler::getOrderById);
     
@@ -95,73 +106,93 @@ void OAIStoreApiRequest::placeOrderRequest(){
   
 
 void OAIStoreApiRequest::deleteOrderResponse(){
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIStoreApiRequest::getInventoryResponse(QMap<QString, qint32> res){
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+
+void OAIStoreApiRequest::getInventoryResponse(const QMap<QString, qint32>& res){
+    writeResponseHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIStoreApiRequest::getOrderByIdResponse(OAIOrder res){
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+
+void OAIStoreApiRequest::getOrderByIdResponse(const OAIOrder& res){
+    writeResponseHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIStoreApiRequest::placeOrderResponse(OAIOrder res){
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+
+void OAIStoreApiRequest::placeOrderResponse(const OAIOrder& res){
+    writeResponseHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
 
 
 void OAIStoreApiRequest::deleteOrderError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIStoreApiRequest::getInventoryError(QMap<QString, qint32> res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+
+void OAIStoreApiRequest::getInventoryError(const QMap<QString, qint32>& res, QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIStoreApiRequest::getOrderByIdError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+
+void OAIStoreApiRequest::getOrderByIdError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIStoreApiRequest::placeOrderError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+
+void OAIStoreApiRequest::placeOrderError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
 
 
-
+void OAIStoreApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
+}
+    
+void OAIStoreApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
+}
 
 }

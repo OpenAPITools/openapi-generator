@@ -16,8 +16,8 @@
  * A User who is purchasing from the pet store
  */
 
-#ifndef OAIUser_H_
-#define OAIUser_H_
+#ifndef OAIUser_H
+#define OAIUser_H
 
 #include <QJsonObject>
 
@@ -40,28 +40,28 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    qint64 getId();
+    qint64 getId() const;
     void setId(const qint64 &id);
 
-    QString getUsername();
+    QString getUsername() const;
     void setUsername(const QString &username);
 
-    QString getFirstName();
+    QString getFirstName() const;
     void setFirstName(const QString &first_name);
 
-    QString getLastName();
+    QString getLastName() const;
     void setLastName(const QString &last_name);
 
-    QString getEmail();
+    QString getEmail() const;
     void setEmail(const QString &email);
 
-    QString getPassword();
+    QString getPassword() const;
     void setPassword(const QString &password);
 
-    QString getPhone();
+    QString getPhone() const;
     void setPhone(const QString &phone);
 
-    qint32 getUserStatus();
+    qint32 getUserStatus() const;
     void setUserStatus(const qint32 &user_status);
 
     virtual bool isSet() const override;
@@ -95,4 +95,4 @@ private:
 
 }
 
-#endif /* OAIUser_H_ */
+#endif // OAIUser_H
