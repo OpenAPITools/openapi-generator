@@ -10,7 +10,6 @@ import org.openapitools.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,9 +38,10 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user",
         method = RequestMethod.POST)
-    default ResponseEntity<Mono<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
+    default Mono<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(user.then(result));
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return user.then(result);
 
     }
 
@@ -51,9 +51,10 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
-    default ResponseEntity<Mono<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<List> user, ServerWebExchange exchange) {
+    default Mono<Void> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<List> user, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(user.then(result));
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return user.then(result);
 
     }
 
@@ -63,9 +64,10 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
-    default ResponseEntity<Mono<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<List> user, ServerWebExchange exchange) {
+    default Mono<Void> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<List> user, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(user.then(result));
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return user.then(result);
 
     }
 
@@ -76,9 +78,10 @@ public interface UserApi {
         @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
-    default ResponseEntity<Mono<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username, ServerWebExchange exchange) {
+    default Mono<Void> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -91,7 +94,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Mono<User>> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username, ServerWebExchange exchange) {
+    default Mono<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username, ServerWebExchange exchange) {
         Mono<User> result = Mono.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -105,7 +108,8 @@ public interface UserApi {
                 break;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -117,9 +121,10 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Mono<String>> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password, ServerWebExchange exchange) {
+    default Mono<String> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password, ServerWebExchange exchange) {
         Mono<String> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -129,9 +134,10 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/logout",
         method = RequestMethod.GET)
-    default ResponseEntity<Mono<Void>> logoutUser(ServerWebExchange exchange) {
+    default Mono<Void> logoutUser(ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -142,9 +148,10 @@ public interface UserApi {
         @ApiResponse(code = 404, message = "User not found") })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
-    default ResponseEntity<Mono<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
+    default Mono<Void> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(user.then(result));
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return user.then(result);
 
     }
 

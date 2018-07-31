@@ -9,7 +9,6 @@ import org.openapitools.model.Client;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +39,7 @@ public interface AnotherFakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Mono<Client>> testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
+    default Mono<Client> testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
         Mono<Client> result = Mono.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -49,7 +48,8 @@ public interface AnotherFakeApi {
                 break;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(client.then(result));
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return client.then(result);
 
     }
 

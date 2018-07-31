@@ -11,7 +11,6 @@ import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,9 +45,10 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
-    default ResponseEntity<Mono<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> pet, ServerWebExchange exchange) {
+    default Mono<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> pet, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(pet.then(result));
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return pet.then(result);
 
     }
 
@@ -63,9 +63,10 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid pet value") })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
-    default ResponseEntity<Mono<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey, ServerWebExchange exchange) {
+    default Mono<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -82,7 +83,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Flux<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status, ServerWebExchange exchange) {
+    default Flux<Pet> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status, ServerWebExchange exchange) {
         Flux<Pet> result = Flux.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -96,7 +97,8 @@ public interface PetApi {
                 break;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -113,7 +115,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Flux<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, ServerWebExchange exchange) {
+    default Flux<Pet> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, ServerWebExchange exchange) {
         Flux<Pet> result = Flux.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -127,7 +129,8 @@ public interface PetApi {
                 break;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -142,7 +145,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Mono<Pet>> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId, ServerWebExchange exchange) {
+    default Mono<Pet> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId, ServerWebExchange exchange) {
         Mono<Pet> result = Mono.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -156,7 +159,8 @@ public interface PetApi {
                 break;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -174,9 +178,10 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
-    default ResponseEntity<Mono<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> pet, ServerWebExchange exchange) {
+    default Mono<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Mono<Pet> pet, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(pet.then(result));
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return pet.then(result);
 
     }
 
@@ -192,9 +197,10 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
-    default ResponseEntity<Mono<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet", defaultValue="null") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet", defaultValue="null") @RequestParam(value="status", required=false)  String status, ServerWebExchange exchange) {
+    default Mono<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet", defaultValue="null") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet", defaultValue="null") @RequestParam(value="status", required=false)  String status, ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
@@ -211,7 +217,7 @@ public interface PetApi {
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default ResponseEntity<Mono<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file, ServerWebExchange exchange) {
+    default Mono<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file, ServerWebExchange exchange) {
         Mono<ModelApiResponse> result = Mono.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -220,7 +226,8 @@ public interface PetApi {
                 break;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(result);
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result;
 
     }
 
