@@ -393,7 +393,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isObjectSchema(p)) {
             example = example.isEmpty() ? "null" : example;
         } else {
-            example = super.toExampleValue(p);
+            example = getTypeDeclaration(p) + ".getExample()";
         }
         return example;
     }
@@ -462,7 +462,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         cm.vendorExtensions.put("propertyMappings", propertyMappings);
 
         if (!propertyMappings.isEmpty()) {
-            cm.interfaces.add("Swagger.MappedProperties");
+            cm.interfaces.add("OAS.MappedProperties");
         }
         return cm;
     }
@@ -565,24 +565,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        /* TODO the following logic revised. Maybe we should simply use the consumes, produces provided by the spec
-        Boolean hasFormParams = false;
-        for (Parameter p : operation.getParameters()) {
-            if ("formData".equals(p.getIn())) {
-                hasFormParams = true;
-                break;
-            }
-        }
-
-        // only support serialization into JSON and urlencoded forms for now
-        operation.setConsumes(
-                Collections.singletonList(hasFormParams
-                        ? "application/x-www-form-urlencoded"
-                        : "application/json"));
-
-        // only support deserialization from JSON for now
-        operation.setProduces(Collections.singletonList("application/json"));
-        */
 
         CodegenOperation op = super.fromOperation(
                 path, httpMethod, operation, definitions, openAPI);
