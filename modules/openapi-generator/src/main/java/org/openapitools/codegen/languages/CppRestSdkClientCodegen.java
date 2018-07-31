@@ -157,7 +157,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "std::string");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
-        typeMapping.put("ByteArray", "utility::string_t");        
+        typeMapping.put("ByteArray", "utility::string_t");
 
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
@@ -200,6 +200,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/model";
     }
@@ -218,7 +219,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + name + ".h\"";
+            return "#include \"" + sanitizeName(name) + ".h\"";
         }
     }
 
@@ -281,12 +282,12 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return sanitizeName(initialCaps(name));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return initialCaps(name) + "Api";
+        return sanitizeName(initialCaps(name) + "Api");
     }
 
     /**
@@ -386,33 +387,6 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else
             type = openAPIType;
         return toModelName(type);
-    }
-
-    @Override
-    public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
-                || importMapping.values().contains(type) || defaultIncludes.contains(type)
-                || languageSpecificPrimitives.contains(type)) {
-            return type;
-        } else {
-            return Character.toUpperCase(type.charAt(0)) + type.substring(1);
-        }
-    }
-
-    @Override
-    public String toApiName(String type) {
-        return Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override

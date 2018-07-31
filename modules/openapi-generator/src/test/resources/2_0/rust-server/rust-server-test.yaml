@@ -1,0 +1,21 @@
+swagger: '2.0'
+info:
+  description: "This spec is for testing rust-server-specific things"
+  version: 1.0.0
+  title: rust-server-test
+schemes:
+  - http
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+definitions:
+  additionalPropertiesObject:
+    description: An additionalPropertiesObject
+    type: object
+    additionalProperties:
+      type: string
+    example: "foo"

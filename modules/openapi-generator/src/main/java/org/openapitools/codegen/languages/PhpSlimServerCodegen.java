@@ -124,17 +124,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation op : operationList) {
-            if (op.hasProduces) {
-                // need to escape */* values because they breakes current mustaches
-                List<Map<String, String>> c = op.produces;
-                for (Map<String, String> mediaType : c) {
-                    if ("*/*".equals(mediaType.get("mediaType"))) {
-                        mediaType.put("mediaType", "*_/_*");
-                    }
-                }
-            }
-        }
+        escapeMediaType(operationList);
         return objs;
     }
 

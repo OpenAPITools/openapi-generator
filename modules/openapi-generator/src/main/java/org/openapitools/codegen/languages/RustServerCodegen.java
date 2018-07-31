@@ -198,7 +198,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
-        supportingFiles.add(new SupportingFile("server-auth.mustache", "src/server", "auth.rs"));
+        supportingFiles.add(new SupportingFile("server-context.mustache", "src/server", "context.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("mimetypes.mustache", "src", "mimetypes.rs"));
         supportingFiles.add(new SupportingFile("example-server.mustache", "examples", "server.rs"));
@@ -1030,21 +1030,28 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-
             if (cm.dataType != null && cm.dataType.equals("object")) {
                 // Object isn't a sensible default. Instead, we set it to
                 // 'null'. This ensures that we treat this model as a struct
                 // with multiple parameters.
                 cm.dataType = null;
             } else if (cm.dataType != null) {
-                // We need to hack about with single-parameter models to get
-                // them recognised correctly.
-                cm.isAlias = false;
-                cm.dataType = typeMapping.get(cm.dataType);
+                if (cm.dataType.equals("map")) {
+                    // We don't yet support `additionalProperties`. We ignore
+                    // the `additionalProperties` type ('map') and warn the
+                    // user. This will produce code that compiles, but won't
+                    // feature the `additionalProperties`.
+                    cm.dataType = null;
+                    LOGGER.warn("Ignoring unsupported additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318)");
+                } else {
+                    // We need to hack about with single-parameter models to
+                    // get them recognised correctly.
+                    cm.isAlias = false;
+                    cm.dataType = typeMapping.get(cm.dataType);
+                }
             }
         }
         return super.postProcessModelsEnum(objs);
-
     }
 
     private boolean paramHasXmlNamespace(CodegenParameter param, Map<String, Schema> definitions) {

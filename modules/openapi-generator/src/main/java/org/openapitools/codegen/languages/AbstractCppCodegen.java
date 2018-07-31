@@ -129,6 +129,38 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public String toApiName(String type) {
+        return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api");
+    }
+
+    @Override
+    public String toModelName(String type) {
+        if (type == null) {
+            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
+            type = "UnknownModel";
+        }
+
+        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
+                || importMapping.values().contains(type) || defaultIncludes.contains(type)
+                || languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+        }
+    }
+
+    @Override
     public String toVarName(String name) {
         if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
                 || importMapping.values().contains(name) || defaultIncludes.contains(name)

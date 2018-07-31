@@ -19,6 +19,9 @@ extern crate hyper;
 
 extern crate swagger;
 
+#[macro_use]
+extern crate url;
+
 use futures::Stream;
 use std::io::Error;
 
@@ -32,16 +35,16 @@ mod mimetypes;
 
 pub use swagger::{ApiError, ContextWrapper};
 
-pub const BASE_PATH: &'static str = "{{basePathWithoutHost}}";
-pub const API_VERSION: &'static str = "{{appVersion}}";
+pub const BASE_PATH: &'static str = "{{{basePathWithoutHost}}}";
+pub const API_VERSION: &'static str = "{{{appVersion}}}";
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 {{^isResponseFile}}
 #[derive(Debug, PartialEq)]
 {{/isResponseFile}}
-pub enum {{operationId}}Response {
+pub enum {{{operationId}}}Response {
 {{#responses}}
-{{#message}}    /// {{message}}{{/message}}
+{{#message}}    /// {{{message}}}{{/message}}
     {{#vendorExtensions}}{{{x-responseId}}}{{/vendorExtensions}} {{#dataType}}{{^hasHeaders}}( {{{dataType}}} ) {{/hasHeaders}}{{#hasHeaders}}{{#-first}}{ body: {{{dataType}}}{{/-first}}{{/hasHeaders}}{{/dataType}}{{#dataType}}{{#hasHeaders}}, {{/hasHeaders}}{{/dataType}}{{^dataType}}{{#hasHeaders}} { {{/hasHeaders}}{{/dataType}}{{#headers}}{{^-first}}, {{/-first}}{{{name}}}: {{{datatype}}}{{#-last}} } {{/-last}}{{/headers}},
     {{/responses}}
 }
@@ -51,7 +54,7 @@ pub enum {{operationId}}Response {
 pub trait Api<C> {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 {{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{operationId}}Response, Error=ApiError>>;
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{{operationId}}}Response, Error=ApiError>>;
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
 
@@ -59,7 +62,7 @@ pub trait Api<C> {
 pub trait ApiNoContext {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 {{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}) -> Box<Future<Item={{operationId}}Response, Error=ApiError>>;
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}) -> Box<Future<Item={{{operationId}}}Response, Error=ApiError>>;
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
 
@@ -78,8 +81,8 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 {{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}) -> Box<Future<Item={{operationId}}Response, Error=ApiError>> {
-        self.api().{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{paramName}}, {{/allParams}}&self.context())
+    fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}) -> Box<Future<Item={{{operationId}}}Response, Error=ApiError>> {
+        self.api().{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&self.context())
     }
 {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
