@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "dependencies": {
+    "@swagger/typescript-fetch-petstore": "file:../../builds/with-npm-version",
+    "chai": "^4.1.0",
+    "ts-node": "^3.3.0"
+  },
+  "scripts": {
+    "prepublish": "npm install ../../builds/with-npm-version && npm run build && npm run webpack && npm run browserify",
+    "test": "mocha test/*.ts --compilers ts:ts-node/register --timeout 10000",
+    "build": "tsc",
+    "webpack": "webpack",
+    "browserify": "browserify test -p [ tsify ] > ./dist/test.browserify-bundle.js"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.1",
+    "@types/isomorphic-fetch": "0.0.34",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.14",
+    "browserify": "^14.4.0",
+    "mocha": "^3.4.2",
+    "ts-loader": "^2.3.0",
+    "tsify": "^3.0.1",
+    "typescript": "^2.4.1",
+    "typings": "^2.1.1",
+    "webpack": "^1.13.0"
+  },
+  "name": "typescript-fetch-test",
+  "version": "1.0.0",
+  "directories": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
