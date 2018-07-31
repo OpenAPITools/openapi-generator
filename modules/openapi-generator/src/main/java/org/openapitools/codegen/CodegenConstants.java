@@ -31,6 +31,7 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
     public static final String WITH_XML = "withXml";
+    public static final String GENERATE_ALL_MODELS = "generateAllModels";
     /* /end System Properties */
 
     public static final String API_PACKAGE = "apiPackage";

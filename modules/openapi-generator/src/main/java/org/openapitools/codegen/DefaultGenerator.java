@@ -285,7 +285,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
-            String suffix = docExtension!=null ? docExtension : config.modelDocTemplateFiles().get(templateName);
+            String suffix = docExtension != null ? docExtension : config.modelDocTemplateFiles().get(templateName);
             String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(modelName) + suffix;
             if (!config.shouldOverwrite(filename)) {
                 LOGGER.info("Skipped overwriting " + filename);
@@ -381,6 +381,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             } */
         });
 
+        Boolean generateAllModels = System.getProperty(CodegenConstants.GENERATE_ALL_MODELS) != null ?
+                Boolean.valueOf(System.getProperty(CodegenConstants.GENERATE_ALL_MODELS)) :
+                getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_ALL_MODELS, false);
+
         // process models only
         for (String name : modelKeys) {
             try {
@@ -392,8 +396,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
-                    LOGGER.debug("Model " + name + " not generated since it's marked as unused (due to form parameters)");
-                    continue;
+                    if (Boolean.TRUE.equals(generateAllModels)) {
+                        // if generateAllModels sets to true, still generate the model and log the result
+                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to generateAllModels=true");
+                    } else {
+                        LOGGER.debug("Model " + name + " not generated since it's marked as unused (due to form parameters)");
+                        continue;
+                    }
                 }
 
                 Schema schema = schemas.get(name);
