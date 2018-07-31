@@ -36,7 +36,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     private static final String BUILD_METHOD = "buildMethod";
     private static final String NAMED_CREDENTIAL = "namedCredential";
     private static final Logger LOGGER = LoggerFactory.getLogger(ApexClientCodegen.class);
-    private String classPrefix = "Swag";
+    private String classPrefix = "OAS";
     private String apiVersion = "42.0";
     private String buildMethod = "sfdx";
     private String namedCredential = classPrefix;
@@ -69,12 +69,12 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         cliOptions.add(CliOption.newString(BUILD_METHOD, "The build method for this package."));
         cliOptions.add(CliOption.newString(NAMED_CREDENTIAL, "The named credential name for the HTTP callouts"));
 
-        supportingFiles.add(new SupportingFile("Swagger.cls", srcPath + "classes", "Swagger.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "Swagger.cls-meta.xml"));
-        supportingFiles.add(new SupportingFile("SwaggerTest.cls", srcPath + "classes", "SwaggerTest.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "SwaggerTest.cls-meta.xml"));
-        supportingFiles.add(new SupportingFile("SwaggerResponseMock.cls", srcPath + "classes", "SwaggerResponseMock.cls"));
-        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "SwaggerResponseMock.cls-meta.xml"));
+        supportingFiles.add(new SupportingFile("OAS.cls", srcPath + "classes", "OAS.cls"));
+        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "OAS.cls-meta.xml"));
+        supportingFiles.add(new SupportingFile("OASTest.cls", srcPath + "classes", "OASTest.cls"));
+        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "OASTest.cls-meta.xml"));
+        supportingFiles.add(new SupportingFile("OASResponseMock.cls", srcPath + "classes", "OASResponseMock.cls"));
+        supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes", "OASResponseMock.cls-meta.xml"));
 
         typeMapping.put("BigDecimal", "Double");
         typeMapping.put("binary", "String");
@@ -248,8 +248,6 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     public void setBuildMethod(String buildMethod) {
         if (buildMethod.equals("ant")) {
             this.srcPath = "deploy/";
-        } else {
-            this.srcPath = "src/";
         }
         this.buildMethod = buildMethod;
     }
