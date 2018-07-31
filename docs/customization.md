@@ -106,6 +106,15 @@ java -Dapis -DmodelTests=false {opts}
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
+To generate all models including those skipped by the form parameters, please use `generateAllModels` (default o false)
+
+```sh
+java -DgenerateAllModels=true
+```
+
+This option will be helpful to generate models skipped by form parameters, which is defined different in OAS3 (there's no form parameter in OAS3)
+
+
 ### Ignore file format
 
 OpenAPI Generator supports a `.openapi-generator-ignore` file, similar to `.gitignore` or `.dockerignore` you're probably already familiar with.
