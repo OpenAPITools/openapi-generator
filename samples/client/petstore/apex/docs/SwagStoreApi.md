@@ -50,8 +50,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="getInventory"></a>
 # **getInventory**
@@ -84,7 +84,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Map&lt;String, Integer&gt;**
+[**Map&lt;String, Integer&gt;**](Map.md)
 
 ### Authorization
 
@@ -92,7 +92,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 <a name="getOrderById"></a>
@@ -136,21 +136,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> SwagOrder placeOrder(swagOrder)
+> SwagOrder placeOrder(body)
 
 Place an order for a pet
+
+
 
 ### Example
 ```java
 SwagStoreApi api = new SwagStoreApi();
 
 Map<String, Object> params = new Map<String, Object>{
-    'swagOrder' => SwagOrder.getExample()
+    'body' => SwagOrder.getExample()
 };
 
 try {
@@ -166,7 +168,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **swagOrder** | [**SwagOrder**](SwagOrder.md)| order placed for purchasing the pet |
+ **body** | [**SwagOrder**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
@@ -178,6 +180,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
