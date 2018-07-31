@@ -548,7 +548,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reservjed word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
