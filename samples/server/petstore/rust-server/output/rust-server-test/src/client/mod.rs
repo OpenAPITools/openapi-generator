@@ -43,6 +43,14 @@ use {Api,
      };
 use models;
 
+define_encode_set! {
+    /// This encode set is used for object IDs
+    ///
+    /// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,
+    /// the vertical bar (|) is encoded.
+    pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
+}
+
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
 fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
     // First convert to Uri, since a base path is a subset of Uri.
