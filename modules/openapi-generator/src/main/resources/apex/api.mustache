@@ -88,13 +88,13 @@ public class {{classname}} {
               {{/headerParams}}
             }{{/hasHeaderParams}}{{^hasHeaderParams}}(){{/hasHeaderParams}},
           {{#hasProduces}}
-            new List<String>{ {{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}} },
+            new List<String>{ {{#produces}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/produces}} },
           {{/hasProduces}}
           {{^hasProduces}}
             new List<String>(),
           {{/hasProduces}}
           {{#hasConsumes}}
-            new List<String>{ {{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}} },
+            new List<String>{ {{#consumes}}'{{mediaType}}'{{#hasMore}}, {{/hasMore}}{{/consumes}} },
           {{/hasConsumes}}
           {{^hasConsumes}}
             new List<String>(),

@@ -271,9 +271,7 @@ public class Swagger {
         @TestVisible
         protected virtual void applyAuthentication(List<String> names, Map<String, Object> headers,
                                                    List<Param> query) {
-            for (Authentication auth : getAuthMethods(names)) {
-                auth.apply(headers, query);
-            }
+            // TODO Check auth methods
         }
 
         @TestVisible
@@ -298,7 +296,7 @@ public class Swagger {
         protected virtual String toEndpoint(String path, Map<String, Object> params,
                                             List<Param> queryParams) {
             String query = '?' + paramsToString(queryParams);
-            return '"callout:' + calloutName + toPath(path, params) + query.removeEnd('?') + '""';
+            return 'callout:' + calloutName + toPath(path, params) + query.removeEnd('?');
         }
 
         @TestVisible

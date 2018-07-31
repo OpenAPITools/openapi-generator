@@ -34,18 +34,19 @@ private class {{classname}}Test {
         {{{returnType}}} response;
         {{{returnType}}} expectedResponse;
       {{/returnType}}
+        String js = '';
 
     {{#authMethods}}
         client = new {{classPrefix}}Client();
         api = new {{classname}}(client);{{#isApiKey}}
-        ((Swagger.ApiKeyAuth){{/isApiKey}} client.getAuthentication('{{name}}');
-      {{#isApiKey}}
-            client.setApiKey('foo-bar-api-key');
+        ((Swagger.ApiKeyAuth)client.getAuthentication('{{name}}')).setApiKey('foo-bar-api-key');
       {{/isApiKey}}
       {{#examples}}
 
+
+        js = JSON.serialize({{{deserializedExample}}});
         res.setHeader('Content-Type', '{{contentType}}');
-        res.setBody('{{{example}}}');
+        res.setBody(js);
         expectedResponse = {{{deserializedExample}}};
         response = ({{{returnType}}}) api.{{operationId}}({{#hasParams}}params{{/hasParams}});
         System.assertEquals(expectedResponse, response);
@@ -59,8 +60,9 @@ private class {{classname}}Test {
         api = new {{classname}}(new {{classPrefix}}Client());
       {{#examples}}
 
+        js = JSON.serialize({{{deserializedExample}}});
         res.setHeader('Content-Type', '{{contentType}}');
-        res.setBody('{{{example}}}');
+        res.setBody(js);
         expectedResponse = {{{deserializedExample}}};
         response = ({{{returnType}}}) api.{{operationId}}({{#hasParams}}params{{/hasParams}});
         System.assertEquals(expectedResponse, response);
