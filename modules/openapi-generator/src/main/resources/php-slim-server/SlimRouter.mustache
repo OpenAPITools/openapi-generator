@@ -39,6 +39,7 @@ use {{apiPackage}}\{{classname}};
 use Slim\App;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
+use Tuupola\Middleware\HttpBasicAuthentication;
 
 /**
  * SlimRouter Class Doc Comment
@@ -66,10 +67,29 @@ class SlimRouter {
     public function __construct($container = []) {
         $app = new App($container);
 
+        $basicAuth = new HttpBasicAuthentication([
+            "secure" => false,
+            "authenticator" => function ($arguments) {
+                $user = $arguments["user"];
+                $password = $arguments["password"];
+                return false;
+            }
+        ]);
+
         {{#apis}}
         {{#operations}}
         {{#operation}}
-        $app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', {{classname}}::class . ':{{operationId}}');
+        $app->{{httpMethod}}(
+            '{{{basePathWithoutHost}}}{{{path}}}', {{classname}}::class . ':{{operationId}}'
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+        )->add(
+            $basicAuth
+{{/isBasic}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+        );
         {{/operation}}
         {{/operations}}
         {{/apis}}

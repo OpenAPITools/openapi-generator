@@ -7,4 +7,6 @@ is an example of building a PHP Slim server.
 
 This example uses the [Slim Framework](http://www.slimframework.com/).  To see how to make this your own, please take a look at the template here:
 
-[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/slim/)
+[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/php-slim-server/)
+
+## Authentication
