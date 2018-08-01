@@ -606,7 +606,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
-            operationId = camelize("call_" + operationId);
+            operationId = "call_" + operationId;
         }
 
         return camelize(sanitizeName(operationId));
