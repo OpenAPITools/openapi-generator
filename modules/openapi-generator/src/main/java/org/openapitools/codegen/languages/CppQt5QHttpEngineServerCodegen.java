@@ -52,7 +52,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     protected Map<String, String> namespaces = new HashMap<String, String>();
     protected Set<String> systemIncludes = new HashSet<String>();
     protected String cppNamespace = "OpenAPI";
-
+    protected Set<String> nonFrameworkPrimitives = new HashSet<String>();
     public CppQt5QHttpEngineServerCodegen() {
         super();
 
@@ -132,7 +132,17 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
                         "float",
                         "double")
         );
-
+        nonFrameworkPrimitives.addAll(languageSpecificPrimitives);
+        
+        foundationClasses.addAll(
+        		Arrays.asList(
+        				"QString",       					
+        				"QDate",
+        				"QDateTime",
+        				"QByteArray")
+        );
+        languageSpecificPrimitives.addAll(foundationClasses);
+        
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));        
@@ -171,7 +181,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
         importMapping = new HashMap<String, String>();
         namespaces = new HashMap<String, String>();
 
-        foundationClasses.add("QString");
+
 
         systemIncludes.add("QString");
         systemIncludes.add("QList");
@@ -430,5 +440,11 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     @Override
     public String getTypeDeclaration(String str) {
         return str;
+    }
+      
+    @Override
+    protected boolean needToImport(String type) {
+        return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
+                && !nonFrameworkPrimitives.contains(type);
     }
 }
