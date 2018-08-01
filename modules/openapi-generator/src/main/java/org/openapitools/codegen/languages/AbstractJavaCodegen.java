@@ -886,7 +886,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
             operationId = camelize("call_" + operationId, true);
         }
 
