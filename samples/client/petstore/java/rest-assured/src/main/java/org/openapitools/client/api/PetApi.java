@@ -104,7 +104,9 @@ public class PetApi {
      */
     public class AddPetOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet";
+        public static final String SUMMARY = "Add a new pet to the store";
 
         private RequestSpecBuilder reqSpec;
 
@@ -172,7 +174,9 @@ public class PetApi {
      */
     public class DeletePetOper {
 
+        public static final String REQ_METHOD = "DELETE";
         public static final String REQ_URI = "/pet/{petId}";
+        public static final String SUMMARY = "Deletes a pet";
 
         private RequestSpecBuilder reqSpec;
 
@@ -247,11 +251,13 @@ public class PetApi {
      * Multiple status values can be provided with comma separated strings
      *
      * @see #statusQuery Status values that need to be considered for filter (required)
-     * return List&lt;Pet&gt;
+     * return List<Pet>
      */
     public class FindPetsByStatusOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/findByStatus";
+        public static final String SUMMARY = "Finds Pets by status";
 
         private RequestSpecBuilder reqSpec;
 
@@ -282,7 +288,7 @@ public class PetApi {
         /**
          * GET /pet/findByStatus
          * @param handler handler
-         * @return List&lt;Pet&gt;
+         * @return List<Pet>
          */
         public List<Pet> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<List<Pet>>(){}.getType();
@@ -292,7 +298,7 @@ public class PetApi {
         public static final String STATUS_QUERY = "status";
 
         /**
-         * @param status (List&lt;String&gt;) Status values that need to be considered for filter (required)
+         * @param status (List<String>) Status values that need to be considered for filter (required)
          * @return operation
          */
         public FindPetsByStatusOper statusQuery(Object... status) {
@@ -325,13 +331,15 @@ public class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @see #tagsQuery Tags to filter by (required)
-     * return List&lt;Pet&gt;
+     * return List<Pet>
      * @deprecated
      */
     @Deprecated
     public class FindPetsByTagsOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/findByTags";
+        public static final String SUMMARY = "Finds Pets by tags";
 
         private RequestSpecBuilder reqSpec;
 
@@ -362,7 +370,7 @@ public class PetApi {
         /**
          * GET /pet/findByTags
          * @param handler handler
-         * @return List&lt;Pet&gt;
+         * @return List<Pet>
          */
         public List<Pet> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<List<Pet>>(){}.getType();
@@ -372,7 +380,7 @@ public class PetApi {
         public static final String TAGS_QUERY = "tags";
 
         /**
-         * @param tags (List&lt;String&gt;) Tags to filter by (required)
+         * @param tags (List<String>) Tags to filter by (required)
          * @return operation
          */
         public FindPetsByTagsOper tagsQuery(Object... tags) {
@@ -409,7 +417,9 @@ public class PetApi {
      */
     public class GetPetByIdOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/{petId}";
+        public static final String SUMMARY = "Find pet by ID";
 
         private RequestSpecBuilder reqSpec;
 
@@ -486,7 +496,9 @@ public class PetApi {
      */
     public class UpdatePetOper {
 
+        public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/pet";
+        public static final String SUMMARY = "Update an existing pet";
 
         private RequestSpecBuilder reqSpec;
 
@@ -555,7 +567,9 @@ public class PetApi {
      */
     public class UpdatePetWithFormOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet/{petId}";
+        public static final String SUMMARY = "Updates a pet in the store with form data";
 
         private RequestSpecBuilder reqSpec;
 
@@ -649,7 +663,9 @@ public class PetApi {
      */
     public class UploadFileOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet/{petId}/uploadImage";
+        public static final String SUMMARY = "uploads an image";
 
         private RequestSpecBuilder reqSpec;
 
@@ -753,7 +769,9 @@ public class PetApi {
      */
     public class UploadFileWithRequiredFileOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/{petId}/uploadImageWithRequiredFile";
+        public static final String SUMMARY = "uploads an image (required)";
 
         private RequestSpecBuilder reqSpec;
 
