@@ -9,10 +9,44 @@ namespace {{modelPackage}};
  */
 class {{classname}} {
 
-    {{#vars}}
+    {{#requiredVars}}
     /** @var {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}*/
     private ${{name}};
 
-    {{/vars}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+    /** @var {{dataType}} ${{name}} (optional) {{#description}}{{description}}{{/description}}*/
+    private ${{name}};
+
+    {{/optionalVars}}
+    /**
+     * {{classname}} constructor
+    {{#hasVars}}
+     *
+    {{#requiredVars}}
+     * @param {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+     * @param {{dataType}}|null ${{name}} (optional) {{#description}}{{description}}{{/description}}
+    {{/optionalVars}}
+    {{/hasVars}}
+     */
+    {{#hasVars}}
+    public function __construct(
+        {{#requiredVars}}
+        ${{name}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#hasOptional}},{{/hasOptional}}{{/hasMore}}
+        {{/requiredVars}}
+        {{#optionalVars}}
+        ${{name}} = null{{#hasMore}},{{/hasMore}}
+        {{/optionalVars}}
+    ) {
+    {{/hasVars}}
+    {{^hasVars}}
+    public function __construct() {
+    {{/hasVars}}
+        {{#allVars}}
+        $this->{{name}} = ${{name}};
+        {{/allVars}}
+    }
 }
 {{/model}}{{/models}}
