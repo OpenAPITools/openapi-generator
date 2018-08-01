@@ -173,7 +173,7 @@ public class ModelUtilsTest {
         Parameter result2 = ModelUtils.getReferencedParameter(openAPI, new Parameter().$ref("#/components/parameters/OtherParameter"));
         Assert.assertEquals(result2, otherParameter);
     }
-	
+
     /**
      * Issue https://github.com/OpenAPITools/openapi-generator/issues/582.
      * Composed schemas should not get unaliased when generating model properties, in order to properly
@@ -192,5 +192,5 @@ public class ModelUtilsTest {
         allSchemas.put("SomeComposedSchema", composedSchema);
 
         Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
-    }	
+    }
 }
