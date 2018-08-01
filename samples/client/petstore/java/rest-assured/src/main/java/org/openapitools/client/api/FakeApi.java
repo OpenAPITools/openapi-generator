@@ -117,7 +117,9 @@ public class FakeApi {
      */
     public class FakeOuterBooleanSerializeOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/boolean";
+        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
 
@@ -195,7 +197,9 @@ public class FakeApi {
      */
     public class FakeOuterCompositeSerializeOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/composite";
+        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
 
@@ -273,7 +277,9 @@ public class FakeApi {
      */
     public class FakeOuterNumberSerializeOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/number";
+        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
 
@@ -351,7 +357,9 @@ public class FakeApi {
      */
     public class FakeOuterStringSerializeOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/string";
+        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
 
@@ -428,7 +436,9 @@ public class FakeApi {
      */
     public class TestBodyWithFileSchemaOper {
 
+        public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/fake/body-with-file-schema";
+        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
 
@@ -496,7 +506,9 @@ public class FakeApi {
      */
     public class TestBodyWithQueryParamsOper {
 
+        public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/fake/body-with-query-params";
+        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
 
@@ -575,7 +587,9 @@ public class FakeApi {
      */
     public class TestClientModelOper {
 
+        public static final String REQ_METHOD = "PATCH";
         public static final String REQ_URI = "/fake";
+        public static final String SUMMARY = "To test \"client\" model";
 
         private RequestSpecBuilder reqSpec;
 
@@ -665,7 +679,9 @@ public class FakeApi {
      */
     public class TestEndpointParametersOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake";
+        public static final String SUMMARY = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ";
 
         private RequestSpecBuilder reqSpec;
 
@@ -884,7 +900,9 @@ public class FakeApi {
      */
     public class TestEnumParametersOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/fake";
+        public static final String SUMMARY = "To test enum parameters";
 
         private RequestSpecBuilder reqSpec;
 
@@ -917,7 +935,7 @@ public class FakeApi {
         public static final String ENUM_HEADER_STRING_ARRAY_HEADER = "enum_header_string_array";
 
         /**
-         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional)
+         * @param enumHeaderStringArray (List<String>) Header parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
@@ -939,7 +957,7 @@ public class FakeApi {
         public static final String ENUM_QUERY_STRING_ARRAY_QUERY = "enum_query_string_array";
 
         /**
-         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional)
+         * @param enumQueryStringArray (List<String>) Query parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {
@@ -983,7 +1001,7 @@ public class FakeApi {
          public static final String ENUM_FORM_STRING_ARRAY_FORM = "enum_form_string_array";
 
          /**
-         * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional, default to $)
+         * @param enumFormStringArray (List<String>) Form parameter enum test (string array) (optional, default to $)
          * @return operation
          */
          public TestEnumParametersOper enumFormStringArrayForm(Object... enumFormStringArray) {
@@ -1030,7 +1048,9 @@ public class FakeApi {
      */
     public class TestInlineAdditionalPropertiesOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/inline-additionalProperties";
+        public static final String SUMMARY = "test inline additionalProperties";
 
         private RequestSpecBuilder reqSpec;
 
@@ -1061,7 +1081,7 @@ public class FakeApi {
         }
 
          /**
-         * @param requestBody (Map&lt;String, String&gt;) request body (required)
+         * @param requestBody (Map<String, String>) request body (required)
          * @return operation
          */
         public TestInlineAdditionalPropertiesOper body(Map<String, String> requestBody) {
@@ -1098,7 +1118,9 @@ public class FakeApi {
      */
     public class TestJsonFormDataOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/fake/jsonFormData";
+        public static final String SUMMARY = "test json serialization of form data";
 
         private RequestSpecBuilder reqSpec;
 

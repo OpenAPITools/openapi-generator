@@ -81,7 +81,9 @@ public class StoreApi {
      */
     public class DeleteOrderOper {
 
+        public static final String REQ_METHOD = "DELETE";
         public static final String REQ_URI = "/store/order/{order_id}";
+        public static final String SUMMARY = "Delete purchase order by ID";
 
         private RequestSpecBuilder reqSpec;
 
@@ -144,11 +146,13 @@ public class StoreApi {
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      *
-     * return Map&lt;String, Integer&gt;
+     * return Map<String, Integer>
      */
     public class GetInventoryOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/store/inventory";
+        public static final String SUMMARY = "Returns pet inventories by status";
 
         private RequestSpecBuilder reqSpec;
 
@@ -179,7 +183,7 @@ public class StoreApi {
         /**
          * GET /store/inventory
          * @param handler handler
-         * @return Map&lt;String, Integer&gt;
+         * @return Map<String, Integer>
          */
         public Map<String, Integer> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Map<String, Integer>>(){}.getType();
@@ -215,7 +219,9 @@ public class StoreApi {
      */
     public class GetOrderByIdOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/store/order/{order_id}";
+        public static final String SUMMARY = "Find purchase order by ID";
 
         private RequestSpecBuilder reqSpec;
 
@@ -293,7 +299,9 @@ public class StoreApi {
      */
     public class PlaceOrderOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/store/order";
+        public static final String SUMMARY = "Place an order for a pet";
 
         private RequestSpecBuilder reqSpec;
 
