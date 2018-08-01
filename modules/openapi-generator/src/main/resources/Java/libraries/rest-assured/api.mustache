@@ -70,7 +70,7 @@ public class {{classname}} {
      * @see #{{#isPathParam}}{{paramName}}Path{{/isPathParam}}{{#isQueryParam}}{{paramName}}Query{{/isQueryParam}}{{#isFormParam}}{{^isFile}}{{paramName}}Form{{/isFile}}{{#isFile}}{{paramName}}MultiPart{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}{{paramName}}Header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}
      {{/allParams}}
      {{#returnType}}
-     * return {{{returnType}}}
+     * return {{returnType}}
      {{/returnType}}
      {{#isDeprecated}}
      * @deprecated
@@ -133,7 +133,7 @@ public class {{classname}} {
         /**
          * {{httpMethod}} {{path}}
          * @param handler handler
-         * @return {{{returnType}}}
+         * @return {{returnType}}
          */
         public {{{returnType}}} executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<{{{returnType}}}>(){}.getType();

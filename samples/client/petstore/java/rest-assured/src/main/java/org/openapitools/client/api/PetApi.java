@@ -251,7 +251,7 @@ public class PetApi {
      * Multiple status values can be provided with comma separated strings
      *
      * @see #statusQuery Status values that need to be considered for filter (required)
-     * return List<Pet>
+     * return List&lt;Pet&gt;
      */
     public class FindPetsByStatusOper {
 
@@ -288,7 +288,7 @@ public class PetApi {
         /**
          * GET /pet/findByStatus
          * @param handler handler
-         * @return List<Pet>
+         * @return List&lt;Pet&gt;
          */
         public List<Pet> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<List<Pet>>(){}.getType();
@@ -331,7 +331,7 @@ public class PetApi {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
      * @see #tagsQuery Tags to filter by (required)
-     * return List<Pet>
+     * return List&lt;Pet&gt;
      * @deprecated
      */
     @Deprecated
@@ -370,7 +370,7 @@ public class PetApi {
         /**
          * GET /pet/findByTags
          * @param handler handler
-         * @return List<Pet>
+         * @return List&lt;Pet&gt;
          */
         public List<Pet> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<List<Pet>>(){}.getType();

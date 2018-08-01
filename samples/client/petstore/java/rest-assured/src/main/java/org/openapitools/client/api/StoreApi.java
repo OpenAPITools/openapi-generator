@@ -146,7 +146,7 @@ public class StoreApi {
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      *
-     * return Map<String, Integer>
+     * return Map&lt;String, Integer&gt;
      */
     public class GetInventoryOper {
 
@@ -183,7 +183,7 @@ public class StoreApi {
         /**
          * GET /store/inventory
          * @param handler handler
-         * @return Map<String, Integer>
+         * @return Map&lt;String, Integer&gt;
          */
         public Map<String, Integer> executeAs(Function<Response, Response> handler) {
             Type type = new TypeToken<Map<String, Integer>>(){}.getType();
