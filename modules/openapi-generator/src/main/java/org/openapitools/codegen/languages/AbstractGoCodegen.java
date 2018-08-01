@@ -145,7 +145,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
-        
+
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name);
 
@@ -267,10 +267,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // the type.
         String openAPIType = getSchemaType(p);
         String ref = p.get$ref();
-        if(ref != null && !ref.isEmpty()) {
+        if (ref != null && !ref.isEmpty()) {
             String tryRefV2 = "#/definitions/" + openAPIType;
             String tryRefV3 = "#/components/schemas/" + openAPIType;
-            if(ref.equals(tryRefV2) || ref.equals(tryRefV3)) {
+            if (ref.equals(tryRefV2) || ref.equals(tryRefV3)) {
                 return toModelName(openAPIType);
             }
         }
@@ -296,7 +296,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String ref = p.get$ref();
         String type = null;
 
-        if(ref != null && !ref.isEmpty()) {
+        if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
@@ -566,7 +566,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
-        } if (enumName.matches("\\d.*")) { // starts with a number
+        } else if (enumName.matches("\\d.*")) { // starts with a number
             return "_" + enumName;
         } else {
             return enumName;
