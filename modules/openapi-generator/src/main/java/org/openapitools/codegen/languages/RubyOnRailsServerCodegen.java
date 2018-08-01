@@ -226,6 +226,16 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     }
 
     @Override
+    public String toApiVarName(String name) {
+        if (name.length() == 0) {
+            return "api";
+        }
+
+        // e.g. PhoneNumber => phone_number
+        return underscore(sanitizeName(name));
+    }
+
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "ApiController";
