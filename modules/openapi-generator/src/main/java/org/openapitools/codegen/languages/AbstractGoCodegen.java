@@ -314,7 +314,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + operationId));
+                    + camelize("call_" + sanitizedOperationId));
+            sanitizedOperationId = "call_" + sanitizedOperationId;
+        }
+
+        // operationId starts with a number
+        if (sanitizedOperationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 

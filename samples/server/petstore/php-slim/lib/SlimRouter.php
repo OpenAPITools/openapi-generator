@@ -72,7 +72,7 @@ class SlimRouter {
         ]);
 
         $app->PATCH(
-            '/v2/another-fake/dummy', AnotherFakeApi::class . ':testSpecialTags'
+            '/v2/another-fake/dummy', AnotherFakeApi::class . ':123testSpecialTags'
         );
         $app->POST(
             '/v2/fake/outer/boolean', FakeApi::class . ':fakeOuterBooleanSerialize'

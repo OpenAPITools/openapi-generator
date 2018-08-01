@@ -47,8 +47,8 @@ public class AnotherFakeApi {
     }
 
 
-    public TestSpecialTagsOper testSpecialTags() {
-        return new TestSpecialTagsOper(reqSpec);
+    public Call123testSpecialTagsOper call123testSpecialTags() {
+        return new Call123testSpecialTagsOper(reqSpec);
     }
 
     /**
@@ -63,12 +63,12 @@ public class AnotherFakeApi {
 
     /**
      * To test special tags
-     * To test special tags
+     * To test special tags and operation ID starting with number
      *
      * @see #body client model (required)
      * return Client
      */
-    public class TestSpecialTagsOper {
+    public class Call123testSpecialTagsOper {
 
         public static final String REQ_METHOD = "PATCH";
         public static final String REQ_URI = "/another-fake/dummy";
@@ -78,14 +78,14 @@ public class AnotherFakeApi {
 
         private ResponseSpecBuilder respSpec;
 
-        public TestSpecialTagsOper() {
+        public Call123testSpecialTagsOper() {
             this.reqSpec = new RequestSpecBuilder();
             reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
 
-        public TestSpecialTagsOper(RequestSpecBuilder reqSpec) {
+        public Call123testSpecialTagsOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
@@ -116,7 +116,7 @@ public class AnotherFakeApi {
          * @param client (Client) client model (required)
          * @return operation
          */
-        public TestSpecialTagsOper body(Client client) {
+        public Call123testSpecialTagsOper body(Client client) {
             reqSpec.setBody(client);
             return this;
         }
@@ -126,7 +126,7 @@ public class AnotherFakeApi {
          * @param consumer consumer
          * @return operation
          */
-        public TestSpecialTagsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+        public Call123testSpecialTagsOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
             consumer.accept(reqSpec);
             return this;
         }
@@ -136,7 +136,7 @@ public class AnotherFakeApi {
          * @param consumer consumer
          * @return operation
          */
-        public TestSpecialTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+        public Call123testSpecialTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
             return this;
         }
