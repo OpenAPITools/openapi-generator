@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testSpecialTags**](AnotherFakeApi.md#testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**123testSpecialTags**](AnotherFakeApi.md#123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-# **testSpecialTags**
-> \OpenAPI\Client\Model\Client testSpecialTags($client)
-
-To test special tags
+# **123testSpecialTags**
+> \OpenAPI\Client\Model\Client 123testSpecialTags($client)
 
 To test special tags
+
+To test special tags and operation ID starting with number
 
 ### Example
 ```php
@@ -27,10 +27,10 @@ $apiInstance = new OpenAPI\Client\Api\AnotherFakeApi(
 $client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testSpecialTags($client);
+    $result = $apiInstance->123testSpecialTags($client);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AnotherFakeApi->testSpecialTags: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling AnotherFakeApi->123testSpecialTags: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```

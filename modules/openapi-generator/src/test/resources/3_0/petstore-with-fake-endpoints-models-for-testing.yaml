@@ -898,8 +898,8 @@ paths:
       tags:
         - $another-fake?
       summary: To test special tags
-      description: To test special tags
-      operationId: test_special_tags
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       responses:
         '200':
           description: successful operation
