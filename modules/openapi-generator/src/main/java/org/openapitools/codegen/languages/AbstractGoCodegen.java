@@ -564,8 +564,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
+        } if (enumName.matches("\\d.*")) { // starts with a number
+            return "_" + enumName;
         } else {
             return enumName;
         }
