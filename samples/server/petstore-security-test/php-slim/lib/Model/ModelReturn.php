@@ -9,7 +9,7 @@ namespace OpenAPIServer\Model;
  */
 class ModelReturn {
 
-    /** @var int $return property description   &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*/
+    /** @var int $return property description  *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*/
     private $return;
 
 }

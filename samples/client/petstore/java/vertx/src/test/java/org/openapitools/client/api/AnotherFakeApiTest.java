@@ -59,15 +59,15 @@ public class AnotherFakeApiTest {
     
     /**
      * To test special tags
-     * To test special tags
+     * To test special tags and operation ID starting with number
      *
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testSpecialTagsTest(TestContext context) {
+    public void call123testSpecialTagsTest(TestContext context) {
         Async async = context.async();
         Client client = null;
-        api.testSpecialTags(client, result -> {
+        api.call123testSpecialTags(client, result -> {
             // TODO: test validations
             async.complete();
         });
