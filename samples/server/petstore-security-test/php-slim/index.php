@@ -1,7 +1,7 @@
 <?php
 /**
- * OpenAPI Petstore  &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
- * @version 1.0.0  &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+ * OpenAPI Petstore *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+ * @version 1.0.0 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
