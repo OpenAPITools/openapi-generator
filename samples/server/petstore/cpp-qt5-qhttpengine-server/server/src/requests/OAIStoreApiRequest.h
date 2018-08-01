@@ -10,11 +10,12 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIStoreApiRequest_H_
-#define _OAI_OAIStoreApiRequest_H_
+#ifndef OAI_OAIStoreApiRequest_H
+#define OAI_OAIStoreApiRequest_H
 
 #include <QObject>
 #include <QStringList>
+#include <QMultiMap>
 #include <QNetworkReply>
 #include <QSharedPointer>
 
@@ -34,26 +35,33 @@ public:
     OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandler* handler);
     virtual ~OAIStoreApiRequest();
 
-    void deleteOrderRequest(QString order_id);
+    void deleteOrderRequest(const QString& order_id);
     void getInventoryRequest();
-    void getOrderByIdRequest(QString order_id);
+    void getOrderByIdRequest(const QString& order_id);
     void placeOrderRequest();
     
 
     void deleteOrderResponse();
-    void getInventoryResponse(QMap<QString, qint32> res);
-    void getOrderByIdResponse(OAIOrder res);
-    void placeOrderResponse(OAIOrder res);
+    void getInventoryResponse(const QMap<QString, qint32>& res);
+    void getOrderByIdResponse(const OAIOrder& res);
+    void placeOrderResponse(const OAIOrder& res);
     
 
     void deleteOrderError(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventoryError(QMap<QString, qint32> res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderError(OAIOrder res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getInventoryError(const QMap<QString, qint32>& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getOrderByIdError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void placeOrderError(const OAIOrder& res, QNetworkReply::NetworkError error_type, QString& error_str);
     
 
-    QMap<QString, QString> getDefaultHeaders();
+    void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);
+
+    void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
+
+    QMap<QString, QString> getRequestHeaders() const;
+
     QHttpEngine::Socket* getRawSocket();
+
+    void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
     void deleteOrder(QString order_id);
@@ -63,11 +71,21 @@ signals:
     
 
 private:
-    QMap<QString, QString> defaultHeaders;
+    QMap<QString, QString> requestHeaders;
+    QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
     OAIStoreApiHandler *handler;
+
+    inline void writeResponseHeaders(){
+        QHttpEngine::Socket::HeaderMap resHeaders;
+        for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+            resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+        }
+        socket->setHeaders(resHeaders);
+        socket->writeHeaders();        
+    }
 };
 
 }
 
-#endif // _OAI_OAIStoreApiRequest_H_
+#endif // OAI_OAIStoreApiRequest_H

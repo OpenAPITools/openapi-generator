@@ -16,8 +16,8 @@
  * An order for a pets from the pet store
  */
 
-#ifndef OAIOrder_H_
-#define OAIOrder_H_
+#ifndef OAIOrder_H
+#define OAIOrder_H
 
 #include <QJsonObject>
 
@@ -41,22 +41,22 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    qint64 getId();
+    qint64 getId() const;
     void setId(const qint64 &id);
 
-    qint64 getPetId();
+    qint64 getPetId() const;
     void setPetId(const qint64 &pet_id);
 
-    qint32 getQuantity();
+    qint32 getQuantity() const;
     void setQuantity(const qint32 &quantity);
 
-    QDateTime getShipDate();
+    QDateTime getShipDate() const;
     void setShipDate(const QDateTime &ship_date);
 
-    QString getStatus();
+    QString getStatus() const;
     void setStatus(const QString &status);
 
-    bool isComplete();
+    bool isComplete() const;
     void setComplete(const bool &complete);
 
     virtual bool isSet() const override;
@@ -84,4 +84,4 @@ private:
 
 }
 
-#endif /* OAIOrder_H_ */
+#endif // OAIOrder_H

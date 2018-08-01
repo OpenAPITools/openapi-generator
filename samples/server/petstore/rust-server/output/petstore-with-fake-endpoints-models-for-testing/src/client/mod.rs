@@ -74,6 +74,14 @@ use {Api,
      };
 use models;
 
+define_encode_set! {
+    /// This encode set is used for object IDs
+    ///
+    /// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,
+    /// the vertical bar (|) is encoded.
+    pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
+}
+
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
 fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
     // First convert to Uri, since a base path is a subset of Uri.
@@ -1236,7 +1244,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1461,7 +1469,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1629,7 +1637,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1693,7 +1701,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/pet/{petId}/uploadImage",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1767,7 +1775,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/store/order/{order_id}",
-            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1900,7 +1908,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/store/order/{order_id}",
-            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2262,7 +2270,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2328,7 +2336,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2566,7 +2574,7 @@ if let Some(body) = body {
 
         let uri = format!(
             "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), PATH_SEGMENT_ENCODE_SET)
+            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {

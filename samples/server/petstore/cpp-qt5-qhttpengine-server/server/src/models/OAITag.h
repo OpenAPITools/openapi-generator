@@ -16,8 +16,8 @@
  * A tag for a pet
  */
 
-#ifndef OAITag_H_
-#define OAITag_H_
+#ifndef OAITag_H
+#define OAITag_H
 
 #include <QJsonObject>
 
@@ -40,10 +40,10 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    qint64 getId();
+    qint64 getId() const;
     void setId(const qint64 &id);
 
-    QString getName();
+    QString getName() const;
     void setName(const QString &name);
 
     virtual bool isSet() const override;
@@ -59,4 +59,4 @@ private:
 
 }
 
-#endif /* OAITag_H_ */
+#endif // OAITag_H
