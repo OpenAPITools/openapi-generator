@@ -19,7 +19,10 @@ package org.openapitools.codegen.languages;
 
 import java.text.SimpleDateFormat;
 
+
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 
 import io.swagger.v3.oas.models.media.*;
@@ -64,6 +67,8 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     protected String pidFolder = tmpFolder + File.separator + "pids";
     protected String socketsFolder = tmpFolder + File.separator + "sockets";
     protected String vendorFolder = "vendor";
+    protected String databaseAdapter = "sqlite";
+
 
     public RubyOnRailsServerCodegen() {
         super();
@@ -87,6 +92,9 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
+
+        cliOptions.add(new CliOption(CodegenConstants.DATABASE_ADAPTER, CodegenConstants.DATABASE_ADAPTER_DESC).
+                defaultValue("sqlite"));
     }
 
     @Override
@@ -96,6 +104,23 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         // use constant model/api package (folder path)
         //setModelPackage("models");
         setApiPackage("app/controllers");
+
+        // determine which db adapter to use
+        if (additionalProperties.containsKey(CodegenConstants.DATABASE_ADAPTER)) {
+            setDatabaseAdapter((String) additionalProperties.get(CodegenConstants.DATABASE_ADAPTER));
+        } else {
+            // not set, pass the default value to template
+            additionalProperties.put(CodegenConstants.DATABASE_ADAPTER, databaseAdapter);
+        }
+
+        if ("sqlite".equals(databaseAdapter)) {
+            additionalProperties.put("isDBSQLite", Boolean.TRUE);
+        } else if ("mysql".equals(databaseAdapter)) {
+            additionalProperties.put("isDBMySQL", Boolean.TRUE);
+        } else {
+            LOGGER.warn("Unknown database {}. Defaul to 'sqlite'.", databaseAdapter);
+            additionalProperties.put("isDBSQLite", Boolean.TRUE);
+        }
 
         supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
@@ -230,7 +255,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         if (name.length() == 0) {
             return "ApiController";
         }
-        // e.g. phone_number_api => PhoneNumberApi
+        // e.g. phone_number_controller => PhoneNumberController
         return camelize(name) + "Controller";
     }
 
@@ -238,5 +263,9 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
+    }
+
+    public void setDatabaseAdapter(String databaseAdapter) {
+        this.databaseAdapter = databaseAdapter;
     }
 }
