@@ -95,7 +95,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     /**
      * Programmatically disable the output of .openapi-generator/VERSION, .openapi-generator-ignore,
-     * or other metadata files used by Swagger Codegen.
+     * or other metadata files used by OpenAPI Generator.
      *
      * @param generateMetadata true: enable outputs, false: disable outputs
      */
