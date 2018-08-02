@@ -72,7 +72,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private String basePathWithoutHost;
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
-    private Map<String, List<GeneratedStructureElement>> generatedStructure = new HashMap<>();
     private boolean hasStructureTemplate = false;
 
     class GeneratedStructureElement{
@@ -162,7 +161,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    protected Map<String, List<GeneratedStructureElement>> getGeneratedStructure(Map<String, Object> bundle) {
+    protected void handleGeneratedStructure(Map<String, Object> bundle) {
         String templateFile = getFullTemplateFile(config, "structure.mustache");
         String template = readTemplate(templateFile);
         Mustache.Compiler compiler = Mustache.compiler();
@@ -180,22 +179,38 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Yaml yaml = new Yaml();
         try {
             Map<String, Object> objectMap = (Map<String, Object>) yaml.load(structureString);
-            Map<String, List<GeneratedStructureElement>> structure = new HashMap<String, List<GeneratedStructureElement>>();
+            Map<String, List<GeneratedStructureElement>> elements = new HashMap<>();
+            for (Map.Entry<String, Object> entry: objectMap.entrySet()){
+                elements.put(entry.getKey(), flatten((Map<String, Object>)entry.getValue()));
+            }
+
+            Map<String, Map<String, String>> objects = new HashMap<>();
+            objects.put("models", this.config.modelTemplateFiles());
+            objects.put("modelDocs", this.config.modelDocTemplateFiles());
+            objects.put("modelTests", this.config.modelTestTemplateFiles());
+            objects.put("apis", this.config.apiTemplateFiles());
+            objects.put("apiDocs", this.config.apiDocTemplateFiles());
+            objects.put("apiTests", this.config.apiTestTemplateFiles());
 
             for (String key: objectMap.keySet()){
-                Object value = objectMap.get(key);
-                structure.put(key, flatten((Map<String, Object>) value));
+                List<GeneratedStructureElement> value = elements.get(key);
+                if (objects.containsKey(key)){
+                    Map<String, String> object = objects.get(key);
+                    object.clear();
+                    for (GeneratedStructureElement element: value){
+                        object.put(element.template, element.name);
+                    }
+                }
             }
-            structure.putIfAbsent("models", new ArrayList());
-            structure.putIfAbsent("modelDocs", new ArrayList());
-            structure.putIfAbsent("modelTests", new ArrayList());
-            structure.putIfAbsent("apis", new ArrayList());
-            structure.putIfAbsent("apiDocs", new ArrayList());
-            structure.putIfAbsent("apiTests", new ArrayList());
 
-            structure.putIfAbsent("supportingFiles", new ArrayList());
-
-            return structure;
+            if (objectMap.containsKey("supportingFiles")){
+                List<GeneratedStructureElement> value = elements.get("supportingFiles");
+                List<SupportingFile> supportingFiles = this.config.supportingFiles();
+                supportingFiles.clear();
+                for (GeneratedStructureElement element: value){
+                    supportingFiles.add(new SupportingFile(element.name, element.folder, element.template));
+                }
+            }
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new RuntimeException("Couldnt process structure.mustache Structure template");
@@ -550,40 +565,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 allModels.add(modelTemplate);
 
-                if (this.hasStructureTemplate) {
-                    // generate files that are related to models
-                    List<String[]> toGenerate = new ArrayList<>();
-
-                    for (GeneratedStructureElement element : generatedStructure.get("models")) {
-                        String filename =  element.folder + File.separator + config.toModelFilename(modelName) + element.name;
-                        toGenerate.add(new String[]{element.template, filename});
-                    }
-                    for (GeneratedStructureElement element : generatedStructure.get("modelDocs")) {
-                        String filename =  element.folder + File.separator + config.toModelDocFilename(modelName) + element.name;
-                        toGenerate.add(new String[]{element.template, filename});
-                    }
-                    for (GeneratedStructureElement element : generatedStructure.get("modelTests")) {
-                        String filename =  element.folder + File.separator + config.toModelTestFilename(modelName) + element.name;
-                        toGenerate.add(new String[]{element.template, filename});
-                    }
-
-                    for (String[] toGenerateElement : toGenerate) {
-                        String templateName = toGenerateElement[0];
-                        String filename = toGenerateElement[1];
-
-                        String outputFileName = config.outputFolder() + File.separator + filename;
-                        if (!config.shouldOverwrite(filename)) {
-                            LOGGER.info("Skipped overwriting " + filename);
-                            continue;
-                        }
-                        File written = processTemplateToFile(models, templateName, outputFileName);
-                        if (written != null) {
-                            files.add(written);
-                        }
-                    }
-                    continue;
-                }
-
                 for (String templateName : config.modelTemplateFiles().keySet()) {
                     String suffix = config.modelTemplateFiles().get(templateName);
                     String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
@@ -680,39 +661,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
 
-                if (this.hasStructureTemplate) {
-                    // generate files that are related to apis
-                    List<String[]> toGenerate = new ArrayList<>();
-
-                    for (GeneratedStructureElement element : generatedStructure.get("apis")) {
-                        String filename =  element.folder + File.separator + config.toApiFilename(tag) + element.name;
-                        toGenerate.add(new String[]{element.template, filename});
-                    }
-                    for (GeneratedStructureElement element : generatedStructure.get("apiDocs")) {
-                        String filename =  element.folder + File.separator + config.toApiDocFilename(tag) + element.name;
-                        toGenerate.add(new String[]{element.template, filename});
-                    }
-                    for (GeneratedStructureElement element : generatedStructure.get("apiTests")) {
-                        String filename =  element.folder + File.separator + config.toApiTestFilename(tag) + element.name;
-                        toGenerate.add(new String[]{element.template, filename});
-                    }
-
-                    for (String[] element : toGenerate) {
-                        String templateName = element[0];
-                        String filename = element[1];
-                        String outputFileName = config.outputFolder() + File.separator + filename;
-                        if (!config.shouldOverwrite(filename)) {
-                            LOGGER.info("Skipped overwriting " + filename);
-                            continue;
-                        }
-                        File written = processTemplateToFile(operation, templateName, outputFileName);
-                        if (written != null) {
-                            files.add(written);
-                        }
-                    }
-                    continue;
-                }
-
                 for (String templateName : config.apiTemplateFiles().keySet()) {
                     String filename = config.apiFilename(templateName, tag);
                     if (!config.shouldOverwrite(filename) && new File(filename).exists()) {
@@ -776,26 +724,59 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             return;
         }
 
-        if (this.hasStructureTemplate){
-            // generate supporting files
-            String outputFolder = config.outputFolder();
-            for (GeneratedStructureElement element : generatedStructure.get("supportingFiles")) {
-                try {
-                    String templateName = element.template;
-                    String filename = Strings.isNullOrEmpty(element.folder) ? element.name : element.folder + File.separator + element.name;
-                    String outputFilename = outputFolder + File.separator + filename;
-                    if (!config.shouldOverwrite(filename)) {
-                        LOGGER.info("Skipped overwriting " + filename);
-                        continue;
-                    }
+        Set<String> supportingFilesToGenerate = null;
+        String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
+        if (supportingFiles != null && !supportingFiles.isEmpty()) {
+            supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
+        }
 
-                    String templateFile =  getFullTemplateFile(config, templateName);
+        for (SupportingFile support : config.supportingFiles()) {
+            try {
+                String outputFolder = config.outputFolder();
+                if (StringUtils.isNotEmpty(support.folder)) {
+                    outputFolder += File.separator + support.folder;
+                }
+                File of = new File(outputFolder);
+                if (!of.isDirectory()) {
+                    of.mkdirs();
+                }
+                String outputFilename = outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
+                if (!config.shouldOverwrite(outputFilename)) {
+                    LOGGER.info("Skipped overwriting " + outputFilename);
+                    continue;
+                }
+                String templateFile;
+                if (support instanceof GlobalSupportingFile) {
+                    templateFile = config.getCommonTemplateDir() + File.separator + support.templateFile;
+                } else {
+                    templateFile = getFullTemplateFile(config, support.templateFile);
+                }
+                boolean shouldGenerate = true;
+                if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
+                    shouldGenerate = supportingFilesToGenerate.contains(support.destinationFilename);
+                }
+                if (!shouldGenerate) {
+                    continue;
+                }
+
+                if (ignoreProcessor.allowsFile(new File(outputFilename))) {
                     if (templateFile.endsWith("mustache")) {
-                        File written = processTemplateToFile(bundle, templateName, outputFilename);
-                        if (written != null) {
-                            files.add(written);
-                        }
-                    }else{
+                        String template = readTemplate(templateFile);
+                        Mustache.Compiler compiler = Mustache.compiler();
+                        compiler = config.processCompiler(compiler);
+                        Template tmpl = compiler
+                                .withLoader(new Mustache.TemplateLoader() {
+                                    @Override
+                                    public Reader getTemplate(String name) {
+                                        return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
+                                    }
+                                })
+                                .defaultValue("")
+                                .compile(template);
+
+                        writeToFile(outputFilename, tmpl.execute(bundle));
+                        files.add(new File(outputFilename));
+                    } else {
                         InputStream in = null;
 
                         try {
@@ -809,84 +790,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
                         files.add(outputFile);
                     }
-                } catch (Exception e) {
-                    throw new RuntimeException("Could not generate supporting file '" + element.name + "'", e);
+                } else {
+                    LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .openapi-generator-ignore");
                 }
-            }
-            return;
-        }else {
-            Set<String> supportingFilesToGenerate = null;
-            String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
-            if (supportingFiles != null && !supportingFiles.isEmpty()) {
-                supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
-            }
-
-            for (SupportingFile support : config.supportingFiles()) {
-                try {
-                    String outputFolder = config.outputFolder();
-                    if (StringUtils.isNotEmpty(support.folder)) {
-                        outputFolder += File.separator + support.folder;
-                    }
-                    File of = new File(outputFolder);
-                    if (!of.isDirectory()) {
-                        of.mkdirs();
-                    }
-                    String outputFilename = outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
-                    if (!config.shouldOverwrite(outputFilename)) {
-                        LOGGER.info("Skipped overwriting " + outputFilename);
-                        continue;
-                    }
-                    String templateFile;
-                    if (support instanceof GlobalSupportingFile) {
-                        templateFile = config.getCommonTemplateDir() + File.separator + support.templateFile;
-                    } else {
-                        templateFile = getFullTemplateFile(config, support.templateFile);
-                    }
-                    boolean shouldGenerate = true;
-                    if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
-                        shouldGenerate = supportingFilesToGenerate.contains(support.destinationFilename);
-                    }
-                    if (!shouldGenerate) {
-                        continue;
-                    }
-
-                    if (ignoreProcessor.allowsFile(new File(outputFilename))) {
-                        if (templateFile.endsWith("mustache")) {
-                            String template = readTemplate(templateFile);
-                            Mustache.Compiler compiler = Mustache.compiler();
-                            compiler = config.processCompiler(compiler);
-                            Template tmpl = compiler
-                                    .withLoader(new Mustache.TemplateLoader() {
-                                        @Override
-                                        public Reader getTemplate(String name) {
-                                            return getTemplateReader(getFullTemplateFile(config, name + ".mustache"));
-                                        }
-                                    })
-                                    .defaultValue("")
-                                    .compile(template);
-
-                            writeToFile(outputFilename, tmpl.execute(bundle));
-                            files.add(new File(outputFilename));
-                        } else {
-                            InputStream in = null;
-
-                            try {
-                                in = new FileInputStream(templateFile);
-                            } catch (Exception e) {
-                                // continue
-                            }
-                            if (in == null) {
-                                in = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(templateFile));
-                            }
-                            File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
-                            files.add(outputFile);
-                        }
-                    } else {
-                        LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .openapi-generator-ignore");
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
-                }
+            } catch (Exception e) {
+                throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
             }
         }
         // Consider .openapi-generator-ignore a supporting file
@@ -1056,7 +964,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         //inlineModelResolver.flatten(openAPI);
 
         if (hasStructureTemplate) {
-            generatedStructure = getGeneratedStructure(buildStructureBundle());
+            handleGeneratedStructure(buildStructureBundle());
         }
 
         List<File> files = new ArrayList<File>();
