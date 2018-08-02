@@ -119,7 +119,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/boolean";
-        public static final String SUMMARY = "";
+        public static final String TAG_1 = "fake";
 
         private RequestSpecBuilder reqSpec;
 
@@ -199,7 +199,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/composite";
-        public static final String SUMMARY = "";
+        public static final String TAG_1 = "fake";
 
         private RequestSpecBuilder reqSpec;
 
@@ -279,7 +279,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/number";
-        public static final String SUMMARY = "";
+        public static final String TAG_1 = "fake";
 
         private RequestSpecBuilder reqSpec;
 
@@ -359,7 +359,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/string";
-        public static final String SUMMARY = "";
+        public static final String TAG_1 = "fake";
 
         private RequestSpecBuilder reqSpec;
 
@@ -438,7 +438,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/fake/body-with-file-schema";
-        public static final String SUMMARY = "";
+        public static final String TAG_1 = "fake";
 
         private RequestSpecBuilder reqSpec;
 
@@ -508,7 +508,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/fake/body-with-query-params";
-        public static final String SUMMARY = "";
+        public static final String TAG_1 = "fake";
 
         private RequestSpecBuilder reqSpec;
 
@@ -589,6 +589,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "PATCH";
         public static final String REQ_URI = "/fake";
+        public static final String TAG_1 = "fake";
         public static final String SUMMARY = "To test \"client\" model";
 
         private RequestSpecBuilder reqSpec;
@@ -681,6 +682,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake";
+        public static final String TAG_1 = "fake";
         public static final String SUMMARY = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ";
 
         private RequestSpecBuilder reqSpec;
@@ -902,6 +904,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/fake";
+        public static final String TAG_1 = "fake";
         public static final String SUMMARY = "To test enum parameters";
 
         private RequestSpecBuilder reqSpec;
@@ -1050,6 +1053,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/inline-additionalProperties";
+        public static final String TAG_1 = "fake";
         public static final String SUMMARY = "test inline additionalProperties";
 
         private RequestSpecBuilder reqSpec;
@@ -1120,6 +1124,7 @@ public class FakeApi {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/fake/jsonFormData";
+        public static final String TAG_1 = "fake";
         public static final String SUMMARY = "test json serialization of form data";
 
         private RequestSpecBuilder reqSpec;

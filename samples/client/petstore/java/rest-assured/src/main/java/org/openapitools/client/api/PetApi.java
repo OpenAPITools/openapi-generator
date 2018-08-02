@@ -106,6 +106,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "Add a new pet to the store";
 
         private RequestSpecBuilder reqSpec;
@@ -176,6 +177,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "DELETE";
         public static final String REQ_URI = "/pet/{petId}";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "Deletes a pet";
 
         private RequestSpecBuilder reqSpec;
@@ -257,6 +259,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/findByStatus";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "Finds Pets by status";
 
         private RequestSpecBuilder reqSpec;
@@ -339,6 +342,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/findByTags";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "Finds Pets by tags";
 
         private RequestSpecBuilder reqSpec;
@@ -419,6 +423,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/{petId}";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "Find pet by ID";
 
         private RequestSpecBuilder reqSpec;
@@ -498,6 +503,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/pet";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "Update an existing pet";
 
         private RequestSpecBuilder reqSpec;
@@ -569,6 +575,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet/{petId}";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "Updates a pet in the store with form data";
 
         private RequestSpecBuilder reqSpec;
@@ -665,6 +672,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet/{petId}/uploadImage";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "uploads an image";
 
         private RequestSpecBuilder reqSpec;
@@ -771,6 +779,7 @@ public class PetApi {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/{petId}/uploadImageWithRequiredFile";
+        public static final String TAG_1 = "pet: Everything about your Pets";
         public static final String SUMMARY = "uploads an image (required)";
 
         private RequestSpecBuilder reqSpec;

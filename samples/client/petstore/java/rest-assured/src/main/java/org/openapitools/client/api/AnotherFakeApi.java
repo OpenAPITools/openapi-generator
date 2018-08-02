@@ -72,6 +72,7 @@ public class AnotherFakeApi {
 
         public static final String REQ_METHOD = "PATCH";
         public static final String REQ_URI = "/another-fake/dummy";
+        public static final String TAG_1 = "$another-fake?";
         public static final String SUMMARY = "To test special tags";
 
         private RequestSpecBuilder reqSpec;
