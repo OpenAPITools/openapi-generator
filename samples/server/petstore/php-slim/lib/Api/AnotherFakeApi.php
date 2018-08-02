@@ -40,18 +40,18 @@ use OpenAPIServer\AbstractApiController;
 class AnotherFakeApi extends AbstractApiController {
 
     /**
-     * PATCH testSpecialTags
+     * PATCH 123testSpecialTags
      * Summary: To test special tags
-     * Notes: To test special tags
+     * Notes: To test special tags and operation ID starting with number
      * Output-Formats: [application/json]
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testSpecialTags($request, $response, $args) {
+    public function 123testSpecialTags($request, $response, $args) {
         $body = $request->getParsedBody();
-        $response->write('How about implementing testSpecialTags as a PATCH method ?');
+        $response->write('How about implementing 123testSpecialTags as a PATCH method ?');
         return $response;
     }
     

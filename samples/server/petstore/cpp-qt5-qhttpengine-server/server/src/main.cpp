@@ -83,6 +83,7 @@ int main(int argc, char * argv[])
    
     QSharedPointer<OpenAPI::RequestHandler> handler(new OpenAPI::RequestHandler());
     OpenAPI::ApiRouter   router;
+    router.setUpRoutes();
     QObject::connect(handler.data(), &OpenAPI::RequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
         router.processRequest(socket);
     });

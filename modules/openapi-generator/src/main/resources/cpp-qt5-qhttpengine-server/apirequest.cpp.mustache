@@ -13,6 +13,10 @@ namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
 {{classname}}Request::{{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* hdl) : QObject(s), socket(s), handler(hdl) {
+    auto headers = s->headers();
+    for(auto itr = headers.begin(); itr != headers.end(); itr++) {
+        requestHeaders.insert(QString(itr.key()), QString(itr.value()));
+    }     
 }
 
 {{classname}}Request::~{{classname}}Request(){
@@ -21,16 +25,23 @@ namespace {{this}} {
 }
 
 QMap<QString, QString> 
-{{classname}}Request::getDefaultHeaders(){
-    return defaultHeaders;
+{{classname}}Request::getRequestHeaders() const {
+    return requestHeaders;
 }
+
+void {{classname}}Request::setResponseHeaders(const QMultiMap<QString, QString>& headers){
+    for(auto itr = headers.begin(); itr != headers.end(); ++itr) {
+        responseHeaders.insert(itr.key(), itr.value());
+    }
+}
+
 
 QHttpEngine::Socket* {{classname}}Request::getRawSocket(){
     return socket;
 }
 
 {{#operations}}{{#operation}}
-void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}QString {{{paramName}}}str{{/pathParams}}{{/hasPathParams}}){
+void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}str{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{/hasPathParams}}){
     qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
     connect(this, &{{classname}}Request::{{nickname}}, handler, &{{classname}}Handler::{{nickname}});
     
@@ -64,10 +75,10 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{/isListContainer}}
     {{^isListContainer}}
     {{^isMapContainer}}
-    {{#isPrimitive}}
+    {{#isPrimitiveType}}
     {{{dataType}}} {{paramName}};
     ::{{cppNamespace}}::fromStringValue((QString(socket->readAll()), {{paramName}});
-    {{/isPrimitive}}
+    {{/isPrimitiveType}}
     {{/isMapContainer}}
     {{#isMapContainer}}
     QJsonDocument doc;
@@ -81,13 +92,13 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     }
     {{/isMapContainer}}
     {{^isMapContainer}}
-    {{^isPrimitive}}
+    {{^isPrimitiveType}}
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
     {{{dataType}}} {{paramName}};
     ::{{cppNamespace}}::fromJsonValue({{paramName}}, obj);
-    {{/isPrimitive}}
+    {{/isPrimitiveType}}
     {{/isMapContainer}}
     {{/isListContainer}}        
     {{/bodyParam}}{{/bodyParams}}
@@ -97,27 +108,42 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 
 {{/operation}}{{/operations}}  
 
-{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}{{{returnType}}} res{{/returnType}}){
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Response({{#returnType}}const {{{returnType}}}& res{{/returnType}}){
+    writeResponseHeaders();{{#returnType}}{{^isPrimitiveType}}
+    QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());{{/isPrimitiveType}}
+    socket->writeJson(resDoc);{{#isPrimitiveType}}
+    socket->write({{#isListContainer}}QString("["+{{/isListContainer}}::{{cppNamespace}}::toStringValue(res){{#isListContainer}}+"]"){{/isListContainer}}.toUtf8());{{/isPrimitiveType}}{{/returnType}}{{^returnType}}    
+    socket->setStatusCode(QHttpEngine::Socket::OK);{{/returnType}}
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-{{/operation}}{{/operations}}
 
-{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+{{/operation}}{{/operations}}
+{{#operations}}{{#operation}}void {{classname}}Request::{{nickname}}Error({{#returnType}}const {{{returnType}}}& res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();{{#returnType}}
+    Q_UNUSED(error_str);  // response will be used instead of error string{{^isPrimitiveType}}
+    QJsonDocument resDoc(::{{cppNamespace}}::toJsonValue(res).to{{^isListContainer}}Object{{/isListContainer}}{{#isListContainer}}Array{{/isListContainer}}());{{/isPrimitiveType}}
+    socket->writeJson(resDoc);{{#isPrimitiveType}}
+    socket->write({{#isListContainer}}QString("["+{{/isListContainer}}::{{cppNamespace}}::toStringValue(res){{#isListContainer}}+"]"){{/isListContainer}}.toUtf8());{{/isPrimitiveType}}{{/returnType}}{{^returnType}}    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());{{/returnType}}
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 {{/operation}}{{/operations}}
-
-
+void {{classname}}Request::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
+}
+    
+void {{classname}}Request::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
+}
 
 {{#cppNamespaceDeclarations}}
 }

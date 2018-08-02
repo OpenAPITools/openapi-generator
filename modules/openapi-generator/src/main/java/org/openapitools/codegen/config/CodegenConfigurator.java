@@ -536,7 +536,7 @@ public class CodegenConfigurator implements Serializable {
 
             if (this.isValidateSpec()) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("There were issues with the specification. The option can be disabled by passing false to skipValidateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
+                sb.append("There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
                 sb.append(System.lineSeparator());
                 SpecValidationException ex = new SpecValidationException(sb.toString());
                 ex.setErrors(validationMessages);
