@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_special_tags**](AnotherFakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+[**123_test_special_tags**](AnotherFakeApi.md#123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-# **test_special_tags**
-> Client test_special_tags(client)
-
-To test special tags
+# **123_test_special_tags**
+> Client 123_test_special_tags(client)
 
 To test special tags
+
+To test special tags and operation ID starting with number
 
 ### Example
 ```ruby
@@ -24,10 +24,10 @@ client = Petstore::Client.new # Client | client model
 
 begin
   #To test special tags
-  result = api_instance.test_special_tags(client)
+  result = api_instance.123_test_special_tags(client)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling AnotherFakeApi->test_special_tags: #{e}"
+  puts "Exception when calling AnotherFakeApi->123_test_special_tags: #{e}"
 end
 ```
 

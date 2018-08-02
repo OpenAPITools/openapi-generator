@@ -20,27 +20,27 @@ module Petstore
       @api_client = api_client
     end
     # To test special tags
-    # To test special tags
+    # To test special tags and operation ID starting with number
     # @param client client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
-    def test_special_tags(client, opts = {})
-      data, _status_code, _headers = test_special_tags_with_http_info(client, opts)
+    def 123_test_special_tags(client, opts = {})
+      data, _status_code, _headers = 123_test_special_tags_with_http_info(client, opts)
       data
     end
 
     # To test special tags
-    # To test special tags
+    # To test special tags and operation ID starting with number
     # @param client client model
     # @param [Hash] opts the optional parameters
     # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
-    def test_special_tags_with_http_info(client, opts = {})
+    def 123_test_special_tags_with_http_info(client, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: AnotherFakeApi.test_special_tags ...'
+        @api_client.config.logger.debug 'Calling API: AnotherFakeApi.123_test_special_tags ...'
       end
       # verify the required parameter 'client' is set
       if @api_client.config.client_side_validation && client.nil?
-        fail ArgumentError, "Missing the required parameter 'client' when calling AnotherFakeApi.test_special_tags"
+        fail ArgumentError, "Missing the required parameter 'client' when calling AnotherFakeApi.123_test_special_tags"
       end
       # resource path
       local_var_path = '/another-fake/dummy'
@@ -69,7 +69,7 @@ module Petstore
         :auth_names => auth_names,
         :return_type => 'Client')
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: AnotherFakeApi#test_special_tags\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: AnotherFakeApi#123_test_special_tags\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
