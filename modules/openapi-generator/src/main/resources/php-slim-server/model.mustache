@@ -3,6 +3,7 @@
  * {{classname}}
  */
 namespace {{modelPackage}};
+use \InvalidArgumentException;
 
 /**
  * {{classname}}
@@ -47,6 +48,35 @@ class {{classname}} {
         {{#allVars}}
         $this->{{name}} = ${{name}};
         {{/allVars}}
+    }
+
+    /**
+     * Alternative static class constructor
+     *
+     * @param mixed[]|null $data Associated array of property values initializing the model
+     * @throws InvalidArgumentException when $data doesn't contain required constructor arguments
+     * @example ${{classVarName}} = {{classname}}::createFromObject({{#hasVars}}[ {{#vars}}{{#-first}}'{{baseName}}' => 'foobar'{{/-first}}{{/vars}} ]{{/hasVars}});
+     *
+     * @return {{classname}}
+     */
+    public static function createFromObject(array $data = null) {
+    {{#requiredVars}}
+        if ($data['{{baseName}}'] === null) throw new InvalidArgumentException("'{{baseName}}' can't be null");
+        ${{name}} = $data['{{baseName}}'];
+    {{/requiredVars}}
+    {{#optionalVars}}
+        ${{name}} = (isset($data['{{baseName}}'])) ? $data['{{baseName}}'] : null;
+    {{/optionalVars}}
+        return new {{classname}}({{^hasVars}});{{/hasVars}}
+    {{#hasVars}}
+        {{#requiredVars}}
+            ${{name}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#hasOptional}},{{/hasOptional}}{{/hasMore}}
+        {{/requiredVars}}
+        {{#optionalVars}}
+            ${{name}}{{#hasMore}},{{/hasMore}}
+        {{/optionalVars}}
+        );
+    {{/hasVars}}
     }
 }
 {{/model}}{{/models}}
