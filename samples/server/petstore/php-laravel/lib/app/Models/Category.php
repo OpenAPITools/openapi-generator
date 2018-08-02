@@ -2,7 +2,7 @@
 /**
  * Category
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * Category

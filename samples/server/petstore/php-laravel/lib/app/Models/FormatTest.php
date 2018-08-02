@@ -2,7 +2,7 @@
 /**
  * FormatTest
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * FormatTest

@@ -2,7 +2,7 @@
 /**
  * Capitalization
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * Capitalization

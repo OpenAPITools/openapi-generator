@@ -2,7 +2,7 @@
 /**
  * EnumTest
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * EnumTest
@@ -21,7 +21,7 @@ class EnumTest {
     /** @var double $enum_number */
     private $enum_number;
 
-    /** @var \app.Models\OuterEnum $outer_enum */
+    /** @var \app\Models\OuterEnum $outer_enum */
     private $outer_enum;
 
 }
