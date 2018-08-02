@@ -559,6 +559,7 @@ Here is a list of template creators:
    * Ada: @stcarrez
    * C# ASP.NET5: @jimschubert
    * C# NancyFX: @mstefaniuk
+   * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
    * C++ Restbed: @stkrwork
    * Erlang Server: @galaxie
@@ -574,6 +575,7 @@ Here is a list of template creators:
    * JAX-RS CXF (CDI): @nickcmaynard
    * JAX-RS RestEasy (JBoss EAP): @jfiala
    * Kotlin: @jimschubert
+   * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
    * PHP Slim: @jfastnacht
    * PHP Symfony: @ksm2
