@@ -150,7 +150,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("DELETE") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
-                reqObj->deletePetRequest(pathparam);;
+                reqObj->deletePetRequest(pathparam);
                 return; 
             }
         }        
@@ -166,7 +166,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("GET") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
-                reqObj->getPetByIdRequest(pathparam);;
+                reqObj->getPetByIdRequest(pathparam);
                 return; 
             }
         }        
@@ -182,7 +182,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("POST") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
-                reqObj->updatePetWithFormRequest(pathparam);;
+                reqObj->updatePetWithFormRequest(pathparam);
                 return; 
             }
         }        
@@ -198,7 +198,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("POST") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
-                reqObj->uploadFileRequest(pathparam);;
+                reqObj->uploadFileRequest(pathparam);
                 return; 
             }
         }        
@@ -214,7 +214,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("DELETE") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIStoreApiRequest(socket, OAIStoreApiApiHandler);
-                reqObj->deleteOrderRequest(pathparam);;
+                reqObj->deleteOrderRequest(pathparam);
                 return; 
             }
         }        
@@ -230,7 +230,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("GET") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIStoreApiRequest(socket, OAIStoreApiApiHandler);
-                reqObj->getOrderByIdRequest(pathparam);;
+                reqObj->getOrderByIdRequest(pathparam);
                 return; 
             }
         }        
@@ -246,7 +246,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("DELETE") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
-                reqObj->deleteUserRequest(pathparam);;
+                reqObj->deleteUserRequest(pathparam);
                 return; 
             }
         }        
@@ -262,7 +262,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("GET") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
-                reqObj->getUserByNameRequest(pathparam);;
+                reqObj->getUserByNameRequest(pathparam);
                 return; 
             }
         }        
@@ -278,7 +278,7 @@ void ApiRouter::processRequest(QHttpEngine::Socket *socket){
             if ((toQHttpEngineMethod("PUT") == socket->method()) && match.hasMatch() ) {
                 QString pathparam = match.captured(1);
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
-                reqObj->updateUserRequest(pathparam);;
+                reqObj->updateUserRequest(pathparam);
                 return; 
             }
         }

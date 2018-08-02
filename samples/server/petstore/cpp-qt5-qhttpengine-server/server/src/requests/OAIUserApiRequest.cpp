@@ -232,8 +232,7 @@ void OAIUserApiRequest::getUserByNameResponse(const OAIUser& res){
 
 void OAIUserApiRequest::loginUserResponse(const QString& res){
     writeResponseHeaders();
-    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
-    socket->writeJson(resDoc);
+    socket->write(::OpenAPI::toStringValue(res).toUtf8());
     if(socket->isOpen()){
         socket->close();
     }
@@ -311,8 +310,7 @@ void OAIUserApiRequest::loginUserError(const QString& res, QNetworkReply::Networ
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
     writeResponseHeaders();
     Q_UNUSED(error_str);  // response will be used instead of error string
-    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
-    socket->writeJson(resDoc);
+    socket->write(::OpenAPI::toStringValue(res).toUtf8());
     if(socket->isOpen()){
         socket->close();
     }
