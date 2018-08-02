@@ -244,7 +244,7 @@ module Petstore
         tempfile.write(chunk)
       end
       request.on_complete do |response|
-        tempfile.close
+        tempfile.close if tempfile
         @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
                             "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
                             "will be deleted automatically with GC. It's also recommended to delete the temp file "\
