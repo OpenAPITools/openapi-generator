@@ -50,9 +50,9 @@ public class AnotherFakeApiTest {
      * successful operation
      */
     @Test
-    public void shouldSee200AfterTestSpecialTags() {
+    public void shouldSee200AfterCall123testSpecialTags() {
         Client client = null;
-        api.testSpecialTags()
+        api.call123testSpecialTags()
                 .body(client).execute(r -> r.prettyPeek());
         // TODO: test validations
     }

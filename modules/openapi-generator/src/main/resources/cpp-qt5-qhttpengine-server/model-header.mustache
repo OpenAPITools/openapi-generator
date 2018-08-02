@@ -5,8 +5,8 @@
  * {{description}}
  */
 
-#ifndef {{classname}}_H_
-#define {{classname}}_H_
+#ifndef {{classname}}_H
+#define {{classname}}_H
 
 #include <QJsonObject>
 
@@ -35,7 +35,7 @@ public:
     void fromJson(QString jsonString) override;
 
     {{#vars}}
-    {{{dataType}}} {{getter}}();
+    {{{dataType}}} {{getter}}() const;
     void {{setter}}(const {{{dataType}}} &{{name}});
 
     {{/vars}}
@@ -53,6 +53,6 @@ private:
 }
 {{/cppNamespaceDeclarations}}
 
-#endif /* {{classname}}_H_ */
+#endif // {{classname}}_H
 {{/model}}
 {{/models}}

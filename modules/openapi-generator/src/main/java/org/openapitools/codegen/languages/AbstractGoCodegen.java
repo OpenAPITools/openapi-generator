@@ -145,7 +145,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
-        
+
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name);
 
@@ -267,10 +267,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // the type.
         String openAPIType = getSchemaType(p);
         String ref = p.get$ref();
-        if(ref != null && !ref.isEmpty()) {
+        if (ref != null && !ref.isEmpty()) {
             String tryRefV2 = "#/definitions/" + openAPIType;
             String tryRefV3 = "#/components/schemas/" + openAPIType;
-            if(ref.equals(tryRefV2) || ref.equals(tryRefV3)) {
+            if (ref.equals(tryRefV2) || ref.equals(tryRefV3)) {
                 return toModelName(openAPIType);
             }
         }
@@ -296,7 +296,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         String ref = p.get$ref();
         String type = null;
 
-        if(ref != null && !ref.isEmpty()) {
+        if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
@@ -314,7 +314,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + operationId));
+                    + camelize("call_" + sanitizedOperationId));
+            sanitizedOperationId = "call_" + sanitizedOperationId;
+        }
+
+        // operationId starts with a number
+        if (sanitizedOperationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -564,8 +570,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
+        } else if (enumName.matches("\\d.*")) { // starts with a number
+            return "_" + enumName;
         } else {
             return enumName;
         }

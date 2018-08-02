@@ -257,4 +257,8 @@ public class CodegenConstants {
 
     public static final String DOCEXTENSION = "docExtension";
     public static final String DOCEXTENSION_DESC = "The extension of the generated documentation files, defaults to markdown, .md";
+
+    public static final String DATABASE_ADAPTER = "databaseAdapter";
+    public static final String DATABASE_ADAPTER_DESC = "The adapter for database (e.g. mysql, sqlite). Default: sqlite";
+
 }

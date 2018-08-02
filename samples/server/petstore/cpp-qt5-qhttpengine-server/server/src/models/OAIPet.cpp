@@ -103,7 +103,7 @@ OAIPet::asJsonObject() const {
 }
 
 qint64
-OAIPet::getId() {
+OAIPet::getId() const {
     return id;
 }
 void
@@ -113,7 +113,7 @@ OAIPet::setId(const qint64 &id) {
 }
 
 OAICategory
-OAIPet::getCategory() {
+OAIPet::getCategory() const {
     return category;
 }
 void
@@ -123,7 +123,7 @@ OAIPet::setCategory(const OAICategory &category) {
 }
 
 QString
-OAIPet::getName() {
+OAIPet::getName() const {
     return name;
 }
 void
@@ -133,7 +133,7 @@ OAIPet::setName(const QString &name) {
 }
 
 QList<QString>
-OAIPet::getPhotoUrls() {
+OAIPet::getPhotoUrls() const {
     return photo_urls;
 }
 void
@@ -143,7 +143,7 @@ OAIPet::setPhotoUrls(const QList<QString> &photo_urls) {
 }
 
 QList<OAITag>
-OAIPet::getTags() {
+OAIPet::getTags() const {
     return tags;
 }
 void
@@ -153,7 +153,7 @@ OAIPet::setTags(const QList<OAITag> &tags) {
 }
 
 QString
-OAIPet::getStatus() {
+OAIPet::getStatus() const {
     return status;
 }
 void

@@ -88,7 +88,7 @@ class AnotherFakeApi
     }
 
     /**
-     * Operation testSpecialTags
+     * Operation 123testSpecialTags
      *
      * To test special tags
      *
@@ -98,14 +98,14 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
-    public function testSpecialTags($client)
+    public function 123testSpecialTags($client)
     {
-        list($response) = $this->testSpecialTagsWithHttpInfo($client);
+        list($response) = $this->123testSpecialTagsWithHttpInfo($client);
         return $response;
     }
 
     /**
-     * Operation testSpecialTagsWithHttpInfo
+     * Operation 123testSpecialTagsWithHttpInfo
      *
      * To test special tags
      *
@@ -115,9 +115,9 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testSpecialTagsWithHttpInfo($client)
+    public function 123testSpecialTagsWithHttpInfo($client)
     {
-        $request = $this->testSpecialTagsRequest($client);
+        $request = $this->123testSpecialTagsRequest($client);
 
         try {
             $options = $this->createHttpClientOption();
@@ -199,7 +199,7 @@ class AnotherFakeApi
     }
 
     /**
-     * Operation testSpecialTagsAsync
+     * Operation 123testSpecialTagsAsync
      *
      * To test special tags
      *
@@ -208,9 +208,9 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testSpecialTagsAsync($client)
+    public function 123testSpecialTagsAsync($client)
     {
-        return $this->testSpecialTagsAsyncWithHttpInfo($client)
+        return $this->123testSpecialTagsAsyncWithHttpInfo($client)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -219,7 +219,7 @@ class AnotherFakeApi
     }
 
     /**
-     * Operation testSpecialTagsAsyncWithHttpInfo
+     * Operation 123testSpecialTagsAsyncWithHttpInfo
      *
      * To test special tags
      *
@@ -228,10 +228,10 @@ class AnotherFakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testSpecialTagsAsyncWithHttpInfo($client)
+    public function 123testSpecialTagsAsyncWithHttpInfo($client)
     {
         $returnType = '\OpenAPI\Client\Model\Client';
-        $request = $this->testSpecialTagsRequest($client);
+        $request = $this->123testSpecialTagsRequest($client);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -271,19 +271,19 @@ class AnotherFakeApi
     }
 
     /**
-     * Create request for operation 'testSpecialTags'
+     * Create request for operation '123testSpecialTags'
      *
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testSpecialTagsRequest($client)
+    protected function 123testSpecialTagsRequest($client)
     {
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $client when calling testSpecialTags'
+                'Missing the required parameter $client when calling 123testSpecialTags'
             );
         }
 
