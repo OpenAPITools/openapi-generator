@@ -122,7 +122,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
             additionalProperties.put("isDBSQLite", Boolean.TRUE);
         }
 
-        supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
+        supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("Rakefile", "", "Rakefile"));
         supportingFiles.add(new SupportingFile("config.ru", "", "config.ru"));
@@ -155,7 +155,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("application.rb", configFolder, "application.rb"));
         supportingFiles.add(new SupportingFile("boot.rb", configFolder, "boot.rb"));
         supportingFiles.add(new SupportingFile("cable.yml", configFolder, "cable.yml"));
-        supportingFiles.add(new SupportingFile("database.yml", configFolder, "database.yml"));
+        supportingFiles.add(new SupportingFile("database.mustache", configFolder, "database.yml"));
         supportingFiles.add(new SupportingFile("environment.rb", configFolder, "environment.rb"));
         supportingFiles.add(new SupportingFile("puma.rb", configFolder, "puma.rb"));
         supportingFiles.add(new SupportingFile("routes.mustache", configFolder, "routes.rb"));
@@ -181,6 +181,8 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile(".keep", socketsFolder, ".keep"));
         supportingFiles.add(new SupportingFile("restart.txt", tmpFolder, "restart.txt"));
         supportingFiles.add(new SupportingFile(".keep", vendorFolder, ".keep"));
+        supportingFiles.add(new SupportingFile("Dockerfile", "", "Dockerfile"));
+        supportingFiles.add(new SupportingFile("docker-entrypoint.sh", "", "docker-entrypoint.sh"));
     }
 
     @Override
