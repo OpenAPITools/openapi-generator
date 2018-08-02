@@ -496,7 +496,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             operationId = "call_" + operationId;
         }
 
-	// operationId starts with a number
+        // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;

@@ -33,7 +33,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-			    <executable>./php_syntax_checker.bash</executable>
+                            <executable>./php_syntax_checker.bash</executable>
                         </configuration>
                     </execution>
                 </executions>
