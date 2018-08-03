@@ -11,13 +11,13 @@ use \InvalidArgumentException;
 class {{classname}} {
 
     {{#requiredVars}}
-    /** @var {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}*/
+    /** @var {{dataType}} ${{name}} {{#description}}{{description}} {{/description}}*/
     private ${{name}};
 
     {{/requiredVars}}
     {{#optionalVars}}
-    /** @var {{dataType}} ${{name}} (optional) {{#description}}{{description}}{{/description}}*/
-    private ${{name}};
+    /** @var {{dataType}} ${{name}} (optional) {{#description}}{{description}} {{/description}}{{#defaultValue}}Default {{{defaultValue}}} {{/defaultValue}}*/
+    private ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
 
     {{/optionalVars}}
     /**
@@ -28,7 +28,7 @@ class {{classname}} {
      * @param {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}
     {{/requiredVars}}
     {{#optionalVars}}
-     * @param {{dataType}}|null ${{name}} (optional) {{#description}}{{description}}{{/description}}
+     * @param {{dataType}}|null ${{name}} (optional) {{#description}}{{description}} {{/description}}{{#defaultValue}}Default {{{defaultValue}}} {{/defaultValue}}
     {{/optionalVars}}
     {{/hasVars}}
      */
@@ -38,7 +38,7 @@ class {{classname}} {
         ${{name}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#hasOptional}},{{/hasOptional}}{{/hasMore}}
         {{/requiredVars}}
         {{#optionalVars}}
-        ${{name}} = null{{#hasMore}},{{/hasMore}}
+        ${{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{#hasMore}},{{/hasMore}}
         {{/optionalVars}}
     ) {
     {{/hasVars}}
@@ -65,7 +65,7 @@ class {{classname}} {
         ${{name}} = $data['{{baseName}}'];
     {{/requiredVars}}
     {{#optionalVars}}
-        ${{name}} = (isset($data['{{baseName}}'])) ? $data['{{baseName}}'] : null;
+        ${{name}} = (isset($data['{{baseName}}'])) ? $data['{{baseName}}'] : {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}};
     {{/optionalVars}}
         return new {{classname}}({{^hasVars}});{{/hasVars}}
     {{#hasVars}}
