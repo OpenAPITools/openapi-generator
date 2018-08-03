@@ -982,6 +982,7 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/server/petstore/php-slim</module>
             </modules>
         </profile>
     </profiles>

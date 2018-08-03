@@ -72,12 +72,12 @@ class AnotherFakeApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for 123testSpecialTags
+     * Test case for call123TestSpecialTags
      *
      * To test special tags.
      *
      */
-    public function test123testSpecialTags()
+    public function testCall123TestSpecialTags()
     {
     }
 }
