@@ -233,6 +233,12 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
             op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson);
             op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported);
+            for(String hdr : op.imports) {
+            	if(importMapping.containsKey(hdr)) {
+            		continue;
+            	}
+            	additionalProperties.put("hasModelImport", true);
+            }
         }
 
         return objs;
