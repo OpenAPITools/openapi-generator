@@ -2,7 +2,7 @@
 /**
  * OuterEnum
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * OuterEnum

@@ -2,7 +2,7 @@
 /**
  * EnumClass
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * EnumClass

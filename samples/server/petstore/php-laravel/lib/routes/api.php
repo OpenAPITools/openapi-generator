@@ -17,12 +17,12 @@
  */
 
 /**
- * patch testSpecialTags
+ * patch 123testSpecialTags
  * Summary: To test special tags
- * Notes: To test special tags
+ * Notes: To test special tags and operation ID starting with number
  * Output-Formats: [application/json]
  */
-Route::patch('/v2/another-fake/dummy', 'AnotherFakeController@testSpecialTags');
+Route::patch('/v2/another-fake/dummy', 'AnotherFakeController@123testSpecialTags');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model

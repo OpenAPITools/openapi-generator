@@ -2,7 +2,7 @@
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -15,7 +15,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
     /** @var \DateTime $date_time */
     private $date_time;
 
-    /** @var map[string,\app.Models\Animal] $map */
+    /** @var map[string,\app\Models\Animal] $map */
     private $map;
 
 }

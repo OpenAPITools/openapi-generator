@@ -2,7 +2,7 @@
 /**
  * ModelReturn
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * ModelReturn
