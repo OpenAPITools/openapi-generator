@@ -54,7 +54,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     // protected String composerVendorName = null;
     // protected String composerProjectName = null;
     protected String invokerPackage = "php";
-    protected String packagePath = "php-base";
+    protected String packagePath = ""; // empty packagePath (top folder)
     protected String artifactVersion = null;
     protected String srcBasePath = "lib";
     protected String testBasePath = "test";
@@ -245,7 +245,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     public String toPackagePath(String packageName, String basePath) {
-        return toSrcPath(packageName, basePath);
+        if (StringUtils.isEmpty(getPackagePath())) {
+            return (getPackagePath() + File.separatorChar + toSrcPath(packageName, basePath));
+        } else {
+            return toSrcPath(packageName, basePath);
+        }
     }
 
     public String toSrcPath(String packageName, String basePath) {
