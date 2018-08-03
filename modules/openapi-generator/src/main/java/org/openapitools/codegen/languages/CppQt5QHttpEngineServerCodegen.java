@@ -500,7 +500,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     }
     
     private boolean isIncluded(String type, List<Map<String, String>> imports) {
-    	boolean included = false;
+        boolean included = false;
         String inclStr = toModelImport(type);
         for (Map<String, String> importItem : imports) {
             if(importItem.containsValue(inclStr)) {
@@ -508,6 +508,6 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
                 break;
             }
         }
-    	return included;
+        return included;
     }
 }
