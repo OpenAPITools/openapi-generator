@@ -19,11 +19,11 @@
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
-class {{declspec}} ModelBase
+class {{declspec}} {{prefix}}ModelBase
 {
 public:
-    ModelBase();
-    virtual ~ModelBase();
+    {{prefix}}ModelBase();
+    virtual ~{{prefix}}ModelBase();
 
     virtual void validate() = 0;
 
@@ -36,16 +36,16 @@ public:
     static int64_t toJson( int64_t const value );
     static double toJson( double const value );
     static bool toJson( bool const value );
-    static nlohmann::json toJson(ModelBase const& content ); 
+    static nlohmann::json toJson({{prefix}}ModelBase const& content ); 
 };
 
-class ModelArrayHelper {
+class {{prefix}}ModelArrayHelper {
 public:
 	template<typename T>
 	static std::vector<T> fromJson(nlohmann::json& json) {
 		T *ptrTest;
 		std::vector<T> val;
-		if (dynamic_cast<ModelBase*>(ptrTest) != nullptr) {
+		if (dynamic_cast<{{prefix}}ModelBase*>(ptrTest) != nullptr) {
 			if (!json.empty()) {
 				for (auto &item : json.items()) {
 					T entry;
@@ -66,7 +66,7 @@ public:
 	}
 };
 
-class ArrayHelper {
+class {{prefix}}ArrayHelper {
 public:
 	template<typename T>
 	static std::vector<T> fromJson(nlohmann::json& json) {
@@ -82,13 +82,13 @@ public:
 	}
 };
 
-class ModelMapHelper {
+class {{prefix}}ModelMapHelper {
 public:
 	template<typename T>
 	static std::map<std::string, T> & fromJson(nlohmann::json& json) {
 		T *ptrTest;
 		std::map<std::string, T> val;
-		if (dynamic_cast<ModelBase*>(ptrTest) != nullptr) {
+		if (dynamic_cast<{{prefix}}ModelBase*>(ptrTest) != nullptr) {
 			if (!json.empty()) {
 				for (auto &item : json.items()) {
 					T entry;
@@ -110,7 +110,7 @@ public:
 	}
 };
 
-class MapHelper {
+class {{prefix}}MapHelper {
 public:
 	template<typename T>
 	static std::map<std::string, T> & fromJson(nlohmann::json& json) {
