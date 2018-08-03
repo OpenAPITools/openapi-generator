@@ -2,7 +2,7 @@
 /**
  * NumberOnly
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * NumberOnly

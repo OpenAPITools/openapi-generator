@@ -2,7 +2,7 @@
 /**
  * AdditionalPropertiesClass
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * AdditionalPropertiesClass

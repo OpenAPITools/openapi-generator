@@ -2,7 +2,7 @@
 /**
  * StringBooleanMap
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * StringBooleanMap
