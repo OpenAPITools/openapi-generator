@@ -42,7 +42,7 @@ public:
 
     explicit UserApi( std::shared_ptr<ApiClient> apiClient );
 
-    virtual ~UserApi() = default;
+    virtual ~UserApi();
 
     /// <summary>
     /// Create user

@@ -42,7 +42,7 @@ public:
 
     explicit StoreApi( std::shared_ptr<ApiClient> apiClient );
 
-    virtual ~StoreApi() = default;
+    virtual ~StoreApi();
 
     /// <summary>
     /// Delete purchase order by ID
