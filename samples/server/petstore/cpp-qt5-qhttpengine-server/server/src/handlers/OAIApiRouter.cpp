@@ -133,10 +133,8 @@ void ApiRouter::setUpRoutes() {
 
 void ApiRouter::processRequest(QHttpEngine::Socket *socket){
     if (Routes.contains(socket->path())) {
-        auto itr = Routes.find(socket->path());
-        while (itr != Routes.end() && itr.key() == socket->path()) {
-            itr.value().operator()(socket);
-            ++itr;
+        for(auto endpoints : Routes.values(socket->path())) {
+            endpoints.operator()(socket);
         }
     } else
     {          

@@ -40,6 +40,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -535,8 +537,15 @@ public class ApiClient {
             }
             builder.queryParams(queryParams);
         }
+		
+		URI uri;
+        try {
+            uri = new URI(builder.build().toUriString());
+        } catch(URISyntaxException ex)  {
+            throw new RestClientException("Could not build URL: " + builder.toUriString(), ex);
+        }
         
-        final BodyBuilder requestBuilder = RequestEntity.method(method, builder.build().toUri());
+        final BodyBuilder requestBuilder = RequestEntity.method(method, uri);
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }

@@ -26,7 +26,10 @@ build:
     - sudo apt-get install elixir
     # install rebar3
     - wget https://s3.amazonaws.com/rebar3/rebar3 && chmod +x rebar3 && cp rebar3 /usr/bin
+    # install php
+    - apt-get install php
     # show version
+    - php -v
     - rebar3 -v
     - elixir --version
     - mix --version

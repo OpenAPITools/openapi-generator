@@ -160,7 +160,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
-            .defaultValue(Boolean.FALSE.toString()));
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
@@ -224,7 +224,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
         }
 
-        String readmePath ="README.md";
+        String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {
             readmePath = packageName + "_" + readmePath;
@@ -232,7 +232,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
-        if (!generateSourceCodeOnly){
+        if (!generateSourceCodeOnly) {
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
             supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
             supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
@@ -549,6 +549,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 

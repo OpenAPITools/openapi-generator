@@ -10,11 +10,12 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIUserApiRequest_H_
-#define _OAI_OAIUserApiRequest_H_
+#ifndef OAI_OAIUserApiRequest_H
+#define OAI_OAIUserApiRequest_H
 
 #include <QObject>
 #include <QStringList>
+#include <QMultiMap>
 #include <QNetworkReply>
 #include <QSharedPointer>
 
@@ -37,19 +38,19 @@ public:
     void createUserRequest();
     void createUsersWithArrayInputRequest();
     void createUsersWithListInputRequest();
-    void deleteUserRequest(QString username);
-    void getUserByNameRequest(QString username);
+    void deleteUserRequest(const QString& username);
+    void getUserByNameRequest(const QString& username);
     void loginUserRequest();
     void logoutUserRequest();
-    void updateUserRequest(QString username);
+    void updateUserRequest(const QString& username);
     
 
     void createUserResponse();
     void createUsersWithArrayInputResponse();
     void createUsersWithListInputResponse();
     void deleteUserResponse();
-    void getUserByNameResponse(OAIUser res);
-    void loginUserResponse(QString res);
+    void getUserByNameResponse(const OAIUser& res);
+    void loginUserResponse(const QString& res);
     void logoutUserResponse();
     void updateUserResponse();
     
@@ -58,14 +59,21 @@ public:
     void createUsersWithArrayInputError(QNetworkReply::NetworkError error_type, QString& error_str);
     void createUsersWithListInputError(QNetworkReply::NetworkError error_type, QString& error_str);
     void deleteUserError(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getUserByNameError(OAIUser res, QNetworkReply::NetworkError error_type, QString& error_str);
-    void loginUserError(QString res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getUserByNameError(const OAIUser& res, QNetworkReply::NetworkError error_type, QString& error_str);
+    void loginUserError(const QString& res, QNetworkReply::NetworkError error_type, QString& error_str);
     void logoutUserError(QNetworkReply::NetworkError error_type, QString& error_str);
     void updateUserError(QNetworkReply::NetworkError error_type, QString& error_str);
     
 
-    QMap<QString, QString> getDefaultHeaders();
+    void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);
+
+    void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
+
+    QMap<QString, QString> getRequestHeaders() const;
+
     QHttpEngine::Socket* getRawSocket();
+
+    void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
     void createUser(OAIUser oai_user);
@@ -79,11 +87,21 @@ signals:
     
 
 private:
-    QMap<QString, QString> defaultHeaders;
+    QMap<QString, QString> requestHeaders;
+    QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
     OAIUserApiHandler *handler;
+
+    inline void writeResponseHeaders(){
+        QHttpEngine::Socket::HeaderMap resHeaders;
+        for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+            resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+        }
+        socket->setHeaders(resHeaders);
+        socket->writeHeaders();        
+    }
 };
 
 }
 
-#endif // _OAI_OAIUserApiRequest_H_
+#endif // OAI_OAIUserApiRequest_H

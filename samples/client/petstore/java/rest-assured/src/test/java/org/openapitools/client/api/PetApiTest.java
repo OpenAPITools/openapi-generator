@@ -14,6 +14,8 @@
 package org.openapitools.client.api;
 
 import java.io.File;
+
+import io.restassured.response.ResponseBody;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.ApiClient;

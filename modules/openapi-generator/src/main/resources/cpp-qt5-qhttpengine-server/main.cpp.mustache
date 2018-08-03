@@ -72,6 +72,7 @@ int main(int argc, char * argv[])
    
     QSharedPointer<{{cppNamespace}}::RequestHandler> handler(new {{cppNamespace}}::RequestHandler());
     {{cppNamespace}}::ApiRouter   router;
+    router.setUpRoutes();
     QObject::connect(handler.data(), &{{cppNamespace}}::RequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
         router.processRequest(socket);
     });

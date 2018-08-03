@@ -113,7 +113,7 @@ OAIUser::asJsonObject() const {
 }
 
 qint64
-OAIUser::getId() {
+OAIUser::getId() const {
     return id;
 }
 void
@@ -123,7 +123,7 @@ OAIUser::setId(const qint64 &id) {
 }
 
 QString
-OAIUser::getUsername() {
+OAIUser::getUsername() const {
     return username;
 }
 void
@@ -133,7 +133,7 @@ OAIUser::setUsername(const QString &username) {
 }
 
 QString
-OAIUser::getFirstName() {
+OAIUser::getFirstName() const {
     return first_name;
 }
 void
@@ -143,7 +143,7 @@ OAIUser::setFirstName(const QString &first_name) {
 }
 
 QString
-OAIUser::getLastName() {
+OAIUser::getLastName() const {
     return last_name;
 }
 void
@@ -153,7 +153,7 @@ OAIUser::setLastName(const QString &last_name) {
 }
 
 QString
-OAIUser::getEmail() {
+OAIUser::getEmail() const {
     return email;
 }
 void
@@ -163,7 +163,7 @@ OAIUser::setEmail(const QString &email) {
 }
 
 QString
-OAIUser::getPassword() {
+OAIUser::getPassword() const {
     return password;
 }
 void
@@ -173,7 +173,7 @@ OAIUser::setPassword(const QString &password) {
 }
 
 QString
-OAIUser::getPhone() {
+OAIUser::getPhone() const {
     return phone;
 }
 void
@@ -183,7 +183,7 @@ OAIUser::setPhone(const QString &phone) {
 }
 
 qint32
-OAIUser::getUserStatus() {
+OAIUser::getUserStatus() const {
     return user_status;
 }
 void

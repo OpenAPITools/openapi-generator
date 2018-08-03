@@ -7,4 +7,8 @@ is an example of building a PHP Slim server.
 
 This example uses the [Slim Framework](http://www.slimframework.com/).  To see how to make this your own, please take a look at the template here:
 
-[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/slim/)
+[TEMPLATES](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/php-slim-server/)
+
+## Authentication
+> Important! To make Basic Authentication work you need to implement `authenticator` function in [SlimRouter](lib/SlimRouter.php) class.  
+> Documentation [tuupola/slim-basic-auth](https://github.com/tuupola/slim-basic-auth)

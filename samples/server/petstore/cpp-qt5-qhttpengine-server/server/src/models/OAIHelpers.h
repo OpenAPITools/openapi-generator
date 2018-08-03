@@ -37,21 +37,15 @@ namespace OpenAPI {
     QString toStringValue(const double &value);
 
     template <typename T>
-    QList<QString> toStringValue(const QList<T> &val) {
-        QList<QString> strArray;
+    QString toStringValue(const QList<T> &val) {
+        QString strArray;
         for(auto item : val) {
-            strArray.append(toStringValue(item));
+            strArray.append(toStringValue(item) + ",");
+        }
+        if(val.count() > 0) {
+            strArray.chop(1);
         }
         return strArray;
-    }
-
-    template <typename T>
-    QMap<QString, QString> toStringValue(const QMap<QString, T> &val) {
-        QMap<QString, QString> strMap;
-        for(auto itemkey : val.keys()) {
-            strMap.insert(itemkey, toStringValue(val.value(itemkey)));
-        }
-        return strMap;
     }
 
     QJsonValue toJsonValue(const QString &value);
