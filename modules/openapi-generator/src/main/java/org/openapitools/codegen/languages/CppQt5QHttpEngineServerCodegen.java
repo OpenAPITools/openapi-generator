@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -456,164 +457,57 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
-        boolean included = false;
-        String qstrIncl;
         for (CodegenOperation operation : operations) {
             if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
-                String value = toModelImport(operation.returnBaseType);
-                included = false;
-                for (Map<String, String> importItem : imports) {
-                    if(importItem.containsValue(value)) {
-                        included = true;
-                        break;
-                    }
-                }
-                if(!included) {
-                    imports.add(createMapping("import", value));
+                if(!isIncluded(operation.returnBaseType, imports)) {
+                    imports.add(createMapping("import", operation.returnBaseType));
                 }
             }
-            if (operation.bodyParam != null) {
-                CodegenParameter param = operation.bodyParam;
-                if (param.isPrimitiveType && needToImport(param.baseType)) {
-                    String value = toModelImport(param.baseType);
-                    included = false;
-                    for (Map<String, String> importItem : imports) {
-                        if (importItem.containsValue(value)) {
-                            included = true;
-                            break;
-                        }
-                    }
-                    if (!included) {
-                        imports.add(createMapping("import", value));
-                    }
-                }
-            }
-            if (operation.allParams != null) {
-                for(CodegenParameter param : operation.allParams) {
-                    if(param.isPrimitiveType && needToImport(param.baseType)) {
-                        String value = toModelImport(param.baseType);
-                        included = false;
-                        for (Map<String, String> importItem : imports) {
-                            if(importItem.containsValue(value)) {
-                                included = true;
-                                break;
-                            }
-                        }
-                        if(!included) {
-                            imports.add(createMapping("import", value));
-                        }
+            List<CodegenParameter> params = new ArrayList<CodegenParameter>();
+            if (operation.bodyParam != null)params.add(operation.bodyParam);
+            if (operation.allParams != null)params.addAll(operation.allParams);
+            if (operation.pathParams != null)params.addAll(operation.pathParams);
+            if (operation.bodyParams != null)params.addAll(operation.bodyParams);
+            if (operation.headerParams != null)params.addAll(operation.headerParams);
+            if (operation.queryParams != null)params.addAll(operation.queryParams);
+            
+            for(CodegenParameter param : params) {
+                if(param.isPrimitiveType && needToImport(param.baseType)) {
+                    if(!isIncluded(param.baseType, imports)) {
+                        imports.add(createMapping("import", param.baseType));
                     }
                 }
             }
             if (operation.pathParams != null) {
-                included = false;
                 // We use QString to pass path params, add it to include
-                qstrIncl = toModelImport("QString");
-                for (Map<String, String> importItem : imports) {
-                    if(importItem.containsValue(qstrIncl)) {
-                        included = true;
-                        break;
-                    }
-                }
-                if(!included) {
-                    imports.add(createMapping("import", qstrIncl));
-                }
-                for(CodegenParameter param : operation.pathParams) {
-                    if(param.isPrimitiveType && needToImport(param.baseType)) {
-                        String value = toModelImport(param.baseType);
-                        included = false;
-                        for (Map<String, String> importItem : imports) {
-                            if(importItem.containsValue(value)) {
-                                included = true;
-                                break;
-                            }
-                        }
-                        if(!included) {
-                            imports.add(createMapping("import", value));
-                        }
-                    }
-                }
-            }
-            if (operation.bodyParams != null) {
-                for(CodegenParameter param : operation.bodyParams) {
-                    if(param.isPrimitiveType && needToImport(param.baseType)) {
-                        String value = toModelImport(param.baseType);
-                        included = false;
-                        for (Map<String, String> importItem : imports) {
-                            if(importItem.containsValue(value)) {
-                                included = true;
-                                break;
-                            }
-                        }
-                        if(!included) {
-                            imports.add(createMapping("import", value));
-                        }
-                    }
-                }
-            }
-            if (operation.headerParams != null) {
-                for(CodegenParameter param : operation.headerParams) {
-                    if(param.isPrimitiveType && needToImport(param.baseType)) {
-                        String value = toModelImport(param.baseType);
-                        included = false;
-                        for (Map<String, String> importItem : imports) {
-                            if(importItem.containsValue(value)) {
-                                included = true;
-                                break;
-                            }
-                        }
-                        if(!included) {
-                            imports.add(createMapping("import", value));
-                        }
-                    }
-                }
-            }
-            if (operation.queryParams != null) {
-                for(CodegenParameter param : operation.queryParams) {
-                    if(param.isPrimitiveType && needToImport(param.baseType)) {
-                        String value = toModelImport(param.baseType);
-                        included = false;
-                        for (Map<String, String> importItem : imports) {
-                            if(importItem.containsValue(value)) {
-                                included = true;
-                                break;
-                            }
-                        }
-                        if(!included) {
-                            imports.add(createMapping("import", value));
-                        }
-                    }
-                }
+                if(!isIncluded("QString", imports)) {
+                    imports.add(createMapping("import", "QString"));
+                }               
             }
         }
-        included = false;
-        // Check if QMap is added without including QString
-        qstrIncl = toModelImport("QMap");
-        for (Map<String, String> importItem : imports) {
-            if(importItem.containsValue(qstrIncl)) {
-                included = true;
-                break;
-            }
-        }
-        if(included) {
-            included = false;
-            qstrIncl = toModelImport("QString");
-            for (Map<String, String> importItem : imports) {
-                if(importItem.containsValue(qstrIncl)) {
-                    included = true;
-                    break;
-                }
-            }
-            if(!included) {
-                imports.add(createMapping("import", qstrIncl));
+        if(isIncluded("QMap", imports)) {
+            if(!isIncluded("QString", imports)) {
+                imports.add(createMapping("import", "QString"));
             }
         }
         return objs;
     }
-    
+        
     public Map<String, String> createMapping(String key, String value) {
         Map<String, String> customImport = new HashMap<String, String>();
-        customImport.put(key, value);
+        customImport.put(key, toModelImport(value));
         return customImport;
+    }
+    
+    private boolean isIncluded(String type, List<Map<String, String>> imports) {
+    	boolean included = false;
+        String inclStr = toModelImport(type);
+        for (Map<String, String> importItem : imports) {
+            if(importItem.containsValue(inclStr)) {
+                included = true;
+                break;
+            }
+        }
+    	return included;
     }
 }
