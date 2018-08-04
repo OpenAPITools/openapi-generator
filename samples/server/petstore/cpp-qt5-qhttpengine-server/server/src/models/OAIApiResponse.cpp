@@ -31,7 +31,7 @@ OAIApiResponse::OAIApiResponse() {
 }
 
 OAIApiResponse::~OAIApiResponse() {
-    
+
 }
 
 void

@@ -62,7 +62,7 @@ private:
     
     OAIPetApiHandler *OAIPetApiApiHandler;
     OAIStoreApiHandler *OAIStoreApiApiHandler;
-    OAIUserApiHandler *OAIUserApiApiHandler; 
+    OAIUserApiHandler *OAIUserApiApiHandler;
 protected:
     // override this method to provide custom class derived from ApiHandler classes
     virtual void createApiHandlers();

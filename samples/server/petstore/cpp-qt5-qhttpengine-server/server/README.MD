@@ -26,7 +26,7 @@ To learn more about building and using the library, please visit this page:
 
 ### Viewing the code
 
-You can view the code using an editor like Microsoft Visual Studio Code or you can 
+You can view the code using an editor like Microsoft Visual Studio Code or you can
 Use QtCreator and browse for the root CMakeLists.txt and load it as a project
 
 ### Build with make
@@ -40,7 +40,7 @@ sudo apt install cmake build-essential libssl-dev qtbase5-dev qtbase5-dev-tools 
 To build, go to the `server` folder
 
 ```shell
-make 
+make
 ```
 
 To run the server
@@ -71,7 +71,7 @@ docker build --network=host -t cpp-qt5-server .
 Running with docker
 
 ```shell
-docker run --rm -it --name=server-container cpp-qt5-server 
+docker run --rm -it --name=server-container cpp-qt5-server
 ```
 
 #### Invoking an API
@@ -89,7 +89,7 @@ use this command to get the container IP
 docker inspect server-container | grep "IPAddress"
 ```
 
-To exit from the command line 
+To exit from the command line
 
 ```shell
 Ctrl + p + q

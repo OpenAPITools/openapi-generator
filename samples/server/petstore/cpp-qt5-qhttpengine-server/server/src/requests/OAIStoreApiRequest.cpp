@@ -25,7 +25,7 @@ OAIStoreApiRequest::OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandle
     auto headers = s->headers();
     for(auto itr = headers.begin(); itr != headers.end(); itr++) {
         requestHeaders.insert(QString(itr.key()), QString(itr.value()));
-    }     
+    }
 }
 
 OAIStoreApiRequest::~OAIStoreApiRequest(){
@@ -33,7 +33,7 @@ OAIStoreApiRequest::~OAIStoreApiRequest(){
     qDebug() << "OAIStoreApiRequest::~OAIStoreApiRequest()";
 }
 
-QMap<QString, QString> 
+QMap<QString, QString>
 OAIStoreApiRequest::getRequestHeaders() const {
     return requestHeaders;
 }
@@ -53,7 +53,7 @@ QHttpEngine::Socket* OAIStoreApiRequest::getRawSocket(){
 void OAIStoreApiRequest::deleteOrderRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
     connect(this, &OAIStoreApiRequest::deleteOrder, handler, &OAIStoreApiHandler::deleteOrder);
-    
+
     
     QString order_id;
     fromStringValue(order_idstr, order_id);
@@ -66,7 +66,7 @@ void OAIStoreApiRequest::deleteOrderRequest(const QString& order_idstr){
 void OAIStoreApiRequest::getInventoryRequest(){
     qDebug() << "/v2/store/inventory";
     connect(this, &OAIStoreApiRequest::getInventory, handler, &OAIStoreApiHandler::getInventory);
-    
+
     
 
 
@@ -77,7 +77,7 @@ void OAIStoreApiRequest::getInventoryRequest(){
 void OAIStoreApiRequest::getOrderByIdRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
     connect(this, &OAIStoreApiRequest::getOrderById, handler, &OAIStoreApiHandler::getOrderById);
-    
+
     
     qint64 order_id;
     fromStringValue(order_idstr, order_id);
@@ -90,7 +90,7 @@ void OAIStoreApiRequest::getOrderByIdRequest(const QString& order_idstr){
 void OAIStoreApiRequest::placeOrderRequest(){
     qDebug() << "/v2/store/order";
     connect(this, &OAIStoreApiRequest::placeOrder, handler, &OAIStoreApiHandler::placeOrder);
-    
+
     
  
     QJsonDocument doc;
@@ -103,10 +103,10 @@ void OAIStoreApiRequest::placeOrderRequest(){
     emit placeOrder( oai_order);
 }
 
-  
+
 
 void OAIStoreApiRequest::deleteOrderResponse(){
-    writeResponseHeaders();    
+    writeResponseHeaders();
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
         socket->close();
@@ -143,7 +143,7 @@ void OAIStoreApiRequest::placeOrderResponse(const OAIOrder& res){
 
 void OAIStoreApiRequest::deleteOrderError(QNetworkReply::NetworkError error_type, QString& error_str){
     Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
-    writeResponseHeaders();    
+    writeResponseHeaders();
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     socket->write(error_str.toUtf8());
     if(socket->isOpen()){
@@ -189,7 +189,7 @@ void OAIStoreApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::Net
     Q_UNUSED(res);  // TODO
     Q_UNUSED(error_type); // TODO
 }
-    
+
 void OAIStoreApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
     Q_UNUSED(res);  // TODO
     Q_UNUSED(error_type); // TODO
