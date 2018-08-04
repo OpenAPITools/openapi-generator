@@ -49,7 +49,7 @@ private:
     bool handleRequestAndExtractPathParam(QHttpEngine::Socket *socket);
 
     {{#apiInfo}}{{#apis}}
-    {{classname}}Handler *{{classname}}ApiHandler;{{/apis}}{{/apiInfo}} 
+    {{classname}}Handler *{{classname}}ApiHandler;{{/apis}}{{/apiInfo}}
 protected:
     // override this method to provide custom class derived from ApiHandler classes
     virtual void createApiHandlers();

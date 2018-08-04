@@ -176,7 +176,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
             completePath.replace(pet_idParam, "([^\\/]*?)"); // match anything but '/''
             completePath.append("$");  // End of string
             QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(socket->path());
+            QRegularExpressionMatch match = re.match(reqPath);
             if ( match.hasMatch() ) {
                 int count = 0;
                 QString petId = match.captured(++count);
@@ -194,7 +194,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
             completePath.replace(order_idParam, "([^\\/]*?)"); // match anything but '/''
             completePath.append("$");  // End of string
             QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(socket->path());
+            QRegularExpressionMatch match = re.match(reqPath);
             if ( match.hasMatch() ) {
                 int count = 0;
                 QString orderId = match.captured(++count);
@@ -212,7 +212,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
             completePath.replace(order_idParam, "([^\\/]*?)"); // match anything but '/''
             completePath.append("$");  // End of string
             QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(socket->path());
+            QRegularExpressionMatch match = re.match(reqPath);
             if ( match.hasMatch() ) {
                 int count = 0;
                 QString orderId = match.captured(++count);
@@ -230,7 +230,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
             completePath.replace(usernameParam, "([^\\/]*?)"); // match anything but '/''
             completePath.append("$");  // End of string
             QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(socket->path());
+            QRegularExpressionMatch match = re.match(reqPath);
             if ( match.hasMatch() ) {
                 int count = 0;
                 QString username = match.captured(++count);
@@ -248,7 +248,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
             completePath.replace(usernameParam, "([^\\/]*?)"); // match anything but '/''
             completePath.append("$");  // End of string
             QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(socket->path());
+            QRegularExpressionMatch match = re.match(reqPath);
             if ( match.hasMatch() ) {
                 int count = 0;
                 QString username = match.captured(++count);
@@ -266,7 +266,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
             completePath.replace(usernameParam, "([^\\/]*?)"); // match anything but '/''
             completePath.append("$");  // End of string
             QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(socket->path());
+            QRegularExpressionMatch match = re.match(reqPath);
             if ( match.hasMatch() ) {
                 int count = 0;
                 QString username = match.captured(++count);
