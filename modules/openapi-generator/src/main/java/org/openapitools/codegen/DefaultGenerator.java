@@ -723,7 +723,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateSupportingFiles) {
             return;
         }
-
         Set<String> supportingFilesToGenerate = null;
         String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
         if (supportingFiles != null && !supportingFiles.isEmpty()) {
@@ -797,6 +796,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
             }
         }
+
         // Consider .openapi-generator-ignore a supporting file
         // Output .openapi-generator-ignore if it doesn't exist and wasn't explicitly created by a generator
         final String openapiGeneratorIgnore = ".openapi-generator-ignore";
@@ -983,6 +983,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return files;
     }
 
+    
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         if (ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
