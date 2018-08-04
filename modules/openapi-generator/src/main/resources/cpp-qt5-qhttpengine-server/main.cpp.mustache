@@ -70,10 +70,10 @@ int main(int argc, char * argv[])
     QHostAddress address = QHostAddress(parser.value(addressOption));
     quint16 port = static_cast<quint16>(parser.value(portOption).toInt());
    
-    QSharedPointer<{{cppNamespace}}::RequestHandler> handler(new {{cppNamespace}}::RequestHandler());
-    {{cppNamespace}}::ApiRouter   router;
+    QSharedPointer<{{cppNamespace}}::{{prefix}}ApiRequestHandler> handler(new {{cppNamespace}}::{{prefix}}ApiRequestHandler());
+    {{cppNamespace}}::{{prefix}}ApiRouter  router;
     router.setUpRoutes();
-    QObject::connect(handler.data(), &{{cppNamespace}}::RequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
+    QObject::connect(handler.data(), &{{cppNamespace}}::{{prefix}}ApiRequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
         router.processRequest(socket);
     });
 

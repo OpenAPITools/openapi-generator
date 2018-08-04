@@ -81,10 +81,10 @@ int main(int argc, char * argv[])
     QHostAddress address = QHostAddress(parser.value(addressOption));
     quint16 port = static_cast<quint16>(parser.value(portOption).toInt());
    
-    QSharedPointer<OpenAPI::RequestHandler> handler(new OpenAPI::RequestHandler());
-    OpenAPI::ApiRouter   router;
+    QSharedPointer<OpenAPI::OAIApiRequestHandler> handler(new OpenAPI::OAIApiRequestHandler());
+    OpenAPI::OAIApiRouter  router;
     router.setUpRoutes();
-    QObject::connect(handler.data(), &OpenAPI::RequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
+    QObject::connect(handler.data(), &OpenAPI::OAIApiRequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
         router.processRequest(socket);
     });
 

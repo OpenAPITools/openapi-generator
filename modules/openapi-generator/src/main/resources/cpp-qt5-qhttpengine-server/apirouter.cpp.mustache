@@ -13,80 +13,97 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-inline QHttpEngine::Socket::Method toQHttpEngineMethod(QString method){
+static inline QString fromQHttpEngineMethod(QHttpEngine::Socket::Method method){
 
-    if( method == QString("OPTIONS"))
-        return QHttpEngine::Socket::Method::OPTIONS;
-    if( method == QString("GET"))
-        return QHttpEngine::Socket::Method::GET;
-    if( method == QString("HEAD"))
-        return QHttpEngine::Socket::Method::HEAD;
-    if( method == QString("POST"))
-        return QHttpEngine::Socket::Method::POST;
-    if( method == QString("PUT"))
-        return QHttpEngine::Socket::Method::PUT;
-    if( method == QString("DELETE"))
-        return QHttpEngine::Socket::Method::DELETE;
-    if( method == QString("TRACE"))
-        return QHttpEngine::Socket::Method::TRACE;
-    if( method == QString("CONNECT"))
-        return QHttpEngine::Socket::Method::CONNECT;
-
-     return static_cast<QHttpEngine::Socket::Method>(-1);
+    switch( method ){
+        case QHttpEngine::Socket::Method::OPTIONS:
+            return QStringLiteral("OPTIONS");
+        case QHttpEngine::Socket::Method::GET:
+            return QStringLiteral("GET");
+        case QHttpEngine::Socket::Method::HEAD:
+            return QStringLiteral("HEAD");
+        case QHttpEngine::Socket::Method::POST:
+            return QStringLiteral("POST");
+        case QHttpEngine::Socket::Method::PUT:
+            return QStringLiteral("PUT");
+        case QHttpEngine::Socket::Method::DELETE:
+            return QStringLiteral("DELETE");
+        case QHttpEngine::Socket::Method::TRACE:
+            return QStringLiteral("TRACE");
+        case QHttpEngine::Socket::Method::CONNECT:
+            return QStringLiteral("CONNECT");
+    }
+    return QStringLiteral("");
 }
 
-ApiRouter::ApiRouter() {    
-    {{#apiInfo}}{{#apis}}{{classname}}ApiHandler = new {{classname}}Handler();
-    {{/apis}}{{/apiInfo}} 
+{{prefix}}ApiRouter::{{prefix}}ApiRouter() { 
+    createApiHandlers();   
 }
 
-ApiRouter::~ApiRouter(){
-    qDebug() << "~ApiRouter()";    
-    {{#apiInfo}}{{#apis}}delete {{classname}}ApiHandler;
-    {{/apis}}{{/apiInfo}}     
+{{prefix}}ApiRouter::~{{prefix}}ApiRouter(){
+    qDebug() << "~ApiRouter()";{{#apiInfo}}{{#apis}}
+    delete {{classname}}ApiHandler;{{/apis}}{{/apiInfo}}     
 }
 
-void ApiRouter::setUpRoutes() {
-    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^pathParams}}
-    Routes.insert("{{{basePathWithoutHost}}}{{{path}}}",[this](QHttpEngine::Socket *socket) {
-        if(toQHttpEngineMethod("{{httpMethod}}") == socket->method()){
+void {{prefix}}ApiRouter::createApiHandlers() { {{#apiInfo}}{{#apis}}
+    {{classname}}ApiHandler = new {{classname}}Handler();{{/apis}}{{/apiInfo}} 
+}
+
+void {{prefix}}ApiRouter::setUpRoutes() {
+    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^hasPathParams}}
+    Routes.insert(QString("%1 %2").arg("{{httpMethod}}").arg("{{{basePathWithoutHost}}}{{{path}}}").toLower(), [this](QHttpEngine::Socket *socket) {
             auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
             reqObj->{{nickname}}Request();
-        }
-    });{{/pathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}} 
+    });{{/hasPathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}} 
 }
 
-void ApiRouter::processRequest(QHttpEngine::Socket *socket){
-    if (Routes.contains(socket->path())) {
-        for(auto endpoints : Routes.values(socket->path())) {
-            endpoints.operator()(socket);
-        }
-    } else
-    {  {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#pathParams}}        
-        { 
-            QString completePath("{{{basePathWithoutHost}}}{{{path}}}");
-            QString {{paramName}}PathParam("{"); 
-            {{paramName}}PathParam.append("{{baseName}}").append("}");
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
-            completePath.replace({{paramName}}PathParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(socket->path());
-            if ((toQHttpEngineMethod("{{httpMethod}}") == socket->method()) && match.hasMatch() ) {
-                QString pathparam = match.captured(1);
-                auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
-                reqObj->{{nickname}}Request({{#hasPathParams}}{{#pathParams}}pathparam{{/pathParams}}{{/hasPathParams}});
-                return; 
-            }
-        }{{/pathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+void {{prefix}}ApiRouter::processRequest(QHttpEngine::Socket *socket){
+    if( handleRequest(socket) ){
+        return; 
+    }
+    if( handleRequestAndExtractPathParam(socket) ){
+        return;
     }
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
     if(socket->isOpen()){
         socket->writeHeaders();
         socket->close();
     }
-    return;
 }
+
+bool {{prefix}}ApiRouter::handleRequest(QHttpEngine::Socket *socket){
+    auto reqPath = QString("%1 %2").arg(fromQHttpEngineMethod(socket->method())).arg(socket->path()).toLower();
+    if ( Routes.contains(reqPath) ) {
+        Routes.value(reqPath).operator()(socket);
+        return true;
+    }
+    return false;
+}
+
+bool {{prefix}}ApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket){
+    auto reqPath = QString("%1 %2").arg(fromQHttpEngineMethod(socket->method())).arg(socket->path()).toLower();{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasPathParams}}       
+    { 
+        auto completePath = QString("%1 %2").arg("{{httpMethod}}").arg("{{{basePathWithoutHost}}}{{{path}}}").toLower();
+        if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
+            {{#pathParams}}
+            auto {{paramName}}Param = QString("{%1}").arg("{{baseName}}").toLower();{{/pathParams}}{{#pathParams}}
+            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex 
+            completePath.replace({{paramName}}Param, "([^\\/]*?)"); // match anything but '/''{{/pathParams}}
+            completePath.append("$");  // End of string
+            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
+            QRegularExpressionMatch match = re.match(socket->path());
+            if ( match.hasMatch() ) {
+                int count = 0;
+                {{#pathParams}}QString {{baseName}} = match.captured(++count);{{/pathParams}}
+                auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
+                reqObj->{{nickname}}Request({{#pathParams}}{{baseName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}});
+                return true; 
+            }
+        }
+    }{{/hasPathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+    return false;
+}
+
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}
