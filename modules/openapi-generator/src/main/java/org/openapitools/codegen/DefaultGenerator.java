@@ -135,8 +135,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
           file2: value2
 
         to list of objects
-        { folder: apis/folder1  filename:file1   template:value }
-        { folder: apis/         filename:file2   template:value }
+        { folder: apis/folder1  filename:file1   template:value1 }
+        { folder: apis/         filename:file2   template:value2 }
 
          */
         List<GeneratedStructureElement> retVal = new ArrayList<GeneratedStructureElement>();
