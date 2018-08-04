@@ -787,8 +787,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         configureOpenAPIInfo();
 
         // resolve inline models
-        //InlineModelResolver inlineModelResolver = new InlineModelResolver();
-        //inlineModelResolver.flatten(openAPI);
+        InlineModelResolver inlineModelResolver = new InlineModelResolver();
+        inlineModelResolver.flatten(openAPI);
 
         List<File> files = new ArrayList<File>();
         // models
