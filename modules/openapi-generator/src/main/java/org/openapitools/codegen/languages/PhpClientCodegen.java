@@ -51,7 +51,7 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         setInvokerPackage("OpenAPI\\Client");
         setApiPackage(getInvokerPackage() + "\\" + apiDirName);
         setModelPackage(getInvokerPackage() + "\\" + modelDirName);
-        setPackagePath("OpenAPIClient-php");
+        setPackageName("OpenAPIClient-php");
         supportsInheritance = true;
         setOutputDir("generated-code" + File.separator + "php");
         modelTestTemplateFiles.put("model_test.mustache", ".php");
@@ -103,17 +103,17 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
             additionalProperties.put(COMPOSER_VENDOR_NAME, composerVendorName);
         }
 
-        supportingFiles.add(new SupportingFile("ApiException.mustache", toPackagePath(invokerPackage, srcBasePath), "ApiException.php"));
-        supportingFiles.add(new SupportingFile("Configuration.mustache", toPackagePath(invokerPackage, srcBasePath), "Configuration.php"));
-        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toPackagePath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
-        supportingFiles.add(new SupportingFile("ModelInterface.mustache", toPackagePath(modelPackage, srcBasePath), "ModelInterface.php"));
-        supportingFiles.add(new SupportingFile("HeaderSelector.mustache", toPackagePath(invokerPackage, srcBasePath), "HeaderSelector.php"));
-        supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
-        supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
-        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
-        supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
-        supportingFiles.add(new SupportingFile(".php_cs", getPackagePath(), ".php_cs"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
+        supportingFiles.add(new SupportingFile("ApiException.mustache", toSrcPath(invokerPackage, srcBasePath), "ApiException.php"));
+        supportingFiles.add(new SupportingFile("Configuration.mustache", toSrcPath(invokerPackage, srcBasePath), "Configuration.php"));
+        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", toSrcPath(invokerPackage, srcBasePath), "ObjectSerializer.php"));
+        supportingFiles.add(new SupportingFile("ModelInterface.mustache", toSrcPath(modelPackage, srcBasePath), "ModelInterface.php"));
+        supportingFiles.add(new SupportingFile("HeaderSelector.mustache", toSrcPath(invokerPackage, srcBasePath), "HeaderSelector.php"));
+        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile(".php_cs", "", ".php_cs"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
     }
 
     public void setComposerVendorName(String composerVendorName) {
