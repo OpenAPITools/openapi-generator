@@ -24,29 +24,6 @@
 
 namespace OpenAPI {
 
-static inline QString fromQHttpEngineMethod(QHttpEngine::Socket::Method method){
-
-    switch( method ){
-        case QHttpEngine::Socket::Method::OPTIONS:
-            return QStringLiteral("OPTIONS");
-        case QHttpEngine::Socket::Method::GET:
-            return QStringLiteral("GET");
-        case QHttpEngine::Socket::Method::HEAD:
-            return QStringLiteral("HEAD");
-        case QHttpEngine::Socket::Method::POST:
-            return QStringLiteral("POST");
-        case QHttpEngine::Socket::Method::PUT:
-            return QStringLiteral("PUT");
-        case QHttpEngine::Socket::Method::DELETE:
-            return QStringLiteral("DELETE");
-        case QHttpEngine::Socket::Method::TRACE:
-            return QStringLiteral("TRACE");
-        case QHttpEngine::Socket::Method::CONNECT:
-            return QStringLiteral("CONNECT");
-    }
-    return QStringLiteral("");
-}
-
 OAIApiRouter::OAIApiRouter() { 
     createApiHandlers();   
 }
