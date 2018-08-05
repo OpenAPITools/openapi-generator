@@ -385,11 +385,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache",
                 clientPackageDir, "OpenAPIDateConverter.cs"));
 
-        if (NET40.equals(this.targetFramework)) {
-            // .net 4.0 doesn't include ReadOnlyDictionary…
-            supportingFiles.add(new SupportingFile("ReadOnlyDictionary.mustache",
-                    clientPackageDir, "ReadOnlyDictionary.cs"));
-        }
+        supportingFiles.add(new SupportingFile("ClientUtils.mustache",
+                clientPackageDir, "ClientUtils.cs"));
+        supportingFiles.add(new SupportingFile("HttpMethod.mustache",
+                clientPackageDir, "HttpMethod.cs"));
+        supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache",
+                clientPackageDir, "IAsynchronousClient.cs"));
+        supportingFiles.add(new SupportingFile("ISynchronousClient.mustache",
+                clientPackageDir, "ISynchronousClient.cs"));
+        supportingFiles.add(new SupportingFile("RequestOptions.mustache",
+                clientPackageDir, "RequestOptions.cs"));
+        supportingFiles.add(new SupportingFile("Multimap.mustache",
+                clientPackageDir, "Multimap.cs"));
 
         if (Boolean.FALSE.equals(this.netStandard) && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
             supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
