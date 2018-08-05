@@ -194,10 +194,10 @@ public class Generate implements Runnable {
             description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
     private Boolean removeOperationIdPrefix;
 
-    @Option(name = {"--skip-validate-spec"},
-            title = "skip spec validation",
-            description = "Skips the default behavior of validating an input specification.")
-    private Boolean skipValidateSpec;
+    @Option(name = {"--validate-spec"},
+            title = "enable spec validation (true or false)",
+            description = "Enable validating an input specification and terminate if errors found. (default: true)")
+    private String validateSpec;
 
     @Override
     public void run() {
@@ -211,11 +211,14 @@ public class Generate implements Runnable {
             configurator = new CodegenConfigurator();
         }
 
-        // now override with any specified parameters
-        if (skipValidateSpec != null) {
+        // validateSpec not provided (null) or a true value is provided
+        if (validateSpec == null || Boolean.valueOf(validateSpec)) {
+            configurator.setValidateSpec(true);
+        } else {
             configurator.setValidateSpec(false);
         }
 
+        // now override with any specified parameters
         if (verbose != null) {
             configurator.setVerbose(verbose);
         }
