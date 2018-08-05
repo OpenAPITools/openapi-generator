@@ -381,9 +381,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             } */
         });
 
-        Boolean generateAllModels = System.getProperty(CodegenConstants.GENERATE_ALL_MODELS) != null ?
-                Boolean.valueOf(System.getProperty(CodegenConstants.GENERATE_ALL_MODELS)) :
-                getGeneratorPropertyDefaultSwitch(CodegenConstants.GENERATE_ALL_MODELS, false);
+        Boolean skipFormModel = System.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
+                Boolean.valueOf(System.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
+                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, false);
 
         // process models only
         for (String name : modelKeys) {
@@ -396,11 +396,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
-                    if (Boolean.TRUE.equals(generateAllModels)) {
-                        // if generateAllModels sets to true, still generate the model and log the result
-                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to generateAllModels=true");
+                    if (Boolean.FALSE.equals(skipFormModel)) {
+                        // if skipFormModel sets to true, still generate the model and log the result
+                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to skipFormModel=false (default)");
                     } else {
-                        LOGGER.debug("Model " + name + " not generated since it's marked as unused (due to form parameters)");
+                        LOGGER.info("Model " + name + " not generated since it's marked as unused (due to form parameters) and skipFormModel set to true");
                         continue;
                     }
                 }

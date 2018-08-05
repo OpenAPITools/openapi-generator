@@ -106,14 +106,13 @@ java -Dapis -DmodelTests=false {opts}
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
 
-To generate all models including those skipped by the form parameters, please use `generateAllModels` (default o false)
+To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to false) (this option is introduced at v3.2.0)
 
 ```sh
-java -DgenerateAllModels=true
+java -DskipFormModel=true
 ```
 
-This option will be helpful to generate models skipped by form parameters, which is defined different in OAS3 (there's no form parameter in OAS3)
-
+This option will be helpful to skip model generation due to the form parameter, which is defined differently in OAS3 as there's no form parameter in OAS3
 
 ### Ignore file format
 
