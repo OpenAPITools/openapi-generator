@@ -53,7 +53,7 @@ public class PhpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setInvokerPackage(PhpClientOptionsProvider.INVOKER_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setPackagePath(PhpClientOptionsProvider.PACKAGE_PATH_VALUE);
+            clientCodegen.setPackageName(PhpClientOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
             clientCodegen.setSrcBasePath(PhpClientOptionsProvider.SRC_BASE_PATH_VALUE);
             times = 1;
