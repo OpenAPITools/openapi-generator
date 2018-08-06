@@ -46,6 +46,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected boolean isAddExternalLibs = true;
     public static final String OPTIONAL_EXTERNAL_LIB = "addExternalLibs";
     public static final String OPTIONAL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
+    protected final String PREFIX = "";
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -63,6 +65,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     public CppPistacheServerCodegen() {
         super();
+        if (StringUtils.isEmpty(modelNamePrefix)) {
+            modelNamePrefix = PREFIX;
+        }
 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
@@ -83,8 +88,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         reservedWords = new HashSet<>();
 
-        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", "ModelBase.h"));
-        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", "ModelBase.cpp"));
+        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", modelNamePrefix + "ModelBase.h"));
+        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -117,7 +122,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
+        if (additionalProperties.containsKey("modelNamePrefix")) {
+            additionalProperties().put("prefix", modelNamePrefix);
+            supportingFiles.clear();
+            supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", modelNamePrefix + "ModelBase.h"));
+            supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
+            supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        }
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
@@ -138,6 +150,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         }
     }
 
+    
     @Override
     public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
@@ -240,7 +253,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return initialCaps(toModelName(name));
     }
 
     @Override
@@ -265,7 +278,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        return initialCaps(name) + "Api";
+        return  modelNamePrefix + initialCaps(name) + "Api";
     }
 
     /**
