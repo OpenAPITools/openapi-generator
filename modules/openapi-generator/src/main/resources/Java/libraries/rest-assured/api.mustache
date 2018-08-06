@@ -83,16 +83,14 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public class {{operationIdCamelCase}}Oper {
+    public static class {{operationIdCamelCase}}Oper {
 
         public static final String REQ_METHOD = "{{httpMethod}}";
         public static final String REQ_URI = "{{path}}";
-        {{#tags}}
-        public static final String TAG_{{-index}} = "{{{name}}}{{#description}}: {{{description}}}{{/description}}";
-        {{/tags}}
         {{#summary}}
         public static final String SUMMARY = "{{{summary}}}";
         {{/summary}}
+        public static final List<String> TAGS = Arrays.asList({{#tags}}{{^-last}}"{{{name}}}", {{/-last}}{{#-last}}"{{{name}}}"{{/-last}}{{/tags}});
 
         private RequestSpecBuilder reqSpec;
 

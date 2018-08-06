@@ -68,12 +68,12 @@ public class FakeClassnameTags123Api {
      * @see #body client model (required)
      * return Client
      */
-    public class TestClassnameOper {
+    public static class TestClassnameOper {
 
         public static final String REQ_METHOD = "PATCH";
         public static final String REQ_URI = "/fake_classname_test";
-        public static final String TAG_1 = "fake_classname_tags 123#$%^";
         public static final String SUMMARY = "To test class name in snake case";
+        public static final List<String> TAGS = Arrays.asList("fake_classname_tags 123#$%^");
 
         private RequestSpecBuilder reqSpec;
 
