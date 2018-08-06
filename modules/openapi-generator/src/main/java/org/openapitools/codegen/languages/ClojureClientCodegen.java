@@ -164,13 +164,12 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelName(String name) {
-        return name;
+        return dashize(name);
     }
 
     @Override
     public String toVarName(String name) {
         name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        name = StringUtils.uncapitalize(name);
         return name;
     }
 
@@ -311,7 +310,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String toModelFilename(String name) {
-        return StringUtils.capitalize(underscore(toModelName(name)));
+        return underscore(toModelName(name));
     }
 
     @Override

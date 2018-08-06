@@ -3,11 +3,11 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
-            [open-api-petstore.specs.Order :refer :all]
-            [open-api-petstore.specs.User :refer :all]
-            [open-api-petstore.specs.Category :refer :all]
-            [open-api-petstore.specs.Tag :refer :all]
-            [open-api-petstore.specs.Pet :refer :all]
+            [open-api-petstore.specs.tag :refer :all]
+            [open-api-petstore.specs.category :refer :all]
+            [open-api-petstore.specs.user :refer :all]
+            [open-api-petstore.specs.pet :refer :all]
+            [open-api-petstore.specs.order :refer :all]
             )
   (:import (java.io File)))
 
@@ -74,14 +74,14 @@
               :accepts       ["application/json" "application/xml"]
               :auth-names    ["petstore_auth"]})))
 
-(defn-spec find-pets-by-status (s/coll-of Pet-spec)
+(defn-spec find-pets-by-status (s/coll-of pet-spec)
   "Finds Pets by status
   Multiple status values can be provided with comma separated strings"
   ([] (find-pets-by-status nil))
   ([optional-params any?]
    (let [res (:data (find-pets-by-status-with-http-info optional-params))]
      (if (:decode-models *api-context*)
-        (st/decode (s/coll-of Pet-spec) res st/string-transformer)
+        (st/decode (s/coll-of pet-spec) res st/string-transformer)
         res))))
 
 
@@ -99,14 +99,14 @@
               :accepts       ["application/json" "application/xml"]
               :auth-names    ["petstore_auth"]})))
 
-(defn-spec find-pets-by-tags (s/coll-of Pet-spec)
+(defn-spec find-pets-by-tags (s/coll-of pet-spec)
   "Finds Pets by tags
   Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing."
   ([] (find-pets-by-tags nil))
   ([optional-params any?]
    (let [res (:data (find-pets-by-tags-with-http-info optional-params))]
      (if (:decode-models *api-context*)
-        (st/decode (s/coll-of Pet-spec) res st/string-transformer)
+        (st/decode (s/coll-of pet-spec) res st/string-transformer)
         res))))
 
 
@@ -124,13 +124,13 @@
              :accepts       ["application/json" "application/xml"]
              :auth-names    ["api_key" "petstore_auth"]}))
 
-(defn-spec get-pet-by-id Pet-spec
+(defn-spec get-pet-by-id pet-spec
   "Find pet by ID
   Returns a pet when ID < 10.  ID > 10 or nonintegers will simulate API error conditions"
   [petId int?]
   (let [res (:data (get-pet-by-id-with-http-info petId))]
     (if (:decode-models *api-context*)
-       (st/decode Pet-spec res st/string-transformer)
+       (st/decode pet-spec res st/string-transformer)
        res)))
 
 

@@ -1,17 +1,17 @@
-(ns open-api-petstore.specs.Category
+(ns open-api-petstore.specs.tag
   (:require [clojure.spec.alpha :as s]
             [spec-tools.data-spec :as ds]
             )
   (:import (java.io File)))
 
 
-(def Category
+(def tag-data
   {
    (ds/opt :id) int?
    (ds/opt :name) string?
    })
 
-(def Category-spec
+(def tag-spec
   (ds/spec
-    {:name ::Category
-     :spec Category}))
+    {:name ::tag
+     :spec tag-data}))

@@ -3,11 +3,11 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
-            [open-api-petstore.specs.Order :refer :all]
-            [open-api-petstore.specs.User :refer :all]
-            [open-api-petstore.specs.Category :refer :all]
-            [open-api-petstore.specs.Tag :refer :all]
-            [open-api-petstore.specs.Pet :refer :all]
+            [open-api-petstore.specs.tag :refer :all]
+            [open-api-petstore.specs.category :refer :all]
+            [open-api-petstore.specs.user :refer :all]
+            [open-api-petstore.specs.pet :refer :all]
+            [open-api-petstore.specs.order :refer :all]
             )
   (:import (java.io File)))
 
@@ -73,13 +73,13 @@
              :accepts       ["application/json" "application/xml"]
              :auth-names    []}))
 
-(defn-spec get-order-by-id Order-spec
+(defn-spec get-order-by-id order-spec
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
   [orderId string?]
   (let [res (:data (get-order-by-id-with-http-info orderId))]
     (if (:decode-models *api-context*)
-       (st/decode Order-spec res st/string-transformer)
+       (st/decode order-spec res st/string-transformer)
        res)))
 
 
@@ -97,13 +97,13 @@
               :accepts       ["application/json" "application/xml"]
               :auth-names    []})))
 
-(defn-spec place-order Order-spec
+(defn-spec place-order order-spec
   "Place an order for a pet"
   ([] (place-order nil))
   ([optional-params any?]
    (let [res (:data (place-order-with-http-info optional-params))]
      (if (:decode-models *api-context*)
-        (st/decode Order-spec res st/string-transformer)
+        (st/decode order-spec res st/string-transformer)
         res))))
 
 

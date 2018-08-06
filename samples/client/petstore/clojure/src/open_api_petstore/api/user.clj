@@ -3,11 +3,11 @@
             [clojure.spec.alpha :as s]
             [spec-tools.core :as st]
             [orchestra.core :refer [defn-spec]]
-            [open-api-petstore.specs.Order :refer :all]
-            [open-api-petstore.specs.User :refer :all]
-            [open-api-petstore.specs.Category :refer :all]
-            [open-api-petstore.specs.Tag :refer :all]
-            [open-api-petstore.specs.Pet :refer :all]
+            [open-api-petstore.specs.tag :refer :all]
+            [open-api-petstore.specs.category :refer :all]
+            [open-api-petstore.specs.user :refer :all]
+            [open-api-petstore.specs.pet :refer :all]
+            [open-api-petstore.specs.order :refer :all]
             )
   (:import (java.io File)))
 
@@ -123,12 +123,12 @@
              :accepts       ["application/json" "application/xml"]
              :auth-names    []}))
 
-(defn-spec get-user-by-name User-spec
+(defn-spec get-user-by-name user-spec
   "Get user by user name"
   [username string?]
   (let [res (:data (get-user-by-name-with-http-info username))]
     (if (:decode-models *api-context*)
-       (st/decode User-spec res st/string-transformer)
+       (st/decode user-spec res st/string-transformer)
        res)))
 
 

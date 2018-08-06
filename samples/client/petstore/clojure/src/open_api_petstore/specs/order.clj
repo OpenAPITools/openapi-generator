@@ -1,11 +1,11 @@
-(ns open-api-petstore.specs.Order
+(ns open-api-petstore.specs.order
   (:require [clojure.spec.alpha :as s]
             [spec-tools.data-spec :as ds]
             )
   (:import (java.io File)))
 
 
-(def Order
+(def order-data
   {
    (ds/opt :id) int?
    (ds/opt :petId) int?
@@ -15,7 +15,7 @@
    (ds/opt :complete) boolean?
    })
 
-(def Order-spec
+(def order-spec
   (ds/spec
-    {:name ::Order
-     :spec Order}))
+    {:name ::order
+     :spec order-data}))
