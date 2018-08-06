@@ -102,11 +102,12 @@ public class PetApi {
      *
      * @see #body Pet object that needs to be added to the store (required)
      */
-    public class AddPetOper {
+    public static class AddPetOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet";
         public static final String SUMMARY = "Add a new pet to the store";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -172,11 +173,12 @@ public class PetApi {
      * @see #petIdPath Pet id to delete (required)
      * @see #apiKeyHeader  (optional)
      */
-    public class DeletePetOper {
+    public static class DeletePetOper {
 
         public static final String REQ_METHOD = "DELETE";
         public static final String REQ_URI = "/pet/{petId}";
         public static final String SUMMARY = "Deletes a pet";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -253,11 +255,12 @@ public class PetApi {
      * @see #statusQuery Status values that need to be considered for filter (required)
      * return List&lt;Pet&gt;
      */
-    public class FindPetsByStatusOper {
+    public static class FindPetsByStatusOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/findByStatus";
         public static final String SUMMARY = "Finds Pets by status";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -335,11 +338,12 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    public class FindPetsByTagsOper {
+    public static class FindPetsByTagsOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/findByTags";
         public static final String SUMMARY = "Finds Pets by tags";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -415,11 +419,12 @@ public class PetApi {
      * @see #petIdPath ID of pet to return (required)
      * return Pet
      */
-    public class GetPetByIdOper {
+    public static class GetPetByIdOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/pet/{petId}";
         public static final String SUMMARY = "Find pet by ID";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -494,11 +499,12 @@ public class PetApi {
      *
      * @see #body Pet object that needs to be added to the store (required)
      */
-    public class UpdatePetOper {
+    public static class UpdatePetOper {
 
         public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/pet";
         public static final String SUMMARY = "Update an existing pet";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -565,11 +571,12 @@ public class PetApi {
      * @see #nameForm Updated name of the pet (optional, default to null)
      * @see #statusForm Updated status of the pet (optional, default to null)
      */
-    public class UpdatePetWithFormOper {
+    public static class UpdatePetWithFormOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet/{petId}";
         public static final String SUMMARY = "Updates a pet in the store with form data";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -661,11 +668,12 @@ public class PetApi {
      * @see #fileMultiPart file to upload (optional, default to null)
      * return ModelApiResponse
      */
-    public class UploadFileOper {
+    public static class UploadFileOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/pet/{petId}/uploadImage";
         public static final String SUMMARY = "uploads an image";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 
@@ -767,11 +775,12 @@ public class PetApi {
      * @see #additionalMetadataForm Additional data to pass to server (optional, default to null)
      * return ModelApiResponse
      */
-    public class UploadFileWithRequiredFileOper {
+    public static class UploadFileWithRequiredFileOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/{petId}/uploadImageWithRequiredFile";
         public static final String SUMMARY = "uploads an image (required)";
+        public static final List<String> TAGS = Arrays.asList("pet");
 
         private RequestSpecBuilder reqSpec;
 

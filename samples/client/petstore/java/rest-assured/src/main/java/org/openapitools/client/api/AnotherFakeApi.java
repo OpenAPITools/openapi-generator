@@ -68,11 +68,12 @@ public class AnotherFakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public class Call123testSpecialTagsOper {
+    public static class Call123testSpecialTagsOper {
 
         public static final String REQ_METHOD = "PATCH";
         public static final String REQ_URI = "/another-fake/dummy";
         public static final String SUMMARY = "To test special tags";
+        public static final List<String> TAGS = Arrays.asList("$another-fake?");
 
         private RequestSpecBuilder reqSpec;
 

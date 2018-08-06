@@ -95,11 +95,12 @@ public class UserApi {
      *
      * @see #body Created user object (required)
      */
-    public class CreateUserOper {
+    public static class CreateUserOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/user";
         public static final String SUMMARY = "Create user";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 
@@ -164,11 +165,12 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public class CreateUsersWithArrayInputOper {
+    public static class CreateUsersWithArrayInputOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/user/createWithArray";
         public static final String SUMMARY = "Creates list of users with given input array";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 
@@ -233,11 +235,12 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public class CreateUsersWithListInputOper {
+    public static class CreateUsersWithListInputOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/user/createWithList";
         public static final String SUMMARY = "Creates list of users with given input array";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 
@@ -302,11 +305,12 @@ public class UserApi {
      *
      * @see #usernamePath The name that needs to be deleted (required)
      */
-    public class DeleteUserOper {
+    public static class DeleteUserOper {
 
         public static final String REQ_METHOD = "DELETE";
         public static final String REQ_URI = "/user/{username}";
         public static final String SUMMARY = "Delete user";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 
@@ -372,11 +376,12 @@ public class UserApi {
      * @see #usernamePath The name that needs to be fetched. Use user1 for testing. (required)
      * return User
      */
-    public class GetUserByNameOper {
+    public static class GetUserByNameOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/user/{username}";
         public static final String SUMMARY = "Get user by user name";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 
@@ -453,11 +458,12 @@ public class UserApi {
      * @see #passwordQuery The password for login in clear text (required)
      * return String
      */
-    public class LoginUserOper {
+    public static class LoginUserOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/user/login";
         public static final String SUMMARY = "Logs user into the system";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 
@@ -542,11 +548,12 @@ public class UserApi {
      * 
      *
      */
-    public class LogoutUserOper {
+    public static class LogoutUserOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/user/logout";
         public static final String SUMMARY = "Logs out current logged in user session";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 
@@ -601,11 +608,12 @@ public class UserApi {
      * @see #usernamePath name that need to be deleted (required)
      * @see #body Updated user object (required)
      */
-    public class UpdateUserOper {
+    public static class UpdateUserOper {
 
         public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/user/{username}";
         public static final String SUMMARY = "Updated user";
+        public static final List<String> TAGS = Arrays.asList("user");
 
         private RequestSpecBuilder reqSpec;
 

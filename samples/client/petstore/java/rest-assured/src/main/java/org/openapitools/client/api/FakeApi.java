@@ -115,11 +115,11 @@ public class FakeApi {
      * @see #body Input boolean as post body (optional)
      * return Boolean
      */
-    public class FakeOuterBooleanSerializeOper {
+    public static class FakeOuterBooleanSerializeOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/boolean";
-        public static final String SUMMARY = "";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -195,11 +195,11 @@ public class FakeApi {
      * @see #body Input composite as post body (optional)
      * return OuterComposite
      */
-    public class FakeOuterCompositeSerializeOper {
+    public static class FakeOuterCompositeSerializeOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/composite";
-        public static final String SUMMARY = "";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -275,11 +275,11 @@ public class FakeApi {
      * @see #body Input number as post body (optional)
      * return BigDecimal
      */
-    public class FakeOuterNumberSerializeOper {
+    public static class FakeOuterNumberSerializeOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/number";
-        public static final String SUMMARY = "";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -355,11 +355,11 @@ public class FakeApi {
      * @see #body Input string as post body (optional)
      * return String
      */
-    public class FakeOuterStringSerializeOper {
+    public static class FakeOuterStringSerializeOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/outer/string";
-        public static final String SUMMARY = "";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -434,11 +434,11 @@ public class FakeApi {
      *
      * @see #body  (required)
      */
-    public class TestBodyWithFileSchemaOper {
+    public static class TestBodyWithFileSchemaOper {
 
         public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/fake/body-with-file-schema";
-        public static final String SUMMARY = "";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -504,11 +504,11 @@ public class FakeApi {
      * @see #queryQuery  (required)
      * @see #body  (required)
      */
-    public class TestBodyWithQueryParamsOper {
+    public static class TestBodyWithQueryParamsOper {
 
         public static final String REQ_METHOD = "PUT";
         public static final String REQ_URI = "/fake/body-with-query-params";
-        public static final String SUMMARY = "";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -585,11 +585,12 @@ public class FakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public class TestClientModelOper {
+    public static class TestClientModelOper {
 
         public static final String REQ_METHOD = "PATCH";
         public static final String REQ_URI = "/fake";
         public static final String SUMMARY = "To test \"client\" model";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -677,11 +678,12 @@ public class FakeApi {
      * @see #passwordForm None (optional, default to null)
      * @see #paramCallbackForm None (optional, default to null)
      */
-    public class TestEndpointParametersOper {
+    public static class TestEndpointParametersOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake";
         public static final String SUMMARY = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -898,11 +900,12 @@ public class FakeApi {
      * @see #enumFormStringArrayForm Form parameter enum test (string array) (optional, default to $)
      * @see #enumFormStringForm Form parameter enum test (string) (optional, default to -efg)
      */
-    public class TestEnumParametersOper {
+    public static class TestEnumParametersOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/fake";
         public static final String SUMMARY = "To test enum parameters";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -1046,11 +1049,12 @@ public class FakeApi {
      *
      * @see #body request body (required)
      */
-    public class TestInlineAdditionalPropertiesOper {
+    public static class TestInlineAdditionalPropertiesOper {
 
         public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/fake/inline-additionalProperties";
         public static final String SUMMARY = "test inline additionalProperties";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
@@ -1116,11 +1120,12 @@ public class FakeApi {
      * @see #paramForm field1 (required)
      * @see #param2Form field2 (required)
      */
-    public class TestJsonFormDataOper {
+    public static class TestJsonFormDataOper {
 
         public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/fake/jsonFormData";
         public static final String SUMMARY = "test json serialization of form data";
+        public static final List<String> TAGS = Arrays.asList("fake");
 
         private RequestSpecBuilder reqSpec;
 
