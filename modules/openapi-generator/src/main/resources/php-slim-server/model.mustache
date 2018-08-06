@@ -3,20 +3,22 @@
  * {{classname}}
  */
 namespace {{modelPackage}};
+
 use \InvalidArgumentException;
 
 /**
  * {{classname}}
  */
-class {{classname}} {
+class {{classname}}
+{
 
     {{#requiredVars}}
-    /** @var {{dataType}} ${{name}} {{#description}}{{description}} {{/description}}*/
+    /** @var {{dataType}} ${{name}}{{#description}} {{description}}{{/description}} */
     private ${{name}};
 
     {{/requiredVars}}
     {{#optionalVars}}
-    /** @var {{dataType}} ${{name}} (optional) {{#description}}{{description}} {{/description}}{{#defaultValue}}Default {{{defaultValue}}} {{/defaultValue}}*/
+    /** @var {{dataType}} ${{name}} (optional){{#description}} {{description}}{{/description}}{{#defaultValue}} Default {{{defaultValue}}}{{/defaultValue}} */
     private ${{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
 
     {{/optionalVars}}
@@ -25,10 +27,10 @@ class {{classname}} {
     {{#hasVars}}
      *
     {{#requiredVars}}
-     * @param {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}
+     * @param {{dataType}} ${{name}}{{#description}} {{description}}{{/description}}
     {{/requiredVars}}
     {{#optionalVars}}
-     * @param {{dataType}}|null ${{name}} (optional) {{#description}}{{description}} {{/description}}{{#defaultValue}}Default {{{defaultValue}}} {{/defaultValue}}
+     * @param {{dataType}}|null ${{name}} (optional){{#description}} {{description}}{{/description}}{{#defaultValue}} Default {{{defaultValue}}}{{/defaultValue}}
     {{/optionalVars}}
     {{/hasVars}}
      */
@@ -43,7 +45,8 @@ class {{classname}} {
     ) {
     {{/hasVars}}
     {{^hasVars}}
-    public function __construct() {
+    public function __construct()
+    {
     {{/hasVars}}
         {{#allVars}}
         $this->{{name}} = ${{name}};
@@ -59,9 +62,12 @@ class {{classname}} {
      *
      * @return {{classname}}
      */
-    public static function createFromObject(array $data = null) {
+    public static function createFromObject(array $data = null)
+    {
     {{#requiredVars}}
-        if ($data['{{baseName}}'] === null) throw new InvalidArgumentException("'{{baseName}}' can't be null");
+        if ($data['{{baseName}}'] === null) {
+            throw new InvalidArgumentException("'{{baseName}}' can't be null");
+        }
         ${{name}} = $data['{{baseName}}'];
     {{/requiredVars}}
     {{#optionalVars}}
