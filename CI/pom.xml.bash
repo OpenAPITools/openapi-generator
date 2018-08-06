@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.2.0</version>
     <url>https://github.com/openapi-tools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapi-tools/openapi-generator.git</connection>
