@@ -76,7 +76,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
       nlohmann::json request_body = nlohmann::json::parse(request.body());
     {{^isPrimitiveType}}{{^isContainer}}
       {{paramName}}.fromJson(request_body);
-    {{/isContainer}}{{/isPrimitiveType}}{{#isContainer}}  {{paramName}} = {{#isListContainer}}  ModelArrayHelper{{/isListContainer}}{{#isMapContainer}}  ModelMapHelper{{/isMapContainer}}::fromJson<{{items.baseType}}>(request_body);{{/isContainer}}
+    {{/isContainer}}{{/isPrimitiveType}}{{#isContainer}}  {{paramName}} = {{#isListContainer}}  {{prefix}}ModelArrayHelper{{/isListContainer}}{{#isMapContainer}}  {{prefix}}ModelMapHelper{{/isMapContainer}}::fromJson<{{items.baseType}}>(request_body);{{/isContainer}}
     {{#isPrimitiveType}}
       // The conversion is done automatically by the json library
       {{paramName}} = request_body;
