@@ -14,6 +14,8 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
+import org.openapitools.client.Context;
+import org.openapitools.client.Context.Tag;
 import org.openapitools.client.model.Client;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 
 import java.lang.reflect.Type;
@@ -37,18 +40,24 @@ import static io.restassured.http.Method.*;
 public class FakeClassnameTags123Api {
 
     private RequestSpecBuilder reqSpec;
+    private Consumer<Context> contextConsumer;
 
     private FakeClassnameTags123Api(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
     }
 
-    public static FakeClassnameTags123Api fakeClassnameTags123(RequestSpecBuilder reqSpec) {
-        return new FakeClassnameTags123Api(reqSpec);
+    private FakeClassnameTags123Api(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        this.reqSpec = reqSpec;
+        this.contextConsumer = contextConsumer;
+    }
+
+    public static FakeClassnameTags123Api fakeClassnameTags123(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        return new FakeClassnameTags123Api(reqSpec, contextConsumer);
     }
 
 
     public TestClassnameOper testClassname() {
-        return new TestClassnameOper(reqSpec);
+        return new TestClassnameOper(reqSpec, contextConsumer);
     }
 
     /**
@@ -68,28 +77,26 @@ public class FakeClassnameTags123Api {
      * @see #body client model (required)
      * return Client
      */
-    public class TestClassnameOper {
+    public static class TestClassnameOper {
 
-        public static final String REQ_METHOD = "PATCH";
+        public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/fake_classname_test";
-        public static final String SUMMARY = "To test class name in snake case";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("fake_classname_tags 123#$%^")))
+                .withSummary("To test class name in snake case")
+                .withNotes("To test class name in snake case")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public TestClassnameOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public TestClassnameOper(RequestSpecBuilder reqSpec) {
+        public TestClassnameOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -99,7 +106,8 @@ public class FakeClassnameTags123Api {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PATCH, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**

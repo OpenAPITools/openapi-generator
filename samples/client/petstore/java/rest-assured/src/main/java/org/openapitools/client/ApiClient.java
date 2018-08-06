@@ -27,6 +27,7 @@ import io.restassured.response.Response;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.openapitools.client.Context;
 
 public class ApiClient {
 
@@ -41,26 +42,27 @@ public class ApiClient {
     }
 
     public AnotherFakeApi anotherFake() {
-        return AnotherFakeApi.anotherFake(config.baseReqSpec.get());
+        return AnotherFakeApi.anotherFake(config.baseReqSpec.get(), config.contextConsumer);
     }
     public FakeApi fake() {
-        return FakeApi.fake(config.baseReqSpec.get());
+        return FakeApi.fake(config.baseReqSpec.get(), config.contextConsumer);
     }
     public FakeClassnameTags123Api fakeClassnameTags123() {
-        return FakeClassnameTags123Api.fakeClassnameTags123(config.baseReqSpec.get());
+        return FakeClassnameTags123Api.fakeClassnameTags123(config.baseReqSpec.get(), config.contextConsumer);
     }
     public PetApi pet() {
-        return PetApi.pet(config.baseReqSpec.get());
+        return PetApi.pet(config.baseReqSpec.get(), config.contextConsumer);
     }
     public StoreApi store() {
-        return StoreApi.store(config.baseReqSpec.get());
+        return StoreApi.store(config.baseReqSpec.get(), config.contextConsumer);
     }
     public UserApi user() {
-        return UserApi.user(config.baseReqSpec.get());
+        return UserApi.user(config.baseReqSpec.get(), config.contextConsumer);
     }
 
     public static class Config {
         private Supplier<RequestSpecBuilder> baseReqSpec;
+        private Consumer<Context> contextConsumer = context -> {};
 
         /**
          * Use common specification for all operations
@@ -69,6 +71,16 @@ public class ApiClient {
          */
         public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
             this.baseReqSpec = supplier;
+            return this;
+        }
+
+        /**
+         * Use for handle context of operation
+         * @param contextConsumer
+         * @return configuration
+         */
+        public Config contextConsumer(Consumer<Context> contextConsumer) {
+            this.contextConsumer = contextConsumer;
             return this;
         }
 

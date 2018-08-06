@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 {{/fullJavaUtil}}
+import {{invokerPackage}}.Context;
 
 public class ApiClient {
 
@@ -36,13 +37,14 @@ public class ApiClient {
      {{#apiInfo}}
      {{#apis}}
     public {{classname}} {{classVarName}}() {
-        return {{classname}}.{{classVarName}}(config.baseReqSpec.get());
+        return {{classname}}.{{classVarName}}(config.baseReqSpec.get(), config.contextConsumer);
     }
      {{/apis}}
      {{/apiInfo}}
 
     public static class Config {
         private Supplier<RequestSpecBuilder> baseReqSpec;
+        private Consumer<Context> contextConsumer = context -> {};
 
         /**
          * Use common specification for all operations
@@ -51,6 +53,16 @@ public class ApiClient {
          */
         public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
             this.baseReqSpec = supplier;
+            return this;
+        }
+
+        /**
+         * Use for handle context of operation
+         * @param contextConsumer
+         * @return configuration
+         */
+        public Config contextConsumer(Consumer<Context> contextConsumer) {
+            this.contextConsumer = contextConsumer;
             return this;
         }
 

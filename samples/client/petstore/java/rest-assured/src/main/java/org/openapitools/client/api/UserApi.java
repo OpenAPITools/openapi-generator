@@ -14,6 +14,8 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
+import org.openapitools.client.Context;
+import org.openapitools.client.Context.Tag;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 
 import java.lang.reflect.Type;
@@ -37,46 +40,52 @@ import static io.restassured.http.Method.*;
 public class UserApi {
 
     private RequestSpecBuilder reqSpec;
+    private Consumer<Context> contextConsumer;
 
     private UserApi(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
     }
 
-    public static UserApi user(RequestSpecBuilder reqSpec) {
-        return new UserApi(reqSpec);
+    private UserApi(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        this.reqSpec = reqSpec;
+        this.contextConsumer = contextConsumer;
+    }
+
+    public static UserApi user(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        return new UserApi(reqSpec, contextConsumer);
     }
 
 
     public CreateUserOper createUser() {
-        return new CreateUserOper(reqSpec);
+        return new CreateUserOper(reqSpec, contextConsumer);
     }
 
     public CreateUsersWithArrayInputOper createUsersWithArrayInput() {
-        return new CreateUsersWithArrayInputOper(reqSpec);
+        return new CreateUsersWithArrayInputOper(reqSpec, contextConsumer);
     }
 
     public CreateUsersWithListInputOper createUsersWithListInput() {
-        return new CreateUsersWithListInputOper(reqSpec);
+        return new CreateUsersWithListInputOper(reqSpec, contextConsumer);
     }
 
     public DeleteUserOper deleteUser() {
-        return new DeleteUserOper(reqSpec);
+        return new DeleteUserOper(reqSpec, contextConsumer);
     }
 
     public GetUserByNameOper getUserByName() {
-        return new GetUserByNameOper(reqSpec);
+        return new GetUserByNameOper(reqSpec, contextConsumer);
     }
 
     public LoginUserOper loginUser() {
-        return new LoginUserOper(reqSpec);
+        return new LoginUserOper(reqSpec, contextConsumer);
     }
 
     public LogoutUserOper logoutUser() {
-        return new LogoutUserOper(reqSpec);
+        return new LogoutUserOper(reqSpec, contextConsumer);
     }
 
     public UpdateUserOper updateUser() {
-        return new UpdateUserOper(reqSpec);
+        return new UpdateUserOper(reqSpec, contextConsumer);
     }
 
     /**
@@ -95,28 +104,26 @@ public class UserApi {
      *
      * @see #body Created user object (required)
      */
-    public class CreateUserOper {
+    public static class CreateUserOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user";
-        public static final String SUMMARY = "Create user";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Create user")
+                .withNotes("This can only be done by the logged in user.")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public CreateUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public CreateUserOper(RequestSpecBuilder reqSpec) {
+        public CreateUserOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -126,7 +133,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -164,28 +172,25 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public class CreateUsersWithArrayInputOper {
+    public static class CreateUsersWithArrayInputOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user/createWithArray";
-        public static final String SUMMARY = "Creates list of users with given input array";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Creates list of users with given input array")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public CreateUsersWithArrayInputOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public CreateUsersWithArrayInputOper(RequestSpecBuilder reqSpec) {
+        public CreateUsersWithArrayInputOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -195,7 +200,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -233,28 +239,25 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public class CreateUsersWithListInputOper {
+    public static class CreateUsersWithListInputOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user/createWithList";
-        public static final String SUMMARY = "Creates list of users with given input array";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Creates list of users with given input array")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public CreateUsersWithListInputOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public CreateUsersWithListInputOper(RequestSpecBuilder reqSpec) {
+        public CreateUsersWithListInputOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -264,7 +267,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -302,26 +306,25 @@ public class UserApi {
      *
      * @see #usernamePath The name that needs to be deleted (required)
      */
-    public class DeleteUserOper {
+    public static class DeleteUserOper {
 
-        public static final String REQ_METHOD = "DELETE";
+        public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/user/{username}";
-        public static final String SUMMARY = "Delete user";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Delete user")
+                .withNotes("This can only be done by the logged in user.")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public DeleteUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public DeleteUserOper(RequestSpecBuilder reqSpec) {
+        public DeleteUserOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -331,7 +334,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         public static final String USERNAME_PATH = "username";
@@ -372,26 +376,24 @@ public class UserApi {
      * @see #usernamePath The name that needs to be fetched. Use user1 for testing. (required)
      * return User
      */
-    public class GetUserByNameOper {
+    public static class GetUserByNameOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/{username}";
-        public static final String SUMMARY = "Get user by user name";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Get user by user name")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public GetUserByNameOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public GetUserByNameOper(RequestSpecBuilder reqSpec) {
+        public GetUserByNameOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -401,7 +403,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -453,26 +456,24 @@ public class UserApi {
      * @see #passwordQuery The password for login in clear text (required)
      * return String
      */
-    public class LoginUserOper {
+    public static class LoginUserOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/login";
-        public static final String SUMMARY = "Logs user into the system";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Logs user into the system")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public LoginUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public LoginUserOper(RequestSpecBuilder reqSpec) {
+        public LoginUserOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -482,7 +483,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -542,26 +544,24 @@ public class UserApi {
      * 
      *
      */
-    public class LogoutUserOper {
+    public static class LogoutUserOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/logout";
-        public static final String SUMMARY = "Logs out current logged in user session";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Logs out current logged in user session")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public LogoutUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public LogoutUserOper(RequestSpecBuilder reqSpec) {
+        public LogoutUserOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -571,7 +571,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -601,28 +602,26 @@ public class UserApi {
      * @see #usernamePath name that need to be deleted (required)
      * @see #body Updated user object (required)
      */
-    public class UpdateUserOper {
+    public static class UpdateUserOper {
 
-        public static final String REQ_METHOD = "PUT";
+        public static final Method REQ_METHOD = PUT;
         public static final String REQ_URI = "/user/{username}";
-        public static final String SUMMARY = "Updated user";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("user").withDescription("Operations about user")))
+                .withSummary("Updated user")
+                .withNotes("This can only be done by the logged in user.")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public UpdateUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public UpdateUserOper(RequestSpecBuilder reqSpec) {
+        public UpdateUserOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -632,7 +631,8 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**

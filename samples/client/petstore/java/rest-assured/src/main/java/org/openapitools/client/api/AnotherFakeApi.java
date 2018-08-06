@@ -14,6 +14,8 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
+import org.openapitools.client.Context;
+import org.openapitools.client.Context.Tag;
 import org.openapitools.client.model.Client;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 
 import java.lang.reflect.Type;
@@ -37,18 +40,24 @@ import static io.restassured.http.Method.*;
 public class AnotherFakeApi {
 
     private RequestSpecBuilder reqSpec;
+    private Consumer<Context> contextConsumer;
 
     private AnotherFakeApi(RequestSpecBuilder reqSpec) {
         this.reqSpec = reqSpec;
     }
 
-    public static AnotherFakeApi anotherFake(RequestSpecBuilder reqSpec) {
-        return new AnotherFakeApi(reqSpec);
+    private AnotherFakeApi(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        this.reqSpec = reqSpec;
+        this.contextConsumer = contextConsumer;
+    }
+
+    public static AnotherFakeApi anotherFake(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        return new AnotherFakeApi(reqSpec, contextConsumer);
     }
 
 
     public Call123testSpecialTagsOper call123testSpecialTags() {
-        return new Call123testSpecialTagsOper(reqSpec);
+        return new Call123testSpecialTagsOper(reqSpec, contextConsumer);
     }
 
     /**
@@ -68,28 +77,26 @@ public class AnotherFakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public class Call123testSpecialTagsOper {
+    public static class Call123testSpecialTagsOper {
 
-        public static final String REQ_METHOD = "PATCH";
+        public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/another-fake/dummy";
-        public static final String SUMMARY = "To test special tags";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("$another-fake?")))
+                .withSummary("To test special tags")
+                .withNotes("To test special tags and operation ID starting with number")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public Call123testSpecialTagsOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public Call123testSpecialTagsOper(RequestSpecBuilder reqSpec) {
+        public Call123testSpecialTagsOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -99,7 +106,8 @@ public class AnotherFakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PATCH, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
