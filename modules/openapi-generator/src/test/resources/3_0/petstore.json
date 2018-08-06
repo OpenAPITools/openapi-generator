@@ -1002,8 +1002,6 @@
     },
     "headers": {
       "X-Header-Test": {
-        "name": "X-Header-Test",
-        "in": "header",
         "description": "A header to test if headers work.",
         "schema": {
           "type": "string"
