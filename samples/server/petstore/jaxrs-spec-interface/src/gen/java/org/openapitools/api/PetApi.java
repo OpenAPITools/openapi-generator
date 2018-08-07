@@ -1,4 +1,3 @@
-kdfja;jfdkajds;fkl
 package org.openapitools.api;
 
 import java.io.File;
