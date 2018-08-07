@@ -44,10 +44,6 @@ public class PetApi {
     private RequestSpecBuilder reqSpec;
     private Consumer<Context> contextConsumer;
 
-    private PetApi(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
-    }
-
     private PetApi(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
         this.contextConsumer = contextConsumer;

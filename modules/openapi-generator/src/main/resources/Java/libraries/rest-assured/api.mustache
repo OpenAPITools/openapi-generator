@@ -34,10 +34,6 @@ public class {{classname}} {
     private RequestSpecBuilder reqSpec;
     private Consumer<Context> contextConsumer;
 
-    private {{classname}}(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
-    }
-
     private {{classname}}(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
         this.contextConsumer = contextConsumer;

@@ -49,10 +49,6 @@ public class FakeApi {
     private RequestSpecBuilder reqSpec;
     private Consumer<Context> contextConsumer;
 
-    private FakeApi(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
-    }
-
     private FakeApi(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
         this.contextConsumer = contextConsumer;

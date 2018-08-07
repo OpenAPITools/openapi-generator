@@ -42,10 +42,6 @@ public class UserApi {
     private RequestSpecBuilder reqSpec;
     private Consumer<Context> contextConsumer;
 
-    private UserApi(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
-    }
-
     private UserApi(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
         this.contextConsumer = contextConsumer;

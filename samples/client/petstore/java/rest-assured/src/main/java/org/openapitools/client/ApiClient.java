@@ -15,21 +15,16 @@ package org.openapitools.client;
 
 import org.openapitools.client.api.*;
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.response.Response;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
-import org.openapitools.client.Context;
+
+import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
+import static io.restassured.config.RestAssuredConfig.config;
+import static org.openapitools.client.GsonObjectMapper.gson;
 
 public class ApiClient {
+    public static final String BASE_URI = "http://petstore.swagger.io:80/v2";
 
     private final Config config;
 
@@ -42,27 +37,29 @@ public class ApiClient {
     }
 
     public AnotherFakeApi anotherFake() {
-        return AnotherFakeApi.anotherFake(config.baseReqSpec.get(), config.contextConsumer);
+        return AnotherFakeApi.anotherFake(config.baseReqSpec.get(), config.baseContextConsumer.get());
     }
     public FakeApi fake() {
-        return FakeApi.fake(config.baseReqSpec.get(), config.contextConsumer);
+        return FakeApi.fake(config.baseReqSpec.get(), config.baseContextConsumer.get());
     }
     public FakeClassnameTags123Api fakeClassnameTags123() {
-        return FakeClassnameTags123Api.fakeClassnameTags123(config.baseReqSpec.get(), config.contextConsumer);
+        return FakeClassnameTags123Api.fakeClassnameTags123(config.baseReqSpec.get(), config.baseContextConsumer.get());
     }
     public PetApi pet() {
-        return PetApi.pet(config.baseReqSpec.get(), config.contextConsumer);
+        return PetApi.pet(config.baseReqSpec.get(), config.baseContextConsumer.get());
     }
     public StoreApi store() {
-        return StoreApi.store(config.baseReqSpec.get(), config.contextConsumer);
+        return StoreApi.store(config.baseReqSpec.get(), config.baseContextConsumer.get());
     }
     public UserApi user() {
-        return UserApi.user(config.baseReqSpec.get(), config.contextConsumer);
+        return UserApi.user(config.baseReqSpec.get(), config.baseContextConsumer.get());
     }
 
     public static class Config {
-        private Supplier<RequestSpecBuilder> baseReqSpec;
-        private Consumer<Context> contextConsumer = context -> {};
+        private Supplier<RequestSpecBuilder> baseReqSpec = () -> new RequestSpecBuilder()
+                .setBaseUri(BASE_URI)
+                .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())));
+        private Supplier<Consumer<Context>> baseContextConsumer = () -> context -> {};
 
         /**
          * Use common specification for all operations
@@ -75,12 +72,12 @@ public class ApiClient {
         }
 
         /**
-         * Use for handle context of operation
-         * @param contextConsumer
+         * Use common context handling
+         * @param supplier supplier
          * @return configuration
          */
-        public Config contextConsumer(Consumer<Context> contextConsumer) {
-            this.contextConsumer = contextConsumer;
+        public Config contextSupplier(Supplier<Consumer<Context>> supplier) {
+            this.baseContextConsumer = supplier;
             return this;
         }
 

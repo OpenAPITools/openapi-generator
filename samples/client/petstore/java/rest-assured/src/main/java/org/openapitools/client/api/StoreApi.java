@@ -42,10 +42,6 @@ public class StoreApi {
     private RequestSpecBuilder reqSpec;
     private Consumer<Context> contextConsumer;
 
-    private StoreApi(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
-    }
-
     private StoreApi(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
         this.contextConsumer = contextConsumer;

@@ -42,10 +42,6 @@ public class FakeClassnameTags123Api {
     private RequestSpecBuilder reqSpec;
     private Consumer<Context> contextConsumer;
 
-    private FakeClassnameTags123Api(RequestSpecBuilder reqSpec) {
-        this.reqSpec = reqSpec;
-    }
-
     private FakeClassnameTags123Api(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
         this.contextConsumer = contextConsumer;
