@@ -168,7 +168,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return sanitizeName(name);
         }
 
-        if (isReservedWord(name)) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             return escapeReservedWord(name);
         }
 
@@ -205,6 +205,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toParamName(String name) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            return escapeReservedWord(name);
+        }
+
         return sanitizeName(super.toParamName(name));
     }
 
@@ -217,6 +221,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         } else {
             nameInCamelCase = sanitizeName(nameInCamelCase);
         }
+        if (isReservedWord(nameInCamelCase) || nameInCamelCase.matches("^\\d.*")) {
+            nameInCamelCase =  escapeReservedWord(nameInCamelCase);
+        }        
         property.nameInCamelCase = nameInCamelCase;
         return property;
     }

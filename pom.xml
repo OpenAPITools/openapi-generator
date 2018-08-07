@@ -716,6 +716,42 @@
             </modules>
         </profile>
         <profile>
+            <id>jaxrs-spec</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface-response</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
