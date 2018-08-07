@@ -2,7 +2,7 @@
 /**
  * OuterComposite
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * OuterComposite

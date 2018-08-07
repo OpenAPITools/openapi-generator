@@ -22,11 +22,11 @@ $router->get('/', function () use ($router) {
 });
 
 /**
- * patch 123testSpecialTags
+ * patch call123TestSpecialTags
  * Summary: To test special tags
  * Notes: To test special tags and operation ID starting with number
  */
-$router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@123testSpecialTags');
+$router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model

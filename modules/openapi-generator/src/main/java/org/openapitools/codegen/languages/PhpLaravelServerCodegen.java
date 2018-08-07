@@ -85,8 +85,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
          * packPath
          */
         invokerPackage = "php-laravel";
-        packagePath = "";
-        outputFolder = packagePath + File.separator + srcBasePath;
+        outputFolder = srcBasePath;
 
         /*
          * Api Package.  Optional, if needed, this can be used in templates
@@ -96,7 +95,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         /*
          * Model Package.  Optional, if needed, this can be used in templates
          */
-        modelPackage = "app.Models";
+        modelPackage = "app\\Models";
 
         // template files want to be ignored
         apiTestTemplateFiles.clear();
