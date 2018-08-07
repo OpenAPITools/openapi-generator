@@ -303,13 +303,13 @@ instance Produces UploadFile MimeJSON
 -- 
 uploadFileWithRequiredFile 
   :: (Consumes UploadFileWithRequiredFile MimeMultipartFormData)
-  => File2 -- ^ "file" -  file to upload
+  => RequiredFile -- ^ "requiredFile" -  file to upload
   -> PetId -- ^ "petId" -  ID of pet to update
   -> OpenAPIPetstoreRequest UploadFileWithRequiredFile MimeMultipartFormData ApiResponse MimeJSON
-uploadFileWithRequiredFile (File2 file) (PetId petId) =
+uploadFileWithRequiredFile (RequiredFile requiredFile) (PetId petId) =
   _mkRequest "POST" ["/fake/",toPath petId,"/uploadImageWithRequiredFile"]
     `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
-    `_addMultiFormPart` NH.partFileSource "file" file
+    `_addMultiFormPart` NH.partFileSource "requiredFile" requiredFile
 
 data UploadFileWithRequiredFile  
 

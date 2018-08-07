@@ -2,7 +2,7 @@
 /**
  * Dog
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * Dog

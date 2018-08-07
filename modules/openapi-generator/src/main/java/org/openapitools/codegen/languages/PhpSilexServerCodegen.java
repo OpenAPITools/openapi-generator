@@ -46,9 +46,9 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         invokerPackage = camelize("OpenAPIServer");
-        String packagePath = "OpenAPIServer";
-        modelPackage = packagePath + File.separator + "lib" + File.separator + "models";
-        apiPackage = packagePath + File.separator + "lib";
+        String packageName = "OpenAPIServer";
+        modelPackage = "lib" + File.separator + "models";
+        apiPackage = "lib";
         outputFolder = "generated-code" + File.separator + "php-silex";
 
         // no model, api files
@@ -112,10 +112,10 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         // mapped to String as a workaround
         typeMapping.put("binary", "string");
 
-        supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
-        supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.json", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
     }
 
     @Override

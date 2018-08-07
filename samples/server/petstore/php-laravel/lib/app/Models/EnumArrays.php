@@ -2,7 +2,7 @@
 /**
  * EnumArrays
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * EnumArrays
