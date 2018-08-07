@@ -940,7 +940,6 @@
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/finch</module>
