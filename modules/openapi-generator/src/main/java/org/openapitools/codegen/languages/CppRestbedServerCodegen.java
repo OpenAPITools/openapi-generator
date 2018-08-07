@@ -305,7 +305,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             }
             return "0";
         } else if (ModelUtils.isByteArraySchema(p)) {
-            return "";
+            return "\"\"";
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";
