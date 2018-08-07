@@ -56,10 +56,33 @@ public class InlineModelResolver {
                             if (obj.getType() == null || "object".equals(obj.getType())) {
                                 if (obj.getProperties() != null && obj.getProperties().size() > 0) {
                                     flattenProperties(obj.getProperties(), pathname);
-                                    String modelName = resolveModelName(obj.getTitle(), null);
-                                    requestBody.$ref(modelName);
+                                    // for model name, use "title" if defined, otherwise default to 'inline_object'
+                                    String modelName = resolveModelName(obj.getTitle(), "inline_object");
                                     addGenerated(modelName, model);
                                     openapi.getComponents().addSchemas(modelName, model);
+
+                                    // create request body
+                                    RequestBody rb = new RequestBody();
+                                    Content content = new Content();
+                                    MediaType mt = new MediaType();
+                                    Schema schema = new Schema();
+                                    schema.set$ref(modelName);
+                                    mt.setSchema(schema);
+                                    // TODO assume JSON, need to support other payload later
+                                    content.addMediaType("application/json", mt);
+                                    rb.setContent(content);
+                                    // add to openapi "components"
+                                    if (openapi.getComponents().getRequestBodies() == null) {
+                                        Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
+                                        requestBodies.put(modelName, rb);
+                                        openapi.getComponents().setRequestBodies(requestBodies);
+                                    } else {
+                                        openapi.getComponents().getRequestBodies().put(modelName, rb);
+                                    }
+
+                                    // update requestBody to use $ref instead of inline def
+                                    requestBody.set$ref(modelName);
+
                                 }
                             }
                         } else if (model instanceof ArraySchema) {
@@ -304,6 +327,10 @@ public class InlineModelResolver {
     }
 
     public String uniqueName(String key) {
+        if (key == null) {
+            key = "NULL_UNIQUE_NAME";
+            LOGGER.warn("null key found. Default to NULL_UNIQUE_NAME");
+        }
         int count = 0;
         boolean done = false;
         key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter

@@ -4375,6 +4375,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
             schema = schemas.get(name);
+        } else {
+            LOGGER.warn("Schema $ref not defined (inline schema?): " + schema);
         }
 
         if (ModelUtils.isMapSchema(schema)) {
