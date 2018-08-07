@@ -90,7 +90,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
-		typeMapping.put("ByteArray", "std::string");
+        typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
@@ -306,7 +306,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             return "0";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "";
-		} else if (ModelUtils.isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
