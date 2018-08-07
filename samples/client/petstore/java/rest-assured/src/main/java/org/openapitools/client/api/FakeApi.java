@@ -118,6 +118,16 @@ public class FakeApi {
     }
 
     /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public FakeApi context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
+        return this;
+    }
+
+    /**
      * 
      * Test serialization of outer boolean types
      *
@@ -192,6 +202,16 @@ public class FakeApi {
          */
         public FakeOuterBooleanSerializeOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public FakeOuterBooleanSerializeOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -272,6 +292,16 @@ public class FakeApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public FakeOuterCompositeSerializeOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * 
@@ -348,6 +378,16 @@ public class FakeApi {
          */
         public FakeOuterNumberSerializeOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public FakeOuterNumberSerializeOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -428,6 +468,16 @@ public class FakeApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public FakeOuterStringSerializeOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * 
@@ -493,6 +543,16 @@ public class FakeApi {
          */
         public TestBodyWithFileSchemaOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestBodyWithFileSchemaOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -573,6 +633,16 @@ public class FakeApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestBodyWithQueryParamsOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * To test \&quot;client\&quot; model
@@ -650,6 +720,16 @@ public class FakeApi {
          */
         public TestClientModelOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestClientModelOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -878,6 +958,16 @@ public class FakeApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestEndpointParametersOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * To test enum parameters
@@ -1032,6 +1122,16 @@ public class FakeApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestEnumParametersOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * test inline additionalProperties
@@ -1097,6 +1197,16 @@ public class FakeApi {
          */
         public TestInlineAdditionalPropertiesOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestInlineAdditionalPropertiesOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -1178,6 +1288,16 @@ public class FakeApi {
          */
         public TestJsonFormDataOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestJsonFormDataOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }

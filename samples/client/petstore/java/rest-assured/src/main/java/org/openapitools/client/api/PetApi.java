@@ -106,6 +106,16 @@ public class PetApi {
     }
 
     /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public PetApi context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
+        return this;
+    }
+
+    /**
      * Add a new pet to the store
      * 
      *
@@ -169,6 +179,16 @@ public class PetApi {
          */
         public AddPetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public AddPetOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -251,6 +271,16 @@ public class PetApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public DeletePetOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Finds Pets by status
@@ -329,6 +359,16 @@ public class PetApi {
          */
         public FindPetsByStatusOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public FindPetsByStatusOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -413,6 +453,16 @@ public class PetApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public FindPetsByTagsOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Find pet by ID
@@ -493,6 +543,16 @@ public class PetApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public GetPetByIdOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Update an existing pet
@@ -558,6 +618,16 @@ public class PetApi {
          */
         public UpdatePetOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public UpdatePetOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -651,6 +721,16 @@ public class PetApi {
          */
         public UpdatePetWithFormOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public UpdatePetWithFormOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -757,6 +837,16 @@ public class PetApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public UploadFileOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * uploads an image (required)
@@ -859,6 +949,16 @@ public class PetApi {
          */
         public UploadFileWithRequiredFileOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public UploadFileWithRequiredFileOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }

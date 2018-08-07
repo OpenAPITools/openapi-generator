@@ -71,6 +71,16 @@ public class FakeClassnameTags123Api {
     }
 
     /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public FakeClassnameTags123Api context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
+        return this;
+    }
+
+    /**
      * To test class name in snake case
      * To test class name in snake case
      *
@@ -146,6 +156,16 @@ public class FakeClassnameTags123Api {
          */
         public TestClassnameOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public TestClassnameOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }

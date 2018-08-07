@@ -99,6 +99,16 @@ public class UserApi {
     }
 
     /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public UserApi context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
+        return this;
+    }
+
+    /**
      * Create user
      * This can only be done by the logged in user.
      *
@@ -163,6 +173,16 @@ public class UserApi {
          */
         public CreateUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public CreateUserOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -232,6 +252,16 @@ public class UserApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public CreateUsersWithArrayInputOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Creates list of users with given input array
@@ -297,6 +327,16 @@ public class UserApi {
          */
         public CreateUsersWithListInputOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public CreateUsersWithListInputOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -366,6 +406,16 @@ public class UserApi {
          */
         public DeleteUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public DeleteUserOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -445,6 +495,16 @@ public class UserApi {
          */
         public GetUserByNameOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public GetUserByNameOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -538,6 +598,16 @@ public class UserApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public LoginUserOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Logs out current logged in user session
@@ -592,6 +662,16 @@ public class UserApi {
          */
         public LogoutUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public LogoutUserOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
@@ -672,6 +752,16 @@ public class UserApi {
          */
         public UpdateUserOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public UpdateUserOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }

@@ -71,6 +71,16 @@ public class AnotherFakeApi {
     }
 
     /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public AnotherFakeApi context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
+        return this;
+    }
+
+    /**
      * To test special tags
      * To test special tags and operation ID starting with number
      *
@@ -146,6 +156,16 @@ public class AnotherFakeApi {
          */
         public Call123testSpecialTagsOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public Call123testSpecialTagsOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }

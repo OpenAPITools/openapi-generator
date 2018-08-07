@@ -69,6 +69,16 @@ public class {{classname}} {
         return this;
     }
 
+    /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public {{classname}} context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
+        return this;
+    }
+
     {{#operations}}
     {{#operation}}
     /**
@@ -244,6 +254,16 @@ public class {{classname}} {
          */
         public {{operationIdCamelCase}}Oper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public {{operationIdCamelCase}}Oper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
