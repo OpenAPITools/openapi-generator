@@ -3,7 +3,10 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,32 +15,21 @@ import java.net.URL;
 import java.util.*;
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
-    public static final String PROJECT_NAME = "projectName";
 
-    static Logger LOGGER = LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+    private static Logger LOGGER =
+            LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
     // TODO handle "INVOKER_PACKAGE" and "HIDE_GENERATION_TIMESTAMP"
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String CONFIG_PACKAGE = "configPackage";
+    public static final String SPRING_BOOT = "spring-boot";
 
     protected String basePackage;
     protected String configPackage;
     protected String serverPort = "8082";
     protected String title = "OpenAPI Kotlin Spring";
-
-    public CodegenType getTag() {
-        return CodegenType.SERVER;
-    }
-
-    public String getName() {
-        return "kotlin-spring";
-    }
-
-    public String getHelp() {
-        return "Generates a kotlin-spring server.";
-    }
 
     public KotlinSpringServerCodegen() {
         super();
@@ -55,13 +47,48 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
 
+        addOption(TITLE, "server title name or client service name", title);
+        addOption(BASE_PACKAGE, "base package for generated code", basePackage);
+        addOption(CONFIG_PACKAGE, "configuration package for generated code", configPackage);
+        addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
+        addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
+
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
+        setLibrary(SPRING_BOOT);
+
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        library.setDefault(SPRING_BOOT);
+        library.setEnum(supportedLibraries);
+        cliOptions.add(library);
+
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+
 //        modelTemplateFiles.put("model.mustache", ".zz");
 //        apiTemplateFiles.put("api.mustache", ".zz");
     }
 
     @Override
+    public CodegenType getTag() {
+        return CodegenType.SERVER;
+    }
+
+    @Override
+    public String getName() {
+        return "kotlin-spring";
+    }
+
+    @Override
+    public String getHelp() {
+        return "Generates a Kotlin Spring application using the SpringFox integration.";
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
+
+        if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            additionalProperties.put(CodegenConstants.LIBRARY, library);
+        }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
@@ -163,6 +190,4 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             }
         }
     }
-
-
 }
