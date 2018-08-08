@@ -762,7 +762,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
         }
-        
+
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
         if (servers != null && !servers.isEmpty()) {
             bundle.put("servers", servers);
@@ -1008,6 +1008,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
             if (mapping != null) {
                 im.put("import", mapping);
+                im.put("classname", nextImport);
                 if (!imports.contains(im)) { // avoid duplicates
                     imports.add(im);
                 }
