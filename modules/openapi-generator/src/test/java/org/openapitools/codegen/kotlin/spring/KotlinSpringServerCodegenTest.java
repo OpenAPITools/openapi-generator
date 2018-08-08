@@ -28,8 +28,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "org.openapitools");
         Assert.assertEquals(codegen.getConfigPackage(), "org.openapitools.conf");
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.CONFIG_PACKAGE), "org.openapitools.conf");
-        Assert.assertEquals(codegen.getServerPort(), "8082");
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8082");
+        Assert.assertEquals(codegen.getServerPort(), "8080");
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8080");
     }
 
     @Test

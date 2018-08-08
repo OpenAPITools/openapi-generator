@@ -11,24 +11,30 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * TODO handle "INVOKER_PACKAGE" and "HIDE_GENERATION_TIMESTAMP"
+ * TODO integrate Spring Fox
+ */
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     private static Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
-    // TODO handle "INVOKER_PACKAGE" and "HIDE_GENERATION_TIMESTAMP"
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String SPRING_BOOT = "spring-boot";
 
+    protected String resourceFolder = "src/main/resources";
+
     protected String basePackage;
     protected String configPackage;
-    protected String serverPort = "8082";
+    protected String serverPort = "8080";
     protected String title = "OpenAPI Kotlin Spring";
 
     public KotlinSpringServerCodegen() {
@@ -50,18 +56,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package for generated code", basePackage);
         addOption(CONFIG_PACKAGE, "configuration package for generated code", configPackage);
+        addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
 
-        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(SPRING_BOOT);
-        library.setEnum(supportedLibraries);
-        cliOptions.add(library);
-
-        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
+        CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        cliOpt.setDefault(SPRING_BOOT);
+        cliOpt.setEnum(supportedLibraries);
+        cliOptions.add(cliOpt);
 
 //        modelTemplateFiles.put("model.mustache", ".zz");
 //        apiTemplateFiles.put("api.mustache", ".zz");
@@ -79,7 +84,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Kotlin Spring application using the SpringFox integration.";
+        return "Generates a Kotlin Spring application.";
     }
 
     @Override
@@ -106,6 +111,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
         } else {
             additionalProperties.put(CONFIG_PACKAGE, configPackage);
+        }
+
+        supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
+        supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
+
+        if (library.equals(SPRING_BOOT)) {
+            supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
+                    sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
         }
     }
 
@@ -189,5 +203,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
                 }
             }
         }
+    }
+
+    private static String sanitizeDirectory(String in) {
+        return in.replace(".", File.separator);
     }
 }
