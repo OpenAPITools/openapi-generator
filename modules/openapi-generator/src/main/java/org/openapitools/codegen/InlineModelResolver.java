@@ -404,8 +404,7 @@ public class InlineModelResolver {
                 }
             }
             if (ModelUtils.isMapSchema(property)) {
-                MapSchema mp = (MapSchema) property;
-                Schema inner = (Schema) mp.getAdditionalProperties();
+                Schema inner = (Schema) property.getAdditionalProperties();
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -416,11 +415,11 @@ public class InlineModelResolver {
                         if (existing != null) {
                             Schema schema = new Schema().$ref(existing);
                             schema.setRequired(op.getRequired());
-                            mp.setAdditionalProperties(schema);
+                            property.setAdditionalProperties(schema);
                         } else {
                             Schema schema = new Schema().$ref(modelName);
                             schema.setRequired(op.getRequired());
-                            mp.setAdditionalProperties(schema);
+                            property.setAdditionalProperties(schema);
                             addGenerated(modelName, innerModel);
                             openapi.getComponents().addSchemas(modelName, innerModel);
                         }
