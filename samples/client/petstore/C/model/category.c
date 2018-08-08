@@ -17,11 +17,27 @@ category_t *category_create(
 
 
 void category_free(category_t *category) {
-	listEntry_t *listEntry;
-
-	free(category->id)
 
 	free(category->name)
 
 	free(category);
+}
+
+cJSON *category_convertToJSON(category_t *category) {
+	cJSON *item = cJSON_CreateObject();
+	// category->id
+	if(cJSON_AddNumberToObject(item, "id", category->id) == NULL) {
+    	goto fail;
+    }
+
+
+	// category->name
+	if(cJSON_AddStringToObject(item, "name", category->name) == NULL) {
+		goto fail;
+	}
+
+	return item;
+fail:
+	cJSON_Delete(item);
+	return NULL;
 }

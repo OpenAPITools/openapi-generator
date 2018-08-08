@@ -25,19 +25,47 @@ order_t *order_create(
 
 
 void order_free(order_t *order) {
-	listEntry_t *listEntry;
 
-	free(order->id)
 
-	free(order->petId)
 
-	free(order->quantity)
-
-	free(order->shipDate)
 
 	free(order->status)
 
-	free(order->complete)
 
 	free(order);
+}
+
+cJSON *order_convertToJSON(order_t *order) {
+	cJSON *item = cJSON_CreateObject();
+	// order->id
+	if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
+    	goto fail;
+    }
+
+
+	// order->petId
+	if(cJSON_AddNumberToObject(item, "petId", order->petId) == NULL) {
+    	goto fail;
+    }
+
+
+	// order->quantity
+	if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
+    	goto fail;
+    }
+
+
+	// order->shipDate
+
+	// order->status
+	if(cJSON_AddStringToObject(item, "status", order->status) == NULL) {
+		goto fail;
+	}
+
+	// order->complete
+
+	return item;
+fail:
+	cJSON_Delete(item);
+	return NULL;
 }

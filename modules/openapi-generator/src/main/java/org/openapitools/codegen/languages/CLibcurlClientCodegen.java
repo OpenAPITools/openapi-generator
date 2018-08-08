@@ -30,51 +30,28 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 
-public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CClientCodegen.class);
-    public static final String GEM_NAME = "gemName";
-    public static final String MODULE_NAME = "moduleName";
-    public static final String GEM_VERSION = "gemVersion";
-    public static final String GEM_LICENSE = "gemLicense";
-    public static final String GEM_REQUIRED_RUBY_VERSION = "gemRequiredRubyVersion";
-    public static final String GEM_HOMEPAGE = "gemHomepage";
-    public static final String GEM_SUMMARY = "gemSummary";
-    public static final String GEM_DESCRIPTION = "gemDescription";
-    public static final String GEM_AUTHOR = "gemAuthor";
-    public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
-    protected String gemName;
     protected String moduleName;
-    protected String gemVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String libFolder = "lib";
-    protected String gemLicense = "proprietary";
-    protected String gemRequiredRubyVersion = ">= 1.9";
-    protected String gemHomepage = "http://org.openapitools";
-    protected String gemSummary = "A ruby wrapper for the REST APIs";
-    protected String gemDescription = "This gem maps to a REST API";
-    protected String gemAuthor = "";
-    protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
     protected static int emptyMethodNameCounter = 0;
 
-    public CClientCodegen() {
+    public CLibcurlClientCodegen() {
         super();
-
-        // clear import mapping (from default generator) as ruby does not use it
-        // at the moment
-        importMapping.clear();
 
         modelPackage = "models";
         apiPackage = "api";
-        outputFolder = "generated-code" + File.separator + "C";
+        outputFolder = "generated-code" + File.separator + "C-libcurl";
         modelTemplateFiles.put("model.mustache", ".c");
         apiTemplateFiles.put("api.mustache", ".c");
         //modelDocTemplateFiles.put("model_doc.mustache", ".md");
         //apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "C";
+        embeddedTemplateDir = templateDir = "C-libcurl";
 
         modelTestTemplateFiles.put("model_test.mustache", ".c");
         apiTestTemplateFiles.put("api_test.mustache", ".c");
@@ -174,30 +151,9 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
                 itr.remove();
             }
         }
-        cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
-                defaultValue("openapi_client"));
-        cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding" +
-                " to gem name).").defaultValue("OpenAPIClient"));
-        cliOptions.add(new CliOption(GEM_VERSION, "gem version.").defaultValue("1.0.0"));
+        //cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
+        //        defaultValue("openapi_client"));
 
-        cliOptions.add(new CliOption(GEM_LICENSE, "gem license. ").
-                defaultValue("proprietary"));
-
-        cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
-                defaultValue(">= 1.9"));
-
-        cliOptions.add(new CliOption(GEM_HOMEPAGE, "gem homepage. ").
-                defaultValue("http://org.openapitools"));
-
-        cliOptions.add(new CliOption(GEM_SUMMARY, "gem summary. ").
-                defaultValue("A ruby wrapper for the REST APIs"));
-
-        cliOptions.add(new CliOption(GEM_DESCRIPTION, "gem description. ").
-                defaultValue("This gem maps to a REST API"));
-
-        cliOptions.add(new CliOption(GEM_AUTHOR, "gem author (only one is supported)."));
-
-        cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
@@ -207,60 +163,6 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (additionalProperties.containsKey(GEM_NAME)) {
-            setGemName((String) additionalProperties.get(GEM_NAME));
-        }
-        if (additionalProperties.containsKey(MODULE_NAME)) {
-            setModuleName((String) additionalProperties.get(MODULE_NAME));
-        }
-
-        if (gemName == null && moduleName == null) {
-            setGemName("openapi_client");
-            //setModuleName(generateModuleName(gemName));
-        } else if (gemName == null) {
-            //setGemName(generateGemName(moduleName));
-        } else if (moduleName == null) {
-            //setModuleName(generateModuleName(gemName));
-        }
-
-        additionalProperties.put(GEM_NAME, gemName);
-        additionalProperties.put(MODULE_NAME, moduleName);
-
-        if (additionalProperties.containsKey(GEM_VERSION)) {
-            setGemVersion((String) additionalProperties.get(GEM_VERSION));
-        } else {
-            // not set, pass the default value to template
-            additionalProperties.put(GEM_VERSION, gemVersion);
-        }
-
-        if (additionalProperties.containsKey(GEM_LICENSE)) {
-            setGemLicense((String) additionalProperties.get(GEM_LICENSE));
-        }
-
-        if (additionalProperties.containsKey(GEM_REQUIRED_RUBY_VERSION)) {
-            setGemRequiredRubyVersion((String) additionalProperties.get(GEM_REQUIRED_RUBY_VERSION));
-        }
-
-        if (additionalProperties.containsKey(GEM_HOMEPAGE)) {
-            setGemHomepage((String) additionalProperties.get(GEM_HOMEPAGE));
-        }
-
-        if (additionalProperties.containsKey(GEM_SUMMARY)) {
-            setGemSummary((String) additionalProperties.get(GEM_SUMMARY));
-        }
-
-        if (additionalProperties.containsKey(GEM_DESCRIPTION)) {
-            setGemDescription((String) additionalProperties.get(GEM_DESCRIPTION));
-        }
-
-        if (additionalProperties.containsKey(GEM_AUTHOR)) {
-            setGemAuthor((String) additionalProperties.get(GEM_AUTHOR));
-        }
-
-        if (additionalProperties.containsKey(GEM_AUTHOR_EMAIL)) {
-            setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
-        }
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -305,7 +207,7 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a C client library (beta).";
+        return "Generates a C (libcurl) client library (beta).";
     }
 
 
@@ -561,17 +463,24 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId);
+            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return camelize(sanitizeName(operationId));
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
+        return camelize(sanitizeName(operationId), true);
     }
 
     @Override
     public String toApiImport(String name) {
-        return gemName + "/" + apiPackage() + "/" + toApiFilename(name);
+        return apiPackage() + "/" + toApiFilename(name);
     }
 
     @Override
@@ -636,46 +545,6 @@ public class CClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         p.example = example;
-    }
-
-    public void setGemName(String gemName) {
-        this.gemName = gemName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
-
-    public void setGemVersion(String gemVersion) {
-        this.gemVersion = gemVersion;
-    }
-
-    public void setGemDescription(String gemDescription) {
-        this.gemDescription = gemDescription;
-    }
-
-    public void setGemSummary(String gemSummary) {
-        this.gemSummary = gemSummary;
-    }
-
-    public void setGemLicense(String gemLicense) {
-        this.gemLicense = gemLicense;
-    }
-
-    public void setGemRequiredRubyVersion(String gemRequiredRubyVersion) {
-        this.gemRequiredRubyVersion = gemRequiredRubyVersion;
-    }
-
-    public void setGemHomepage(String gemHomepage) {
-        this.gemHomepage = gemHomepage;
-    }
-
-    public void setGemAuthor(String gemAuthor) {
-        this.gemAuthor = gemAuthor;
-    }
-
-    public void setGemAuthorEmail(String gemAuthorEmail) {
-        this.gemAuthorEmail = gemAuthorEmail;
     }
 
     @Override

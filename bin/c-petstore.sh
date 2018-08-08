@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/C -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g c -o samples/client/petstore/C $@"
+ags="generate -t modules/openapi-generator/src/main/resources/C-libcurl -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g c -o samples/client/petstore/C $@"
 
 # purge folder
 echo "Purge folder samples/client/petstore/C"
