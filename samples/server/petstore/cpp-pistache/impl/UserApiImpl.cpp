@@ -23,7 +23,7 @@ UserApiImpl::UserApiImpl(Pistache::Address addr)
     : UserApi(addr)
     { }
 
-void UserApiImpl::create_user(const std::shared_ptr<User> &user, Pistache::Http::ResponseWriter &response) {
+void UserApiImpl::create_user(const User &user, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 void UserApiImpl::create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) {
@@ -44,7 +44,7 @@ void UserApiImpl::login_user(const Pistache::Optional<std::string> &username, co
 void UserApiImpl::logout_user(Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
-void UserApiImpl::update_user(const std::string &username, const std::shared_ptr<User> &user, Pistache::Http::ResponseWriter &response) {
+void UserApiImpl::update_user(const std::string &username, const User &user, Pistache::Http::ResponseWriter &response) {
     response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 

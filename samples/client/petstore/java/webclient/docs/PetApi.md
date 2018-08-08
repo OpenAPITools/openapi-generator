@@ -439,7 +439,7 @@ Name | Type | Description  | Notes
 
 <a name="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
-> ModelApiResponse uploadFileWithRequiredFile(petId, file, additionalMetadata)
+> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 
@@ -460,10 +460,10 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-File file = new File("null"); // File | file to upload
+File requiredFile = new File("null"); // File | file to upload
 String additionalMetadata = "null"; // String | Additional data to pass to server
 try {
-    ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, file, additionalMetadata);
+    ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
@@ -476,7 +476,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **file** | **File**| file to upload | [default to null]
+ **requiredFile** | **File**| file to upload | [default to null]
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type

@@ -954,8 +954,8 @@ paths:
       - fake
   /another-fake/dummy:
     patch:
-      description: To test special tags
-      operationId: test_special_tags
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       requestBody:
         content:
           application/json:
@@ -1008,12 +1008,12 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
-                file:
+                requiredFile:
                   description: file to upload
                   format: binary
                   type: string
               required:
-              - file
+              - requiredFile
         required: true
       responses:
         200:
@@ -1507,6 +1507,7 @@ components:
         $ref: '#/components/schemas/Animal'
       type: array
     File:
+      description: Must be named `File` for test.
       example:
         sourceURI: sourceURI
       properties:

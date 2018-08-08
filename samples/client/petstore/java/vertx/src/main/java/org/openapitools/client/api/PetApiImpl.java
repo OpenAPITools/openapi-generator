@@ -328,11 +328,11 @@ if (file != null) localVarFormParams.put("file", file);
      * uploads an image (required)
      * 
      * @param petId ID of pet to update (required)
-     * @param file file to upload (required)
+     * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional, default to null)
      * @param resultHandler Asynchronous result handler
      */
-    public void uploadFileWithRequiredFile(Long petId, AsyncFile file, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+    public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -341,9 +341,9 @@ if (file != null) localVarFormParams.put("file", file);
             return;
         }
         
-        // verify the required parameter 'file' is set
-        if (file == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'file' when calling uploadFileWithRequiredFile"));
+        // verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile"));
             return;
         }
         
@@ -360,7 +360,7 @@ if (file != null) localVarFormParams.put("file", file);
         // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
         Map<String, Object> localVarFormParams = new HashMap<>();
         if (additionalMetadata != null) localVarFormParams.put("additionalMetadata", additionalMetadata);
-if (file != null) localVarFormParams.put("file", file);
+if (requiredFile != null) localVarFormParams.put("requiredFile", requiredFile);
 
         String[] localVarAccepts = { "application/json" };
         String[] localVarContentTypes = { "multipart/form-data" };

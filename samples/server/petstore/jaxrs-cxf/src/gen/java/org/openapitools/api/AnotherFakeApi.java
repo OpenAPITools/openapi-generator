@@ -32,7 +32,7 @@ public interface AnotherFakeApi  {
     /**
      * To test special tags
      *
-     * To test special tags
+     * To test special tags and operation ID starting with number
      *
      */
     @PATCH
@@ -42,6 +42,6 @@ public interface AnotherFakeApi  {
     @ApiOperation(value = "To test special tags", tags={ "$another-fake?" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client testSpecialTags(@Valid Client client);
+    public Client call123testSpecialTags(@Valid Client client);
 }
 

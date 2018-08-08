@@ -34,7 +34,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.1.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:3.1.2"
   }
 }
 
@@ -58,6 +58,11 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 |Boolean
 |false
 |The verbosity of generation
+
+|validateSpec
+|Boolean
+|true
+|Whether or not we should validate the input spec before generation. Invalid specs result in an error.
 
 |generatorName
 |String

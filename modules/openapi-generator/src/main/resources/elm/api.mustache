@@ -10,13 +10,14 @@ import Json.Decode as Decode
 basePath : String
 basePath =
     "{{basePath}}"
-
-
 {{#operations}}
   {{#operation}}
-{-
-   {{notes}}
+
+
+{{#notes}}
+{-| {{{notes}}}
 -}
+{{/notes}}
 {{operationId}} : {{#pathParams}}{{dataType}} -> {{/pathParams}}{{#bodyParam}}{{dataType}} -> {{/bodyParam}}Http.Request {{^responses}}(){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/-first}}{{/responses}}
 {{operationId}} {{#pathParams}}{{paramName}} {{/pathParams}}{{#bodyParam}}model {{/bodyParam}}=
     { method = "{{httpMethod}}"
@@ -28,7 +29,5 @@ basePath =
     , withCredentials = False
     }
         |> Http.request
-
-
   {{/operation}}
 {{/operations}}

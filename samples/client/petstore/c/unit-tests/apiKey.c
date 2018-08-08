@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <stdlib.h>
 #include "apiKey.h"
 
@@ -12,3 +13,11 @@ apiKey_t *apiKey_create(char *key, char *value) {
 void apiKey_free(apiKey_t *apiKey) {
 	free(apiKey);
 }
+=======
+#include "keyValuePair.h"
+
+int main() {
+	keyValuePair_t *keyValuePair = keyValuePair_create("key", "value");
+	keyValuePair_free(keyValuePair);
+}
+>>>>>>> origin/master

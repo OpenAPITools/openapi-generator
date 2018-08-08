@@ -164,8 +164,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "chrono::DateTime<chrono::Utc>");
         typeMapping.put("DateTime", "chrono::DateTime<chrono::Utc>");
         typeMapping.put("password", "String");
-        typeMapping.put("File", "Box<Stream<Item=Vec<u8>, Error=Error> + Send>");
-        typeMapping.put("file", "Box<Stream<Item=Vec<u8>, Error=Error> + Send>");
+        typeMapping.put("File", "swagger::ByteArray");
+        typeMapping.put("file", "swagger::ByteArray");
         typeMapping.put("array", "Vec");
         typeMapping.put("map", "HashMap");
 
@@ -198,7 +198,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("models.mustache", "src", "models.rs"));
         supportingFiles.add(new SupportingFile("server-mod.mustache", "src/server", "mod.rs"));
-        supportingFiles.add(new SupportingFile("server-auth.mustache", "src/server", "auth.rs"));
+        supportingFiles.add(new SupportingFile("server-context.mustache", "src/server", "context.rs"));
         supportingFiles.add(new SupportingFile("client-mod.mustache", "src/client", "mod.rs"));
         supportingFiles.add(new SupportingFile("mimetypes.mustache", "src", "mimetypes.rs"));
         supportingFiles.add(new SupportingFile("example-server.mustache", "examples", "server.rs"));
@@ -710,8 +710,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
             }
-
-            additionalProperties.put("apiHasFile", true);
         }
 
         return objs;
@@ -1032,21 +1030,28 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-
             if (cm.dataType != null && cm.dataType.equals("object")) {
                 // Object isn't a sensible default. Instead, we set it to
                 // 'null'. This ensures that we treat this model as a struct
                 // with multiple parameters.
                 cm.dataType = null;
             } else if (cm.dataType != null) {
-                // We need to hack about with single-parameter models to get
-                // them recognised correctly.
-                cm.isAlias = false;
-                cm.dataType = typeMapping.get(cm.dataType);
+                if (cm.dataType.equals("map")) {
+                    // We don't yet support `additionalProperties`. We ignore
+                    // the `additionalProperties` type ('map') and warn the
+                    // user. This will produce code that compiles, but won't
+                    // feature the `additionalProperties`.
+                    cm.dataType = null;
+                    LOGGER.warn("Ignoring unsupported additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318)");
+                } else {
+                    // We need to hack about with single-parameter models to
+                    // get them recognised correctly.
+                    cm.isAlias = false;
+                    cm.dataType = typeMapping.get(cm.dataType);
+                }
             }
         }
         return super.postProcessModelsEnum(objs);
-
     }
 
     private boolean paramHasXmlNamespace(CodegenParameter param, Map<String, Schema> definitions) {
@@ -1069,22 +1074,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
 
-        if (param.isFile) {
-            param.vendorExtensions.put("formatString", "{:?}");
-            op.vendorExtensions.put("hasFile", true);
-            additionalProperties.put("apiHasFile", true);
-            example = "Box::new(stream::once(Ok(b\"hello\".to_vec()))) as Box<Stream<Item=_, Error=_> + Send>";
-        } else if (param.isString) {
-            if (param.dataFormat != null && param.dataFormat.equals("byte")) {
-                param.vendorExtensions.put("formatString", "\\\"{:?}\\\"");
-                example = "swagger::ByteArray(\"" + ((param.example != null) ? param.example : "") + "\".to_string().into_bytes())";
-            } else {
-                param.vendorExtensions.put("formatString", "\\\"{}\\\"");
-                example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
-            }
+        if (param.isString) {
+            param.vendorExtensions.put("formatString", "\\\"{}\\\"");
+            example = "\"" + ((param.example != null) ? param.example : "") + "\".to_string()";
         } else if (param.isPrimitiveType) {
-            if ((param.isByteArray) ||
-                    (param.isBinary)) {
+            if ((param.isByteArray) || (param.isBinary)) {
                 // Binary primitive types don't implement `Display`.
                 param.vendorExtensions.put("formatString", "{:?}");
                 example = "swagger::ByteArray(Vec::from(\"" + ((param.example != null) ? param.example : "") + "\"))";
@@ -1119,12 +1113,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             // Not required, so override the format string and example
             param.vendorExtensions.put("formatString", "{:?}");
-            if (param.isFile) {
-                // Optional file types are wrapped in a future
-                param.vendorExtensions.put("example", (example != null) ? "Box::new(future::ok(Some(" + example + "))) as Box<Future<Item=_, Error=_> + Send>" : "None");
-            } else {
-                param.vendorExtensions.put("example", (example != null) ? "Some(" + example + ")" : "None");
-            }
+            param.vendorExtensions.put("example", (example != null) ? "Some(" + example + ")" : "None");
         }
     }
 }

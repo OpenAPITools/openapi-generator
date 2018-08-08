@@ -65,6 +65,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String BOOLEAN_GETTER_PREFIX_DEFAULT = "get";
+    public static final String USE_NULL_FOR_UNKNOWN_ENUM_VALUE = "useNullForUnknownEnumValue";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -99,6 +100,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean supportJava6= false;
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = BOOLEAN_GETTER_PREFIX_DEFAULT;
+    protected boolean useNullForUnknownEnumValue = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -212,6 +214,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
+
+        if (additionalProperties.containsKey(USE_NULL_FOR_UNKNOWN_ENUM_VALUE)) {
+            this.setUseNullForUnknownEnumValue(Boolean.valueOf(additionalProperties.get(USE_NULL_FOR_UNKNOWN_ENUM_VALUE).toString()));
+        }
+        additionalProperties.put(USE_NULL_FOR_UNKNOWN_ENUM_VALUE, useNullForUnknownEnumValue);
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
@@ -574,6 +581,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             name = name.substring(0, 2).toLowerCase() + name.substring(2);
         }
 
+        // If name contains special chars -> replace them.
+        if ((((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains( "" + ((char) character))))) {
+            List<String> allowedCharacters = new ArrayList<>();
+            allowedCharacters.add("_");
+            allowedCharacters.add("$");
+            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+        }
+
         // camelize (lower first character) the variable name
         // pet_id => petId
         name = camelize(name, true);
@@ -867,6 +882,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            operationId = camelize("call_" + operationId, true);
         }
 
         return operationId;
@@ -1244,6 +1265,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setBooleanGetterPrefix(String booleanGetterPrefix) {
         this.booleanGetterPrefix = booleanGetterPrefix;
+    }
+
+    public void setUseNullForUnknownEnumValue(boolean useNullForUnknownEnumValue) {
+        this.useNullForUnknownEnumValue = useNullForUnknownEnumValue;
     }
 
     @Override

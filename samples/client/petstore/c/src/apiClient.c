@@ -3,10 +3,8 @@
 #include <string.h>
 #include "apiClient.h"
 #include "pet.h"
+#include "keyValuePair.h"
 
-#ifdef API_KEY
-#include "apiKey.h"
-#endif
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
 apiClient_t *apiClient_create() {
@@ -28,25 +26,77 @@ void apiClient_free(apiClient_t *apiClient) {
 	curl_global_cleanup();
 }
 
+void replaceSpaceWithPlus(char *stringToProcess) {
+	for(int i = 0; i < strlen(stringToProcess); i++) {
+		if(stringToProcess[i] == ' ') {
+			stringToProcess[i] = '+';
+		}
+	}
+}
+
 char *assembleTargetUrl(char	*basePath,
                         char	*operationName,
-                        char	*operationParameter) {
+                        char	*operationParameter,
+                        list_t	*queryParameters) {
+	int neededBufferSizeForQueryParameters = 0;
+	listEntry_t *listEntry;
+
+	if(queryParameters != NULL) {
+		list_ForEach(listEntry, queryParameters) {
+			keyValuePair_t *pair = listEntry->data;
+			neededBufferSizeForQueryParameters +=
+				strlen(pair->key) + strlen(pair->value);
+		}
+
+		neededBufferSizeForQueryParameters +=
+			(queryParameters->count * 2); // each keyValuePair is separated by a = and a & except the last, but this makes up for the ? at the beginning
+	}
+
+	int operationParameterLength = 0;
+	int basePathLength = strlen(basePath);
+	bool slashNeedsToBeAppendedToBasePath = false;
+
+	if(operationParameter != NULL) {
+		operationParameterLength = (1 + strlen(operationParameter));
+	}
+	if(basePath[strlen(basePath) - 1] != '/') {
+		slashNeedsToBeAppendedToBasePath = true;
+		basePathLength++;
+	}
+
 	char *targetUrl =
-		malloc(strlen(operationName) + strlen(
-			       basePath) +
-		       ((operationParameter == NULL) ? 1 : (2 + strlen(
-								    operationParameter))));
+		malloc(strlen(
+			       operationName) + neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
+		       );
 	strcpy(targetUrl, basePath);
+	if(slashNeedsToBeAppendedToBasePath) {
+		strcat(targetUrl, "/");
+	}
 	strcat(targetUrl, operationName);
 	if(operationParameter != NULL) {
 		strcat(targetUrl, "/");
 		strcat(targetUrl, operationParameter);
 	}
 
+	if(queryParameters != NULL) {
+		strcat(targetUrl, "?");
+		list_ForEach(listEntry, queryParameters) {
+			keyValuePair_t *pair = listEntry->data;
+			replaceSpaceWithPlus(pair->key);
+			strcat(targetUrl, pair->key);
+			strcat(targetUrl, "=");
+			replaceSpaceWithPlus(pair->value);
+			strcat(targetUrl, pair->value);
+			if(listEntry->nextListEntry != NULL) {
+				strcat(targetUrl, "&");
+			}
+		}
+	}
+
 	return targetUrl;
 }
 
-char *assembleHeader(char *key, char *value) {
+char *assembleHeaderField(char *key, char *value) {
 	char *header = malloc(strlen(key) + strlen(value) + 3);
 
 	strcpy(header, key),
@@ -56,40 +106,83 @@ char *assembleHeader(char *key, char *value) {
 	return header;
 }
 
-void postData(CURL *handle, char *dataToPost) {
-	curl_easy_setopt(handle, CURLOPT_POSTFIELDS, dataToPost);
+void postData(CURL *handle, char *bodyParameters) {
+	curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
 	curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
-	                 strlen(dataToPost));
-	curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "POST");
+	                 strlen(bodyParameters));
 }
 
 
 void apiClient_invoke(apiClient_t	*apiClient,
                       char		*operationName,
                       char		*operationParameter,
-                      char		*dataToPost) {
+                      list_t		*queryParameters,
+                      list_t		*headerParameters,
+                      list_t		*formParameters,
+                      char		*bodyParameters,
+                      char		*requestType) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
 
 	if(handle) {
+		listEntry_t *listEntry;
+		curl_mime *mime = NULL;
 		struct curl_slist *headers = NULL;
+
 		headers =
 			curl_slist_append(headers, "accept: application/json");
 		headers = curl_slist_append(headers,
 		                            "Content-Type: application/json");
+		if(requestType != NULL) {
+			curl_easy_setopt(handle,
+			                 CURLOPT_CUSTOMREQUEST,
+			                 requestType);
+		}
+		if(formParameters != NULL) {
+			mime = curl_mime_init(handle);
 
+			list_ForEach(listEntry, formParameters) {
+				keyValuePair_t *keyValuePair = listEntry->data;
+				if((keyValuePair->key != NULL) &&
+				   (keyValuePair->value != NULL) )
+				{
+					curl_mimepart *part = curl_mime_addpart(
+						mime);
+					curl_mime_data(part,
+					               keyValuePair->key,
+					               CURL_ZERO_TERMINATED);
+					curl_mime_name(part,
+					               keyValuePair->value);
+				}
+			}
 
+			curl_easy_setopt(handle, CURLOPT_MIMEPOST, mime);
+		}
+
+		list_ForEach(listEntry, headerParameters) {
+			keyValuePair_t *keyValuePair = listEntry->data;
+			if((keyValuePair->key != NULL) &&
+			   (keyValuePair->value != NULL) )
+			{
+				char *headerValueToWrite =
+					assembleHeaderField(
+						keyValuePair->key,
+						keyValuePair->value);
+				curl_slist_append(headers, headerValueToWrite);
+				free(headerValueToWrite);
+			}
+		}
 		// this would only be generated for apiKey authentication
 		#ifdef API_KEY
-		listEntry_t *listEntry;
 		list_ForEach(listEntry, apiClient->apiKeys) {
-			apiKey_t *apiKey = listEntry->data;
+			keyValuePair_t *apiKey = listEntry->data;
 			if((apiKey->key != NULL) &&
 			   (apiKey->value != NULL) )
 			{
-				char *headerValueToWrite = assembleHeader(
-					apiKey->key,
-					apiKey->value);
+				char *headerValueToWrite =
+					assembleHeaderField(
+						apiKey->key,
+						apiKey->value);
 				curl_slist_append(headers, headerValueToWrite);
 				free(headerValueToWrite);
 			}
@@ -99,7 +192,8 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,
 			                  operationName,
-			                  operationParameter);
+			                  operationParameter,
+			                  queryParameters);
 
 		curl_easy_setopt(handle, CURLOPT_URL, targetUrl);
 		curl_easy_setopt(handle,
@@ -148,8 +242,8 @@ void apiClient_invoke(apiClient_t	*apiClient,
 
 		#endif // BASIC_AUTH
 
-		if(dataToPost != NULL) {
-			postData(handle, dataToPost);
+		if(bodyParameters != NULL) {
+			postData(handle, bodyParameters);
 		}
 
 		res = curl_easy_perform(handle);
@@ -170,6 +264,9 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		}
 		#endif // BASIC_AUTH
 		curl_easy_cleanup(handle);
+		if(formParameters != NULL) {
+			curl_mime_free(mime);
+		}
 	}
 }
 

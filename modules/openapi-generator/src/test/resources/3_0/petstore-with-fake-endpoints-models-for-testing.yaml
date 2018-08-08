@@ -1,6 +1,4 @@
 openapi: 3.0.0
-servers:
-  - url: 'http://petstore.swagger.io:80/v2'
 info:
   description: >-
     This spec is mainly for testing Petstore server and contains fake endpoints,
@@ -573,7 +571,6 @@ paths:
       parameters:
         - name: enum_header_string_array
           in: header
-          explode: true
           description: Header parameter enum test (string array)
           schema:
             type: array
@@ -901,8 +898,8 @@ paths:
       tags:
         - $another-fake?
       summary: To test special tags
-      description: To test special tags
-      operationId: test_special_tags
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       responses:
         '200':
           description: successful operation
@@ -964,12 +961,14 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
-                file:
+                requiredFile:
                   description: file to upload
                   type: string
                   format: binary
               required:
-                - file
+                - requiredFile
+servers:
+  - url: 'http://petstore.swagger.io:80/v2'
 components:
   requestBodies:
     UserArray:

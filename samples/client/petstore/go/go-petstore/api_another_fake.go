@@ -26,17 +26,18 @@ type AnotherFakeApiService service
 
 /*
 AnotherFakeApiService To test special tags
-To test special tags
+To test special tags and operation ID starting with number
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param client client model
 @return Client
 */
-func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, client Client) (Client, *http.Response, error) {
+func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx context.Context, client Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Patch")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue Client
 	)
 
@@ -66,7 +67,7 @@ func (a *AnotherFakeApiService) TestSpecialTags(ctx context.Context, client Clie
 	}
 	// body params
 	localVarPostBody = &client
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}

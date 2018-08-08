@@ -11,10 +11,11 @@ gradle openApiGenerate
 gradle openApiMeta
 gradle openApiValidate
 gradle buildGoSdk
+gradle generateGoWithInvalidSpec
 ```
 
 The samples can be tested against other versions of the plugin using the `openApiGeneratorVersion` property. For example:
 
 ```bash
-gradle -PopenApiGeneratorVersion=3.1.0 openApiValidate
+gradle -PopenApiGeneratorVersion=3.2.0 openApiValidate
 ```

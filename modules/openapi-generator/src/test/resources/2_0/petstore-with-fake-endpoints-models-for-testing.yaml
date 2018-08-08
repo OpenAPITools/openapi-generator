@@ -929,8 +929,8 @@ paths:
       tags:
         - "$another-fake?"
       summary: To test special tags
-      description: To test special tags
-      operationId: test_special_tags
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       consumes:
         - application/json
       produces:
@@ -987,7 +987,7 @@ paths:
           description: Additional data to pass to server
           required: false
           type: string
-        - name: file
+        - name: requiredFile
           in: formData
           description: file to upload
           required: true
@@ -1526,7 +1526,7 @@ definitions:
           $ref: "#/definitions/File"
   File:
     type: object
-    desription: 'Must be named `File` for test.'
+    description: 'Must be named `File` for test.'
     properties:
       sourceURI:
         description: 'Test capitalization'

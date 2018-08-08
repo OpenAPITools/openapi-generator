@@ -24,7 +24,7 @@ class Capitalization {
     /** @var string $sCAETHFlowPoints */
     private $sCAETHFlowPoints;
 
-    /** @var string $aTTNAME Name of the pet */
+    /** @var string $aTTNAME Name of the pet*/
     private $aTTNAME;
 
 }

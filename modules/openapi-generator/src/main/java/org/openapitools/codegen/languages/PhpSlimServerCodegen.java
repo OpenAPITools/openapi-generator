@@ -47,14 +47,12 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
         variableNamingConvention = "camelCase";
         artifactVersion = "1.0.0";
-        packagePath = ""; // empty packagePath (top folder)
         setInvokerPackage("OpenAPIServer");
         apiPackage = invokerPackage + "\\" + apiDirName;
         modelPackage = invokerPackage + "\\" + modelDirName;
         outputFolder = "generated-code" + File.separator + "slim";
 
-        // no test files
-        apiTestTemplateFiles.clear();
+        modelTestTemplateFiles.put("model_test.mustache", ".php");
         // no doc files
         modelDocTemplateFiles.clear();
         apiDocTemplateFiles.clear();
@@ -93,48 +91,39 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public String apiFileFolder() {
         if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toPackagePath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
         }
-        return (outputFolder + File.separator + toPackagePath(apiPackage, srcBasePath));
+        return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
         if (modelPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toPackagePath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
         }
-        return (outputFolder + File.separator + toPackagePath(modelPackage, srcBasePath));
+        return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
-        supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", getPackagePath(), "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", getPackagePath(), ".htaccess"));
-        supportingFiles.add(new SupportingFile(".gitignore", getPackagePath(), ".gitignore"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
+        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
     }
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation op : operationList) {
-            if (op.hasProduces) {
-                // need to escape */* values because they breakes current mustaches
-                List<Map<String, String>> c = op.produces;
-                for (Map<String, String> mediaType : c) {
-                    if ("*/*".equals(mediaType.get("mediaType"))) {
-                        mediaType.put("mediaType", "*_/_*");
-                    }
-                }
-            }
-        }
+        escapeMediaType(operationList);
         return objs;
     }
 

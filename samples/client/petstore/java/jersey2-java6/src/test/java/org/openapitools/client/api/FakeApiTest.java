@@ -17,6 +17,7 @@ import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -98,6 +99,22 @@ public class FakeApiTest {
     public void fakeOuterStringSerializeTest() throws ApiException {
         String body = null;
         String response = api.fakeOuterStringSerialize(body);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() throws ApiException {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        api.testBodyWithFileSchema(fileSchemaTestClass);
 
         // TODO: test validations
     }

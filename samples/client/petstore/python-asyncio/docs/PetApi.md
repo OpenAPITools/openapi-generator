@@ -430,7 +430,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file_with_required_file**
-> ApiResponse upload_file_with_required_file(pet_id, file, additional_metadata=additional_metadata)
+> ApiResponse upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
 
 uploads an image (required)
 
@@ -449,12 +449,12 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
 pet_id = 56 # int | ID of pet to update
-file = '/path/to/file' # file | file to upload
+required_file = '/path/to/file' # file | file to upload
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 
 try:
     # uploads an image (required)
-    api_response = api_instance.upload_file_with_required_file(pet_id, file, additional_metadata=additional_metadata)
+    api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
@@ -465,7 +465,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
- **file** | **file**| file to upload | 
+ **required_file** | **file**| file to upload | 
  **additional_metadata** | **str**| Additional data to pass to server | [optional] 
 
 ### Return type

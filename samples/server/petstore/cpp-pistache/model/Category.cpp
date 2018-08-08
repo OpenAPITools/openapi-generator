@@ -62,7 +62,6 @@ void Category::fromJson(nlohmann::json& val)
     if(val.find("name") != val.end())
     {
         setName(val.at("name"));
-        
     }
     
 }

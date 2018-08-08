@@ -51,7 +51,10 @@ export class StoreApi {
      * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrder(orderId: string, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body?: any;  }> {
+    public deleteOrder(orderId: string, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    { response: JQueryXHR; body?: any;  },
+    { response: JQueryXHR; errorThrown: string }
+    > {
         let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
@@ -93,12 +96,15 @@ export class StoreApi {
             requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
         }
 
-        let dfd = $.Deferred();
+        let dfd = $.Deferred<
+            { response: JQueryXHR; body?: any;  },
+            { response: JQueryXHR; errorThrown: string }
+        >();
         $.ajax(requestOptions).then(
             (data: any, textStatus: string, jqXHR: JQueryXHR) =>
-                dfd.resolve(jqXHR, data),
+                dfd.resolve({response: jqXHR, body: data),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
-                dfd.reject(xhr, errorThrown)
+                dfd.reject({response: xhr, errorThrown: errorThrown})
         );
         return dfd.promise();
     }
@@ -107,7 +113,10 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public getInventory(extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: { [key: string]: number; };  }> {
+    public getInventory(extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    { response: JQueryXHR; body: { [key: string]: number; };  },
+    { response: JQueryXHR; errorThrown: string }
+    > {
         let localVarPath = this.basePath + '/store/inventory';
 
         let queryParameters: any = {};
@@ -148,12 +157,15 @@ export class StoreApi {
             requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
         }
 
-        let dfd = $.Deferred();
+        let dfd = $.Deferred<
+            { response: JQueryXHR; body: { [key: string]: number; };  },
+            { response: JQueryXHR; errorThrown: string }
+        >();
         $.ajax(requestOptions).then(
             (data: { [key: string]: number; }, textStatus: string, jqXHR: JQueryXHR) =>
-                dfd.resolve(jqXHR, data),
+                dfd.resolve({response: jqXHR, body: data),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
-                dfd.reject(xhr, errorThrown)
+                dfd.reject({response: xhr, errorThrown: errorThrown})
         );
         return dfd.promise();
     }
@@ -163,7 +175,10 @@ export class StoreApi {
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: number, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: models.Order;  }> {
+    public getOrderById(orderId: number, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    { response: JQueryXHR; body: models.Order;  },
+    { response: JQueryXHR; errorThrown: string }
+    > {
         let localVarPath = this.basePath + '/store/order/{orderId}'.replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
         let queryParameters: any = {};
@@ -205,12 +220,15 @@ export class StoreApi {
             requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
         }
 
-        let dfd = $.Deferred();
+        let dfd = $.Deferred<
+            { response: JQueryXHR; body: models.Order;  },
+            { response: JQueryXHR; errorThrown: string }
+        >();
         $.ajax(requestOptions).then(
             (data: models.Order, textStatus: string, jqXHR: JQueryXHR) =>
-                dfd.resolve(jqXHR, data),
+                dfd.resolve({response: jqXHR, body: data),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
-                dfd.reject(xhr, errorThrown)
+                dfd.reject({response: xhr, errorThrown: errorThrown})
         );
         return dfd.promise();
     }
@@ -220,7 +238,10 @@ export class StoreApi {
      * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
-    public placeOrder(body: models.Order, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQueryPromise<{ response: JQueryXHR; body: models.Order;  }> {
+    public placeOrder(body: models.Order, extraJQueryAjaxSettings?: JQueryAjaxSettings): JQuery.Promise<
+    { response: JQueryXHR; body: models.Order;  },
+    { response: JQueryXHR; errorThrown: string }
+    > {
         let localVarPath = this.basePath + '/store/order';
 
         let queryParameters: any = {};
@@ -265,12 +286,15 @@ export class StoreApi {
             requestOptions = (<any>Object).assign(requestOptions, this.defaultExtraJQueryAjaxSettings);
         }
 
-        let dfd = $.Deferred();
+        let dfd = $.Deferred<
+            { response: JQueryXHR; body: models.Order;  },
+            { response: JQueryXHR; errorThrown: string }
+        >();
         $.ajax(requestOptions).then(
             (data: models.Order, textStatus: string, jqXHR: JQueryXHR) =>
-                dfd.resolve(jqXHR, data),
+                dfd.resolve({response: jqXHR, body: data),
             (xhr: JQueryXHR, textStatus: string, errorThrown: string) =>
-                dfd.reject(xhr, errorThrown)
+                dfd.reject({response: xhr, errorThrown: errorThrown})
         );
         return dfd.promise();
     }

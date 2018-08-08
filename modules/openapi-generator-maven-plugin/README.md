@@ -11,7 +11,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
     <executions>
         <execution>
             <goals>
@@ -38,6 +38,7 @@ mvn clean compile
 ### General Configuration parameters
 
 - `inputSpec` - OpenAPI Spec file path
+- `validateSpec` - Whether or not to validate the input spec prior to generation. Invalid specifications will result in an error.
 - `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 - `generatorName` - target generator name
 - `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`)
@@ -102,4 +103,8 @@ Specifying a custom generator is a bit different. It doesn't support the classpa
 
 ### Sample configuration
 
-- Please see [an example configuration](examples) for using the plugin
+Please see [an example configuration](examples) for using the plugin. To run these examples, explicitly pass the file to maven. Example:
+
+```bash
+mvn -f non-java.xml compile
+```

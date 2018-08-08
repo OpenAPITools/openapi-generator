@@ -7,4 +7,4 @@ test: ; ($(STACKCMD) test --fast);
 build-example: build ; (cd ./example-app; $(STACKCMD) build --fast);
 # a test-only project may exit with ExitFailure, despite building successfully
 build-integration: build ; (cd ./tests-integration; $(STACKCMD) build --no-run-tests --fast); 
-test-integration: build-integration ; (cd ./tests-integration; $(STACKCMD) test --fast);
+test-integration: build-integration ;  (cd ./tests-integration; $(STACKCMD) test --fast);
