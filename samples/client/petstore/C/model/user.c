@@ -29,9 +29,6 @@ user_t *user_create(
 
 
 void user_free(user_t *user) {
-	listEntry_t *listEntry;
-
-	free(user->id)
 
 	free(user->username)
 
@@ -45,7 +42,56 @@ void user_free(user_t *user) {
 
 	free(user->phone)
 
-	free(user->userStatus)
 
 	free(user);
+}
+
+cJSON *user_convertToJSON(user_t *user) {
+	cJSON *item = cJSON_CreateObject();
+	// user->id
+	if(cJSON_AddNumberToObject(item, "id", user->id) == NULL) {
+    	goto fail;
+    }
+
+
+	// user->username
+	if(cJSON_AddStringToObject(item, "username", user->username) == NULL) {
+		goto fail;
+	}
+
+	// user->firstName
+	if(cJSON_AddStringToObject(item, "firstName", user->firstName) == NULL) {
+		goto fail;
+	}
+
+	// user->lastName
+	if(cJSON_AddStringToObject(item, "lastName", user->lastName) == NULL) {
+		goto fail;
+	}
+
+	// user->email
+	if(cJSON_AddStringToObject(item, "email", user->email) == NULL) {
+		goto fail;
+	}
+
+	// user->password
+	if(cJSON_AddStringToObject(item, "password", user->password) == NULL) {
+		goto fail;
+	}
+
+	// user->phone
+	if(cJSON_AddStringToObject(item, "phone", user->phone) == NULL) {
+		goto fail;
+	}
+
+	// user->userStatus
+	if(cJSON_AddNumberToObject(item, "userStatus", user->userStatus) == NULL) {
+    	goto fail;
+    }
+
+
+	return item;
+fail:
+	cJSON_Delete(item);
+	return NULL;
 }

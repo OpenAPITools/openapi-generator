@@ -1,0 +1,97 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "apiClient.h"
+#include "cJSON.h"
+{{#imports}}
+#include "{{{import}}}.h" // TODO will fix the import later
+{{/imports}}
+
+#define MAX_BUFFER_LENGTH 4096
+
+{{#operations}}
+{{#operation}}
+{{#summary}}
+// {{{summary}}}
+//
+{{/summary}}
+{{#notes}}
+// {{{notes}}}
+//
+{{/notes}}
+{{#returnType}}{{{.}}}_t{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}} {{paramName}}{{/allParams}}) {
+    list_t		*localVarQueryParameters,
+    list_t		*localVarHeaderParameters,
+    list_t		*localVarFormParameters,
+    char		*localVarBodyParameters,
+
+    // create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
+
+    {{#pathParams}}
+    // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
+    // TODO base path = {{{basePath}}}
+    replace_str(localVarPath, "{" + "{{baseName}}" + "}", {{paramName}})// TODO need to revise
+    {{/pathParams}}
+
+    {{#headerParams}}
+    // TODO header parameters
+    // header parameter {{paramName}} ({{baseName}}) not yet supported
+    {{/headerParams}}
+
+    {{#queryParams}}
+    // TODO query parameters
+    // query parameter {{paramName}} ({{baseName}}) not yet supported
+    char *{{baseName}} = malloc(MAX_BUFFER_LENGTH);
+
+    {{/queryParams}}
+    {{#formParams}}
+    // TODO form parameters
+    // form parameter {{paramName}} ({{baseName}}) not yet supported
+
+    {{/formParams}}
+    {{#bodyParam}}
+    // JSON HTTP Request - {{{baseName}}}
+    cJSON *{{{paramName}}}JSONObject;
+    {{{paramName}}}JSONObject = {{dataType}}_convertToJSON({{paramName}});
+    localVarBodyParameters = cJSON_Print({{{paramName}}}JSONObject);
+
+    {{/bodyParam}}
+	apiClient_invoke(apiClient,
+	                 "pet",
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarBodyParameters,
+	                 "{{{httpMethod}}}");
+
+	free(apiClient->dataReceived);
+	{{#allParams}}
+	{{^bodyParam}}
+	free({{{paramName}}}String);
+	{{/bodyParam}}
+	{{#bodyParam}}
+    free(localVarBodyParameters);
+	cJSON_Delete()
+	{{/bodyParam}}
+	{{/allParams}}
+    {{#returnType}}
+    localVar{{{returnType}}} = {{complexType}}_parseFromJSON(apiClient->dataReceived);
+    if(localVar{{{returnType}}} == NULL) {
+        return 0;
+    } else {
+        cJSON *jsonObject = {{complexType}}_convertToJSON({{complexType}});
+        cJSON_Delete(jsonObject);
+    }
+
+	return localVar{{{returnType}}};
+	{{/returnType}}
+    {{^returnType}}
+	return;
+	{{/returnType}}
+
+}
+
+{{/operation}}
+{{/operations}}

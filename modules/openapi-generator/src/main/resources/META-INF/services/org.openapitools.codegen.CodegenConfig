@@ -5,7 +5,7 @@ org.openapitools.codegen.languages.Apache2ConfigCodegen
 org.openapitools.codegen.languages.ApexClientCodegen
 org.openapitools.codegen.languages.AspNetCoreServerCodegen
 org.openapitools.codegen.languages.BashClientCodegen
-org.openapitools.codegen.languages.CClientCodegen
+org.openapitools.codegen.languages.CLibcurlClientCodegen
 org.openapitools.codegen.languages.ClojureClientCodegen
 org.openapitools.codegen.languages.ConfluenceWikiCodegen
 org.openapitools.codegen.languages.CppQt5ClientCodegen

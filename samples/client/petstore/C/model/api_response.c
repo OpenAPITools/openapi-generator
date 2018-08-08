@@ -19,13 +19,34 @@ api_response_t *api_response_create(
 
 
 void api_response_free(api_response_t *api_response) {
-	listEntry_t *listEntry;
-
-	free(api_response->code)
 
 	free(api_response->type)
 
 	free(api_response->message)
 
 	free(api_response);
+}
+
+cJSON *api_response_convertToJSON(api_response_t *api_response) {
+	cJSON *item = cJSON_CreateObject();
+	// api_response->code
+	if(cJSON_AddNumberToObject(item, "code", api_response->code) == NULL) {
+    	goto fail;
+    }
+
+
+	// api_response->type
+	if(cJSON_AddStringToObject(item, "type", api_response->type) == NULL) {
+		goto fail;
+	}
+
+	// api_response->message
+	if(cJSON_AddStringToObject(item, "message", api_response->message) == NULL) {
+		goto fail;
+	}
+
+	return item;
+fail:
+	cJSON_Delete(item);
+	return NULL;
 }
