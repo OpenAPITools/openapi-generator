@@ -83,6 +83,9 @@ samples/client/petstore/scala/build/
 samples/client/petstore/java/resttemplate/hello.txt
 samples/client/petstore/java/retrofit2/hello.txt
 samples/client/petstore/java/feign/hello.txt
+samples/client/petstore/java/jersey2-java6/project/
+samples/client/petstore/java/jersey2-java8/project/
+samples/client/petstore/java/jersey2/project/
 
 #PHP
 samples/client/petstore/php/OpenAPIToolsClient-php/composer.lock
@@ -96,6 +99,8 @@ samples/client/petstore/silex/SwaggerServer/venodr/
 samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/cache/
 samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/logs/
 
+#PHP-laravel
+samples/server/petstore/php-laravel/node_modules
 
 # Perl
 samples/client/petstore/perl/deep_module_test/

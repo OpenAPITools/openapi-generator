@@ -230,6 +230,10 @@ public interface CodegenConfig {
 
     String getHttpUserAgent();
 
+    void setDocExtension(String docExtension);
+
+    String getDocExtension();
+
     String getCommonTemplateDir();
 
     void setIgnoreFilePathOverride(String ignoreFileOverride);

@@ -18,14 +18,11 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -37,7 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     public static final String GEM_NAME = "gemName";
     public static final String MODULE_NAME = "moduleName";
@@ -81,7 +78,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTemplateFiles.put("api.mustache", ".rb");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "ruby";
+        embeddedTemplateDir = templateDir = "ruby-client";
 
         modelTestTemplateFiles.put("model_test.mustache", ".rb");
         apiTestTemplateFiles.put("api_test.mustache", ".rb");
@@ -89,21 +86,13 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // local variable names used in API methods (endpoints)
-                        "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
-                        "_header_content_type", "form_params", "post_body", "auth_names",
-                        // ruby reserved keywords
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
-        );
+        // local variable names used in API methods (endpoints)
+        for (String word : Arrays.asList(
+                "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
+                "_header_content_type", "form_params", "post_body", "auth_names")) {
+            reservedWords.add(word.toLowerCase());
+        }
 
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
 
         // primitives in ruby lang
         languageSpecificPrimitives.add("int");
@@ -111,37 +100,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("map");
         languageSpecificPrimitives.add("string");
         // primitives in the typeMapping
-        languageSpecificPrimitives.add("String");
-        languageSpecificPrimitives.add("Integer");
-        languageSpecificPrimitives.add("Float");
-        languageSpecificPrimitives.add("Date");
-        languageSpecificPrimitives.add("DateTime");
         languageSpecificPrimitives.add("BOOLEAN");
-        languageSpecificPrimitives.add("Array");
-        languageSpecificPrimitives.add("Hash");
-        languageSpecificPrimitives.add("File");
-        languageSpecificPrimitives.add("Object");
-
-        typeMapping.put("string", "String");
-        typeMapping.put("char", "String");
-        typeMapping.put("int", "Integer");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Integer");
-        typeMapping.put("short", "Integer");
-        typeMapping.put("float", "Float");
-        typeMapping.put("double", "Float");
-        typeMapping.put("number", "Float");
-        typeMapping.put("date", "Date");
-        typeMapping.put("DateTime", "DateTime");
         typeMapping.put("boolean", "BOOLEAN");
-        typeMapping.put("array", "Array");
-        typeMapping.put("List", "Array");
-        typeMapping.put("map", "Hash");
-        typeMapping.put("object", "Object");
-        typeMapping.put("file", "File");
-        typeMapping.put("binary", "String");
-        typeMapping.put("ByteArray", "String");
-        typeMapping.put("UUID", "String");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
@@ -309,14 +269,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + libFolder + File.separator + gemName + File.separator + apiPackage.replace("/", File.separator);
     }
@@ -347,34 +299,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Schema schema) {
-        if (ModelUtils.isArraySchema(schema)) {
-            Schema inner = ((ArraySchema) schema).getItems();
-            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = (Schema) schema.getAdditionalProperties();
-            return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
-        }
-
-        return super.getTypeDeclaration(schema);
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + escapeText((String) p.getDefault()) + "'";
-            }
-        }
-
-        return null;
-    }
-
-    @Override
     public String getSchemaType(Schema schema) {
         String openAPIType = super.getSchemaType(schema);
         String type = null;
@@ -392,33 +316,6 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return toModelName(type);
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // if it's all uppper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
-        }
-
-        // camelize (lower first character) the variable name
-        // petId => pet_id
-        name = underscore(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
     }
 
     @Override
@@ -565,6 +462,12 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
             return newOperationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
         return underscore(sanitizeName(operationId));
     }
 
@@ -684,16 +587,4 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
         //
         //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "=_end").replace("=begin", "=_begin");
-    }
-
 }

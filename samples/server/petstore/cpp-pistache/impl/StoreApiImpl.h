@@ -48,7 +48,7 @@ public:
     void delete_order(const std::string &orderId, Pistache::Http::ResponseWriter &response);
     void get_inventory(Pistache::Http::ResponseWriter &response);
     void get_order_by_id(const int64_t &orderId, Pistache::Http::ResponseWriter &response);
-    void place_order(const std::shared_ptr<Order> &order, Pistache::Http::ResponseWriter &response);
+    void place_order(const Order &order, Pistache::Http::ResponseWriter &response);
 
 };
 

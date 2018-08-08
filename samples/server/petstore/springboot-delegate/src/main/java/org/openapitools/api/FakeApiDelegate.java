@@ -105,7 +105,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#uploadFileWithRequiredFile
      */
     ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( Long  petId,
-        MultipartFile file,
+        MultipartFile requiredFile,
          String  additionalMetadata);
 
 }

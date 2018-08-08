@@ -98,32 +98,26 @@ void User::fromJson(nlohmann::json& val)
     if(val.find("username") != val.end())
     {
         setUsername(val.at("username"));
-        
     }
     if(val.find("firstName") != val.end())
     {
         setFirstName(val.at("firstName"));
-        
     }
     if(val.find("lastName") != val.end())
     {
         setLastName(val.at("lastName"));
-        
     }
     if(val.find("email") != val.end())
     {
         setEmail(val.at("email"));
-        
     }
     if(val.find("password") != val.end())
     {
         setPassword(val.at("password"));
-        
     }
     if(val.find("phone") != val.end())
     {
         setPhone(val.at("phone"));
-        
     }
     if(val.find("userStatus") != val.end())
     {

@@ -5,10 +5,12 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-
 import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 
 
 public class EnumTest  implements Serializable {
@@ -42,7 +44,7 @@ public enum EnumStringEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -76,7 +78,7 @@ public enum EnumStringRequiredEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -93,7 +95,7 @@ public enum EnumIntegerEnum {
         value = v;
     }
 
-    public String value() {
+    public Integer value() {
         return value;
     }
 
@@ -110,7 +112,7 @@ public enum EnumIntegerEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -127,7 +129,7 @@ public enum EnumNumberEnum {
         value = v;
     }
 
-    public String value() {
+    public Double value() {
         return value;
     }
 
@@ -144,7 +146,7 @@ public enum EnumNumberEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 

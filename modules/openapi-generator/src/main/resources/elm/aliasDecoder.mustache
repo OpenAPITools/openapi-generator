@@ -1,5 +1,7 @@
 {{classVarName}}Decoder : Decoder {{classname}}
 {{classVarName}}Decoder =
     decode {{classname}}
-{{#allVars}}{{^discriminatorValue}}        |> {{>fieldDecoder}}
-{{/discriminatorValue}}{{/allVars}}
+{{#allVars}}
+{{^discriminatorValue}}        |> {{>fieldDecoder}}
+{{/discriminatorValue}}
+{{/allVars}}

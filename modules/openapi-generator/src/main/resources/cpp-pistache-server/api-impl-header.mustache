@@ -26,7 +26,8 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-using namespace {{modelNamespace}};
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
 
 class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:

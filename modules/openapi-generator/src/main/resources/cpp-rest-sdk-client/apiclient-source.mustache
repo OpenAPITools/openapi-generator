@@ -33,14 +33,14 @@ utility::string_t ApiClient::parameterToString(utility::string_t value)
 }
 utility::string_t ApiClient::parameterToString(int64_t value)
 {
-	std::stringstream valueAsStringStream;
-	valueAsStringStream << value;
+    std::stringstream valueAsStringStream;
+    valueAsStringStream << value;
     return utility::conversions::to_string_t(valueAsStringStream.str());
 }
 utility::string_t ApiClient::parameterToString(int32_t value)
 {
-	std::stringstream valueAsStringStream;
-	valueAsStringStream << value;
+    std::stringstream valueAsStringStream;
+    valueAsStringStream << value;
     return utility::conversions::to_string_t(valueAsStringStream.str());
 }
 
@@ -132,7 +132,7 @@ pplx::task<web::http::http_response> ApiClient::callApi(
                 if (!formParams.empty())
                 {
                     request.set_body(body_data);
-		}
+                }
             }
             else
             {

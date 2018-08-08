@@ -7,12 +7,14 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     {{^isContainer}}
 {{>modelInnerEnum}}
     {{/isContainer}}
-    {{#isContainer}}
-    {{#mostInnerItems}}
-{{>modelInnerEnum}} 
-    {{/mostInnerItems}}
-    {{/isContainer}}
     {{/isEnum}}
+    {{#items.isEnum}}
+      {{#items}}
+      {{^isContainer}}
+{{>modelInnerEnum}}
+      {{/isContainer}}
+      {{/items}}
+    {{/items.isEnum}}
     /**
     {{#description}}
      * {{{description}}}
@@ -58,16 +60,17 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#interfac
     public static {{classname}} getExample() {
         {{classname}} {{classVarName}} = new {{classname}}();
       {{#vars}}
-        {{classVarName}}.{{name}} = {{{example}}};
+          {{#example}}{{classVarName}}.{{name}} = {{{example}}};{{/example}}
       {{/vars}}
         return {{classVarName}};
     }
 
     public Boolean equals(Object obj) {
-        if (obj instanceof {{classname}}) {
+        if (obj instanceof {{classname}}) {           {{#hasVars}}
             {{classname}} {{classVarName}} = ({{classname}}) obj;
             return {{#vars}}this.{{name}} == {{classVarName}}.{{name}}{{#hasMore}}
-                && {{/hasMore}}{{/vars}};
+                && {{/hasMore}}{{/vars}};{{/hasVars}}{{^hasVars}}
+                return true;{{/hasVars}}
         }
         return false;
     }
