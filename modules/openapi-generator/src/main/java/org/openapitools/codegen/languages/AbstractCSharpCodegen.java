@@ -961,4 +961,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*").replace("--", "- -");
     }
+
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "String".equalsIgnoreCase(dataType);
+    }
 }

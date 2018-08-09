@@ -28,46 +28,46 @@ namespace Org.OpenAPITools.Api
         /// To test special tags
         /// </summary>
         /// <remarks>
-        /// To test special tags
+        /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestSpecialTags (ModelClient modelClient);
+        ModelClient Call123TestSpecialTags (ModelClient modelClient);
 
         /// <summary>
         /// To test special tags
         /// </summary>
         /// <remarks>
-        /// To test special tags
+        /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestSpecialTagsWithHttpInfo (ModelClient modelClient);
+        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo (ModelClient modelClient);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
         /// To test special tags
         /// </summary>
         /// <remarks>
-        /// To test special tags
+        /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient modelClient);
+        System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient modelClient);
 
         /// <summary>
         /// To test special tags
         /// </summary>
         /// <remarks>
-        /// To test special tags
+        /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient);
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient);
         #endregion Asynchronous Operations
     }
 
@@ -169,28 +169,28 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test special tags To test special tags
+        /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestSpecialTags (ModelClient modelClient)
+        public ModelClient Call123TestSpecialTags (ModelClient modelClient)
         {
-             ApiResponse<ModelClient> localVarResponse = TestSpecialTagsWithHttpInfo(modelClient);
+             ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(modelClient);
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// To test special tags To test special tags
+        /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > TestSpecialTagsWithHttpInfo (ModelClient modelClient)
+        public ApiResponse< ModelClient > Call123TestSpecialTagsWithHttpInfo (ModelClient modelClient)
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
-                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->TestSpecialTags");
+                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->Call123TestSpecialTags");
 
             var localVarPath = "/another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
@@ -233,7 +233,7 @@ namespace Org.OpenAPITools.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("TestSpecialTags", localVarResponse);
+                Exception exception = ExceptionFactory("Call123TestSpecialTags", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -243,29 +243,29 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test special tags To test special tags
+        /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestSpecialTagsAsync (ModelClient modelClient)
+        public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient modelClient)
         {
-             ApiResponse<ModelClient> localVarResponse = await TestSpecialTagsAsyncWithHttpInfo(modelClient);
+             ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsAsyncWithHttpInfo(modelClient);
              return localVarResponse.Data;
 
         }
 
         /// <summary>
-        /// To test special tags To test special tags
+        /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="modelClient">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient)
+        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient)
         {
             // verify the required parameter 'modelClient' is set
             if (modelClient == null)
-                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->TestSpecialTags");
+                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->Call123TestSpecialTags");
 
             var localVarPath = "/another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
@@ -308,7 +308,7 @@ namespace Org.OpenAPITools.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("TestSpecialTags", localVarResponse);
+                Exception exception = ExceptionFactory("Call123TestSpecialTags", localVarResponse);
                 if (exception != null) throw exception;
             }
 
