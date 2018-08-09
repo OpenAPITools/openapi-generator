@@ -1,0 +1,4 @@
+{{#description}}
+    /* {{{description}}} */
+{{/description}}
+    @JsonProperty("{{{name}}}") val {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}

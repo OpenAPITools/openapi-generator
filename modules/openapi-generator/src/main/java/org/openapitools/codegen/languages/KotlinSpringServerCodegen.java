@@ -3,10 +3,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +13,16 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * TODO handle "INVOKER_PACKAGE" and "HIDE_GENERATION_TIMESTAMP"
- * TODO integrate Spring Fox
+ * TODO Config:
+ * - handle "INVOKER_PACKAGE" and "HIDE_GENERATION_TIMESTAMP"
+ * - integrate Spring Fox
+ * TODO Model generation:
+ * - serializableModel by implementing java.io.Serializable
+ * - enable optional bean validation using javax.validation.Valid (currently must be valid)
+ * - support enums in model generation:
+ * isEnum
+ * enumOuterClass
+ * isEnum
  */
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
@@ -68,7 +73,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
 
-//        modelTemplateFiles.put("model.mustache", ".zz");
+        modelTemplateFiles.put("model.mustache", ".kt");
 //        apiTemplateFiles.put("api.mustache", ".zz");
     }
 
@@ -90,6 +95,32 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        // optional jackson mappings for BigDecimal support
+        importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
+        importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
+
+        // Java import mappings
+        importMapping.put("Objects", "java.util.Objects");
+        importMapping.put("IOException", "java.io.IOException");
+
+        // Swagger import mappings
+        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
+
+        // Jackson import mappings
+        importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
+        importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
+        importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
+        importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
+        importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
+        importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
+        // import JsonCreator if JsonProperty is imported
+        // used later in recursive import in postProcessingModels
+        importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
+
+        // TODO when adding invokerPackage
+        //importMapping.put("StringUtil", invokerPackage + ".StringUtil");
 
         if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             additionalProperties.put(CodegenConstants.LIBRARY, library);
@@ -203,6 +234,51 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
                 }
             }
         }
+    }
+
+    @Override
+    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
+
+        if ("null".equals(property.example)) {
+            property.example = null;
+        }
+
+        //Add imports for Jackson
+        if (!Boolean.TRUE.equals(model.isEnum)) {
+            model.imports.add("JsonProperty");
+
+            if (Boolean.TRUE.equals(model.hasEnums)) {
+                model.imports.add("JsonValue");
+            }
+        } else { // enum class
+            //Needed imports for Jackson's JsonCreator
+            if (additionalProperties.containsKey("jackson")) {
+                model.imports.add("JsonCreator");
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+
+        //Add imports for Jackson
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // for enum model
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                cm.imports.add(importMapping.get("JsonValue"));
+                Map<String, String> item = new HashMap<String, String>();
+                item.put("import", importMapping.get("JsonValue"));
+                imports.add(item);
+            }
+        }
+
+        return objs;
     }
 
     private static String sanitizeDirectory(String in) {

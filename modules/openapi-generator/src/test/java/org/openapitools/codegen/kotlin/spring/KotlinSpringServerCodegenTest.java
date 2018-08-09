@@ -15,7 +15,7 @@ public class KotlinSpringServerCodegenTest {
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.processOpts();
 
-        OpenAPI openAPI = new OpenAPI();
+        final OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         openAPI.setInfo(new Info());
         codegen.preprocessOpenAPI(openAPI);
@@ -64,7 +64,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVER_PORT, "8088");
         codegen.processOpts();
 
-        OpenAPI openAPI = new OpenAPI();
+        final OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
         openAPI.setInfo(new Info());
         openAPI.getInfo().setTitle("Some test API");
