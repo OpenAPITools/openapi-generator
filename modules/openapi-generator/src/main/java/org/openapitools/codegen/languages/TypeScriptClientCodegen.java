@@ -124,6 +124,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("middleware.mustache", "", "middleware.ts"));
 
+        // models
+        this.modelPackage = "";
+        this.modelTemplateFiles.put("models/models.mustache", ".ts");
     }
 
 
