@@ -10,9 +10,17 @@ export enum HttpMethod {
     PATCH = "PATCH"
 }
 
+export interface FormEntry {
+    contentType: string;
+    value: string | Blob;
+}
+
+export type FormData = { [key: string]: FormEntry };
+
+
 export class Request {
     public headers: { [key: string]: string } = {};
-    public body: string = "";
+    public body: string | FormData = "";
 
     public constructor(public url: string, public httpMethod: HttpMethod) {
 
