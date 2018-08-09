@@ -1,3 +1,6 @@
+// TODO: evaluate if we can easily get rid of this library
+import * as FormData from "form-data";
+
 export enum HttpMethod {
     GET = "GET",
     HEAD = "HEAD",
@@ -11,19 +14,56 @@ export enum HttpMethod {
 }
 
 export interface FormEntry {
-    contentType: string;
+    contentDisposition: string;
     value: string | Blob;
 }
 
-export type FormData = { [key: string]: FormEntry };
 
+export class HttpException extends Error {
+    public constructor(msg: string) {
+        super(msg);
+    }
+}
 
-export class Request {
-    public headers: { [key: string]: string } = {};
-    public body: string | FormData = "";
+export class RequestContext {
+    private headers: { [key: string]: string } = {};
+    private body: string | FormData = "";
 
-    public constructor(public url: string, public httpMethod: HttpMethod) {
+    public constructor(private url: string, private httpMethod: HttpMethod) {
 
+    }
+    
+    public getUrl(): string {
+    	return this.url;
+    }
+    
+    public setUrl(url: string) {
+    	this.url = url;
+    }
+    
+    public setBody(body: string | FormData) {
+        // HTTP-Spec 1.1 Section 4.3
+        if (this.httpMethod === HttpMethod.GET) {
+            throw new HttpException("Body should not be included in GET-Requests!");
+        }
+        
+        // TODO: other http methods
+        
+        // post is fine either formData or string
+        this.body = body;
+        
+    }
+    
+    public getHttpMethod(): HttpMethod {
+    	return this.httpMethod;
+    }
+    
+    public getHeaders(): { [key: string]: string } {
+    	return this.headers;
+    }
+    
+    public getBody(): string | FormData { 
+    	return this.body;
     }
 
     public addCookie(name: string, value: string): void {
@@ -38,7 +78,7 @@ export class Request {
     }
 }
 
-export class Response {
+export class ResponseContext {
 
     public constructor(public httpStatusCode: number, 
         public headers: { [key: string]: string }, public body: string) {
@@ -47,5 +87,5 @@ export class Response {
 }
 
 export interface HttpLibrary {
-    send(request: Request): Promise<Response>;
+    send(request: RequestContext): Promise<ResponseContext>;
 }

@@ -6,13 +6,21 @@ import 'isomorphic-fetch';
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
     public send(request: RequestContext): Promise<ResponseContext> {
-        let method = request.getHttpMethod().toString();
-        let body = request.getBody();
+        let method = request.httpMethod.toString();
+        let body: string | FormData = "";
+        if (typeof request.body === "string") {
+            body = request.body;
+        } else {
+            body = new FormData();
+            for (const key in request.body) {
+                body.append(key, request.body[key].value);
+            }
+        }
         
-        return fetch(request.getUrl(), {
+        return fetch(request.url, {
             method: method,
-            body: body as any,
-            headers: request.getHeaders(),
+            body: body,
+            headers: request.headers,
             credentials: "same-origin"
         }).then((resp) => {
             // hack

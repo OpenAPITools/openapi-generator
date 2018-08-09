@@ -116,8 +116,14 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        
+        // http
         supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
         supportingFiles.add(new SupportingFile("http"  + File.separator + "isomorphic-fetch.mustache", "http", "isomorphic-fetch.ts"));
+
+        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
+        supportingFiles.add(new SupportingFile("middleware.mustache", "", "middleware.ts"));
+
     }
 
 
