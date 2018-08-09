@@ -964,6 +964,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public boolean isDataTypeString(String dataType) {
-        return "String".equalsIgnoreCase(dataType);
+        // also treat double/decimal/float as "string" in enum
+        return "String".equalsIgnoreCase(dataType) || "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType);
     }
 }

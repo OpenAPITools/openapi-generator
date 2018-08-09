@@ -123,12 +123,14 @@ namespace Org.OpenAPITools.Model
             /// <summary>
             /// Enum NUMBER_1_DOT_1 for value: 1.1
             /// </summary>
-            NUMBER_1_DOT_1 = 1.1,
+            [EnumMember(Value = "1.1")]
+            NUMBER_1_DOT_1 = 1,
 
             /// <summary>
             /// Enum NUMBER_MINUS_1_DOT_2 for value: -1.2
             /// </summary>
-            NUMBER_MINUS_1_DOT_2 = -1.2
+            [EnumMember(Value = "-1.2")]
+            NUMBER_MINUS_1_DOT_2 = 2
 
         }
 
