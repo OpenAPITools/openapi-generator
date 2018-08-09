@@ -7,9 +7,19 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
     public send(request: Request): Promise<Response> {
         let method = request.httpMethod.toString();
+        let body: string | FormData = "";
+        if (typeof request.body === "string") {
+            body = request.body;
+        } else {
+            body = new FormData();
+            for (const key in request.body) {
+                body.append(key, request.body[key].value);
+            }
+        }
+        
         return fetch(request.url, {
             method: method,
-            body: request.body,
+            body: body,
             headers: request.headers,
             credentials: "same-origin"
         }).then((resp) => {
@@ -23,5 +33,6 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
                 return new Response(resp.status, headers, body)
             });
         });
+
     }
 }
