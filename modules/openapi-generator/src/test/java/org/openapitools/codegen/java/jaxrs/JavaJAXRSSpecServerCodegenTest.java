@@ -27,7 +27,6 @@ public class JavaJAXRSSpecServerCodegenTest {
         instance = new JavaJAXRSSpecServerCodegen();
     }
     
-    
     /**
      * Test
      * {@link JavaJAXRSSpecServerCodegen#addOperationToGroup(String, String, Operation, CodegenOperation, Map)} for Resource with path "/" and set tag.
