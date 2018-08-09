@@ -2,7 +2,7 @@
 /**
  * ArrayOfNumberOnly
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * ArrayOfNumberOnly

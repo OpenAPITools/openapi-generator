@@ -2,7 +2,7 @@
 /**
  * Model200Response
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * Model200Response
