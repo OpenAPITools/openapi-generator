@@ -41,6 +41,9 @@ openApiGenerate {
     configOptions = [
             dateLibrary: "java8"
     ]
+    systemProperties = [
+            modelDocs: "false"
+    ]
 }
 
 task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
