@@ -1,8 +1,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -151,6 +149,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         if (library.equals(SPRING_BOOT)) {
             supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
+            apiTemplateFiles.put("apiController.mustache", "Controller.kt");
         }
     }
 
@@ -194,9 +193,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             // Drop any API suffix
             if (title != null) {
                 title = title.trim().replace(" ", "-");
-                if (title.toUpperCase().endsWith("API")) {
+                if (title.toUpperCase().endsWith("API"))
                     title = title.substring(0, title.length() - 3);
-                }
 
                 this.title = camelize(sanitizeName(title), true);
             }
@@ -209,30 +207,29 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         }
 
         if (openAPI.getPaths() != null) {
-            for (String pathname : openAPI.getPaths().keySet()) {
-                PathItem path = openAPI.getPaths().get(pathname);
-                if (path.readOperations() != null) {
-                    for (Operation operation : path.readOperations()) {
-                        if (operation.getTags() != null) {
-                            List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
-                            for (String tag : operation.getTags()) {
-                                Map<String, String> value = new HashMap<String, String>();
-                                value.put("tag", tag);
-                                value.put("hasMore", "true");
-                                tags.add(value);
-                            }
-                            if (tags.size() > 0) {
-                                tags.get(tags.size() - 1).remove("hasMore");
-                            }
-                            if (operation.getTags().size() > 0) {
-                                String tag = operation.getTags().get(0);
-                                operation.setTags(Arrays.asList(tag));
-                            }
-                            operation.addExtension("x-tags", tags);
+            openAPI.getPaths()
+                    .keySet()
+                    .stream()
+                    .map(pathname -> openAPI.getPaths().get(pathname))
+                    .filter(path -> path.readOperations() != null)
+                    .flatMap(path -> path.readOperations().stream()).filter(operation -> operation.getTags() != null)
+                    .forEach(operation -> {
+                        List<Map<String, String>> tags = new ArrayList<>();
+                        for (String tag : operation.getTags()) {
+                            Map<String, String> value = new HashMap<>();
+                            value.put("tag", tag);
+                            value.put("hasMore", "true");
+                            tags.add(value);
                         }
-                    }
-                }
-            }
+                        if (tags.size() > 0) {
+                            tags.get(tags.size() - 1).remove("hasMore");
+                        }
+                        if (operation.getTags().size() > 0) {
+                            String tag = operation.getTags().get(0);
+                            operation.setTags(Arrays.asList(tag));
+                        }
+                        operation.addExtension("x-tags", tags);
+                    });
         }
     }
 
@@ -240,22 +237,19 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        if ("null".equals(property.example)) {
+        if ("null".equals(property.example))
             property.example = null;
-        }
 
         //Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
-
-            if (Boolean.TRUE.equals(model.hasEnums)) {
+            if (Boolean.TRUE.equals(model.hasEnums))
                 model.imports.add("JsonValue");
-            }
-        } else { // enum class
+
+        } else {
             //Needed imports for Jackson's JsonCreator
-            if (additionalProperties.containsKey("jackson")) {
+            if (additionalProperties.containsKey("jackson"))
                 model.imports.add("JsonCreator");
-            }
         }
     }
 
@@ -266,17 +260,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         //Add imports for Jackson
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            // for enum model
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
-                cm.imports.add(importMapping.get("JsonValue"));
-                Map<String, String> item = new HashMap<String, String>();
-                item.put("import", importMapping.get("JsonValue"));
-                imports.add(item);
-            }
-        }
+
+        models.stream()
+                .map(mo -> (Map<String, Object>) mo)
+                .map(mo -> (CodegenModel) mo.get("model"))
+                .filter(cm -> Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null)
+                .forEach(cm -> {
+                    cm.imports.add(importMapping.get("JsonValue"));
+                    Map<String, String> item = new HashMap<>();
+                    item.put("import", importMapping.get("JsonValue"));
+                    imports.add(item);
+                });
 
         return objs;
     }

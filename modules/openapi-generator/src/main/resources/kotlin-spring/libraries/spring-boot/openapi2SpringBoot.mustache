@@ -1,10 +1,12 @@
 package {{basePackage}}
 
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 
 @SpringBootApplication
+@ComponentScan(basePackages = arrayOf("{{basePackage}}", "{{apiPackage}}", "{{configPackage}}"))
 class Application
 
 fun main(args: Array<String>) {
