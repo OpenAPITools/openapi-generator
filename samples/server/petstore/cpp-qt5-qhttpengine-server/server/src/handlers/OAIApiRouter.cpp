@@ -117,15 +117,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("DELETE").arg("/v2/pet/{petId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto pet_idParam = QString("{%1}").arg("petId").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(pet_idParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString petId = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
                 reqObj->deletePetRequest(petId);
                 return true;
@@ -135,15 +133,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("GET").arg("/v2/pet/{petId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto pet_idParam = QString("{%1}").arg("petId").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(pet_idParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString petId = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
                 reqObj->getPetByIdRequest(petId);
                 return true;
@@ -153,15 +149,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("POST").arg("/v2/pet/{petId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto pet_idParam = QString("{%1}").arg("petId").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(pet_idParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString petId = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
                 reqObj->updatePetWithFormRequest(petId);
                 return true;
@@ -171,15 +165,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("POST").arg("/v2/pet/{petId}/uploadImage").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto pet_idParam = QString("{%1}").arg("petId").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(pet_idParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString petId = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
                 reqObj->uploadFileRequest(petId);
                 return true;
@@ -189,15 +181,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("DELETE").arg("/v2/store/order/{orderId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto order_idParam = QString("{%1}").arg("orderId").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(order_idParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString orderId = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString orderId = match.captured(QString("orderId").toLower());
                 auto reqObj = new OAIStoreApiRequest(socket, OAIStoreApiApiHandler);
                 reqObj->deleteOrderRequest(orderId);
                 return true;
@@ -207,15 +197,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("GET").arg("/v2/store/order/{orderId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto order_idParam = QString("{%1}").arg("orderId").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(order_idParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString orderId = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString orderId = match.captured(QString("orderId").toLower());
                 auto reqObj = new OAIStoreApiRequest(socket, OAIStoreApiApiHandler);
                 reqObj->getOrderByIdRequest(orderId);
                 return true;
@@ -225,15 +213,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("DELETE").arg("/v2/user/{username}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto usernameParam = QString("{%1}").arg("username").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(usernameParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString username = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString username = match.captured(QString("username").toLower());
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
                 reqObj->deleteUserRequest(username);
                 return true;
@@ -243,15 +229,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("GET").arg("/v2/user/{username}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto usernameParam = QString("{%1}").arg("username").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(usernameParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString username = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString username = match.captured(QString("username").toLower());
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
                 reqObj->getUserByNameRequest(username);
                 return true;
@@ -261,15 +245,13 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("PUT").arg("/v2/user/{username}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            auto usernameParam = QString("{%1}").arg("username").toLower();
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace(usernameParam, "([^\\/]*?)"); // match anything but '/''
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                QString username = match.captured(++count);
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                QString username = match.captured(QString("username").toLower());
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
                 reqObj->updateUserRequest(username);
                 return true;

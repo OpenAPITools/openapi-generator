@@ -63,7 +63,7 @@ void OAIUserApiRequest::createUserRequest(){
     ::OpenAPI::fromJsonValue(oai_user, obj);
     
 
-    emit createUser( oai_user);
+    emit createUser(oai_user);
 }
 
 
@@ -85,7 +85,7 @@ void OAIUserApiRequest::createUsersWithArrayInputRequest(){
     }
     
 
-    emit createUsersWithArrayInput( oai_user);
+    emit createUsersWithArrayInput(oai_user);
 }
 
 
@@ -107,7 +107,7 @@ void OAIUserApiRequest::createUsersWithListInputRequest(){
     }
     
 
-    emit createUsersWithListInput( oai_user);
+    emit createUsersWithListInput(oai_user);
 }
 
 
@@ -120,7 +120,7 @@ void OAIUserApiRequest::deleteUserRequest(const QString& usernamestr){
     fromStringValue(usernamestr, username);
     
 
-    emit deleteUser( username);
+    emit deleteUser(username);
 }
 
 
@@ -133,7 +133,7 @@ void OAIUserApiRequest::getUserByNameRequest(const QString& usernamestr){
     fromStringValue(usernamestr, username);
     
 
-    emit getUserByName( username);
+    emit getUserByName(username);
 }
 
 
@@ -154,7 +154,7 @@ void OAIUserApiRequest::loginUserRequest(){
     
 
 
-    emit loginUser( username,  password);
+    emit loginUser(username, password);
 }
 
 
@@ -184,7 +184,7 @@ void OAIUserApiRequest::updateUserRequest(const QString& usernamestr){
     ::OpenAPI::fromJsonValue(oai_user, obj);
     
 
-    emit updateUser( username,  oai_user);
+    emit updateUser(username, oai_user);
 }
 
 

@@ -62,16 +62,15 @@ bool {{prefix}}ApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *
     {
         auto completePath = QString("%1 %2").arg("{{httpMethod}}").arg("{{{basePathWithoutHost}}}{{{path}}}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            {{#pathParams}}
-            auto {{paramName}}Param = QString("{%1}").arg("{{baseName}}").toLower();{{/pathParams}}{{#pathParams}}
-            completePath.replace("/", "\\/"); // replace '/' with '\/' for regex
-            completePath.replace({{paramName}}Param, "([^\\/]*?)"); // match anything but '/''{{/pathParams}}
-            completePath.append("$");  // End of string
-            QRegularExpression re(completePath, QRegularExpression::CaseInsensitiveOption);
-            QRegularExpressionMatch match = re.match(reqPath);
-            if ( match.hasMatch() ) {
-                int count = 0;
-                {{#pathParams}}QString {{baseName}} = match.captured(++count);{{/pathParams}}
+            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+            completePath.append("[\\/]?$");
+            QRegularExpression pathExpr( completePath );
+            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            if ( match.hasMatch() ){
+                {{#pathParams}}
+                QString {{baseName}} = match.captured(QString("{{baseName}}").toLower());
+                {{/pathParams}}
                 auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
                 reqObj->{{nickname}}Request({{#pathParams}}{{baseName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}});
                 return true;

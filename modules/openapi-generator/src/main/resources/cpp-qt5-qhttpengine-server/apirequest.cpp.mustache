@@ -103,7 +103,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{/isListContainer}}
     {{/bodyParam}}{{/bodyParams}}
 
-    emit {{nickname}}({{#allParams}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    emit {{nickname}}({{#allParams}}{{#isBodyParam}}{{/isBodyParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
 }
 
 {{/operation}}{{/operations}}
