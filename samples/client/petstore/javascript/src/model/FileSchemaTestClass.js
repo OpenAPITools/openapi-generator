@@ -25,7 +25,7 @@
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.Animal = factory(root.OpenApiPetstore.ApiClient);
+    root.OpenApiPetstore.FileSchemaTestClass = factory(root.OpenApiPetstore.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,54 +34,52 @@
 
 
   /**
-   * The Animal model module.
-   * @module model/Animal
+   * The FileSchemaTestClass model module.
+   * @module model/FileSchemaTestClass
    * @version 1.0.0
    */
 
   /**
-   * Constructs a new <code>Animal</code>.
-   * @alias module:model/Animal
+   * Constructs a new <code>FileSchemaTestClass</code>.
+   * @alias module:model/FileSchemaTestClass
    * @class
-   * @param className {String} 
    */
-  var exports = function(className) {
+  var exports = function() {
     var _this = this;
 
-    _this['className'] = className;
+
 
   };
 
   /**
-   * Constructs a <code>Animal</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>FileSchemaTestClass</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Animal} obj Optional instance to populate.
-   * @return {module:model/Animal} The populated <code>Animal</code> instance.
+   * @param {module:model/FileSchemaTestClass} obj Optional instance to populate.
+   * @return {module:model/FileSchemaTestClass} The populated <code>FileSchemaTestClass</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('className')) {
-        obj['className'] = ApiClient.convertToType(data['className'], 'String');
+      if (data.hasOwnProperty('file')) {
+        obj['file'] = File.constructFromObject(data['file']);
       }
-      if (data.hasOwnProperty('color')) {
-        obj['color'] = ApiClient.convertToType(data['color'], 'String');
+      if (data.hasOwnProperty('files')) {
+        obj['files'] = ApiClient.convertToType(data['files'], [File]);
       }
     }
     return obj;
   }
 
   /**
-   * @member {String} className
+   * @member {File} file
    */
-  exports.prototype['className'] = undefined;
+  exports.prototype['file'] = undefined;
   /**
-   * @member {String} color
-   * @default 'red'
+   * @member {Array.<File>} files
    */
-  exports.prototype['color'] = 'red';
+  exports.prototype['files'] = undefined;
 
 
 

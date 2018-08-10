@@ -25,7 +25,7 @@
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.Animal = factory(root.OpenApiPetstore.ApiClient);
+    root.OpenApiPetstore.File = factory(root.OpenApiPetstore.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,54 +34,46 @@
 
 
   /**
-   * The Animal model module.
-   * @module model/Animal
+   * The File model module.
+   * @module model/File
    * @version 1.0.0
    */
 
   /**
-   * Constructs a new <code>Animal</code>.
-   * @alias module:model/Animal
+   * Constructs a new <code>File</code>.
+   * Must be named &#x60;File&#x60; for test.
+   * @alias module:model/File
    * @class
-   * @param className {String} 
    */
-  var exports = function(className) {
+  var exports = function() {
     var _this = this;
 
-    _this['className'] = className;
 
   };
 
   /**
-   * Constructs a <code>Animal</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>File</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Animal} obj Optional instance to populate.
-   * @return {module:model/Animal} The populated <code>Animal</code> instance.
+   * @param {module:model/File} obj Optional instance to populate.
+   * @return {module:model/File} The populated <code>File</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
 
-      if (data.hasOwnProperty('className')) {
-        obj['className'] = ApiClient.convertToType(data['className'], 'String');
-      }
-      if (data.hasOwnProperty('color')) {
-        obj['color'] = ApiClient.convertToType(data['color'], 'String');
+      if (data.hasOwnProperty('sourceURI')) {
+        obj['sourceURI'] = ApiClient.convertToType(data['sourceURI'], 'String');
       }
     }
     return obj;
   }
 
   /**
-   * @member {String} className
+   * Test capitalization
+   * @member {String} sourceURI
    */
-  exports.prototype['className'] = undefined;
-  /**
-   * @member {String} color
-   * @default 'red'
-   */
-  exports.prototype['color'] = 'red';
+  exports.prototype['sourceURI'] = undefined;
 
 
 

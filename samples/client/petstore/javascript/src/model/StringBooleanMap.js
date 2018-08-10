@@ -25,7 +25,7 @@
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.Animal = factory(root.OpenApiPetstore.ApiClient);
+    root.OpenApiPetstore.StringBooleanMap = factory(root.OpenApiPetstore.ApiClient);
   }
 }(this, function(ApiClient) {
   'use strict';
@@ -34,54 +34,39 @@
 
 
   /**
-   * The Animal model module.
-   * @module model/Animal
+   * The StringBooleanMap model module.
+   * @module model/StringBooleanMap
    * @version 1.0.0
    */
 
   /**
-   * Constructs a new <code>Animal</code>.
-   * @alias module:model/Animal
+   * Constructs a new <code>StringBooleanMap</code>.
+   * @alias module:model/StringBooleanMap
    * @class
-   * @param className {String} 
+   * @extends Object
    */
-  var exports = function(className) {
+  var exports = function() {
     var _this = this;
 
-    _this['className'] = className;
-
+    return _this;
   };
 
   /**
-   * Constructs a <code>Animal</code> from a plain JavaScript object, optionally creating a new instance.
+   * Constructs a <code>StringBooleanMap</code> from a plain JavaScript object, optionally creating a new instance.
    * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
    * @param {Object} data The plain JavaScript object bearing properties of interest.
-   * @param {module:model/Animal} obj Optional instance to populate.
-   * @return {module:model/Animal} The populated <code>Animal</code> instance.
+   * @param {module:model/StringBooleanMap} obj Optional instance to populate.
+   * @return {module:model/StringBooleanMap} The populated <code>StringBooleanMap</code> instance.
    */
   exports.constructFromObject = function(data, obj) {
     if (data) {
       obj = obj || new exports();
+      ApiClient.constructFromObject(data, obj, 'Boolean');
 
-      if (data.hasOwnProperty('className')) {
-        obj['className'] = ApiClient.convertToType(data['className'], 'String');
-      }
-      if (data.hasOwnProperty('color')) {
-        obj['color'] = ApiClient.convertToType(data['color'], 'String');
-      }
     }
     return obj;
   }
 
-  /**
-   * @member {String} className
-   */
-  exports.prototype['className'] = undefined;
-  /**
-   * @member {String} color
-   * @default 'red'
-   */
-  exports.prototype['color'] = 'red';
 
 
 
