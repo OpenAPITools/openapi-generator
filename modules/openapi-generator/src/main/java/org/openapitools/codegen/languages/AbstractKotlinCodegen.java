@@ -469,8 +469,18 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Camelize name of nested properties
         modifiedName = camelize(modifiedName);
 
-        if (reservedWords.contains(modifiedName)) {
-            modifiedName = escapeReservedWord(modifiedName);
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(modifiedName)) {
+            final String modelName = "Model" + modifiedName;
+            LOGGER.warn(modifiedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (modifiedName.matches("^\\d.*")) {
+            final String modelName = "Model" + modifiedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
         return titleCase(modifiedName);

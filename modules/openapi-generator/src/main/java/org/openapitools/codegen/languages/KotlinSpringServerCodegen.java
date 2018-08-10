@@ -195,20 +195,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public String toModelName(final String name) {
-        // TODO This logic should be cleanup and moved to parent `AbstractKotlinCodegen`. See TODO in super.escapeReservedWord()
-        final String preProcessedName = super.toModelName(name);
-
-        final String nameNoTicks = preProcessedName.replace("`", "");
-        if (VARIABLE_RESERVED_WORDS.contains(nameNoTicks)) {
-            final String modelName = "Model" + nameNoTicks;
-            LOGGER.warn(nameNoTicks + " (reserved word) cannot be used as model name. Renamed to " + modelName);
-            return modelName;
-        }
-        return preProcessedName;
-    }
-
-    @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
         /* TODO the following logic should not need anymore in OAS 3.0
