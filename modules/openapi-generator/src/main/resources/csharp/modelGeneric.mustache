@@ -133,7 +133,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isArrayModel}}override {{/isArrayModel}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
+        public {{#parent}}{{^isArrayModel}}{{^isMapModel}}override {{/isMapModel}}{{/isArrayModel}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
