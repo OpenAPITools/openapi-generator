@@ -19,10 +19,6 @@ import java.util.regex.Matcher;
  * TODO Model generation:
  * - serializableModel by implementing java.io.Serializable
  * - enable optional bean validation using javax.validation.Valid (currently must be valid)
- * - support enums in model generation:
- * isEnum
- * enumOuterClass
- * isEnum
  * TODO Controller generation:
  * - Handle implicit headers, also within api.mustache
  * - Handle tags
@@ -342,27 +338,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
      * @param returnType       The return type that needs to be converted
      * @param dataTypeAssigner An object that will assign the data to the respective fields in the model.
      */
-    private void doDataTypeAssignment(String returnType, DataTypeAssigner dataTypeAssigner) {
-        final String rt = returnType;
-        if (rt == null) {
+    private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
+        if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
-        } else if (rt.startsWith("List")) {
-            int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("kotlin.Array")) {
+            int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("List<".length(), end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.Array<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (rt.startsWith("Map")) {
-            int end = rt.lastIndexOf(">");
+        } else if (returnType.startsWith("kotlin.collections.Map")) {
+            int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
-            }
-        } else if (rt.startsWith("Set")) {
-            int end = rt.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(rt.substring("Set<".length(), end).trim());
-                dataTypeAssigner.setReturnContainer("Set");
             }
         }
     }
