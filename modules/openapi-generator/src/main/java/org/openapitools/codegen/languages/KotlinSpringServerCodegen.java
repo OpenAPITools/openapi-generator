@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
 
 /**
  * TODO Config:
@@ -21,11 +23,22 @@ import java.util.*;
  * isEnum
  * enumOuterClass
  * isEnum
+ * TODO Controller generation:
+ * - Handle implicit headers, also within api.mustache
+ * - Handle tags
+ * - If we handle optional, decide to make use of Java Optional, or Kotlin?
  */
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     private static Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+
+    private static final HashSet<String> VARIABLE_RESERVED_WORDS =
+            new HashSet<String>(Arrays.asList(
+                    "ApiClient",
+                    "ApiException",
+                    "ApiResponse"
+            ));
 
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
@@ -42,6 +55,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     public KotlinSpringServerCodegen() {
         super();
+
+        reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
         apiTestTemplateFiles.clear(); // TODO: add test template
@@ -72,7 +87,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         cliOptions.add(cliOpt);
 
         modelTemplateFiles.put("model.mustache", ".kt");
-//        apiTemplateFiles.put("api.mustache", ".zz");
+        apiTemplateFiles.put("api.mustache", ".kt");
     }
 
     @Override
@@ -149,8 +164,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         if (library.equals(SPRING_BOOT)) {
             supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
-            apiTemplateFiles.put("apiController.mustache", "Controller.kt");
         }
+
+        // add lambda for mustache templates
+        additionalProperties.put("lambdaEscapeDoubleQuote",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+        additionalProperties.put("lambdaRemoveLineBreak",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
     }
 
     public String getBasePackage() {
@@ -175,6 +195,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     public void setServerPort(String serverPort) {
         this.serverPort = serverPort;
+    }
+
+    @Override
+    public String toModelName(final String name) {
+        // TODO This logic should be cleanup and moved to parent `AbstractKotlinCodegen`. See TODO in super.escapeReservedWord()
+        final String preProcessedName = super.toModelName(name);
+
+        final String nameNoTicks = preProcessedName.replace("`", "");
+        if (VARIABLE_RESERVED_WORDS.contains(nameNoTicks)) {
+            final String modelName = "Model" + nameNoTicks;
+            LOGGER.warn(nameNoTicks + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+        return preProcessedName;
     }
 
     @Override
@@ -206,31 +240,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
         }
 
-        if (openAPI.getPaths() != null) {
-            openAPI.getPaths()
-                    .keySet()
-                    .stream()
-                    .map(pathname -> openAPI.getPaths().get(pathname))
-                    .filter(path -> path.readOperations() != null)
-                    .flatMap(path -> path.readOperations().stream()).filter(operation -> operation.getTags() != null)
-                    .forEach(operation -> {
-                        List<Map<String, String>> tags = new ArrayList<>();
-                        for (String tag : operation.getTags()) {
-                            Map<String, String> value = new HashMap<>();
-                            value.put("tag", tag);
-                            value.put("hasMore", "true");
-                            tags.add(value);
-                        }
-                        if (tags.size() > 0) {
-                            tags.get(tags.size() - 1).remove("hasMore");
-                        }
-                        if (operation.getTags().size() > 0) {
-                            String tag = operation.getTags().get(0);
-                            operation.setTags(Arrays.asList(tag));
-                        }
-                        operation.addExtension("x-tags", tags);
-                    });
-        }
+        // TODO: Handle tags
     }
 
     @Override
@@ -273,6 +283,88 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
                 });
 
         return objs;
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            ops.forEach(operation -> {
+                List<CodegenResponse> responses = operation.responses;
+                if (responses != null) {
+                    responses.forEach(resp -> {
+
+                        if ("0".equals(resp.code))
+                            resp.code = "200";
+
+                        doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
+                            @Override
+                            public void setReturnType(final String returnType) {
+                                resp.dataType = returnType;
+                            }
+
+                            @Override
+                            public void setReturnContainer(final String returnContainer) {
+                                resp.containerType = returnContainer;
+                            }
+                        });
+                    });
+                }
+                doDataTypeAssignment(operation.returnType, new DataTypeAssigner() {
+
+                    @Override
+                    public void setReturnType(final String returnType) {
+                        operation.returnType = returnType;
+                    }
+
+                    @Override
+                    public void setReturnContainer(final String returnContainer) {
+                        operation.returnContainer = returnContainer;
+                    }
+                });
+//                if(implicitHeaders){
+//                    removeHeadersFromAllParams(operation.allParams);
+//                }
+            });
+        }
+
+        return objs;
+    }
+
+    private interface DataTypeAssigner {
+        void setReturnType(String returnType);
+
+        void setReturnContainer(String returnContainer);
+    }
+
+    /**
+     * @param returnType       The return type that needs to be converted
+     * @param dataTypeAssigner An object that will assign the data to the respective fields in the model.
+     */
+    private void doDataTypeAssignment(String returnType, DataTypeAssigner dataTypeAssigner) {
+        final String rt = returnType;
+        if (rt == null) {
+            dataTypeAssigner.setReturnType("Unit");
+        } else if (rt.startsWith("List")) {
+            int end = rt.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(rt.substring("List<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("List");
+            }
+        } else if (rt.startsWith("Map")) {
+            int end = rt.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(rt.substring("Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnContainer("Map");
+            }
+        } else if (rt.startsWith("Set")) {
+            int end = rt.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(rt.substring("Set<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("Set");
+            }
+        }
     }
 
     private static String sanitizeDirectory(String in) {

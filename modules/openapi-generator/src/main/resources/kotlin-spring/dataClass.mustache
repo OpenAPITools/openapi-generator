@@ -4,7 +4,7 @@
  * @param {{name}} {{{description}}}
 {{/vars}}
  */
-data class {{classname}} (
+data class {{classname}} {{#parent}} : {{{parent}}}{{/parent}} (
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},

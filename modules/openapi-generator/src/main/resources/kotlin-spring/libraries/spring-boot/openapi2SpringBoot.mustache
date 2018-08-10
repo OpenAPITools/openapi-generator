@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = arrayOf("{{basePackage}}", "{{apiPackage}}", "{{configPackage}}"))
+@ComponentScan(basePackages = ["{{basePackage}}", "{{apiPackage}}", "{{configPackage}}"])
 class Application
 
 fun main(args: Array<String>) {
