@@ -72,8 +72,7 @@ OpenAPI spec version: 1.0.0
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs"
-             Exclude="obj\**"/>
+    <Compile Include="**\*.cs" Exclude="obj\**" />
   </ItemGroup>
   <ItemGroup>
       <None Include="packages.config" />
@@ -84,6 +83,9 @@ OpenAPI spec version: 1.0.0
           <Project>{321C8C3F-0156-40C1-AE42-D59761FB9B6C}</Project>
           <Name>Org.OpenAPITools</Name>
       </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="linux-logo.png" />
   </ItemGroup>
 </Project>
 
