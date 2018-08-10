@@ -247,7 +247,9 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
 {{/discriminator}}
             {{#parent}}
             {{^isArrayModel}}
+            {{^isMapModel}}
             foreach(var x in BaseValidate(validationContext)) yield return x;
+            {{/isMapModel}}
             {{/isArrayModel}}
             {{/parent}}
             {{#vars}}
