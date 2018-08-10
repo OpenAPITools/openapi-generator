@@ -28,11 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
@@ -576,5 +572,50 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public boolean isDataTypeString(final String dataType) {
         return "String".equals(dataType) || "kotlin.String".equals(dataType);
+    }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if (name.toLowerCase().matches("^_*class$"))
+            return "propertyClass";
+
+        if ("_".equals(name))
+            name = "_u";
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$"))
+            return name;
+
+        if (startsWithTwoUppercaseLetters(name))
+            name = name.substring(0, 2).toLowerCase() + name.substring(2);
+
+        // If name contains special chars -> replace them.
+        if ((((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character))))) {
+            List<String> allowedCharacters = new ArrayList<>();
+            allowedCharacters.add("_");
+            allowedCharacters.add("$");
+            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+        }
+
+        // camelize (lower first character) the variable name
+        // pet_id => petId
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*"))
+            name = escapeReservedWord(name);
+
+        return name;
+    }
+
+    private boolean startsWithTwoUppercaseLetters(String name) {
+        boolean startsWithTwoUppercaseLetters = false;
+        if (name.length() > 1) {
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase());
+        }
+        return startsWithTwoUppercaseLetters;
     }
 }

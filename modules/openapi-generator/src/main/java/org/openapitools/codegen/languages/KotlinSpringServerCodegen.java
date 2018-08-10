@@ -15,7 +15,8 @@ import java.util.regex.Matcher;
 /**
  * TODO Config:
  * - handle "INVOKER_PACKAGE" and "HIDE_GENERATION_TIMESTAMP"
- * - integrate Spring Fox
+ * TODO Config:
+ * - generate README.md
  * TODO Model generation:
  * - serializableModel by implementing java.io.Serializable
  * - enable optional bean validation using javax.validation.Valid (currently must be valid)
