@@ -608,7 +608,7 @@
             </modules>
         </profile>
         <profile>
-            <!-- openapi v3's opne -->
+            <!-- openapi v3's one -->
             <id>jaxrs-jersey</id>
             <activation>
                 <property>
@@ -902,6 +902,7 @@
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/kotlin/</module>
                 <!-- servers -->
+                <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
                 <module>samples/server/petstore/jaxrs-spec-interface-response</module>

@@ -716,7 +716,7 @@
             </modules>
         </profile>
         <profile>
-            <!-- openapi v3's opne -->
+            <!-- openapi v3's one -->
             <id>jaxrs-jersey</id>
             <activation>
                 <property>
