@@ -31,7 +31,7 @@ OAICategory::OAICategory() {
 }
 
 OAICategory::~OAICategory() {
-    
+
 }
 
 void
