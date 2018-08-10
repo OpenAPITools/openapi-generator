@@ -716,6 +716,19 @@
             </modules>
         </profile>
         <profile>
+            <!-- openapi v3's opne -->
+            <id>jaxrs-jersey</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-jersey</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-spec</id>
             <activation>
                 <property>
