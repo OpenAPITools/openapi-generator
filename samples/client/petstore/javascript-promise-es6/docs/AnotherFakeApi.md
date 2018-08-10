@@ -4,12 +4,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**123testSpecialTags**](AnotherFakeApi.md#123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**call123testSpecialTags**](AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-<a name="123testSpecialTags"></a>
-# **123testSpecialTags**
-> Client 123testSpecialTags(client)
+<a name="call123testSpecialTags"></a>
+# **call123testSpecialTags**
+> Client call123testSpecialTags(client)
 
 To test special tags
 
@@ -21,7 +21,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.AnotherFakeApi();
 let client = new OpenApiPetstore.Client(); // Client | client model
-apiInstance.123testSpecialTags(client).then((data) => {
+apiInstance.call123testSpecialTags(client).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
 }, (error) => {
   console.error(error);

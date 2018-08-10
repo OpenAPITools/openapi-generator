@@ -35,8 +35,8 @@ export default class AnotherFakeApi {
 
 
     /**
-     * Callback function to receive the result of the 123testSpecialTags operation.
-     * @callback module:api/AnotherFakeApi~123testSpecialTagsCallback
+     * Callback function to receive the result of the call123testSpecialTags operation.
+     * @callback module:api/AnotherFakeApi~call123testSpecialTagsCallback
      * @param {String} error Error message, if any.
      * @param {module:model/Client} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -46,15 +46,15 @@ export default class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      * @param {module:model/Client} client client model
-     * @param {module:api/AnotherFakeApi~123testSpecialTagsCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/AnotherFakeApi~call123testSpecialTagsCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
      */
-    123testSpecialTags(client, callback) {
+    call123testSpecialTags(client, callback) {
       let postBody = client;
 
       // verify the required parameter 'client' is set
       if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling 123testSpecialTags");
+        throw new Error("Missing the required parameter 'client' when calling call123testSpecialTags");
       }
 
 
