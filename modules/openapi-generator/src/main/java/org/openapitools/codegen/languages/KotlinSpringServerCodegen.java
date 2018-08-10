@@ -15,7 +15,10 @@ import java.util.regex.Matcher;
 /**
  * TODO Config:
  * - handle "INVOKER_PACKAGE" and "HIDE_GENERATION_TIMESTAMP"
- * TODO Config:
+ * - Option to generate gradle
+ * - Generate POM
+ * - Other cleanups
+ * TODO Readme:
  * - generate README.md
  * TODO Model generation:
  * - serializableModel by implementing java.io.Serializable
@@ -24,6 +27,13 @@ import java.util.regex.Matcher;
  * - Handle implicit headers, also within api.mustache
  * - Handle tags
  * - If we handle optional, decide to make use of Java Optional, or Kotlin?
+ * - Use RestController instead of Controller annotation (see PR #571 for more info)
+ * TODO General fixes
+ * - Inheritance
+ * - Enum Arrays
+ * - Map of enums and indirect maps
+ * - Special model names
+ * - Some types not correctly being mapped to primitives
  */
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
