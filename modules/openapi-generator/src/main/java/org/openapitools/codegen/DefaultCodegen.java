@@ -4577,6 +4577,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * check if the data should be classified as "string" in enum
+     * e.g. double in C# needs to be double-quoted (e.g. "2.8") by treating it as a string
+     * in the future, we may rename this function to "isEnumString"
+     *
+     * @param dataType data type
+     */
     public boolean isDataTypeString(String dataType) {
         return "String".equals(dataType);
     }
