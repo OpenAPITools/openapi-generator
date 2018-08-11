@@ -25,74 +25,33 @@ using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// EnumArrays
+    /// FileSchemaTestClass
     /// </summary>
     [DataContract]
-    public partial class EnumArrays :  IEquatable<EnumArrays>, IValidatableObject
+    public partial class FileSchemaTestClass :  IEquatable<FileSchemaTestClass>, IValidatableObject
     {
         /// <summary>
-        /// Defines JustSymbol
+        /// Initializes a new instance of the <see cref="FileSchemaTestClass" /> class.
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum JustSymbolEnum
+        /// <param name="file">file.</param>
+        /// <param name="files">files.</param>
+        public FileSchemaTestClass(System.IO.Stream file = default(System.IO.Stream), List<System.IO.Stream> files = default(List<System.IO.Stream>))
         {
-            /// <summary>
-            /// Enum GreaterThanOrEqualTo for value: >=
-            /// </summary>
-            [EnumMember(Value = ">=")]
-            GreaterThanOrEqualTo = 1,
-
-            /// <summary>
-            /// Enum Dollar for value: $
-            /// </summary>
-            [EnumMember(Value = "$")]
-            Dollar = 2
-
-        }
-
-        /// <summary>
-        /// Gets or Sets JustSymbol
-        /// </summary>
-        [DataMember(Name="just_symbol", EmitDefaultValue=false)]
-        public JustSymbolEnum? JustSymbol { get; set; }
-        /// <summary>
-        /// Defines ArrayEnum
-        /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum ArrayEnumEnum
-        {
-            /// <summary>
-            /// Enum Fish for value: fish
-            /// </summary>
-            [EnumMember(Value = "fish")]
-            Fish = 1,
-
-            /// <summary>
-            /// Enum Crab for value: crab
-            /// </summary>
-            [EnumMember(Value = "crab")]
-            Crab = 2
-
-        }
-
-
-        /// <summary>
-        /// Gets or Sets ArrayEnum
-        /// </summary>
-        [DataMember(Name="array_enum", EmitDefaultValue=false)]
-        public List<ArrayEnumEnum> ArrayEnum { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EnumArrays" /> class.
-        /// </summary>
-        /// <param name="justSymbol">justSymbol.</param>
-        /// <param name="arrayEnum">arrayEnum.</param>
-        public EnumArrays(JustSymbolEnum? justSymbol = default(JustSymbolEnum?), List<ArrayEnumEnum> arrayEnum = default(List<ArrayEnumEnum>))
-        {
-            this.JustSymbol = justSymbol;
-            this.ArrayEnum = arrayEnum;
+            this.File = file;
+            this.Files = files;
         }
         
+        /// <summary>
+        /// Gets or Sets File
+        /// </summary>
+        [DataMember(Name="file", EmitDefaultValue=false)]
+        public System.IO.Stream File { get; set; }
 
+        /// <summary>
+        /// Gets or Sets Files
+        /// </summary>
+        [DataMember(Name="files", EmitDefaultValue=false)]
+        public List<System.IO.Stream> Files { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,9 +60,9 @@ namespace Org.OpenAPITools.Model
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class EnumArrays {\n");
-            sb.Append("  JustSymbol: ").Append(JustSymbol).Append("\n");
-            sb.Append("  ArrayEnum: ").Append(ArrayEnum).Append("\n");
+            sb.Append("class FileSchemaTestClass {\n");
+            sb.Append("  File: ").Append(File).Append("\n");
+            sb.Append("  Files: ").Append(Files).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -124,29 +83,29 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EnumArrays);
+            return this.Equals(input as FileSchemaTestClass);
         }
 
         /// <summary>
-        /// Returns true if EnumArrays instances are equal
+        /// Returns true if FileSchemaTestClass instances are equal
         /// </summary>
-        /// <param name="input">Instance of EnumArrays to be compared</param>
+        /// <param name="input">Instance of FileSchemaTestClass to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(EnumArrays input)
+        public bool Equals(FileSchemaTestClass input)
         {
             if (input == null)
                 return false;
 
             return 
                 (
-                    this.JustSymbol == input.JustSymbol ||
-                    (this.JustSymbol != null &&
-                    this.JustSymbol.Equals(input.JustSymbol))
+                    this.File == input.File ||
+                    (this.File != null &&
+                    this.File.Equals(input.File))
                 ) && 
                 (
-                    this.ArrayEnum == input.ArrayEnum ||
-                    this.ArrayEnum != null &&
-                    this.ArrayEnum.SequenceEqual(input.ArrayEnum)
+                    this.Files == input.Files ||
+                    this.Files != null &&
+                    this.Files.SequenceEqual(input.Files)
                 );
         }
 
@@ -159,10 +118,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.JustSymbol != null)
-                    hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
-                if (this.ArrayEnum != null)
-                    hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
+                if (this.File != null)
+                    hashCode = hashCode * 59 + this.File.GetHashCode();
+                if (this.Files != null)
+                    hashCode = hashCode * 59 + this.Files.GetHashCode();
                 return hashCode;
             }
         }
