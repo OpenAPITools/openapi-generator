@@ -60,7 +60,7 @@ export function OrderFromJSON(json: any): Order {
         'id': json['id'],
         'petId': json['petId'],
         'quantity': json['quantity'],
-        'shipDate': json['shipDate'],
+        'shipDate': json['shipDate'] === undefined ? undefined : new Date(json['shipDate']),
         'status': json['status'],
         'complete': json['complete'],
     };
