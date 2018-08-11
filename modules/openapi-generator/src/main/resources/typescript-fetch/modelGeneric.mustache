@@ -27,13 +27,12 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 }
-{{^isOriginalModelPropertyNaming}}
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {
         {{#vars}}
         {{#isPrimitiveType}}
-        '{{name}}': json['{{baseName}}'],
+        '{{name}}': {{#isDate}}{{^required}}json['{{baseName}}'] === undefined ? undefined : {{/required}}new Date(json['{{baseName}}']){{/isDate}}{{#isDateTime}}{{^required}}json['{{baseName}}'] === undefined ? undefined : {{/required}}new Date(json['{{baseName}}']){{/isDateTime}}{{^isDate}}{{^isDateTime}}json['{{baseName}}']{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isContainer}}
@@ -46,7 +45,6 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         {{/vars}}
     };
 }
-{{/isOriginalModelPropertyNaming}}
 {{#hasEnums}}
 
 /**

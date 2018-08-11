@@ -198,10 +198,6 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/returnSimpleType}}
         {{/returnTypeIsPrimitive}}
         {{^returnTypeIsPrimitive}}
-        {{#isOriginalModelPropertyNaming}}
-        return await response.json();
-        {{/isOriginalModelPropertyNaming}}
-        {{^isOriginalModelPropertyNaming}}
         {{#isListContainer}}
         const json = await response.json() as Array<any>;
         return json.map({{returnBaseType}}FromJSON);
@@ -209,7 +205,6 @@ export class {{classname}} extends runtime.BaseAPI {
         {{^isListContainer}}
         return {{returnBaseType}}FromJSON(await response.json());
         {{/isListContainer}}
-        {{/isOriginalModelPropertyNaming}}
         {{/returnTypeIsPrimitive}}
         {{/isResponseFile}}
         {{/returnType}}

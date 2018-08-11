@@ -110,6 +110,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -174,7 +175,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
 
     @Override
