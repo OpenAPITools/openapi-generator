@@ -9,7 +9,7 @@ set ags=generate -i modules\openapi-generator\src\test/resources\2_0\petstore-wi
 
 java %JAVA_OPTS% -jar %executable% %ags%
 
-# restore csproj file
-echo "restore csproject file: CI\samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj"
-copy /b/v/y .\CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj .\samples\openapi3\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\
+REM restore csproj file
+echo "restore csproject file: CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj"
+copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\openapi3\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\
 
