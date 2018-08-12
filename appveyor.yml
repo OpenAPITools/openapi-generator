@@ -44,6 +44,10 @@ test_script:
 
   # generate all petstore clients
   - .\bin\windows\run-all-petstore.cmd
+
+  # generate all petstore clients (openapi3)
+  - .\bin\openapi3\windows\run-all-petstore.cmd
+
 cache:
   - C:\maven\
   - C:\Users\appveyor\.m2
