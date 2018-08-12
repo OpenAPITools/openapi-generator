@@ -725,7 +725,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (p.getDefault() != null) {
                 if (ModelUtils.isFloatSchema(p)) { // float
                     return p.getDefault().toString() + "F";
-                } else if (ModelUtils.isDoubleSchema(p)){ // double
+                } else if (ModelUtils.isDoubleSchema(p)) { // double
                     return p.getDefault().toString() + "D";
                 } else {
                     return p.getDefault().toString();
