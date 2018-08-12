@@ -12,4 +12,3 @@ java %JAVA_OPTS% -jar %executable% %ags%
 REM restore csproj file
 echo "restore csproject file: CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj"
 copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\openapi3\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\
-
