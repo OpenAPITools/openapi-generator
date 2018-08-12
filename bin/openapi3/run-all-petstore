@@ -13,8 +13,8 @@ failures=0
 for SCRIPT in $(ls -l ./bin/openapi3/*.sh | grep -v all)
 do
     if [ -f ${SCRIPT} -a -x ${SCRIPT} ]; then
-        echo "Running $SCRIPT"
-        ${SCRIPT}
+        echo "Running $SCRIPT (output to /dev/null)"
+        ${SCRIPT} 2>&1 > /dev/null
         rc=$?
         if [[ ${rc} != 0 ]]; then
             >&2 echo "ERROR!! FAILED TO RUN ${SCRIPT}"
