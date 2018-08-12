@@ -5,7 +5,7 @@ using System.Text;
 using Sharpility.Extensions;
 using NodaTime;
 
-namespace IO.Swagger.v2.Models
+namespace Org.OpenAPITools.v2.Models
 {
     /// <summary>
     /// An order for a pets from the pet store

@@ -9,7 +9,7 @@ using Sharpility.Base;
 using Sharpility.Extensions;
 using Sharpility.Util;
 
-namespace IO.Swagger.v2.Utils
+namespace Org.OpenAPITools.v2.Utils
 {
     internal static class Parameters
     {

@@ -3,11 +3,11 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Base;
-using IO.Swagger.v2.Models;
-using IO.Swagger.v2.Utils;
+using Org.OpenAPITools.v2.Models;
+using Org.OpenAPITools.v2.Utils;
 using NodaTime;
 
-namespace IO.Swagger.v2.Modules
+namespace Org.OpenAPITools.v2.Modules
 { 
 
     /// <summary>
@@ -23,29 +23,29 @@ namespace IO.Swagger.v2.Modules
         { 
             Post["/user"] = parameters =>
             {
-                var body = this.Bind<User>();
-                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUser'");
+                var user = this.Bind<User>();
+                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'CreateUser'");
                 
-                service.CreateUser(Context, body);
-                return new Response { ContentType = "application/xml"};
+                service.CreateUser(Context, user);
+                return new Response { ContentType = ""};
             };
 
             Post["/user/createWithArray"] = parameters =>
             {
-                var body = this.Bind<List<User>>();
-                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithArrayInput'");
+                var user = this.Bind<List<User>>();
+                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'CreateUsersWithArrayInput'");
                 
-                service.CreateUsersWithArrayInput(Context, body);
-                return new Response { ContentType = "application/xml"};
+                service.CreateUsersWithArrayInput(Context, user);
+                return new Response { ContentType = ""};
             };
 
             Post["/user/createWithList"] = parameters =>
             {
-                var body = this.Bind<List<User>>();
-                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'CreateUsersWithListInput'");
+                var user = this.Bind<List<User>>();
+                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'CreateUsersWithListInput'");
                 
-                service.CreateUsersWithListInput(Context, body);
-                return new Response { ContentType = "application/xml"};
+                service.CreateUsersWithListInput(Context, user);
+                return new Response { ContentType = ""};
             };
 
             Delete["/user/{username}"] = parameters =>
@@ -54,7 +54,7 @@ namespace IO.Swagger.v2.Modules
                 Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'DeleteUser'");
                 
                 service.DeleteUser(Context, username);
-                return new Response { ContentType = "application/xml"};
+                return new Response { ContentType = ""};
             };
 
             Get["/user/{username}"] = parameters =>
@@ -80,19 +80,19 @@ namespace IO.Swagger.v2.Modules
             {
                 
                 service.LogoutUser(Context);
-                return new Response { ContentType = "application/xml"};
+                return new Response { ContentType = ""};
             };
 
             Put["/user/{username}"] = parameters =>
             {
                 var username = Parameters.ValueOf<string>(parameters, Context.Request, "username", ParameterType.Path);
-                var body = this.Bind<User>();
+                var user = this.Bind<User>();
                 Preconditions.IsNotNull(username, "Required parameter: 'username' is missing at 'UpdateUser'");
                 
-                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'UpdateUser'");
+                Preconditions.IsNotNull(user, "Required parameter: 'user' is missing at 'UpdateUser'");
                 
-                service.UpdateUser(Context, username, body);
-                return new Response { ContentType = "application/xml"};
+                service.UpdateUser(Context, username, user);
+                return new Response { ContentType = ""};
             };
         }
     }
@@ -106,25 +106,25 @@ namespace IO.Swagger.v2.Modules
         /// This can only be done by the logged in user.
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">Created user object</param>
+        /// <param name="user">Created user object</param>
         /// <returns></returns>
-        void CreateUser(NancyContext context, User body);
+        void CreateUser(NancyContext context, User user);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">List of user object</param>
+        /// <param name="user">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithArrayInput(NancyContext context, List<User> body);
+        void CreateUsersWithArrayInput(NancyContext context, List<User> user);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">List of user object</param>
+        /// <param name="user">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithListInput(NancyContext context, List<User> body);
+        void CreateUsersWithListInput(NancyContext context, List<User> user);
 
         /// <summary>
         /// This can only be done by the logged in user.
@@ -138,7 +138,7 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="username">The name that needs to be fetched. Use user1 for testing. </param>
+        /// <param name="username">The name that needs to be fetched. Use user1 for testing.</param>
         /// <returns>User</returns>
         User GetUserByName(NancyContext context, string username);
 
@@ -163,9 +163,9 @@ namespace IO.Swagger.v2.Modules
         /// </summary>
         /// <param name="context">Context of request</param>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="body">Updated user object</param>
+        /// <param name="user">Updated user object</param>
         /// <returns></returns>
-        void UpdateUser(NancyContext context, string username, User body);
+        void UpdateUser(NancyContext context, string username, User user);
     }
 
     /// <summary>
@@ -173,19 +173,19 @@ namespace IO.Swagger.v2.Modules
     /// </summary>
     public abstract class AbstractUserService: UserService
     {
-        public virtual void CreateUser(NancyContext context, User body)
+        public virtual void CreateUser(NancyContext context, User user)
         {
-            CreateUser(body);
+            CreateUser(user);
         }
 
-        public virtual void CreateUsersWithArrayInput(NancyContext context, List<User> body)
+        public virtual void CreateUsersWithArrayInput(NancyContext context, List<User> user)
         {
-            CreateUsersWithArrayInput(body);
+            CreateUsersWithArrayInput(user);
         }
 
-        public virtual void CreateUsersWithListInput(NancyContext context, List<User> body)
+        public virtual void CreateUsersWithListInput(NancyContext context, List<User> user)
         {
-            CreateUsersWithListInput(body);
+            CreateUsersWithListInput(user);
         }
 
         public virtual void DeleteUser(NancyContext context, string username)
@@ -208,16 +208,16 @@ namespace IO.Swagger.v2.Modules
             LogoutUser();
         }
 
-        public virtual void UpdateUser(NancyContext context, string username, User body)
+        public virtual void UpdateUser(NancyContext context, string username, User user)
         {
-            UpdateUser(username, body);
+            UpdateUser(username, user);
         }
 
-        protected abstract void CreateUser(User body);
+        protected abstract void CreateUser(User user);
 
-        protected abstract void CreateUsersWithArrayInput(List<User> body);
+        protected abstract void CreateUsersWithArrayInput(List<User> user);
 
-        protected abstract void CreateUsersWithListInput(List<User> body);
+        protected abstract void CreateUsersWithListInput(List<User> user);
 
         protected abstract void DeleteUser(string username);
 
@@ -227,7 +227,7 @@ namespace IO.Swagger.v2.Modules
 
         protected abstract void LogoutUser();
 
-        protected abstract void UpdateUser(string username, User body);
+        protected abstract void UpdateUser(string username, User user);
     }
 
 }

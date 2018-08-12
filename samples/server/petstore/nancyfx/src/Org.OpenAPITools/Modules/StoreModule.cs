@@ -3,11 +3,11 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Base;
-using IO.Swagger.v2.Models;
-using IO.Swagger.v2.Utils;
+using Org.OpenAPITools.v2.Models;
+using Org.OpenAPITools.v2.Utils;
 using NodaTime;
 
-namespace IO.Swagger.v2.Modules
+namespace Org.OpenAPITools.v2.Modules
 { 
 
     /// <summary>
@@ -27,7 +27,7 @@ namespace IO.Swagger.v2.Modules
                 Preconditions.IsNotNull(orderId, "Required parameter: 'orderId' is missing at 'DeleteOrder'");
                 
                 service.DeleteOrder(Context, orderId);
-                return new Response { ContentType = "application/xml"};
+                return new Response { ContentType = ""};
             };
 
             Get["/store/inventory"] = parameters =>
@@ -46,10 +46,10 @@ namespace IO.Swagger.v2.Modules
 
             Post["/store/order"] = parameters =>
             {
-                var body = this.Bind<Order>();
-                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'PlaceOrder'");
+                var order = this.Bind<Order>();
+                Preconditions.IsNotNull(order, "Required parameter: 'order' is missing at 'PlaceOrder'");
                 
-                return service.PlaceOrder(Context, body);
+                return service.PlaceOrder(Context, order);
             };
         }
     }
@@ -86,9 +86,9 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder(NancyContext context, Order body);
+        Order PlaceOrder(NancyContext context, Order order);
     }
 
     /// <summary>
@@ -111,9 +111,9 @@ namespace IO.Swagger.v2.Modules
             return GetOrderById(orderId);
         }
 
-        public virtual Order PlaceOrder(NancyContext context, Order body)
+        public virtual Order PlaceOrder(NancyContext context, Order order)
         {
-            return PlaceOrder(body);
+            return PlaceOrder(order);
         }
 
         protected abstract void DeleteOrder(string orderId);
@@ -122,7 +122,7 @@ namespace IO.Swagger.v2.Modules
 
         protected abstract Order GetOrderById(long? orderId);
 
-        protected abstract Order PlaceOrder(Order body);
+        protected abstract Order PlaceOrder(Order order);
     }
 
 }

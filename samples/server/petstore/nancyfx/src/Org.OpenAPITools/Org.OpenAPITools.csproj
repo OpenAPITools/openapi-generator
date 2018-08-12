@@ -6,8 +6,8 @@
         <ProjectGuid>{768B8DC6-54EE-4D40-9B20-7857E1D742A4}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>IO.Swagger.v2</RootNamespace>
-        <AssemblyName>IO.Swagger</AssemblyName>
+        <RootNamespace>Org.OpenAPITools.v2</RootNamespace>
+        <AssemblyName>Org.OpenAPITools</AssemblyName>
             <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
@@ -19,7 +19,7 @@
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <DocumentationFile>bin\Debug\IO.Swagger.XML</DocumentationFile>
+        <DocumentationFile>bin\Debug\Org.OpenAPITools.XML</DocumentationFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugType>pdbonly</DebugType>
@@ -28,7 +28,7 @@
         <DefineConstants>TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <DocumentationFile>bin\Release\IO.Swagger.XML</DocumentationFile>
+        <DocumentationFile>bin\Release\Org.OpenAPITools.XML</DocumentationFile>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">

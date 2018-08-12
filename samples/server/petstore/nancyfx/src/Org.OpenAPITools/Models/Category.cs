@@ -5,12 +5,12 @@ using System.Text;
 using Sharpility.Extensions;
 using NodaTime;
 
-namespace IO.Swagger.v2.Models
+namespace Org.OpenAPITools.v2.Models
 {
     /// <summary>
-    /// A tag for a pet
+    /// A category for a pet
     /// </summary>
-    public sealed class Tag:  IEquatable<Tag>
+    public sealed class Category:  IEquatable<Category>
     { 
         /// <summary>
         /// Id
@@ -25,14 +25,14 @@ namespace IO.Swagger.v2.Models
 
         /// <summary>
         /// Empty constructor required by some serializers.
-        /// Use Tag.Builder() for instance creation instead.
+        /// Use Category.Builder() for instance creation instead.
         /// </summary>
         [Obsolete]
-        public Tag()
+        public Category()
         {
         }
 
-        private Tag(long? Id, string Name)
+        private Category(long? Id, string Name)
         {
             
             this.Id = Id;
@@ -42,20 +42,20 @@ namespace IO.Swagger.v2.Models
         }
 
         /// <summary>
-        /// Returns builder of Tag.
+        /// Returns builder of Category.
         /// </summary>
-        /// <returns>TagBuilder</returns>
-        public static TagBuilder Builder()
+        /// <returns>CategoryBuilder</returns>
+        public static CategoryBuilder Builder()
         {
-            return new TagBuilder();
+            return new CategoryBuilder();
         }
 
         /// <summary>
-        /// Returns TagBuilder with properties set.
+        /// Returns CategoryBuilder with properties set.
         /// Use it to change properties.
         /// </summary>
-        /// <returns>TagBuilder</returns>
-        public TagBuilder With()
+        /// <returns>CategoryBuilder</returns>
+        public CategoryBuilder With()
         {
             return Builder()
                 .Id(Id)
@@ -72,7 +72,7 @@ namespace IO.Swagger.v2.Models
             return this.EqualsByProperties(obj);
         }
 
-        public bool Equals(Tag other)
+        public bool Equals(Category other)
         {
             return Equals((object) other);
         }
@@ -83,36 +83,36 @@ namespace IO.Swagger.v2.Models
         }
 
         /// <summary>
-        /// Implementation of == operator for (Tag.
+        /// Implementation of == operator for (Category.
         /// </summary>
-        /// <param name="left">Compared (Tag</param>
-        /// <param name="right">Compared (Tag</param>
+        /// <param name="left">Compared (Category</param>
+        /// <param name="right">Compared (Category</param>
         /// <returns>true if compared items are equals, false otherwise</returns>
-        public static bool operator == (Tag left, Tag right)
+        public static bool operator == (Category left, Category right)
         {
             return Equals(left, right);
         }
 
         /// <summary>
-        /// Implementation of != operator for (Tag.
+        /// Implementation of != operator for (Category.
         /// </summary>
-        /// <param name="left">Compared (Tag</param>
-        /// <param name="right">Compared (Tag</param>
+        /// <param name="left">Compared (Category</param>
+        /// <param name="right">Compared (Category</param>
         /// <returns>true if compared items are not equals, false otherwise</returns>
-        public static bool operator != (Tag left, Tag right)
+        public static bool operator != (Category left, Category right)
         {
             return !Equals(left, right);
         }
 
         /// <summary>
-        /// Builder of Tag.
+        /// Builder of Category.
         /// </summary>
-        public sealed class TagBuilder
+        public sealed class CategoryBuilder
         {
             private long? _Id;
             private string _Name;
 
-            internal TagBuilder()
+            internal CategoryBuilder()
             {
                 SetupDefaults();
             }
@@ -122,20 +122,20 @@ namespace IO.Swagger.v2.Models
             }
 
             /// <summary>
-            /// Sets value for Tag.Id property.
+            /// Sets value for Category.Id property.
             /// </summary>
             /// <param name="value">Id</param>
-            public TagBuilder Id(long? value)
+            public CategoryBuilder Id(long? value)
             {
                 _Id = value;
                 return this;
             }
 
             /// <summary>
-            /// Sets value for Tag.Name property.
+            /// Sets value for Category.Name property.
             /// </summary>
             /// <param name="value">Name</param>
-            public TagBuilder Name(string value)
+            public CategoryBuilder Name(string value)
             {
                 _Name = value;
                 return this;
@@ -143,13 +143,13 @@ namespace IO.Swagger.v2.Models
 
 
             /// <summary>
-            /// Builds instance of Tag.
+            /// Builds instance of Category.
             /// </summary>
-            /// <returns>Tag</returns>
-            public Tag Build()
+            /// <returns>Category</returns>
+            public Category Build()
             {
                 Validate();
-                return new Tag(
+                return new Category(
                     Id: _Id,
                     Name: _Name
                 );

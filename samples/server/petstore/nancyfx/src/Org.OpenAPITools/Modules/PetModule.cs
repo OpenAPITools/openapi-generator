@@ -3,11 +3,11 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Collections.Generic;
 using Sharpility.Base;
-using IO.Swagger.v2.Models;
-using IO.Swagger.v2.Utils;
+using Org.OpenAPITools.v2.Models;
+using Org.OpenAPITools.v2.Utils;
 using NodaTime;
 
-namespace IO.Swagger.v2.Modules
+namespace Org.OpenAPITools.v2.Modules
 { 
     /// <summary>
     /// Status values that need to be considered for filter
@@ -33,11 +33,11 @@ namespace IO.Swagger.v2.Modules
         { 
             Post["/pet"] = parameters =>
             {
-                var body = this.Bind<Pet>();
-                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'AddPet'");
+                var pet = this.Bind<Pet>();
+                Preconditions.IsNotNull(pet, "Required parameter: 'pet' is missing at 'AddPet'");
                 
-                service.AddPet(Context, body);
-                return new Response { ContentType = "application/xml"};
+                service.AddPet(Context, pet);
+                return new Response { ContentType = ""};
             };
 
             Delete["/pet/{petId}"] = parameters =>
@@ -47,7 +47,7 @@ namespace IO.Swagger.v2.Modules
                 Preconditions.IsNotNull(petId, "Required parameter: 'petId' is missing at 'DeletePet'");
                 
                 service.DeletePet(Context, petId, apiKey);
-                return new Response { ContentType = "application/xml"};
+                return new Response { ContentType = ""};
             };
 
             Get["/pet/findByStatus"] = parameters =>
@@ -76,11 +76,11 @@ namespace IO.Swagger.v2.Modules
 
             Put["/pet"] = parameters =>
             {
-                var body = this.Bind<Pet>();
-                Preconditions.IsNotNull(body, "Required parameter: 'body' is missing at 'UpdatePet'");
+                var pet = this.Bind<Pet>();
+                Preconditions.IsNotNull(pet, "Required parameter: 'pet' is missing at 'UpdatePet'");
                 
-                service.UpdatePet(Context, body);
-                return new Response { ContentType = "application/xml"};
+                service.UpdatePet(Context, pet);
+                return new Response { ContentType = ""};
             };
 
             Post["/pet/{petId}"] = parameters =>
@@ -91,7 +91,7 @@ namespace IO.Swagger.v2.Modules
                 Preconditions.IsNotNull(petId, "Required parameter: 'petId' is missing at 'UpdatePetWithForm'");
                 
                 service.UpdatePetWithForm(Context, petId, name, status);
-                return new Response { ContentType = "application/xml"};
+                return new Response { ContentType = ""};
             };
 
             Post["/pet/{petId}/uploadImage"] = parameters =>
@@ -115,9 +115,9 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void AddPet(NancyContext context, Pet body);
+        void AddPet(NancyContext context, Pet pet);
 
         /// <summary>
         /// 
@@ -156,9 +156,9 @@ namespace IO.Swagger.v2.Modules
         /// 
         /// </summary>
         /// <param name="context">Context of request</param>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void UpdatePet(NancyContext context, Pet body);
+        void UpdatePet(NancyContext context, Pet pet);
 
         /// <summary>
         /// 
@@ -186,9 +186,9 @@ namespace IO.Swagger.v2.Modules
     /// </summary>
     public abstract class AbstractPetService: PetService
     {
-        public virtual void AddPet(NancyContext context, Pet body)
+        public virtual void AddPet(NancyContext context, Pet pet)
         {
-            AddPet(body);
+            AddPet(pet);
         }
 
         public virtual void DeletePet(NancyContext context, long? petId, string apiKey)
@@ -211,9 +211,9 @@ namespace IO.Swagger.v2.Modules
             return GetPetById(petId);
         }
 
-        public virtual void UpdatePet(NancyContext context, Pet body)
+        public virtual void UpdatePet(NancyContext context, Pet pet)
         {
-            UpdatePet(body);
+            UpdatePet(pet);
         }
 
         public virtual void UpdatePetWithForm(NancyContext context, long? petId, string name, string status)
@@ -226,7 +226,7 @@ namespace IO.Swagger.v2.Modules
             return UploadFile(petId, additionalMetadata, file);
         }
 
-        protected abstract void AddPet(Pet body);
+        protected abstract void AddPet(Pet pet);
 
         protected abstract void DeletePet(long? petId, string apiKey);
 
@@ -236,7 +236,7 @@ namespace IO.Swagger.v2.Modules
 
         protected abstract Pet GetPetById(long? petId);
 
-        protected abstract void UpdatePet(Pet body);
+        protected abstract void UpdatePet(Pet pet);
 
         protected abstract void UpdatePetWithForm(long? petId, string name, string status);
 
