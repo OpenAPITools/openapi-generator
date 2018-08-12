@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -42,7 +41,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
-
+    
+    private String primaryResourceName;
+    
     public JavaJAXRSSpecServerCodegen() {
         super();
         invokerPackage = "org.openapitools.api";
@@ -147,19 +148,26 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (pos > 0) {
             basePath = basePath.substring(0, pos);
         }
-
+        
+        String operationKey = basePath;
         if (StringUtils.isEmpty(basePath)) {
-            basePath = "default";
+            basePath = tag;
+            operationKey = "";
+            primaryResourceName = tag;
+        } else if (basePath.matches("\\{.*\\}")) {
+            basePath = tag;
+            operationKey = "";
+            co.subresourceOperation = true;
         } else {
             if (co.path.startsWith("/" + basePath)) {
                 co.path = co.path.substring(("/" + basePath).length());
             }
             co.subresourceOperation = !co.path.isEmpty();
         }
-        List<CodegenOperation> opList = operations.get(basePath);
+        List<CodegenOperation> opList = operations.get(operationKey);
         if (opList == null || opList.isEmpty()) {
             opList = new ArrayList<CodegenOperation>();
-            operations.put(basePath, opList);
+            operations.put(operationKey, opList);
         }
         opList.add(co);
         co.baseName = basePath;
@@ -185,5 +193,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public String getHelp() {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
+    }
+    
+    @Override
+    public String toApiName(final String name) {
+        String computed = name;
+        if (computed.length() == 0) {
+            return primaryResourceName + "Api";
+        }
+        computed = sanitizeName(computed);
+        return camelize(computed) + "Api";
     }
 }

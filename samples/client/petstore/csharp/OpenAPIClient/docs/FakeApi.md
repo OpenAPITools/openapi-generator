@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+[**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -256,6 +257,65 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="testbodywithfileschema"></a>
+# **TestBodyWithFileSchema**
+> void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
+
+
+
+For this test, the body for this request much reference a schema named `File`.
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestBodyWithFileSchemaExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
+
+            try
+            {
+                apiInstance.TestBodyWithFileSchema(fileSchemaTestClass);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestBodyWithFileSchema: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a name="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
 > void TestBodyWithQueryParams (string query, User user)
@@ -495,7 +555,7 @@ namespace Example
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
             var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
-            var enumFormStringArray = enumFormStringArray_example;  // List<string> | Form parameter enum test (string array) (optional)  (default to $)
+            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
@@ -522,7 +582,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | **List&lt;string&gt;**| Form parameter enum test (string array) | [optional] [default to $]
+ **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type

@@ -81,7 +81,9 @@ public class StoreApi {
      */
     public class DeleteOrderOper {
 
+        public static final String REQ_METHOD = "DELETE";
         public static final String REQ_URI = "/store/order/{order_id}";
+        public static final String SUMMARY = "Delete purchase order by ID";
 
         private RequestSpecBuilder reqSpec;
 
@@ -148,7 +150,9 @@ public class StoreApi {
      */
     public class GetInventoryOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/store/inventory";
+        public static final String SUMMARY = "Returns pet inventories by status";
 
         private RequestSpecBuilder reqSpec;
 
@@ -215,7 +219,9 @@ public class StoreApi {
      */
     public class GetOrderByIdOper {
 
+        public static final String REQ_METHOD = "GET";
         public static final String REQ_URI = "/store/order/{order_id}";
+        public static final String SUMMARY = "Find purchase order by ID";
 
         private RequestSpecBuilder reqSpec;
 
@@ -293,7 +299,9 @@ public class StoreApi {
      */
     public class PlaceOrderOper {
 
+        public static final String REQ_METHOD = "POST";
         public static final String REQ_URI = "/store/order";
+        public static final String SUMMARY = "Place an order for a pet";
 
         private RequestSpecBuilder reqSpec;
 

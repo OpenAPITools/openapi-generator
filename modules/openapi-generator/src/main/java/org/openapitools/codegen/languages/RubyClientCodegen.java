@@ -462,6 +462,12 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return newOperationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
         return underscore(sanitizeName(operationId));
     }
 

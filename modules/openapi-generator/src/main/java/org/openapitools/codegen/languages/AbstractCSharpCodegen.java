@@ -603,6 +603,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             operationId = "call_" + operationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
         return camelize(sanitizeName(operationId));
     }
 
@@ -954,5 +960,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*").replace("--", "- -");
+    }
+
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
+        return "String".equalsIgnoreCase(dataType) || "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType);
     }
 }
