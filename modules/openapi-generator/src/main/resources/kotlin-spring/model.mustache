@@ -8,6 +8,6 @@ import javax.validation.constraints.*
 
 {{#models}}
 {{#model}}
-{{>dataClass}}
+{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{>dataClass}}{{/isEnum}}
 {{/model}}
 {{/models}}

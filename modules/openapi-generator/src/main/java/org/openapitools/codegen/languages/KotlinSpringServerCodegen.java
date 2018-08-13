@@ -27,9 +27,8 @@ import java.util.regex.Matcher;
  * - If we handle optional, decide to make use of Java Optional, or Kotlin?
  * - Use RestController instead of Controller annotation (see PR #571 for more info)
  * TODO General fixes
- * - Enum Arrays
- * - Map of enums and indirect maps
- * - Special model names
+ * - Generated Enum to support Arrays / Maps / Collections
+ * - Ensure value passed into JsonProperty is a String (see generated SpecialModelname.kt and EnumTest.kt) with escaped $ sign
  * - Inheritance
  * TODO Other
  * - Split implementation with controllers
