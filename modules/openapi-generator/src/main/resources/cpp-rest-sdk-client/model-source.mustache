@@ -7,6 +7,11 @@
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
+{{#supportingFilesNamespace}}
+using {{{supportingFilesNamespace}}}ModelBase;
+using {{{supportingFilesNamespace}}}MultipartFormData;
+{{/supportingFilesNamespace}}
+
 {{classname}}::{{classname}}()
 {
     {{#vars}}

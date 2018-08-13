@@ -21,7 +21,7 @@
 
 #include "../ApiClient.h"
 
-#include "User.h"
+#include "../model/User.h"
 #include <vector>
 #include <cpprest/details/basic_types.h>
 

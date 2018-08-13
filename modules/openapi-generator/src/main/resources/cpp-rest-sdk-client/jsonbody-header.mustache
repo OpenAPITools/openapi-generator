@@ -9,7 +9,12 @@
 #define {{modelHeaderGuardPrefix}}_JsonBody_H_
 
 {{{defaultInclude}}}
+{{#supportingFilesDirectory}}
+#include "{{{supportingFilesDirectory}}}/IHttpBody.h"
+{{/supportingFilesDirectory}}
+{{^supportingFilesDirectory}}
 #include "IHttpBody.h"
+{{/supportingFilesDirectory}}
 
 #include <cpprest/json.h>
 

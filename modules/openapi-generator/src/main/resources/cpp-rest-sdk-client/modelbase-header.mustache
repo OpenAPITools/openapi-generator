@@ -9,8 +9,14 @@
 #define {{modelHeaderGuardPrefix}}_ModelBase_H_
 
 {{{defaultInclude}}}
+{{#supportingFilesDirectory}}
+#include "{{{supportingFilesDirectory}}}/HttpContent.h"
+#include "{{{supportingFilesDirectory}}}/MultipartFormData.h"
+{{/supportingFilesDirectory}}
+{{^supportingFilesDirectory}}
 #include "HttpContent.h"
 #include "MultipartFormData.h"
+{{/supportingFilesDirectory}}
 
 #include <cpprest/details/basic_types.h>
 #include <cpprest/json.h>

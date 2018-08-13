@@ -11,9 +11,9 @@
 
 
 #include "PetApi.h"
-#include "IHttpBody.h"
-#include "JsonBody.h"
-#include "MultipartFormData.h"
+#include "../IHttpBody.h"
+#include "../JsonBody.h"
+#include "../MultipartFormData.h"
 
 #include <unordered_set>
 
@@ -25,6 +25,7 @@ namespace client {
 namespace api {
 
 using namespace org::openapitools::client::model;
+
 
 PetApi::PetApi( std::shared_ptr<ApiClient> apiClient )
     : m_ApiClient(apiClient)

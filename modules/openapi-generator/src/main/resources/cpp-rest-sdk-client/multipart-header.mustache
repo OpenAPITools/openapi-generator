@@ -9,8 +9,14 @@
 #define {{modelHeaderGuardPrefix}}_MultipartFormData_H_
 
 {{{defaultInclude}}}
+{{#externalSupportingFilesDirectory}}
+#include "{{{externalSupportingFilesDirectory}}}/IHttpBody.h"
+#include "{{{externalSupportingFilesDirectory}}}/HttpContent.h"
+{{/externalSupportingFilesDirectory}}
+{{^externalSupportingFilesDirectory}}
 #include "IHttpBody.h"
 #include "HttpContent.h"
+{{/externalSupportingFilesDirectory}}
 
 #include <vector>
 #include <map>

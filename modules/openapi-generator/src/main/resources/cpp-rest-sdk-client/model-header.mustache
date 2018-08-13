@@ -10,7 +10,12 @@
 
 {{^parent}}
 {{{defaultInclude}}}
+{{#supportingFilesDirectory}}
+#include "{{{supportingFilesDirectory}}}/ModelBase.h"
+{{/supportingFilesDirectory}}
+{{^supportingFilesDirectory}}
 #include "../ModelBase.h"
+{{/supportingFilesDirectory}}
 {{/parent}}
 
 {{#imports}}{{{this}}}
@@ -24,7 +29,7 @@ namespace {{this}} {
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}{{{supportingFilesNamespace}}}ModelBase{{/parent}}
 {
 public:
     {{classname}}();
@@ -38,8 +43,8 @@ public:
     web::json::value toJson() const override;
     void fromJson(web::json::value& json) override;
 
-    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
-    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+    void toMultipart(std::shared_ptr<{{{supportingFilesNamespace}}}MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    void fromMultiPart(std::shared_ptr<{{{supportingFilesNamespace}}}MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
     /////////////////////////////////////////////
     /// {{classname}} members

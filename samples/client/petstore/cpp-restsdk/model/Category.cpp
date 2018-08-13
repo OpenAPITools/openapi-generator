@@ -18,6 +18,7 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
 Category::Category()
 {
     m_Id = 0L;

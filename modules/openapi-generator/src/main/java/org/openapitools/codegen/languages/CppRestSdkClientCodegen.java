@@ -38,6 +38,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -50,10 +51,14 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
     public static final String GENERATE_GMOCKS_FOR_APIS = "generateGMocksForApis";
+    public static final String SUPPORTING_FILES_DIRECTORY = "supportingFilesDirectory";
+    public static final String SUPPORTING_FILES_NAMESPACE = "supportingFilesNamespace";
 
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
     protected String defaultInclude = "";
+    protected String supportingFilesDirectory = "";
+    protected String supportingFilesNamespace = "";
 
     private final Set<String> parentModels = new HashSet<>();
     private final Multimap<String, CodegenModel> childrenByParent = ArrayListMultimap.create();
@@ -118,6 +123,12 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(GENERATE_GMOCKS_FOR_APIS,
                 "Generate Google Mock classes for APIs.",
                 null);
+        addOption(SUPPORTING_FILES_DIRECTORY,
+                "The directory where supporting files should be loaded from",
+                this.supportingFilesDirectory);
+        addOption(SUPPORTING_FILES_NAMESPACE,
+                "The namespace used in supporting files",
+                this.supportingFilesNamespace);
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));
@@ -144,29 +155,54 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
 
         typeMapping = new HashMap<String, String>();
-        typeMapping.put("date", "utility::datetime");
-        typeMapping.put("DateTime", "utility::datetime");
-        typeMapping.put("string", "utility::string_t");
-        typeMapping.put("integer", "int32_t");
-        typeMapping.put("long", "int64_t");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("array", "std::vector");
-        typeMapping.put("map", "std::map");
-        typeMapping.put("file", "HttpContent");
-        typeMapping.put("object", "Object");
-        typeMapping.put("binary", "std::string");
-        typeMapping.put("number", "double");
-        typeMapping.put("UUID", "utility::string_t");
-        typeMapping.put("ByteArray", "utility::string_t");
+        updateTypeMapping();
 
         super.importMapping = new HashMap<String, String>();
-        importMapping.put("std::vector", "#include <vector>");
-        importMapping.put("std::map", "#include <map>");
-        importMapping.put("std::string", "#include <string>");
-        importMapping.put("HttpContent", "#include \"HttpContent.h\"");
-        importMapping.put("Object", "#include \"Object.h\"");
-        importMapping.put("utility::string_t", "#include <cpprest/details/basic_types.h>");
-        importMapping.put("utility::datetime", "#include <cpprest/details/basic_types.h>");
+        updateImportMapping();
+    }
+
+    private String supportingFilePath(String filename, String defaultPath) {
+        if(!supportingFilesDirectory.isEmpty()) {
+            return Paths.get(supportingFilesDirectory, filename).toString();
+        } else if(!defaultPath.isEmpty()) {
+            return Paths.get(defaultPath, filename).toString();
+        }
+        return filename;
+    }
+
+    private String supportingFilePath(String filename) {
+        return supportingFilePath(filename, "");
+    }
+
+    private void updateImportMapping() {
+        importMapping.put("std::vector", globalInclude("vector"));
+        importMapping.put("std::map", globalInclude("map"));
+        importMapping.put("std::string", globalInclude("string"));
+        importMapping.put("utility::string_t", globalInclude("cpprest/details/basic_types.h"));
+        importMapping.put("utility::datetime", globalInclude("cpprest/details/basic_types.h"));
+        importMapping.put(supportingFilesNamespace + "HttpContent",
+                quoteInclude(supportingFilePath("HttpContent.h", "../")));
+        importMapping.put(supportingFilesNamespace + "ModelBase",
+                quoteInclude(supportingFilePath("ModelBase.h", "../")));
+        importMapping.put(supportingFilesNamespace + "Object",
+                quoteInclude(supportingFilePath("Object.h", "../")));
+    }
+
+    private void updateTypeMapping() {
+        typeMapping.put("ByteArray", "utility::string_t");
+        typeMapping.put("DateTime", "utility::datetime");
+        typeMapping.put("UUID", "utility::string_t");
+        typeMapping.put("array", "std::vector");
+        typeMapping.put("binary", "std::string");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("date", "utility::datetime");
+        typeMapping.put("file", supportingFilesNamespace + "HttpContent");
+        typeMapping.put("integer", "int32_t");
+        typeMapping.put("long", "int64_t");
+        typeMapping.put("map", "std::map");
+        typeMapping.put("number", "double");
+        typeMapping.put("object", supportingFilesNamespace + "Object");
+        typeMapping.put("string", "utility::string_t");
     }
 
     @Override
@@ -186,6 +222,19 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             additionalProperties.put("gmockApis", "true");
         }
 
+        if (additionalProperties.containsKey(SUPPORTING_FILES_DIRECTORY)) {
+            supportingFilesDirectory = additionalProperties.get(SUPPORTING_FILES_DIRECTORY).toString();
+
+        }
+        if (additionalProperties.containsKey(SUPPORTING_FILES_NAMESPACE)) {
+            supportingFilesNamespace = additionalProperties.get(SUPPORTING_FILES_NAMESPACE).toString();
+        }
+
+        // Ensure that the supportingFilesNamespace always ends with "::"
+        if(!supportingFilesNamespace.isEmpty() && !supportingFilesNamespace.endsWith("::")) {
+            supportingFilesNamespace += "::";
+        }
+
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase());
@@ -194,6 +243,17 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase());
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
+
+        // These have context-dependant defaults in the individual templates,
+        // and should be unset in `additionalProperties` unless explicitly set.
+        if(!supportingFilesDirectory.isEmpty()) {
+            additionalProperties.put("supportingFilesDirectory", supportingFilesDirectory);
+            updateImportMapping();
+        }
+        if(!supportingFilesNamespace.isEmpty()) {
+            additionalProperties.put("supportingFilesNamespace", supportingFilesNamespace);
+            updateTypeMapping();
+        }
     }
 
     /**
@@ -219,7 +279,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + sanitizeName(name) + ".h\"";
+            // Use relative imports unless this model is explicitly import-mapped.
+            return quoteInclude(Paths.get("..", "model", sanitizeName(name) + ".h").toString());
         }
     }
 
