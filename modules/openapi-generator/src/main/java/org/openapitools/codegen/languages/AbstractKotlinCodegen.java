@@ -52,6 +52,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
                 "kotlin.Byte",
+                "kotlin.ByteArray",
                 "kotlin.Short",
                 "kotlin.Int",
                 "kotlin.Long",
@@ -136,6 +137,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
                 "kotlin.Byte",
+                "kotlin.ByteArray",
                 "kotlin.Short",
                 "kotlin.Int",
                 "kotlin.Long",
@@ -156,6 +158,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("float", "kotlin.Float");
         typeMapping.put("long", "kotlin.Long");
         typeMapping.put("double", "kotlin.Double");
+        typeMapping.put("ByteArray", "kotlin.ByteArray");
         typeMapping.put("number", "java.math.BigDecimal");
         typeMapping.put("date-time", "java.time.LocalDateTime");
         typeMapping.put("date", "java.time.LocalDateTime");
@@ -168,9 +171,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("Date", "java.time.LocalDateTime");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "arrayOf");
-        instantiationTypes.put("list", "arrayOf");
-        instantiationTypes.put("map", "mapOf");
+        instantiationTypes.put("array", "kotlin.arrayOf");
+        instantiationTypes.put("list", "kotlin.arrayOf");
+        instantiationTypes.put("map", "kotlin.mapOf");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
@@ -613,6 +616,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public boolean isDataTypeString(final String dataType) {
         return "String".equals(dataType) || "kotlin.String".equals(dataType);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // to avoid conflicts with 'callback' parameter for async call
+        if ("callback".equals(name)) {
+            return "paramCallback";
+        }
+
+        // should be the same as variable name
+        return toVarName(name);
     }
 
     @Override
