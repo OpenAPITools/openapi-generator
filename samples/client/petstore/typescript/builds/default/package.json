@@ -1,14 +1,14 @@
 {
   "name": "ts-petstore-client",
   "version": "1.0.0",
-  "description": "OpenAPI client for {{npmName}}",
+  "description": "OpenAPI client for ",
   "author": "OpenAPI-Generator Contributors",
   "keywords": [
     "fetch",
     "typescript",
     "openapi-client",
     "openapi-generator",
-    "{{npmName}}"
+    ""
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
@@ -33,10 +33,5 @@
     "@types/mocha": "^5.2.5",
     "chai": "^4.1.2",
     "mocha": "^5.2.0"
-  }{{#npmRepository}},{{/npmRepository}}
-{{#npmRepository}}
-  "publishConfig":{
-    "registry":"{{npmRepository}}"
   }
-{{/npmRepository}}
 }
