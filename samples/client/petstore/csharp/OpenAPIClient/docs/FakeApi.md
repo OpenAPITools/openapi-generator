@@ -160,7 +160,7 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = 1.2;  // decimal? | Input number as post body (optional) 
+            var body = 1.2D;  // decimal? | Input number as post body (optional) 
 
             try
             {
@@ -464,13 +464,13 @@ namespace Example
 
             var apiInstance = new FakeApi();
             var number = 8.14;  // decimal? | None
-            var _double = 1.2;  // double? | None
+            var _double = 1.2D;  // double? | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
             var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789;  // long? | None (optional) 
-            var _float = 3.4;  // float? | None (optional) 
+            var _float = 3.4F;  // float? | None (optional) 
             var _string = _string_example;  // string | None (optional) 
             var binary = BINARY_DATA_HERE;  // System.IO.Stream | None (optional) 
             var date = 2013-10-20;  // DateTime? | None (optional) 
@@ -554,7 +554,7 @@ namespace Example
             var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
-            var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
+            var enumQueryDouble = 1.2D;  // double? | Query parameter enum test (double) (optional) 
             var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
