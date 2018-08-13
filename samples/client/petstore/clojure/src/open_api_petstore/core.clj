@@ -16,6 +16,7 @@
   {:base-url        "http://petstore.swagger.io/v2"
    :date-format     "yyyy-MM-dd"
    :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+   :decode-models   false
    :debug           false
    :auths           {"api_key" nil
                      "petstore_auth" nil}})
