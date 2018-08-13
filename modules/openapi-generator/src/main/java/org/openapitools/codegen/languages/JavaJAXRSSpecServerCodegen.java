@@ -38,10 +38,12 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String GENERATE_POM = "generatePom";
+    public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
+    private boolean useSwaggerAnnotations = true;
 
     public JavaJAXRSSpecServerCodegen() {
         super();
@@ -90,6 +92,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
     }
 
     @Override
@@ -109,6 +112,11 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.remove(RETURN_RESPONSE);
             }
         }
+        if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
+            setUseSwaggerAnnotations(Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString()));
+        }
+        writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
+
         if (interfaceOnly) {
             // Change default artifactId if genereating interfaces only, before command line options are applied in base class.
             artifactId = "openapi-jaxrs-client";
@@ -185,5 +193,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public String getHelp() {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
+    }
+
+    public void setUseSwaggerAnnotations(boolean useSwaggerAnnotations) {
+        this.useSwaggerAnnotations = useSwaggerAnnotations;
     }
 }

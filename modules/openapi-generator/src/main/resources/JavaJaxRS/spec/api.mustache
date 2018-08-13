@@ -6,7 +6,9 @@ package {{package}};
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+{{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
+{{/useSwaggerAnnotations}}
 
 import java.io.InputStream;
 import java.util.Map;
@@ -14,8 +16,8 @@ import java.util.List;
 {{#useBeanValidation}}import javax.validation.constraints.*;
 import javax.validation.Valid;{{/useBeanValidation}}
 
-@Path("/{{{baseName}}}")
-@Api(description = "the {{{baseName}}} API"){{#hasConsumes}}
+@Path("/{{{baseName}}}"){{#useSwaggerAnnotations}}
+@Api(description = "the {{{baseName}}} API"){{/useSwaggerAnnotations}}{{#hasConsumes}}
 @Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
 @Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}
 {{>generatedAnnotation}}public {{#interfaceOnly}}interface{{/interfaceOnly}}{{^interfaceOnly}}class{{/interfaceOnly}} {{classname}} {

@@ -42,12 +42,22 @@
       <version>2.0</version>
       <scope>provided</scope>
     </dependency>
+    {{#useSwaggerAnnotations}}
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-annotations</artifactId>
       <scope>provided</scope>
       <version>1.5.3</version>
     </dependency>
+    {{/useSwaggerAnnotations}}
+    {{#useOpenAPIAnnotations}}
+    <dependency>
+      <groupId>org.eclipse.microprofile.openapi</groupId>
+      <artifactId>microprofile-openapi-api</artifactId>
+      <scope>provided</scope>
+      <version>1.0.1</version>
+    </dependency>
+    {{/useOpenAPIAnnotations}}
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
