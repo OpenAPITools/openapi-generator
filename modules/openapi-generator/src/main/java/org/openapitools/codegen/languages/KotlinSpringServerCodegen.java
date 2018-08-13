@@ -132,7 +132,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         // Jackson import mappings
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
-        importMapping.put("SerializedName", "com.google.gson.annotations.SerializedName");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");

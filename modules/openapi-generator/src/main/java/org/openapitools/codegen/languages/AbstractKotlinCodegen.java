@@ -632,7 +632,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = sanitizeName(name, "\\W-[\\$]");
 
         if (name.toLowerCase().matches("^_*class$"))
             return "propertyClass";
@@ -659,8 +659,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // pet_id => petId
         name = camelize(name, true);
 
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*"))
+        // for reserved word or word starting with number or containing dollar symbol, escape it
+        if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)"))
             name = escapeReservedWord(name);
 
         return name;
