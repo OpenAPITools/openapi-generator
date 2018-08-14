@@ -4592,37 +4592,37 @@ public class DefaultCodegen implements CodegenConfig {
         return "String".equals(dataType);
     }
 
-	@Override
-	public List<CodegenServer> fromServers(List<Server> servers) {
-		if (servers == null) {
-			return Collections.emptyList();
-		}
-		List<CodegenServer> codegenServers = new LinkedList<>();
-		for (Server server: servers) {
-			CodegenServer cs = new CodegenServer();
-			cs.description = server.getDescription();
-			cs.url = server.getUrl();
-			cs.variables = this.fromServerVariables(server.getVariables());
-			codegenServers.add(cs);
-		}
-		return codegenServers;
-	}
+    @Override
+    public List<CodegenServer> fromServers(List<Server> servers) {
+        if (servers == null) {
+            return Collections.emptyList();
+        }
+        List<CodegenServer> codegenServers = new LinkedList<>();
+        for (Server server: servers) {
+            CodegenServer cs = new CodegenServer();
+            cs.description = server.getDescription();
+            cs.url = server.getUrl();
+            cs.variables = this.fromServerVariables(server.getVariables());
+            codegenServers.add(cs);
+        }
+        return codegenServers;
+    }
 
-	@Override
-	public List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables) {
-		if (variables == null) {
-			return Collections.emptyList();
-		}
-		List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
-		for (Entry<String, ServerVariable> variableEntry: variables.entrySet()) {
-			CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
-			ServerVariable variable = variableEntry.getValue();
-			codegenServerVariable.defaultValue = variable.getDefault();
-			codegenServerVariable.description = variable.getDescription();
-			codegenServerVariable.enumValues = variable.getEnum();
-			codegenServerVariable.name = variableEntry.getKey();
-			codegenServerVariables.add(codegenServerVariable);
-		}
-		return codegenServerVariables;
-	}
+    @Override
+    public List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables) {
+        if (variables == null) {
+            return Collections.emptyList();
+        }
+        List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
+        for (Entry<String, ServerVariable> variableEntry: variables.entrySet()) {
+            CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
+            ServerVariable variable = variableEntry.getValue();
+            codegenServerVariable.defaultValue = variable.getDefault();
+            codegenServerVariable.description = variable.getDescription();
+            codegenServerVariable.enumValues = variable.getEnum();
+            codegenServerVariable.name = variableEntry.getKey();
+            codegenServerVariables.add(codegenServerVariable);
+        }
+        return codegenServerVariables;
+    }
 }
