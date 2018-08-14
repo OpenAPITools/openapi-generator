@@ -596,12 +596,12 @@ public class CodegenConfigurator implements Serializable {
             return;
         }
         LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
-                "\n - [debugSwagger] prints the openapi specification as interpreted by the codegen" +
+                "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen" +
                 "\n - [debugModels] prints models passed to the template engine" +
                 "\n - [debugOperations] prints operations passed to the template engine" +
                 "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-        System.setProperty("debugSwagger", "");
+        System.setProperty("debugOpenAPI", "");
         System.setProperty("debugModels", "");
         System.setProperty("debugOperations", "");
         System.setProperty("debugSupportingFiles", "");

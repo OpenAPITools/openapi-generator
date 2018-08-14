@@ -169,13 +169,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
         }
-        // for backward compatibility
-        if (System.getProperty("debugSwagger") != null) {
-            LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
-            Json.prettyPrint(openAPI);
-        }
+
 
         if (System.getProperty("debugOpenAPI") != null) {
+            Json.prettyPrint(openAPI);
+        } else if (System.getProperty("debugSwagger") != null) {
+            // This exists for backward compatibility
+            // We fall to this block only if debugOpenAPI is null. No need to dump this twice.
+            LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
             Json.prettyPrint(openAPI);
         }
 
