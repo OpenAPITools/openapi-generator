@@ -51,7 +51,7 @@ public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setInvokerPackage(PhpSlimServerOptionsProvider.INVOKER_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setPackagePath(PhpSlimServerOptionsProvider.PACKAGE_PATH_VALUE);
+            clientCodegen.setPackageName(PhpSlimServerOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
             clientCodegen.setSrcBasePath(PhpSlimServerOptionsProvider.SRC_BASE_PATH_VALUE);
             times = 1;

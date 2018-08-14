@@ -29,6 +29,8 @@ import Dog from './model/Dog';
 import EnumArrays from './model/EnumArrays';
 import EnumClass from './model/EnumClass';
 import EnumTest from './model/EnumTest';
+import File from './model/File';
+import FileSchemaTestClass from './model/FileSchemaTestClass';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
 import List from './model/List';
@@ -44,6 +46,7 @@ import OuterEnum from './model/OuterEnum';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
+import StringBooleanMap from './model/StringBooleanMap';
 import Tag from './model/Tag';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
@@ -189,6 +192,18 @@ export {
     EnumTest,
 
     /**
+     * The File model constructor.
+     * @property {module:model/File}
+     */
+    File,
+
+    /**
+     * The FileSchemaTestClass model constructor.
+     * @property {module:model/FileSchemaTestClass}
+     */
+    FileSchemaTestClass,
+
+    /**
      * The FormatTest model constructor.
      * @property {module:model/FormatTest}
      */
@@ -277,6 +292,12 @@ export {
      * @property {module:model/SpecialModelName}
      */
     SpecialModelName,
+
+    /**
+     * The StringBooleanMap model constructor.
+     * @property {module:model/StringBooleanMap}
+     */
+    StringBooleanMap,
 
     /**
      * The Tag model constructor.

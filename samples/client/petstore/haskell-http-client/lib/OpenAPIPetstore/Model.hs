@@ -174,6 +174,9 @@ newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
 -- ** RequestBody
 newtype RequestBody = RequestBody { unRequestBody :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
 
+-- ** RequiredFile
+newtype RequiredFile = RequiredFile { unRequiredFile :: FilePath } deriving (P.Eq, P.Show)
+
 -- ** Status
 newtype Status = Status { unStatus :: [E'Status2] } deriving (P.Eq, P.Show)
 
