@@ -17,10 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -29,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
@@ -128,8 +132,13 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
         
         // models
-        this.modelPackage = "";
-        this.modelTemplateFiles.put("models/models.mustache", ".ts");
+        this.setModelPackage("");
+        this.modelTemplateFiles.put("models.mustache", ".ts");
+
+        // api
+        this.setApiPackage("");
+        this.supportingFiles.add(new SupportingFile("baseapi.mustache", "apis", "baseapi.ts"));
+        this.apiTemplateFiles.put("api.mustache", ".ts");
     }
 
 
@@ -137,7 +146,26 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
-
+    
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
+        
+        
+        // Add additional filename information for model imports in the apis
+        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
+        for (Map<String, Object> im : imports) {
+            im.put("filename", ((String) im.get("import")).replace('.', '/'));
+            im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
+        }
+        return operations;
+    }
+    
+    private String getModelnameFromModelFilename(String filename) {
+        String name = filename.substring((modelPackage() + File.separator).length());
+        return camelize(name);
+    }
+    
     @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
