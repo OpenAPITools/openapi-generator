@@ -753,6 +753,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
         }
+        
+        List<CodegenServer> servers = config.fromServers(openAPI.getServers());
+        if (servers != null && !servers.isEmpty()) {
+        	bundle.put("servers", servers);
+        	bundle.put("hasServers", true);
+        }
 
         if (openAPI.getExternalDocs() != null) {
             bundle.put("externalDocs", openAPI.getExternalDocs());
