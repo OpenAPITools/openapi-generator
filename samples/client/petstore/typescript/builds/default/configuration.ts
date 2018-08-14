@@ -7,6 +7,7 @@ export interface ConfigurationParameters {
 	baseServer?: ServerConfiguration;
     httpApi?: HttpLibrary; // override for fetch implementation
     middleware?: Middleware[]; // middleware to apply before/after fetch requests
+	
     username?: string; // parameter for basic security
     password?: string; // parameter for basic security
     apiKey?: string | ((name: string) => string); // parameter for apiKey security
