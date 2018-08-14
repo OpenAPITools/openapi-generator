@@ -31,7 +31,6 @@ import java.util.regex.Matcher;
  * - Ensure value passed into JsonProperty is a String (see generated SpecialModelname.kt and EnumTest.kt) with escaped $ sign
  * - Inheritance
  * TODO Other
- * - Split implementation with controllers
  * - Remove swagger annotations
  * - Base types for oneOf (see inheritance)
  */
@@ -50,15 +49,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String BASE_PACKAGE = "basePackage";
-    public static final String CONFIG_PACKAGE = "configPackage";
     public static final String SPRING_BOOT = "spring-boot";
+    public static final String EXCEPTION_HANDLER = "exceptionHandler";
 
-    protected String resourceFolder = "src/main/resources";
-
-    protected String basePackage;
-    protected String configPackage;
-    protected String serverPort = "8080";
-    protected String title = "OpenAPI Kotlin Spring";
+    private String basePackage;
+    private String serverPort = "8080";
+    private String title = "OpenAPI Kotlin Spring";
+    private String resourceFolder = "src/main/resources";
+    private boolean exceptionHandler = true;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -73,17 +71,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         basePackage = "org.openapitools";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
-        configPackage = "org.openapitools.conf";
 
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
 
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package for generated code", basePackage);
-        addOption(CONFIG_PACKAGE, "configuration package for generated code", configPackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
+        addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers", exceptionHandler);
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
@@ -92,6 +89,38 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
+    }
+
+    public String getResourceFolder() {
+        return this.resourceFolder;
+    }
+
+    public void setResourceFolder(String resourceFolder) {
+        this.resourceFolder = resourceFolder;
+    }
+
+    public String getBasePackage() {
+        return this.basePackage;
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+    }
+
+    public String getServerPort() {
+        return this.serverPort;
+    }
+
+    public void setServerPort(String serverPort) {
+        this.serverPort = serverPort;
+    }
+
+    public boolean getExceptionHandler() {
+        return this.exceptionHandler;
+    }
+
+    public void setExceptionHandler(boolean exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
     }
 
     @Override
@@ -154,29 +183,31 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(SERVER_PORT, serverPort);
         }
 
-        if (additionalProperties.containsKey(CONFIG_PACKAGE)) {
-            this.setConfigPackage((String) additionalProperties.get(CONFIG_PACKAGE));
+        if (additionalProperties.containsKey(EXCEPTION_HANDLER)) {
+            this.setExceptionHandler(Boolean.valueOf(additionalProperties.get(EXCEPTION_HANDLER).toString()));
         } else {
-            additionalProperties.put(CONFIG_PACKAGE, configPackage);
+            additionalProperties.put(EXCEPTION_HANDLER, exceptionHandler);
         }
 
         supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
         supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
 
+        modelTemplateFiles.put("model.mustache", ".kt");
+        apiTemplateFiles.put("api.mustache", ".kt");
+        apiTemplateFiles.put("service.mustache", "Service.kt");
+        apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
+
+        if (this.exceptionHandler) {
+            supportingFiles.add(new SupportingFile("exceptions.mustache",
+                    sanitizeDirectory(sourceFolder + File.separator + apiPackage), "Exceptions.kt"));
+        }
+
         if (library.equals(SPRING_BOOT)) {
             LOGGER.info("Setup code generator for Kotlin Spring Boot");
 
-            modelTemplateFiles.put("model.mustache", ".kt");
-            apiTemplateFiles.put("api.mustache", ".kt");
-            apiTemplateFiles.put("service.mustache", "Service.kt");
-            apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
-
-            supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
+            supportingFiles.add(new SupportingFile("springBootApplication.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
-
-            supportingFiles.add(new SupportingFile("exceptions.mustache",
-                    sanitizeDirectory(sourceFolder + File.separator + apiPackage), "Exceptions.kt"));
         }
 
         // add lambda for mustache templates
@@ -184,30 +215,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
-    }
-
-    public String getBasePackage() {
-        return this.basePackage;
-    }
-
-    public void setBasePackage(String basePackage) {
-        this.basePackage = basePackage;
-    }
-
-    public String getConfigPackage() {
-        return this.configPackage;
-    }
-
-    public void setConfigPackage(String configPackage) {
-        this.configPackage = configPackage;
-    }
-
-    public String getServerPort() {
-        return this.serverPort;
-    }
-
-    public void setServerPort(String serverPort) {
-        this.serverPort = serverPort;
     }
 
     @Override
