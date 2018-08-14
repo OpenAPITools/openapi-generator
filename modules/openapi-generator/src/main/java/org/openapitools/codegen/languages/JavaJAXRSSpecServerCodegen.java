@@ -185,8 +185,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
-        codegenModel.imports.remove("ApiModelProperty");
-        codegenModel.imports.remove("ApiModel");
+        if (!useSwaggerAnnotations) {
+          codegenModel.imports.remove("ApiModelProperty");
+          codegenModel.imports.remove("ApiModel");
+        }
         codegenModel.imports.remove("JsonSerialize");
         codegenModel.imports.remove("ToStringSerializer");
         codegenModel.imports.remove("JsonValue");
