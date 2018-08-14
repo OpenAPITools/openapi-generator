@@ -92,9 +92,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
-
-        modelTemplateFiles.put("model.mustache", ".kt");
-        apiTemplateFiles.put("api.mustache", ".kt");
     }
 
     @Override
@@ -168,8 +165,18 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
 
         if (library.equals(SPRING_BOOT)) {
+            LOGGER.info("Setup code generator for Kotlin Spring Boot");
+
+            modelTemplateFiles.put("model.mustache", ".kt");
+            apiTemplateFiles.put("api.mustache", ".kt");
+            apiTemplateFiles.put("service.mustache", "Service.kt");
+            apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
+
             supportingFiles.add(new SupportingFile("openapi2SpringBoot.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
+
+            supportingFiles.add(new SupportingFile("exceptions.mustache",
+                    sanitizeDirectory(sourceFolder + File.separator + apiPackage), "Exceptions.kt"));
         }
 
         // add lambda for mustache templates
@@ -253,6 +260,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             if (additionalProperties.containsKey("jackson"))
                 model.imports.add("JsonCreator");
         }
+
     }
 
     @Override
