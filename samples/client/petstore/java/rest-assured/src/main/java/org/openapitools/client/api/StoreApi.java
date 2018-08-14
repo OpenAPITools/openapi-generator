@@ -14,6 +14,8 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
+import org.openapitools.client.Context;
+import org.openapitools.client.Context.Tag;
 import org.openapitools.client.model.Order;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 
 import java.lang.reflect.Type;
@@ -37,30 +40,32 @@ import static io.restassured.http.Method.*;
 public class StoreApi {
 
     private RequestSpecBuilder reqSpec;
+    private Consumer<Context> contextConsumer;
 
-    private StoreApi(RequestSpecBuilder reqSpec) {
+    private StoreApi(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
+        this.contextConsumer = contextConsumer;
     }
 
-    public static StoreApi store(RequestSpecBuilder reqSpec) {
-        return new StoreApi(reqSpec);
+    public static StoreApi store(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        return new StoreApi(reqSpec, contextConsumer);
     }
 
 
     public DeleteOrderOper deleteOrder() {
-        return new DeleteOrderOper(reqSpec);
+        return new DeleteOrderOper(reqSpec, contextConsumer);
     }
 
     public GetInventoryOper getInventory() {
-        return new GetInventoryOper(reqSpec);
+        return new GetInventoryOper(reqSpec, contextConsumer);
     }
 
     public GetOrderByIdOper getOrderById() {
-        return new GetOrderByIdOper(reqSpec);
+        return new GetOrderByIdOper(reqSpec, contextConsumer);
     }
 
     public PlaceOrderOper placeOrder() {
-        return new PlaceOrderOper(reqSpec);
+        return new PlaceOrderOper(reqSpec, contextConsumer);
     }
 
     /**
@@ -74,31 +79,40 @@ public class StoreApi {
     }
 
     /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public StoreApi context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
+        return this;
+    }
+
+    /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @see #orderIdPath ID of the order that needs to be deleted (required)
      */
-    public class DeleteOrderOper {
+    public static class DeleteOrderOper {
 
-        public static final String REQ_METHOD = "DELETE";
+        public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/store/order/{order_id}";
-        public static final String SUMMARY = "Delete purchase order by ID";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("store").withDescription("Access to Petstore orders")))
+                .withSummary("Delete purchase order by ID")
+                .withNotes("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public DeleteOrderOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public DeleteOrderOper(RequestSpecBuilder reqSpec) {
+        public DeleteOrderOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -108,7 +122,8 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         public static final String ORDER_ID_PATH = "order_id";
@@ -141,6 +156,16 @@ public class StoreApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public DeleteOrderOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Returns pet inventories by status
@@ -148,26 +173,25 @@ public class StoreApi {
      *
      * return Map&lt;String, Integer&gt;
      */
-    public class GetInventoryOper {
+    public static class GetInventoryOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/store/inventory";
-        public static final String SUMMARY = "Returns pet inventories by status";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("store").withDescription("Access to Petstore orders")))
+                .withSummary("Returns pet inventories by status")
+                .withNotes("Returns a map of status codes to quantities")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public GetInventoryOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public GetInventoryOper(RequestSpecBuilder reqSpec) {
+        public GetInventoryOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -177,7 +201,8 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -209,6 +234,16 @@ public class StoreApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public GetInventoryOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Find purchase order by ID
@@ -217,26 +252,25 @@ public class StoreApi {
      * @see #orderIdPath ID of pet that needs to be fetched (required)
      * return Order
      */
-    public class GetOrderByIdOper {
+    public static class GetOrderByIdOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/store/order/{order_id}";
-        public static final String SUMMARY = "Find purchase order by ID";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("store").withDescription("Access to Petstore orders")))
+                .withSummary("Find purchase order by ID")
+                .withNotes("For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public GetOrderByIdOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public GetOrderByIdOper(RequestSpecBuilder reqSpec) {
+        public GetOrderByIdOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -246,7 +280,8 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -289,6 +324,16 @@ public class StoreApi {
             consumer.accept(respSpec);
             return this;
         }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public GetOrderByIdOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
+            return this;
+        }
     }
     /**
      * Place an order for a pet
@@ -297,28 +342,25 @@ public class StoreApi {
      * @see #body order placed for purchasing the pet (required)
      * return Order
      */
-    public class PlaceOrderOper {
+    public static class PlaceOrderOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/store/order";
-        public static final String SUMMARY = "Place an order for a pet";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList(new Tag().withName("store").withDescription("Access to Petstore orders")))
+                .withSummary("Place an order for a pet")
+                .withIsDeprecated(false);
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public PlaceOrderOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public PlaceOrderOper(RequestSpecBuilder reqSpec) {
+        public PlaceOrderOper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("*/*");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -328,7 +370,8 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -367,6 +410,16 @@ public class StoreApi {
          */
         public PlaceOrderOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public PlaceOrderOper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }

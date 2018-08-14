@@ -6,22 +6,20 @@ import {{apiPackage}}.*;
 
 {{#imports}}import {{import}};
 {{/imports}}
-
 {{^fullJavaUtil}}
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.response.Response;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static io.restassured.config.ObjectMapperConfig.objectMapperConfig;
+import static io.restassured.config.RestAssuredConfig.config;
+import static org.openapitools.client.GsonObjectMapper.gson;
 {{/fullJavaUtil}}
 
 public class ApiClient {
+    {{#basePath}}
+    public static final String BASE_URI = "{{basePath}}";
+    {{/basePath}}
 
     private final Config config;
 
@@ -36,13 +34,16 @@ public class ApiClient {
      {{#apiInfo}}
      {{#apis}}
     public {{classname}} {{classVarName}}() {
-        return {{classname}}.{{classVarName}}(config.baseReqSpec.get());
+        return {{classname}}.{{classVarName}}(config.baseReqSpec.get(), config.baseContextConsumer.get());
     }
      {{/apis}}
      {{/apiInfo}}
 
     public static class Config {
-        private Supplier<RequestSpecBuilder> baseReqSpec;
+        private Supplier<RequestSpecBuilder> baseReqSpec = () -> new RequestSpecBuilder()
+                {{#basePath}}.setBaseUri(BASE_URI){{/basePath}}
+                .setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())));
+        private Supplier<Consumer<Context>> baseContextConsumer = () -> context -> {};
 
         /**
          * Use common specification for all operations
@@ -51,6 +52,16 @@ public class ApiClient {
          */
         public Config reqSpecSupplier(Supplier<RequestSpecBuilder> supplier) {
             this.baseReqSpec = supplier;
+            return this;
+        }
+
+        /**
+         * Use common context handling
+         * @param supplier supplier
+         * @return configuration
+         */
+        public Config contextSupplier(Supplier<Consumer<Context>> supplier) {
+            this.baseContextConsumer = supplier;
             return this;
         }
 

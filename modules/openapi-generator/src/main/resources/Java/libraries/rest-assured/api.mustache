@@ -3,6 +3,8 @@
 package {{package}};
 
 import com.google.gson.reflect.TypeToken;
+import {{invokerPackage}}.Context;
+import {{invokerPackage}}.Context.Tag;
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -15,6 +17,7 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
 
 import java.lang.reflect.Type;
@@ -29,13 +32,15 @@ import static io.restassured.http.Method.*;
 public class {{classname}} {
 
     private RequestSpecBuilder reqSpec;
+    private Consumer<Context> contextConsumer;
 
-    private {{classname}}(RequestSpecBuilder reqSpec) {
+    private {{classname}}(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
         this.reqSpec = reqSpec;
+        this.contextConsumer = contextConsumer;
     }
 
-    public static {{classname}} {{classVarName}}(RequestSpecBuilder reqSpec) {
-        return new {{classname}}(reqSpec);
+    public static {{classname}} {{classVarName}}(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
+        return new {{classname}}(reqSpec, contextConsumer);
     }
 
 {{#operations}}
@@ -45,7 +50,7 @@ public class {{classname}} {
     @Deprecated
     {{/isDeprecated}}
     public {{operationIdCamelCase}}Oper {{operationId}}() {
-        return new {{operationIdCamelCase}}Oper(reqSpec);
+        return new {{operationIdCamelCase}}Oper(reqSpec, contextConsumer);
     }
 {{/operation}}
 {{/operations}}
@@ -57,6 +62,16 @@ public class {{classname}} {
      */
     public {{classname}} reqSpec(Consumer<RequestSpecBuilder> consumer) {
         consumer.accept(reqSpec);
+        return this;
+    }
+
+    /**
+     * Customise context handling
+     * @param consumer consumer
+     * @return api
+     */
+    public {{classname}} context(Consumer<Context> consumer) {
+        contextConsumer = contextConsumer.andThen(consumer);
         return this;
     }
 
@@ -83,30 +98,25 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public class {{operationIdCamelCase}}Oper {
+    public static class {{operationIdCamelCase}}Oper {
 
-        public static final String REQ_METHOD = "{{httpMethod}}";
+        public static final Method REQ_METHOD = {{httpMethod}};
         public static final String REQ_URI = "{{path}}";
-        public static final String SUMMARY = "{{{summary}}}";
+        public static final Context CONTEXT = new Context()
+                .withTags(Arrays.asList({{#tags}}new Tag(){{#name}}.withName("{{{name}}}"){{/name}}{{#description}}.withDescription("{{{description}}}"){{/description}}{{^-last}}, {{/-last}}{{/tags}}))
+                {{#summary}}
+                .withSummary("{{{summary}}}")
+                {{/summary}}
+                {{#notes}}
+                .withNotes("{{{notes}}}")
+                {{/notes}}
+                .withIsDeprecated({{isDeprecated}});
 
+        private Consumer<Context> contextConsumer;
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
 
-        public {{operationIdCamelCase}}Oper() {
-            this.reqSpec = new RequestSpecBuilder();
-            {{#vendorExtensions}}
-            {{#x-contentType}}
-            reqSpec.setContentType("{{x-contentType}}");
-            {{/x-contentType}}
-            {{#x-accepts}}
-            reqSpec.setAccept("{{x-accepts}}");
-            {{/x-accepts}}
-            {{/vendorExtensions}}
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        public {{operationIdCamelCase}}Oper(RequestSpecBuilder reqSpec) {
+        public {{operationIdCamelCase}}Oper(RequestSpecBuilder reqSpec, Consumer<Context> contextConsumer) {
             this.reqSpec = reqSpec;
             {{#vendorExtensions}}
             {{#x-contentType}}
@@ -117,6 +127,7 @@ public class {{classname}} {
             {{/x-accepts}}
             {{/vendorExtensions}}
             this.respSpec = new ResponseSpecBuilder();
+            this.contextConsumer = contextConsumer;
         }
 
         /**
@@ -126,7 +137,8 @@ public class {{classname}} {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request({{httpMethod}}, REQ_URI));
+            contextConsumer.accept(CONTEXT);
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
         {{#returnType}}
 
@@ -238,6 +250,16 @@ public class {{classname}} {
          */
         public {{operationIdCamelCase}}Oper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
+            return this;
+        }
+
+        /**
+        * Customise context handling
+        * @param consumer consumer
+        * @return operation
+        */
+        public {{operationIdCamelCase}}Oper context(Consumer<Context> consumer) {
+            contextConsumer = contextConsumer.andThen(consumer);
             return this;
         }
     }
