@@ -18,13 +18,13 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
@@ -113,7 +113,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             }
         }
         if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
-            setUseSwaggerAnnotations(Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString()));
+            useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
         }
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
 
@@ -174,14 +174,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        super.postProcessModelProperty(model, property);
-        model.imports.remove("ApiModelProperty");
-        model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
-        model.imports.remove("JsonValue");
-        model.imports.remove("JsonProperty");
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+        codegenModel.imports.remove("ApiModelProperty");
+        codegenModel.imports.remove("ApiModel");
+        codegenModel.imports.remove("JsonSerialize");
+        codegenModel.imports.remove("ToStringSerializer");
+        codegenModel.imports.remove("JsonValue");
+        codegenModel.imports.remove("JsonProperty");
+        return codegenModel;
     }
 
     @Override
@@ -195,7 +196,4 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
     }
 
-    public void setUseSwaggerAnnotations(boolean useSwaggerAnnotations) {
-        this.useSwaggerAnnotations = useSwaggerAnnotations;
-    }
 }
