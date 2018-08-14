@@ -1,0 +1,41 @@
+// TODO: better import syntax?
+import { BaseApiRequestFactory } from './baseapi';
+import { RequestContext } from '../http/http';
+{{#imports}}
+import { {{classname}} } from '..{{filename}}';
+{{/imports}}
+
+
+
+{{#operations}}
+
+/**
+ * {{classname}} - interface{{#description}}
+ * {{&description}}{{/description}}
+ * @export
+ * @interface {{classname}}
+ */
+export class {{classname}}RequestFactory {
+
+	{{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+     {{/allParams}}
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof {{classname}}Interface
+     */
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): RequestContext {
+    	
+    	
+    	return null;
+    }
+			
+	{{/operation}}
+}
+{{/operations}}
