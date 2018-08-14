@@ -33,9 +33,14 @@ export class NoAuthentication extends SecurityAuthentication {
 }
 
 export class APIKeyAuthentication extends SecurityAuthentication {
+	private apiKey: string;
 	
-	public constructor(authName: string, private paramName: string, private apiKey: string, private keyLocation: "query" | "header" | "cookie") {
+	public constructor(authName: string, private paramName: string, private keyLocation: "query" | "header" | "cookie") {
 		super(authName);
+	}
+	
+	public setApiKey(apiKey: string) {
+		this.apiKey = apiKey;
 	}
 	
 	public applySecurityAuthentication(context: RequestContext) {
@@ -50,13 +55,26 @@ export class APIKeyAuthentication extends SecurityAuthentication {
 }
 
 export class HttpBasicAuthentication extends SecurityAuthentication {
-
-	public constructor(authName: string, private username: string, private password: string) {
+	private username: string;
+	private password: string;
+	
+	public constructor(authName: string) {
 		super(authName);
 	}
 
+	public setUserNameAndPassword(username: string, password: string) {
+		this.username = username;
+		this.password = password;
+	}
+	
 	public applySecurityAuthentication(context: RequestContext) {
 		let comb = this.username + ":" + this.password;
 		context.setHeaderParam("Authentication", "Basic " + btoa(comb));
 	}
+}
+
+// TODO: add oauth2
+export const authMethods = {
+		"api_key": new APIKeyAuthentication("api_key",  "api_key", "header"),
+		"petstore_auth": null,
 }
