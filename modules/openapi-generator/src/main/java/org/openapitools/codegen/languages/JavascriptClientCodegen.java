@@ -837,6 +837,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return newOperationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
         return operationId;
     }
 

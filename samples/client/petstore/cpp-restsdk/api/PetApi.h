@@ -43,7 +43,7 @@ public:
 
     explicit PetApi( std::shared_ptr<ApiClient> apiClient );
 
-    virtual ~PetApi() = default;
+    virtual ~PetApi();
 
     /// <summary>
     /// Add a new pet to the store
