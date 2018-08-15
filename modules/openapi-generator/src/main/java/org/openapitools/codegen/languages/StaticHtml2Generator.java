@@ -82,9 +82,9 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put("appName", "OpenAPI Sample");
-        additionalProperties.put("appDescription", "A sample openapi server");
+        additionalProperties.put("appDescription", "A sample OpenAPI server");
         additionalProperties.put("infoUrl", "https://openapi-generator.tech");
-        additionalProperties.put("infoEmail", "contributors@openapitools.org");
+        additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -180,7 +180,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         Map<String, Object> vendorExtensions = openAPI.getExtensions();
         if (vendorExtensions != null) {
-            for(Map.Entry<String, Object> vendorExtension: vendorExtensions.entrySet()) {
+            for (Map.Entry<String, Object> vendorExtension : vendorExtensions.entrySet()) {
                 // Vendor extensions could be Maps (objects). If we wanted to iterate through them in our template files
                 // without knowing the keys beforehand, the default `toString` method renders them unusable. Instead, we
                 // convert them to JSON strings now, which means we can easily use them later.
