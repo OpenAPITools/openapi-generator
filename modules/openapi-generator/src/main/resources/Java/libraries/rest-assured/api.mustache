@@ -43,13 +43,9 @@ public class {{classname}} {
 {{#operations}}
 {{#operation}}
 
-    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}"{{#hasAuthMethods}}, authorizations = {
-        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
-            {{/hasMore}}{{/scopes}}
-            }{{/isOAuth}}){{#hasMore}},
-        {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}}, tags={ {{#tags}}{{#name}}"{{{name}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
+    @ApiOperation(value = "{{{summary}}}",
+                  notes = "{{{notes}}}",
+                  tags={ {{#tags}}{{#name}}"{{{name}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
     @ApiResponses(value = { {{#responses}}
         @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{#hasMore}},{{/hasMore}}{{/responses}} })
     {{#isDeprecated}}
