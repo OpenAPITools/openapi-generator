@@ -139,6 +139,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));

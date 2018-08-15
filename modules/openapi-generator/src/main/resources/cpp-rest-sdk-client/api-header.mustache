@@ -51,7 +51,7 @@ public:
     ~{{classname}}() override;
     {{/gmockApis}}
     {{^gmockApis}}
-    virtual ~{{classname}}() = default;
+    virtual ~{{classname}}();
     {{/gmockApis}}
 
     {{#operation}}
@@ -62,7 +62,7 @@ public:
     /// {{notes}}
     /// </remarks>
     {{#allParams}}
-    /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+    /// <param name="{{paramName}}">{{#lambda.multiline_comment_4}}{{description}}{{/lambda.multiline_comment_4}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
     {{/allParams}}
     pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
