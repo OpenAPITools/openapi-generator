@@ -42,7 +42,9 @@ public class KotlinSpringServerCodegenTest {
         codegen.setServerPort("8181");
         codegen.setExceptionHandler(false);
         codegen.setGradleBuildFile(false);
-        codegen.setSwaggerAnnotations(false);
+        codegen.setSwaggerAnnotations(true);
+        codegen.setServiceInterface(true);
+        codegen.setServiceImplementation(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
@@ -57,8 +59,12 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
         Assert.assertFalse(codegen.getGradleBuildFile());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
-        Assert.assertFalse(codegen.getSwaggerAnnotations());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), false);
+        Assert.assertTrue(codegen.getSwaggerAnnotations());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), true);
+        Assert.assertTrue(codegen.getServiceInterface());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
+        Assert.assertTrue(codegen.getServiceImplementation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
     }
 
     @Test
@@ -70,7 +76,9 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVER_PORT, "8088");
         codegen.additionalProperties().put(KotlinSpringServerCodegen.EXCEPTION_HANDLER, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.GRADLE_BUILD_FILE, false);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_INTERFACE, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
         codegen.processOpts();
 
         final OpenAPI openAPI = new OpenAPI();
@@ -91,7 +99,11 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
         Assert.assertFalse(codegen.getGradleBuildFile());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
-        Assert.assertFalse(codegen.getSwaggerAnnotations());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), false);
+        Assert.assertTrue(codegen.getSwaggerAnnotations());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS), true);
+        Assert.assertTrue(codegen.getServiceInterface());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
+        Assert.assertTrue(codegen.getServiceImplementation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
     }
 }

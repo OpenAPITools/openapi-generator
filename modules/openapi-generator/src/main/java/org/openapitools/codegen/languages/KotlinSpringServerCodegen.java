@@ -32,6 +32,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
     public static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
+    public static final String SERVICE_INTERFACE = "serviceInterface";
+    public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
 
     private String basePackage;
     private String serverPort = "8080";
@@ -40,6 +42,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
     private boolean swaggerAnnotations = false;
+    private boolean serviceInterface = false;
+    private boolean serviceImplementation = false;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -66,6 +70,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
         addSwitch(SWAGGER_ANNOTATIONS, "generate swagger annotations to go alongside controllers and models", swaggerAnnotations);
+        addSwitch(SERVICE_INTERFACE, "generate service interfaces to go alongside controllers. In most " +
+                "cases this option would be used to update an existing project, so not to override implementations. " +
+                "Useful to help facilitate the generation gap pattern", serviceInterface);
+        addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
+                "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
@@ -122,6 +131,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     public void setSwaggerAnnotations(boolean swaggerAnnotations) {
         this.swaggerAnnotations = swaggerAnnotations;
+    }
+
+    public boolean getServiceInterface() {
+        return this.serviceInterface;
+    }
+
+    public void setServiceInterface(boolean serviceInterface) {
+        this.serviceInterface = serviceInterface;
+    }
+
+    public boolean getServiceImplementation() {
+        return this.serviceImplementation;
+    }
+
+    public void setServiceImplementation(boolean serviceImplementation) {
+        this.serviceImplementation = serviceImplementation;
     }
 
     @Override
@@ -198,10 +223,29 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(SWAGGER_ANNOTATIONS, swaggerAnnotations);
         }
 
+        if (additionalProperties.containsKey(SERVICE_INTERFACE)) {
+            this.setServiceInterface(Boolean.valueOf(additionalProperties.get(SERVICE_INTERFACE).toString()));
+        } else {
+            additionalProperties.put(SERVICE_INTERFACE, serviceInterface);
+        }
+
+        if (additionalProperties.containsKey(SERVICE_IMPLEMENTATION)) {
+            this.setServiceImplementation(Boolean.valueOf(additionalProperties.get(SERVICE_IMPLEMENTATION).toString()));
+        } else {
+            additionalProperties.put(SERVICE_IMPLEMENTATION, serviceImplementation);
+        }
+
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
-        apiTemplateFiles.put("service.mustache", "Service.kt");
-        apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
+
+        if (this.serviceInterface) {
+            apiTemplateFiles.put("service.mustache", "Service.kt");
+        }
+        else if (this.serviceImplementation) {
+            additionalProperties.put(SERVICE_INTERFACE, true);
+            apiTemplateFiles.put("service.mustache", "Service.kt");
+            apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
+        }
 
         if (this.exceptionHandler) {
             supportingFiles.add(new SupportingFile("exceptions.mustache",
