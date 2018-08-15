@@ -37,3 +37,5 @@ build:
     - mvn --quiet verify -P samples.shippable
     # generate all petstore samples (client, servers, doc)
     - ./bin/run-all-petstore
+    # generate all petstore samples (openapi3)
+    - ./bin/openapi3/run-all-petstore
