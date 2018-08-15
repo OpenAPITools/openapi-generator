@@ -1,3 +1,5 @@
+# ref: https://github.com/github/gitignore/blob/master/Symfony.gitignore
+
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*
