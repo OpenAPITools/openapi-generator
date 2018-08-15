@@ -35,6 +35,8 @@ These names can be anything you like. If you are building a client for the white
 
 **NOTE** Convention is to use kebab casing for names passed to `-n`. Example, `scala-finatra` would become `ScalaFinatraGenerator`.
 
+#### Use your new generator with the CLI
+
 To compile your library, enter the `out/generators/my-codegen` directory, run `mvn package` and execute the generator:
 
 ```sh
@@ -50,11 +52,59 @@ Note the `my-codegen` is an option for `-g` now, and you can use the usual argum
 
 ```sh
 java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
-  io.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
+  org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -o ./out/myClient
 ```
 
+For Windows users:
+```
+java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+  org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
+  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
+  -o ./out/myClient
+```
+
+#### Use your new generator with the maven plugin
+
+Install your library to your local maven repository by running:
+
+```
+mvn clean install -f out/generators/my-codegen
+```
+
+This will install `org.openapitools:my-codegen-openapi-generator:1.0.0` to your local maven repository.
+
+You can use this as additional dependency of the `openapi-generator-maven-plugin` plugin and use `my-codegen` as `generatorName` value:
+
+```xml
+<plugin>
+  <groupId>org.openapitools</groupId>
+  <artifactId>openapi-generator-maven-plugin</artifactId>
+  <version>${openapi-generator-version}</version>
+  <executions>
+    <execution>
+      <id>generate-client-code</id>
+      <goals>
+        <goal>generate</goal>
+      </goals>
+      <configuration>
+        <generatorName>my-codegen</generatorName>
+        <!-- other configuration ... -->
+      </configuration>
+    </execution>
+  </executions>
+  <dependencies>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>my-codegen-openapi-generator</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
+</plugin>
+```
+
+If you publish your artifact to a distant maven repository, do not forget to add this repository as `pluginRepository` for your project.
 
 ### Selective generation
 You may not want to generate *all* models in your project.  Likewise you may want just one or two apis to be written.  If that's the case, you can use system properties to control the output:
