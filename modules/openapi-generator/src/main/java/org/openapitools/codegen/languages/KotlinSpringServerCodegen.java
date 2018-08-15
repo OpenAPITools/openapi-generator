@@ -12,27 +12,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 
-/**
- * TODO Config:
- * - handle INVOKER_PACKAGE
- * - Option to generate services
- * - Option to generate service implementations
- * - Option to generate default exception handlers
- * - Option to generate swagger annotations
- * TODO Readme:
- * - generate README.md
- * TODO Model generation:
- * - enable optional bean validation using javax.validation.Valid (currently must be valid)
- * TODO Controller generation:
- * - Use RestController instead of Controller annotation (see PR #571 for more info)
- * TODO General fixes
- * - Generated Enum to support Arrays / Maps / Collections
- * - Ensure value passed into JsonProperty is a String (see generated SpecialModelname.kt and EnumTest.kt) with escaped $ sign
- * - Inheritance
- * TODO Other
- * - Remove swagger annotations
- * - Base types for oneOf (see inheritance)
- */
+
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     private static Logger LOGGER =
@@ -155,10 +135,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
-
-        // Java import mappings
-        importMapping.put("Objects", "java.util.Objects");
-        importMapping.put("IOException", "java.io.IOException");
 
         // Swagger import mappings
         importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
