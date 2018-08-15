@@ -237,6 +237,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (this.serviceInterface) {
             apiTemplateFiles.put("service.mustache", "Service.kt");
