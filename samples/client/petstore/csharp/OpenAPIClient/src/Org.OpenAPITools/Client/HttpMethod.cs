@@ -9,15 +9,19 @@
  */
 
 
-using System;
-
 namespace Org.OpenAPITools.Client
 {
     /// <summary>
-    /// A delegate to ExceptionFactory method
+    /// Http methods supported by swagger
     /// </summary>
-    /// <param name="methodName">Method name</param>
-    /// <param name="response">Response</param>
-    /// <returns>Exceptions</returns>
-    public delegate Exception ExceptionFactory(string methodName, IApiResponse response);
+    public enum HttpMethod
+    {
+        Get,
+        Post,
+        Put,
+        Delete,
+        Head,
+        Options,
+        Patch
+    }
 }
