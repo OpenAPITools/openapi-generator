@@ -1,39 +1,61 @@
 // TODO: better import syntax?
-import { BaseApiRequestFactory } from './baseapi';
-import { RequestContext } from '../http/http';
+import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import { RequestContext, HttpMethod } from '../http/http';
+import {ObjectSerializer} from '../models/ObjectSerializer';
 {{#imports}}
 import { {{classname}} } from '..{{filename}}';
 {{/imports}}
-
-
-
 {{#operations}}
 
-/**
- * {{classname}} - interface{{#description}}
- * {{&description}}{{/description}}
- * @export
- * @interface {{classname}}
- */
-export class {{classname}}RequestFactory {
+export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
 	{{#operation}}
-    /**
-     * {{&notes}}
-     {{#summary}}
-     * @summary {{&summary}}
-     {{/summary}}
-     {{#allParams}}
-     * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
-     {{/allParams}}
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof {{classname}}Interface
-     */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): RequestContext {
+		{{#allParams}}
+		{{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new RequiredError('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+
+		{{/required}}
+		{{/allParams}}
+		
+		// Path Params
+    	const localVarPath = '{{{path}}}'{{#pathParams}}
+            .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
+            
+        // Query Params
+		{{#queryParams}}
+        if ({{paramName}} !== undefined) {
+        	requestContext.setQueryParam("{{basename}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
+        }
+		{{/queryParams}}
+	
+		// Header Params
+		{{#headerParams}}
+		requestContext.setHeaderParam("{{basename}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
+		{{/headerParams}}
+	
+		let localVarUseFormData = false;       
+
+		// Form Params
+              	
+       	WE ARE HERE TODO!    	
+		let authMethod = null;
+
+    	// Apply auth methods
+    	{{#authMethods}}
+    	authMethod = this.configuration.authMethods["{{name}}"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
+    	{{/authMethods}}
     	
-    	
-    	return null;
+    	return requestContext;
     }
 			
 	{{/operation}}

@@ -11,5 +11,5 @@ export class ServerConfiguration {
 }
 
 export const servers = [
-	new ServerConfiguration("/"),
+	new ServerConfiguration("http://petstore.swagger.io/v2"),
 ]

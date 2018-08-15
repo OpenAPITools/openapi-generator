@@ -1,71 +1,110 @@
 // TODO: better import syntax?
-import { BaseApiRequestFactory } from './baseapi';
-import { RequestContext } from '../http/http';
+import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import { RequestContext, HttpMethod } from '../http/http';
+import {ObjectSerializer} from '../models/ObjectSerializer';
 import { Order } from '../models/Order';
 
+export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
-
-
-/**
- * StoreApi - interface
- * @export
- * @interface StoreApi
- */
-export class StoreApiRequestFactory {
-
-    /**
-     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-     * @summary Delete purchase order by ID
-     * @param {string} orderId ID of the order that needs to be deleted
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof StoreApiInterface
-     */
     public deleteOrder(orderId: string, options?: any): RequestContext {
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId === null || orderId === undefined) {
+            throw new RequiredError('Required parameter orderId was null or undefined when calling deleteOrder.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/store/order/{orderId}'
+            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * Returns a map of status codes to quantities
-     * @summary Returns pet inventories by status
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof StoreApiInterface
-     */
     public getInventory(options?: any): RequestContext {
+		
+		// Path Params
+    	const localVarPath = '/store/inventory';
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
+    	authMethod = this.configuration.authMethods["api_key"]
+    	if (authMethod) {
+    		authMethod.applySecurityAuthentication(requestContext);
+    	}
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-     * @summary Find purchase order by ID
-     * @param {number} orderId ID of pet that needs to be fetched
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof StoreApiInterface
-     */
     public getOrderById(orderId: number, options?: any): RequestContext {
+        // verify required parameter 'orderId' is not null or undefined
+        if (orderId === null || orderId === undefined) {
+            throw new RequiredError('Required parameter orderId was null or undefined when calling getOrderById.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/store/order/{orderId}'
+            .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * 
-     * @summary Place an order for a pet
-     * @param {Order} order order placed for purchasing the pet
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof StoreApiInterface
-     */
     public placeOrder(order: Order, options?: any): RequestContext {
+        // verify required parameter 'order' is not null or undefined
+        if (order === null || order === undefined) {
+            throw new RequiredError('Required parameter order was null or undefined when calling placeOrder.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/store/order';
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
 }

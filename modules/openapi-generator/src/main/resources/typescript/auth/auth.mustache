@@ -33,16 +33,11 @@ export class NoAuthentication extends SecurityAuthentication {
 }
 
 export class APIKeyAuthentication extends SecurityAuthentication {
-	private apiKey: string;
 	
-	public constructor(authName: string, private paramName: string, private keyLocation: "query" | "header" | "cookie") {
+	public constructor(authName: string, private paramName: string, private keyLocation: "query" | "header" | "cookie", private apiKey: string) {
 		super(authName);
 	}
-	
-	public setApiKey(apiKey: string) {
-		this.apiKey = apiKey;
-	}
-	
+		
 	public applySecurityAuthentication(context: RequestContext) {
 		if (this.keyLocation === "header") {
 			context.setHeaderParam(this.paramName, this.apiKey);
@@ -53,18 +48,12 @@ export class APIKeyAuthentication extends SecurityAuthentication {
 		}
 	}
 }
+// TODO: guarantee that auth was configured properly
 
 export class HttpBasicAuthentication extends SecurityAuthentication {
-	private username: string;
-	private password: string;
 	
-	public constructor(authName: string) {
+	public constructor(authName: string, private username: string, private password: string) {
 		super(authName);
-	}
-
-	public setUserNameAndPassword(username: string, password: string) {
-		this.username = username;
-		this.password = password;
 	}
 	
 	public applySecurityAuthentication(context: RequestContext) {
@@ -73,10 +62,49 @@ export class HttpBasicAuthentication extends SecurityAuthentication {
 	}
 }
 
-// TODO: add oauth2
-// TODO: check ^last
-export const authMethods = {
+export class OAuth2Authentication extends SecurityAuthentication {
+	public constructor(authName: string) {
+		super(authName);
+	}
+	
+	public applySecurityAuthentication(context: RequestContext) {
+		// TODO
+	}
+}
+
+export type AuthMethods = {
 	{{#authMethods}}
-		"{{name}}": {{#isApiKey}}new APIKeyAuthentication("{{name}}",  "{{keyParamName}}", {{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}){{/isApiKey}}{{#isBasic}}new HttpBasicAuthentication("{{keyParamName}}"){{/isBasic}}{{#isOAuth}}null{{/isOAuth}}{{^last}},{{/last}}
+		"{{name}}"?: {{#isApiKey}}APIKeyAuthentication{{/isApiKey}}{{#isHttp}}HttpBasicAuthentication{{/isHttp}}{{#isOAuth}}OAuth2Authentication{{/isOAuth}},
 	{{/authMethods}}
+}
+
+export type ApiKeyConfiguration = string;
+export type HttpBasicConfiguration = { "username": string, "password": string };
+export type OAuth2Configuration = string;
+
+export type AuthMethodsConfiguration = { {{#authMethods}}"{{name}}"?:{{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isHttp}}HttpBasicConfiguration{{/isHttp}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}},  {{/authMethods}} }
+
+export function configureAuthMethods(conf: AuthMethodsConfiguration | undefined): AuthMethods {
+	let authMethods: AuthMethods = {
+	}
+
+	if (!conf) {
+		return authMethods;
+	}		
+
+	{{#authMethods}}
+	if (conf["{{name}}"]) {
+		{{#isApiKey}}
+		authMethods["{{name}}"] = new APIKeyAuthentication("{{name}}",  "{{keyParamName}}", {{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, <string> conf["{{name}}"]);
+		{{/isApiKey}}
+		{{#isBasic}}
+		authMethods["{{name}}"] = new HttpBasicAuthentication("{{name}}", config["{{name}}"]["username"], config["{{name}}"]["password"]);
+		{{/isBasic}}
+		{{#isOAuth}}
+		authMethods["{{name}}"] = new OAuth2Authentication("{{name}}");
+		{{/isOAuth}}
+	}
+
+	{{/authMethods}}
+	return authMethods;
 }

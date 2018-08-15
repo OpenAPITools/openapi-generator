@@ -33,16 +33,11 @@ export class NoAuthentication extends SecurityAuthentication {
 }
 
 export class APIKeyAuthentication extends SecurityAuthentication {
-	private apiKey: string;
 	
-	public constructor(authName: string, private paramName: string, private keyLocation: "query" | "header" | "cookie") {
+	public constructor(authName: string, private paramName: string, private keyLocation: "query" | "header" | "cookie", private apiKey: string) {
 		super(authName);
 	}
-	
-	public setApiKey(apiKey: string) {
-		this.apiKey = apiKey;
-	}
-	
+		
 	public applySecurityAuthentication(context: RequestContext) {
 		if (this.keyLocation === "header") {
 			context.setHeaderParam(this.paramName, this.apiKey);
@@ -53,18 +48,12 @@ export class APIKeyAuthentication extends SecurityAuthentication {
 		}
 	}
 }
+// TODO: guarantee that auth was configured properly
 
 export class HttpBasicAuthentication extends SecurityAuthentication {
-	private username: string;
-	private password: string;
 	
-	public constructor(authName: string) {
+	public constructor(authName: string, private username: string, private password: string) {
 		super(authName);
-	}
-
-	public setUserNameAndPassword(username: string, password: string) {
-		this.username = username;
-		this.password = password;
 	}
 	
 	public applySecurityAuthentication(context: RequestContext) {
@@ -73,8 +62,42 @@ export class HttpBasicAuthentication extends SecurityAuthentication {
 	}
 }
 
-// TODO: add oauth2
-export const authMethods = {
-		"api_key": new APIKeyAuthentication("api_key",  "api_key", "header"),
-		"petstore_auth": null,
+export class OAuth2Authentication extends SecurityAuthentication {
+	public constructor(authName: string) {
+		super(authName);
+	}
+	
+	public applySecurityAuthentication(context: RequestContext) {
+		// TODO
+	}
+}
+
+export type AuthMethods = {
+		"api_key"?: APIKeyAuthentication,
+		"petstore_auth"?: OAuth2Authentication,
+}
+
+export type ApiKeyConfiguration = string;
+export type HttpBasicConfiguration = { "username": string, "password": string };
+export type OAuth2Configuration = string;
+
+export type AuthMethodsConfiguration = { "api_key"?:ApiKeyConfiguration,  "petstore_auth"?:OAuth2Configuration,   }
+
+export function configureAuthMethods(conf: AuthMethodsConfiguration | undefined): AuthMethods {
+	let authMethods: AuthMethods = {
+	}
+
+	if (!conf) {
+		return authMethods;
+	}		
+
+	if (conf["api_key"]) {
+		authMethods["api_key"] = new APIKeyAuthentication("api_key",  "api_key", "header", <string> conf["api_key"]);
+	}
+
+	if (conf["petstore_auth"]) {
+		authMethods["petstore_auth"] = new OAuth2Authentication("petstore_auth");
+	}
+
+	return authMethods;
 }
