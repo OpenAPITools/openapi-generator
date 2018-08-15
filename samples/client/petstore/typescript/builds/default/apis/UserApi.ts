@@ -1,129 +1,225 @@
 // TODO: better import syntax?
-import { BaseApiRequestFactory } from './baseapi';
-import { RequestContext } from '../http/http';
+import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import { RequestContext, HttpMethod } from '../http/http';
+import {ObjectSerializer} from '../models/ObjectSerializer';
 import { User } from '../models/User';
 
+export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
-
-
-/**
- * UserApi - interface
- * @export
- * @interface UserApi
- */
-export class UserApiRequestFactory {
-
-    /**
-     * This can only be done by the logged in user.
-     * @summary Create user
-     * @param {User} user Created user object
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public createUser(user: User, options?: any): RequestContext {
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/user';
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param {Array<User>} user List of user object
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public createUsersWithArrayInput(user: Array<User>, options?: any): RequestContext {
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/user/createWithArray';
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * 
-     * @summary Creates list of users with given input array
-     * @param {Array<User>} user List of user object
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public createUsersWithListInput(user: Array<User>, options?: any): RequestContext {
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/user/createWithList';
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * This can only be done by the logged in user.
-     * @summary Delete user
-     * @param {string} username The name that needs to be deleted
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public deleteUser(username: string, options?: any): RequestContext {
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new RequiredError('Required parameter username was null or undefined when calling deleteUser.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/user/{username}'
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * 
-     * @summary Get user by user name
-     * @param {string} username The name that needs to be fetched. Use user1 for testing.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public getUserByName(username: string, options?: any): RequestContext {
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new RequiredError('Required parameter username was null or undefined when calling getUserByName.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/user/{username}'
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * 
-     * @summary Logs user into the system
-     * @param {string} username The user name for login
-     * @param {string} password The password for login in clear text
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public loginUser(username: string, password: string, options?: any): RequestContext {
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new RequiredError('Required parameter username was null or undefined when calling loginUser.');
+        }
+
+        // verify required parameter 'password' is not null or undefined
+        if (password === null || password === undefined) {
+            throw new RequiredError('Required parameter password was null or undefined when calling loginUser.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/user/login';
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+            
+        if (username !== undefined) {
+        	requestContext.setQueryParam("", ObjectSerializer.serialize(username, "string"));
+        }
+		
+        if (password !== undefined) {
+        	requestContext.setQueryParam("", ObjectSerializer.serialize(password, "string"));
+        }
+		
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * 
-     * @summary Logs out current logged in user session
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public logoutUser(options?: any): RequestContext {
+		
+		// Path Params
+    	const localVarPath = '/user/logout';
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
-    /**
-     * This can only be done by the logged in user.
-     * @summary Updated user
-     * @param {string} username name that need to be deleted
-     * @param {User} user Updated user object
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApiInterface
-     */
     public updateUser(username: string, user: User, options?: any): RequestContext {
+        // verify required parameter 'username' is not null or undefined
+        if (username === null || username === undefined) {
+            throw new RequiredError('Required parameter username was null or undefined when calling updateUser.');
+        }
+
+        // verify required parameter 'user' is not null or undefined
+        if (user === null || user === undefined) {
+            throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
+        }
+
+		
+		// Path Params
+    	const localVarPath = '/user/{username}'
+            .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
+
+		// Make Request Context
+    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+            
+       
+       // Form Params
+              	
+       	
     	
+		let authMethod = null;
+
+    	// Apply auth methods
     	
-    	return null;
+    	return requestContext;
     }
 			
 }

@@ -132,8 +132,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
         
         // models
+        // TODO: properly set model and api packages
         this.setModelPackage("");
-        this.modelTemplateFiles.put("models.mustache", ".ts");
+        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
+        modelTemplateFiles.put("model.mustache", ".ts");
 
         // api
         this.setApiPackage("");
