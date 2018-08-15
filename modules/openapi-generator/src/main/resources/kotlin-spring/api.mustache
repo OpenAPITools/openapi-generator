@@ -2,7 +2,8 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-import io.swagger.annotations.*
+{{#swaggerAnnotations}}
+import io.swagger.annotations.*{{/swaggerAnnotations}}
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -22,7 +23,9 @@ import kotlin.collections.List
 import kotlin.collections.Map
 
 @Controller
+{{#swaggerAnnotations}}
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
+{{/swaggerAnnotations}}
 {{=<% %>=}}
 @RequestMapping("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
 <%={{ }}=%>
@@ -30,6 +33,7 @@ import kotlin.collections.Map
 class {{classname}}Controller(@Autowired(required = true) val service: {{classname}}Service) {
 {{#operation}}
 
+    {{#swaggerAnnotations}}
     @ApiOperation(
             value = "{{{summary}}}",
             nickname = "{{{operationId}}}",
@@ -38,7 +42,7 @@ class {{classname}}Controller(@Autowired(required = true) val service: {{classna
             responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}},
             authorizations = [{{#authMethods}}Authorization(value = "{{name}}"{{#isOAuth}}, scopes = [{{#scopes}}AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}}, {{/hasMore}}{{/scopes}}]{{/isOAuth}}){{#hasMore}}, {{/hasMore}}{{/authMethods}}]{{/hasAuthMethods}})
     @ApiResponses(
-            value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}}])
+            value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}}]){{/swaggerAnnotations}}
     @RequestMapping(
             value = ["{{{path}}}"],{{#singleContentTypes}}{{#hasProduces}}
             produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}

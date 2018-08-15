@@ -31,6 +31,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     public static final String SPRING_BOOT = "spring-boot";
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
+    public static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
 
     private String basePackage;
     private String serverPort = "8080";
@@ -38,6 +39,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     private String resourceFolder = "src/main/resources";
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
+    private boolean swaggerAnnotations = false;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -63,6 +65,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
         addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
+        addSwitch(SWAGGER_ANNOTATIONS, "generate swagger annotations to go alongside controllers and models", swaggerAnnotations);
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
@@ -111,6 +114,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     public void setGradleBuildFile(boolean gradleBuildFile) {
         this.gradleBuildFile = gradleBuildFile;
+    }
+
+    public boolean getSwaggerAnnotations() {
+        return this.swaggerAnnotations;
+    }
+
+    public void setSwaggerAnnotations(boolean swaggerAnnotations) {
+        this.swaggerAnnotations = swaggerAnnotations;
     }
 
     @Override
@@ -179,6 +190,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             this.setGradleBuildFile(Boolean.valueOf(additionalProperties.get(GRADLE_BUILD_FILE).toString()));
         } else {
             additionalProperties.put(GRADLE_BUILD_FILE, gradleBuildFile);
+        }
+
+        if (additionalProperties.containsKey(SWAGGER_ANNOTATIONS)) {
+            this.setSwaggerAnnotations(Boolean.valueOf(additionalProperties.get(SWAGGER_ANNOTATIONS).toString()));
+        } else {
+            additionalProperties.put(SWAGGER_ANNOTATIONS, swaggerAnnotations);
         }
 
         modelTemplateFiles.put("model.mustache", ".kt");
