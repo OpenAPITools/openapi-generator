@@ -46,7 +46,7 @@ public class ListGenerators implements Runnable {
             for (CodegenType type : types) {
                 appendForType(sb, type, type.name(), generators);
             }
-            appendForType(sb, null, "UNDIFINED", generators);
+            appendForType(sb, null, "UNSPECIFIED", generators);
         }
 
         System.out.printf("%s%n", sb.toString());
