@@ -15,7 +15,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -41,6 +43,15 @@ public class {{classname}} {
 {{#operations}}
 {{#operation}}
 
+    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}"{{#hasAuthMethods}}, authorizations = {
+        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
+            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+            {{/hasMore}}{{/scopes}}
+            }{{/isOAuth}}){{#hasMore}},
+        {{/hasMore}}{{/authMethods}}
+    }{{/hasAuthMethods}}, tags={ {{#tags}}{{#name}}"{{{name}}}"{{/name}}{{^-last}}, {{/-last}}{{/tags}} })
+    @ApiResponses(value = { {{#responses}}
+        @ApiResponse(code = {{{code}}}, message = "{{{message}}}") {{#hasMore}},{{/hasMore}}{{/responses}} })
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
@@ -83,28 +94,13 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public class {{operationIdCamelCase}}Oper {
+    public static class {{operationIdCamelCase}}Oper {
 
-        public static final String REQ_METHOD = "{{httpMethod}}";
+        public static final Method REQ_METHOD = {{httpMethod}};
         public static final String REQ_URI = "{{path}}";
-        public static final String SUMMARY = "{{{summary}}}";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public {{operationIdCamelCase}}Oper() {
-            this.reqSpec = new RequestSpecBuilder();
-            {{#vendorExtensions}}
-            {{#x-contentType}}
-            reqSpec.setContentType("{{x-contentType}}");
-            {{/x-contentType}}
-            {{#x-accepts}}
-            reqSpec.setAccept("{{x-accepts}}");
-            {{/x-accepts}}
-            {{/vendorExtensions}}
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public {{operationIdCamelCase}}Oper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -126,7 +122,7 @@ public class {{classname}} {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request({{httpMethod}}, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
         {{#returnType}}
 
