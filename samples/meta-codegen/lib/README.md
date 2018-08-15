@@ -62,7 +62,7 @@ the object you have available during client generation:
 
 ```
 # The following additional debug options are available for all codegen targets:
-# -DdebugSwagger prints the OpenAPI Specification as interpreted by the codegen
+# -DdebugOpenAPI prints the OpenAPI Specification as interpreted by the codegen
 # -DdebugModels prints models passed to the template engine
 # -DdebugOperations prints operations passed to the template engine
 # -DdebugSupportingFiles prints additional data passed to the template engine
