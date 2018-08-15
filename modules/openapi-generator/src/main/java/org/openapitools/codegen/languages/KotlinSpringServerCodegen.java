@@ -15,16 +15,15 @@ import java.util.regex.Matcher;
 /**
  * TODO Config:
  * - handle INVOKER_PACKAGE
- * - Option to generate gradle
- * - Generate POM
- * - Other cleanups
+ * - Option to generate services
+ * - Option to generate service implementations
+ * - Option to generate default exception handlers
+ * - Option to generate swagger annotations
  * TODO Readme:
  * - generate README.md
  * TODO Model generation:
  * - enable optional bean validation using javax.validation.Valid (currently must be valid)
  * TODO Controller generation:
- * - Handle implicit headers, also within api.mustache
- * - If we handle optional, decide to make use of Java Optional, or Kotlin?
  * - Use RestController instead of Controller annotation (see PR #571 for more info)
  * TODO General fixes
  * - Generated Enum to support Arrays / Maps / Collections
@@ -51,12 +50,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     public static final String BASE_PACKAGE = "basePackage";
     public static final String SPRING_BOOT = "spring-boot";
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
+    public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
 
     private String basePackage;
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private String resourceFolder = "src/main/resources";
     private boolean exceptionHandler = true;
+    private boolean gradleBuildFile = true;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -81,6 +82,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
         addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers", exceptionHandler);
+        addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
@@ -121,6 +123,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
     public void setExceptionHandler(boolean exceptionHandler) {
         this.exceptionHandler = exceptionHandler;
+    }
+
+    public boolean getGradleBuildFile() {
+        return this.gradleBuildFile;
+    }
+
+    public void setGradleBuildFile(boolean gradleBuildFile) {
+        this.gradleBuildFile = gradleBuildFile;
     }
 
     @Override
@@ -189,9 +199,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
             additionalProperties.put(EXCEPTION_HANDLER, exceptionHandler);
         }
 
-        supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
-        supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
-        supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
+        if (additionalProperties.containsKey(GRADLE_BUILD_FILE)) {
+            this.setGradleBuildFile(Boolean.valueOf(additionalProperties.get(GRADLE_BUILD_FILE).toString()));
+        } else {
+            additionalProperties.put(GRADLE_BUILD_FILE, gradleBuildFile);
+        }
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
@@ -205,7 +217,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
         if (library.equals(SPRING_BOOT)) {
             LOGGER.info("Setup code generator for Kotlin Spring Boot");
+            supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
 
+            if (this.gradleBuildFile) {
+                supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
+                supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+            }
+
+            supportingFiles.add(new SupportingFile("application.mustache", resourceFolder, "application.yaml"));
             supportingFiles.add(new SupportingFile("springBootApplication.mustache",
                     sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
         }

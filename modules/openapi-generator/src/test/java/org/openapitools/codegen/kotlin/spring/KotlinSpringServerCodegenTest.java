@@ -41,6 +41,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setBasePackage("xx.yyyyyyyy.base");
         codegen.setServerPort("8181");
         codegen.setExceptionHandler(false);
+        codegen.setGradleBuildFile(false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
@@ -53,6 +54,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8181");
         Assert.assertFalse(codegen.getExceptionHandler());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
+        Assert.assertFalse(codegen.getGradleBuildFile());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
     }
 
     @Test
@@ -63,6 +66,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.BASE_PACKAGE, "xyz.yyyyy.bbbb.base");
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVER_PORT, "8088");
         codegen.additionalProperties().put(KotlinSpringServerCodegen.EXCEPTION_HANDLER, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.GRADLE_BUILD_FILE, false);
         codegen.processOpts();
 
         final OpenAPI openAPI = new OpenAPI();
@@ -79,6 +83,9 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "xyz.yyyyy.bbbb.base");
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.TITLE), "someTest");
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8088");
+        Assert.assertFalse(codegen.getExceptionHandler());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.EXCEPTION_HANDLER), false);
+        Assert.assertFalse(codegen.getGradleBuildFile());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.GRADLE_BUILD_FILE), false);
     }
 }
