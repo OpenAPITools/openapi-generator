@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -39,11 +38,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String GENERATE_POM = "generatePom";
     public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
+    public static final String JACKSON = "jackson";
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
     private boolean useSwaggerAnnotations = true;
+    private boolean useJackson = false;
 
     private String primaryResourceName;
 
@@ -119,6 +120,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         }
         writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
 
+        useJackson = convertPropertyToBoolean(JACKSON);
+
         if (interfaceOnly) {
             // Change default artifactId if genereating interfaces only, before command line options are applied in base class.
             artifactId = "openapi-jaxrs-client";
@@ -186,13 +189,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
         if (!useSwaggerAnnotations) {
-          codegenModel.imports.remove("ApiModelProperty");
-          codegenModel.imports.remove("ApiModel");
+            codegenModel.imports.remove("ApiModelProperty");
+            codegenModel.imports.remove("ApiModel");
         }
-        codegenModel.imports.remove("JsonSerialize");
-        codegenModel.imports.remove("ToStringSerializer");
-        codegenModel.imports.remove("JsonValue");
-        codegenModel.imports.remove("JsonProperty");
+        if (!useJackson) {
+            codegenModel.imports.remove("JsonSerialize");
+            codegenModel.imports.remove("ToStringSerializer");
+            codegenModel.imports.remove("JsonValue");
+            codegenModel.imports.remove("JsonProperty");
+        }
         return codegenModel;
     }
 
