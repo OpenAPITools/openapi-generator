@@ -31,6 +31,7 @@ cache:
   - $HOME/.cargo
   - $HOME/.stack
   - $HOME/samples/server/petstore/cpp-pistache/pistache
+  - $HOME/.pub-cache
 
 services:
   - docker
@@ -70,6 +71,12 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq bats
   - sudo apt-get install -qq curl
+  - sudo apt-get update
+  - sudo apt-get install apt-transport-https
+  - sudo sh -c 'curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+  - sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_unstable.list > /etc/apt/sources.list.d/dart_unstable.list'
+  - sudo apt-get update
+  - sudo apt-get install dart=1.19.1
   # install perl module
   #- cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
   #- cpanm Test::Exception Test::More Log::Any LWP::UserAgent JSON URI:Query Module::Runtime DateTime Module::Find Moose::Role
@@ -94,11 +101,14 @@ install:
   # Add Godeps dependencies to GOPATH and PATH
   #- eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
   #- export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
-  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$HOME/.cargo/bin:$PATH"
+  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$HOME/.cargo/bin:$PATH:/usr/lib/dart/bin"
   #- go version
   - gcc -v
   - echo $CC
   - echo $CXX
+  # show pub, dart version
+  - pub version
+  - dart --version
 
 script:
   # fail fast
