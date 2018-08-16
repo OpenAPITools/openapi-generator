@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 
 
-public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
+public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
+        implements BeanValidationFeatures {
 
     private static Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
@@ -39,6 +41,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private String resourceFolder = "src/main/resources";
+    private boolean useBeanValidation = true;
     private boolean exceptionHandler = true;
     private boolean gradleBuildFile = true;
     private boolean swaggerAnnotations = false;
@@ -75,6 +78,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
                 "Useful to help facilitate the generation gap pattern", serviceInterface);
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
+        addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
@@ -149,6 +153,15 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
         this.serviceImplementation = serviceImplementation;
     }
 
+    public boolean getUseBeanValidation() {
+        return this.useBeanValidation;
+    }
+
+    @Override
+    public void setUseBeanValidation(boolean useBeanValidation) {
+        this.useBeanValidation = useBeanValidation;
+    }
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -207,33 +220,33 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
         if (additionalProperties.containsKey(EXCEPTION_HANDLER)) {
             this.setExceptionHandler(Boolean.valueOf(additionalProperties.get(EXCEPTION_HANDLER).toString()));
-        } else {
-            additionalProperties.put(EXCEPTION_HANDLER, exceptionHandler);
         }
+        writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
         if (additionalProperties.containsKey(GRADLE_BUILD_FILE)) {
             this.setGradleBuildFile(Boolean.valueOf(additionalProperties.get(GRADLE_BUILD_FILE).toString()));
-        } else {
-            additionalProperties.put(GRADLE_BUILD_FILE, gradleBuildFile);
         }
+        writePropertyBack(GRADLE_BUILD_FILE, gradleBuildFile);
 
         if (additionalProperties.containsKey(SWAGGER_ANNOTATIONS)) {
             this.setSwaggerAnnotations(Boolean.valueOf(additionalProperties.get(SWAGGER_ANNOTATIONS).toString()));
-        } else {
-            additionalProperties.put(SWAGGER_ANNOTATIONS, swaggerAnnotations);
         }
+        writePropertyBack(SWAGGER_ANNOTATIONS, swaggerAnnotations);
 
         if (additionalProperties.containsKey(SERVICE_INTERFACE)) {
             this.setServiceInterface(Boolean.valueOf(additionalProperties.get(SERVICE_INTERFACE).toString()));
-        } else {
-            additionalProperties.put(SERVICE_INTERFACE, serviceInterface);
         }
+        writePropertyBack(SERVICE_INTERFACE, serviceInterface);
 
         if (additionalProperties.containsKey(SERVICE_IMPLEMENTATION)) {
             this.setServiceImplementation(Boolean.valueOf(additionalProperties.get(SERVICE_IMPLEMENTATION).toString()));
-        } else {
-            additionalProperties.put(SERVICE_IMPLEMENTATION, serviceImplementation);
         }
+        writePropertyBack(SERVICE_IMPLEMENTATION, serviceImplementation);
+
+        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
@@ -241,8 +254,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen {
 
         if (this.serviceInterface) {
             apiTemplateFiles.put("service.mustache", "Service.kt");
-        }
-        else if (this.serviceImplementation) {
+        } else if (this.serviceImplementation) {
             additionalProperties.put(SERVICE_INTERFACE, true);
             apiTemplateFiles.put("service.mustache", "Service.kt");
             apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");

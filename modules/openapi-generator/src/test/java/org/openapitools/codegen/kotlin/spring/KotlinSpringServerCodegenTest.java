@@ -45,6 +45,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.setSwaggerAnnotations(true);
         codegen.setServiceInterface(true);
         codegen.setServiceImplementation(true);
+        codegen.setUseBeanValidation(false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.modelPackage(), "xx.yyyyyyyy.model");
@@ -65,6 +66,8 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
+        Assert.assertFalse(codegen.getUseBeanValidation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
     }
 
     @Test
@@ -79,6 +82,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SWAGGER_ANNOTATIONS, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_INTERFACE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, false);
         codegen.processOpts();
 
         final OpenAPI openAPI = new OpenAPI();
@@ -105,5 +109,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_INTERFACE), true);
         Assert.assertTrue(codegen.getServiceImplementation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
+        Assert.assertFalse(codegen.getUseBeanValidation());
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
     }
 }

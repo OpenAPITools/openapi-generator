@@ -666,6 +666,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return name;
     }
 
+    @Override
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
+    }
+
     private boolean startsWithTwoUppercaseLetters(String name) {
         boolean startsWithTwoUppercaseLetters = false;
         if (name.length() > 1) {
