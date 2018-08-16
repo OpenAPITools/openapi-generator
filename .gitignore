@@ -59,6 +59,12 @@ samples/client/petstore/qt5cpp/PetStore/PetStore
 samples/client/petstore/qt5cpp/PetStore/Makefile
 samples/client/petstore/qt5cpp/PetStore/PetStore.pro.user
 
+# cpprestsdk
+samples/client/petstore/cpp-restsdk/CMakeCache.txt
+samples/client/petstore/cpp-restsdk/CMakeFiles/
+samples/client/petstore/cpp-restsdk/Makefile
+samples/client/petstore/cpp-restsdk/cmake_install.cmake
+
 #Java/Android
 **/.gradle
 samples/client/petstore/java/hello.txt
@@ -99,6 +105,8 @@ samples/client/petstore/silex/SwaggerServer/venodr/
 samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/cache/
 samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/logs/
 
+#PHP-laravel
+samples/server/petstore/php-laravel/node_modules
 
 # Perl
 samples/client/petstore/perl/deep_module_test/

@@ -69,9 +69,9 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put("appName", "OpenAPI Sample");
-        additionalProperties.put("appDescription", "A sample openapi server");
-        additionalProperties.put("infoUrl", "https://helloreverb.com");
-        additionalProperties.put("infoEmail", "hello@helloreverb.com");
+        additionalProperties.put("appDescription", "A sample OpenAPI server");
+        additionalProperties.put("infoUrl", "https//openapi-generator.tech");
+        additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);

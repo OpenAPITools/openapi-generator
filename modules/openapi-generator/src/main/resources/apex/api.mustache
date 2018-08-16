@@ -25,7 +25,7 @@ public class {{classname}} {
      {{#returnType}}
      * @return {{{returnType}}}
      {{/returnType}}
-     * @throws Swagger.ApiException if fails to make API call
+     * @throws OAS.ApiException if fails to make API call
      */
     public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} {{operationId}}({{#hasParams}}Map<String, Object> params{{/hasParams}}) {
     {{#allParams}}
@@ -33,7 +33,7 @@ public class {{classname}} {
         client.assertNotNull(params.get('{{paramName}}'), '{{paramName}}');
       {{/required}}
     {{/allParams}}
-        List<Swagger.Param> query = new List<Swagger.Param>();
+        List<OAS.Param> query = new List<OAS.Param>();
     {{#hasQueryParams}}
 
         // cast query params to verify their expected type
@@ -54,7 +54,7 @@ public class {{classname}} {
 
       {{/hasMore}}
     {{/queryParams}}
-        List<Swagger.Param> form = new List<Swagger.Param>();
+        List<OAS.Param> form = new List<OAS.Param>();
     {{#hasFormParams}}
 
         // cast form params to verify their expected type

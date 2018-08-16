@@ -24,7 +24,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -47,18 +49,42 @@ public class StoreApi {
     }
 
 
+    @ApiOperation(value = "Delete purchase order by ID",
+                  notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+                  tags={ "store" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+        @ApiResponse(code = 404, message = "Order not found")  })
     public DeleteOrderOper deleteOrder() {
         return new DeleteOrderOper(reqSpec);
     }
 
+    @ApiOperation(value = "Returns pet inventories by status",
+                  notes = "Returns a map of status codes to quantities",
+                  tags={ "store" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation")  })
     public GetInventoryOper getInventory() {
         return new GetInventoryOper(reqSpec);
     }
 
+    @ApiOperation(value = "Find purchase order by ID",
+                  notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+                  tags={ "store" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation") ,
+        @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+        @ApiResponse(code = 404, message = "Order not found")  })
     public GetOrderByIdOper getOrderById() {
         return new GetOrderByIdOper(reqSpec);
     }
 
+    @ApiOperation(value = "Place an order for a pet",
+                  notes = "",
+                  tags={ "store" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation") ,
+        @ApiResponse(code = 400, message = "Invalid Order")  })
     public PlaceOrderOper placeOrder() {
         return new PlaceOrderOper(reqSpec);
     }
@@ -79,19 +105,13 @@ public class StoreApi {
      *
      * @see #orderIdPath ID of the order that needs to be deleted (required)
      */
-    public class DeleteOrderOper {
+    public static class DeleteOrderOper {
 
+        public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/store/order/{order_id}";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public DeleteOrderOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public DeleteOrderOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -106,7 +126,7 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         public static final String ORDER_ID_PATH = "order_id";
@@ -146,19 +166,13 @@ public class StoreApi {
      *
      * return Map&lt;String, Integer&gt;
      */
-    public class GetInventoryOper {
+    public static class GetInventoryOper {
 
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/store/inventory";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public GetInventoryOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public GetInventoryOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -173,7 +187,7 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -213,19 +227,13 @@ public class StoreApi {
      * @see #orderIdPath ID of pet that needs to be fetched (required)
      * return Order
      */
-    public class GetOrderByIdOper {
+    public static class GetOrderByIdOper {
 
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/store/order/{order_id}";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public GetOrderByIdOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public GetOrderByIdOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -240,7 +248,7 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -291,20 +299,13 @@ public class StoreApi {
      * @see #body order placed for purchasing the pet (required)
      * return Order
      */
-    public class PlaceOrderOper {
+    public static class PlaceOrderOper {
 
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/store/order";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public PlaceOrderOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public PlaceOrderOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -320,7 +321,7 @@ public class StoreApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**

@@ -139,7 +139,7 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
     /**
      * Test case for testEndpointParameters
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 .
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
      * @covers ::testEndpointParameters
      */
     public function testTestEndpointParameters() {

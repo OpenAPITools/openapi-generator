@@ -24,7 +24,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -47,6 +49,11 @@ public class FakeClassnameTags123Api {
     }
 
 
+    @ApiOperation(value = "To test class name in snake case",
+                  notes = "To test class name in snake case",
+                  tags={ "fake_classname_tags 123#$%^" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation")  })
     public TestClassnameOper testClassname() {
         return new TestClassnameOper(reqSpec);
     }
@@ -68,20 +75,13 @@ public class FakeClassnameTags123Api {
      * @see #body client model (required)
      * return Client
      */
-    public class TestClassnameOper {
+    public static class TestClassnameOper {
 
+        public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/fake_classname_test";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestClassnameOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestClassnameOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -97,7 +97,7 @@ public class FakeClassnameTags123Api {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PATCH, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
