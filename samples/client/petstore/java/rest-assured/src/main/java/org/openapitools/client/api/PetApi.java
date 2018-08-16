@@ -51,36 +51,27 @@ public class PetApi {
     }
 
 
-    @ApiOperation(value = "Add a new pet to the store", notes = "", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "Add a new pet to the store",
+                  notes = "",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input")  })
     public AddPetOper addPet() {
         return new AddPetOper(reqSpec);
     }
 
-    @ApiOperation(value = "Deletes a pet", notes = "", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "Deletes a pet",
+                  notes = "",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value")  })
     public DeletePetOper deletePet() {
         return new DeletePetOper(reqSpec);
     }
 
-    @ApiOperation(value = "Finds Pets by status", notes = "Multiple status values can be provided with comma separated strings", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "Finds Pets by status",
+                  notes = "Multiple status values can be provided with comma separated strings",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") ,
         @ApiResponse(code = 400, message = "Invalid status value")  })
@@ -88,12 +79,9 @@ public class PetApi {
         return new FindPetsByStatusOper(reqSpec);
     }
 
-    @ApiOperation(value = "Finds Pets by tags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "Finds Pets by tags",
+                  notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") ,
         @ApiResponse(code = 400, message = "Invalid tag value")  })
@@ -102,9 +90,9 @@ public class PetApi {
         return new FindPetsByTagsOper(reqSpec);
     }
 
-    @ApiOperation(value = "Find pet by ID", notes = "Returns a single pet", authorizations = {
-        @Authorization(value = "api_key")
-    }, tags={ "pet" })
+    @ApiOperation(value = "Find pet by ID",
+                  notes = "Returns a single pet",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") ,
         @ApiResponse(code = 400, message = "Invalid ID supplied") ,
@@ -113,12 +101,9 @@ public class PetApi {
         return new GetPetByIdOper(reqSpec);
     }
 
-    @ApiOperation(value = "Update an existing pet", notes = "", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "Update an existing pet",
+                  notes = "",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied") ,
         @ApiResponse(code = 404, message = "Pet not found") ,
@@ -127,36 +112,27 @@ public class PetApi {
         return new UpdatePetOper(reqSpec);
     }
 
-    @ApiOperation(value = "Updates a pet in the store with form data", notes = "", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "Updates a pet in the store with form data",
+                  notes = "",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input")  })
     public UpdatePetWithFormOper updatePetWithForm() {
         return new UpdatePetWithFormOper(reqSpec);
     }
 
-    @ApiOperation(value = "uploads an image", notes = "", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "uploads an image",
+                  notes = "",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileOper uploadFile() {
         return new UploadFileOper(reqSpec);
     }
 
-    @ApiOperation(value = "uploads an image (required)", notes = "", authorizations = {
-        @Authorization(value = "petstore_auth", scopes = {
-            @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
-            @AuthorizationScope(scope = "read:pets", description = "read your pets")
-            })
-    }, tags={ "pet" })
+    @ApiOperation(value = "uploads an image (required)",
+                  notes = "",
+                  tags={ "pet" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileWithRequiredFileOper uploadFileWithRequiredFile() {

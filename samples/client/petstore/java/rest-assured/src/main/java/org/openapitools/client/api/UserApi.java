@@ -49,28 +49,36 @@ public class UserApi {
     }
 
 
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @ApiOperation(value = "Create user",
+                  notes = "This can only be done by the logged in user.",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUserOper createUser() {
         return new CreateUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
+    @ApiOperation(value = "Creates list of users with given input array",
+                  notes = "",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithArrayInputOper createUsersWithArrayInput() {
         return new CreateUsersWithArrayInputOper(reqSpec);
     }
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
+    @ApiOperation(value = "Creates list of users with given input array",
+                  notes = "",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithListInputOper createUsersWithListInput() {
         return new CreateUsersWithListInputOper(reqSpec);
     }
 
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @ApiOperation(value = "Delete user",
+                  notes = "This can only be done by the logged in user.",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid username supplied") ,
         @ApiResponse(code = 404, message = "User not found")  })
@@ -78,7 +86,9 @@ public class UserApi {
         return new DeleteUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Get user by user name", notes = "", tags={ "user" })
+    @ApiOperation(value = "Get user by user name",
+                  notes = "",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") ,
         @ApiResponse(code = 400, message = "Invalid username supplied") ,
@@ -87,7 +97,9 @@ public class UserApi {
         return new GetUserByNameOper(reqSpec);
     }
 
-    @ApiOperation(value = "Logs user into the system", notes = "", tags={ "user" })
+    @ApiOperation(value = "Logs user into the system",
+                  notes = "",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") ,
         @ApiResponse(code = 400, message = "Invalid username/password supplied")  })
@@ -95,14 +107,18 @@ public class UserApi {
         return new LoginUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", tags={ "user" })
+    @ApiOperation(value = "Logs out current logged in user session",
+                  notes = "",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 0, message = "successful operation")  })
     public LogoutUserOper logoutUser() {
         return new LogoutUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @ApiOperation(value = "Updated user",
+                  notes = "This can only be done by the logged in user.",
+                  tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied") ,
         @ApiResponse(code = 404, message = "User not found")  })

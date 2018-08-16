@@ -49,7 +49,9 @@ public class StoreApi {
     }
 
 
-    @ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store" })
+    @ApiOperation(value = "Delete purchase order by ID",
+                  notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+                  tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied") ,
         @ApiResponse(code = 404, message = "Order not found")  })
@@ -57,16 +59,18 @@ public class StoreApi {
         return new DeleteOrderOper(reqSpec);
     }
 
-    @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", authorizations = {
-        @Authorization(value = "api_key")
-    }, tags={ "store" })
+    @ApiOperation(value = "Returns pet inventories by status",
+                  notes = "Returns a map of status codes to quantities",
+                  tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation")  })
     public GetInventoryOper getInventory() {
         return new GetInventoryOper(reqSpec);
     }
 
-    @ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", tags={ "store" })
+    @ApiOperation(value = "Find purchase order by ID",
+                  notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+                  tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") ,
         @ApiResponse(code = 400, message = "Invalid ID supplied") ,
@@ -75,7 +79,9 @@ public class StoreApi {
         return new GetOrderByIdOper(reqSpec);
     }
 
-    @ApiOperation(value = "Place an order for a pet", notes = "", tags={ "store" })
+    @ApiOperation(value = "Place an order for a pet",
+                  notes = "",
+                  tags={ "store" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") ,
         @ApiResponse(code = 400, message = "Invalid Order")  })

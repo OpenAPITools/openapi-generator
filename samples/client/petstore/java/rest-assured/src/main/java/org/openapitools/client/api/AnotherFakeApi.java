@@ -49,7 +49,9 @@ public class AnotherFakeApi {
     }
 
 
-    @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", tags={ "$another-fake?" })
+    @ApiOperation(value = "To test special tags",
+                  notes = "To test special tags and operation ID starting with number",
+                  tags={ "$another-fake?" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation")  })
     public Call123testSpecialTagsOper call123testSpecialTags() {
