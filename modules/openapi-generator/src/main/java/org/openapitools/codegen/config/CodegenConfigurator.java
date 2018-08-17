@@ -19,6 +19,7 @@ package org.openapitools.codegen.config;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -29,6 +30,8 @@ import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.languages.*;
+import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +42,7 @@ import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
@@ -77,6 +81,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean validateSpec;
     private boolean enablePostProcessFile;
     private String templateDir;
+    private String templatingEngineName;
     private String auth;
     private String apiPackage;
     private String modelPackage;
@@ -525,6 +530,7 @@ public class CodegenConfigurator implements Serializable {
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(templatingEngineName, CodegenConstants.TEMPLATING_ENGINE);
         checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
         checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
@@ -536,6 +542,12 @@ public class CodegenConfigurator implements Serializable {
 
         if (isNotEmpty(library)) {
             config.setLibrary(library);
+        }
+
+        if (isEmpty(templatingEngineName) || templatingEngineName.equals("mustache")) {
+            config.setTemplatingEngine(new MustacheEngineAdapter());
+        } else if (templatingEngineName.equals("handlebars")) {
+            config.setTemplatingEngine(new HandlebarsEngineAdapter());
         }
 
         config.additionalProperties().putAll(additionalProperties);
@@ -669,4 +681,8 @@ public class CodegenConfigurator implements Serializable {
         return null;
     }
 
+    public CodegenConfigurator setTemplatingEngineName(String templatingEngineName) {
+        this.templatingEngineName = templatingEngineName;
+        return this;
+    }
 }
