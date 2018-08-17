@@ -36,6 +36,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "FakeClassnameTags123")
 public class FakeClassnameTags123Api {
 
     private RequestSpecBuilder reqSpec;
@@ -50,10 +51,11 @@ public class FakeClassnameTags123Api {
 
 
     @ApiOperation(value = "To test class name in snake case",
-                  notes = "To test class name in snake case",
-                  tags={ "fake_classname_tags 123#$%^" })
+            notes = "To test class name in snake case",
+            nickname = "testClassname",
+            tags = { "fake_classname_tags 123#$%^" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation")  })
+            @ApiResponse(code = 200, message = "successful operation")  })
     public TestClassnameOper testClassname() {
         return new TestClassnameOper(reqSpec);
     }

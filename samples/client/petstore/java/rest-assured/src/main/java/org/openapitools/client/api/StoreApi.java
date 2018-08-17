@@ -36,6 +36,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "Store")
 public class StoreApi {
 
     private RequestSpecBuilder reqSpec;
@@ -50,41 +51,45 @@ public class StoreApi {
 
 
     @ApiOperation(value = "Delete purchase order by ID",
-                  notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
-                  tags={ "store" })
+            notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
+            nickname = "deleteOrder",
+            tags = { "store" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid ID supplied") ,
-        @ApiResponse(code = 404, message = "Order not found")  })
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Order not found")  })
     public DeleteOrderOper deleteOrder() {
         return new DeleteOrderOper(reqSpec);
     }
 
     @ApiOperation(value = "Returns pet inventories by status",
-                  notes = "Returns a map of status codes to quantities",
-                  tags={ "store" })
+            notes = "Returns a map of status codes to quantities",
+            nickname = "getInventory",
+            tags = { "store" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation")  })
+            @ApiResponse(code = 200, message = "successful operation")  })
     public GetInventoryOper getInventory() {
         return new GetInventoryOper(reqSpec);
     }
 
     @ApiOperation(value = "Find purchase order by ID",
-                  notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
-                  tags={ "store" })
+            notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions",
+            nickname = "getOrderById",
+            tags = { "store" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") ,
-        @ApiResponse(code = 400, message = "Invalid ID supplied") ,
-        @ApiResponse(code = 404, message = "Order not found")  })
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Order not found")  })
     public GetOrderByIdOper getOrderById() {
         return new GetOrderByIdOper(reqSpec);
     }
 
     @ApiOperation(value = "Place an order for a pet",
-                  notes = "",
-                  tags={ "store" })
+            notes = "",
+            nickname = "placeOrder",
+            tags = { "store" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") ,
-        @ApiResponse(code = 400, message = "Invalid Order")  })
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid Order")  })
     public PlaceOrderOper placeOrder() {
         return new PlaceOrderOper(reqSpec);
     }
