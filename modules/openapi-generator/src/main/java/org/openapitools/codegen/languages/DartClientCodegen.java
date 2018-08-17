@@ -47,6 +47,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PUB_VERSION = "pubVersion";
     public static final String PUB_DESCRIPTION = "pubDescription";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
+    public static final String SUPPORT_DART2 = "supportDart2";
     protected boolean browserClient = true;
     protected String pubName = "openapi";
     protected String pubVersion = "1.0.0";
@@ -124,6 +125,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code"));
+        cliOptions.add(new CliOption(SUPPORT_DART2, "support dart2").defaultValue("false"));
     }
 
     @Override
@@ -188,9 +190,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
+        if (Boolean.TRUE.equals(additionalProperties.get(SUPPORT_DART2))) {
+            embeddedTemplateDir = templateDir = "dart2";
+        } else {
+            supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
+        }
         final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
-        supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
         supportingFiles.add(new SupportingFile("api_client.mustache", libFolder, "api_client.dart"));
         supportingFiles.add(new SupportingFile("api_exception.mustache", libFolder, "api_exception.dart"));
         supportingFiles.add(new SupportingFile("api_helper.mustache", libFolder, "api_helper.dart"));
