@@ -300,6 +300,11 @@
             <artifactId>jackson-datatype-threetenbp</artifactId>
             <version>${jackson-threetenbp-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-api</artifactId>
+            <version>4.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
