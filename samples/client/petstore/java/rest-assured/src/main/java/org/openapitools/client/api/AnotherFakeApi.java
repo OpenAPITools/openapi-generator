@@ -24,7 +24,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -47,6 +49,11 @@ public class AnotherFakeApi {
     }
 
 
+    @ApiOperation(value = "To test special tags",
+                  notes = "To test special tags and operation ID starting with number",
+                  tags={ "$another-fake?" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation")  })
     public Call123testSpecialTagsOper call123testSpecialTags() {
         return new Call123testSpecialTagsOper(reqSpec);
     }
@@ -68,22 +75,13 @@ public class AnotherFakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public class Call123testSpecialTagsOper {
+    public static class Call123testSpecialTagsOper {
 
-        public static final String REQ_METHOD = "PATCH";
+        public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/another-fake/dummy";
-        public static final String SUMMARY = "To test special tags";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public Call123testSpecialTagsOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public Call123testSpecialTagsOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -99,7 +97,7 @@ public class AnotherFakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PATCH, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
