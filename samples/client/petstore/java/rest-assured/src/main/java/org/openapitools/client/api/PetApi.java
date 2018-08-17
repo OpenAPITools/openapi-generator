@@ -326,7 +326,7 @@ public class PetApi {
         public static final String STATUS_QUERY = "status";
 
         /**
-         * @param status (List<String>) Status values that need to be considered for filter (required)
+         * @param status (List&lt;String&gt;) Status values that need to be considered for filter (required)
          * @return operation
          */
         public FindPetsByStatusOper statusQuery(Object... status) {
@@ -400,7 +400,7 @@ public class PetApi {
         public static final String TAGS_QUERY = "tags";
 
         /**
-         * @param tags (List<String>) Tags to filter by (required)
+         * @param tags (List&lt;String&gt;) Tags to filter by (required)
          * @return operation
          */
         public FindPetsByTagsOper tagsQuery(Object... tags) {

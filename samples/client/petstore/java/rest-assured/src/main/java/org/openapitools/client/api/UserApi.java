@@ -228,7 +228,7 @@ public class UserApi {
         }
 
          /**
-         * @param user (List<User>) List of user object (required)
+         * @param user (List&lt;User&gt;) List of user object (required)
          * @return operation
          */
         public CreateUsersWithArrayInputOper body(List<User> user) {
@@ -288,7 +288,7 @@ public class UserApi {
         }
 
          /**
-         * @param user (List<User>) List of user object (required)
+         * @param user (List&lt;User&gt;) List of user object (required)
          * @return operation
          */
         public CreateUsersWithListInputOper body(List<User> user) {

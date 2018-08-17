@@ -913,7 +913,7 @@ public class FakeApi {
         public static final String ENUM_HEADER_STRING_ARRAY_HEADER = "enum_header_string_array";
 
         /**
-         * @param enumHeaderStringArray (List<String>) Header parameter enum test (string array) (optional)
+         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
@@ -935,7 +935,7 @@ public class FakeApi {
         public static final String ENUM_QUERY_STRING_ARRAY_QUERY = "enum_query_string_array";
 
         /**
-         * @param enumQueryStringArray (List<String>) Query parameter enum test (string array) (optional)
+         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {
@@ -979,7 +979,7 @@ public class FakeApi {
          public static final String ENUM_FORM_STRING_ARRAY_FORM = "enum_form_string_array";
 
          /**
-         * @param enumFormStringArray (List<String>) Form parameter enum test (string array) (optional, default to $)
+         * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional, default to $)
          * @return operation
          */
          public TestEnumParametersOper enumFormStringArrayForm(Object... enumFormStringArray) {
@@ -1050,7 +1050,7 @@ public class FakeApi {
         }
 
          /**
-         * @param requestBody (Map<String, String>) request body (required)
+         * @param requestBody (Map&lt;String, String&gt;) request body (required)
          * @return operation
          */
         public TestInlineAdditionalPropertiesOper body(Map<String, String> requestBody) {
