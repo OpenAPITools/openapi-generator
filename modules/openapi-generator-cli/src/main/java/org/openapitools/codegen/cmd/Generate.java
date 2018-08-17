@@ -34,7 +34,6 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
@@ -203,21 +202,23 @@ public class Generate implements Runnable {
             description = "Skips the default behavior of validating an input specification.")
     private Boolean skipValidateSpec;
 
+    @Option(name = {"--log-to-stderr"},
+            title = "Log to STDERR",
+            description = "write all log messages (not just errors) to STDOUT."
+                    + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
+    private Boolean logToStderr;
+
     @Override
     public void run() {
-        Stream.of("debugSwagger", "debugModels", "debugOperations", "debugSupportingFiles")
-                .map(System::getProperty)
-                .filter(Objects::nonNull)
-                .findAny()
-                .ifPresent(property -> {
-                    LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-                    Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
-                            .map(lc::getLogger)
-                            .peek(logger -> logger.detachAppender("STDOUT"))
-                            .reduce((logger, next) -> logger.getName().equals(Logger.ROOT_LOGGER_NAME) ? logger : next)
-                            .map(root -> root.getAppender("STDERR"))
-                            .ifPresent(FilterAttachable::clearAllFilters);
-                });
+        if (logToStderr != null) {
+            LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+            Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
+                    .map(lc::getLogger)
+                    .peek(logger -> logger.detachAppender("STDOUT"))
+                    .reduce((logger, next) -> logger.getName().equals(Logger.ROOT_LOGGER_NAME) ? logger : next)
+                    .map(root -> root.getAppender("STDERR"))
+                    .ifPresent(FilterAttachable::clearAllFilters);
+        }
 
         // attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
