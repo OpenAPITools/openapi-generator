@@ -1378,6 +1378,7 @@
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
+        <handlebars.java-version>4.1.0</handlebars.java-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.22.0</surefire-version>
         <jmockit-version>1.43</jmockit-version>
