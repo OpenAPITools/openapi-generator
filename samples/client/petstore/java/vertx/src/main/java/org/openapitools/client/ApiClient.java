@@ -18,6 +18,7 @@ import io.vertx.core.file.FileSystem;
 import io.vertx.core.file.OpenOptions;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpMethod;
+import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.HttpRequest;
@@ -554,7 +555,11 @@ public class ApiClient {
                             handleFileDownload(httpResponse, handler);
                             return;
                         } else {
-                            resultContent = Json.decodeValue(httpResponse.body(), returnType);
+                            try {
+                                resultContent = Json.mapper.readValue(httpResponse.bodyAsString(), returnType);
+                            } catch (Exception e) {
+                                throw new DecodeException("Failed to decode:" + e.getMessage(), e);
+                            }
                         }
                         result = Future.succeededFuture(resultContent);
                     }
