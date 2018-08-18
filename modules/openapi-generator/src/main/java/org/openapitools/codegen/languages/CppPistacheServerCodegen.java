@@ -250,7 +250,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 if(importMapping.containsKey(hdr)) {
                     continue;
                 }
-                operations.put("hasModelImport", true);
+                op.vendorExtensions.put("x-codegen-pistache-hasModelImport", true);
             }
         }
 
