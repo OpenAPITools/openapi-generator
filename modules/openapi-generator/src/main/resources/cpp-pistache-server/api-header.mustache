@@ -23,8 +23,8 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-{{#vendorExtensions.x-codegen-pistache-hasModelImport}}
-using namespace {{modelNamespace}};{{/vendorExtensions.x-codegen-pistache-hasModelImport}}
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
 
 class {{declspec}} {{classname}} {
 public:

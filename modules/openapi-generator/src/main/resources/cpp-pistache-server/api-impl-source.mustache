@@ -7,8 +7,8 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-{{#vendorExtensions.x-codegen-pistache-hasModelImport}}
-using namespace {{modelNamespace}};{{/vendorExtensions.x-codegen-pistache-hasModelImport}}
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
 
 {{classname}}Impl::{{classname}}Impl(Pistache::Address addr)
     : {{classname}}(addr)
