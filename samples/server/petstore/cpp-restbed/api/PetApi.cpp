@@ -118,7 +118,7 @@ void PetApiPetResource::PUT_method_handler(const std::shared_ptr<restbed::Sessio
 			std::string requestBody = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
 
 			
-		
+
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
@@ -194,7 +194,7 @@ void PetApiPetPetIdResource::GET_method_handler(const std::shared_ptr<restbed::S
 			// Getting the path params
 			const int64_t petId = request->get_path_parameter("petId", 0L);
 			
-		
+
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
@@ -225,7 +225,7 @@ void PetApiPetPetIdResource::POST_method_handler(const std::shared_ptr<restbed::
 			// Getting the path params
 			const int64_t petId = request->get_path_parameter("petId", 0L);
 			
-		
+
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
