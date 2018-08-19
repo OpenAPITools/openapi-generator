@@ -940,7 +940,7 @@
                 <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
                 <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
                 <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <!--<module>samples/server/petstore/kotlin-server/ktor</module>-->
+                <module>samples/server/petstore/kotlin-server/ktor</module>
                 <!-- move to other CI as the following fails often in CircleCI
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
