@@ -43,6 +43,8 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -64,6 +66,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -4587,5 +4590,39 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public boolean isDataTypeString(String dataType) {
         return "String".equals(dataType);
+    }
+
+    @Override
+    public List<CodegenServer> fromServers(List<Server> servers) {
+        if (servers == null) {
+            return Collections.emptyList();
+        }
+        List<CodegenServer> codegenServers = new LinkedList<>();
+        for (Server server: servers) {
+            CodegenServer cs = new CodegenServer();
+            cs.description = server.getDescription();
+            cs.url = server.getUrl();
+            cs.variables = this.fromServerVariables(server.getVariables());
+            codegenServers.add(cs);
+        }
+        return codegenServers;
+    }
+
+    @Override
+    public List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables) {
+        if (variables == null) {
+            return Collections.emptyList();
+        }
+        List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
+        for (Entry<String, ServerVariable> variableEntry: variables.entrySet()) {
+            CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
+            ServerVariable variable = variableEntry.getValue();
+            codegenServerVariable.defaultValue = variable.getDefault();
+            codegenServerVariable.description = variable.getDescription();
+            codegenServerVariable.enumValues = variable.getEnum();
+            codegenServerVariable.name = variableEntry.getKey();
+            codegenServerVariables.add(codegenServerVariable);
+        }
+        return codegenServerVariables;
     }
 }
