@@ -1,6 +1,8 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -9,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -28,6 +32,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             ));
 
     public static final String TITLE = "title";
+    public static final String LAMBDA = "lambda";
     public static final String SERVER_PORT = "serverPort";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String SPRING_BOOT = "spring-boot";
@@ -252,6 +257,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (this.serviceInterface) {
             apiTemplateFiles.put("service.mustache", "Service.kt");
         } else if (this.serviceImplementation) {
+            LOGGER.warn("If you set `serviceImplementation` to true, `serviceInterface` will also be set to true");
             additionalProperties.put(SERVICE_INTERFACE, true);
             apiTemplateFiles.put("service.mustache", "Service.kt");
             apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
@@ -276,14 +282,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     sanitizeDirectory(sourceFolder + File.separator + basePackage), "Application.kt"));
         }
 
-        // add lambda for mustache templates
-        additionalProperties.put("lambdaEscapeDoubleQuote",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
-        additionalProperties.put("lambdaRemoveLineBreak",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+        addMustacheLambdas(additionalProperties);
 
         // spring uses the jackson lib, and we disallow configuration.
         additionalProperties.put("jackson", "true");
+    }
+
+    private void addMustacheLambdas(final Map<String, Object> objs) {
+        Map<String, Mustache.Lambda> lambdas =
+                new ImmutableMap.Builder<String, Mustache.Lambda>()
+                        .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""))
+                        .build();
+
+        if (objs.containsKey(LAMBDA)) {
+            LOGGER.warn("The lambda property is a reserved word, and will be overwritten!");
+        }
+        objs.put(LAMBDA, lambdas);
     }
 
     @Override
@@ -296,7 +310,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         */
 
         if (!additionalProperties.containsKey(TITLE)) {
-            // From the title, compute a reasonable name for the package and the API
+            // The purpose of the title is for:
+            // - README documentation
+            // - The spring.application.name
+            // - And linking the @RequestMapping
+            // This is an additional step we add when pre-processing the API spec, if
+            // there is no user configuration set for the `title` of the project,
+            // we try build and normalise a title from the API spec itself.
             String title = openAPI.getInfo().getTitle();
 
             // Drop any API suffix
@@ -442,5 +462,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     private static String sanitizeDirectory(String in) {
         return in.replace(".", File.separator);
+    }
+
+    // TODO could probably be made more generic, and moved to the `mustache` package if required by other components.
+    private static class EscapeLambda implements Mustache.Lambda {
+        private String from;
+        private String to;
+
+        EscapeLambda(final String from, final String to) {
+            this.from = from;
+            this.to = Matcher.quoteReplacement(to);
+        }
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            writer.write(fragment.execute().replaceAll(from, to));
+        }
     }
 }

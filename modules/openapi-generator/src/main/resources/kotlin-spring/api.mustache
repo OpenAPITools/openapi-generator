@@ -39,7 +39,7 @@ import kotlin.collections.Map
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swaggerAnnotations}}
 {{=<% %>=}}
-@RequestMapping("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
+@RequestMapping("\${openapi.<%title%>.base-path:<%contextPath%>}")
 <%={{ }}=%>
 {{#operations}}
 class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {
@@ -56,7 +56,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
     @ApiResponses(
             value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}}]){{/swaggerAnnotations}}
     @RequestMapping(
-            value = ["{{{path}}}"],{{#singleContentTypes}}{{#hasProduces}}
+            value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
             produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
             consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
             produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
