@@ -6,6 +6,6 @@ interface for getting the templates
 public interface TemplatingGenerator {
 
   // returns the template content by name
-  String getFullTemplate(String name);
+  String getFullTemplateContents(String name);
 
 }

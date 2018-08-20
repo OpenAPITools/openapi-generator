@@ -19,7 +19,7 @@ public class HandlebarsEngineAdapter implements TemplatingEngineAdapter {
     TemplateLoader loader = new AbstractTemplateLoader() {
       @Override
       public TemplateSource sourceAt(String location) {
-        String templateContent = generator.getFullTemplate(location);
+        String templateContent = generator.getFullTemplateContents(location);
         return new StringTemplateSource(location, templateContent);
       }
     };

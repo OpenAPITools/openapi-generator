@@ -903,7 +903,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     @Override
-    public String getFullTemplate(String templateName) {
+    public String getFullTemplateContents(String templateName) {
         return readTemplate(getFullTemplateFile(config, templateName));
     }
 

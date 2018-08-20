@@ -18,9 +18,9 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                                           String templateFile) throws IOException {
 
         Template tmpl = compiler
-                .withLoader(name -> new StringReader(generator.getFullTemplate(name + "." + getFileExtension())))
+                .withLoader(name -> new StringReader(generator.getFullTemplateContents(name + "." + getFileExtension())))
                 .defaultValue("")
-                .compile(generator.getFullTemplate(templateFile));
+                .compile(generator.getFullTemplateContents(templateFile));
 
         return tmpl.execute(bundle);
     }
