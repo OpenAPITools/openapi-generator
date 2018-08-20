@@ -25,9 +25,8 @@ then
   mvn clean package
 fi
 
-# if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="$@ generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g kotlin-spring -o samples/server/openapi3/petstore/kotlin-springboot --additional-properties=library=spring-boot"
+ags="$@ generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -t modules/openapi-generator/src/main/resources/kotlin-spring -g kotlin-spring -o samples/server/openapi3/petstore/kotlin-springboot --additional-properties=library=spring-boot"
 
 echo "Cleaning previously generated files if any from samples/server/openapi3/petstore/kotlin-springboot"
 rm -rf samples/server/openapi3/petstore/kotlin-springboot

@@ -62,9 +62,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
-        // spring uses the jackson lib
-        additionalProperties.put("jackson", "true");
-
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
@@ -284,6 +281,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+
+        // spring uses the jackson lib, and we disallow configuration.
+        additionalProperties.put("jackson", "true");
     }
 
     @Override
@@ -322,19 +322,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
 
-        if ("null".equals(property.example))
+        if ("null".equals(property.example)) {
             property.example = null;
+        }
 
         //Add imports for Jackson
         if (!Boolean.TRUE.equals(model.isEnum)) {
             model.imports.add("JsonProperty");
-            if (Boolean.TRUE.equals(model.hasEnums))
+            if (Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonValue");
+            }
 
         } else {
             //Needed imports for Jackson's JsonCreator
-            if (additionalProperties.containsKey("jackson"))
+            if (additionalProperties.containsKey("jackson")) {
                 model.imports.add("JsonCreator");
+            }
         }
 
     }
@@ -371,8 +374,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 if (responses != null) {
                     responses.forEach(resp -> {
 
-                        if ("0".equals(resp.code))
+                        if ("0".equals(resp.code)) {
                             resp.code = "200";
+                        }
 
                         doDataTypeAssignment(resp.dataType, new DataTypeAssigner() {
                             @Override

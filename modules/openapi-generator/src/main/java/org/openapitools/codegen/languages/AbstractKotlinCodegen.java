@@ -634,21 +634,25 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]");
 
-        if (name.toLowerCase().matches("^_*class$"))
+        if (name.toLowerCase().matches("^_*class$")) {
             return "propertyClass";
+        }
 
-        if ("_".equals(name))
+        if ("_".equals(name)) {
             name = "_u";
+        }
 
         // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$"))
+        if (name.matches("^[A-Z_]*$")) {
             return name;
+        }
 
-        if (startsWithTwoUppercaseLetters(name))
+        if (startsWithTwoUppercaseLetters(name)) {
             name = name.substring(0, 2).toLowerCase() + name.substring(2);
+        }
 
         // If name contains special chars -> replace them.
-        if ((((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character))))) {
+        if ((name.chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character))))) {
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
@@ -660,8 +664,9 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         name = camelize(name, true);
 
         // for reserved word or word starting with number or containing dollar symbol, escape it
-        if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)"))
+        if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)")) {
             name = escapeReservedWord(name);
+        }
 
         return name;
     }
