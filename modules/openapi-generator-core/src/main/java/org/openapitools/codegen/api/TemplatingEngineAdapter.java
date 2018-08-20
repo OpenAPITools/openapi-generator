@@ -20,5 +20,5 @@ public interface TemplatingEngineAdapter{
   /*
   Used to determine whether a given supporting file is a template
    */
-  String getFileExtension();
+  String[] getFileExtensions();
 }

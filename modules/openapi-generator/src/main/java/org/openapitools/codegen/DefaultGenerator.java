@@ -709,7 +709,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 if (ignoreProcessor.allowsFile(new File(outputFilename))) {
-                    if (templateFile.endsWith(templatingEngine.getFileExtension())) {
+                    if (Arrays.stream(templatingEngine.getFileExtensions())
+                            .anyMatch(templateFile::endsWith)) {
                         configPostProcessMustacheCompiler();
                         String templateContent = templatingEngine
                             .doProcessTemplateToFile(this, bundle, support.templateFile);

@@ -7,6 +7,8 @@ import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.Map;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingGenerator;
@@ -14,13 +16,23 @@ import org.openapitools.codegen.api.TemplatingGenerator;
 
 public class HandlebarsEngineAdapter implements TemplatingEngineAdapter {
 
+  public TemplateSource findTemplate(TemplatingGenerator generator, String name){
+    for (String extension: extensions){
+      try{
+        String location = name + "." + extension;
+        return new StringTemplateSource(location, generator.getFullTemplateContents(location));
+      } catch(Exception ignored) {
+      }
+    }
+    throw new RuntimeException("couldnt find a subtemplate " + name);
+  }
+
   public String doProcessTemplateToFile(TemplatingGenerator generator,
       Map<String, Object> bundle, String templateFile) throws IOException {
-    TemplateLoader loader = new AbstractTemplateLoader() {
+    TemplateLoader loader = new AbstractTemplateLoader() { 
       @Override
       public TemplateSource sourceAt(String location) {
-        String templateContent = generator.getFullTemplateContents(location);
-        return new StringTemplateSource(location, templateContent);
+        return findTemplate(generator, location);
       }
     };
 
@@ -30,9 +42,11 @@ public class HandlebarsEngineAdapter implements TemplatingEngineAdapter {
     return tmpl.apply(bundle);
   }
 
+  String[] extensions = new String[]{"handlebars", "hbs"};
+
   @Override
-  public String getFileExtension() {
-    return "handlebars";
+  public String[] getFileExtensions() {
+    return extensions;
   }
 }
 
