@@ -38,6 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -92,6 +93,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         return this;
+    }
+
+    private void configPostProcessMustacheCompiler() {
+        if (this.templatingEngine instanceof MustacheEngineAdapter) {
+            MustacheEngineAdapter mustacheEngineAdapter = (MustacheEngineAdapter) this.templatingEngine;
+            mustacheEngineAdapter.setCompiler(this.config.processCompiler(mustacheEngineAdapter.getCompiler()));
+        }
     }
 
     /**
@@ -702,6 +710,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 if (ignoreProcessor.allowsFile(new File(outputFilename))) {
                     if (templateFile.endsWith(templatingEngine.getFileExtension())) {
+                        configPostProcessMustacheCompiler();
                         String templateContent = templatingEngine
                             .doProcessTemplateToFile(this, bundle, support.templateFile);
                         writeToFile(outputFilename, templateContent);
@@ -910,6 +919,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         if (ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
+            configPostProcessMustacheCompiler();
             String templateContent = templatingEngine.doProcessTemplateToFile(this, templateData, templateName);
             writeToFile(adjustedOutputFilename, templateContent);
             return new File(adjustedOutputFilename);

@@ -29,4 +29,12 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
     public String getFileExtension() {
         return "mustache";
     }
+
+    public Mustache.Compiler getCompiler() {
+        return compiler;
+    }
+
+    public void setCompiler(Mustache.Compiler compiler) {
+        this.compiler = compiler;
+    }
 }
