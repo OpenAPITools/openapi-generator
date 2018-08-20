@@ -179,10 +179,6 @@ samples/client/petstore/kotlin-string/build
 samples/server/petstore/kotlin-server/ktor/build
 \?
 
-# Kotlin Spring Boot
-samples/server/petstore/kotlin-springboot
-samples/server/openapi3/petstore/kotlin-springboot
-
 # haskell
 .stack-work
 .cabal-sandbox
