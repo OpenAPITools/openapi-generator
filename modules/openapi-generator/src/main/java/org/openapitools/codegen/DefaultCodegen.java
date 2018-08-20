@@ -463,6 +463,12 @@ public class DefaultCodegen implements CodegenConfig {
         return compiler;
     }
 
+    // override with any special handling for the templating engine
+    @SuppressWarnings("unused")
+    public TemplatingEngineAdapter processTemplatingEngine(TemplatingEngineAdapter templatingEngine) {
+        return templatingEngine;
+    }
+
     // override with any special text escaping logic
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
