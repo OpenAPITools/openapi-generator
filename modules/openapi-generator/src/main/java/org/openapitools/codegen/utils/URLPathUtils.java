@@ -50,7 +50,7 @@ public class URLPathUtils {
         return getServerURL(servers.get(0));
     }
 
-    static URL getServerURL(final Server server) {
+    public static URL getServerURL(final Server server) {
         String url = server.getUrl();
         ServerVariables variables = server.getVariables();
         if(variables == null) {

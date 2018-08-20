@@ -2,6 +2,9 @@
 
 This document describes the gradle plugin for OpenAPI Generator.
 
+This gradle plugin offers a declarative DSL via _extensions_ (these are Gradle project extensions).
+These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugin. The plugin maps the extensions to a task of the same name to provide a clean API. If you're interested in the extension/task mapping concept from a high-level, you can https://docs.gradle.org/current/userguide/custom_plugins.html#sec:mapping_extension_properties_to_task_properties[check out Gradle's docs].
+
 == Tasks
 
 Tasks are listed under the "OpenAPI Tools" tasks heading.
@@ -23,6 +26,17 @@ Tasks are listed under the "OpenAPI Tools" tasks heading.
 |*openApiValidate*
 |Validates an Open API 2.0 or 3.x specification document.
 |===
+
+
+[NOTE]
+====
+The plugin implements the above tasks as project extensions of the same name. If you'd like to declare
+these tasks as dependencies to other tasks (using `dependsOn`), you'll need  a task reference. e.g.:
+
+```
+compileJava.dependsOn tasks.openApiGenerate
+```
+====
 
 == Plugin Setup
 
@@ -455,3 +469,65 @@ Run with --stacktrace option to get the stack trace. Run with --info or --debug 
 ----
 $ ./gradlew openApiValidate --input=/Users/jim/projects/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 ----
+
+=== Generate multiple sources
+
+If you want to perform multiple generation tasks, you'd want to create a task that inherits from the `GenerateTask`.
+Examples can be found in https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle[samples/local-spec/build.gradle].
+
+To match the example you are using for that old swagger based plugin:
+
+```gradle
+task buildGoClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    generatorName = "go"
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    additionalProperties = [
+            packageName: "petstore"
+    ]
+    outputDir = "$buildDir/go".toString()
+    configOptions = [
+            dateLibrary: "threetenp"
+    ]
+}
+task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    generatorName = "kotlin"
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    outputDir = "$buildDir/kotlin".toString()
+    apiPackage = "org.openapitools.example.api"
+    invokerPackage = "org.openapitools.example.invoker"
+    modelPackage = "org.openapitools.example.model"
+    configOptions = [
+            dateLibrary: "java8"
+    ]
+    systemProperties = [
+            modelDocs: "false"
+    ]
+}
+```
+
+To execute your specs, you'd then do:
+
+```
+./gradlew buildGoClient buildKotlinClient
+```
+
+If you want to simplify the execution, you could create a new task with `dependsOn`.
+
+```gradle
+task codegen(dependsOn: ['buildGoClient', 'buildKotlinClient'])
+```
+
+Or, if you're generating the code on compile, you can add these as a dependency to `compileJava` or any other existing task:
+
+
+```gradle
+compileJava.dependsOn buildKotlinClient, tasks.openApiGenerate
+```
+
+[NOTE]
+====
+`openApiGenerate` is a project extension _and_ a task. If you want to use this in `dependsOn`,
+you need a task reference or instance. One way to do this is to access it as `tasks.openApiGenerate`.
+
+You can run `gradle tasks --debug` to see this registration.
+====
