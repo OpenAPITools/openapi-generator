@@ -13,14 +13,19 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.beans.factory.annotation.Autowired
+
+import javax.validation.Valid
+import javax.validation.constraints.*
 
 import kotlin.collections.List
 import kotlin.collections.Map
 
 @Controller
+@Validated
 @Api(value = "Store", description = "The Store API")
 @RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
 class StoreApiController(@Autowired(required = true) val service: StoreApiService) {
@@ -66,7 +71,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun getOrderById(@ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.OK)
     }
 
@@ -82,7 +87,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             produces = ["application/xml", "application/json"], 
             consumes = ["application/json"],
             method = [RequestMethod.POST])
-    fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )   @RequestBody order: Order): ResponseEntity<Order> {
+    fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody order: Order): ResponseEntity<Order> {
         return ResponseEntity(service.placeOrder(order), HttpStatus.OK)
     }
 }

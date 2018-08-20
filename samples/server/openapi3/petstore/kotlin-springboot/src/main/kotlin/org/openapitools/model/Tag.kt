@@ -4,6 +4,7 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.Valid
 import javax.validation.constraints.*
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * A tag for a pet
@@ -11,8 +12,12 @@ import javax.validation.constraints.*
  * @param name 
  */
 data class Tag (
-    @JsonProperty("id") val id: kotlin.Long? = null,
-    @JsonProperty("name") val name: kotlin.String? = null
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("id") val id: kotlin.Long? = null,
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("name") val name: kotlin.String? = null
 ) {
 
 }

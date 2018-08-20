@@ -14,14 +14,19 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.beans.factory.annotation.Autowired
+
+import javax.validation.Valid
+import javax.validation.constraints.*
 
 import kotlin.collections.List
 import kotlin.collections.Map
 
 @Controller
+@Validated
 @Api(value = "Pet", description = "The Pet API")
 @RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
@@ -37,7 +42,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             value = ["/pet"],
             consumes = ["application/json", "application/xml"],
             method = [RequestMethod.POST])
-    fun addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )   @RequestBody pet: Pet): ResponseEntity<Unit> {
+    fun addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody pet: Pet): ResponseEntity<Unit> {
         return ResponseEntity(service.addPet(pet), HttpStatus.OK)
     }
 
@@ -68,7 +73,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             value = ["/pet/findByStatus"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun findPetsByStatus(@ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold")  @RequestParam(value = "status", required = true) status: kotlin.Array<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: kotlin.Array<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsByStatus(status), HttpStatus.OK)
     }
 
@@ -85,7 +90,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun findPetsByTags(@ApiParam(value = "Tags to filter by", required = true)  @RequestParam(value = "tags", required = true) tags: kotlin.Array<kotlin.String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.Array<kotlin.String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsByTags(tags), HttpStatus.OK)
     }
 
@@ -116,7 +121,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             value = ["/pet"],
             consumes = ["application/json", "application/xml"],
             method = [RequestMethod.PUT])
-    fun updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )   @RequestBody pet: Pet): ResponseEntity<Unit> {
+    fun updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody pet: Pet): ResponseEntity<Unit> {
         return ResponseEntity(service.updatePet(pet), HttpStatus.OK)
     }
 
@@ -148,7 +153,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             produces = ["application/json"], 
             consumes = ["multipart/form-data"],
             method = [RequestMethod.POST])
-    fun uploadFile(@ApiParam(value = "ID of pet to update", required=true) @PathVariable("petId") petId: kotlin.Long,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false) additionalMetadata: kotlin.String ,@ApiParam(value = "file detail")  @RequestPart("file") file: MultipartFile): ResponseEntity<ModelApiResponse> {
+    fun uploadFile(@ApiParam(value = "ID of pet to update", required=true) @PathVariable("petId") petId: kotlin.Long,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false) additionalMetadata: kotlin.String ,@ApiParam(value = "file detail") @Valid @RequestPart("file") file: MultipartFile): ResponseEntity<ModelApiResponse> {
         return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.OK)
     }
 }

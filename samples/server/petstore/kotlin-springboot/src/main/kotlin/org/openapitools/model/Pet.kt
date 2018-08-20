@@ -7,6 +7,7 @@ import org.openapitools.model.Category
 import org.openapitools.model.Tag
 import javax.validation.Valid
 import javax.validation.constraints.*
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * A pet for sale in the pet store
@@ -18,13 +19,26 @@ import javax.validation.constraints.*
  * @param status pet status in the store
  */
 data class Pet (
-    @JsonProperty("name") val name: kotlin.String,
-    @JsonProperty("photoUrls") val photoUrls: kotlin.Array<kotlin.String>,
-    @JsonProperty("id") val id: kotlin.Long? = null,
-    @JsonProperty("category") val category: Category? = null,
-    @JsonProperty("tags") val tags: kotlin.Array<Tag>? = null,
-    /* pet status in the store */
-    @JsonProperty("status") val status: Pet.Status? = null
+
+        @get:NotNull 
+        @ApiModelProperty(example = "doggie", required = true, value = "")
+        @JsonProperty("name") val name: kotlin.String,
+
+        @get:NotNull 
+        @ApiModelProperty(required = true, value = "")
+        @JsonProperty("photoUrls") val photoUrls: kotlin.Array<kotlin.String>,
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("id") val id: kotlin.Long? = null,
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("category") val category: Category? = null,
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("tags") val tags: kotlin.Array<Tag>? = null,
+
+        @ApiModelProperty(value = "pet status in the store")
+        @JsonProperty("status") val status: Pet.Status? = null
 ) {
 
     /**

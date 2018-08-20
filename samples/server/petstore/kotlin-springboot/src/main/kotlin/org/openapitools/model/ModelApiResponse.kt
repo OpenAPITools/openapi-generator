@@ -4,6 +4,7 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.Valid
 import javax.validation.constraints.*
+import io.swagger.annotations.ApiModelProperty
 
 /**
  * Describes the result of uploading an image resource
@@ -12,9 +13,15 @@ import javax.validation.constraints.*
  * @param message 
  */
 data class ModelApiResponse (
-    @JsonProperty("code") val code: kotlin.Int? = null,
-    @JsonProperty("type") val type: kotlin.String? = null,
-    @JsonProperty("message") val message: kotlin.String? = null
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("code") val code: kotlin.Int? = null,
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("type") val type: kotlin.String? = null,
+
+        @ApiModelProperty(value = "")
+        @JsonProperty("message") val message: kotlin.String? = null
 ) {
 
 }

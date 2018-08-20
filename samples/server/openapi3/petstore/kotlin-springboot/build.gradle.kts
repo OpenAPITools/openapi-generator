@@ -23,7 +23,7 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    val kotlinVersion = "1.2.41"
+    val kotlinVersion = "1.2.60"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
@@ -35,7 +35,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compile("org.springframework.boot:spring-boot-starter-web")
-    compile("io.swagger:swagger-annotations:1.5.14")
+    compile("io.swagger:swagger-annotations:1.5.21")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
