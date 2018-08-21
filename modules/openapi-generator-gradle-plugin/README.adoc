@@ -475,7 +475,7 @@ $ ./gradlew openApiValidate --input=/Users/jim/projects/openapi-generator/module
 If you want to perform multiple generation tasks, you'd want to create a task that inherits from the `GenerateTask`.
 Examples can be found in https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle[samples/local-spec/build.gradle].
 
-To match the example you are using for that old swagger based plugin:
+You can define any number of generator tasks; the generated code does _not_ need to be a JVM language.
 
 ```gradle
 task buildGoClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
@@ -517,8 +517,8 @@ If you want to simplify the execution, you could create a new task with `depends
 task codegen(dependsOn: ['buildGoClient', 'buildKotlinClient'])
 ```
 
-Or, if you're generating the code on compile, you can add these as a dependency to `compileJava` or any other existing task:
-
+Or, if you're generating the code on compile, you can add these as a dependency to `compileJava` or any other existing task.
+You can also mix the default task `openApiGenerate` with custom tasks:
 
 ```gradle
 compileJava.dependsOn buildKotlinClient, tasks.openApiGenerate
