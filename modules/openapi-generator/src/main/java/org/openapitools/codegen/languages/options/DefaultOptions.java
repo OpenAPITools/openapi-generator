@@ -14,6 +14,9 @@ public abstract class DefaultOptions implements Options {
     protected Set<String> languageSpecificPrimitives;
     protected Map<String, String> specialCharReplacements;
     protected boolean allowUnicodeIdentifiers;
+    protected boolean supportsInheritance;
+    protected boolean supportsMultipleInheritance = false;
+    protected boolean supportsMixins;
 
     public DefaultOptions() {
         reservedWords = new HashSet<String>();
@@ -80,6 +83,22 @@ public abstract class DefaultOptions implements Options {
         return specialCharReplacements;
     }
 
+    @Override
+    public boolean getSupportsInheritance() {
+        return supportsInheritance;
+    }
+
+    @Override
+    public boolean getSupportsMultipleInheritance() {
+        return supportsMultipleInheritance;
+    }
+
+    @Override
+    public boolean getSupportsMixins() {
+        return supportsMixins;
+    }
+
+    @Override
     public String sanitizePackageName(String packageName) {
         packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");

@@ -98,8 +98,11 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+    @Deprecated
     protected boolean supportsMultipleInheritance;
+    @Deprecated
     protected boolean supportsInheritance;
+    @Deprecated
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library;
@@ -556,6 +559,18 @@ public class DefaultCodegen implements CodegenConfig {
     public Map<String, String> specialCharReplacements() {
         return options !=null ? options.getSpecialCharReplacements() : specialCharReplacements;
     }
+    public boolean supportsMultipleInheritance() {
+        return options!=null ? options.getSupportsMultipleInheritance() : supportsMultipleInheritance;
+    }
+
+    public boolean supportsInheritance() {
+        return options!=null ? options.getSupportsInheritance() : supportsInheritance;
+    }
+
+    public boolean supportsMixins() {
+        return options!=null ? options.getSupportsMixins() : supportsMixins;
+    }
+
     public Map<String, String> typeMapping() {
         return typeMapping;
     }
@@ -1662,7 +1677,7 @@ public class DefaultCodegen implements CodegenConfig {
             final boolean hasParent = StringUtils.isNotBlank(parentName);
 
             // TODO revise the logic below to set dicriminator, xml attributes
-            if (supportsInheritance || supportsMixins) {
+            if (supportsInheritance() || supportsMixins()) {
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
@@ -1706,10 +1721,10 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        if (allParents.contains(modelName) && supportsMultipleInheritance) {
+                        if (allParents.contains(modelName) && supportsMultipleInheritance()) {
                             // multiple inheritance
                             addProperties(allProperties, allRequired, refSchema);
-                        } else if (parentName != null && parentName.equals(modelName) && supportsInheritance) {
+                        } else if (parentName != null && parentName.equals(modelName) && supportsInheritance()) {
                             // single inheritance
                             addProperties(allProperties, allRequired, refSchema);
                         } else {
@@ -1734,7 +1749,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.parentSchema = parentName;
                 m.parent = toModelName(parentName);
 
-                if (supportsMultipleInheritance) {
+                if (supportsMultipleInheritance()) {
                     m.allParents = new ArrayList<String>();
                     for (String pname : allParents) {
                         String pModelName = toModelName(pname);

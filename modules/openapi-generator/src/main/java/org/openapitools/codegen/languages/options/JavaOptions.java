@@ -1,19 +1,17 @@
 package org.openapitools.codegen.languages.options;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.openapitools.codegen.DefaultCodegen;
 
 import java.util.*;
 
-import org.openapitools.codegen.DefaultCodegen;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.escape;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavaOptions extends DefaultOptions implements Options {
 
     public JavaOptions() {
         super();
+
+        supportsInheritance = true;
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -107,7 +105,7 @@ public class JavaOptions extends DefaultOptions implements Options {
 
     @Override
     public String sanitizeTag(String tag) {
-        tag = DefaultCodegen.camelize(DefaultCodegen.underscore(sanitizeName(tag)));
+        tag = camelize(underscore(sanitizeName(tag)));
 
         // tag starts with numbers
         if (tag.matches("^\\d.*")) {

@@ -71,8 +71,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     public JavaCXFServerCodegen() {
         super();
 
-        supportsInheritance = true;
-
         artifactId = "openapi-cxf-server";
 
         outputFolder = "generated-code/JavaJaxRS-CXF";

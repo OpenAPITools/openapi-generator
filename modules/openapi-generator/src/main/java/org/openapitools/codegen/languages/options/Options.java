@@ -8,6 +8,12 @@ public interface Options {
 
     Set<String> getLanguageSpecificPrimitives();
 
+    boolean getSupportsInheritance();
+
+    boolean getSupportsMixins();
+
+    boolean getSupportsMultipleInheritance();
+    
     String sanitizePackageName(String packageName);
 
     String escapeReservedWord(String name);
