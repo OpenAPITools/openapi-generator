@@ -742,6 +742,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(p);
     }
 
+    // override with any special text escaping logic
+    @SuppressWarnings("static-method")
+    public String escapeText(String input) {
+        return options.escapeText(input);
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
@@ -1049,17 +1055,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("Integer".equals(datatype) || "Double".equals(datatype)) {
-            return value;
-        } else if ("Long".equals(datatype)) {
-            // add l to number, e.g. 2048 => 2048l
-            return value + "l";
-        } else if ("Float".equals(datatype)) {
-            // add f to number, e.g. 3.14 => 3.14f
-            return value + "f";
-        } else {
-            return "\"" + escapeText(value) + "\"";
-        }
+        return options.toEnumValue(value, datatype);
     }
 
     @Override
@@ -1246,7 +1242,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
+        return options.escapeUnsafeCharacters(input);
     }
 
     /*

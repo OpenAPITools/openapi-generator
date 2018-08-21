@@ -17,4 +17,10 @@ public interface Options {
     String toVarName(String name);
 
     String sanitizeTag(String tag);
+
+    String toEnumValue(String value, String datatype);
+
+    String escapeText(String input);
+
+    String escapeUnsafeCharacters(String input);
 }

@@ -1,5 +1,8 @@
 package org.openapitools.codegen.languages.options;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.openapitools.codegen.DefaultCodegen;
+
 import java.util.*;
 
 import org.openapitools.codegen.DefaultCodegen;
@@ -111,5 +114,45 @@ public class JavaOptions extends DefaultOptions implements Options {
             tag = "Class" + tag;
         }
         return tag;
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        if ("Integer".equals(datatype) || "Double".equals(datatype)) {
+            return value;
+        } else if ("Long".equals(datatype)) {
+            // add l to number, e.g. 2048 => 2048l
+            return value + "l";
+        } else if ("Float".equals(datatype)) {
+            // add f to number, e.g. 3.14 => 3.14f
+            return value + "f";
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
+    }
+
+    @Override
+    public String escapeText(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // remove \t, \n, \r
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        return escapeUnsafeCharacters(
+                StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                        .replaceAll("[\\t\\n\\r]", " ")
+                        .replace("\\", "\\\\")
+                        .replace("\"", "\\\""));
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 }
