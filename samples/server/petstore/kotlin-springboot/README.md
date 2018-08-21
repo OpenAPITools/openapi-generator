@@ -18,4 +18,4 @@ To build the project using gradle, run:
 gradle build && java -jar build/libs/openapi-spring-1.0.0.jar
 ```
 
-If all builds successfully, the server should run on [http://localhost:8080/](http://localhost:/)
+If all builds successfully, the server should run on [http://localhost:8080/](http://localhost:8080/)
