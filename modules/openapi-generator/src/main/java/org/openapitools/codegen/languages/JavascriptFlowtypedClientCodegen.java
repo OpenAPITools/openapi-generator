@@ -119,7 +119,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -141,7 +141,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
             inner = ((ArraySchema) p).getItems();
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = (Schema) p.getAdditionalProperties();
+            inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "any";

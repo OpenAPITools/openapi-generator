@@ -332,7 +332,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
