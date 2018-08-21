@@ -24,6 +24,7 @@ import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -50,6 +51,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -75,6 +77,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
 public class DefaultCodegen implements CodegenConfig {
@@ -2228,29 +2231,35 @@ public class DefaultCodegen implements CodegenConfig {
                                           Map<String, Schema> schemas,
                                           OpenAPI openAPI) {
         LOGGER.debug("fromOperation => operation: " + operation);
+        if (operation == null)
+            throw new RuntimeException("operation cannot be null in fromOperation");
+
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
         if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
             op.vendorExtensions.putAll(operation.getExtensions());
-        }
 
-        if (operation == null)
-            throw new RuntimeException("operation cannot be null in fromOperation");
+            Object isCallbackRequest = op.vendorExtensions.remove("x-callback-request");
+            op.isCallbackRequest = Boolean.TRUE.equals(isCallbackRequest);
+        }
 
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
 
-        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
-        // remove prefix in operationId
-        if (removeOperationIdPrefix) {
-            int offset = operationId.indexOf('_');
-            if (offset > -1) {
-                operationId = operationId.substring(offset + 1);
+        if (!op.isCallbackRequest) {
+            String operationId = getOrGenerateOperationId(operation, path, httpMethod);
+            // remove prefix in operationId
+            if (removeOperationIdPrefix) {
+                int offset = operationId.indexOf('_');
+                if (offset > -1) {
+                    operationId = operationId.substring(offset + 1);
+                }
             }
+            operationId = removeNonNameElementToCamelCase(operationId);
+            op.operationId = op.isCallbackRequest ? null : toOperationId(operationId);
         }
-        operationId = removeNonNameElementToCamelCase(operationId);
+
         op.path = path;
-        op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
@@ -2338,6 +2347,15 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 addHeaders(openAPI, methodResponse, op.responseHeaders);
             }
+        }
+
+        if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
+            operation.getCallbacks().forEach((name, callback) -> {
+                CodegenCallback c = fromCallback(name, callback, schemas, openAPI);
+                c.hasMore = true;
+                op.callbacks.add(c);
+            });
+            op.callbacks.get(op.callbacks.size() - 1).hasMore = false;
         }
 
         List<Parameter> parameters = operation.getParameters();
@@ -2615,6 +2633,65 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return r;
+    }
+
+    /**
+     * Convert OAS Callback object to Codegen Callback object
+     *
+     * @param name     callback name
+     * @param callback OAS Callback object
+     * @param schemas  a map of OAS models
+     * @param openAPI  a OAS object representing the spec
+     * @return Codegen Response object
+     */
+    public CodegenCallback fromCallback(String name, Callback callback, Map<String, Schema> schemas, OpenAPI openAPI) {
+        CodegenCallback c = new CodegenCallback();
+        c.name = name;
+
+        if (callback.getExtensions() != null && !callback.getExtensions().isEmpty()) {
+            c.vendorExtensions.putAll(callback.getExtensions());
+        }
+
+        callback.forEach((expression, pi) -> {
+            CodegenCallback.Url u = new CodegenCallback.Url();
+            u.expression = expression;
+            u.hasMore = true;
+
+            if (pi.getExtensions() != null && !pi.getExtensions().isEmpty()) {
+                u.vendorExtensions.putAll(pi.getExtensions());
+            }
+
+            Stream.of(
+                    Pair.of("get",     pi.getGet()),
+                    Pair.of("head",    pi.getHead()),
+                    Pair.of("put",     pi.getPut()),
+                    Pair.of("post",    pi.getPost()),
+                    Pair.of("delete",  pi.getDelete()),
+                    Pair.of("patch",   pi.getPatch()),
+                    Pair.of("options", pi.getOptions()))
+                    .filter(p -> p.getValue() != null)
+                    .forEach(p -> {
+                        String method = p.getKey();
+                        Operation op = p.getValue();
+
+                        if (op.getExtensions() == null) {
+                            op.setExtensions(new HashMap<>());
+                        }
+                        op.getExtensions().put("x-callback-request", true);
+                        u.requests.add(fromOperation(expression, method, op, schemas, openAPI));
+                    });
+
+            if (!u.requests.isEmpty()) {
+                u.requests.get(u.requests.size() - 1).hasMore = false;
+            }
+            c.urls.add(u);
+        });
+
+        if (!c.urls.isEmpty()) {
+            c.urls.get(c.urls.size() - 1).hasMore = false;
+        }
+
+        return c;
     }
 
     /**

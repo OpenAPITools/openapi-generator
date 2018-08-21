@@ -407,6 +407,59 @@ public class DefaultCodegenTest {
         verifyPersonDiscriminator(personModel.discriminator);
     }
 
+    @Test
+    public void testCallbacks() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/callbacks.yaml", null, new ParseOptions()).getOpenAPI();
+        final CodegenConfig codegen = new DefaultCodegen();
+
+        final String path = "/streams";
+        Operation subscriptionOperation = openAPI.getPaths().get("/streams").getPost();
+        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation, openAPI.getComponents().getSchemas(), openAPI);
+
+        Assert.assertFalse(op.isCallbackRequest);
+        Assert.assertNotNull(op.operationId);
+        Assert.assertEquals(op.callbacks.size(), 2);
+
+        CodegenCallback cbB = op.callbacks.get(1);
+        Assert.assertEquals(cbB.name, "dummy");
+        Assert.assertFalse(cbB.hasMore);
+        Assert.assertEquals(cbB.urls.size(), 0);
+
+        CodegenCallback cbA = op.callbacks.get(0);
+        Assert.assertEquals(cbA.name, "onData");
+        Assert.assertTrue(cbA.hasMore);
+
+        Assert.assertEquals(cbA.urls.size(), 2);
+
+        CodegenCallback.Url urlB = cbA.urls.get(1);
+        Assert.assertEquals(urlB.expression, "{$request.query.callbackUrl}/test");
+        Assert.assertFalse(urlB.hasMore);
+        Assert.assertEquals(urlB.requests.size(), 0);
+
+        CodegenCallback.Url urlA = cbA.urls.get(0);
+        Assert.assertEquals(urlA.expression, "{$request.query.callbackUrl}/data");
+        Assert.assertTrue(urlA.hasMore);
+        Assert.assertEquals(urlA.requests.size(), 2);
+
+        urlA.requests.forEach(req -> {
+            Assert.assertTrue(req.isCallbackRequest);
+            Assert.assertNull(req.operationId);
+            Assert.assertNotNull(req.bodyParam);
+            Assert.assertEquals(req.responses.size(), 2);
+
+            switch (req.httpMethod.toLowerCase()) {
+            case "post":
+                Assert.assertEquals(req.bodyParam.dataType, "NewNotificationData");
+                break;
+            case "delete":
+                Assert.assertEquals(req.bodyParam.dataType, "DeleteNotificationData");
+                break;
+            default:
+                Assert.fail(String.format("invalid callback request http method '%s'", req.httpMethod));
+            }
+        });
+    }
+
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("$_type");
