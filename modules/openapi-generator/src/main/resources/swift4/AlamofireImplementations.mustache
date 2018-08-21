@@ -17,9 +17,37 @@ class AlamofireRequestBuilderFactory: RequestBuilderFactory {
     }
 }
 
-// Store manager to retain its reference
-private var managerStore: [String: Alamofire.SessionManager] = [:]
+private struct SynchronizedDictionary<K: Hashable, V> {
 
+     private var dictionary = [K: V]()
+     private let queue = DispatchQueue(
+         label: "SynchronizedDictionary",
+         qos: DispatchQoS.userInitiated,
+         attributes: [DispatchQueue.Attributes.concurrent],
+         autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.inherit,
+         target: nil
+     )
+
+     public subscript(key: K) -> V? {
+         get {
+             var value: V?
+
+             queue.sync {
+                 value = self.dictionary[key]
+             }
+
+             return value
+         }
+         set {
+             queue.sync(flags: DispatchWorkItemFlags.barrier) {
+                 self.dictionary[key] = newValue
+             }
+         }
+     }
+ }
+
+// Store manager to retain its reference
+private var managerStore = SynchronizedDictionary<String, Alamofire.SessionManager>()
 open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
     required public init(method: String, URLString: String, parameters: [String : Any]?, isBody: Bool, headers: [String : String] = [:]) {
         super.init(method: method, URLString: URLString, parameters: parameters, isBody: isBody, headers: headers)
@@ -112,7 +140,7 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         }
 
         let cleanupRequest = {
-            _ = managerStore.removeValue(forKey: managerId)
+            managerStore[managerId] = nil
         }
 
         let validatedRequest = request.validate()
@@ -314,7 +342,7 @@ open class AlamofireDecodableRequestBuilder<T:Decodable>: AlamofireRequestBuilde
         }
 
         let cleanupRequest = {
-            _ = managerStore.removeValue(forKey: managerId)
+            managerStore[managerId] = nil
         }
 
         let validatedRequest = request.validate()
