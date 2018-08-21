@@ -18,12 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import java.util.*;
-import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
@@ -196,7 +196,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
@@ -229,11 +229,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
-            if (ap.getAdditionalProperties() == null) {
+            if (ModelUtils.getAdditionalProperties(ap) == null) {
                 return null;
             }
 
-            return String.format(pattern, String.format("String, %s", getTypeDeclaration((Schema) ap.getAdditionalProperties())));
+            return String.format(pattern, String.format("String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -366,7 +366,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue((Schema) p.getAdditionalProperties()) + "}";
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(ModelUtils.getAdditionalProperties(p)) + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);

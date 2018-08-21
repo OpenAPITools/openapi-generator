@@ -294,7 +294,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">*";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">*";
         }
         if (foundationClasses.contains(openAPIType)) {
@@ -325,7 +325,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "new QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
