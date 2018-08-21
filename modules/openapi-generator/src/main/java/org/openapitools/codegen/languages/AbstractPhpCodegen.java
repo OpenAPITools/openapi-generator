@@ -24,6 +24,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
@@ -238,6 +239,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // apache v2 license
         // supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
+
+        // all PHP codegens requires Composer, it means that we need to exclude from SVN at least vendor folder
+        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
     }
 
     public String getPackageName() {

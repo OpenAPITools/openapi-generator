@@ -116,6 +116,9 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("composer.json", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+
+        // remove this line when this class extends AbstractPhpCodegen
+        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
     }
 
     @Override
