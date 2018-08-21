@@ -23,4 +23,6 @@ public interface Options {
     String escapeText(String input);
 
     String escapeUnsafeCharacters(String input);
+
+    String toEnumVarName(String value, String datatype);
 }

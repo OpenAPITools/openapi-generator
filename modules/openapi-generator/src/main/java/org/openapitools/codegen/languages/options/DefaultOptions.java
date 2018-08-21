@@ -161,4 +161,14 @@ public abstract class DefaultOptions implements Options {
 
         return name;
     }
+
+    /**
+     * Return the symbol name of a symbol
+     *
+     * @param input Symbol (e.g. $)
+     * @return Symbol name (e.g. Dollar)
+     */
+    protected String getSymbolName(String input) {
+        return specialCharReplacements.get(input);
+    }
 }
