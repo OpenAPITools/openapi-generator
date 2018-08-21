@@ -53,6 +53,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
@@ -589,7 +590,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
-            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+            name = escape(name, specialCharReplacements, allowedCharacters, "_");
         }
 
         // camelize (lower first character) the variable name

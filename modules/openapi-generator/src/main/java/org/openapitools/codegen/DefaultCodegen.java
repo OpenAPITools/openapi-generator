@@ -75,10 +75,10 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -775,7 +775,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains( "" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         } else {
             return name;
         }
@@ -793,7 +793,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains( "" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         }
         return name;
     }
@@ -830,32 +830,6 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String escapeReservedWord(String name) {
         throw new RuntimeException("reserved word " + name + " not allowed");
-    }
-
-    /**
-     * Return the name with escaped characters.
-     *
-     * @param name the name to be escaped
-     * @param charactersToAllow characters that are not escaped
-     * @param appdendixToReplacement String to append to replaced characters.
-     * @return the escaped word
-     * <p>
-     * throws Runtime exception as word is not escaped properly.
-     */
-    public String escapeSpecialCharacters(String name, List<String> charactersToAllow, String appdendixToReplacement) {
-        String result = (String) ((CharSequence) name).chars().mapToObj(c -> {
-          String character = "" + (char) c;
-          if (charactersToAllow != null && charactersToAllow.contains(character)) {
-              return character;
-          } else if (specialCharReplacements.containsKey(character)) {
-              return specialCharReplacements.get(character) + (appdendixToReplacement != null ? appdendixToReplacement: "");
-          } else {
-              return character;
-          }
-        }).reduce( (c1, c2) -> "" + c1 + c2).orElse(null);
-
-        if (result != null) return result;
-        throw new RuntimeException("Word '" + name + "' could not be escaped.");
     }
 
     /**

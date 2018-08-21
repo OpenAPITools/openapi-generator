@@ -1,5 +1,7 @@
 package org.openapitools.codegen.utils;
 
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,5 +132,32 @@ public class StringUtils {
         word = word.replaceAll("_", "");
 
         return word;
+    }
+
+    /**
+     * Return the name with escaped characters.
+     *
+     * @param name the name to be escaped
+     * @param charactersToAllow characters that are not escaped
+     * @param appendToReplacement String to append to replaced characters.
+     * @return the escaped word
+     * <p>
+     * throws Runtime exception as word is not escaped properly.
+     */
+    public static String escape(String name, Map<String, String> replacementMap,
+                                List<String> charactersToAllow, String appendToReplacement) {
+        String result = name.chars().mapToObj(c -> {
+            String character = "" + (char) c;
+            if (charactersToAllow != null && charactersToAllow.contains(character)) {
+                return character;
+            } else if (replacementMap.containsKey(character)) {
+                return replacementMap.get(character) + (appendToReplacement != null ? appendToReplacement: "");
+            } else {
+                return character;
+            }
+        }).reduce( (c1, c2) -> "" + c1 + c2).orElse(null);
+
+        if (result != null) return result;
+        throw new RuntimeException("Word '" + name + "' could not be escaped.");
     }
 }
