@@ -2259,7 +2259,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (String key : operation.getResponses().keySet()) {
                 ApiResponse response = operation.getResponses().get(key);
                 addProducesInfo(openAPI, response, op);
-                CodegenResponse r = fromResponse(key, response);
+                CodegenResponse r = fromResponse(openAPI, key, response);
                 r.hasMore = true;
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
@@ -2328,7 +2328,7 @@ public class DefaultCodegen implements CodegenConfig {
                         op.returnTypeIsPrimitive = true;
                     }
                 }
-                addHeaders(methodResponse, op.responseHeaders);
+                addHeaders(openAPI, methodResponse, op.responseHeaders);
             }
         }
 
@@ -2505,11 +2505,12 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Response object to Codegen Response object
      *
+     * @param openAPI    a OAS object representing the spec
      * @param responseCode HTTP response code
      * @param response     OAS Response object
      * @return Codegen Response object
      */
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+    public CodegenResponse fromResponse(OpenAPI openAPI, String responseCode, ApiResponse response) {
         CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
         if ("default".equals(responseCode)) {
             r.code = "0";
@@ -2526,7 +2527,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());
         }
-        addHeaders(response, r.headers);
+        addHeaders(openAPI, response, r.headers);
         r.hasHeaders = !r.headers.isEmpty();
 
         if (r.schema != null) {
@@ -3072,12 +3073,15 @@ public class DefaultCodegen implements CodegenConfig {
      * @param response   API response
      * @param properties list of codegen property
      */
-    private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
+    private void addHeaders(OpenAPI openAPI, ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
             for (Map.Entry<String, Header> headers : response.getHeaders().entrySet()) {
-                CodegenProperty cp = fromProperty(headers.getKey(), headers.getValue().getSchema());
-                cp.setDescription(escapeText(headers.getValue().getDescription()));
-                cp.setUnescapedDescription(headers.getValue().getDescription());
+                String description = headers.getValue().getDescription();
+                // follow the $ref
+                Header header = ModelUtils.getReferencedHeader(openAPI, headers.getValue());
+                CodegenProperty cp = fromProperty(headers.getKey(), header.getSchema());
+                cp.setDescription(escapeText(description));
+                cp.setUnescapedDescription(description);
                 properties.add(cp);
             }
         }
