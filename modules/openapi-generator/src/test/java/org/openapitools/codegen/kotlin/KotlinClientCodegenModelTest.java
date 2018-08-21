@@ -105,10 +105,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
-        Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
@@ -165,10 +165,10 @@ public class KotlinClientCodegenModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.dataType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.dataType, "java.time.OffsetDateTime");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "null");
-        Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
+        Assert.assertEquals(property3.baseType, "java.time.OffsetDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertTrue(property3.isNotContainer);
