@@ -138,6 +138,7 @@ public class StringUtils {
      * Return the name with escaped characters.
      *
      * @param name the name to be escaped
+     * @param replacementMap map of replacement characters for non-allowed characters
      * @param charactersToAllow characters that are not escaped
      * @param appendToReplacement String to append to replaced characters.
      * @return the escaped word
