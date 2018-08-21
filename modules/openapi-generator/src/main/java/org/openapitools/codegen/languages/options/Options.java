@@ -31,4 +31,6 @@ public interface Options {
     String escapeUnsafeCharacters(String input);
 
     String toEnumVarName(String value, String datatype);
+
+    String toParamName(String name);
 }
