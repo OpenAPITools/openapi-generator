@@ -36,6 +36,8 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("io.swagger:swagger-annotations:1.5.21")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
