@@ -2,7 +2,7 @@
 /**
  * MapTest
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * MapTest
@@ -18,7 +18,7 @@ class MapTest {
     /** @var map[string,bool] $direct_map */
     private $direct_map;
 
-    /** @var \app.Models\StringBooleanMap $indirect_map */
+    /** @var \app\Models\StringBooleanMap $indirect_map */
     private $indirect_map;
 
 }

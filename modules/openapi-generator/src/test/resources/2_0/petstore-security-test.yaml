@@ -25,7 +25,7 @@ paths:
       tags:
         - fake
       summary: To test code injection */ ' " =end -- \r\n \n \r
-      descriptions:  To test code injection */ ' " =end -- \r\n \n \r
+      description: To test code injection */ ' " =end -- \r\n \n \r
       operationId: testCodeInject */ ' " =end -- \r\n \n \r
       consumes:
         - application/json

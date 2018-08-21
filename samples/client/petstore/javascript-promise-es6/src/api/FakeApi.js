@@ -14,6 +14,7 @@
 
 import ApiClient from "../ApiClient";
 import Client from '../model/Client';
+import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
 
@@ -215,6 +216,54 @@ export default class FakeApi {
      */
     fakeOuterStringSerialize(opts) {
       return this.fakeOuterStringSerializeWithHttpInfo(opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass) {
+      let postBody = fileSchemaTestClass;
+
+      // verify the required parameter 'fileSchemaTestClass' is set
+      if (fileSchemaTestClass === undefined || fileSchemaTestClass === null) {
+        throw new Error("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/body-with-file-schema', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testBodyWithFileSchema(fileSchemaTestClass) {
+      return this.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

@@ -10,7 +10,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.2.2-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -608,6 +608,55 @@
             </modules>
         </profile>
         <profile>
+            <!-- openapi v3's one -->
+            <id>jaxrs-jersey</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-jersey</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface-response</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
@@ -853,6 +902,10 @@
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/kotlin/</module>
                 <!-- servers -->
+                <module>samples/server/petstore/jaxrs-jersey</module>
+                <module>samples/server/petstore/jaxrs-spec</module>
+                <module>samples/server/petstore/jaxrs-spec-interface</module>
+                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
                 <module>samples/server/petstore/java-vertx/rx</module>
                 <module>samples/server/petstore/java-vertx/async</module>
                 <module>samples/server/petstore/java-inflector</module>
@@ -876,7 +929,6 @@
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
             </modules>
         </profile>
     </profiles>

@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.mustache.JoinWithCommaLambda;
 import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
@@ -132,6 +133,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+
+        additionalProperties.put("joinWithComma", new JoinWithCommaLambda());
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));

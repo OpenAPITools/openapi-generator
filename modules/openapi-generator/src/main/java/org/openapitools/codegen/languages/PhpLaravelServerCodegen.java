@@ -17,31 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.models.properties.*;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
 import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.*;
 
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
-    @SuppressWarnings("hiding")
     protected String apiVersion = "1.0.0";
-    protected String variableNamingConvention = "camelCase";
 
     /**
      * Configures the type of generator.
@@ -80,13 +62,13 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         super();
 
         embeddedTemplateDir = templateDir = "php-laravel";
+        variableNamingConvention = "camelCase";
 
         /*
          * packPath
          */
         invokerPackage = "php-laravel";
-        packagePath = "";
-        outputFolder = packagePath + File.separator + srcBasePath;
+        outputFolder = srcBasePath;
 
         /*
          * Api Package.  Optional, if needed, this can be used in templates
@@ -96,7 +78,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         /*
          * Model Package.  Optional, if needed, this can be used in templates
          */
-        modelPackage = "app.Models";
+        modelPackage = "app\\Models";
 
         // template files want to be ignored
         apiTestTemplateFiles.clear();

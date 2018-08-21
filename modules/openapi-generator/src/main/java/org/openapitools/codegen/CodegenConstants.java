@@ -31,6 +31,7 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
     public static final String WITH_XML = "withXml";
+    public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
     public static final String API_PACKAGE = "apiPackage";
@@ -257,4 +258,8 @@ public class CodegenConstants {
 
     public static final String DOCEXTENSION = "docExtension";
     public static final String DOCEXTENSION_DESC = "The extension of the generated documentation files, defaults to markdown, .md";
+
+    public static final String DATABASE_ADAPTER = "databaseAdapter";
+    public static final String DATABASE_ADAPTER_DESC = "The adapter for database (e.g. mysql, sqlite). Default: sqlite";
+
 }

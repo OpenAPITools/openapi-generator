@@ -23,7 +23,7 @@ if [ ! -d "${APP_DIR}" ]; then
 fi
 
 # Make sure that we are regenerating the sample by removing any existing target directory
-TARGET_DIR="$SCRIPT_DIR/../samples/server/petstore/php-symfony"
+TARGET_DIR="$SCRIPT_DIR/../samples/server/petstore/php-symfony/SymfonyBundle-php"
 if [ -d "$TARGET_DIR" ]; then
 	rm -rf $TARGET_DIR
 fi

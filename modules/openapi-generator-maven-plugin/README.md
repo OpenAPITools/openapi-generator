@@ -11,7 +11,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>3.1.2</version>
+    <version>3.2.1</version>
     <executions>
         <execution>
             <goals>
@@ -37,6 +37,8 @@ mvn clean compile
 
 ### General Configuration parameters
 
+:bulb: These **general** configurations should be in the same level
+
 - `inputSpec` - OpenAPI Spec file path
 - `validateSpec` - Whether or not to validate the input spec prior to generation. Invalid specifications will result in an error.
 - `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
@@ -49,7 +51,7 @@ mvn clean compile
 - `invokerPackage` - the package to use for the generated invoker objects
 - `modelNamePrefix` and `modelNameSuffix` - Sets the pre- or suffix for model classes and enums
 - `withXml` - enable XML annotations inside the generated models and API (only works with Java `language` and libraries that provide support for JSON and XML)
-- `configOptions` - a map of language-specific parameters (see below)
+- `configOptions` - a map of language-specific parameters. To show a full list of generator-specified parameters (options), please use `configHelp` (explained below)
 - `configHelp` - dumps the configuration help for the specified library (generates no sources)
 - `ignoreFileOverride` - specifies the full path to a `.openapi-generator-ignore` used for pattern based overrides of generated outputs
 - `generateApis` - generate the apis (`true` by default)

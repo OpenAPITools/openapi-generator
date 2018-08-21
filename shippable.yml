@@ -26,7 +26,10 @@ build:
     - sudo apt-get install elixir
     # install rebar3
     - wget https://s3.amazonaws.com/rebar3/rebar3 && chmod +x rebar3 && cp rebar3 /usr/bin
+    # install php
+    - apt-get install php
     # show version
+    - php -v
     - rebar3 -v
     - elixir --version
     - mix --version
@@ -34,3 +37,5 @@ build:
     - mvn --quiet verify -P samples.shippable
     # generate all petstore samples (client, servers, doc)
     - ./bin/run-all-petstore
+    # generate all petstore samples (openapi3)
+    - ./bin/openapi3/run-all-petstore

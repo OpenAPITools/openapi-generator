@@ -64,10 +64,10 @@ $apiInstance = new OpenAPI\Client\Api\AnotherFakeApi(
 $client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->123testSpecialTags($client);
+    $result = $apiInstance->call123TestSpecialTags($client);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling AnotherFakeApi->123testSpecialTags: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling AnotherFakeApi->call123TestSpecialTags: ', $e->getMessage(), PHP_EOL;
 }
 
 ?>
@@ -79,7 +79,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**123testSpecialTags**](docs/Api/AnotherFakeApi.md#123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/Api/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -124,6 +124,12 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/Model/ArrayTest.md)
+ - [Body](docs/Model/Body.md)
+ - [Body1](docs/Model/Body1.md)
+ - [Body2](docs/Model/Body2.md)
+ - [Body3](docs/Model/Body3.md)
+ - [Body4](docs/Model/Body4.md)
+ - [Body5](docs/Model/Body5.md)
  - [Capitalization](docs/Model/Capitalization.md)
  - [Cat](docs/Model/Cat.md)
  - [Category](docs/Model/Category.md)
