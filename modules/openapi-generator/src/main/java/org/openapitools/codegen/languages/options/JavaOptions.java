@@ -102,4 +102,14 @@ public class JavaOptions extends DefaultOptions implements Options {
         return startsWithTwoUppercaseLetters;
     }
 
+    @Override
+    public String sanitizeTag(String tag) {
+        tag = DefaultCodegen.camelize(DefaultCodegen.underscore(sanitizeName(tag)));
+
+        // tag starts with numbers
+        if (tag.matches("^\\d.*")) {
+            tag = "Class" + tag;
+        }
+        return tag;
+    }
 }

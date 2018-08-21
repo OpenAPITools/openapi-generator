@@ -15,4 +15,6 @@ public interface Options {
     Map<String,String> getSpecialCharReplacements();
 
     String toVarName(String name);
+
+    String sanitizeTag(String tag);
 }

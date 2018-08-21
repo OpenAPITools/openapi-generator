@@ -1327,13 +1327,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String sanitizeTag(String tag) {
-        tag = camelize(underscore(sanitizeName(tag)));
-
-        // tag starts with numbers
-        if (tag.matches("^\\d.*")) {
-            tag = "Class" + tag;
-        }
-        return tag;
+        return options.sanitizeTag(tag);
     }
 
     /**
