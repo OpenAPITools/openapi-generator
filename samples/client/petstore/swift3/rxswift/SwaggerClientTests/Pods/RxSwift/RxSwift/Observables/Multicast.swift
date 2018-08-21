@@ -6,6 +6,23 @@
 //  Copyright © 2015 Krunoslav Zaher. All rights reserved.
 //
 
+/**
+ Represents an observable wrapper that can be connected and disconnected from its underlying observable sequence.
+ */
+public class ConnectableObservable<Element>
+    : Observable<Element>
+    , ConnectableObservableType {
+
+    /**
+     Connects the observable wrapper to its source. All subscribed observers will receive values from the underlying observable sequence as long as the connection is established.
+
+     - returns: Disposable used to disconnect the observable wrapper from its source, causing subscribed observer to stop receiving values from the underlying observable sequence.
+     */
+    public func connect() -> Disposable {
+        rxAbstractMethod()
+    }
+}
+
 extension ObservableType {
     
     /**
@@ -109,6 +126,140 @@ extension ObservableType {
     }
 }
 
+extension ObservableType {
+
+    /**
+     Multicasts the source sequence notifications through the specified subject to the resulting connectable observable.
+
+     Upon connection of the connectable observable, the subject is subscribed to the source exactly one, and messages are forwarded to the observers registered with the connectable observable.
+
+     For specializations with fixed subject types, see `publish` and `replay`.
+
+     - seealso: [multicast operator on reactivex.io](http://reactivex.io/documentation/operators/publish.html)
+
+     - parameter subject: Subject to push source elements into.
+     - returns: A connectable observable sequence that upon connection causes the source sequence to push results into the specified subject.
+     */
+    public func multicast<S: SubjectType>(_ subject: S)
+        -> ConnectableObservable<S.E> where S.SubjectObserverType.E == E {
+        return ConnectableObservableAdapter(source: self.asObservable(), makeSubject: { subject })
+    }
+
+    /**
+     Multicasts the source sequence notifications through an instantiated subject to the resulting connectable observable.
+
+     Upon connection of the connectable observable, the subject is subscribed to the source exactly one, and messages are forwarded to the observers registered with the connectable observable.
+     
+     Subject is cleared on connection disposal or in case source sequence produces terminal event.
+
+     - seealso: [multicast operator on reactivex.io](http://reactivex.io/documentation/operators/publish.html)
+
+     - parameter makeSubject: Factory function used to instantiate a subject for each connection.
+     - returns: A connectable observable sequence that upon connection causes the source sequence to push results into the specified subject.
+     */
+    public func multicast<S: SubjectType>(makeSubject: @escaping () -> S)
+        -> ConnectableObservable<S.E> where S.SubjectObserverType.E == E {
+        return ConnectableObservableAdapter(source: self.asObservable(), makeSubject: makeSubject)
+    }
+}
+
+final fileprivate class Connection<S: SubjectType> : ObserverType, Disposable {
+    typealias E = S.SubjectObserverType.E
+
+    private var _lock: RecursiveLock
+    // state
+    private var _parent: ConnectableObservableAdapter<S>?
+    private var _subscription : Disposable?
+    private var _subjectObserver: S.SubjectObserverType
+
+    private var _disposed: Bool = false
+
+    init(parent: ConnectableObservableAdapter<S>, subjectObserver: S.SubjectObserverType, lock: RecursiveLock, subscription: Disposable) {
+        _parent = parent
+        _subscription = subscription
+        _lock = lock
+        _subjectObserver = subjectObserver
+    }
+
+    func on(_ event: Event<S.SubjectObserverType.E>) {
+        if _disposed {
+            return
+        }
+        if event.isStopEvent {
+            self.dispose()
+        }
+        _subjectObserver.on(event)
+    }
+
+    func dispose() {
+        _lock.lock(); defer { _lock.unlock() } // {
+        _disposed = true
+        guard let parent = _parent else {
+            return
+        }
+
+        if parent._connection === self {
+            parent._connection = nil
+            parent._subject = nil
+        }
+        _parent = nil
+
+        _subscription?.dispose()
+        _subscription = nil
+        // }
+    }
+}
+
+final fileprivate class ConnectableObservableAdapter<S: SubjectType>
+    : ConnectableObservable<S.E> {
+    typealias ConnectionType = Connection<S>
+
+    fileprivate let _source: Observable<S.SubjectObserverType.E>
+    fileprivate let _makeSubject: () -> S
+
+    fileprivate let _lock = RecursiveLock()
+    fileprivate var _subject: S?
+
+    // state
+    fileprivate var _connection: ConnectionType?
+
+    init(source: Observable<S.SubjectObserverType.E>, makeSubject: @escaping () -> S) {
+        _source = source
+        _makeSubject = makeSubject
+        _subject = nil
+        _connection = nil
+    }
+
+    override func connect() -> Disposable {
+        return _lock.calculateLocked {
+            if let connection = _connection {
+                return connection
+            }
+
+            let singleAssignmentDisposable = SingleAssignmentDisposable()
+            let connection = Connection(parent: self, subjectObserver: self.lazySubject.asObserver(), lock: _lock, subscription: singleAssignmentDisposable)
+            _connection = connection
+            let subscription = _source.subscribe(connection)
+            singleAssignmentDisposable.setDisposable(subscription)
+            return connection
+        }
+    }
+
+    fileprivate var lazySubject: S {
+        if let subject = self._subject {
+            return subject
+        }
+
+        let subject = _makeSubject()
+        self._subject = subject
+        return subject
+    }
+
+    override func subscribe<O : ObserverType>(_ observer: O) -> Disposable where O.E == S.E {
+        return self.lazySubject.subscribe(observer)
+    }
+}
+
 final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverType>
     : Sink<O>
     , ObserverType where CO.E == O.E {
@@ -117,6 +268,8 @@ final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverT
 
     private let _parent: Parent
 
+    private var _connectionIdSnapshot: Int64 = -1
+
     init(parent: Parent, observer: O, cancel: Cancelable) {
         _parent = parent
         super.init(observer: observer, cancel: cancel)
@@ -124,8 +277,14 @@ final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverT
 
     func run() -> Disposable {
         let subscription = _parent._source.subscribe(self)
-
         _parent._lock.lock(); defer { _parent._lock.unlock() } // {
+
+        _connectionIdSnapshot = _parent._connectionId
+
+        if self.disposed {
+            return Disposables.create()
+        }
+
         if _parent._count == 0 {
             _parent._count = 1
             _parent._connectableSubscription = _parent._source.connect()
@@ -138,6 +297,9 @@ final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverT
         return Disposables.create {
             subscription.dispose()
             self._parent._lock.lock(); defer { self._parent._lock.unlock() } // {
+            if self._parent._connectionId != self._connectionIdSnapshot {
+                return
+            }
             if self._parent._count == 1 {
                 self._parent._count = 0
                 guard let connectableSubscription = self._parent._connectableSubscription else {
@@ -162,6 +324,16 @@ final fileprivate class RefCountSink<CO: ConnectableObservableType, O: ObserverT
         case .next:
             forwardOn(event)
         case .error, .completed:
+            _parent._lock.lock() // {
+                if _parent._connectionId == self._connectionIdSnapshot {
+                    let connection = _parent._connectableSubscription
+                    defer { connection?.dispose() }
+                    _parent._count = 0
+                    _parent._connectionId = _parent._connectionId &+ 1
+                    _parent._connectableSubscription = nil
+                }
+            // }
+            _parent._lock.unlock()
             forwardOn(event)
             dispose()
         }
@@ -173,6 +345,7 @@ final fileprivate class RefCount<CO: ConnectableObservableType>: Producer<CO.E> 
 
     // state
     fileprivate var _count = 0
+    fileprivate var _connectionId: Int64 = 0
     fileprivate var _connectableSubscription = nil as Disposable?
 
     fileprivate let _source: CO
@@ -203,7 +376,7 @@ final fileprivate class MulticastSink<S: SubjectType, O: ObserverType>: Sink<O>,
     func run() -> Disposable {
         do {
             let subject = try _parent._subjectSelector()
-            let connectable = ConnectableObservableAdapter(source: _parent._source, subject: subject)
+            let connectable = ConnectableObservableAdapter(source: _parent._source, makeSubject: { subject })
             
             let observable = try _parent._selector(connectable)
             

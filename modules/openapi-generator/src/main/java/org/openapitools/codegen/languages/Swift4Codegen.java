@@ -559,6 +559,13 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             return newOperationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = camelize(sanitizeName("call_" + operationId), true);
+        }
+
+
         return operationId;
     }
 
