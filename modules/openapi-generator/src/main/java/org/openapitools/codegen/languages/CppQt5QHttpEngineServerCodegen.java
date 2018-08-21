@@ -449,7 +449,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
         return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
                 && !nonFrameworkPrimitives.contains(type);
     }
-    
+   
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
@@ -458,19 +458,18 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
         
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         for (CodegenOperation operation : operations) {
+            // Check all return parameter baseType if there is a necessity to include, include it if not 
+            // already done
             if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
                 if(!isIncluded(operation.returnBaseType, imports)) {
                     imports.add(createMapping("import", operation.returnBaseType));
                 }
             }
             List<CodegenParameter> params = new ArrayList<CodegenParameter>();
-            if (operation.bodyParam != null)params.add(operation.bodyParam);
             if (operation.allParams != null)params.addAll(operation.allParams);
-            if (operation.pathParams != null)params.addAll(operation.pathParams);
-            if (operation.bodyParams != null)params.addAll(operation.bodyParams);
-            if (operation.headerParams != null)params.addAll(operation.headerParams);
-            if (operation.queryParams != null)params.addAll(operation.queryParams);
-            
+
+            // Check all parameter baseType if there is a necessity to include, include it if not 
+            // already done
             for(CodegenParameter param : params) {
                 if(param.isPrimitiveType && needToImport(param.baseType)) {
                     if(!isIncluded(param.baseType, imports)) {
@@ -486,6 +485,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
             }
         }
         if(isIncluded("QMap", imports)) {
+        	// Maps uses QString as key
             if(!isIncluded("QString", imports)) {
                 imports.add(createMapping("import", "QString"));
             }
