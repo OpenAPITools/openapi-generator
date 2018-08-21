@@ -22,6 +22,8 @@ import org.openapitools.codegen.*;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     protected String apiVersion = "1.0.0";
 

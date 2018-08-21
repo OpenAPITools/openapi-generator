@@ -41,6 +41,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 /**
  * Created by prokarma on 04/09/17.
  */

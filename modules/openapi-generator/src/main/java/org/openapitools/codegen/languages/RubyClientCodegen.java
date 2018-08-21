@@ -34,6 +34,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     public static final String GEM_NAME = "gemName";

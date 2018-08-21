@@ -50,6 +50,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);

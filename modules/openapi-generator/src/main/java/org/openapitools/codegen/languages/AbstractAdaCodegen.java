@@ -45,6 +45,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
 

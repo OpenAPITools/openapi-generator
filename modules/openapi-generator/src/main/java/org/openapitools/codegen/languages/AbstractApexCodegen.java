@@ -35,6 +35,8 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractApexCodegen.class);

@@ -46,6 +46,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, OptionalFeatures {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);

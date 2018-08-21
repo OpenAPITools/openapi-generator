@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

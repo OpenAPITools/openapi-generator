@@ -36,6 +36,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AndroidClientCodegen.class);
     public static final String USE_ANDROID_MAVEN_GRADLE_PLUGIN = "useAndroidMavenGradlePlugin";

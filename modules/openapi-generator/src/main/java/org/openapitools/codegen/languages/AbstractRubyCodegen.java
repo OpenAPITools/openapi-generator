@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 

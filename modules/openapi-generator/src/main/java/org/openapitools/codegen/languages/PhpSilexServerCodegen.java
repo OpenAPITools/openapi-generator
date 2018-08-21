@@ -36,6 +36,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
     protected String groupId = "org.openapitools";

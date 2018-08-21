@@ -31,6 +31,9 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class ScalazClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalazClientCodegen.class);
 

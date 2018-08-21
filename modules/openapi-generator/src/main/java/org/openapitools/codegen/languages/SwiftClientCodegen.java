@@ -34,6 +34,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 /**
  * Swift (2.x) generator is no longer actively maintained. Please use
  * 'swift3' or 'swift4' generator instead.

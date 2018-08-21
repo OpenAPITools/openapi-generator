@@ -23,6 +23,7 @@ import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.CodegenType.SERVER;
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;

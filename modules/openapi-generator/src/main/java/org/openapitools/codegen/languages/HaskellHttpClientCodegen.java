@@ -35,6 +35,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
 
@@ -616,8 +619,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
         op.operationId = uniqueName;
         op.operationIdLowerCase = uniqueName.toLowerCase();
-        op.operationIdCamelCase = DefaultCodegen.camelize(uniqueName);
-        op.operationIdSnakeCase = DefaultCodegen.underscore(uniqueName);
+        op.operationIdCamelCase = camelize(uniqueName);
+        op.operationIdSnakeCase = underscore(uniqueName);
         opList.add(op);
         op.baseName = tag;
 

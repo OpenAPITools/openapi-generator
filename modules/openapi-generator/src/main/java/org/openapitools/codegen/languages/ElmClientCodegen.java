@@ -40,6 +40,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String X_ENCODER = "x-encoder";
     private static final String X_DECODER = "x-decoder";

@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;

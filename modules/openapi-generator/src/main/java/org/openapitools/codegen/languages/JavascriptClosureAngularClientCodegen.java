@@ -42,6 +42,8 @@ import java.io.File;
 
 import org.apache.commons.lang3.StringUtils;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
 

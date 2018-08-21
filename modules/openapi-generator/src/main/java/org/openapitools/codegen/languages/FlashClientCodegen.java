@@ -37,6 +37,9 @@ import java.util.HashSet;
 
 import org.apache.commons.lang3.StringUtils;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
 

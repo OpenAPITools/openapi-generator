@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.UUID.randomUUID;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);

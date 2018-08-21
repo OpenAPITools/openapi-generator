@@ -36,6 +36,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
 

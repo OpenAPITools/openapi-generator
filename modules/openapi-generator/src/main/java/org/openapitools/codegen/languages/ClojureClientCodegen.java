@@ -35,6 +35,9 @@ import java.io.File;
 import java.util.Map;
 import java.util.List;
 
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String PROJECT_NAME = "projectName";
     private static final String PROJECT_DESCRIPTION = "projectDescription";
