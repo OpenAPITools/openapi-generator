@@ -7,4 +7,6 @@ public interface Options {
     Set<String> getReservedWords();
 
     Set<String> getLanguageSpecificPrimitives();
+
+    String sanitizePackageName(String packageName);
 }

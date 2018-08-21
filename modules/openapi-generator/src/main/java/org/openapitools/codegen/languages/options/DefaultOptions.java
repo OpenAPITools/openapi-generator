@@ -1,5 +1,7 @@
 package org.openapitools.codegen.languages.options;
 
+import com.google.common.base.Strings;
+
 import java.util.*;
 
 public abstract class DefaultOptions implements Options {
@@ -26,5 +28,15 @@ public abstract class DefaultOptions implements Options {
     @Override
     public Set<String> getLanguageSpecificPrimitives() {
         return languageSpecificPrimitives;
+    }
+
+    @Override
+    public String sanitizePackageName(String packageName) {
+        packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
+        if (Strings.isNullOrEmpty(packageName)) {
+            return "invalidPackageName";
+        }
+        return packageName;
     }
 }

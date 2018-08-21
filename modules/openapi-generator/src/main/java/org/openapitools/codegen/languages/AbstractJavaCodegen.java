@@ -478,17 +478,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // Sanitize any config options here. We also have to update the additionalProperties because
         // the whole additionalProperties object is injected into the main object passed to the mustache layer
 
-        this.setApiPackage(sanitizePackageName(apiPackage));
+        this.setApiPackage(options.sanitizePackageName(apiPackage));
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
 
-        this.setModelPackage(sanitizePackageName(modelPackage));
+        this.setModelPackage(options.sanitizePackageName(modelPackage));
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        this.setInvokerPackage(sanitizePackageName(invokerPackage));
+        this.setInvokerPackage(options.sanitizePackageName(invokerPackage));
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
@@ -1160,15 +1160,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;
-    }
-
-    private static String sanitizePackageName(String packageName) {
-        packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
-        if (Strings.isNullOrEmpty(packageName)) {
-            return "invalidPackageName";
-        }
-        return packageName;
     }
 
     public String getInvokerPackage() {
