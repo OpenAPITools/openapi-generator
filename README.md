@@ -163,7 +163,7 @@ export PATH=${JAVA_HOME}/bin:$PATH
 
 ### Launcher Script
 
-One downside to manual jar downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](./bin/utils/openapi-generator.cli.sh) which resolves this issue.
+One downside to manual jar downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](./bin/utils/openapi-generator-cli.sh) which resolves this issue.
 
 To install the launcher script, copy the contents of the script to a location on your path and make the script executable.
 
