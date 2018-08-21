@@ -18,8 +18,8 @@ open class AnotherFakeAPI {
      - parameter client: (body) client model 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testSpecialTags(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
+    open class func call123testSpecialTags(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+        call123testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -30,9 +30,9 @@ open class AnotherFakeAPI {
      - parameter client: (body) client model 
      - returns: Observable<Client>
      */
-    open class func testSpecialTags(client: Client) -> Observable<Client> {
+    open class func call123testSpecialTags(client: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            testSpecialTags(client: client) { data, error in
+            call123testSpecialTags(client: client) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -47,11 +47,11 @@ open class AnotherFakeAPI {
     /**
      To test special tags
      - PATCH /another-fake/dummy
-     - To test special tags
+     - To test special tags and operation ID starting with number
      - parameter client: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func testSpecialTagsWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
+    open class func call123testSpecialTagsWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
         let path = "/another-fake/dummy"
         let URLString = PetstoreClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
