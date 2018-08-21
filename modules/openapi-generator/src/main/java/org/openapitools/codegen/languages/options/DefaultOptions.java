@@ -1,6 +1,8 @@
 package org.openapitools.codegen.languages.options;
 
 import com.google.common.base.Strings;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,6 +98,11 @@ public abstract class DefaultOptions implements Options {
     @Override
     public boolean getSupportsMixins() {
         return supportsMixins;
+    }
+
+    @Override
+    public boolean getAllowUnicodeIdentifiers() {
+        return allowUnicodeIdentifiers;
     }
 
     @Override

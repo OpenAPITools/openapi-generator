@@ -74,6 +74,14 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     @Deprecated
     protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
+    @Deprecated
+    protected boolean supportsMultipleInheritance;
+    @Deprecated
+    protected boolean supportsInheritance = false;
+    @Deprecated
+    protected boolean supportsMixins = false;
+    @Deprecated
+    protected Boolean allowUnicodeIdentifiers = false;
 
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
@@ -98,17 +106,11 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
-    @Deprecated
-    protected boolean supportsMultipleInheritance;
-    @Deprecated
-    protected boolean supportsInheritance;
-    @Deprecated
-    protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
-    protected Boolean allowUnicodeIdentifiers = false;
+
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
@@ -565,6 +567,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public boolean supportsInheritance() {
         return options!=null ? options.getSupportsInheritance() : supportsInheritance;
+    }
+
+    private boolean allowUnicodeIdentifiers() {
+        return options != null ? options.getAllowUnicodeIdentifiers() : allowUnicodeIdentifiers;
     }
 
     public boolean supportsMixins() {
@@ -3879,7 +3885,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // remove everything else other than word, number and _
         // $php_variable => php_variable
-        if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
+        if (allowUnicodeIdentifiers()) { //could be converted to a single line with ?: operator
             name = Pattern.compile(removeCharRegEx, Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
         } else {
             name = name.replaceAll(removeCharRegEx, "");

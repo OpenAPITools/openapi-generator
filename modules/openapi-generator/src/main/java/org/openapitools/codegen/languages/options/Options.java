@@ -8,6 +8,8 @@ public interface Options {
 
     Set<String> getLanguageSpecificPrimitives();
 
+    boolean getAllowUnicodeIdentifiers();
+
     boolean getSupportsInheritance();
 
     boolean getSupportsMixins();
