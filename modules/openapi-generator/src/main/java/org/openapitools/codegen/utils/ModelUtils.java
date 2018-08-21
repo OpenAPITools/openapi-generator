@@ -307,6 +307,9 @@ public class ModelUtils {
         if (schema.getAdditionalProperties() instanceof Schema) {
             return true;
         }
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+            return true;
+        }
         return false;
     }
 
@@ -655,6 +658,16 @@ public class ModelUtils {
             }
         }
         return schema;
+    }
+
+    public static Schema getAdditionalProperties(Schema schema) {
+        if(schema.getAdditionalProperties() instanceof Schema) {
+            return (Schema) schema.getAdditionalProperties();
+        }
+        if(schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+            return new ObjectSchema();
+        }
+        return null;
     }
 
 }
