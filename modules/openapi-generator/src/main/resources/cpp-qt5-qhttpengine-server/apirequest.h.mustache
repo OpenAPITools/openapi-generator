@@ -1,9 +1,10 @@
 {{>licenseInfo}}
-#ifndef _{{prefix}}_{{classname}}Request_H_
-#define _{{prefix}}_{{classname}}Request_H_
+#ifndef {{prefix}}_{{classname}}Request_H
+#define {{prefix}}_{{classname}}Request_H
 
 #include <QObject>
 #include <QStringList>
+#include <QMultiMap>
 #include <QNetworkReply>
 #include <QSharedPointer>
 
@@ -24,30 +25,47 @@ public:
     {{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* handler);
     virtual ~{{classname}}Request();
 
-    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}QString {{{paramName}}}{{/pathParams}}{{/hasPathParams}});
+    {{#operations}}{{#operation}}void {{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{/hasPathParams}});
     {{/operation}}{{/operations}}
 
-    {{#operations}}{{#operation}}void {{nickname}}Response({{#returnType}}{{{returnType}}} res{{/returnType}});
+    {{#operations}}{{#operation}}void {{nickname}}Response({{#returnType}}const {{{returnType}}}& res{{/returnType}});
     {{/operation}}{{/operations}}
 
-    {{#operations}}{{#operation}}void {{nickname}}Error({{#returnType}}{{{returnType}}} res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
+    {{#operations}}{{#operation}}void {{nickname}}Error({{#returnType}}const {{{returnType}}}& res, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
     {{/operation}}{{/operations}}
 
-    QMap<QString, QString> getDefaultHeaders();
+    void sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type);
+
+    void sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type);
+
+    QMap<QString, QString> getRequestHeaders() const;
+
     QHttpEngine::Socket* getRawSocket();
+
+    void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
     {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}{{/operations}}
 
 private:
-    QMap<QString, QString> defaultHeaders;
+    QMap<QString, QString> requestHeaders;
+    QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
     {{classname}}Handler *handler;
+
+    inline void writeResponseHeaders(){
+        QHttpEngine::Socket::HeaderMap resHeaders;
+        for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
+            resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
+        }
+        socket->setHeaders(resHeaders);
+        socket->writeHeaders();        
+    }
 };
 
 {{#cppNamespaceDeclarations}}
 }
 {{/cppNamespaceDeclarations}}
 
-#endif // _{{prefix}}_{{classname}}Request_H_
+#endif // {{prefix}}_{{classname}}Request_H

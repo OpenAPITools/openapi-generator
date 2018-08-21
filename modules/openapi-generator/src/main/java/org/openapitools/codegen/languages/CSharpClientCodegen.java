@@ -602,11 +602,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     /*
-    * The pattern spec follows the Perl convention and style of modifiers. .NET
-    * does not support this syntax directly so we need to convert the pattern to a .NET compatible
-    * format and apply modifiers in a compatible way.
-    * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
-    */
+     * The pattern spec follows the Perl convention and style of modifiers. .NET
+     * does not support this syntax directly so we need to convert the pattern to a .NET compatible
+     * format and apply modifiers in a compatible way.
+     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
+     */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
@@ -706,7 +706,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if(datatype.startsWith("int") || datatype.startsWith("long") ||
+        if (datatype.startsWith("int") || datatype.startsWith("long") ||
                 datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
@@ -750,13 +750,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:    return name;
-            case camelCase:   return camelize(name, true);
-            case PascalCase:  return camelize(name);
-            case snake_case:  return underscore(name);
-            default:          throw new IllegalArgumentException("Invalid model property naming '" +
-                    name + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
     }
 

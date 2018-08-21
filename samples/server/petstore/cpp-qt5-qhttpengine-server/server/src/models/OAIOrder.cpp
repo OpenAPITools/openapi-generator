@@ -101,7 +101,7 @@ OAIOrder::asJsonObject() const {
 }
 
 qint64
-OAIOrder::getId() {
+OAIOrder::getId() const {
     return id;
 }
 void
@@ -111,7 +111,7 @@ OAIOrder::setId(const qint64 &id) {
 }
 
 qint64
-OAIOrder::getPetId() {
+OAIOrder::getPetId() const {
     return pet_id;
 }
 void
@@ -121,7 +121,7 @@ OAIOrder::setPetId(const qint64 &pet_id) {
 }
 
 qint32
-OAIOrder::getQuantity() {
+OAIOrder::getQuantity() const {
     return quantity;
 }
 void
@@ -131,7 +131,7 @@ OAIOrder::setQuantity(const qint32 &quantity) {
 }
 
 QDateTime
-OAIOrder::getShipDate() {
+OAIOrder::getShipDate() const {
     return ship_date;
 }
 void
@@ -141,7 +141,7 @@ OAIOrder::setShipDate(const QDateTime &ship_date) {
 }
 
 QString
-OAIOrder::getStatus() {
+OAIOrder::getStatus() const {
     return status;
 }
 void
@@ -151,7 +151,7 @@ OAIOrder::setStatus(const QString &status) {
 }
 
 bool
-OAIOrder::isComplete() {
+OAIOrder::isComplete() const {
     return complete;
 }
 void

@@ -35,7 +35,7 @@ HttpBasicAuth {{{name}}} = (HttpBasicAuth) client.getAuthentication('{{{name}}}'
 ApiKeyAuth {{{name}}} = (ApiKeyAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setApiKey('YOUR API KEY');{{/isApiKey}}{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
-Swagger.OAuth {{{name}}} = (Swagger.OAuth) client.getAuthentication('{{{name}}}');
+OAS.OAuth {{{name}}} = (OAS.OAuth) client.getAuthentication('{{{name}}}');
 {{{name}}}.setAccessToken('YOUR ACCESS TOKEN');{{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
@@ -54,7 +54,7 @@ try {
   {{#returnType}}
     System.debug(result);
   {{/returnType}}
-} catch (Swagger.ApiException e) {
+} catch (OAS.ApiException e) {
     // ...handle your exceptions
 }
 ```

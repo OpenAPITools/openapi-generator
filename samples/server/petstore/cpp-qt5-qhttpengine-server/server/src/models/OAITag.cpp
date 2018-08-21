@@ -77,7 +77,7 @@ OAITag::asJsonObject() const {
 }
 
 qint64
-OAITag::getId() {
+OAITag::getId() const {
     return id;
 }
 void
@@ -87,7 +87,7 @@ OAITag::setId(const qint64 &id) {
 }
 
 QString
-OAITag::getName() {
+OAITag::getName() const {
     return name;
 }
 void

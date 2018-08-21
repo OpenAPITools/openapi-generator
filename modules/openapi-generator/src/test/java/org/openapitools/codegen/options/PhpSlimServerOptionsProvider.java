@@ -29,7 +29,7 @@ public class PhpSlimServerOptionsProvider implements OptionsProvider {
     public static final String API_PACKAGE_VALUE = "apiPackage";
     public static final String VARIABLE_NAMING_CONVENTION_VALUE = "camelCase";
     public static final String INVOKER_PACKAGE_VALUE = "OpenAPIServer";
-    public static final String PACKAGE_PATH_VALUE = "";
+    public static final String PACKAGE_NAME_VALUE = "";
     public static final String SRC_BASE_PATH_VALUE = "src";
     public static final String GIT_USER_ID_VALUE = "gitOpenAPIToolsPhp";
     public static final String GIT_REPO_ID_VALUE = "git-openapi-tools-php";
@@ -49,7 +49,7 @@ public class PhpSlimServerOptionsProvider implements OptionsProvider {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
         return builder.put(CodegenConstants.MODEL_PACKAGE, MODEL_PACKAGE_VALUE)
                 .put(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION, VARIABLE_NAMING_CONVENTION_VALUE)
-                .put(AbstractPhpCodegen.PACKAGE_PATH, PACKAGE_PATH_VALUE)
+                .put(AbstractPhpCodegen.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(AbstractPhpCodegen.SRC_BASE_PATH, SRC_BASE_PATH_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)

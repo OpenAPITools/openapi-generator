@@ -16,8 +16,8 @@
  * Describes the result of uploading an image resource
  */
 
-#ifndef OAIApiResponse_H_
-#define OAIApiResponse_H_
+#ifndef OAIApiResponse_H
+#define OAIApiResponse_H
 
 #include <QJsonObject>
 
@@ -40,13 +40,13 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    qint32 getCode();
+    qint32 getCode() const;
     void setCode(const qint32 &code);
 
-    QString getType();
+    QString getType() const;
     void setType(const QString &type);
 
-    QString getMessage();
+    QString getMessage() const;
     void setMessage(const QString &message);
 
     virtual bool isSet() const override;
@@ -65,4 +65,4 @@ private:
 
 }
 
-#endif /* OAIApiResponse_H_ */
+#endif // OAIApiResponse_H

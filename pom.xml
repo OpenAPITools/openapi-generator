@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.2.2-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -743,6 +743,55 @@
             </modules>
         </profile>
         <profile>
+            <!-- openapi v3's one -->
+            <id>jaxrs-jersey</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-jersey</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface-response</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
@@ -1009,6 +1058,7 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/server/petstore/php-slim</module>
             </modules>
         </profile>
     </profiles>
@@ -1083,7 +1133,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-parser-version>2.0.1</swagger-parser-version>
+        <swagger-parser-version>2.0.2-OpenAPITools.org-1</swagger-parser-version>
         <swagger-core-version>2.0.1</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>

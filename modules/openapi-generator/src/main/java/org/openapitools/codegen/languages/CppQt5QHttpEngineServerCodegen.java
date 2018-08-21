@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implements CodegenConfig {
+    @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5QHttpEngineServerCodegen.class);
 
     public static final String CPP_NAMESPACE = "cppNamespace";
@@ -237,7 +238,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     }
 
     /**
-     * Returns human-friendly help for the generator.  Provide the consumer with help
+     * Returns human-friendly help for the generator. Provide the consumer with help
      * tips, parameters here
      *
      * @return A string value for the help message
@@ -265,21 +266,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
         return "#include \"" + folder + name + ".h\"";
     }
-
-    /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
-     *
-     * @return the escaped term
-     */
-    @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
+   
     /**
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
@@ -330,6 +317,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
      * @return a string value used as the `dataType` field for model templates, `returnType` for api templates
      */
     @Override
+    @SuppressWarnings("rawtypes")
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
@@ -338,7 +326,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isBinarySchema(p)) {
             return getSchemaType(p) + "*";
@@ -355,6 +343,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     }
 
     @Override
+    @SuppressWarnings("rawtypes")    
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "false";
@@ -373,7 +362,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -394,6 +383,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
      * @return a string value of the type or complex model for this property
      */
     @Override
+    @SuppressWarnings("rawtypes")    
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
 
@@ -410,24 +400,6 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
             type = openAPIType;
         }
         return toModelName(type);
-    }
-
-    @Override
-    public String toModelName(String type) {
-        if (type == null) {
-            LOGGER.warn("Model name can't be null. Defaul to 'UnknownModel'.");
-            type = "UnknownModel";
-        }
-
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
-                importMapping.values().contains(type) ||
-                defaultIncludes.contains(type) ||
-                languageSpecificPrimitives.contains(type)) {
-            return type;
-        } else {
-            return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1);
-        }
     }
 
     @Override
@@ -456,22 +428,6 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     @Override
     public String toParamName(String name) {
         return toVarName(name);
-    }
-
-    @Override
-    public String toApiName(String type) {
-        return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override

@@ -280,7 +280,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (ModelUtils.isArraySchema(p)) {
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             // Maps will be keyed only by primitive Kotlin string
             return getSchemaType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";

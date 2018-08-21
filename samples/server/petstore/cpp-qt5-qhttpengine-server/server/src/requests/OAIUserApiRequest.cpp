@@ -22,6 +22,10 @@
 namespace OpenAPI {
 
 OAIUserApiRequest::OAIUserApiRequest(QHttpEngine::Socket *s, OAIUserApiHandler* hdl) : QObject(s), socket(s), handler(hdl) {
+    auto headers = s->headers();
+    for(auto itr = headers.begin(); itr != headers.end(); itr++) {
+        requestHeaders.insert(QString(itr.key()), QString(itr.value()));
+    }     
 }
 
 OAIUserApiRequest::~OAIUserApiRequest(){
@@ -30,9 +34,16 @@ OAIUserApiRequest::~OAIUserApiRequest(){
 }
 
 QMap<QString, QString> 
-OAIUserApiRequest::getDefaultHeaders(){
-    return defaultHeaders;
+OAIUserApiRequest::getRequestHeaders() const {
+    return requestHeaders;
 }
+
+void OAIUserApiRequest::setResponseHeaders(const QMultiMap<QString, QString>& headers){
+    for(auto itr = headers.begin(); itr != headers.end(); ++itr) {
+        responseHeaders.insert(itr.key(), itr.value());
+    }
+}
+
 
 QHttpEngine::Socket* OAIUserApiRequest::getRawSocket(){
     return socket;
@@ -100,7 +111,7 @@ void OAIUserApiRequest::createUsersWithListInputRequest(){
 }
 
 
-void OAIUserApiRequest::deleteUserRequest(QString usernamestr){
+void OAIUserApiRequest::deleteUserRequest(const QString& usernamestr){
     qDebug() << "/v2/user/{username}";
     connect(this, &OAIUserApiRequest::deleteUser, handler, &OAIUserApiHandler::deleteUser);
     
@@ -113,7 +124,7 @@ void OAIUserApiRequest::deleteUserRequest(QString usernamestr){
 }
 
 
-void OAIUserApiRequest::getUserByNameRequest(QString usernamestr){
+void OAIUserApiRequest::getUserByNameRequest(const QString& usernamestr){
     qDebug() << "/v2/user/{username}";
     connect(this, &OAIUserApiRequest::getUserByName, handler, &OAIUserApiHandler::getUserByName);
     
@@ -158,7 +169,7 @@ void OAIUserApiRequest::logoutUserRequest(){
 }
 
 
-void OAIUserApiRequest::updateUserRequest(QString usernamestr){
+void OAIUserApiRequest::updateUserRequest(const QString& usernamestr){
     qDebug() << "/v2/user/{username}";
     connect(this, &OAIUserApiRequest::updateUser, handler, &OAIUserApiHandler::updateUser);
     
@@ -179,137 +190,163 @@ void OAIUserApiRequest::updateUserRequest(QString usernamestr){
   
 
 void OAIUserApiRequest::createUserResponse(){
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::createUsersWithArrayInputResponse(){
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::createUsersWithListInputResponse(){
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::deleteUserResponse(){
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIUserApiRequest::getUserByNameResponse(OAIUser res){
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+
+void OAIUserApiRequest::getUserByNameResponse(const OAIUser& res){
+    writeResponseHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIUserApiRequest::loginUserResponse(QString res){
-    socket->setStatusCode(QHttpEngine::Socket::OK);
+
+void OAIUserApiRequest::loginUserResponse(const QString& res){
+    writeResponseHeaders();
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::logoutUserResponse(){
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::updateUserResponse(){
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::OK);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
 
 
 void OAIUserApiRequest::createUserError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::createUsersWithArrayInputError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::createUsersWithListInputError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::deleteUserError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIUserApiRequest::getUserByNameError(OAIUser res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+
+void OAIUserApiRequest::getUserByNameError(const OAIUser& res, QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
-void OAIUserApiRequest::loginUserError(QString res, QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
-    socket->setStatusCode(QHttpEngine::Socket::NotFound);
+
+void OAIUserApiRequest::loginUserError(const QString& res, QNetworkReply::NetworkError error_type, QString& error_str){
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();
+    Q_UNUSED(error_str);  // response will be used instead of error string
+    QJsonDocument resDoc(::OpenAPI::toJsonValue(res).toObject());
+    socket->writeJson(resDoc);
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::logoutUserError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
+
 void OAIUserApiRequest::updateUserError(QNetworkReply::NetworkError error_type, QString& error_str){
-    Q_UNUSED(error_type);
-    Q_UNUSED(error_str);     
+    Q_UNUSED(error_type); // TODO: Remap error_type to QHttpEngine::Socket errors
+    writeResponseHeaders();    
     socket->setStatusCode(QHttpEngine::Socket::NotFound);
+    socket->write(error_str.toUtf8());
     if(socket->isOpen()){
-        socket->writeHeaders();
         socket->close();
     }
 }
 
 
-
+void OAIUserApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
+}
+    
+void OAIUserApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
+    Q_UNUSED(res);  // TODO
+    Q_UNUSED(error_type); // TODO
+}
 
 }

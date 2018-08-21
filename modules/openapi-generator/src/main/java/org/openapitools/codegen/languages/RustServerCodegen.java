@@ -730,7 +730,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             typeDeclaration.append(innerType).append(">");
             return typeDeclaration.toString();
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
             typeDeclaration.append(innerType).append(">");
@@ -797,7 +797,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;
@@ -1030,21 +1030,28 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
-
             if (cm.dataType != null && cm.dataType.equals("object")) {
                 // Object isn't a sensible default. Instead, we set it to
                 // 'null'. This ensures that we treat this model as a struct
                 // with multiple parameters.
                 cm.dataType = null;
             } else if (cm.dataType != null) {
-                // We need to hack about with single-parameter models to get
-                // them recognised correctly.
-                cm.isAlias = false;
-                cm.dataType = typeMapping.get(cm.dataType);
+                if (cm.dataType.equals("map")) {
+                    // We don't yet support `additionalProperties`. We ignore
+                    // the `additionalProperties` type ('map') and warn the
+                    // user. This will produce code that compiles, but won't
+                    // feature the `additionalProperties`.
+                    cm.dataType = null;
+                    LOGGER.warn("Ignoring unsupported additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318)");
+                } else {
+                    // We need to hack about with single-parameter models to
+                    // get them recognised correctly.
+                    cm.isAlias = false;
+                    cm.dataType = typeMapping.get(cm.dataType);
+                }
             }
         }
         return super.postProcessModelsEnum(objs);
-
     }
 
     private boolean paramHasXmlNamespace(CodegenParameter param, Map<String, Schema> definitions) {

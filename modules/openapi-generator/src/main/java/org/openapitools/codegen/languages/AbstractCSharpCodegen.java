@@ -19,12 +19,20 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.core.util.Json;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.mustache.*;
+import org.openapitools.codegen.utils.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.mustache.*;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -596,6 +604,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             operationId = "call_" + operationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
         return camelize(sanitizeName(operationId));
     }
 
@@ -700,12 +714,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            }
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
-                return p.getDefault().toString();
+                if (ModelUtils.isFloatSchema(p)) { // float
+                    return p.getDefault().toString() + "F";
+                } else if (ModelUtils.isDoubleSchema(p)) { // double
+                    return p.getDefault().toString() + "D";
+                } else {
+                    return p.getDefault().toString();
+                }
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
@@ -787,7 +811,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -947,5 +971,49 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*").replace("--", "- -");
+    }
+
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
+        return "String".equalsIgnoreCase(dataType) || "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType);
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter) {
+
+        // set the example value
+        // if not specified in x-example, generate a default value
+        // TODO need to revise how to obtain the example value
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
+            codegenParameter.example = "true";
+        } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
+            codegenParameter.example = "789";
+        } else if (Boolean.TRUE.equals(codegenParameter.isInteger)) {
+            codegenParameter.example = "56";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFloat)) {
+            codegenParameter.example = "3.4F";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDouble)) {
+            codegenParameter.example = "1.2D";
+        } else if (Boolean.TRUE.equals(codegenParameter.isNumber)) {
+            codegenParameter.example = "8.14";
+        } else if (Boolean.TRUE.equals(codegenParameter.isBinary)) {
+            codegenParameter.example = "BINARY_DATA_HERE";
+        } else if (Boolean.TRUE.equals(codegenParameter.isByteArray)) {
+            codegenParameter.example = "BYTE_ARRAY_DATA_HERE";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFile)) {
+            codegenParameter.example = "/path/to/file.txt";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDate)) {
+            codegenParameter.example = "2013-10-20";
+        } else if (Boolean.TRUE.equals(codegenParameter.isDateTime)) {
+            codegenParameter.example = "2013-10-20T19:20:30+01:00";
+        } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
+            codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+        } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
+            codegenParameter.example = codegenParameter.paramName + "_example";
+        }
+
     }
 }

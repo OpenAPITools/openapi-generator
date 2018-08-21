@@ -43,6 +43,14 @@ use {Api{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
      };
 use models;
 
+define_encode_set! {
+    /// This encode set is used for object IDs
+    ///
+    /// Aside from the special characters defined in the `PATH_SEGMENT_ENCODE_SET`,
+    /// the vertical bar (|) is encoded.
+    pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
+}
+
 /// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
 fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
     // First convert to Uri, since a base path is a subset of Uri.
@@ -246,7 +254,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let uri = format!(
             "{}{{{basePathWithoutHost}}}{{path}}{{#queryParams}}{{#-first}}?{{/-first}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}",
-            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), PATH_SEGMENT_ENCODE_SET){{/pathParams}}{{#queryParams}},
+            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}{{#queryParams}},
             {{{paramName}}}=utf8_percent_encode(&query_{{{paramName}}}, QUERY_ENCODE_SET){{/queryParams}}
         );
 

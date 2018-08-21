@@ -1016,8 +1016,8 @@ paths:
       - tag: fake
   /another-fake/dummy:
     patch:
-      description: To test special tags
-      operationId: test_special_tags
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       requestBody:
         content:
           application/json:

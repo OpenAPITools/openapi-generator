@@ -12,7 +12,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>3.1.1-SNAPSHOT</version>
+                <version>3.2.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -20,7 +20,7 @@
                         </goals>
                         <configuration>
                             <validateSpec>false</validateSpec>
-                            <inputSpec>petstore-v3.0-invalid.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/petstore-v3.0-invalid.yaml</inputSpec>
                             <generatorName>aspnetcore</generatorName>
                             <configOptions>
                                 <additional-properties>optionalProjectFile=true</additional-properties>

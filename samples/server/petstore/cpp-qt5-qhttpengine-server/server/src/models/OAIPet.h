@@ -16,8 +16,8 @@
  * A pet for sale in the pet store
  */
 
-#ifndef OAIPet_H_
-#define OAIPet_H_
+#ifndef OAIPet_H
+#define OAIPet_H
 
 #include <QJsonObject>
 
@@ -43,22 +43,22 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
-    qint64 getId();
+    qint64 getId() const;
     void setId(const qint64 &id);
 
-    OAICategory getCategory();
+    OAICategory getCategory() const;
     void setCategory(const OAICategory &category);
 
-    QString getName();
+    QString getName() const;
     void setName(const QString &name);
 
-    QList<QString> getPhotoUrls();
+    QList<QString> getPhotoUrls() const;
     void setPhotoUrls(const QList<QString> &photo_urls);
 
-    QList<OAITag> getTags();
+    QList<OAITag> getTags() const;
     void setTags(const QList<OAITag> &tags);
 
-    QString getStatus();
+    QString getStatus() const;
     void setStatus(const QString &status);
 
     virtual bool isSet() const override;
@@ -86,4 +86,4 @@ private:
 
 }
 
-#endif /* OAIPet_H_ */
+#endif // OAIPet_H

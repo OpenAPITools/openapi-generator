@@ -46,6 +46,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected boolean isAddExternalLibs = true;
     public static final String OPTIONAL_EXTERNAL_LIB = "addExternalLibs";
     public static final String OPTIONAL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
+    protected final String PREFIX = "";
+
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -63,6 +65,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     public CppPistacheServerCodegen() {
         super();
+        if (StringUtils.isEmpty(modelNamePrefix)) {
+            modelNamePrefix = PREFIX;
+        }
 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
@@ -83,8 +88,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         reservedWords = new HashSet<>();
 
-        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", "ModelBase.h"));
-        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", "ModelBase.cpp"));
+        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", modelNamePrefix + "ModelBase.h"));
+        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -117,7 +122,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
+        if (additionalProperties.containsKey("modelNamePrefix")) {
+            additionalProperties().put("prefix", modelNamePrefix);
+            supportingFiles.clear();
+            supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", modelNamePrefix + "ModelBase.h"));
+            supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
+            supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
+            supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        }
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
@@ -129,18 +141,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         }
     }
 
-    /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle
-     * escaping those terms here. This logic is only called if a variable
-     * matches the reserved words
-     *
-     * @return the escaped term
-     */
-    @Override
-    public String escapeReservedWord(String name) {
-        return "_" + name; // add an underscore to the name
-    }
-
     @Override
     public String toModelImport(String name) {
         if (importMapping.containsKey(name)) {
@@ -150,6 +150,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         }
     }
 
+    
     @Override
     public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
@@ -245,6 +246,12 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
             op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson);
             op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported);
+            for(String hdr : op.imports) {
+                if(importMapping.containsKey(hdr)) {
+                    continue;
+                }
+                additionalProperties.put("hasModelImport", true);
+            }
         }
 
         return objs;
@@ -252,7 +259,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return initialCaps(toModelName(name));
     }
 
     @Override
@@ -277,7 +284,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        return initialCaps(name) + "Api";
+        return  modelNamePrefix + initialCaps(name) + "Api";
     }
 
     /**
@@ -298,7 +305,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         }
         else if (ModelUtils.isByteArraySchema(p)) {
@@ -334,9 +341,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return "0";
         } 
         else if (ModelUtils.isByteArraySchema(p)) {
-            return "";
+            return "\"\"";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -390,33 +397,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         } else
             type = openAPIType;
         return toModelName(type);
-    }
-
-    @Override
-    public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
-                || importMapping.values().contains(type) || defaultIncludes.contains(type)
-                || languageSpecificPrimitives.contains(type)) {
-            return type;
-        } else {
-            return Character.toUpperCase(type.charAt(0)) + type.substring(1);
-        }
-    }
-
-    @Override
-    public String toApiName(String type) {
-        return Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override

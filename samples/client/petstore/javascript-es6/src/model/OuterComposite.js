@@ -48,13 +48,13 @@ class OuterComposite {
             obj = obj || new OuterComposite();
 
             if (data.hasOwnProperty('my_number')) {
-                obj['my_number'] = 'Number'.constructFromObject(data['my_number']);
+                obj['my_number'] = ApiClient.convertToType(data['my_number'], 'Number');
             }
             if (data.hasOwnProperty('my_string')) {
-                obj['my_string'] = 'String'.constructFromObject(data['my_string']);
+                obj['my_string'] = ApiClient.convertToType(data['my_string'], 'String');
             }
             if (data.hasOwnProperty('my_boolean')) {
-                obj['my_boolean'] = 'Boolean'.constructFromObject(data['my_boolean']);
+                obj['my_boolean'] = ApiClient.convertToType(data['my_boolean'], 'Boolean');
             }
         }
         return obj;

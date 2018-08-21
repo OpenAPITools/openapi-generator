@@ -20,6 +20,7 @@ package org.openapitools.codegen;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache.Compiler;
+
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -42,7 +43,10 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.OAuthFlows;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -62,6 +66,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -72,8 +77,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class
-DefaultCodegen implements CodegenConfig {
+public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
     protected String inputSpec;
@@ -1090,7 +1094,7 @@ DefaultCodegen implements CodegenConfig {
      */
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String type = additionalProperties.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties + "\n" //
@@ -1994,7 +1998,7 @@ DefaultCodegen implements CodegenConfig {
             property.maxItems = p.getMaxProperties();
 
             // handle inner property
-            CodegenProperty cp = fromProperty("inner", (Schema) p.getAdditionalProperties());
+            CodegenProperty cp = fromProperty("inner", ModelUtils.getAdditionalProperties(p));
             updatePropertyForMap(property, cp);
         } else { // model
             // TODO revise the logic below
@@ -2284,7 +2288,7 @@ DefaultCodegen implements CodegenConfig {
                         CodegenProperty innerProperty = fromProperty("response", as.getItems());
                         op.returnBaseType = innerProperty.baseType;
                     } else if (ModelUtils.isMapSchema(responseSchema)) {
-                        CodegenProperty innerProperty = fromProperty("response", (Schema) responseSchema.getAdditionalProperties());
+                        CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema));
                         op.returnBaseType = innerProperty.baseType;
                     } else {
                         if (cm.complexType != null) {
@@ -2670,7 +2674,7 @@ DefaultCodegen implements CodegenConfig {
                 }
 
             } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
-                CodegenProperty codegenProperty = fromProperty("inner", (Schema) parameterSchema.getAdditionalProperties());
+                CodegenProperty codegenProperty = fromProperty("inner", ModelUtils.getAdditionalProperties(parameterSchema));
                 codegenParameter.items = codegenProperty;
                 codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
                 codegenParameter.baseType = codegenProperty.dataType;
@@ -4377,7 +4381,7 @@ DefaultCodegen implements CodegenConfig {
         }
 
         if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = (Schema) schema.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             if (inner == null) {
                 inner = new StringSchema().description("//TODO automatically added by openapi-generator");
                 schema.setAdditionalProperties(inner);
@@ -4422,7 +4426,11 @@ DefaultCodegen implements CodegenConfig {
             }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
-                codegenParameter.baseName = mostInnerItem.complexType;
+                if(StringUtils.isEmpty(mostInnerItem.complexType)) {
+                    codegenParameter.baseName = "request_body";
+                } else {
+                    codegenParameter.baseName = mostInnerItem.complexType;
+                }
             } else {
                 codegenParameter.baseName = bodyParameterName;
             }
@@ -4461,7 +4469,7 @@ DefaultCodegen implements CodegenConfig {
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (schema.getAdditionalProperties() != null) {// http body is map
+                if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
                     LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
                 } else if (codegenProperty != null) {
                     String codegenModelName, codegenModelDescription;
@@ -4572,7 +4580,49 @@ DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * checks if the data should be classified as "string" in enum
+     * e.g. double in C# needs to be double-quoted (e.g. "2.8") by treating it as a string
+     * In the future, we may rename this function to "isEnumString"
+     *
+     * @param dataType data type
+     * @return true if it's a enum string
+     */
     public boolean isDataTypeString(String dataType) {
         return "String".equals(dataType);
+    }
+
+    @Override
+    public List<CodegenServer> fromServers(List<Server> servers) {
+        if (servers == null) {
+            return Collections.emptyList();
+        }
+        List<CodegenServer> codegenServers = new LinkedList<>();
+        for (Server server: servers) {
+            CodegenServer cs = new CodegenServer();
+            cs.description = server.getDescription();
+            cs.url = server.getUrl();
+            cs.variables = this.fromServerVariables(server.getVariables());
+            codegenServers.add(cs);
+        }
+        return codegenServers;
+    }
+
+    @Override
+    public List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables) {
+        if (variables == null) {
+            return Collections.emptyList();
+        }
+        List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
+        for (Entry<String, ServerVariable> variableEntry: variables.entrySet()) {
+            CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
+            ServerVariable variable = variableEntry.getValue();
+            codegenServerVariable.defaultValue = variable.getDefault();
+            codegenServerVariable.description = variable.getDescription();
+            codegenServerVariable.enumValues = variable.getEnum();
+            codegenServerVariable.name = variableEntry.getKey();
+            codegenServerVariables.add(codegenServerVariable);
+        }
+        return codegenServerVariables;
     }
 }

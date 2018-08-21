@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`3.2.0`): [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`3.2.2`): [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=master)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
@@ -80,19 +80,18 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The openapi-generator project has the following compatibilities with the OpenAPI Specification:
 
-OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
----------------------------- | ------------ | -------------------------- | -----
-4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes (no fallback)
-3.2.0 (current master, upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.2.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Minor release with breaking changes (with fallbacks)
-[3.1.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.1.2) | 25.07.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.1.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.1.1) | 18.07.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.1.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.1.0) | 06.07.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Minor release with breaking changes (with fallbacks)
-[3.0.3](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.3) | 27.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.2) | 18.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.0.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.1) | 11.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.0) | 01.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | First release with breaking changes
+OpenAPI Generator Version    | Release Date | Notes
+---------------------------- | ------------ | -----
+4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| TBD | Major release with breaking changes (no fallback)
+3.3.0 (upcoming minor release)| TBD | Minor release (breaking changes with fallbacks)
+3.2.2 (current master, upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.2.2-SNAPSHOT/)| TBD | Bugfix release
+[3.2.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.2.1) (latest stable release) | 14.08.2018 | Bugfix release
 
-### [1.2 - Artifacts on Maven Central](#table-of-contents)
+OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
+
+For old releases, please refer to the [**Release**](https://github.com/OpenAPITools/openapi-generator/releases) page.
+
+## [1.2 - Artifacts on Maven Central](#table-of-contents)
 
 You can find our released artefacts on maven central:
 
@@ -142,16 +141,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.2/openapi-generator-cli-3.1.2.jar`
+JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.2.1/openapi-generator-cli-3.2.1.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.2/openapi-generator-cli-3.1.2.jar -O openapi-generator-cli.jar
+wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.2.1/openapi-generator-cli-3.2.1.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.2/openapi-generator-cli-3.1.2.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.2.1/openapi-generator-cli-3.2.1.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -172,7 +171,7 @@ An example of setting this up (NOTE: Always evaluate scripts curled from externa
 
 ```
 mkdir -p ~/bin/openapitools
-curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator.cli.sh > ~/bin/openapitools/openapi-generator-cli
+curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh > ~/bin/openapitools/openapi-generator-cli
 chmod u+x ~/bin/openapitools/openapi-generator-cli
 export PATH=$PATH:~/bin/openapitools/
 ```
@@ -317,6 +316,20 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
     -g go -o /gen/out/go-petstore -DpackageName=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
+##### Troubleshooting
+
+If an error like this occurs, just execute the **mvn clean install -U** command:
+
+> org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test (default-test) on project openapi-generator: A type incompatibility occurred while executing org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test: java.lang.ExceptionInInitializerError cannot be cast to java.io.IOException
+
+```sh
+./run-in-docker.sh mvn clean install -U
+```
+
+> Failed to execute goal org.fortasoft:gradle-maven-plugin:1.0.8:invoke (default) on project openapi-generator-gradle-plugin-mvn-wrapper: org.gradle.tooling.BuildException: Could not execute build using Gradle distribution 'https://services.gradle.org/distributions/gradle-4.7-bin.zip'
+
+Right now: no solution for this one :|
+
 #### Run Docker in Vagrant
 Prerequisite: install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
  ```sh
@@ -393,13 +406,14 @@ SYNOPSIS
                 [--invoker-package <invoker package>]
                 [(-l <language> | --lang <language>)]
                 [--language-specific-primitives <language specific primitives>...]
-                [--library <library>] [--model-name-prefix <model name prefix>]
+                [--library <library>] [--log-to-stderr]
+                [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)]
                 [--release-note <release note>] [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
-                [(-s | --skip-overwrite)]
+                [(-s | --skip-overwrite)] [--skip-validate-spec]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
 
@@ -545,6 +559,7 @@ Here is a list of template creators:
    * Ada: @stcarrez
    * C# ASP.NET5: @jimschubert
    * C# NancyFX: @mstefaniuk
+   * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
    * C++ Restbed: @stkrwork
    * Erlang Server: @galaxie
@@ -560,6 +575,7 @@ Here is a list of template creators:
    * JAX-RS CXF (CDI): @nickcmaynard
    * JAX-RS RestEasy (JBoss EAP): @jfiala
    * Kotlin: @jimschubert
+   * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
    * PHP Slim: @jfastnacht
    * PHP Symfony: @ksm2

@@ -56,6 +56,7 @@ org.openapitools.codegen.languages.OpenAPIGenerator
 org.openapitools.codegen.languages.OpenAPIYamlGenerator
 org.openapitools.codegen.languages.PerlClientCodegen
 org.openapitools.codegen.languages.PhpClientCodegen
+org.openapitools.codegen.languages.PhpLaravelServerCodegen
 org.openapitools.codegen.languages.PhpLumenServerCodegen
 org.openapitools.codegen.languages.PhpSlimServerCodegen
 org.openapitools.codegen.languages.PhpSilexServerCodegen

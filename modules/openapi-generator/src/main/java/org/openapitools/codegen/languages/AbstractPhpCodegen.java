@@ -26,6 +26,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPhpCodegen.class);
 
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
-    public static final String PACKAGE_PATH = "packagePath";
+    public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
     // composerVendorName/composerProjectName has be replaced by gitUserId/gitRepoId. prepare to remove these.
     // public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
@@ -52,7 +53,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     // protected String composerVendorName = null;
     // protected String composerProjectName = null;
     protected String invokerPackage = "php";
-    protected String packagePath = "php-base";
+    protected String packageName = "php-base";
     protected String artifactVersion = null;
     protected String srcBasePath = "lib";
     protected String testBasePath = "test";
@@ -138,8 +139,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(VARIABLE_NAMING_CONVENTION, "naming convention of variable name, e.g. camelCase.")
                 .defaultValue("snake_case"));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
-        cliOptions.add(new CliOption(PACKAGE_PATH, "The main package name for classes. e.g. GeneratedPetstore"));
-        cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory under packagePath to serve as source root."));
+        cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
+        cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
         // cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next openapi-generator release"));
         cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
         // cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next openapi-generator release"));
@@ -151,10 +152,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(PACKAGE_PATH)) {
-            this.setPackagePath((String) additionalProperties.get(PACKAGE_PATH));
+        if (additionalProperties.containsKey(PACKAGE_NAME)) {
+            this.setPackageName((String) additionalProperties.get(PACKAGE_NAME));
         } else {
-            additionalProperties.put(PACKAGE_PATH, packagePath);
+            additionalProperties.put(PACKAGE_NAME, packageName);
         }
 
         if (additionalProperties.containsKey(SRC_BASE_PATH)) {
@@ -234,16 +235,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // make test path available in mustache template
         additionalProperties.put("testBasePath", testBasePath);
 
-        // // apache v2 license
-        // supportingFiles.add(new SupportingFile("LICENSE", getPackagePath(), "LICENSE"));
+        // apache v2 license
+        // supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
+
+        // all PHP codegens requires Composer, it means that we need to exclude from SVN at least vendor folder
+        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
     }
 
-    public String getPackagePath() {
-        return packagePath;
-    }
-
-    public String toPackagePath(String packageName, String basePath) {
-        return (getPackagePath() + File.separatorChar + toSrcPath(packageName, basePath));
+    public String getPackageName() {
+        return packageName;
     }
 
     public String toSrcPath(String packageName, String basePath) {
@@ -285,32 +285,32 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(apiPackage, srcBasePath));
+        return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(modelPackage, srcBasePath));
+        return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + testBasePath + File.separator + apiDirName);
+        return (outputFolder + File.separator + testBasePath + File.separator + apiDirName);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + testBasePath + File.separator + modelDirName);
+        return (outputFolder + File.separator + testBasePath + File.separator + modelDirName);
     }
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + apiDocPath);
+        return (outputFolder + File.separator + apiDocPath);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separator + getPackagePath() + File.separator + modelDocPath);
+        return (outputFolder + File.separator + modelDocPath);
     }
 
     @Override
@@ -330,7 +330,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
@@ -380,8 +380,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         this.artifactVersion = artifactVersion;
     }
 
-    public void setPackagePath(String packagePath) {
-        this.packagePath = packagePath;
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 
     public void setSrcBasePath(String srcBasePath) {
@@ -491,6 +491,12 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = "call_" + operationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 

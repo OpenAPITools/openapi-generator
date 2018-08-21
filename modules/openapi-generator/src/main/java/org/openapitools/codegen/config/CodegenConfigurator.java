@@ -554,7 +554,7 @@ public class CodegenConfigurator implements Serializable {
 
             if (this.isValidateSpec()) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("There were issues with the specification. The option can be disabled by passing false to skipValidateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
+                sb.append("There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
                 sb.append(System.lineSeparator());
                 SpecValidationException ex = new SpecValidationException(sb.toString());
                 ex.setErrors(validationMessages);
@@ -614,12 +614,12 @@ public class CodegenConfigurator implements Serializable {
             return;
         }
         LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
-                "\n - [debugSwagger] prints the openapi specification as interpreted by the codegen" +
+                "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen" +
                 "\n - [debugModels] prints models passed to the template engine" +
                 "\n - [debugOperations] prints operations passed to the template engine" +
                 "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-        System.setProperty("debugSwagger", "");
+        System.setProperty("debugOpenAPI", "");
         System.setProperty("debugModels", "");
         System.setProperty("debugOperations", "");
         System.setProperty("debugSupportingFiles", "");

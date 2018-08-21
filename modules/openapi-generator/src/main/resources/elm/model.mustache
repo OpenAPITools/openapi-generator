@@ -6,19 +6,14 @@ module Data.{{classname}} exposing ({{#models}}{{#model}}{{classname}}{{#hasChil
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import Json.Encode as Encode
 import Maybe exposing (map, withDefault)
-
-
 {{#models}}
 {{#model}}
+
+
 {{#description}}
-{-
-   {{{description}}}
+{-| {{{description}}}
 -}
 {{/description}}
 {{#isEnum}}{{>modelTypeUnion}}{{/isEnum}}{{^isEnum}}{{#hasChildren}}{{>modelTypeDiscriminator}}{{/hasChildren}}{{^hasChildren}}{{#isAlias}}{{>modelTypePrimitive}}{{/isAlias}}{{^isAlias}}{{#isArrayModel}}{{>modelTypeArray}}{{/isArrayModel}}{{^isArrayModel}}{{>modelTypeAlias}}{{/isArrayModel}}{{/isAlias}}{{/hasChildren}}{{/isEnum}}
 {{/model}}
-{{^-last}}
-
-
-{{/-last}}
 {{/models}}

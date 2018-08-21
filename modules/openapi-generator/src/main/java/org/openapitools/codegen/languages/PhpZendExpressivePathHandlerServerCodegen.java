@@ -59,7 +59,6 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
 
         embeddedTemplateDir = templateDir = "ze-ph";
         invokerPackage = "App";
-        packagePath = "";
         srcBasePath = "src" + File.separator + "App";
         apiDirName = "Handler";
         modelDirName = "DTO";
@@ -71,22 +70,22 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         apiDocTemplateFiles.clear();
         modelDocTemplateFiles.clear();
 
-        supportingFiles.add(new SupportingFile("README.md.mustache", packagePath, "README.md"));
-        supportingFiles.add(new SupportingFile("composer.json.mustache", packagePath, "composer.json"));
-        supportingFiles.add(new SupportingFile("index.php", packagePath + File.separator + "public", "index.php"));
-        supportingFiles.add(new SupportingFile("container.php", packagePath + File.separator + "application", "container.php"));
-        supportingFiles.add(new SupportingFile("config.yml", packagePath + File.separator + "application", "config.yml"));
-        supportingFiles.add(new SupportingFile("app.yml.mustache", packagePath + File.separator + "application" + File.separator + "config", "app.yml"));
-        supportingFiles.add(new SupportingFile("path_handler.yml.mustache", packagePath + File.separator + "application" + File.separator + "config", "path_handler.yml"));
-        supportingFiles.add(new SupportingFile("data_transfer.yml.mustache", packagePath + File.separator + "application" + File.separator + "config", "data_transfer.yml"));
-        supportingFiles.add(new SupportingFile("ErrorMiddleware.php.mustache", packagePath + File.separator + srcBasePath, "ErrorMiddleware.php"));
-        supportingFiles.add(new SupportingFile("Date.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Strategy", "Date.php"));
-        supportingFiles.add(new SupportingFile("DateTime.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Strategy", "DateTime.php"));
-        supportingFiles.add(new SupportingFile("QueryParameter.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Strategy", "QueryParameter.php"));
-        supportingFiles.add(new SupportingFile("QueryParameterArray.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Strategy", "QueryParameterArray.php"));
-        supportingFiles.add(new SupportingFile("Type.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Validator", "Type.php"));
-        supportingFiles.add(new SupportingFile("QueryParameterType.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Validator", "QueryParameterType.php"));
-        supportingFiles.add(new SupportingFile("QueryParameterArrayType.php.mustache", packagePath + File.separator + srcBasePath + File.separator + "Validator", "QueryParameterArrayType.php"));
+        supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.json.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("index.php", "public", "index.php"));
+        supportingFiles.add(new SupportingFile("container.php", "application", "container.php"));
+        supportingFiles.add(new SupportingFile("config.yml", "application", "config.yml"));
+        supportingFiles.add(new SupportingFile("app.yml.mustache", "application" + File.separator + "config", "app.yml"));
+        supportingFiles.add(new SupportingFile("path_handler.yml.mustache", "application" + File.separator + "config", "path_handler.yml"));
+        supportingFiles.add(new SupportingFile("data_transfer.yml.mustache", "application" + File.separator + "config", "data_transfer.yml"));
+        supportingFiles.add(new SupportingFile("ErrorMiddleware.php.mustache", srcBasePath, "ErrorMiddleware.php"));
+        supportingFiles.add(new SupportingFile("Date.php.mustache", srcBasePath + File.separator + "Strategy", "Date.php"));
+        supportingFiles.add(new SupportingFile("DateTime.php.mustache", srcBasePath + File.separator + "Strategy", "DateTime.php"));
+        supportingFiles.add(new SupportingFile("QueryParameter.php.mustache", srcBasePath + File.separator + "Strategy", "QueryParameter.php"));
+        supportingFiles.add(new SupportingFile("QueryParameterArray.php.mustache", srcBasePath + File.separator + "Strategy", "QueryParameterArray.php"));
+        supportingFiles.add(new SupportingFile("Type.php.mustache", srcBasePath + File.separator + "Validator", "Type.php"));
+        supportingFiles.add(new SupportingFile("QueryParameterType.php.mustache", srcBasePath + File.separator + "Validator", "QueryParameterType.php"));
+        supportingFiles.add(new SupportingFile("QueryParameterArrayType.php.mustache", srcBasePath + File.separator + "Validator", "QueryParameterArrayType.php"));
 
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "1.0.0");
     }

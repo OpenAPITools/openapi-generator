@@ -598,7 +598,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -834,6 +834,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return newOperationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
         return operationId;
     }
 
@@ -853,9 +860,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(am.getItems()));
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (model.getAdditionalProperties() != null) {
+            if (ModelUtils.getAdditionalProperties(model) != null) {
                 codegenModel.getVendorExtensions().put("x-isMap", true);
-                codegenModel.getVendorExtensions().put("x-itemType", getSchemaType((Schema) model.getAdditionalProperties()));
+                codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(ModelUtils.getAdditionalProperties(model)));
             } else {
                 String type = model.getType();
                 if (isPrimitiveType(type)){

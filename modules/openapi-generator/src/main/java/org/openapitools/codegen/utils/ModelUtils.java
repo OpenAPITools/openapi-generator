@@ -307,6 +307,9 @@ public class ModelUtils {
         if (schema.getAdditionalProperties() instanceof Schema) {
             return true;
         }
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+            return true;
+        }
         return false;
     }
 
@@ -648,13 +651,23 @@ public class ModelUtils {
             } else if (isStringSchema(ref) && (ref.getEnum() != null && !ref.getEnum().isEmpty())) {
                 // top-level enum class
                 return schema;
-            } else if (isMapSchema(ref) || isArraySchema(ref)) { // map/array def should be created as models
+            } else if (isMapSchema(ref) || isArraySchema(ref) || isComposedSchema(ref)) { // map/array def should be created as models
                 return schema;
             } else {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
         }
         return schema;
+    }
+
+    public static Schema getAdditionalProperties(Schema schema) {
+        if(schema.getAdditionalProperties() instanceof Schema) {
+            return (Schema) schema.getAdditionalProperties();
+        }
+        if(schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+            return new ObjectSchema();
+        }
+        return null;
     }
 
 }
