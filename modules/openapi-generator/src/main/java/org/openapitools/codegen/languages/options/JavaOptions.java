@@ -194,4 +194,9 @@ public class JavaOptions extends DefaultOptions implements Options {
         // should be the same as variable name
         return toVarName(name);
     }
+
+    @Override
+    public String toEnumName(String name) {
+        return sanitizeName(camelize(name)) + "Enum";
+    }
 }

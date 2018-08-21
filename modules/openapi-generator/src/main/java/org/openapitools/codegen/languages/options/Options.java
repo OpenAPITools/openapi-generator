@@ -35,4 +35,6 @@ public interface Options {
     String toEnumVarName(String value, String datatype);
 
     String toParamName(String name);
+
+    String toEnumName(String name);
 }
