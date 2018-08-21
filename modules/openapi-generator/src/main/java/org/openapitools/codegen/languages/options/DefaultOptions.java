@@ -16,7 +16,7 @@ public abstract class DefaultOptions implements Options {
     protected void setReservedWordsLowerCase(List<String> words) {
         reservedWords = new HashSet<String>();
         for (String word : words) {
-            reservedWords.add(word.toLowerCase());
+            reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
     }
 

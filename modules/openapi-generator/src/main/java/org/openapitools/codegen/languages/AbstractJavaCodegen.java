@@ -499,7 +499,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "_" + name;
+        return options.escapeReservedWord(name);
     }
 
     @Override

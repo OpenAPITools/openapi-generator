@@ -9,4 +9,6 @@ public interface Options {
     Set<String> getLanguageSpecificPrimitives();
 
     String sanitizePackageName(String packageName);
+
+    String escapeReservedWord(String name);
 }

@@ -42,4 +42,9 @@ public class JavaOptions extends DefaultOptions implements Options {
                         "byte[]")
         );
     }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        return "_" + name;
+    }
 }
