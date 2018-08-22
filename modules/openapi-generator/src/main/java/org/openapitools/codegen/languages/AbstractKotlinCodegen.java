@@ -632,7 +632,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]");
 
-        if (name.toLowerCase().matches("^_*class$")) {
+        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
         }
 
@@ -646,7 +646,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         if (startsWithTwoUppercaseLetters(name)) {
-            name = name.substring(0, 2).toLowerCase() + name.substring(2);
+            name = name.substring(0, 2).toLowerCase(Locale.ROOT) + name.substring(2);
         }
 
         // If name contains special chars -> replace them.
@@ -677,7 +677,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private boolean startsWithTwoUppercaseLetters(String name) {
         boolean startsWithTwoUppercaseLetters = false;
         if (name.length() > 1) {
-            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase());
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
         }
         return startsWithTwoUppercaseLetters;
     }

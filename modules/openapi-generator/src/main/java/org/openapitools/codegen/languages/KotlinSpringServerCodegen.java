@@ -303,11 +303,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
-        /* TODO the following logic should not need anymore in OAS 3.0
-        if ("/".equals(swagger.getBasePath())) {
-            swagger.setBasePath("");
-        }
-        */
 
         if (!additionalProperties.containsKey(TITLE)) {
             // The purpose of the title is for:
@@ -322,7 +317,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             // Drop any API suffix
             if (title != null) {
                 title = title.trim().replace(" ", "-");
-                if (title.toUpperCase().endsWith("API"))
+                if (title.toUpperCase(Locale.ROOT).endsWith("API"))
                     title = title.substring(0, title.length() - 3);
 
                 this.title = camelize(sanitizeName(title), true);
