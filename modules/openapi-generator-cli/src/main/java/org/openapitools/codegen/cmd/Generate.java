@@ -66,7 +66,7 @@ public class Generate implements Runnable {
     private String templateDir;
 
     @Option(name = {"-e", "--engine"}, title = "templating engine",
-        description = "uses a given plugin for loading the templating engine")
+        description = "templating engine, for now \"mustache\" and \"handlebars\" are supported")
     private String templatingEngine;
 
     @Option(
