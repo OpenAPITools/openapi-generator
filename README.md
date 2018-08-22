@@ -84,8 +84,8 @@ OpenAPI Generator Version    | Release Date | Notes
 ---------------------------- | ------------ | -----
 4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| TBD | Major release with breaking changes (no fallback)
 3.3.0 (upcoming minor release)| TBD | Minor release (breaking changes with fallbacks)
-3.2.2 (current master, upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.2.2-SNAPSHOT/)| TBD | Bugfix release
-[3.2.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.2.2) (latest stable release) | 14.08.2018 | Bugfix release
+3.2.3 (current master, upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.2.3-SNAPSHOT/)| TBD | Bugfix release
+[3.2.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.2.2) (latest stable release) | 22.08.2018 | Bugfix release
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
 
