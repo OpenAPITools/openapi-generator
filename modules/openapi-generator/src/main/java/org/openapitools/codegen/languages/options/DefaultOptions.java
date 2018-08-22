@@ -1,13 +1,19 @@
 package org.openapitools.codegen.languages.options;
 
 import com.google.common.base.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public abstract class DefaultOptions implements Options {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultOptions.class);
+
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives;
     protected Map<String, String> specialCharReplacements;
+    protected boolean allowUnicodeIdentifiers;
 
     public DefaultOptions() {
         reservedWords = new HashSet<String>();
@@ -81,5 +87,78 @@ public abstract class DefaultOptions implements Options {
             return "invalidPackageName";
         }
         return packageName;
+    }
+
+    protected boolean isReservedWord(String word) {
+        return word != null && reservedWords.contains(word.toLowerCase(Locale.ROOT));
+    }
+
+    /**
+     * Sanitize name (parameter, property, method, etc)
+     *
+     * @param name string to be sanitize
+     * @return sanitized string
+     */
+    @SuppressWarnings("static-method")
+    public String sanitizeName(String name) {
+        return sanitizeName(name, "\\W");
+    }
+
+    /**
+     * Sanitize name (parameter, property, method, etc)
+     *
+     * @param name            string to be sanitize
+     * @param removeCharRegEx a regex containing all char that will be removed
+     * @return sanitized string
+     */
+    public String sanitizeName(String name, String removeCharRegEx) {
+        // NOTE: performance wise, we should have written with 2 replaceAll to replace desired
+        // character with _ or empty character. Below aims to spell out different cases we've
+        // encountered so far and hopefully make it easier for others to add more special
+        // cases in the future.
+
+        // better error handling when map/array type is invalid
+        if (name == null) {
+            LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
+            return "ERROR_UNKNOWN";
+        }
+
+        // if the name is just '$', map it to 'value' for the time being.
+        if ("$".equals(name)) {
+            return "value";
+        }
+
+        // input[] => input
+        name = name.replaceAll("\\[\\]", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        // input[a][b] => input_a_b
+        name = name.replaceAll("\\[", "_");
+        name = name.replaceAll("\\]", "");
+
+        // input(a)(b) => input_a_b
+        name = name.replaceAll("\\(", "_");
+        name = name.replaceAll("\\)", "");
+
+        // input.name => input_name
+        name = name.replaceAll("\\.", "_");
+
+        // input-name => input_name
+        name = name.replaceAll("-", "_");
+
+        // a|b => a_b
+        name = name.replace("|", "_");
+
+        // input name and age => input_name_and_age
+        name = name.replaceAll(" ", "_");
+
+        // remove everything else other than word, number and _
+        // $php_variable => php_variable
+        if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
+            name = Pattern.compile(removeCharRegEx, Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
+        } else {
+            name = name.replaceAll(removeCharRegEx, "");
+        }
+
+        return name;
     }
 }

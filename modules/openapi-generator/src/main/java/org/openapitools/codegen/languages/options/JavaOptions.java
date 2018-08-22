@@ -1,7 +1,11 @@
 package org.openapitools.codegen.languages.options;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
+
+import org.openapitools.codegen.DefaultCodegen;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class JavaOptions extends DefaultOptions implements Options {
 
@@ -47,4 +51,55 @@ public class JavaOptions extends DefaultOptions implements Options {
     public String escapeReservedWord(String name) {
         return "_" + name;
     }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+
+        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
+            return "propertyClass";
+        }
+
+        if ("_".equals(name)) {
+            name = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+
+        if (startsWithTwoUppercaseLetters(name)) {
+            name = name.substring(0, 2).toLowerCase(Locale.ROOT) + name.substring(2);
+        }
+
+        // If name contains special chars -> replace them.
+        if ((((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character))))) {
+            List<String> allowedCharacters = new ArrayList<>();
+            allowedCharacters.add("_");
+            allowedCharacters.add("$");
+            name = escape(name, specialCharReplacements, allowedCharacters, "_");
+        }
+
+        // camelize (lower first character) the variable name
+        // pet_id => petId
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number, append _
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
+    }
+
+    private boolean startsWithTwoUppercaseLetters(String name) {
+        boolean startsWithTwoUppercaseLetters = false;
+        if (name.length() > 1) {
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
+        }
+        return startsWithTwoUppercaseLetters;
+    }
+
 }

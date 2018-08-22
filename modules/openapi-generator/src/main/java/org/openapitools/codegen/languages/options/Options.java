@@ -13,4 +13,6 @@ public interface Options {
     String escapeReservedWord(String name);
 
     Map<String,String> getSpecialCharReplacements();
+
+    String toVarName(String name);
 }
