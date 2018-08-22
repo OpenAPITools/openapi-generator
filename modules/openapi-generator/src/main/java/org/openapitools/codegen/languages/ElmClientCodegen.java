@@ -512,8 +512,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
-        final CodegenResponse response = super.fromResponse(responseCode, resp);
+    public CodegenResponse fromResponse(OpenAPI openAPI, String responseCode, ApiResponse resp) {
+        final CodegenResponse response = super.fromResponse(openAPI, responseCode, resp);
         if (response.dataType != null) {
             addEncoderAndDecoder(response.vendorExtensions, response.dataType, response.isMapContainer, response.primitiveType);
         }
