@@ -17,15 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.responses.*;
 
 import java.io.File;
 import java.text.Collator;
@@ -36,6 +41,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -259,7 +265,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Collections.sort(parent.children, new Comparator<CodegenModel>() {
                     @Override
                     public int compare(CodegenModel cm1, CodegenModel cm2) {
-                        return Collator.getInstance().compare(cm1.classname, cm2.classname);
+                        return Collator.getInstance(Locale.ROOT).compare(cm1.classname, cm2.classname);
                     }
                 });
             }

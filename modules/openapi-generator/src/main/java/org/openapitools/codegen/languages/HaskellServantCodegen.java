@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -29,15 +33,16 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.media.*;
-
-import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
@@ -204,9 +209,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (word.length() == 0) {
             return word;
         } else if (word.length() == 1) {
-            return word.substring(0, 1).toUpperCase();
+            return word.substring(0, 1).toUpperCase(Locale.ROOT);
         } else {
-            return word.substring(0, 1).toUpperCase() + word.substring(1);
+            return word.substring(0, 1).toUpperCase(Locale.ROOT) + word.substring(1);
         }
     }
 
@@ -214,9 +219,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (word.length() == 0) {
             return word;
         } else if (word.length() == 1) {
-            return word.substring(0, 1).toLowerCase();
+            return word.substring(0, 1).toLowerCase(Locale.ROOT);
         } else {
-            return word.substring(0, 1).toLowerCase() + word.substring(1);
+            return word.substring(0, 1).toLowerCase(Locale.ROOT) + word.substring(1);
         }
     }
 
@@ -230,7 +235,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             title = "OpenAPI";
         } else {
             title = title.trim();
-            if (title.toUpperCase().endsWith("API")) {
+            if (title.toUpperCase(Locale.ROOT).endsWith("API")) {
                 title = title.substring(0, title.length() - 3);
             }
         }
@@ -240,7 +245,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // The package name is made by appending the lowercased words of the title interspersed with dashes
         List<String> wordsLower = new ArrayList<String>();
         for (String word : words) {
-            wordsLower.add(word.toLowerCase());
+            wordsLower.add(word.toLowerCase(Locale.ROOT));
         }
         String cabalName = joinStrings("-", wordsLower);
 
@@ -484,7 +489,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
         }
-        path.add("Verb '" + op.httpMethod.toUpperCase() + " 200 '[JSON] " + returnType);
+        path.add("Verb '" + op.httpMethod.toUpperCase(Locale.ROOT) + " 200 '[JSON] " + returnType);
         type.add("m " + returnType);
 
         op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path));

@@ -17,14 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-
-import org.apache.commons.lang3.StringUtils;
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import org.openapitools.codegen.*;
+import java.util.Locale;
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
@@ -71,7 +75,7 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
             // e.g. petstore.api (package name) => petstore_api (project name)
             projectName = packageName.replaceAll("\\.", "_");
         }
-        String configBaseName = modelPackage.toLowerCase();
+        String configBaseName = modelPackage.toLowerCase(Locale.ROOT);
         supportingFiles.add(new SupportingFile("gnat-project.mustache", "", toFilename(projectName) + ".gpr"));
         // supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("config.gpr", "", "config.gpr"));
