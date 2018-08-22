@@ -17,31 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.models.properties.*;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
 import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.*;
 
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
-    @SuppressWarnings("hiding")
     protected String apiVersion = "1.0.0";
-    protected String variableNamingConvention = "camelCase";
 
     /**
      * Configures the type of generator.
@@ -80,6 +62,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         super();
 
         embeddedTemplateDir = templateDir = "php-laravel";
+        variableNamingConvention = "camelCase";
 
         /*
          * packPath
@@ -221,7 +204,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
 
         for (CodegenOperation op : operations) {
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
             // check to see if the path contains ".", which is not supported by PHP laravel
             // ref: https://github.com/swagger-api/swagger-codegen/issues/6897
             if (op.path != null && op.path.contains(".")) {

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright 2018 SmartBear Software
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -18,11 +35,10 @@ import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
-import java.util.ArrayList;
+
+import java.util.*;
+
 import io.swagger.v3.oas.models.media.XML;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
@@ -68,9 +84,23 @@ public class InlineModelResolver {
                                     Schema schema = new Schema();
                                     schema.set$ref(modelName);
                                     mt.setSchema(schema);
-                                    // TODO assume JSON, need to support other payload later
-                                    content.addMediaType("application/json", mt);
+
+                                    // get "consumes", e.g. application/xml, application/json
+                                    Set<String> consumes;
+                                    if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+                                        consumes = new HashSet<>();
+                                        consumes.add("application/json"); // default to application/json
+                                        LOGGER.info("Default to application/json for inline body schema");
+                                    } else {
+                                        consumes = requestBody.getContent().keySet();
+                                    }
+
+                                    for (String consume : consumes) {
+                                        content.addMediaType(consume, mt);
+                                    }
+
                                     rb.setContent(content);
+
                                     // add to openapi "components"
                                     if (openapi.getComponents().getRequestBodies() == null) {
                                         Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
@@ -208,7 +238,7 @@ public class InlineModelResolver {
                                     }
                                 } else if (property instanceof MapSchema) {
                                     MapSchema mp = (MapSchema) property;
-                                    Schema innerProperty = (Schema) mp.getAdditionalProperties();
+                                    Schema innerProperty = ModelUtils.getAdditionalProperties(mp);
                                     if (innerProperty instanceof ObjectSchema) {
                                         ObjectSchema op = (ObjectSchema) innerProperty;
                                         if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -291,7 +321,7 @@ public class InlineModelResolver {
     /**
      * This function fix models that are string (mostly enum). Before this fix, the
      * example would look something like that in the doc: "\"example from def\""
-     * 
+     *
      * @param m Schema implementation
      */
     private void fixStringModel(Schema m) {
@@ -334,10 +364,7 @@ public class InlineModelResolver {
         int count = 0;
         boolean done = false;
         key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter
-                                                       // should not be
-                                                       // assigned. Also declare
-                                                       // the methods parameters
-                                                       // as 'final'.
+        // should not be assigned. Also declare the methods parameters as 'final'.
         while (!done) {
             String name = key;
             if (count > 0) {
@@ -404,7 +431,7 @@ public class InlineModelResolver {
                 }
             }
             if (ModelUtils.isMapSchema(property)) {
-                Schema inner = (Schema) property.getAdditionalProperties();
+                Schema inner = ModelUtils.getAdditionalProperties(property);
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -492,7 +519,7 @@ public class InlineModelResolver {
         model.setDescription(description);
         model.setName(object.getName());
         model.setExample(example);
-        model.setItems((Schema) object.getAdditionalProperties());
+        model.setItems(ModelUtils.getAdditionalProperties(object));
         return model;
     }
 

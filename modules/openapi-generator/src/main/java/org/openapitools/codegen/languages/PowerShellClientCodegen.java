@@ -17,14 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +37,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.util.UUID.randomUUID;
@@ -40,7 +45,7 @@ import static java.util.UUID.randomUUID;
 public class PowerShellClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PowerShellClientCodegen.class);
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
+    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     protected String sourceFolder = "src";
     protected String packageName = "Org.OpenAPITools";
@@ -383,7 +388,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             // TODO not sure if the following map/hash declaration is correct
             return "{String, " + getTypeDeclaration(inner) + "}";
         } else if (!languageSpecificPrimitives.contains(getSchemaType(p))) {

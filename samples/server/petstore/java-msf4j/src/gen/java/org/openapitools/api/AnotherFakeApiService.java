@@ -18,6 +18,6 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public abstract class AnotherFakeApiService {
-    public abstract Response testSpecialTags(Client client
+    public abstract Response call123testSpecialTags(Client client
  ) throws NotFoundException;
 }
