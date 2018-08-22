@@ -637,7 +637,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                                 mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
                                         definitions.get(p.dataType).getExample()));
                     } catch (JsonProcessingException e) {
-                        e.printStackTrace();
+                        LOGGER.warn(e.getMessage(), e);
                     }
                 } else {
                     /**

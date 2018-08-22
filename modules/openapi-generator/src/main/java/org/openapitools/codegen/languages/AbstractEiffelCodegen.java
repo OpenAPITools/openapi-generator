@@ -23,11 +23,9 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -48,8 +46,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 public abstract class AbstractEiffelCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEiffelCodegen.class);
@@ -171,13 +172,13 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toParamName(String name) {
         // params should be lowercase. E.g. "person: PERSON"
-        return toVarName(name).toLowerCase();
+        return toVarName(name).toLowerCase(Locale.ROOT);
     }
 
     @Override
     public String toModelName(String name) {
         // phone_number => PHONE_NUMBER
-        return toModelFilename(name).toUpperCase();
+        return toModelFilename(name).toUpperCase(Locale.ROOT);
     }
 
     @Override
@@ -223,7 +224,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toApiTestFilename(String name) {
-        return toApiName(name).toLowerCase() + "_test";
+        return toApiName(name).toLowerCase(Locale.ROOT) + "_test";
     }
 
     @Override
@@ -231,7 +232,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         if (name.length() == 0) {
             return "DEFAULT_API";
         }
-        return name.toUpperCase() + "_API";
+        return name.toUpperCase(Locale.ROOT) + "_API";
     }
 
     /**
@@ -271,7 +272,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             }
         }
         if (!isNullOrEmpty(model.parentSchema)) {
-            model.parentSchema = model.parentSchema.toLowerCase();
+            model.parentSchema = model.parentSchema.toLowerCase(Locale.ROOT);
         }
     }
 
@@ -354,7 +355,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
 
-            operation.httpMethod = camelize(operation.httpMethod.toLowerCase());
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
 
         // remove model imports to avoid error
@@ -577,7 +578,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     public String unCamelize(String name) {
-        return name.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
+        return name.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase(Locale.ROOT);
     }
 
     public String toEiffelFeatureStyle(String operationId) {

@@ -19,11 +19,16 @@ package org.openapitools.codegen.online.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.*;
-import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.ClientOpts;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConfigLoader;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.online.model.GeneratorInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +39,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Generator {
@@ -44,7 +50,7 @@ public class Generator {
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Unsupported target %s supplied. %s",
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(Locale.ROOT,"Unsupported target %s supplied. %s",
                     language, e));
         }
         Map<String, CliOption> map = new LinkedHashMap<>();
@@ -77,7 +83,7 @@ public class Generator {
     }
 
     private static String generate(String language, GeneratorInput opts, Type type) {
-        LOGGER.debug(String.format("generate %s for %s", type.getTypeName(), language));
+        LOGGER.debug(String.format(Locale.ROOT,"generate %s for %s", type.getTypeName(), language));
         if (opts == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No options were supplied");
         }

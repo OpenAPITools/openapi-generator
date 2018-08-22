@@ -219,6 +219,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ((ArraySchema) p).getItems();
             out = String.format(
+                    Locale.ROOT,
                     "new List<%s>()",
                     inner == null ? "Object" : getTypeDeclaration(inner)
             );
@@ -231,12 +232,12 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
-            out = String.format("new Map<String, %s>()", s);
+            out = String.format(Locale.ROOT, "new Map<String, %s>()", s);
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String def = p.getDefault().toString();
                 if (def != null) {
-                    out = p.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+                    out = p.getEnum() == null ? String.format(Locale.ROOT, "'%s'", escapeText(def)) : def;
                 }
             }
         } else {
@@ -272,7 +273,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         if (apiVersion.matches("^\\d{2}(\\.0)?$")) {
             return apiVersion.substring(0, 2) + ".0";
         } else {
-            LOGGER.warn(String.format("specified API version is invalid: %s - defaulting to %s", apiVersion, this.apiVersion));
+            LOGGER.warn(String.format(Locale.ROOT, "specified API version is invalid: %s - defaulting to %s", apiVersion, this.apiVersion));
             return this.apiVersion;
         }
     }

@@ -30,6 +30,7 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -193,7 +194,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         if (this.useSwaggerUI) {
             //App/Controllers
             supportingFiles.add(new SupportingFile("openapi.mustache", "public", "openapi.json"));
-            supportingFiles.add(new SupportingFile("apiDocController.mustache", String.format("app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.java"));
+            supportingFiles.add(new SupportingFile("apiDocController.mustache", String.format(Locale.ROOT, "app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.java"));
         }
 
         //We remove the default api.mustache that is used

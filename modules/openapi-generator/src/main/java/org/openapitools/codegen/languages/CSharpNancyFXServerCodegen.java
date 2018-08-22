@@ -17,18 +17,25 @@
 
 package org.openapitools.codegen.languages;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.openapitools.codegen.CodegenConstants.*;
-import static org.openapitools.codegen.CodegenType.SERVER;
-import static java.util.Arrays.asList;
-import static java.util.UUID.randomUUID;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.URLPathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
 import java.net.URL;
@@ -37,20 +44,35 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static java.util.Arrays.asList;
+import static java.util.UUID.randomUUID;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_PREFIX;
+import static org.openapitools.codegen.CodegenConstants.INTERFACE_PREFIX_DESC;
+import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_FILE;
+import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_FILE_DESC;
+import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_GUID;
+import static org.openapitools.codegen.CodegenConstants.OPTIONAL_PROJECT_GUID_DESC;
+import static org.openapitools.codegen.CodegenConstants.PACKAGE_NAME;
+import static org.openapitools.codegen.CodegenConstants.PACKAGE_VERSION;
+import static org.openapitools.codegen.CodegenConstants.RETURN_ICOLLECTION;
+import static org.openapitools.codegen.CodegenConstants.RETURN_ICOLLECTION_DESC;
+import static org.openapitools.codegen.CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG;
+import static org.openapitools.codegen.CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC;
+import static org.openapitools.codegen.CodegenConstants.SOURCE_FOLDER;
+import static org.openapitools.codegen.CodegenConstants.SOURCE_FOLDER_DESC;
+import static org.openapitools.codegen.CodegenConstants.USE_COLLECTION;
+import static org.openapitools.codegen.CodegenConstants.USE_COLLECTION_DESC;
+import static org.openapitools.codegen.CodegenConstants.USE_DATETIME_OFFSET;
+import static org.openapitools.codegen.CodegenConstants.USE_DATETIME_OFFSET_DESC;
+import static org.openapitools.codegen.CodegenType.SERVER;
 
 public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpNancyFXServerCodegen.class);
@@ -65,7 +87,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final Map<String, Predicate<Schema>> propertyToOpenAPITypeMapping =
             createPropertyToOpenAPITypeMapping();
 
-    private String packageGuid = "{" + randomUUID().toString().toUpperCase() + "}";
+    private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
     private final Map<String, DependencyInfo> dependencies = new HashMap<>();
     private final Set<String> parentModels = new HashSet<>();
@@ -186,18 +208,18 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
             final String assemblyFramework = namespaceInfo.length > 3 ? namespaceInfo[3].trim() : "net45";
 
             if (isNullOrEmpty(model) || isNullOrEmpty(namespaceName)) {
-                LOGGER.warn(String.format("Could not import: '%s' - invalid namespace: '%s'", model, entry.getValue()));
+                LOGGER.warn(String.format(Locale.ROOT, "Could not import: '%s' - invalid namespace: '%s'", model, entry.getValue()));
                 importMapping.remove(model);
             } else {
-                LOGGER.info(String.format("Importing: '%s' from '%s' namespace.", model, namespaceName));
+                LOGGER.info(String.format(Locale.ROOT, "Importing: '%s' from '%s' namespace.", model, namespaceName));
                 importMapping.put(model, namespaceName);
             }
             if (!isNullOrEmpty(modelClass)) {
-                LOGGER.info(String.format("Mapping: '%s' class to '%s'", model, modelClass));
+                LOGGER.info(String.format(Locale.ROOT, "Mapping: '%s' class to '%s'", model, modelClass));
                 modelNameMapping.put(model, modelClass);
             }
             if (assembly != null && assemblyVersion != null) {
-                LOGGER.info(String.format("Adding dependency: '%s', version: '%s', framework: '%s'",
+                LOGGER.info(String.format(Locale.ROOT, "Adding dependency: '%s', version: '%s', framework: '%s'",
                         assembly, assemblyVersion, assemblyVersion));
                 dependencies.put(assembly, new DependencyInfo(assemblyVersion, assemblyFramework));
             }
@@ -249,7 +271,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
             operation.path = operation.path.replace("?", "/");
         }
         if (!isNullOrEmpty(operation.httpMethod)) {
-            operation.httpMethod = capitalize(operation.httpMethod.toLowerCase());
+            operation.httpMethod = capitalize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
     }
 
@@ -281,7 +303,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         for (final CodegenProperty property : parent.vars) {
             final CodegenProperty duplicatedByParent = childPropertiesByName.get(property.name);
             if (duplicatedByParent != null) {
-                LOGGER.info(String.format("Property: '%s' in '%s' model is inherited from '%s'",
+                LOGGER.info(String.format(Locale.ROOT, "Property: '%s' in '%s' model is inherited from '%s'",
                         property.name, child.classname, parent.classname));
                 duplicatedByParent.isInherited = true;
                 final CodegenProperty parentVar = duplicatedByParent.clone();
@@ -323,7 +345,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         } else {
             result = enumName;
         }
-        LOGGER.debug(String.format("toEnumVarName('%s', %s) = '%s'", name, datatype, enumName));
+        LOGGER.debug(String.format(Locale.ROOT, "toEnumVarName('%s', %s) = '%s'", name, datatype, enumName));
         return result;
     }
 
@@ -335,7 +357,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         } else {
             apiName = capitalize(name);
         }
-        LOGGER.debug(String.format("toApiName('%s') = '%s'", name, apiName));
+        LOGGER.debug(String.format(Locale.ROOT, "toApiName('%s') = '%s'", name, apiName));
         return apiName;
     }
 
@@ -356,7 +378,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         } else {
             result = null;
         }
-        LOGGER.debug(String.format("toModelImport('%s') = '%s'", name, result));
+        LOGGER.debug(String.format(Locale.ROOT, "toModelImport('%s') = '%s'", name, result));
         return result;
     }
 

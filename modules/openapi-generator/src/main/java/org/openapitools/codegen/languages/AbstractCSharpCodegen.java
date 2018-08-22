@@ -236,7 +236,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            LOGGER.warn(String.format("%s is not used by C# generators. Please use %s",
+            LOGGER.warn(String.format(Locale.ROOT, "%s is not used by C# generators. Please use %s",
                     CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
         }
 
@@ -315,9 +315,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
-            if ("false".equals(useInterfacePrefix.toLowerCase())) {
+            if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
                 setInterfacePrefix("");
-            } else if (!"true".equals(useInterfacePrefix.toLowerCase())) {
+            } else if (!"true".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
                 // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
                 setInterfacePrefix(sanitizeName(useInterfacePrefix));
             }
@@ -770,8 +770,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // NOTE: typeMapping here supports things like string/String, long/Long, datetime/DateTime as lowercase keys.
         //       Should we require explicit casing here (values are not insensitive).
         // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(openAPIType.toLowerCase())) {
-            type = typeMapping.get(openAPIType.toLowerCase());
+        if (typeMapping.containsKey(openAPIType.toLowerCase(Locale.ROOT))) {
+            type = typeMapping.get(openAPIType.toLowerCase(Locale.ROOT));
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }

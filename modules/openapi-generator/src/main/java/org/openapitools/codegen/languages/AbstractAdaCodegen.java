@@ -19,13 +19,11 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -43,6 +41,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -182,7 +181,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     public String toFilename(String name) {
-        return name.replace(".", "-").toLowerCase();
+        return name.replace(".", "-").toLowerCase(Locale.ROOT);
     }
 
     /**
@@ -393,7 +392,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 String mt = media.get("mediaType");
                 if (mt != null) {
                     mt = mt.replace('/', '_');
-                    media.put("adaMediaType", mt.toUpperCase());
+                    media.put("adaMediaType", mt.toUpperCase(Locale.ROOT));
                     count++;
                 }
             }

@@ -92,7 +92,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         // sanitize name
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        if (name.toLowerCase().matches("^_*class$")) {
+        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
         }
 
@@ -109,7 +109,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         if (startsWithTwoUppercaseLetters(name)) {
-            name = name.substring(0, 2).toLowerCase() + name.substring(2);
+            name = name.substring(0, 2).toLowerCase(Locale.ROOT) + name.substring(2);
         }
 
         // camelize (lower first character) the variable name
@@ -127,7 +127,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     private boolean startsWithTwoUppercaseLetters(String name) {
         boolean startsWithTwoUppercaseLetters = false;
         if (name.length() > 1) {
-            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase());
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
         }
         return startsWithTwoUppercaseLetters;
     }
@@ -227,7 +227,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            return String.format(pattern, getTypeDeclaration(ap.getItems()));
+            return String.format(Locale.ROOT, pattern, getTypeDeclaration(ap.getItems()));
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
@@ -235,7 +235,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            return String.format(pattern, String.format("String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
+            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -299,7 +299,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             p.example = "'" + p.example + "'";
         } else if ("".equals(p.example) || p.example == null && p.dataType != "Object") {
             // Get an example object from the generated model
-            if (!isReservedWord(p.dataType.toLowerCase())) {
+            if (!isReservedWord(p.dataType.toLowerCase(Locale.ROOT))) {
                 p.example = p.dataType + ".getExample()";
             }
         } else {
@@ -334,7 +334,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23";
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
+                LOGGER.warn(String.format(Locale.ROOT, "The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
                         .getName(), example));
                 example = "2000, 1, 23";
             }
@@ -345,7 +345,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23, 4, 56, 7";
             } else {
-                LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
+                LOGGER.warn(String.format(Locale.ROOT, "The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
                         .getName(), example));
                 example = "2000, 1, 23, 4, 56, 7";
             }
@@ -528,7 +528,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return getSymbolName(value).toUpperCase();
+            return getSymbolName(value).toUpperCase(Locale.ROOT);
         }
 
         // number
@@ -542,7 +542,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         }
 
         // string
-        String var = value.replaceAll("\\W+", "_").toUpperCase();
+        String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {
