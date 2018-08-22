@@ -485,7 +485,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
             }
         }
         if(isIncluded("QMap", imports)) {
-        	// Maps uses QString as key
+            // Maps uses QString as key
             if(!isIncluded("QString", imports)) {
                 imports.add(createMapping("import", "QString"));
             }
