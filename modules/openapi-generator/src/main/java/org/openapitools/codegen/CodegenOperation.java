@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -196,7 +197,7 @@ public class CodegenOperation {
      * @return true if act as Restful update method, false otherwise
      */
     public boolean isRestfulUpdate() {
-        return Arrays.asList("PUT", "PATCH").contains(httpMethod.toUpperCase()) && isMemberPath();
+        return Arrays.asList("PUT", "PATCH").contains(httpMethod.toUpperCase(Locale.ROOT)) && isMemberPath();
     }
 
     /**
@@ -205,7 +206,7 @@ public class CodegenOperation {
      * @return true request method is PUT, PATCH or POST; false otherwise
      */
     public boolean isBodyAllowed() {
-        return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase());
+        return Arrays.asList("PUT", "PATCH", "POST").contains(httpMethod.toUpperCase(Locale.ROOT));
     }
 
     /**
@@ -232,7 +233,7 @@ public class CodegenOperation {
      * @return the substring
      */
     private String pathWithoutBaseName() {
-        return baseName != null ? path.replace("/" + baseName.toLowerCase(), "") : path;
+        return baseName != null ? path.replace("/" + baseName.toLowerCase(Locale.ROOT), "") : path;
     }
 
     /**
@@ -248,7 +249,7 @@ public class CodegenOperation {
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", baseName, path);
+        return String.format(Locale.ROOT, "%s(%s)", baseName, path);
     }
 
     @Override
