@@ -28,7 +28,7 @@ data class Order (
         @JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
         @ApiModelProperty(value = "")
-        @JsonProperty("shipDate") val shipDate: java.time.LocalDateTime? = null,
+        @JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
         @ApiModelProperty(value = "Order Status")
         @JsonProperty("status") val status: Order.Status? = null,
