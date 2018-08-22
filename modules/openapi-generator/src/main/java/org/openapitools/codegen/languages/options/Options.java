@@ -11,4 +11,6 @@ public interface Options {
     String sanitizePackageName(String packageName);
 
     String escapeReservedWord(String name);
+
+    Map<String,String> getSpecialCharReplacements();
 }

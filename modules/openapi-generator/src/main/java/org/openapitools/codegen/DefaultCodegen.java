@@ -72,6 +72,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> reservedWords = new HashSet<String>();
     @Deprecated
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
+    @Deprecated
+    protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
 
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
@@ -107,10 +109,6 @@ public class DefaultCodegen implements CodegenConfig {
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
-    // How to encode special characters like $
-    // They are translated to words like "Dollar" and prefixed with '
-    // Then translated back during JSON encoding and decoding
-    protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
@@ -555,6 +553,9 @@ public class DefaultCodegen implements CodegenConfig {
         return defaultIncludes;
     }
 
+    public Map<String, String> specialCharReplacements() {
+        return options !=null ? options.getSpecialCharReplacements() : specialCharReplacements;
+    }
     public Map<String, String> typeMapping() {
         return typeMapping;
     }
@@ -837,8 +838,8 @@ public class DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         if (reservedWords().contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements().keySet().contains( "" + ((char) character)))) {
+            return escape(name, specialCharReplacements(), null, null);
         } else {
             return name;
         }
@@ -855,8 +856,8 @@ public class DefaultCodegen implements CodegenConfig {
         name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (reservedWords().contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements().keySet().contains( "" + ((char) character)))) {
+            return escape(name, specialCharReplacements(), null, null);
         }
         return name;
     }
@@ -1058,7 +1059,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Symbol name (e.g. Dollar)
      */
     protected String getSymbolName(String input) {
-        return specialCharReplacements.get(input);
+        return specialCharReplacements().get(input);
     }
 
     /**
