@@ -4241,7 +4241,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenParameter.isPrimitiveType = false;
                     codegenParameter.isContainer = true;
                     codegenParameter.isListContainer = true;
-                    codegenParameter.description = s.getDescription();
+                    codegenParameter.description = escapeText(s.getDescription());
                     codegenParameter.dataType = getTypeDeclaration(s);
                     if (codegenParameter.baseType != null && codegenParameter.enumName != null) {
                         codegenParameter.datatypeWithEnum = codegenParameter.dataType.replace(codegenParameter.baseType, codegenParameter.enumName);
@@ -4367,7 +4367,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
         codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
-        codegenParameter.description = body.getDescription();
+        codegenParameter.description = escapeText(body.getDescription());
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
 
@@ -4599,7 +4599,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenServer> codegenServers = new LinkedList<>();
         for (Server server: servers) {
             CodegenServer cs = new CodegenServer();
-            cs.description = server.getDescription();
+            cs.description = escapeText(server.getDescription());
             cs.url = server.getUrl();
             cs.variables = this.fromServerVariables(server.getVariables());
             codegenServers.add(cs);
@@ -4617,7 +4617,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
             ServerVariable variable = variableEntry.getValue();
             codegenServerVariable.defaultValue = variable.getDefault();
-            codegenServerVariable.description = variable.getDescription();
+            codegenServerVariable.description = escapeText(variable.getDescription());
             codegenServerVariable.enumValues = variable.getEnum();
             codegenServerVariable.name = variableEntry.getKey();
             codegenServerVariables.add(codegenServerVariable);
