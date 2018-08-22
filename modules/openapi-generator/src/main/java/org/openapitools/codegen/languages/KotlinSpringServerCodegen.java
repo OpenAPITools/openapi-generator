@@ -183,6 +183,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public void processOpts() {
         super.processOpts();
 
+        typeMapping.put("date", "java.time.LocalDate");
+        typeMapping.put("date-time", "java.time.OffsetDateTime");
+        typeMapping.put("Date", "java.time.LocalDate");
+        typeMapping.put("DateTime", "java.time.OffsetDateTime");
+
+        importMapping.put("Date", "java.time.LocalDate");
+        importMapping.put("DateTime", "java.time.OffsetDateTime");
+
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
