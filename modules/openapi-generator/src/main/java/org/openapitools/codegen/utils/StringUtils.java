@@ -1,6 +1,7 @@
 package org.openapitools.codegen.utils;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +29,7 @@ public class StringUtils {
         word = word.replace('-', '_');
         // replace space with underscore
         word = word.replace(' ', '_');
-        word = word.toLowerCase();
+        word = word.toLowerCase(Locale.ROOT);
         return word;
     }
 
@@ -90,7 +91,7 @@ public class StringUtils {
         p = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
         m = p.matcher(word);
         if (m.find()) {
-            String rep = m.group(1) + m.group(2).toUpperCase() + m.group(3);
+            String rep = m.group(1) + m.group(2).toUpperCase(Locale.ROOT) + m.group(3);
             rep = rep.replaceAll("\\$", "\\\\\\$");
             word = m.replaceAll(rep);
         }
@@ -100,7 +101,7 @@ public class StringUtils {
         m = p.matcher(word);
         while (m.find()) {
             String original = m.group(2);
-            String upperCase = original.toUpperCase();
+            String upperCase = original.toUpperCase(Locale.ROOT);
             if (original.equals(upperCase)) {
                 word = word.replaceFirst("_", "");
             } else {
@@ -113,7 +114,7 @@ public class StringUtils {
         p = Pattern.compile("(-)(.)");
         m = p.matcher(word);
         while (m.find()) {
-            word = m.replaceFirst(m.group(2).toUpperCase());
+            word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
             m = p.matcher(word);
         }
 
@@ -125,7 +126,7 @@ public class StringUtils {
                 charAt = word.charAt(i);
             }
             i = i + 1;
-            word = word.substring(0, i).toLowerCase() + word.substring(i);
+            word = word.substring(0, i).toLowerCase(Locale.ROOT) + word.substring(i);
         }
 
         // remove all underscore
