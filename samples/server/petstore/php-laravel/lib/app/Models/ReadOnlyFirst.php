@@ -2,7 +2,7 @@
 /**
  * ReadOnlyFirst
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * ReadOnlyFirst

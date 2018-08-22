@@ -19,10 +19,7 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -32,7 +29,10 @@ import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModelUtilsTest {
 
@@ -172,5 +172,25 @@ public class ModelUtilsTest {
 
         Parameter result2 = ModelUtils.getReferencedParameter(openAPI, new Parameter().$ref("#/components/parameters/OtherParameter"));
         Assert.assertEquals(result2, otherParameter);
+    }
+
+    /**
+     * Issue https://github.com/OpenAPITools/openapi-generator/issues/582.
+     * Composed schemas should not get unaliased when generating model properties, in order to properly
+     * generate the property data type name.
+     */
+    @Test
+    public void testComposedSchemasAreNotUnaliased() {
+        ComposedSchema composedSchema = new ComposedSchema().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/SomeSchema"),
+                new ObjectSchema()
+        ));
+        Schema refToComposedSchema = new Schema().$ref("#/components/schemas/SomeComposedSchema");
+
+
+        Map<String, Schema> allSchemas = new HashMap<>();
+        allSchemas.put("SomeComposedSchema", composedSchema);
+
+        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
     }
 }

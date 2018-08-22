@@ -2,7 +2,7 @@
 /**
  * SpecialModelName
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * SpecialModelName

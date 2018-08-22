@@ -9,6 +9,7 @@ import org.openapitools.codegen.CodegenType;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 // NOTE: List can later have subcommands such as list languages, list types, list frameworks, etc.
 @Command(name = "list", description = "Lists the available generators")
@@ -53,6 +54,6 @@ public class ListGenerators implements Runnable {
             }
         }
 
-        System.out.printf("%s%n", sb.toString());
+        System.out.printf(Locale.ROOT,"%s%n", sb.toString());
     }
 }

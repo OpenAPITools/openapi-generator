@@ -2,7 +2,7 @@
 /**
  * Client
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * Client
