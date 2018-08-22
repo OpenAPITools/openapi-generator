@@ -20,6 +20,7 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
@@ -305,6 +306,9 @@ public class ModelUtils {
             return true;
         }
         if (schema.getAdditionalProperties() instanceof Schema) {
+            return true;
+        }
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
             return true;
         }
         return false;
@@ -657,4 +661,35 @@ public class ModelUtils {
         return schema;
     }
 
+    public static Schema getAdditionalProperties(Schema schema) {
+        if(schema.getAdditionalProperties() instanceof Schema) {
+            return (Schema) schema.getAdditionalProperties();
+        }
+        if(schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+            return new ObjectSchema();
+        }
+        return null;
+    }
+
+    public static Header getReferencedHeader(OpenAPI openAPI, Header header) {
+        if (header != null && StringUtils.isNotEmpty(header.get$ref())) {
+            String name = getSimpleRef(header.get$ref());
+            Header referencedheader = getHeader(openAPI, name);
+            if (referencedheader != null) {
+                return referencedheader;
+            }
+        }
+        return header;
+    }
+
+    public static Header getHeader(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
+            return openAPI.getComponents().getHeaders().get(name);
+        }
+        return null;
+    }
 }

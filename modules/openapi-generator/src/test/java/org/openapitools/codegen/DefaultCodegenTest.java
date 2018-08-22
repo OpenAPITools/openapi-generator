@@ -208,9 +208,7 @@ public class DefaultCodegenTest {
 
         };
 
-        Method method = DefaultCodegen.class.getDeclaredMethod("getAllAliases", Map.class);
-        method.setAccessible(true);
-        Map<String, String> aliases = (Map<String, String>)method.invoke(null, schemas);
+        Map<String, String> aliases = DefaultCodegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
     }

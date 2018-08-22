@@ -18,11 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -42,7 +40,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
@@ -154,9 +157,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("configOptions", configOptions);
 
         // Process java8 option before common java ones to change the default dateLibrary to java8.
-        System.out.println("----------------------------------");
+        LOGGER.info("----------------------------------");
         if (additionalProperties.containsKey(JAVA_8)) {
-            System.out.println("has JAVA8");
+            LOGGER.info("has JAVA8");
             this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
             additionalProperties.put(JAVA_8, java8);
         }
@@ -260,7 +263,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 additionalProperties.put("delegate-method", true);
             } else {
                 throw new IllegalArgumentException(
-                        String.format("Can not generate code with `%s` and `%s` true while `%s` is false.",
+                        String.format(Locale.ROOT, "Can not generate code with `%s` and `%s` true while `%s` is false.",
                                 DELEGATE_PATTERN, INTERFACE_ONLY, JAVA_8));
             }
         }
@@ -434,7 +437,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             // Drop any API suffix
             if (title != null) {
                 title = title.trim().replace(" ", "-");
-                if (title.toUpperCase().endsWith("API")) {
+                if (title.toUpperCase(Locale.ROOT).endsWith("API")) {
                     title = title.substring(0, title.length() - 3);
                 }
 
