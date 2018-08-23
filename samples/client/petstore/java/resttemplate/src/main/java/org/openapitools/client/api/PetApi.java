@@ -9,6 +9,7 @@ import org.openapitools.client.model.Pet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +90,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void deletePet(Long petId, String apiKey) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -128,7 +129,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public List<Pet> findPetsByStatus(List<String> status) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'status' is set
         if (status == null) {
@@ -141,7 +142,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
         
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), "status", status));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
 
         final String[] accepts = { 
             "application/xml", "application/json"
@@ -165,7 +166,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public List<Pet> findPetsByTags(List<String> tags) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'tags' is set
         if (tags == null) {
@@ -178,7 +179,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
         
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), "tags", tags));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
 
         final String[] accepts = { 
             "application/xml", "application/json"
@@ -203,7 +204,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Pet getPetById(Long petId) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -276,7 +277,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void updatePetWithForm(Long petId, String name, String status) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -320,7 +321,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -366,7 +367,7 @@ public class PetApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'petId' is set
         if (petId == null) {

@@ -37,18 +37,18 @@ class AnotherFakeApi(object):
 
         To test special tags  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.test_special_tags(client, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_special_tags(client, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param Client client: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async'):
+        if kwargs.get('async_req'):
             return self.test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
         else:
             (data) = self.test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
@@ -59,11 +59,11 @@ class AnotherFakeApi(object):
 
         To test special tags  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
-        asynchronous HTTP request, please pass async=True
-        >>> thread = api.test_special_tags_with_http_info(client, async=True)
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_special_tags_with_http_info(client, async_req=True)
         >>> result = thread.get()
 
-        :param async bool
+        :param async_req bool
         :param Client client: client model (required)
         :return: Client
                  If the method is called asynchronously,
@@ -73,7 +73,7 @@ class AnotherFakeApi(object):
         local_var_params = locals()
 
         all_params = ['client']  # noqa: E501
-        all_params.append('async')
+        all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
         all_params.append('_request_timeout')
@@ -126,7 +126,7 @@ class AnotherFakeApi(object):
             files=local_var_files,
             response_type='Client',  # noqa: E501
             auth_settings=auth_settings,
-            async=local_var_params.get('async'),
+            async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),

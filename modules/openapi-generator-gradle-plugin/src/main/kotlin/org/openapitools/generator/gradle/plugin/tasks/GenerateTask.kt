@@ -28,7 +28,6 @@ import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
-import org.openapitools.codegen.config.CodegenConfiguratorUtils.*
 
 
 /**
@@ -47,6 +46,12 @@ open class GenerateTask : DefaultTask() {
      */
     @get:Internal
     val verbose = project.objects.property<Boolean>()
+
+    /**
+     * Whether or not an input specification should be validated upon generation.
+     */
+    @get:Internal
+    val validateSpec = project.objects.property<Boolean>()
 
     /**
      * The name of the generator which will handle codegen. (see "openApiGenerators" task)
@@ -318,7 +323,7 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val configOptions = project.objects.property<Map<String, String>>()
 
-    private val originalEnvironmentVariables = mutableMapOf<String, String>()
+    private val originalEnvironmentVariables = mutableMapOf<String, String?>()
 
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
@@ -347,8 +352,9 @@ open class GenerateTask : DefaultTask() {
         try {
             if (systemProperties.isPresent) {
                 systemProperties.get().forEach { (key, value) ->
-                    originalEnvironmentVariables[key] = System.getProperty(key)
-                    System.setProperty(key, value)
+                    // System.setProperty returns the original value for a key, or null.
+                    // Cache the original value or null…we will late put the properties back in their original state.
+                    originalEnvironmentVariables[key] = System.setProperty(key, value)
                     configurator.addSystemProperty(key, value)
                 }
             }
@@ -380,6 +386,10 @@ open class GenerateTask : DefaultTask() {
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
                 configurator.isVerbose = value
+            }
+
+            validateSpec.ifNotEmpty { value ->
+                configurator.isValidateSpec = value
             }
 
             skipOverwrite.ifNotEmpty { value ->
@@ -528,12 +538,15 @@ open class GenerateTask : DefaultTask() {
 
                 out.println("Successfully generated code to ${configurator.outputDir}")
             } catch (e: RuntimeException) {
-                logger.error(e.message)
-                throw GradleException("Code generation failed.")
+                throw GradleException("Code generation failed.", e)
             }
         } finally {
-            originalEnvironmentVariables.forEach { entry ->
-                System.setProperty(entry.key, entry.value)
+            // Reset all modified system properties back to their original state
+            originalEnvironmentVariables.forEach {
+                when {
+                    it.value == null -> System.clearProperty(it.key)
+                    else -> System.setProperty(it.key, it.value)
+                }
             }
             originalEnvironmentVariables.clear()
         }

@@ -17,7 +17,7 @@ public interface AnotherFakeApi extends ApiClient.Api {
 
   /**
    * To test special tags
-   * To test special tags
+   * To test special tags and operation ID starting with number
     * @param client client model (required)
    * @return Client
    */
@@ -26,5 +26,5 @@ public interface AnotherFakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  Client testSpecialTags(Client client);
+  Client call123testSpecialTags(Client client);
 }

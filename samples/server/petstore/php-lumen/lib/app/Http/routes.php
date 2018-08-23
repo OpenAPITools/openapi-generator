@@ -22,12 +22,12 @@ $app->get('/', function () use ($app) {
 });
 
 /**
- * patch testSpecialTags
+ * patch call123TestSpecialTags
  * Summary: To test special tags
- * Notes: To test special tags
+ * Notes: To test special tags and operation ID starting with number
  * Output-Formats: [application/json]
  */
-$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
+$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
@@ -81,28 +81,28 @@ $app->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
  * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
 /**
  * post fakeOuterCompositeSerialize
  * Summary: 
  * Notes: Test serialization of object with outer number type
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
 /**
  * post fakeOuterNumberSerialize
  * Summary: 
  * Notes: Test serialization of outer number types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
 /**
  * post fakeOuterStringSerialize
  * Summary: 
  * Notes: Test serialization of outer string types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 /**

@@ -60,6 +60,9 @@ public class CodeGenMojo extends AbstractMojo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
 
+    @Parameter(name="validateSpec", required = false, defaultValue = "true")
+    private Boolean validateSpec;
+
     @Parameter(name = "verbose", required = false, defaultValue = "false")
     private boolean verbose;
 
@@ -347,6 +350,11 @@ public class CodeGenMojo extends AbstractMojo {
         }
 
         configurator.setVerbose(verbose);
+
+        // now override with any specified parameters
+        if (validateSpec != null) {
+            configurator.setValidateSpec(validateSpec);
+        }
 
         if (skipOverwrite != null) {
             configurator.setSkipOverwrite(skipOverwrite);

@@ -9,7 +9,7 @@
 #define {{classname}}_H_
 
 {{{defaultInclude}}}
-#include "ModelBase.h"
+#include "{{prefix}}ModelBase.h"
 
 {{#imports}}{{{this}}}
 {{/imports}}
@@ -22,14 +22,14 @@ namespace {{this}} {
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public ModelBase
+    : public {{prefix}}ModelBase
 {
 public:
     {{classname}}();
     virtual ~{{classname}}();
 
     /////////////////////////////////////////////
-    /// ModelBase overrides
+    /// {{prefix}}ModelBase overrides
 
     void validate() override;
 

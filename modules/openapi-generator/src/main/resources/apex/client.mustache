@@ -1,4 +1,4 @@
-public class {{classPrefix}}Client extends Swagger.ApiClient {
+public class {{classPrefix}}Client extends OAS.ApiClient {
 {{#hasAuthMethods}}
     public {{classPrefix}}Client() {
         basePath = '{{basePath}}';
@@ -6,10 +6,10 @@ public class {{classPrefix}}Client extends Swagger.ApiClient {
   {{#authMethods}}
     {{#isApiKey}}
       {{#isKeyInQuery}}
-        authentications.put('{{name}}', new Swagger.ApiKeyQueryAuth('{{keyParamName}}'));
+        authentications.put('{{name}}', new OAS.ApiKeyQueryAuth('{{keyParamName}}'));
       {{/isKeyInQuery}}
       {{^isKeyInQuery}}
-        authentications.put('{{name}}', new Swagger.ApiKeyHeaderAuth('{{keyParamName}}'));
+        authentications.put('{{name}}', new OAS.ApiKeyHeaderAuth('{{keyParamName}}'));
       {{/isKeyInQuery}}
     {{/isApiKey}}
   {{/authMethods}}

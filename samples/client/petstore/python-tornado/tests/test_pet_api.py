@@ -86,11 +86,11 @@ class PetApiTests(AsyncTestCase):
     def test_async_request(self):
         # It works but tornado is async by default and creating threadpool
         # to do it looks crazy ;)
-        thread = self.pet_api.add_pet(self.pet, async=True)
+        thread = self.pet_api.add_pet(self.pet, async_req=True)
         response = yield thread.get()
         self.assertIsNone(response)
 
-        thread = self.pet_api.get_pet_by_id(self.pet.id, async=True)
+        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
         result = yield thread.get()
         self.assertIsInstance(result, petstore_api.Pet)
 
@@ -98,8 +98,8 @@ class PetApiTests(AsyncTestCase):
     def test_async_with_result(self):
         yield self.pet_api.add_pet(self.pet)
 
-        thread = self.pet_api.get_pet_by_id(self.pet.id, async=True)
-        thread2 = self.pet_api.get_pet_by_id(self.pet.id, async=True)
+        thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
+        thread2 = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
 
         response = yield thread.get()
         response2 = yield thread2.get()

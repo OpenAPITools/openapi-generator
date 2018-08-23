@@ -30,12 +30,20 @@ cache:
   - $HOME/perl5
   - $HOME/.cargo
   - $HOME/.stack
+  - $HOME/samples/server/petstore/cpp-pistache/pistache
+  - $HOME/.npm  
+  - $HOME/.rvm/gems/ruby-2.4.1
 
 services:
   - docker
 
 # comment out the host table change to use the public petstore server
 addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-5
   chrome: stable
   hosts:
     - petstore.swagger.io
@@ -51,7 +59,7 @@ before_install:
   - gem install bundler
   - npm install -g typescript
   - npm install -g npm
-  - npm install -g elm
+  - npm install -g elm@0.18.0-exp5
   - npm config set registry http://registry.npmjs.org/
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate
@@ -86,10 +94,13 @@ before_install:
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
-  - eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
-  - export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
+  #- eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
+  #- export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
   - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$HOME/.cargo/bin:$PATH"
-  - go version
+  #- go version
+  - gcc -v
+  - echo $CC
+  - echo $CXX
 
 script:
   # fail fast
@@ -114,7 +125,7 @@ after_success:
         ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
         echo "Finished ./gradlew uploadArchives";
         popd;
-      elif ([ "$TRAVIS_BRANCH" == "3.1.x" ] || [ "$TRAVIS_BRANCH" == "4.0.x" ]) ; then
+      elif ([ "$TRAVIS_BRANCH" == "4.0.x" ]) ; then
         mvn clean deploy --settings CI/settings.xml;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
@@ -130,4 +141,4 @@ after_success:
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
 
 env:
-  - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test
+  - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test CC=gcc-5 CXX=g++-5

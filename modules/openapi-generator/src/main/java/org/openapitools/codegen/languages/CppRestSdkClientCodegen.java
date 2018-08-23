@@ -17,17 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -42,13 +38,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
+    public static final String GENERATE_GMOCKS_FOR_APIS = "generateGMocksForApis";
 
     protected String packageVersion = "1.0.0";
     protected String declspec = "";
@@ -114,6 +114,9 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         addOption(DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
+        addOption(GENERATE_GMOCKS_FOR_APIS,
+                "Generate Google Mock classes for APIs.",
+                null);
 
         supportingFiles.add(new SupportingFile("modelbase-header.mustache", "", "ModelBase.h"));
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "", "ModelBase.cpp"));
@@ -135,6 +138,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
@@ -153,6 +157,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "std::string");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
+        typeMapping.put("ByteArray", "utility::string_t");
 
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
@@ -176,12 +181,17 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             defaultInclude = additionalProperties.get(DEFAULT_INCLUDE).toString();
         }
 
+        if (convertPropertyToBoolean(GENERATE_GMOCKS_FOR_APIS)) {
+            apiTemplateFiles.put("api-gmock.mustache", "GMock.h");
+            additionalProperties.put("gmockApis", "true");
+        }
+
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase());
+        additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase());
+        additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
     }
@@ -190,6 +200,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      * Location to write model files. You can use the modelPackage() as defined
      * when the class is instantiated
      */
+    @Override
     public String modelFileFolder() {
         return outputFolder + "/model";
     }
@@ -208,7 +219,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + name + ".h\"";
+            return "#include \"" + sanitizeName(name) + ".h\"";
         }
     }
 
@@ -271,12 +282,12 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return sanitizeName(initialCaps(name));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return initialCaps(name) + "Api";
+        return sanitizeName(initialCaps(name) + "Api");
     }
 
     /**
@@ -296,7 +307,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
@@ -327,7 +338,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -376,33 +387,6 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         } else
             type = openAPIType;
         return toModelName(type);
-    }
-
-    @Override
-    public String toModelName(String type) {
-        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
-                || importMapping.values().contains(type) || defaultIncludes.contains(type)
-                || languageSpecificPrimitives.contains(type)) {
-            return type;
-        } else {
-            return Character.toUpperCase(type.charAt(0)) + type.substring(1);
-        }
-    }
-
-    @Override
-    public String toApiName(String type) {
-        return Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override

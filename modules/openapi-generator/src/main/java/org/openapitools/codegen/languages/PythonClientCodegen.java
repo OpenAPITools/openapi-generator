@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -27,11 +30,6 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,12 +38,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
@@ -160,12 +155,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
-            .defaultValue(Boolean.FALSE.toString()));
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
         supportedLibraries.put("tornado", "tornado-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado, urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -224,7 +219,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
         }
 
-        String readmePath ="README.md";
+        String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {
             readmePath = packageName + "_" + readmePath;
@@ -232,7 +227,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
-        if (!generateSourceCodeOnly){
+        if (!generateSourceCodeOnly) {
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
             supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
             supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
@@ -404,7 +399,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
@@ -436,7 +431,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+            name = name.toLowerCase(Locale.ROOT);
         }
 
         // underscore the variable name
@@ -549,6 +544,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 

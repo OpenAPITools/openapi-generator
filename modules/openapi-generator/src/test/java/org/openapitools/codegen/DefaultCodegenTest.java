@@ -26,6 +26,8 @@ import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -42,6 +44,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DefaultCodegenTest {
 
@@ -205,9 +208,7 @@ public class DefaultCodegenTest {
 
         };
 
-        Method method = DefaultCodegen.class.getDeclaredMethod("getAllAliases", Map.class);
-        method.setAccessible(true);
-        Map<String, String> aliases = (Map<String, String>)method.invoke(null, schemas);
+        Map<String, String> aliases = DefaultCodegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
     }
@@ -233,6 +234,26 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
+    }
+    
+    @Test
+    public void testConsistentParameterNameAfterUniquenessRename() throws Exception {
+        Operation operation = new Operation()
+            .operationId("opId")
+            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+            .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        CodegenOperation co = codegen.fromOperation("p/", "get", operation, Collections.emptyMap());
+        Assert.assertEquals(co.path, "p/");
+        Assert.assertEquals(co.allParams.size(), 2);
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(allParamsNames.contains("myparam"));
+        Assert.assertTrue(allParamsNames.contains("myparam2"));
+        List<String> queryParamsNames = co.queryParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(queryParamsNames.contains("myparam"));
+        Assert.assertTrue(queryParamsNames.contains("myparam2"));
     }
 
     @Test
@@ -354,6 +375,47 @@ public class DefaultCodegenTest {
         codegen.setParameterExampleValue(codegenParameter2, operation2.getRequestBody());
 
         Assert.assertEquals(codegenParameter2.example, "An example4 value");
+    }
+
+    @Test
+    public void testDiscriminator() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema animal = openAPI.getComponents().getSchemas().get("Animal");
+        CodegenModel animalModel = codegen.fromModel("Animal", animal, openAPI.getComponents().getSchemas());
+        CodegenDiscriminator discriminator = animalModel.getDiscriminator();
+        CodegenDiscriminator test = new CodegenDiscriminator();
+        test.setPropertyName("className");
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Dog", "Dog"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
+        Assert.assertEquals(discriminator, test);
+    }
+
+    @Test
+    public void testDiscriminatorWithCustomMapping() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        String path = "/person/display/{personId}";
+        Operation operation = openAPI.getPaths().get(path).getGet();
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI.getComponents().getSchemas());
+        verifyPersonDiscriminator(codegenOperation.discriminator);
+
+        Schema person = openAPI.getComponents().getSchemas().get("Person");
+        CodegenModel personModel = codegen.fromModel("Person", person, openAPI.getComponents().getSchemas());
+        verifyPersonDiscriminator(personModel.discriminator);
+    }
+
+    private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
+        CodegenDiscriminator test = new CodegenDiscriminator();
+        test.setPropertyName("$_type");
+        test.setMapping(new HashMap<>());
+        test.getMapping().put("a", "#/components/schemas/Adult");
+        test.getMapping().put("c", "#/components/schemas/Child");
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
+        Assert.assertEquals(discriminator, test);
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {

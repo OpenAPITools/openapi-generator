@@ -17,12 +17,16 @@
 
 package org.openapitools.codegen.php;
 
+import org.openapitools.codegen.CodegenOperation;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractPhpCodegen;
+
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class AbstractPhpCodegenTest {
 
@@ -77,6 +81,24 @@ public class AbstractPhpCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "PHPinvoker\\PHPapi");
         Assert.assertEquals(codegen.getInvokerPackage(), "PHPinvoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "PHPinvoker");
+    }
+
+    @Test
+    public void testEscapeMediaType() throws Exception {
+        HashMap<String, String> all = new HashMap<>();
+        all.put("mediaType", "*/*");
+        HashMap<String, String> applicationJson = new HashMap<>();
+        applicationJson.put("mediaType", "application/json");
+
+        CodegenOperation codegenOperation = new CodegenOperation();
+        codegenOperation.hasProduces = true;
+        codegenOperation.produces = Arrays.asList(all, applicationJson);
+
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+        codegen.escapeMediaType(Arrays.asList(codegenOperation));
+
+        Assert.assertEquals(codegenOperation.produces.get(0).get("mediaType"), "*_/_*");
+        Assert.assertEquals(codegenOperation.produces.get(1).get("mediaType"), "application/json");
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {

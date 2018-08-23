@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConfig {
+public class CppTizenClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     protected static String PREFIX = "ArtikCloud";
     protected String sourceFolder = "src";
     protected String documentationFolder = "doc";
@@ -271,14 +271,6 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    @Override
     public String toOperationId(String operationId) {
         // throw exception if method name is empty
         if (StringUtils.isEmpty(operationId)) {
@@ -293,16 +285,13 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
         // add_pet_by_id => addPetById
         return camelize(operationId, true);
     }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
+    /**
+     * Output the Getter name for boolean property, e.g. getActive
+     *
+     * @param name the name of the property
+     * @return getter name based on naming convention
+     */
+    public String toBooleanGetter(String name) {
+        return "get" + getterAndSetterCapitalize(name);
     }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
-    }
-
 }

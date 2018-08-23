@@ -44,7 +44,7 @@ public enum EnumStringEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -79,7 +79,7 @@ public enum EnumStringRequiredEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -114,7 +114,7 @@ public enum EnumIntegerEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -149,7 +149,7 @@ public enum EnumNumberEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 

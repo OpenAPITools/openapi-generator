@@ -31,20 +31,12 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenModelFactory;
-import org.openapitools.codegen.CodegenModelType;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -63,111 +55,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JavaClientCodegenTest {
-
-    @Test
-    public void modelInheritanceSupportInGson() throws Exception {
-        List<Map<String, Object>> allModels = new ArrayList<>();
-
-        CodegenModel parent1 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        parent1.setName("parent1");
-        parent1.setClassname("test.Parent1");
-
-        Map<String, Object> modelMap = new HashMap<>();
-        modelMap.put("model", parent1);
-        allModels.add(modelMap);
-
-        CodegenModel parent2 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        parent2.setName("parent2");
-        parent2.setClassname("test.Parent2");
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", parent2);
-        allModels.add(modelMap);
-
-        CodegenModel model1 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model1.setName("model1");
-        model1.setClassname("test.Model1");
-        model1.setParentModel(parent1);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model1);
-        allModels.add(modelMap);
-
-        CodegenModel model2 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model2.setName("model2");
-        model2.setClassname("test.Model2");
-        model2.setParentModel(parent1);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model2);
-        allModels.add(modelMap);
-
-        CodegenModel model3 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model3.setName("model3");
-        model3.setClassname("test.Model3");
-        model3.setParentModel(parent1);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model3);
-        allModels.add(modelMap);
-
-        CodegenModel model4 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model4.setName("model4");
-        model4.setClassname("test.Model4");
-        model4.setParentModel(parent2);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model4);
-        allModels.add(modelMap);
-
-        CodegenModel model5 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model5.setName("model5");
-        model5.setClassname("test.Model5");
-        model5.setParentModel(parent2);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model5);
-        allModels.add(modelMap);
-
-        List<Map<String, Object>> parentsList = JavaClientCodegen.modelInheritanceSupportInGson(allModels);
-
-        Assert.assertNotNull(parentsList);
-        Assert.assertEquals(parentsList.size(), 2);
-
-        Map<String, Object> parent = parentsList.get(0);
-        Assert.assertEquals(parent.get("classname"), "test.Parent1");
-
-        List<CodegenModel> children = (List<CodegenModel>) parent.get("children");
-        Assert.assertNotNull(children);
-        Assert.assertEquals(children.size(), 3);
-
-        Map<String, Object> models = (Map<String, Object>) children.get(0);
-        Assert.assertEquals(models.get("name"), "model1");
-        Assert.assertEquals(models.get("classname"), "test.Model1");
-
-        models = (Map<String, Object>) children.get(1);
-        Assert.assertEquals(models.get("name"), "model2");
-        Assert.assertEquals(models.get("classname"), "test.Model2");
-
-        models = (Map<String, Object>) children.get(2);
-        Assert.assertEquals(models.get("name"), "model3");
-        Assert.assertEquals(models.get("classname"), "test.Model3");
-
-        parent = parentsList.get(1);
-        Assert.assertEquals(parent.get("classname"), "test.Parent2");
-
-        children = (List<CodegenModel>) parent.get("children");
-        Assert.assertNotNull(children);
-        Assert.assertEquals(children.size(), 2);
-
-        models = (Map<String, Object>) children.get(0);
-        Assert.assertEquals(models.get("name"), "model4");
-        Assert.assertEquals(models.get("classname"), "test.Model4");
-
-        models = (Map<String, Object>) children.get(1);
-        Assert.assertEquals(models.get("name"), "model5");
-        Assert.assertEquals(models.get("classname"), "test.Model5");
-    }
 
     @Test
     public void arraysInRequestBody() throws Exception {
@@ -410,6 +297,49 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
 
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testReferencedHeader() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue855.yaml", null, new ParseOptions()).getOpenAPI();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
+        CodegenResponse response = codegen.fromResponse(openAPI, "200", ok_200);
+
+        Assert.assertEquals(1, response.headers.size());
+        CodegenProperty header = response.headers.get(0);
+        Assert.assertEquals("UUID", header.dataType);
+        Assert.assertEquals("Request", header.baseName);
+    }
+
+    @Test
+    public void testFreeFormObjects() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue796.yaml", null, new ParseOptions()).getOpenAPI();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
+        CodegenModel cm1 = codegen.fromModel("MapTest1", test1, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm1.getDataType(), "Map");
+        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm1.getClassname(), "MapTest1");
+
+        Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
+        CodegenModel cm2 = codegen.fromModel("MapTest2", test2, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm2.getDataType(), "Map");
+        Assert.assertEquals(cm2.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm2.getClassname(), "MapTest2");
+
+        Schema test3 = openAPI.getComponents().getSchemas().get("MapTest3");
+        CodegenModel cm3 = codegen.fromModel("MapTest3", test3, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm3.getDataType(), "Map");
+        Assert.assertEquals(cm3.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm3.getClassname(), "MapTest3");
+
+        Schema other = openAPI.getComponents().getSchemas().get("OtherObj");
+        CodegenModel cm = codegen.fromModel("OtherObj", other, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm.getDataType(), "Object");
+        Assert.assertEquals(cm.getClassname(), "OtherObj");
     }
 
     private void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {

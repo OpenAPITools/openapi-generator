@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.*;
-
-import java.util.*;
-
+import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+
+import java.util.*;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -159,7 +158,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (useTags) {
-            String basePath = tag.toLowerCase();
+            String basePath = tag.toLowerCase(Locale.ROOT);
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);
             }

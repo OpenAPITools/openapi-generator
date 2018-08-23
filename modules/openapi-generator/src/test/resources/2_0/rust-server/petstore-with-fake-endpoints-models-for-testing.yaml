@@ -608,6 +608,7 @@ paths:
       consumes:
         - "application/x-www-form-urlencoded"
       parameters:
+        # See https://github.com/OpenAPITools/openapi-generator/issues/545
         # - name: enum_form_string_array
         #   type: array
         #   items:
@@ -618,15 +619,15 @@ paths:
         #       - '$'
         #   in: formData
         #   description: Form parameter enum test (string array)
-        # - name: enum_form_string
-        #   type: string
-        #   default: '-efg'
-        #   enum:
-        #     - _abc
-        #     - '-efg'
-        #     - (xyz)
-        #   in: formData
-        #   description: Form parameter enum test (string)
+        - name: enum_form_string
+          type: string
+          default: '-efg'
+          enum:
+            - _abc
+            - '-efg'
+            - (xyz)
+          in: formData
+          description: Form parameter enum test (string)
         - name: enum_header_string_array
           type: array
           items:
@@ -753,12 +754,12 @@ paths:
           in: formData
           description: None
           required: true
-        # - name: byte
-        #   type: string
-        #   format: byte
-        #   in: formData
-        #   description: None
-        #   required: true
+        - name: byte
+          type: string
+          format: byte
+          in: formData
+          description: None
+          required: true
         - name: binary
           type: string
           format: binary
@@ -1204,9 +1205,9 @@ definitions:
       byte:
         type: string
         format: byte
-      # binary:
-      #   type: string
-      #   format: binary
+      binary:
+        type: string
+        format: binary
       date:
         type: string
         format: date
@@ -1338,16 +1339,15 @@ definitions:
           type: object
           additionalProperties:
             type: string
-      # comment out the following (map of map of enum) as many language not yet support this
-      #map_map_of_enum:
-      #  type: object
-      #  additionalProperties:
-      #    type: object
-      #    additionalProperties:
-      #      type: string
-      #      enum:
-      #        - UPPER
-      #        - lower
+      map_map_of_enum:
+       type: object
+       additionalProperties:
+         type: object
+         additionalProperties:
+           type: string
+           enum:
+             - UPPER
+             - lower
       map_of_enum_string:
         type: object
         additionalProperties:
@@ -1375,15 +1375,13 @@ definitions:
           type: array
           items:
             $ref: '#/definitions/ReadOnlyFirst'
-      # commented out the below test case for array of enum for the time being
-      # as not all language can handle it
-      #array_of_enum:
-      #  type: array
-      #  items:
-      #    type: string
-      #    enum:
-      #      - UPPER
-      #      - lower
+      array_of_enum:
+       type: array
+       items:
+         type: string
+         enum:
+           - UPPER
+           - lower
   NumberOnly:
     type: object
     properties:
@@ -1420,16 +1418,15 @@ definitions:
           enum:
             - fish
             - crab
-      # comment out the following as 2d array of enum is not supported at the moment
-      #array_array_enum:
-      #  type: array
-      #  items:
-      #    type: array
-      #    items:
-      #      type: string
-      #      enum:
-      #        - Cat
-      #        - Dog
+      array_array_enum:
+       type: array
+       items:
+         type: array
+         items:
+           type: string
+           enum:
+             - Cat
+             - Dog
   OuterEnum:
     type: "string"
     enum:

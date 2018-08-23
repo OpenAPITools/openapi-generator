@@ -1,10 +1,10 @@
-//! Main binary entry point for {{externCrateName}} implementation.
+//! Main binary entry point for {{{externCrateName}}} implementation.
 
 #![allow(missing_docs)]
 
 // Imports required by this file.
 // extern crate <name of this crate>;
-extern crate {{externCrateName}};
+extern crate {{{externCrateName}}};
 extern crate swagger;
 extern crate hyper;
 extern crate openssl;
@@ -14,7 +14,7 @@ extern crate tokio_tls;
 extern crate clap;
 
 // Imports required by server library.
-// extern crate {{externCrateName}};
+// extern crate {{{externCrateName}}};
 // extern crate swagger;
 extern crate futures;
 extern crate chrono;
@@ -55,14 +55,14 @@ fn main() {
         .get_matches();
 
     let service_fn =
-        {{externCrateName}}::server::auth::NewService::<_, EmptyContext>::new(
+        {{{externCrateName}}}::server::context::NewAddContext::<_, EmptyContext>::new(
             AllowAllAuthenticator::new(
                 server_lib::NewService::new(),
                 "cosmo"
             )
         );
 
-    let addr = "127.0.0.1:{{serverPort}}".parse().expect("Failed to parse bind address");
+    let addr = "127.0.0.1:{{{serverPort}}}".parse().expect("Failed to parse bind address");
     if matches.is_present("https") {
         let ssl = ssl().expect("Failed to load SSL keys");
         let builder: native_tls::TlsAcceptorBuilder = native_tls::backend::openssl::TlsAcceptorBuilderExt::from_openssl(ssl);

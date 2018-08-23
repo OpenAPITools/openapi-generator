@@ -2,15 +2,10 @@
 
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`3.1.1`): [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`3.2.3`): [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=master)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
-
-[`3.2.x`](https://github.com/OpenAPITools/openapi-generator/tree/3.2.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/3.2.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
-[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/3.2.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
-[![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=3.2.x)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=3.2.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 
 [`4.0.x`](https://github.com/OpenAPITools/openapi-generator/tree/4.0.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/4.0.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/4.0.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
@@ -21,6 +16,8 @@
 <div align="center">
 
 [![Join the chat at https://gitter.im/OpenAPITools/openapi-generator](https://badges.gitter.im/OpenAPITools/openapi-generator.svg)](https://gitter.im/OpenAPITools/openapi-generator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Stable releaases in the Maven store](https://img.shields.io/maven-metadata/v/http/central.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22)
+[![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
 
 </div>
 
@@ -83,19 +80,18 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 The OpenAPI Specification has undergone 3 revisions since initial creation in 2010.  The openapi-generator project has the following compatibilities with the OpenAPI Specification:
 
-OpenAPI Generator Version    | Release Date | OpenAPI Spec compatibility | Notes
----------------------------- | ------------ | -------------------------- | -----
-4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Major release with breaking changes (no fallback)
-3.2.0 (upcoming minor release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.2.0-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Minor release with breaking changes (with fallbacks)
-3.1.2-SNAPSHOT (current master, upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.1.2-SNAPSHOT/)| TBD | 1.0, 1.1, 1.2, 2.0, 3.0 | Bugfix release
-[3.1.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.1.1) | 18.07.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.1.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.1.0) | 06.07.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Minor release with breaking changes (with fallbacks)
-[3.0.3](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.3) | 27.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.0.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.2) | 18.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.0.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.1) | 11.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | Bugfix release
-[3.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.0.0) | 01.06.2018 | 1.0, 1.1, 1.2, 2.0, 3.0   | First release with breaking changes
+OpenAPI Generator Version    | Release Date | Notes
+---------------------------- | ------------ | -----
+4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| TBD | Major release with breaking changes (no fallback)
+3.3.0 (upcoming minor release)| TBD | Minor release (breaking changes with fallbacks)
+3.2.3 (current master, upcoming patch release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/3.2.3-SNAPSHOT/)| TBD | Bugfix release
+[3.2.2](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.2.2) (latest stable release) | 22.08.2018 | Bugfix release
 
-### [1.2 - Artifacts on Maven Central](#table-of-contents)
+OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
+
+For old releases, please refer to the [**Release**](https://github.com/OpenAPITools/openapi-generator/releases) page.
+
+## [1.2 - Artifacts on Maven Central](#table-of-contents)
 
 You can find our released artefacts on maven central:
 
@@ -145,16 +141,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.1/openapi-generator-cli-3.1.1.jar`
+JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.2.2/openapi-generator-cli-3.2.2.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.1/openapi-generator-cli-3.1.1.jar -O openapi-generator-cli.jar
+wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.2.2/openapi-generator-cli-3.2.2.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.1.1/openapi-generator-cli-3.1.1.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.2.2/openapi-generator-cli-3.2.2.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -163,6 +159,49 @@ For Mac users, please make sure Java 8 is installed (Tips: run `java -version` t
 ```sh
 export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export PATH=${JAVA_HOME}/bin:$PATH
+```
+
+### Launcher Script
+
+One downside to manual jar downloads is that you don't keep up-to-date with the latest released version. We have a Bash launcher script at [bin/utils/openapi-generator.cli.sh](./bin/utils/openapi-generator-cli.sh) which resolves this issue.
+
+To install the launcher script, copy the contents of the script to a location on your path and make the script executable.
+
+An example of setting this up (NOTE: Always evaluate scripts curled from external systems before executing them).
+
+```
+mkdir -p ~/bin/openapitools
+curl https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/bin/utils/openapi-generator-cli.sh > ~/bin/openapitools/openapi-generator-cli
+chmod u+x ~/bin/openapitools/openapi-generator-cli
+export PATH=$PATH:~/bin/openapitools/
+```
+
+Now, `openapi-generator-cli` is "installed". On invocation, it will query the GitHub repository for the most recently released version. If this matches the last downloaded jar,
+it will execute as normal. If a newer version is found, the script will download the latest release and execute it.
+
+If you need to invoke an older version of the generator, you can define the variable `OPENAPI_GENERATOR_VERSION` either ad hoc or globally. You can export this variable if you'd like to persist a specific release version.
+
+Examples:
+
+```
+# Execute latest released openapi-generator-cli
+openapi-generator-cli version
+
+# Execute version 3.1.0 for the current invocation, regardless of the latest released version
+OPENAPI_GENERATOR_VERSION=3.1.0 openapi-generator-cli version
+
+# Execute version 3.1.0-SNAPSHOT for the current invocation
+OPENAPI_GENERATOR_VERSION=3.1.0-SNAPSHOT openapi-generator-cli version
+
+# Execute version 3.0.2 for every invocation in the current shell session
+export OPENAPI_GENERATOR_VERSION=3.0.2
+openapi-generator-cli version # is 3.0.2
+openapi-generator-cli version # is also 3.0.2
+
+# To "install" a specific version, set the variable in .bashrc/.bash_profile
+echo "export OPENAPI_GENERATOR_VERSION=3.0.2" >> ~/.bashrc
+source ~/.bashrc
+openapi-generator-cli version # is always 3.0.2, unless any of the above overrides are done ad hoc
 ```
 
 ### [1.4 - Build Projects](#table-of-contents)
@@ -277,6 +316,20 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
     -g go -o /gen/out/go-petstore -DpackageName=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
+##### Troubleshooting
+
+If an error like this occurs, just execute the **mvn clean install -U** command:
+
+> org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test (default-test) on project openapi-generator: A type incompatibility occurred while executing org.apache.maven.plugins:maven-surefire-plugin:2.19.1:test: java.lang.ExceptionInInitializerError cannot be cast to java.io.IOException
+
+```sh
+./run-in-docker.sh mvn clean install -U
+```
+
+> Failed to execute goal org.fortasoft:gradle-maven-plugin:1.0.8:invoke (default) on project openapi-generator-gradle-plugin-mvn-wrapper: org.gradle.tooling.BuildException: Could not execute build using Gradle distribution 'https://services.gradle.org/distributions/gradle-4.7-bin.zip'
+
+Right now: no solution for this one :|
+
 #### Run Docker in Vagrant
 Prerequisite: install [Vagrant](https://www.vagrantup.com/downloads.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads).
  ```sh
@@ -353,13 +406,14 @@ SYNOPSIS
                 [--invoker-package <invoker package>]
                 [(-l <language> | --lang <language>)]
                 [--language-specific-primitives <language specific primitives>...]
-                [--library <library>] [--model-name-prefix <model name prefix>]
+                [--library <library>] [--log-to-stderr]
+                [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)]
                 [--release-note <release note>] [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
-                [(-s | --skip-overwrite)]
+                [(-s | --skip-overwrite)] [--skip-validate-spec]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
 
@@ -417,10 +471,11 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Bithost GmbH](https://www.bithost.ch)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
+- [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
 - [REST United](https://restunited.com)
+- [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
 - [unblu inc.](https://www.unblu.com/)
-
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
@@ -429,7 +484,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2018/05/15 - [REST API仕様からAPIクライアントやスタブサーバを自動生成する「OpenAPI Generator」オープンソースで公開。Swagger Codegenからのフォーク](https://www.publickey1.jp/blog/18/rest_apiapiopenapi_generatorswagger_generator.html) by [Publickey](https://www.publickey1.jp)
 - 2018/06/08 - [Swagger Codegen is now OpenAPI Generator](https://angular.schule/blog/2018-06-swagger-codegen-is-now-openapi-generator) by [JohannesHoppe](https://github.com/JohannesHoppe)
 - 2018/06/21 - [Connect your JHipster apps to the world of APIs with OpenAPI and gRPC](https://fr.slideshare.net/chbornet/jhipster-conf-2018-connect-your-jhipster-apps-to-the-world-of-apis-with-openapi-and-grpc) by [Christophe Bornet](https://github.com/cbornet) at [JHipster Conf 2018](https://jhipster-conf.github.io/)
-- 2018/06/27 - [Lessons Learned from Leading an Open-Source Project Supporting 30+ Programming Languages](https://speakerdeck.com/wing328/lessons-learned-from-leading-an-open-source-project-supporting-30-plus-programming-languages) - [William Cheng](https://github.com/wing328) at [LinuxCon + ContainerCon + CloudOpen China 2018](https://www.lfasiallc.com/events/lc3-2018/)
+- 2018/06/27 - [Lessons Learned from Leading an Open-Source Project Supporting 30+ Programming Languages](https://speakerdeck.com/wing328/lessons-learned-from-leading-an-open-source-project-supporting-30-plus-programming-languages) - [William Cheng](https://github.com/wing328) at [LinuxCon + ContainerCon + CloudOpen China 2018](http://bit.ly/2waDKKX)
+- 2018/07/19 - [OpenAPI Generator Contribution Quickstart - RingCentral Go SDK](https://medium.com/ringcentral-developers/openapi-generator-for-go-contribution-quickstart-8cc72bf37b53) by [John Wang](https://github.com/grokify)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -504,6 +560,7 @@ Here is a list of template creators:
    * Ada: @stcarrez
    * C# ASP.NET5: @jimschubert
    * C# NancyFX: @mstefaniuk
+   * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
    * C++ Restbed: @stkrwork
    * Erlang Server: @galaxie
@@ -519,6 +576,7 @@ Here is a list of template creators:
    * JAX-RS CXF (CDI): @nickcmaynard
    * JAX-RS RestEasy (JBoss EAP): @jfiala
    * Kotlin: @jimschubert
+   * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
    * PHP Slim: @jfastnacht
    * PHP Symfony: @ksm2

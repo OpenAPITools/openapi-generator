@@ -19,20 +19,34 @@ package org.openapitools.codegen.config;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.parser.core.models.AuthorizationValue;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SpecValidationException;
 import org.openapitools.codegen.auth.AuthParser;
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.core.util.Json;
-import io.swagger.v3.parser.core.models.AuthorizationValue;
-import io.swagger.v3.parser.core.models.ParseOptions;
-import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import org.apache.commons.lang3.Validate;
-import org.openapitools.codegen.languages.*;
+import org.openapitools.codegen.languages.CSharpNancyFXServerCodegen;
+import org.openapitools.codegen.languages.CppQt5ClientCodegen;
+import org.openapitools.codegen.languages.CppRestSdkClientCodegen;
+import org.openapitools.codegen.languages.CppTizenClientCodegen;
+import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
+import org.openapitools.codegen.languages.PhpLumenServerCodegen;
+import org.openapitools.codegen.languages.PhpSlimServerCodegen;
+import org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen;
+import org.openapitools.codegen.languages.RubySinatraServerCodegen;
+import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
+import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
+import org.openapitools.codegen.languages.SwiftClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +57,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -80,6 +95,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean verbose;
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
+    private boolean validateSpec;
     private String templateDir;
     private String auth;
     private String apiPackage;
@@ -108,6 +124,7 @@ public class CodegenConfigurator implements Serializable {
     private final Map<String, Object> dynamicProperties = new HashMap<String, Object>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
 
     public CodegenConfigurator() {
+        this.validateSpec = true;
         this.setOutputDir(".");
     }
 
@@ -140,7 +157,7 @@ public class CodegenConfigurator implements Serializable {
     public CodegenConfigurator setGeneratorName(final String generatorName) {
         if (nameMigrationMap.containsKey(generatorName)) {
             String newValue = nameMigrationMap.get(generatorName);
-            LOGGER.warn(String.format("The name '%s' is a deprecated. Please update to the new name of '%s'.", generatorName, newValue));
+            LOGGER.warn(String.format(Locale.ROOT, "The name '%s' is a deprecated. Please update to the new name of '%s'.", generatorName, newValue));
             this.generatorName = newValue;
         } else {
             this.generatorName = generatorName;
@@ -208,6 +225,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setVerbose(boolean verbose) {
         this.verbose = verbose;
+        return this;
+    }
+
+    public boolean isValidateSpec() {
+        return validateSpec;
+    }
+
+    public CodegenConfigurator setValidateSpec(final boolean validateSpec) {
+        this.validateSpec = validateSpec;
         return this;
     }
 
@@ -514,8 +540,48 @@ public class CodegenConfigurator implements Serializable {
         options.setResolve(true);
         options.setFlatten(true);
         SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+
+        Set<String> validationMessages = new HashSet<>(result.getMessages());
+        OpenAPI specification = result.getOpenAPI();
+
+        // NOTE: We will only expose errors+warnings if there are already errors in the spec.
+        if (validationMessages.size() > 0) {
+            Set<String> warnings = new HashSet<>();
+            if (specification != null) {
+                List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
+                if (unusedModels != null) unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+            }
+
+            if (this.isValidateSpec()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
+                sb.append(System.lineSeparator());
+                SpecValidationException ex = new SpecValidationException(sb.toString());
+                ex.setErrors(validationMessages);
+                ex.setWarnings(warnings);
+                throw ex;
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append("There were issues with the specification, but validation has been explicitly disabled.");
+                sb.append(System.lineSeparator());
+
+                sb.append("Errors: ").append(System.lineSeparator());
+                validationMessages.forEach(msg ->
+                        sb.append("\t-").append(msg).append(System.lineSeparator())
+                );
+
+                if (!warnings.isEmpty()) {
+                    sb.append("Warnings: ").append(System.lineSeparator());
+                    warnings.forEach(msg ->
+                            sb.append("\t-").append(msg).append(System.lineSeparator())
+                    );
+                }
+                LOGGER.warn(sb.toString());
+            }
+        }
+
         input.opts(new ClientOpts())
-                .openAPI(result.getOpenAPI());
+                .openAPI(specification);
 
         return input;
     }
@@ -548,12 +614,12 @@ public class CodegenConfigurator implements Serializable {
             return;
         }
         LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
-                "\n - [debugSwagger] prints the openapi specification as interpreted by the codegen" +
+                "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen" +
                 "\n - [debugModels] prints models passed to the template engine" +
                 "\n - [debugOperations] prints operations passed to the template engine" +
                 "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-        System.setProperty("debugSwagger", "");
+        System.setProperty("debugOpenAPI", "");
         System.setProperty("debugModels", "");
         System.setProperty("debugOperations", "");
         System.setProperty("debugSupportingFiles", "");
