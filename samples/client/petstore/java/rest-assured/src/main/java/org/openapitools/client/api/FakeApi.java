@@ -43,6 +43,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "Fake")
 public class FakeApi {
 
     private RequestSpecBuilder reqSpec;
@@ -56,83 +57,114 @@ public class FakeApi {
     }
 
 
-    @ApiOperation(value = "", notes = "Test serialization of outer boolean types", tags={ "fake" })
+    @ApiOperation(value = "",
+            notes = "Test serialization of outer boolean types",
+            nickname = "fakeOuterBooleanSerialize",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output boolean")  })
+            @ApiResponse(code = 200, message = "Output boolean")  })
     public FakeOuterBooleanSerializeOper fakeOuterBooleanSerialize() {
         return new FakeOuterBooleanSerializeOper(reqSpec);
     }
 
-    @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake" })
+    @ApiOperation(value = "",
+            notes = "Test serialization of object with outer number type",
+            nickname = "fakeOuterCompositeSerialize",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output composite")  })
+            @ApiResponse(code = 200, message = "Output composite")  })
     public FakeOuterCompositeSerializeOper fakeOuterCompositeSerialize() {
         return new FakeOuterCompositeSerializeOper(reqSpec);
     }
 
-    @ApiOperation(value = "", notes = "Test serialization of outer number types", tags={ "fake" })
+    @ApiOperation(value = "",
+            notes = "Test serialization of outer number types",
+            nickname = "fakeOuterNumberSerialize",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output number")  })
+            @ApiResponse(code = 200, message = "Output number")  })
     public FakeOuterNumberSerializeOper fakeOuterNumberSerialize() {
         return new FakeOuterNumberSerializeOper(reqSpec);
     }
 
-    @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake" })
+    @ApiOperation(value = "",
+            notes = "Test serialization of outer string types",
+            nickname = "fakeOuterStringSerialize",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Output string")  })
+            @ApiResponse(code = 200, message = "Output string")  })
     public FakeOuterStringSerializeOper fakeOuterStringSerialize() {
         return new FakeOuterStringSerializeOper(reqSpec);
     }
 
-    @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake" })
+    @ApiOperation(value = "",
+            notes = "For this test, the body for this request much reference a schema named `File`.",
+            nickname = "testBodyWithFileSchema",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Success")  })
+            @ApiResponse(code = 200, message = "Success")  })
     public TestBodyWithFileSchemaOper testBodyWithFileSchema() {
         return new TestBodyWithFileSchemaOper(reqSpec);
     }
 
-    @ApiOperation(value = "", notes = "", tags={ "fake" })
+    @ApiOperation(value = "",
+            notes = "",
+            nickname = "testBodyWithQueryParams",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Success")  })
+            @ApiResponse(code = 200, message = "Success")  })
     public TestBodyWithQueryParamsOper testBodyWithQueryParams() {
         return new TestBodyWithQueryParamsOper(reqSpec);
     }
 
-    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake" })
+    @ApiOperation(value = "To test \"client\" model",
+            notes = "To test \"client\" model",
+            nickname = "testClientModel",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation")  })
+            @ApiResponse(code = 200, message = "successful operation")  })
     public TestClientModelOper testClientModel() {
         return new TestClientModelOper(reqSpec);
     }
 
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
-        @Authorization(value = "http_basic_test")
-    }, tags={ "fake" })
+    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
+            notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
+            nickname = "testEndpointParameters",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied") ,
-        @ApiResponse(code = 404, message = "User not found")  })
+            @ApiResponse(code = 400, message = "Invalid username supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public TestEndpointParametersOper testEndpointParameters() {
         return new TestEndpointParametersOper(reqSpec);
     }
 
-    @ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", tags={ "fake" })
+    @ApiOperation(value = "To test enum parameters",
+            notes = "To test enum parameters",
+            nickname = "testEnumParameters",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid request") ,
-        @ApiResponse(code = 404, message = "Not found")  })
+            @ApiResponse(code = 400, message = "Invalid request") ,
+            @ApiResponse(code = 404, message = "Not found")  })
     public TestEnumParametersOper testEnumParameters() {
         return new TestEnumParametersOper(reqSpec);
     }
 
-    @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake" })
+    @ApiOperation(value = "test inline additionalProperties",
+            notes = "",
+            nickname = "testInlineAdditionalProperties",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation")  })
+            @ApiResponse(code = 200, message = "successful operation")  })
     public TestInlineAdditionalPropertiesOper testInlineAdditionalProperties() {
         return new TestInlineAdditionalPropertiesOper(reqSpec);
     }
 
-    @ApiOperation(value = "test json serialization of form data", notes = "", tags={ "fake" })
+    @ApiOperation(value = "test json serialization of form data",
+            notes = "",
+            nickname = "testJsonFormData",
+            tags = { "fake" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation")  })
+            @ApiResponse(code = 200, message = "successful operation")  })
     public TestJsonFormDataOper testJsonFormData() {
         return new TestJsonFormDataOper(reqSpec);
     }
@@ -893,7 +925,7 @@ public class FakeApi {
         public static final String ENUM_HEADER_STRING_ARRAY_HEADER = "enum_header_string_array";
 
         /**
-         * @param enumHeaderStringArray (List<String>) Header parameter enum test (string array) (optional)
+         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
@@ -915,7 +947,7 @@ public class FakeApi {
         public static final String ENUM_QUERY_STRING_ARRAY_QUERY = "enum_query_string_array";
 
         /**
-         * @param enumQueryStringArray (List<String>) Query parameter enum test (string array) (optional)
+         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional)
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {
@@ -959,7 +991,7 @@ public class FakeApi {
          public static final String ENUM_FORM_STRING_ARRAY_FORM = "enum_form_string_array";
 
          /**
-         * @param enumFormStringArray (List<String>) Form parameter enum test (string array) (optional, default to $)
+         * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional, default to $)
          * @return operation
          */
          public TestEnumParametersOper enumFormStringArrayForm(Object... enumFormStringArray) {
@@ -1030,7 +1062,7 @@ public class FakeApi {
         }
 
          /**
-         * @param requestBody (Map<String, String>) request body (required)
+         * @param requestBody (Map&lt;String, String&gt;) request body (required)
          * @return operation
          */
         public TestInlineAdditionalPropertiesOper body(Map<String, String> requestBody) {

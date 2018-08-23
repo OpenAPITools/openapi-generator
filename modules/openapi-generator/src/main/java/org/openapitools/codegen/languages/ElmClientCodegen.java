@@ -17,15 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.NumberSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.responses.*;
 
 import java.io.File;
 import java.text.Collator;
@@ -36,6 +42,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -259,7 +266,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Collections.sort(parent.children, new Comparator<CodegenModel>() {
                     @Override
                     public int compare(CodegenModel cm1, CodegenModel cm2) {
-                        return Collator.getInstance().compare(cm1.classname, cm2.classname);
+                        return Collator.getInstance(Locale.ROOT).compare(cm1.classname, cm2.classname);
                     }
                 });
             }
@@ -486,7 +493,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getTypeDeclaration(inner);
         }
         return super.getTypeDeclaration(p);
@@ -506,8 +513,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
-        final CodegenResponse response = super.fromResponse(responseCode, resp);
+    public CodegenResponse fromResponse(OpenAPI openAPI, String responseCode, ApiResponse resp) {
+        final CodegenResponse response = super.fromResponse(openAPI, responseCode, resp);
         if (response.dataType != null) {
             addEncoderAndDecoder(response.vendorExtensions, response.dataType, response.isMapContainer, response.primitiveType);
         }

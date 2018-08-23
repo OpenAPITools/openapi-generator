@@ -22,7 +22,7 @@ class StoreAPITests: XCTestCase {
         let order = Order(_id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
         let expectation = self.expectation(description: "testPlaceOrder")
 
-        StoreAPI.placeOrder(body: order) { (order, error) in
+        StoreAPI.placeOrder(order: order) { (order, error) in
             guard error == nil else {
                 XCTFail("error placing order: \(error.debugDescription)")
                 return

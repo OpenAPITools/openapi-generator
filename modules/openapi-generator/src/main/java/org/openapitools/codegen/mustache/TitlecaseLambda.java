@@ -22,6 +22,7 @@ import com.samskivert.mustache.Template;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 /**
  * Converts text in a fragment to title case.
@@ -60,7 +61,7 @@ public class TitlecaseLambda implements Mustache.Lambda  {
     }
 
     private String titleCase(final String input) {
-        return input.substring(0, 1).toUpperCase() + input.substring(1);
+        return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
     }
 
     @Override
