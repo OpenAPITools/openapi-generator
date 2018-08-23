@@ -38,12 +38,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DefaultCodegenTest {
@@ -443,19 +438,20 @@ public class DefaultCodegenTest {
 
         urlA.requests.forEach(req -> {
             Assert.assertTrue(req.isCallbackRequest);
-            Assert.assertNull(req.operationId);
             Assert.assertNotNull(req.bodyParam);
             Assert.assertEquals(req.responses.size(), 2);
 
-            switch (req.httpMethod.toLowerCase()) {
+            switch (req.httpMethod.toLowerCase(Locale.getDefault())) {
             case "post":
+                Assert.assertEquals(req.operationId, "onDataDataPost");
                 Assert.assertEquals(req.bodyParam.dataType, "NewNotificationData");
                 break;
             case "delete":
+                Assert.assertEquals(req.operationId, "onDataDataDelete");
                 Assert.assertEquals(req.bodyParam.dataType, "DeleteNotificationData");
                 break;
             default:
-                Assert.fail(String.format("invalid callback request http method '%s'", req.httpMethod));
+                Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
             }
         });
     }

@@ -2246,20 +2246,18 @@ public class DefaultCodegen implements CodegenConfig {
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
 
-        if (!op.isCallbackRequest) {
-            String operationId = getOrGenerateOperationId(operation, path, httpMethod);
-            // remove prefix in operationId
-            if (removeOperationIdPrefix) {
-                int offset = operationId.indexOf('_');
-                if (offset > -1) {
-                    operationId = operationId.substring(offset + 1);
-                }
+        String operationId = getOrGenerateOperationId(operation, path, httpMethod);
+        // remove prefix in operationId
+        if (removeOperationIdPrefix) {
+            int offset = operationId.indexOf('_');
+            if (offset > -1) {
+                operationId = operationId.substring(offset + 1);
             }
-            operationId = removeNonNameElementToCamelCase(operationId);
-            op.operationId = op.isCallbackRequest ? null : toOperationId(operationId);
         }
+        operationId = removeNonNameElementToCamelCase(operationId);
 
         op.path = path;
+        op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
@@ -2674,11 +2672,25 @@ public class DefaultCodegen implements CodegenConfig {
                         String method = p.getKey();
                         Operation op = p.getValue();
 
+                        boolean genId = op.getOperationId() == null;
+                        if (genId) {
+                            op.setOperationId(getOrGenerateOperationId(op, c.name+"_"+expression.replaceAll("\\{\\$.*}", ""), method));
+                        }
+
                         if (op.getExtensions() == null) {
                             op.setExtensions(new HashMap<>());
                         }
+                        // This extension will be removed later by `fromOperation()` as it is only needed here to
+                        // distinguish between normal operations and callback requests
                         op.getExtensions().put("x-callback-request", true);
-                        u.requests.add(fromOperation(expression, method, op, schemas, openAPI));
+
+                        CodegenOperation co = fromOperation(expression, method, op, schemas, openAPI);
+                        if (genId) {
+                            co.operationIdOriginal = null;
+                            // legacy (see `fromOperation()`)
+                            co.nickname = co.operationId;
+                        }
+                        u.requests.add(co);
                     });
 
             if (!u.requests.isEmpty()) {
