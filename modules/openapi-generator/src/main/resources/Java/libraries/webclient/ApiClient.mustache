@@ -87,7 +87,7 @@ public class ApiClient {
 
     public ApiClient() {
         DateFormat dateFormat = createDefaultDateFormat();
-        
+
         this(buildWebClient(new ObjectMapper(), dateFormat), dateFormat);
     }
 
