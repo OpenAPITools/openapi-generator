@@ -83,7 +83,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         "complex64",
                         "complex128",
                         "rune",
-                        "byte")
+                        "byte",
+                        "interface{}"
+                        )
         );
 
         instantiationTypes.clear();
@@ -298,12 +300,19 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
-        } else if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type))
-                return (type);
-        } else
-            type = openAPIType;
+        } else {
+            // Handle "any type" as an empty interface
+            if (openAPIType == "object" && p != null && !ModelUtils.isObjectSchema(p) && !ModelUtils.isMapSchema(p)) {
+                return "interface{}";
+            }
+
+            if (typeMapping.containsKey(openAPIType)) {
+                type = typeMapping.get(openAPIType);
+                if (languageSpecificPrimitives.contains(type))
+                    return (type);
+            } else
+                type = openAPIType;
+        }
         return type;
     }
 

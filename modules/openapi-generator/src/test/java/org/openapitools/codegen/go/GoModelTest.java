@@ -47,15 +47,17 @@ public class GoModelTest {
                 .addProperties("id", new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT))
                 .addProperties("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("anyValue", new Schema())
                 .addRequiredItem("id")
-                .addRequiredItem("name");
+                .addRequiredItem("name")
+                .addRequiredItem("anyValue");
         final DefaultCodegen codegen = new GoClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.vars.size(), 4);
         Assert.assertEquals(cm.imports.size(), 1);
 
         final CodegenProperty property1 = cm.vars.get(0);
@@ -85,9 +87,20 @@ public class GoModelTest {
         Assert.assertEquals(property3.name, "CreatedAt");
         Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "time.Time");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "anyValue");
+        Assert.assertEquals(property4.baseType, "interface{}");
+        Assert.assertEquals(property4.dataType, "interface{}");
+        Assert.assertTrue(property1.isPrimitiveType);
+        Assert.assertEquals(property4.name, "AnyValue");
+        Assert.assertNull(property4.defaultValue);
+        Assert.assertFalse(property4.hasMore);
+        Assert.assertTrue(property4.required);
     }
+
 
     @Test(description = "convert a model with list property")
     public void listPropertyTest() {
