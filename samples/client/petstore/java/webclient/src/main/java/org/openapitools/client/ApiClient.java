@@ -88,7 +88,8 @@ public class ApiClient {
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        this(buildWebClient(new ObjectMapper(), this.dateFormat), this.dateFormat);
+        this.webClient = buildWebClient(new ObjectMapper(), dateFormat);
+        this.init();
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
