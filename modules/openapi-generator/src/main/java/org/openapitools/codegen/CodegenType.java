@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public enum CodegenType {
@@ -30,7 +31,7 @@ public enum CodegenType {
 
     @JsonCreator
     public static CodegenType forValue(String value) {
-        return names.get(value.toLowerCase());
+        return names.get(value.toLowerCase(Locale.ROOT));
     }
 
     @JsonValue

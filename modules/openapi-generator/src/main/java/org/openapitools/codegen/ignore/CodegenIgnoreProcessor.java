@@ -25,9 +25,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Presents a processing utility for parsing and evaluating files containing common ignore patterns. (.openapi-generator-ignore)
@@ -82,30 +84,30 @@ public class CodegenIgnoreProcessor {
                 loadCodegenRules(targetIgnoreFile);
                 this.ignoreFile = targetIgnoreFile;
             } catch (IOException e) {
-                LOGGER.error(String.format("Could not process %s.", targetIgnoreFile.getName()), e.getMessage());
+                LOGGER.error(String.format(Locale.ROOT, "Could not process %s.", targetIgnoreFile.getName()), e.getMessage());
             }
         } else if (!".swagger-codegen-ignore".equals(targetIgnoreFile.getName())) {
             final File legacyIgnoreFile = new File(targetIgnoreFile.getParentFile(), ".swagger-codegen-ignore");
             if (legacyIgnoreFile.exists() && legacyIgnoreFile.isFile()) {
-                LOGGER.info(String.format("Legacy support: '%s' file renamed to '%s'.", legacyIgnoreFile.getName(), targetIgnoreFile.getName()));
+                LOGGER.info(String.format(Locale.ROOT, "Legacy support: '%s' file renamed to '%s'.", legacyIgnoreFile.getName(), targetIgnoreFile.getName()));
                 try {
                     Files.move(legacyIgnoreFile, targetIgnoreFile);
                     loadFromFile(targetIgnoreFile);
                 } catch (IOException e) {
-                    LOGGER.error(String.format("Could not rename file: %s", e.getMessage()));
+                    LOGGER.error(String.format(Locale.ROOT, "Could not rename file: %s", e.getMessage()));
                 }
             } else {
                 // log info message
-                LOGGER.info(String.format("No %s file found.", targetIgnoreFile.getName()));
+                LOGGER.info(String.format(Locale.ROOT, "No %s file found.", targetIgnoreFile.getName()));
             }
         } else {
             // log info message
-            LOGGER.info(String.format("No %s file found.", targetIgnoreFile.getName()));
+            LOGGER.info(String.format(Locale.ROOT, "No %s file found.", targetIgnoreFile.getName()));
         }
     }
 
     void loadCodegenRules(final File codegenIgnore) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(codegenIgnore))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(codegenIgnore), Charset.forName("UTF-8")))) {
             String line;
 
             // NOTE: Comments that start with a : (e.g. //:) are pulled from git documentation for .gitignore

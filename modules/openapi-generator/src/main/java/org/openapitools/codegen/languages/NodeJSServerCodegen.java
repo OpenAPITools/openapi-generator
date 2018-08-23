@@ -20,24 +20,36 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.info.*;
-import io.swagger.v3.oas.models.PathItem.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.Paths;
-
+import io.swagger.v3.oas.models.info.Info;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenResponse;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -232,7 +244,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
-            operation.httpMethod = operation.httpMethod.toLowerCase();
+            operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
 
             List<CodegenParameter> params = operation.allParams;
             if (params != null && params.size() == 0) {
@@ -368,7 +380,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                         .replaceAll("^[-]*", "")
                         .replaceAll("[-]*$", "")
                         .replaceAll("[-]{2,}", "-")
-                        .toLowerCase();
+                        .toLowerCase(Locale.ROOT);
                 this.additionalProperties.put("projectName", projectName);
             }
         }

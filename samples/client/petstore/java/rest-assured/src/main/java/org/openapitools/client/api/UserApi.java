@@ -36,6 +36,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "User")
 public class UserApi {
 
     private RequestSpecBuilder reqSpec;
@@ -49,63 +50,87 @@ public class UserApi {
     }
 
 
-    @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @ApiOperation(value = "Create user",
+            notes = "This can only be done by the logged in user.",
+            nickname = "createUser",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 0, message = "successful operation")  })
+            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUserOper createUser() {
         return new CreateUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
+    @ApiOperation(value = "Creates list of users with given input array",
+            notes = "",
+            nickname = "createUsersWithArrayInput",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 0, message = "successful operation")  })
+            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithArrayInputOper createUsersWithArrayInput() {
         return new CreateUsersWithArrayInputOper(reqSpec);
     }
 
-    @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user" })
+    @ApiOperation(value = "Creates list of users with given input array",
+            notes = "",
+            nickname = "createUsersWithListInput",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 0, message = "successful operation")  })
+            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithListInputOper createUsersWithListInput() {
         return new CreateUsersWithListInputOper(reqSpec);
     }
 
-    @ApiOperation(value = "Delete user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @ApiOperation(value = "Delete user",
+            notes = "This can only be done by the logged in user.",
+            nickname = "deleteUser",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid username supplied") ,
-        @ApiResponse(code = 404, message = "User not found")  })
+            @ApiResponse(code = 400, message = "Invalid username supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public DeleteUserOper deleteUser() {
         return new DeleteUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Get user by user name", notes = "", tags={ "user" })
+    @ApiOperation(value = "Get user by user name",
+            notes = "",
+            nickname = "getUserByName",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") ,
-        @ApiResponse(code = 400, message = "Invalid username supplied") ,
-        @ApiResponse(code = 404, message = "User not found")  })
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid username supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public GetUserByNameOper getUserByName() {
         return new GetUserByNameOper(reqSpec);
     }
 
-    @ApiOperation(value = "Logs user into the system", notes = "", tags={ "user" })
+    @ApiOperation(value = "Logs user into the system",
+            notes = "",
+            nickname = "loginUser",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") ,
-        @ApiResponse(code = 400, message = "Invalid username/password supplied")  })
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid username/password supplied")  })
     public LoginUserOper loginUser() {
         return new LoginUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Logs out current logged in user session", notes = "", tags={ "user" })
+    @ApiOperation(value = "Logs out current logged in user session",
+            notes = "",
+            nickname = "logoutUser",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 0, message = "successful operation")  })
+            @ApiResponse(code = 0, message = "successful operation")  })
     public LogoutUserOper logoutUser() {
         return new LogoutUserOper(reqSpec);
     }
 
-    @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", tags={ "user" })
+    @ApiOperation(value = "Updated user",
+            notes = "This can only be done by the logged in user.",
+            nickname = "updateUser",
+            tags = { "user" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid user supplied") ,
-        @ApiResponse(code = 404, message = "User not found")  })
+            @ApiResponse(code = 400, message = "Invalid user supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public UpdateUserOper updateUser() {
         return new UpdateUserOper(reqSpec);
     }
@@ -212,7 +237,7 @@ public class UserApi {
         }
 
          /**
-         * @param user (List<User>) List of user object (required)
+         * @param user (List&lt;User&gt;) List of user object (required)
          * @return operation
          */
         public CreateUsersWithArrayInputOper body(List<User> user) {
@@ -272,7 +297,7 @@ public class UserApi {
         }
 
          /**
-         * @param user (List<User>) List of user object (required)
+         * @param user (List&lt;User&gt;) List of user object (required)
          * @return operation
          */
         public CreateUsersWithListInputOper body(List<User> user) {

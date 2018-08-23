@@ -133,6 +133,40 @@ open class FakeAPI {
 
     /**
 
+     - parameter fileSchemaTestClass: (body)  
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: fileSchemaTestClass).execute { (response, error) -> Void in
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
+        }
+    }
+
+
+    /**
+     - PUT /fake/body-with-file-schema
+     - For this test, the body for this request much reference a schema named `File`.
+     - parameter fileSchemaTestClass: (body)  
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: FileSchemaTestClass) -> RequestBuilder<Void> {
+        let path = "/fake/body-with-file-schema"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: fileSchemaTestClass)
+
+        let url = URLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+
      - parameter query: (query)  
      - parameter user: (body)  
      - parameter completion: completion handler to receive the data and the error objects
