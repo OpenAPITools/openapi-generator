@@ -12,6 +12,7 @@ import org.openapitools.codegen.CodegenType;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 // NOTE: List can later have subcommands such as list languages, list types, list frameworks, etc.
@@ -49,7 +50,7 @@ public class ListGenerators implements Runnable {
             appendForType(sb, null, "UNSPECIFIED", generators);
         }
 
-        System.out.printf("%s%n", sb.toString());
+        System.out.printf(Locale.ROOT, "%s%n", sb.toString());
     }
 
     private void appendForType(StringBuilder sb, CodegenType type, String typeName, List<CodegenConfig> generators) {
