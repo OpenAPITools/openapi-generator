@@ -30,7 +30,7 @@ public enum CodegenType {
     private static Map<String, CodegenType> names = new HashMap<String, CodegenType>();
 
     @JsonCreator
-    public static CodegenType forValue(String value) {
+    public static CodegenType fromString(String value) {
         return names.get(value.toLowerCase(Locale.ROOT));
     }
 
