@@ -149,6 +149,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    public String getLanguage() {
+        return "php";
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 

@@ -55,6 +55,16 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     protected final HashMap<String, String> operationsScopes;
     protected int scopeIndex = 0;
 
+    @Override
+    public String getLanguage() {
+        return "ada";
+    }
+
+    @Override
+    public String getFramework() {
+        return null;
+    }
+
     public AbstractAdaCodegen() {
         super();
 

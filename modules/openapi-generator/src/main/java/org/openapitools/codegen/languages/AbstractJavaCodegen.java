@@ -198,6 +198,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String getLanguage() {
+        return "java";
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 

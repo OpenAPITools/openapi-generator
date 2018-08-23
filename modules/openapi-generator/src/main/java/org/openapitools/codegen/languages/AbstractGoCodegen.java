@@ -112,6 +112,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 .defaultValue(Boolean.TRUE.toString()));
     }
 
+    @Override
+    public String getLanguage() {
+        return "go";
+    }
+
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
      * those terms here.  This logic is only called if a variable matches the reserved words

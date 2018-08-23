@@ -175,6 +175,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("uuid", "Guid?");
     }
 
+    @Override
+    public String getLanguage() {
+        return "csharp";
+    }
+
     public void setReturnICollection(boolean returnICollection) {
         this.returnICollection = returnICollection;
     }

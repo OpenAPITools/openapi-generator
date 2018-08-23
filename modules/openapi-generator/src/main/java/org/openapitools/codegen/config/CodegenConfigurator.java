@@ -26,13 +26,7 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.lang3.Validate;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SpecValidationException;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.languages.CSharpNancyFXServerCodegen;
 import org.openapitools.codegen.languages.CppQt5ClientCodegen;
@@ -73,21 +67,9 @@ public class CodegenConfigurator implements Serializable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
-    private static Map<String,String> nameMigrationMap = new HashMap<>();
-    static {
-        nameMigrationMap.put("akka-scala", new ScalaAkkaClientCodegen().getName());
-        nameMigrationMap.put("scala", new ScalaHttpClientCodegen().getName());
-        nameMigrationMap.put("jaxrs", new JavaJerseyServerCodegen().getName());
-        nameMigrationMap.put("qt5cpp", new CppQt5ClientCodegen().getName());
-        nameMigrationMap.put("cpprest", new CppRestSdkClientCodegen().getName());
-        nameMigrationMap.put("tizen", new CppTizenClientCodegen().getName());
-        nameMigrationMap.put("sinatra", new RubySinatraServerCodegen().getName());
-        nameMigrationMap.put("swift", new SwiftClientCodegen().getName());
-        nameMigrationMap.put("lumen", new PhpLumenServerCodegen().getName());
-        nameMigrationMap.put("slim", new PhpSlimServerCodegen().getName());
-        nameMigrationMap.put("ze-ph", new PhpZendExpressivePathHandlerServerCodegen().getName());
-        nameMigrationMap.put("nancyfx", new CSharpNancyFXServerCodegen().getName());
-    }
+    private String generatorLang;
+    private String generatorFramework;
+    private CodegenType generatorType;
 
     private String generatorName;
     private String inputSpec;
@@ -128,20 +110,36 @@ public class CodegenConfigurator implements Serializable {
         this.setOutputDir(".");
     }
 
-    // TODO: When setLang is removed, please remove nameMigrationMap and its usage(s).
     /**
-     * Set the "language". This has drifted away from language-only to include framework and hyphenated generator types as well as language.
-     * <p>
-     * NOTE: This will eventually become language only again. It is deprecated in its current state.
-     * </p>
+     * Set the language
      *
-     * @deprecated Please use {@link #setGeneratorName(String)}, as generators are no longer identified only by language. We may reuse language in the future.
-     * @param lang The generator name. Previously, language name only.
+     * @param lang The language name.
      * @return The fluent instance of {@link CodegenConfigurator}
      */
-    @Deprecated
-    public CodegenConfigurator setLang(String lang) {
-        this.setGeneratorName(lang);
+    public CodegenConfigurator setGeneratorLang(String lang) {
+        this.generatorLang = lang;
+        return this;
+    }
+
+    /**
+     * Set the generator framework
+     *
+     * @param framework The generator framework.
+     * @return The fluent instance of {@link CodegenConfigurator}
+     */
+    public CodegenConfigurator setGeneratorFramework(String framework) {
+        this.generatorFramework = framework;
+        return this;
+    }
+
+    /**
+     * Set the generator type
+     *
+     * @param type The generator type.
+     * @return The fluent instance of {@link CodegenConfigurator}
+     */
+    public CodegenConfigurator setGeneratorType(CodegenType type) {
+        this.generatorType = type;
         return this;
     }
 
@@ -155,13 +153,7 @@ public class CodegenConfigurator implements Serializable {
      * @return The fluent instance of {@link CodegenConfigurator}
      */
     public CodegenConfigurator setGeneratorName(final String generatorName) {
-        if (nameMigrationMap.containsKey(generatorName)) {
-            String newValue = nameMigrationMap.get(generatorName);
-            LOGGER.warn(String.format(Locale.ROOT, "The name '%s' is a deprecated. Please update to the new name of '%s'.", generatorName, newValue));
-            this.generatorName = newValue;
-        } else {
-            this.generatorName = generatorName;
-        }
+        this.generatorName = generatorName;
         return this;
     }
 
@@ -661,5 +653,4 @@ public class CodegenConfigurator implements Serializable {
         }
         return null;
     }
-
 }

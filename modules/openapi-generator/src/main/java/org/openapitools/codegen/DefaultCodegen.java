@@ -3696,6 +3696,16 @@ public class DefaultCodegen implements CodegenConfig {
         return sanitizeName(name, "\\W");
     }
 
+    @Override
+    public String getLanguage() {
+        return null;
+    }
+
+    @Override
+    public String getFramework() {
+        return null;
+    }
+
     /**
      * Sanitize name (parameter, property, method, etc)
      *

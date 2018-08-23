@@ -14,6 +14,7 @@ build/*
 generated-files/*
 generated-sources/*
 generated-code/*
+**/test-output/**
 *.swp
 *.swo
 target

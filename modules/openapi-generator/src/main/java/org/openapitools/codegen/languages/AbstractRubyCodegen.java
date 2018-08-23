@@ -77,6 +77,11 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public String getLanguage() {
+        return "ruby";
+    }
+
+    @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);

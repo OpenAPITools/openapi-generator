@@ -45,6 +45,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         super();
     }
 
+
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -63,6 +64,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     @Override
     public void processOpts() {
         super.processOpts();
+    }
+
+    @Override
+    public String getLanguage() {
+        return "apex";
     }
 
     @Override

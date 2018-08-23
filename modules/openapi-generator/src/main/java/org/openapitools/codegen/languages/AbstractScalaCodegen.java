@@ -175,6 +175,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     @Override
+    public String getLanguage() {
+        return "scala";
+    }
+
+    @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

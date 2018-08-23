@@ -113,6 +113,11 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String getLanguage() {
+        return "eiffel";
+    }
+
+    @Override
     public String escapeReservedWord(String name) {
         // Can't start with an underscore, as our fields need to start with an
         // UppercaseLetter so that Go treats them as public/visible.

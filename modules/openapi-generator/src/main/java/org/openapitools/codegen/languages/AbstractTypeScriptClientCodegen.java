@@ -125,6 +125,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
+    public String getLanguage() {
+        return "typescript";
+    }
+
+    @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }

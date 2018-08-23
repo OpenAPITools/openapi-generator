@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.plugin;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvp;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvp;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvp;
@@ -43,11 +44,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,10 +64,22 @@ public class CodeGenMojo extends AbstractMojo {
     private boolean verbose;
 
     /**
-     * Client language to generate.
+     * generator language.
      */
-    @Parameter(name = "language")
+    @Parameter(name = "generatorLanguage")
     private String language;
+
+    /**
+     * generator framework.
+     */
+    @Parameter(name = "generatorFramework")
+    private String framework;
+
+    /**
+     * generator type.
+     */
+    @Parameter(name = "generatorType")
+    private String type;
 
 
     /**
@@ -380,21 +389,24 @@ public class CodeGenMojo extends AbstractMojo {
             configurator.setIgnoreFileOverride(ignoreFileOverride);
         }
 
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-
-            // check if generatorName & language are set together, inform user this needs to be updated to prevent future issues.
-            if (isNotEmpty(language)) {
-                LOGGER.warn("The 'language' option is deprecated and was replaced by 'generatorName'. Both can not be set together");
-                throw new MojoExecutionException("Illegal configuration: 'language' and  'generatorName' can not be set both, remove 'language' from your configuration");
-            }
-        } else if (isNotEmpty(language)) {
-            LOGGER.warn("The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
-            configurator.setGeneratorName(language);
         } else {
-            LOGGER.error("A generator name (generatorName) is required.");
-            throw new MojoExecutionException("The generator requires 'generatorName'. Refer to documentation for a list of options.");
+            if (isNotEmpty(language)) {
+                configurator.setGeneratorLang(language);
+            }
+            if (isNotEmpty(framework)) {
+                configurator.setGeneratorFramework(framework);
+            }
+            if (isNotEmpty(type)) {
+                configurator.setGeneratorType(CodegenType.fromString(type));
+            }
+
+            if (isEmpty(language) && isEmpty(framework) && isEmpty(type)) {
+                LOGGER.error("A generator name (generatorName) is required.");
+                LOGGER.error("Alternatively you can specify a language|framework|type triplet to specify a generator");
+                throw new MojoExecutionException("The generator requires at least one of 'generatorName', 'generatorLang', 'generatorFramework', 'generatorType'. Refer to documentation for a list of options.");
+            }
         }
 
 

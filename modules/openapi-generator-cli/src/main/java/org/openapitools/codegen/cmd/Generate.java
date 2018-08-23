@@ -21,14 +21,12 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.GeneratorNotFoundException;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -48,9 +46,17 @@ public class Generate implements Runnable {
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
 
-    @Option(name = {"-l", "--lang"}, title = "language",
-            description = "client language to generate (maybe class name in classpath, required)")
+    @Option(name = {"-lang"}, title = "language",
+            description = "language of the generator to use")
     private String lang;
+
+    @Option(name = {"-framework"}, title = "framework",
+            description = "framework of the generator to use")
+    private String framework;
+
+    @Option(name = {"-type"}, title = "type",
+            description = "type of the generator to use")
+    private CodegenType type;
 
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
             description = "generator to use (see langs command for list)")
@@ -246,14 +252,31 @@ public class Generate implements Runnable {
             configurator.setInputSpec(spec);
         }
 
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
-            configurator.setGeneratorName(generatorName);
-        } else if (isNotEmpty(lang)) {
-            LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
-            configurator.setGeneratorName(lang);
-        } else {
-            System.err.println("[error] A generator name (--generator-name / -g) is required.");
+            if (isEmpty(lang) && isEmpty(framework) && type == null) {
+                configurator.setGeneratorName(generatorName);
+            } else {
+                System.err.println("[error] A generator name (--generator-name / -g) was passed at the same time as");
+                System.err.println("[error] a language|framework|type triplet (-language -framework -type)");
+                System.exit(1);
+            }
+
+        }
+
+        if (isNotEmpty(lang)) {
+            configurator.setGeneratorLang(lang);
+        }
+        if (isNotEmpty(framework)) {
+            configurator.setGeneratorFramework(framework);
+        }
+        if (type != null) {
+            configurator.setGeneratorType(type);
+        }
+
+        if (isEmpty(generatorName) && isEmpty(lang) && isEmpty(framework) && type == null) {
+            System.err.println("[error] A generator name (--generator-name / -g) ");
+            System.err.println("[error] or a language|framework|type triplet (-language -framework -type)");
+            System.err.println("[error] is required");
             System.exit(1);
         }
 

@@ -59,4 +59,34 @@ public class CodegenConfigLoader {
         }
         return output;
     }
+
+    private static boolean nullOrMatches(Object value, Object configValue){
+        if (value == null) return true;
+        return value.equals(configValue);
+    }
+
+    public static CodegenConfig forKey(String lang, String framework, String type)
+            throws GeneratorNotFoundException, AmbiguousGeneratorException {
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
+        List<CodegenConfig> output = new ArrayList<>();
+
+        for (CodegenConfig codegenConfig : loader) {
+            if (nullOrMatches(lang, codegenConfig.getLanguage()) &&
+                    nullOrMatches(framework, codegenConfig.getFramework()) &&
+                    nullOrMatches(type, codegenConfig.getTag())) {
+                output.add(codegenConfig);
+            }
+        }
+        if (output.size() == 0 ) throw new GeneratorNotFoundException();
+        if (output.size() > 1 ) throw new AmbiguousGeneratorException();
+        return output.get(0);
+    }
+
+    public static CodegenConfig forKey(String generatorName, String lang, String framework, String type) {
+        try {
+            return forName(generatorName);
+        } catch(GeneratorNotFoundException ex) {
+            return forKey(lang, framework, type);
+        }
+    }
 }

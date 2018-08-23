@@ -254,4 +254,7 @@ public interface CodegenConfig {
 
     String sanitizeName(String name);
 
+    String getLanguage();
+
+    String getFramework();
 }
