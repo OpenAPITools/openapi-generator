@@ -35,10 +35,10 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         super();
 
         // avoid importing the following as models
-        languageSpecificPrimitives.add("Date");
-        languageSpecificPrimitives.add("ArrayList");
-        languageSpecificPrimitives.add("File");
-        languageSpecificPrimitives.add("Map");
+        languageSpecificPrimitives().add("Date");
+        languageSpecificPrimitives().add("ArrayList");
+        languageSpecificPrimitives().add("File");
+        languageSpecificPrimitives().add("Map");
 
         sourceFolder = projectFolder + File.separator + "groovy";
         outputFolder = "generated-code/groovy";

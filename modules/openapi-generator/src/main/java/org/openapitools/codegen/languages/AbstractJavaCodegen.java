@@ -30,6 +30,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.options.JavaOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +97,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public AbstractJavaCodegen() {
         super();
+
+        options = new JavaOptions();
+
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
@@ -105,39 +109,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         hideGenerationTimestamp = false;
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // special words
-                        "object",
-                        // used as internal variables, can collide with parameter names
-                        "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
-                        "localVarHeaderParams", "localVarFormParams", "localVarPostBody",
-                        "localVarAccepts", "localVarAccept", "localVarContentTypes",
-                        "localVarContentType", "localVarAuthNames", "localReturnType",
-                        "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
-
-                        // language reserved words
-                        "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while", "null")
-        );
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Object",
-                        "byte[]")
-        );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
         typeMapping.put("date", "Date");
@@ -864,7 +835,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = "new File(\"" + escapeText(example) + "\")";
         } else if ("Date".equals(type)) {
             example = "new Date()";
-        } else if (!languageSpecificPrimitives.contains(type)) {
+        } else if (!languageSpecificPrimitives().contains(type)) {
             // type is a model class, e.g. User
             example = "new " + type + "()";
         }
