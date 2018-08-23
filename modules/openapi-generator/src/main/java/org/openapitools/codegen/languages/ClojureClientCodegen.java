@@ -337,7 +337,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
         for (CodegenOperation op : ops) {
             // Convert httpMethod to lower case, e.g. "get", "post"
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
 
             op.vendorExtensions.put(X_MODELS, models);
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
