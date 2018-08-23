@@ -286,7 +286,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
-            String suffix = docExtension!=null ? docExtension : config.modelDocTemplateFiles().get(templateName);
+            String suffix = docExtension != null ? docExtension : config.modelDocTemplateFiles().get(templateName);
             String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(modelName) + suffix;
             if (!config.shouldOverwrite(filename)) {
                 LOGGER.info("Skipped overwriting " + filename);
@@ -382,6 +382,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             } */
         });
 
+        Boolean skipFormModel = System.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
+                Boolean.valueOf(System.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
+                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, false);
+
         // process models only
         for (String name : modelKeys) {
             try {
@@ -393,8 +397,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
-                    LOGGER.debug("Model " + name + " not generated since it's marked as unused (due to form parameters)");
-                    continue;
+                    if (Boolean.FALSE.equals(skipFormModel)) {
+                        // if skipFormModel sets to true, still generate the model and log the result
+                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to skipFormModel=false (default)");
+                    } else {
+                        LOGGER.info("Model " + name + " not generated since it's marked as unused (due to form parameters) and skipFormModel set to true");
+                        continue;
+                    }
                 }
 
                 Schema schema = schemas.get(name);
@@ -752,6 +761,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
+        }
+        
+        List<CodegenServer> servers = config.fromServers(openAPI.getServers());
+        if (servers != null && !servers.isEmpty()) {
+            bundle.put("servers", servers);
+            bundle.put("hasServers", true);
         }
 
         if (openAPI.getExternalDocs() != null) {

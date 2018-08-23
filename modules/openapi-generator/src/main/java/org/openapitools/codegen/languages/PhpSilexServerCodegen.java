@@ -116,6 +116,9 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("composer.json", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+
+        // remove this line when this class extends AbstractPhpCodegen
+        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
     }
 
     @Override
@@ -160,7 +163,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

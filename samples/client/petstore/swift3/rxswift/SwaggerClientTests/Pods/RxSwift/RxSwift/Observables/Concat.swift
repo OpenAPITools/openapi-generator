@@ -128,3 +128,4 @@ final fileprivate class Concat<S: Sequence> : Producer<S.Iterator.Element.E> whe
         return (sink: sink, subscription: subscription)
     }
 }
+

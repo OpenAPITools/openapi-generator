@@ -340,6 +340,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             op.httpMethod = op.httpMethod.toLowerCase();
 
             op.vendorExtensions.put(X_MODELS, models);
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
         }
         return operations;
     }

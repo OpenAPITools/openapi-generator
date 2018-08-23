@@ -23,6 +23,7 @@ import org.openapitools.codegen.CodegenConfig;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 /**
  * Converts text in a fragment to lowercase.
@@ -51,7 +52,7 @@ public class LowercaseLambda implements Mustache.Lambda {
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String text = fragment.execute().toLowerCase();
+        String text = fragment.execute().toLowerCase(Locale.ROOT);
         if (generator != null && generator.reservedWords().contains(text)) {
             text = generator.escapeReservedWord(text);
         }

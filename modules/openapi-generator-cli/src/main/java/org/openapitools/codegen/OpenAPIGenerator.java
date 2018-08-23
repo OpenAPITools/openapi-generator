@@ -24,6 +24,8 @@ import io.airlift.airline.ParseOptionMissingException;
 import io.airlift.airline.ParseOptionMissingValueException;
 import org.openapitools.codegen.cmd.*;
 
+import java.util.Locale;
+
 /**
  * User: lanwen Date: 24.03.15 Time: 17:56
  * <p>
@@ -40,6 +42,7 @@ public class OpenAPIGenerator {
                 Cli.<Runnable>builder("openapi-generator-cli")
                         .withDescription(
                                 String.format(
+                                        Locale.ROOT,
                                         "OpenAPI generator CLI (version %s).",
                                         version))
                         .withDefaultCommand(ListGenerators.class)
@@ -69,10 +72,10 @@ public class OpenAPIGenerator {
                 System.exit(1);
             }
         } catch (ParseArgumentsUnexpectedException e) {
-            System.err.printf("[error] %s%n%nSee 'openapi-generator-cli help' for usage.%n", e.getMessage());
+            System.err.printf(Locale.ROOT,"[error] %s%n%nSee 'openapi-generator-cli help' for usage.%n", e.getMessage());
             System.exit(1);
         } catch (ParseOptionMissingException | ParseOptionMissingValueException e) {
-            System.err.printf("[error] %s%n", e.getMessage());
+            System.err.printf(Locale.ROOT,"[error] %s%n", e.getMessage());
             System.exit(1);
         }
     }
