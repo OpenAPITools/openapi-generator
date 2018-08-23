@@ -38,15 +38,15 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
     protected String modelDocPath = "docs/";
 
     public CodegenType getTag() {
-        return CodegenType.SERVER;
+        return CodegenType.CONFIG;
     }
 
     public String getName() {
-        return "graphql-server";
+        return "graphql";
     }
 
     public String getHelp() {
-        return "Generates a GraphQL server (beta)";
+        return "Generates GraphQL schema files (beta)";
     }
 
     public GraphQLServerCodegen() {
@@ -468,8 +468,15 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
         for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
+            // non GET/HEAD methods are mutation
             if (!"GET".equals(op.httpMethod.toUpperCase()) && !"HEAD".equals(op.httpMethod.toUpperCase())) {
                 op.vendorExtensions.put("x-is-mutation", Boolean.TRUE);
+            }
+            for (CodegenParameter p : op.allParams) {
+                if (p.required) { // TODO check nullable
+                    //if (p.vendorExtensions.get("x-graphql-non-null"))
+                    // TODO to be revised
+                }
             }
         }
 
