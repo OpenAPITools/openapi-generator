@@ -19,7 +19,7 @@ public class MyclientcodegenGenerator extends DefaultCodegen implements CodegenC
    * @see     org.openapitools.codegen.CodegenType
    */
   public CodegenType getTag() {
-    return CodegenType.OTHER;
+    return CodegenType.DOCUMENTATION;
   }
 
   /**
