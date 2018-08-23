@@ -17,14 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -43,6 +42,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
@@ -131,7 +131,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -142,7 +142,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
             for (CodegenResponse response : op.responses) {
                 if ("0".equals(response.code)) {
                     response.code = "default";
@@ -204,7 +204,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'
         op.path = sanitizePath(op.path);
-        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", httpMethod.toUpperCase());
+        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", httpMethod.toUpperCase(Locale.ROOT));
 
         return op;
     }

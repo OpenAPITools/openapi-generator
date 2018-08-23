@@ -238,7 +238,7 @@ public class InlineModelResolver {
                                     }
                                 } else if (property instanceof MapSchema) {
                                     MapSchema mp = (MapSchema) property;
-                                    Schema innerProperty = (Schema) mp.getAdditionalProperties();
+                                    Schema innerProperty = ModelUtils.getAdditionalProperties(mp);
                                     if (innerProperty instanceof ObjectSchema) {
                                         ObjectSchema op = (ObjectSchema) innerProperty;
                                         if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -431,7 +431,7 @@ public class InlineModelResolver {
                 }
             }
             if (ModelUtils.isMapSchema(property)) {
-                Schema inner = (Schema) property.getAdditionalProperties();
+                Schema inner = ModelUtils.getAdditionalProperties(property);
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -519,7 +519,7 @@ public class InlineModelResolver {
         model.setDescription(description);
         model.setName(object.getName());
         model.setExample(example);
-        model.setItems((Schema) object.getAdditionalProperties());
+        model.setItems(ModelUtils.getAdditionalProperties(object));
         return model;
     }
 

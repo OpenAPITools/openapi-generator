@@ -31,6 +31,8 @@ cache:
   - $HOME/.cargo
   - $HOME/.stack
   - $HOME/samples/server/petstore/cpp-pistache/pistache
+  - $HOME/.npm  
+  - $HOME/.rvm/gems/ruby-2.4.1
 
 services:
   - docker
@@ -57,7 +59,7 @@ before_install:
   - gem install bundler
   - npm install -g typescript
   - npm install -g npm
-  - npm install -g elm
+  - npm install -g elm@0.18.0-exp5
   - npm config set registry http://registry.npmjs.org/
   # set python 3.6.3 as default
   - source ~/virtualenv/python3.6/bin/activate

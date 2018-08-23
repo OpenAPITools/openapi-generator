@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -32,6 +31,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConfig {
@@ -99,7 +99,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -110,7 +110,7 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
         }
         return objs;
     }
