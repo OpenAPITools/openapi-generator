@@ -30,7 +30,7 @@ namespace OpenAPI {
 class OAIUserApiRequest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     OAIUserApiRequest(QHttpEngine::Socket *s, OAIUserApiHandler* handler);
     virtual ~OAIUserApiRequest();
@@ -98,7 +98,7 @@ private:
             resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
         }
         socket->setHeaders(resHeaders);
-        socket->writeHeaders();        
+        socket->writeHeaders();
     }
 };
 
