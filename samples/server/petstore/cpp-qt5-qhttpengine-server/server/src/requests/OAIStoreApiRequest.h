@@ -30,7 +30,7 @@ namespace OpenAPI {
 class OAIStoreApiRequest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandler* handler);
     virtual ~OAIStoreApiRequest();
@@ -82,7 +82,7 @@ private:
             resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
         }
         socket->setHeaders(resHeaders);
-        socket->writeHeaders();        
+        socket->writeHeaders();
     }
 };
 
