@@ -87,6 +87,10 @@ class {{controllerName}} extends Controller
         // Set key with prefix in query string
         $security{{name}} = $request->query->get('{{keyParamName}}');
         {{/isKeyInQuery}}
+        {{#isKeyInCookie}}
+        // Set key with prefix in cookies
+        $security{{name}} = $request->cookies->get('{{keyParamName}}');
+        {{/isKeyInCookie}}
         {{/isApiKey}}
         {{#isBasic}}
         // HTTP basic authentication required
