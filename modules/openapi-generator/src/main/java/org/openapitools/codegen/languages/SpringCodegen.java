@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -34,6 +35,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,6 +131,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         library.setDefault(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
+    }
+
+    @Override
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isArraySchema(schema) && schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        }
+        return super.toDefaultValue(schema);
     }
 
     @Override

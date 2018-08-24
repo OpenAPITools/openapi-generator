@@ -19,6 +19,8 @@ package org.openapitools.codegen.java.spring;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 
 import org.openapitools.codegen.CodegenConstants;
@@ -110,5 +112,17 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
+    }
+
+    @Test
+    public void testArraySchemaDefaultValue() {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        String schemaDefaultValue = "elem1,elem2,elem3";
+        Schema schema = new ArraySchema();
+        schema.setDefault(schemaDefaultValue);
+        String result = codegen.toDefaultValue(schema);
+
+        Assert.assertEquals(result, schemaDefaultValue);
     }
 }
