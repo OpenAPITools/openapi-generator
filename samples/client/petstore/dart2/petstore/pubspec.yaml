@@ -1,0 +1,9 @@
+name: petstore_client
+version: 1.0.0
+description: Petstore client using OpenAPI library
+dependencies:
+  openapi:
+    path: ../openapi-browser-client
+  browser: any
+dev_dependencies:
+  guinness: '^0.1.17'
