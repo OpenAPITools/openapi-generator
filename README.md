@@ -397,6 +397,9 @@ SYNOPSIS
                 [(-c <configuration file> | --config <configuration file>)]
                 [-D <system properties>...]
                 [(-g <generator name> | --generator-name <generator name>)]
+                [(-lang <language>)]
+                [(-framework <framework>)]
+                [(-type <generator type>)]
                 [--git-repo-id <git repo id>] [--git-user-id <git user id>]
                 [--group-id <group id>] [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
@@ -404,7 +407,7 @@ SYNOPSIS
                 [--import-mappings <import mappings>...]
                 [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
-                [(-l <language> | --lang <language>)]
+                
                 [--language-specific-primitives <language specific primitives>...]
                 [--library <library>] [--log-to-stderr]
                 [--model-name-prefix <model name prefix>]

@@ -23,10 +23,10 @@ _openapi_generator_cli_completions() {
   case "${COMP_WORDS[1]}" in
     generate)
       case "${COMP_WORDS[@]:2}" in
-        -l|--lang|-g|--generator-name)
+        -g|--generator-name)
         # TODO: This is a nice-to-have and not required.
         # Apply generator-specific options to additional properties. These can be queried via:
-        # openapi-generator-cli config-help -l YOUR_LANG | grep '^\t' | grep -v '^\t\s\s\s\s' | tr -d '\t'
+        # openapi-generator-cli config-help -g GENERATOR | grep '^\t' | grep -v '^\t\s\s\s\s' | tr -d '\t'
         # where YOUR_LANG would need to be evaluated as the value after the current switch.
         # but rather than switching on 'generate' maybe switch on --additional-properties?
         ;;

@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -l typescript-angular -c bin\typescript-angular-v6-petstore-not-provided-in-root-with-npm.json -o samples\client\petstore\typescript-angular-v6-not-provided-in-root\builds\with-npm -D providedInRoot=false --additional-properties ngVersion=6.0.0
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g typescript-angular -c bin\typescript-angular-v6-petstore-not-provided-in-root-with-npm.json -o samples\client\petstore\typescript-angular-v6-not-provided-in-root\builds\with-npm -D providedInRoot=false --additional-properties ngVersion=6.0.0
 
 java %JAVA_OPTS% -jar %executable% %ags%
