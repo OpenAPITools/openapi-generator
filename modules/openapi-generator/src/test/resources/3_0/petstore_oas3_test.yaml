@@ -181,6 +181,7 @@ paths:
           schema:
             type: integer
             format: int64
+            nullable: true
       responses:
         '405':
           description: Invalid input
@@ -200,6 +201,7 @@ paths:
                 status:
                   description: Updated status of the pet
                   type: string
+                  nullable: true
     delete:
       tags:
         - pet

@@ -45,7 +45,6 @@ declare -a files=("CI/pom.xml.bash"
                   "modules/openapi-generator-maven-plugin/pom.xml"
                   "modules/openapi-generator-online/pom.xml"
                   "modules/openapi-generator/pom.xml"
-                  "modules/openapi-generator-online/Dockerfile"
                   "pom.xml")
 
 for filename in "${files[@]}"; do
