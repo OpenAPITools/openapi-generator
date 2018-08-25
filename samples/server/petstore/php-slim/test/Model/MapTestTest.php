@@ -36,69 +36,70 @@ use OpenAPIServer\Model\MapTest;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\MapTest
  */
-class MapTestTest extends \PHPUnit_Framework_TestCase {
+class MapTestTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "MapTest"
      */
-    public function testMapTest() {
+    public function testMapTest()
+    {
         $testMapTest = new MapTest();
     }
 
     /**
      * Test attribute "mapMapOfString"
      */
-    public function testPropertyMapMapOfString() {
-
+    public function testPropertyMapMapOfString()
+    {
     }
 
     /**
      * Test attribute "mapOfEnumString"
      */
-    public function testPropertyMapOfEnumString() {
-
+    public function testPropertyMapOfEnumString()
+    {
     }
 
     /**
      * Test attribute "directMap"
      */
-    public function testPropertyDirectMap() {
-
+    public function testPropertyDirectMap()
+    {
     }
 
     /**
      * Test attribute "indirectMap"
      */
-    public function testPropertyIndirectMap() {
-
+    public function testPropertyIndirectMap()
+    {
     }
 }
-

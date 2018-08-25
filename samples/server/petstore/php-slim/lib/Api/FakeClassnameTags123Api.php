@@ -37,8 +37,9 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class FakeClassnameTags123Api extends AbstractApiController {
-
+class FakeClassnameTags123Api extends AbstractApiController
+{
+    
     /**
      * PATCH testClassname
      * Summary: To test class name in snake case
@@ -49,10 +50,10 @@ class FakeClassnameTags123Api extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testClassname($request, $response, $args) {
+    public function testClassname($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testClassname as a PATCH method ?');
         return $response;
     }
-    
 }
