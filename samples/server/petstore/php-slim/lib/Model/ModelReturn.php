@@ -7,9 +7,9 @@ namespace OpenAPIServer\Model;
 /**
  * ModelReturn
  */
-class ModelReturn {
-
+class ModelReturn
+{
+    
     /** @var int $return */
     private $return;
-
 }

@@ -7,12 +7,12 @@ namespace OpenAPIServer\Model;
 /**
  * Tag
  */
-class Tag {
-
+class Tag
+{
+    
     /** @var int $id */
     private $id;
-
+    
     /** @var string $name */
     private $name;
-
 }
