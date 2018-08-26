@@ -701,7 +701,7 @@ components:
         category:
           $ref: '#/components/schemas/Category'
         name:
-          nullable: false
+          nullable: true
           type: string
           example: doggie
         photoUrls:
