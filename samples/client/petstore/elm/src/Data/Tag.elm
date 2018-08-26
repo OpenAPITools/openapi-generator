@@ -41,4 +41,3 @@ tagEncoder model =
         , ( "name", withDefault Encode.null (map Encode.string model.name) )
         ]
 
-
