@@ -7,18 +7,18 @@
 # An order for a pets from the pet store
 type Order {
 
-  id: Int
+  id: Int!
 
-  petId: Int
+  petId: Int!
 
-  quantity: Int
+  quantity: Int!
 
-  shipDate: String
+  shipDate: String!
 
   # 
   status: Status
 
-  complete: Boolean
+  complete: Boolean!
 
 }
 

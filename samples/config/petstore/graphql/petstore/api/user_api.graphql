@@ -13,44 +13,44 @@ type mutation {
   # This can only be done by the logged in user.
   # @param User user Created user object
   # @return [null]
-  CreateUser(user: User!): null
+  CreateUser(user: User): null
 
   # Creates list of users with given input array
   # @param [User] user List of user object
   # @return [null]
-  CreateUsersWithArrayInput(user: [User]!): null
+  CreateUsersWithArrayInput(user: [User]): null
 
   # Creates list of users with given input array
   # @param [User] user List of user object
   # @return [null]
-  CreateUsersWithListInput(user: [User]!): null
+  CreateUsersWithListInput(user: [User]): null
 
   # Delete user
   # This can only be done by the logged in user.
-  # @param String username The name that needs to be deleted
+  # @param String! username The name that needs to be deleted
   # @return [null]
   DeleteUser(username: String!): null
 
   # Updated user
   # This can only be done by the logged in user.
-  # @param String username name that need to be deleted
+  # @param String! username name that need to be deleted
   # @param User user Updated user object
   # @return [null]
-  UpdateUser(username: String!, user: User!): null
+  UpdateUser(username: String!, user: User): null
 
 }
 
 type query {
   # Get user by user name
-  # @param String username The name that needs to be fetched. Use user1 for testing.
+  # @param String! username The name that needs to be fetched. Use user1 for testing.
   # @return [User]
   GetUserByName(username: String!): User
 
   # Logs user into the system
-  # @param String username The user name for login
-  # @param String password The password for login in clear text
-  # @return [String]
-  LoginUser(username: String!, password: String!): String
+  # @param String! username The user name for login
+  # @param String! password The password for login in clear text
+  # @return [String!]
+  LoginUser(username: String!, password: String!): String!
 
   # Logs out current logged in user session
   # @return [null]

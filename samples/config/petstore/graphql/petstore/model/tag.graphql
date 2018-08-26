@@ -7,8 +7,8 @@
 # A tag for a pet
 type Tag {
 
-  id: Int
+  id: Int!
 
-  name: String
+  name: String!
 
 }

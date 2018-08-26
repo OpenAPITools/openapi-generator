@@ -28,11 +28,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLServerCodegen.class);
+public class GraphQLSchemaGenerator extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaGenerator.class);
 
     protected String specFolder = "spec";
-    protected String packageName = "openapi-server";
+    protected String packageName = "openapi2graphql";
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -49,7 +49,7 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
         return "Generates GraphQL schema files (beta)";
     }
 
-    public GraphQLServerCodegen() {
+    public GraphQLSchemaGenerator() {
         super();
         outputFolder = "generated-code/graphql";
         modelTemplateFiles.put("model.mustache", ".graphql");
@@ -58,7 +58,7 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
-        embeddedTemplateDir = templateDir = "graphql-server";
+        embeddedTemplateDir = templateDir = "graphql";
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -81,10 +81,12 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
-                        "nil",
-                        "string",
-                        "boolean",
-                        "number")
+                        "null",
+                        "ID",
+                        "Int",
+                        "String",
+                        "Float",
+                        "Boolean")
         );
 
         instantiationTypes.clear();
@@ -109,7 +111,7 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GraphQL package name (convention: lowercase).")
-                .defaultValue("openapi-server"));
+                .defaultValue("openapi2graphql"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
@@ -147,10 +149,7 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
 
         //supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         //supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        //supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.graphql"));
-        //supportingFiles.add(new SupportingFile("api_client.mustache", "", "api_client.graphql"));
-        //supportingFiles.add(new SupportingFile("api_response.mustache", "", "api_response.graphql"));
+        //supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"))
         //supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
     }
 
@@ -320,16 +319,20 @@ public class GraphQLServerCodegen extends DefaultCodegen implements CodegenConfi
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String schemaType = getSchemaType(p);
-        if (typeMapping.containsKey(schemaType)) {
-            return typeMapping.get(schemaType);
-        }
+        String nullable = ModelUtils.isNullable(p) ? "" : "!";
+        /*
+        if (p != null && Boolean.TRUE.equals(p.getNullable())) {
+            nullable = "";
+        } else {
+            nullable =  "!";
+        }*/
 
-        if (typeMapping.containsValue(schemaType)) {
-            return schemaType;
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType) + nullable;
         }
 
         if (languageSpecificPrimitives.contains(schemaType)) {
-            return schemaType;
+            return schemaType + nullable;
         }
 
         return toModelName(schemaType);

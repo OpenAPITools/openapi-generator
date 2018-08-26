@@ -17,7 +17,7 @@ type mutation {
   # @param {{{dataType}}} {{paramName}} {{{description}}}
   {{/allParams}}
   # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}]
-  {{{operationId}}}({{#allParams}}{{paramName}}: {{dataType}}{{#required}}!{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}null{{/returnType}}
+  {{{operationId}}}({{#allParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}null{{/returnType}}
 
 {{/vendorExtensions.x-is-mutation}}
 {{/operation}}
@@ -38,7 +38,7 @@ type query {
   # @param {{{dataType}}} {{paramName}} {{{description}}}
   {{/allParams}}
   # @return [{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}null{{/returnType}}]
-  {{{operationId}}}({{#allParams}}{{paramName}}: {{dataType}}{{#required}}!{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}null{{/returnType}}
+  {{{operationId}}}({{#allParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}null{{/returnType}}
 
 {{/vendorExtensions.x-is-mutation}}
 {{/operation}}

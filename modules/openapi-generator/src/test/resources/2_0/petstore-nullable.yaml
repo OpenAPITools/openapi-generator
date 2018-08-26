@@ -661,7 +661,7 @@ definitions:
       name:
         type: string
         example: doggie
-        x-nullable: true
+        x-nullable: false
       photoUrls:
         type: array
         xml:
