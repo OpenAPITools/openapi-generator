@@ -38,8 +38,9 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class FakeApi extends AbstractApiController {
-
+class FakeApi extends AbstractApiController
+{
+    
     /**
      * PUT testCodeInjectEndRnNR
      * Summary: To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
@@ -49,10 +50,10 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testCodeInjectEndRnNR($request, $response, $args) {
+    public function testCodeInjectEndRnNR($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testCodeInjectEndRnNR as a PUT method ?');
         return $response;
     }
-    
 }
