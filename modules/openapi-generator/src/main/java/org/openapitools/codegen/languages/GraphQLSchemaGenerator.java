@@ -428,11 +428,11 @@ public class GraphQLSchemaGenerator extends DefaultCodegen implements CodegenCon
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return getSymbolName(name).toUpperCase();
+            return getSymbolName(name).toUpperCase(Locale.ROOT);
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase());
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -472,7 +472,7 @@ public class GraphQLSchemaGenerator extends DefaultCodegen implements CodegenCon
 
         for (CodegenOperation op : (List<CodegenOperation>) objs.get("operation")) {
             // non GET/HEAD methods are mutation
-            if (!"GET".equals(op.httpMethod.toUpperCase()) && !"HEAD".equals(op.httpMethod.toUpperCase())) {
+            if (!"GET".equals(op.httpMethod.toUpperCase(Locale.ROOT)) && !"HEAD".equals(op.httpMethod.toUpperCase(Locale.ROOT))) {
                 op.vendorExtensions.put("x-is-mutation", Boolean.TRUE);
             }
             for (CodegenParameter p : op.allParams) {
