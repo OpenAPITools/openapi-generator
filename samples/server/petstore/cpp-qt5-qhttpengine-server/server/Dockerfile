@@ -1,11 +1,11 @@
 FROM alpine:latest AS build
 
-RUN apk add --update \   
+RUN apk add --update \
         cmake \
         alpine-sdk \
-        openssl \        
-        qt5-qtbase-dev \       
-        qt5-qttools-dev 
+        openssl \
+        qt5-qtbase-dev \
+        qt5-qttools-dev
 
 WORKDIR /usr/server
 ADD ./src ./src
@@ -13,10 +13,10 @@ ADD ./CMakeLists.txt ./
 RUN mkdir -p ./build
 WORKDIR /usr/server/build
 RUN cmake  -DNODEBUG:STRING="ON" ..
-RUN make 
+RUN make
 
 FROM alpine:latest AS runtime
-RUN apk add --update \    
+RUN apk add --update \
         libgcc  \
         libstdc++  \
         qt5-qtbase \
