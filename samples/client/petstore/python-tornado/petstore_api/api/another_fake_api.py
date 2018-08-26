@@ -32,13 +32,13 @@ class AnotherFakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def test_special_tags(self, client, **kwargs):  # noqa: E501
+    def call_123_test_special_tags(self, client, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
-        To test special tags  # noqa: E501
+        To test special tags and operation ID starting with number  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_special_tags(client, async_req=True)
+        >>> thread = api.call_123_test_special_tags(client, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
@@ -49,18 +49,18 @@ class AnotherFakeApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
+            return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
+            (data) = self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
             return data
 
-    def test_special_tags_with_http_info(self, client, **kwargs):  # noqa: E501
+    def call_123_test_special_tags_with_http_info(self, client, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
-        To test special tags  # noqa: E501
+        To test special tags and operation ID starting with number  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_special_tags_with_http_info(client, async_req=True)
+        >>> thread = api.call_123_test_special_tags_with_http_info(client, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
@@ -82,14 +82,14 @@ class AnotherFakeApi(object):
             if key not in all_params:
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method test_special_tags" % key
+                    " to method call_123_test_special_tags" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
         # verify the required parameter 'client' is set
         if ('client' not in local_var_params or
                 local_var_params['client'] is None):
-            raise ValueError("Missing the required parameter `client` when calling `test_special_tags`")  # noqa: E501
+            raise ValueError("Missing the required parameter `client` when calling `call_123_test_special_tags`")  # noqa: E501
 
         collection_formats = {}
 

@@ -22,7 +22,7 @@ namespace {{this}} {
 }
 
 {{classname}}::~{{classname}}() {
-    
+
 }
 
 void
@@ -77,7 +77,7 @@ QJsonObject
 {{classname}}::asJsonObject() const {
     QJsonObject obj;
     {{#vars}}
-	{{^isContainer}}{{#complexType}}{{^isString}}{{^isDateTime}}{{^isByteArray}}{{^isDate}}if({{name}}.isSet()){{/isDate}}{{/isByteArray}}{{/isDateTime}}{{/isString}}{{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{{#isString}}if(m_{{name}}_isSet){{/isString}}{{#isDateTime}}if(m_{{name}}_isSet){{/isDateTime}}{{#isByteArray}}if(m_{{name}}_isSet){{/isByteArray}}{{#isDate}}if(m_{{name}}_isSet){{/isDate}}{
+	{{^isContainer}}{{#complexType}}if({{name}}.isSet()){{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{
         obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue({{name}}));
     }{{/isContainer}}{{#isContainer}}
     if({{name}}.size() > 0){
@@ -105,7 +105,7 @@ bool
 {{classname}}::isSet() const {
     bool isObjectUpdated = false;
     do{ {{#vars}}
-        {{#isContainer}}if({{name}}.size() > 0){{/isContainer}}{{^isContainer}}{{#complexType}}{{^isString}}{{^isDateTime}}{{^isByteArray}}{{^isDate}}if({{name}}.isSet()){{/isDate}}{{/isByteArray}}{{/isDateTime}}{{/isString}}{{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{{#isString}}if(m_{{name}}_isSet){{/isString}}{{#isDateTime}}if(m_{{name}}_isSet){{/isDateTime}}{{#isByteArray}}if(m_{{name}}_isSet){{/isByteArray}}{{#isDate}}if(m_{{name}}_isSet){{/isDate}}{{/isContainer}}{ isObjectUpdated = true; break;}
+        {{#isContainer}}if({{name}}.size() > 0){{/isContainer}}{{^isContainer}}{{#complexType}}if({{name}}.isSet()){{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{{/isContainer}}{ isObjectUpdated = true; break;}
     {{/vars}}}while(false);
     return isObjectUpdated;
 }

@@ -1789,7 +1789,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getWriteOnly() != null) {
             property.isWriteOnly = p.getWriteOnly();
         }
-        if (p.getNullable() != null) {
+
+        // use x-nullable
+        if (p.getExtensions() != null && p.getExtensions().get("x-nullable") != null) {
+            property.isNullable = Boolean.valueOf(p.getExtensions().get("x-nullable").toString());
+        } else if (p.getNullable() != null) { // use nullable defined in OAS3
             property.isNullable = p.getNullable();
         }
 
@@ -2649,6 +2653,14 @@ public class DefaultCodegen implements CodegenConfig {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
+
+            // x-nullable extension in OAS2
+            if (parameter.getExtensions() != null && parameter.getExtensions().get("x-nullable") != null) {
+                codegenParameter.isNullable = Boolean.valueOf(parameter.getExtensions().get("x-nullable").toString());
+            } else if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
+                codegenParameter.isNullable = true;
+            }
+
             // set default value
             if (parameterSchema.getDefault() != null) {
                 codegenParameter.defaultValue = toDefaultValue(parameterSchema);
@@ -4265,6 +4277,9 @@ public class DefaultCodegen implements CodegenConfig {
                     // default to csv:
                     codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
+                    // set nullable
+                    setParameterNullable(codegenParameter, codegenProperty);
+
                     // recursively add import
                     while (codegenProperty != null) {
                         imports.add(codegenProperty.baseType);
@@ -4293,7 +4308,7 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
-        LOGGER.debug("Debugging fromFormProperty: " + name);
+        LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
         codegenParameter.isFormParam = Boolean.TRUE;
@@ -4306,7 +4321,6 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
         codegenParameter.defaultValue = codegenProperty.getDefaultValue();
-
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
@@ -4366,6 +4380,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         setParameterExampleValue(codegenParameter);
+        // set nullable
+        setParameterNullable(codegenParameter, codegenProperty);
 
         //TODO collectionFormat for form parameter not yet supported
         //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
@@ -4415,6 +4431,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isMapContainer = Boolean.TRUE;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
@@ -4454,6 +4473,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isListContainer = Boolean.TRUE;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
 
             while (codegenProperty != null) {
                 imports.add(codegenProperty.baseType);
@@ -4516,6 +4537,8 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+                // set nullable
+                setParameterNullable(codegenParameter, codegenProperty);
             }
 
         } else {
@@ -4539,6 +4562,8 @@ public class DefaultCodegen implements CodegenConfig {
 
             }
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
         }
 
         // set the parameter's example value
@@ -4635,5 +4660,13 @@ public class DefaultCodegen implements CodegenConfig {
             codegenServerVariables.add(codegenServerVariable);
         }
         return codegenServerVariables;
+    }
+
+    private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+        if (property.getVendorExtensions() != null && property.getVendorExtensions().get("x-nullable") != null) {
+            parameter.isNullable = Boolean.valueOf(property.getVendorExtensions().get("x-nullable").toString());
+        } else {
+            parameter.isNullable = property.isNullable;
+        }
     }
 }
