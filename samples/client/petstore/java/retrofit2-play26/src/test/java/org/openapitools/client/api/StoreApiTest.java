@@ -1,14 +1,9 @@
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.model.Order;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.model.Order;
 
 /**
  * API tests for StoreApi
@@ -60,7 +55,7 @@ public class StoreApiTest {
     /**
      * Place an order for a pet
      *
-     * 
+     *
      */
     @Test
     public void placeOrderTest() {

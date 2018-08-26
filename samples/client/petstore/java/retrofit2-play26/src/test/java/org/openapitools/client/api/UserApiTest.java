@@ -1,14 +1,11 @@
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.model.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for UserApi
@@ -37,7 +34,7 @@ public class UserApiTest {
     /**
      * Creates list of users with given input array
      *
-     * 
+     *
      */
     @Test
     public void createUsersWithArrayInputTest() {
@@ -49,7 +46,7 @@ public class UserApiTest {
     /**
      * Creates list of users with given input array
      *
-     * 
+     *
      */
     @Test
     public void createUsersWithListInputTest() {
@@ -73,7 +70,7 @@ public class UserApiTest {
     /**
      * Get user by user name
      *
-     * 
+     *
      */
     @Test
     public void getUserByNameTest() {
@@ -85,7 +82,7 @@ public class UserApiTest {
     /**
      * Logs user into the system
      *
-     * 
+     *
      */
     @Test
     public void loginUserTest() {
@@ -98,7 +95,7 @@ public class UserApiTest {
     /**
      * Logs out current logged in user session
      *
-     * 
+     *
      */
     @Test
     public void logoutUserTest() {

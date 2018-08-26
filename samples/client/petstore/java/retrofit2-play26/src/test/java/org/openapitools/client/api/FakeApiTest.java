@@ -1,19 +1,17 @@
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiClient;
-import java.math.BigDecimal;
-import org.openapitools.client.model.Client;
-import java.io.File;
-import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
-import org.openapitools.client.model.OuterComposite;
-import org.openapitools.client.model.User;
 import org.junit.Before;
 import org.junit.Test;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.User;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +28,7 @@ public class FakeApiTest {
     }
 
     /**
-     * 
+     *
      *
      * Test serialization of outer boolean types
      */
@@ -42,7 +40,7 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
-     * 
+     *
      *
      * Test serialization of object with outer number type
      */
@@ -54,7 +52,7 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
-     * 
+     *
      *
      * Test serialization of outer number types
      */
@@ -66,7 +64,7 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
-     * 
+     *
      *
      * Test serialization of outer string types
      */
@@ -78,7 +76,7 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
-     * 
+     *
      *
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      */
@@ -90,9 +88,9 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
-     * 
      *
-     * 
+     *
+     *
      */
     @Test
     public void testBodyWithQueryParamsTest() {
@@ -115,9 +113,9 @@ public class FakeApiTest {
         // TODO: test validations
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      */
     @Test
     public void testEndpointParametersTest() {
@@ -161,7 +159,7 @@ public class FakeApiTest {
     /**
      * test inline additionalProperties
      *
-     * 
+     *
      */
     @Test
     public void testInlineAdditionalPropertiesTest() {
@@ -173,7 +171,7 @@ public class FakeApiTest {
     /**
      * test json serialization of form data
      *
-     * 
+     *
      */
     @Test
     public void testJsonFormDataTest() {

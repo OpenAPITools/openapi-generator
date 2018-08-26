@@ -1,16 +1,12 @@
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiClient;
-import java.io.File;
-import org.openapitools.client.model.ModelApiResponse;
-import org.openapitools.client.model.Pet;
 import org.junit.Before;
 import org.junit.Test;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.model.Pet;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for PetApi
@@ -27,7 +23,7 @@ public class PetApiTest {
     /**
      * Add a new pet to the store
      *
-     * 
+     *
      */
     @Test
     public void addPetTest() {
@@ -39,7 +35,7 @@ public class PetApiTest {
     /**
      * Deletes a pet
      *
-     * 
+     *
      */
     @Test
     public void deletePetTest() {
@@ -88,7 +84,7 @@ public class PetApiTest {
     /**
      * Update an existing pet
      *
-     * 
+     *
      */
     @Test
     public void updatePetTest() {
@@ -100,7 +96,7 @@ public class PetApiTest {
     /**
      * Updates a pet in the store with form data
      *
-     * 
+     *
      */
     @Test
     public void updatePetWithFormTest() {
@@ -114,7 +110,7 @@ public class PetApiTest {
     /**
      * uploads an image
      *
-     * 
+     *
      */
     @Test
     public void uploadFileTest() {
@@ -128,7 +124,7 @@ public class PetApiTest {
     /**
      * uploads an image (required)
      *
-     * 
+     *
      */
     @Test
     public void uploadFileWithRequiredFileTest() {

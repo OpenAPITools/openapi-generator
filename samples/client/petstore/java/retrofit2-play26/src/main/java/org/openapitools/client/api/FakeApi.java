@@ -1,36 +1,23 @@
 package org.openapitools.client.api;
 
-import org.openapitools.client.CollectionFormats.*;
-
-
-
-import retrofit2.Call;
-import retrofit2.http.*;
-
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
-
-import java.math.BigDecimal;
+import org.openapitools.client.CollectionFormats.*;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
+import retrofit2.Response;
+import retrofit2.http.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import java.util.concurrent.*;
-import retrofit2.Response;
-
 public interface FakeApi {
   /**
-   * 
+   *
    * Test serialization of outer boolean types
    * @param body Input boolean as post body (optional)
    * @return Call&lt;Boolean&gt;
@@ -41,7 +28,7 @@ public interface FakeApi {
   );
 
   /**
-   * 
+   *
    * Test serialization of object with outer number type
    * @param outerComposite Input composite as post body (optional)
    * @return Call&lt;OuterComposite&gt;
@@ -52,7 +39,7 @@ public interface FakeApi {
   );
 
   /**
-   * 
+   *
    * Test serialization of outer number types
    * @param body Input number as post body (optional)
    * @return Call&lt;BigDecimal&gt;
@@ -63,7 +50,7 @@ public interface FakeApi {
   );
 
   /**
-   * 
+   *
    * Test serialization of outer string types
    * @param body Input string as post body (optional)
    * @return Call&lt;String&gt;
@@ -74,7 +61,7 @@ public interface FakeApi {
   );
 
   /**
-   * 
+   *
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
    * @param fileSchemaTestClass  (required)
    * @return Call&lt;Void&gt;
@@ -88,8 +75,8 @@ public interface FakeApi {
   );
 
   /**
-   * 
-   * 
+   *
+   *
    * @param query  (required)
    * @param user  (required)
    * @return Call&lt;Void&gt;
@@ -117,8 +104,8 @@ public interface FakeApi {
   );
 
   /**
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -162,7 +149,7 @@ public interface FakeApi {
 
   /**
    * test inline additionalProperties
-   * 
+   *
    * @param requestBody request body (required)
    * @return Call&lt;Void&gt;
    */
@@ -176,7 +163,7 @@ public interface FakeApi {
 
   /**
    * test json serialization of form data
-   * 
+   *
    * @param param field1 (required)
    * @param param2 field2 (required)
    * @return Call&lt;Void&gt;
