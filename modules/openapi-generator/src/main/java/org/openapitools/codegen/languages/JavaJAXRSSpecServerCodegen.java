@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -130,6 +131,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         super.processOpts();
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         if (generatePom) {
             writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         }
