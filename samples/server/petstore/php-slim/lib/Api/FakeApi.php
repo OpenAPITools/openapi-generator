@@ -39,7 +39,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class FakeApi extends AbstractApiController
 {
-    
+
     /**
      * POST fakeOuterBooleanSerialize
      * Notes: Test serialization of outer boolean types
@@ -55,7 +55,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing fakeOuterBooleanSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST fakeOuterCompositeSerialize
      * Notes: Test serialization of object with outer number type
@@ -71,7 +71,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing fakeOuterCompositeSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST fakeOuterNumberSerialize
      * Notes: Test serialization of outer number types
@@ -87,7 +87,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing fakeOuterNumberSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST fakeOuterStringSerialize
      * Notes: Test serialization of outer string types
@@ -103,7 +103,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing fakeOuterStringSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * PUT testBodyWithFileSchema
      * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
@@ -118,7 +118,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing testBodyWithFileSchema as a PUT method ?');
         return $response;
     }
-    
+
     /**
      * PUT testBodyWithQueryParams
      *
@@ -134,7 +134,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing testBodyWithQueryParams as a PUT method ?');
         return $response;
     }
-    
+
     /**
      * PATCH testClientModel
      * Summary: To test \&quot;client\&quot; model
@@ -151,7 +151,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing testClientModel as a PATCH method ?');
         return $response;
     }
-    
+
     /**
      * POST testEndpointParameters
      * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
@@ -180,7 +180,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing testEndpointParameters as a POST method ?');
         return $response;
     }
-    
+
     /**
      * GET testEnumParameters
      * Summary: To test enum parameters
@@ -205,7 +205,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing testEnumParameters as a GET method ?');
         return $response;
     }
-    
+
     /**
      * POST testInlineAdditionalProperties
      * Summary: test inline additionalProperties
@@ -220,7 +220,7 @@ class FakeApi extends AbstractApiController
         $response->write('How about implementing testInlineAdditionalProperties as a POST method ?');
         return $response;
     }
-    
+
     /**
      * GET testJsonFormData
      * Summary: test json serialization of form data
