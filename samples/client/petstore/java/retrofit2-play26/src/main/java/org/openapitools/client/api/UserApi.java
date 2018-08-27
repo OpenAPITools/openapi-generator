@@ -1,11 +1,25 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.CollectionFormats.*;
-import org.openapitools.client.model.User;
-import retrofit2.Response;
+
+
+
+import retrofit2.Call;
 import retrofit2.http.*;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okhttp3.MultipartBody;
+
+import org.openapitools.client.model.User;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import java.util.concurrent.*;
+import retrofit2.Response;
 
 public interface UserApi {
   /**
@@ -21,7 +35,7 @@ public interface UserApi {
 
   /**
    * Creates list of users with given input array
-   *
+   * 
    * @param user List of user object (required)
    * @return Call&lt;Void&gt;
    */
@@ -32,7 +46,7 @@ public interface UserApi {
 
   /**
    * Creates list of users with given input array
-   *
+   * 
    * @param user List of user object (required)
    * @return Call&lt;Void&gt;
    */
@@ -54,7 +68,7 @@ public interface UserApi {
 
   /**
    * Get user by user name
-   *
+   * 
    * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return Call&lt;User&gt;
    */
@@ -65,7 +79,7 @@ public interface UserApi {
 
   /**
    * Logs user into the system
-   *
+   * 
    * @param username The user name for login (required)
    * @param password The password for login in clear text (required)
    * @return Call&lt;String&gt;
@@ -77,12 +91,12 @@ public interface UserApi {
 
   /**
    * Logs out current logged in user session
-   *
+   * 
    * @return Call&lt;Void&gt;
    */
   @GET("user/logout")
   CompletionStage<Response<Void>> logoutUser();
-
+    
 
   /**
    * Updated user
