@@ -42,16 +42,16 @@ public interface FakeClassnameTestApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Mono<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
-        Mono<Client> result = Mono.empty();
+    default Mono<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        Mono<Void> result = Mono.empty();
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}")
-                        .then(Mono.empty());
+                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
                 break;
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(client.then(result));
+        return result.then(Mono.empty());
 
     }
 
