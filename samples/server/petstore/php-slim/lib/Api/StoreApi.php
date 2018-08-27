@@ -37,8 +37,9 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class StoreApi extends AbstractApiController {
-
+class StoreApi extends AbstractApiController
+{
+    
     /**
      * DELETE deleteOrder
      * Summary: Delete purchase order by ID
@@ -48,7 +49,8 @@ class StoreApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function deleteOrder($request, $response, $args) {
+    public function deleteOrder($request, $response, $args)
+    {
         $orderId = $args['order_id'];
         $response->write('How about implementing deleteOrder as a DELETE method ?');
         return $response;
@@ -64,7 +66,8 @@ class StoreApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function getInventory($request, $response, $args) {
+    public function getInventory($request, $response, $args)
+    {
         $response->write('How about implementing getInventory as a GET method ?');
         return $response;
     }
@@ -79,7 +82,8 @@ class StoreApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function getOrderById($request, $response, $args) {
+    public function getOrderById($request, $response, $args)
+    {
         $orderId = $args['order_id'];
         $response->write('How about implementing getOrderById as a GET method ?');
         return $response;
@@ -88,17 +92,16 @@ class StoreApi extends AbstractApiController {
     /**
      * POST placeOrder
      * Summary: Place an order for a pet
-     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function placeOrder($request, $response, $args) {
+    public function placeOrder($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing placeOrder as a POST method ?');
         return $response;
     }
-    
 }

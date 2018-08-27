@@ -189,7 +189,7 @@ public class DefaultCodegen implements CodegenConfig {
                     .get(CodegenConstants.REMOVE_OPERATION_ID_PREFIX).toString()));
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)){
+        if (additionalProperties.containsKey(CodegenConstants.DOCEXTENSION)) {
             this.setDocExtension(String.valueOf(additionalProperties
                     .get(CodegenConstants.DOCEXTENSION).toString()));
         }
@@ -775,8 +775,8 @@ public class DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains( "" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escapeSpecialCharacters(name, null, null);
         } else {
             return name;
         }
@@ -793,8 +793,8 @@ public class DefaultCodegen implements CodegenConfig {
         name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains( "" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escapeSpecialCharacters(name, null, null);
         }
         return name;
     }
@@ -1661,13 +1661,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, Map<String, Schema> allDefinitions) {
-        if(schema.getDiscriminator() == null) {
+        if (schema.getDiscriminator() == null) {
             return null;
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(schema.getDiscriminator().getPropertyName());
         discriminator.setMapping(schema.getDiscriminator().getMapping());
-        if(schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
+        if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
                 String name = ModelUtils.getSimpleRef(e.getValue());
                 discriminator.getMappedModels().add(new MappedModel(e.getKey(), name));
@@ -1676,9 +1676,9 @@ public class DefaultCodegen implements CodegenConfig {
             allDefinitions.forEach((childName, child) -> {
                 if (child instanceof ComposedSchema && ((ComposedSchema) child).getAllOf() != null) {
                     Set<String> parentSchemas = ((ComposedSchema) child).getAllOf().stream()
-                        .filter(s -> s.get$ref() != null)
-                        .map(s -> ModelUtils.getSimpleRef(s.get$ref()))
-                        .collect(Collectors.toSet());
+                            .filter(s -> s.get$ref() != null)
+                            .map(s -> ModelUtils.getSimpleRef(s.get$ref()))
+                            .collect(Collectors.toSet());
                     if (parentSchemas.contains(schemaName)) {
                         discriminator.getMappedModels().add(new MappedModel(childName, childName));
                     }
@@ -1764,6 +1764,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getReadOnly() != null) {
             property.isReadOnly = p.getReadOnly();
         }
+        if (p.getWriteOnly() != null) {
+            property.isWriteOnly = p.getWriteOnly();
+        }
+
+        // use x-nullable
+        if (p.getExtensions() != null && p.getExtensions().get("x-nullable") != null) {
+            property.isNullable = Boolean.valueOf(p.getExtensions().get("x-nullable").toString());
+        } else if (p.getNullable() != null) { // use nullable defined in OAS3
+            property.isNullable = p.getNullable();
+        }
+
         if (p.getXml() != null) {
             if (p.getXml().getAttribute() != null) {
                 property.isXmlAttribute = p.getXml().getAttribute();
@@ -2484,7 +2495,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Response object to Codegen Response object
      *
-     * @param openAPI    a OAS object representing the spec
+     * @param openAPI      a OAS object representing the spec
      * @param responseCode HTTP response code
      * @param response     OAS Response object
      * @return Codegen Response object
@@ -2620,6 +2631,14 @@ public class DefaultCodegen implements CodegenConfig {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
+
+            // x-nullable extension in OAS2
+            if (parameter.getExtensions() != null && parameter.getExtensions().get("x-nullable") != null) {
+                codegenParameter.isNullable = Boolean.valueOf(parameter.getExtensions().get("x-nullable").toString());
+            } else if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
+                codegenParameter.isNullable = true;
+            }
+
             // set default value
             if (parameterSchema.getDefault() != null) {
                 codegenParameter.defaultValue = toDefaultValue(parameterSchema);
@@ -3345,7 +3364,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String apiDocFilename(String templateName, String tag) {
         String docExtension = getDocExtension();
-        String suffix = docExtension != null ? docExtension: apiDocTemplateFiles().get(templateName);
+        String suffix = docExtension != null ? docExtension : apiDocTemplateFiles().get(templateName);
         return apiDocFileFolder() + File.separator + toApiDocFilename(tag) + suffix;
     }
 
@@ -4108,6 +4127,9 @@ public class DefaultCodegen implements CodegenConfig {
                     // default to csv:
                     codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
+                    // set nullable
+                    setParameterNullable(codegenParameter, codegenProperty);
+
                     // recursively add import
                     while (codegenProperty != null) {
                         imports.add(codegenProperty.baseType);
@@ -4136,7 +4158,7 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
-        LOGGER.debug("Debugging fromFormProperty: " + name);
+        LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
         codegenParameter.isFormParam = Boolean.TRUE;
@@ -4149,7 +4171,6 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
         codegenParameter.defaultValue = codegenProperty.getDefaultValue();
-
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
@@ -4209,6 +4230,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         setParameterExampleValue(codegenParameter);
+        // set nullable
+        setParameterNullable(codegenParameter, codegenProperty);
 
         //TODO collectionFormat for form parameter not yet supported
         //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
@@ -4258,6 +4281,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isMapContainer = Boolean.TRUE;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
@@ -4280,7 +4306,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             if (StringUtils.isEmpty(bodyParameterName)) {
-                if(StringUtils.isEmpty(mostInnerItem.complexType)) {
+                if (StringUtils.isEmpty(mostInnerItem.complexType)) {
                     codegenParameter.baseName = "request_body";
                 } else {
                     codegenParameter.baseName = mostInnerItem.complexType;
@@ -4297,6 +4323,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isListContainer = Boolean.TRUE;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
 
             while (codegenProperty != null) {
                 imports.add(codegenProperty.baseType);
@@ -4359,6 +4387,8 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+                // set nullable
+                setParameterNullable(codegenParameter, codegenProperty);
             }
 
         } else {
@@ -4382,6 +4412,8 @@ public class DefaultCodegen implements CodegenConfig {
 
             }
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
         }
 
         // set the parameter's example value
@@ -4452,7 +4484,7 @@ public class DefaultCodegen implements CodegenConfig {
             return Collections.emptyList();
         }
         List<CodegenServer> codegenServers = new LinkedList<>();
-        for (Server server: servers) {
+        for (Server server : servers) {
             CodegenServer cs = new CodegenServer();
             cs.description = escapeText(server.getDescription());
             cs.url = server.getUrl();
@@ -4468,7 +4500,7 @@ public class DefaultCodegen implements CodegenConfig {
             return Collections.emptyList();
         }
         List<CodegenServerVariable> codegenServerVariables = new LinkedList<>();
-        for (Entry<String, ServerVariable> variableEntry: variables.entrySet()) {
+        for (Entry<String, ServerVariable> variableEntry : variables.entrySet()) {
             CodegenServerVariable codegenServerVariable = new CodegenServerVariable();
             ServerVariable variable = variableEntry.getValue();
             codegenServerVariable.defaultValue = variable.getDefault();
@@ -4478,5 +4510,13 @@ public class DefaultCodegen implements CodegenConfig {
             codegenServerVariables.add(codegenServerVariable);
         }
         return codegenServerVariables;
+    }
+
+    private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+        if (property.getVendorExtensions() != null && property.getVendorExtensions().get("x-nullable") != null) {
+            parameter.isNullable = Boolean.valueOf(property.getVendorExtensions().get("x-nullable").toString());
+        } else {
+            parameter.isNullable = property.isNullable;
+        }
     }
 }

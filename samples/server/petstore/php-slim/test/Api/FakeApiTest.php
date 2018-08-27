@@ -36,34 +36,35 @@ use OpenAPIServer\Api\FakeApi;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FakeApi
  */
-class FakeApiTest extends \PHPUnit_Framework_TestCase {
+class FakeApiTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
@@ -72,8 +73,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * .
      * @covers ::fakeOuterBooleanSerialize
      */
-    public function testFakeOuterBooleanSerialize() {
-
+    public function testFakeOuterBooleanSerialize()
+    {
     }
 
     /**
@@ -82,8 +83,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * .
      * @covers ::fakeOuterCompositeSerialize
      */
-    public function testFakeOuterCompositeSerialize() {
-
+    public function testFakeOuterCompositeSerialize()
+    {
     }
 
     /**
@@ -92,8 +93,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * .
      * @covers ::fakeOuterNumberSerialize
      */
-    public function testFakeOuterNumberSerialize() {
-
+    public function testFakeOuterNumberSerialize()
+    {
     }
 
     /**
@@ -102,8 +103,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * .
      * @covers ::fakeOuterStringSerialize
      */
-    public function testFakeOuterStringSerialize() {
-
+    public function testFakeOuterStringSerialize()
+    {
     }
 
     /**
@@ -112,8 +113,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * .
      * @covers ::testBodyWithFileSchema
      */
-    public function testTestBodyWithFileSchema() {
-
+    public function testTestBodyWithFileSchema()
+    {
     }
 
     /**
@@ -122,8 +123,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * .
      * @covers ::testBodyWithQueryParams
      */
-    public function testTestBodyWithQueryParams() {
-
+    public function testTestBodyWithQueryParams()
+    {
     }
 
     /**
@@ -132,8 +133,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * To test \"client\" model.
      * @covers ::testClientModel
      */
-    public function testTestClientModel() {
-
+    public function testTestClientModel()
+    {
     }
 
     /**
@@ -142,8 +143,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
      * @covers ::testEndpointParameters
      */
-    public function testTestEndpointParameters() {
-
+    public function testTestEndpointParameters()
+    {
     }
 
     /**
@@ -152,8 +153,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * To test enum parameters.
      * @covers ::testEnumParameters
      */
-    public function testTestEnumParameters() {
-
+    public function testTestEnumParameters()
+    {
     }
 
     /**
@@ -162,8 +163,8 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * test inline additionalProperties.
      * @covers ::testInlineAdditionalProperties
      */
-    public function testTestInlineAdditionalProperties() {
-
+    public function testTestInlineAdditionalProperties()
+    {
     }
 
     /**
@@ -172,7 +173,7 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase {
      * test json serialization of form data.
      * @covers ::testJsonFormData
      */
-    public function testTestJsonFormData() {
-
+    public function testTestJsonFormData()
+    {
     }
 }

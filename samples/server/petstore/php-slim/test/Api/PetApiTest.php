@@ -36,34 +36,35 @@ use OpenAPIServer\Api\PetApi;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\PetApi
  */
-class PetApiTest extends \PHPUnit_Framework_TestCase {
+class PetApiTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
@@ -72,8 +73,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * Add a new pet to the store.
      * @covers ::addPet
      */
-    public function testAddPet() {
-
+    public function testAddPet()
+    {
     }
 
     /**
@@ -82,8 +83,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * Deletes a pet.
      * @covers ::deletePet
      */
-    public function testDeletePet() {
-
+    public function testDeletePet()
+    {
     }
 
     /**
@@ -92,8 +93,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * Finds Pets by status.
      * @covers ::findPetsByStatus
      */
-    public function testFindPetsByStatus() {
-
+    public function testFindPetsByStatus()
+    {
     }
 
     /**
@@ -102,8 +103,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * Finds Pets by tags.
      * @covers ::findPetsByTags
      */
-    public function testFindPetsByTags() {
-
+    public function testFindPetsByTags()
+    {
     }
 
     /**
@@ -112,8 +113,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * Find pet by ID.
      * @covers ::getPetById
      */
-    public function testGetPetById() {
-
+    public function testGetPetById()
+    {
     }
 
     /**
@@ -122,8 +123,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * Update an existing pet.
      * @covers ::updatePet
      */
-    public function testUpdatePet() {
-
+    public function testUpdatePet()
+    {
     }
 
     /**
@@ -132,8 +133,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * Updates a pet in the store with form data.
      * @covers ::updatePetWithForm
      */
-    public function testUpdatePetWithForm() {
-
+    public function testUpdatePetWithForm()
+    {
     }
 
     /**
@@ -142,8 +143,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * uploads an image.
      * @covers ::uploadFile
      */
-    public function testUploadFile() {
-
+    public function testUploadFile()
+    {
     }
 
     /**
@@ -152,7 +153,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase {
      * uploads an image (required).
      * @covers ::uploadFileWithRequiredFile
      */
-    public function testUploadFileWithRequiredFile() {
-
+    public function testUploadFileWithRequiredFile()
+    {
     }
 }

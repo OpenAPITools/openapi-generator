@@ -63,6 +63,8 @@ public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(PhpSlimServerOptionsProvider.SORT_PARAMS_VALUE));
             times = 1;
+            clientCodegen.setPhpcsStandard(PhpSlimServerOptionsProvider.PHPCS_STANDARD_VALUE);
+            times = 1;
         }};
     }
 }

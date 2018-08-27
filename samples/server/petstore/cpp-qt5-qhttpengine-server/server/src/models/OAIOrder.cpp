@@ -31,7 +31,7 @@ OAIOrder::OAIOrder() {
 }
 
 OAIOrder::~OAIOrder() {
-    
+
 }
 
 void

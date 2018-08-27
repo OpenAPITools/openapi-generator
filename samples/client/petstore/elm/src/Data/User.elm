@@ -59,4 +59,3 @@ userEncoder model =
         , ( "userStatus", withDefault Encode.null (map Encode.int model.userStatus) )
         ]
 
-

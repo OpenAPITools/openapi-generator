@@ -248,11 +248,13 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
             op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson);
             op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported);
+            
+            // Check if any one of the operations needs a model, then at API file level, at least one model has to be included.
             for(String hdr : op.imports) {
                 if(importMapping.containsKey(hdr)) {
                     continue;
                 }
-                additionalProperties.put("hasModelImport", true);
+                operations.put("hasModelImport", true);
             }
         }
 
