@@ -1,0 +1,31 @@
+apply plugin: 'war'
+
+project.version = "1.0.0"
+project.group = "org.openapitools"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'org.jboss.resteasy:resteasy-jaxrs:3.0.11.Final'
+    providedCompile 'org.jboss.resteasy:jaxrs-api:3.0.11.Final'
+    providedCompile 'org.jboss.resteasy:resteasy-validator-provider-11:3.0.11.Final'
+    providedCompile 'org.jboss.resteasy:resteasy-multipart-provider:3.0.11.Final'
+    providedCompile 'javax.annotation:javax.annotation-api:1.2'
+    providedCompile 'org.jboss.spec.javax.servlet:jboss-servlet-api_3.0_spec:1.0.0.Final'
+    compile         'org.jboss.resteasy:resteasy-jackson2-provider:3.0.11.Final'
+    providedCompile 'javax.validation:validation-api:1.1.0.Final'
+    compile         'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.3'
+    compile         'joda-time:joda-time:2.7'
+    testCompile     'junit:junit:4.12',
+                    'org.hamcrest:hamcrest-core:1.3'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/gen/java'
+        }
+    }
+}
