@@ -118,25 +118,21 @@ after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       if [ "$TRAVIS_BRANCH" = "master" ]; then
-        mvn clean install -DskipTests=true -U;
-        echo "Finished mvn clean install for $TRAVIS_BRANCH";
+        mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
+        echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" uploadArchives --no-daemon;
-        echo "Finished ./gradlew uploadArchives for $TRAVIS_BRANCH";
+        ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
+        echo "Finished ./gradlew uploadArchives";
         popd;
-        mvn deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
-        echo "Finished mvn deploy for $TRAVIS_BRANCH";
       elif ([[ "$TRAVIS_BRANCH" =~ ^[0-9]+\.[0-9]+\.x$ ]]) ; then
-        mvn clean install -DskipTests=true;
-        echo "Finished mvn clean install for $TRAVIS_BRANCH";
+        mvn clean deploy --settings CI/settings.xml;
+        echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
-        ./gradlew uploadArchives --no-daemon;
-        echo "Finished ./gradlew uploadArchives for $TRAVIS_BRANCH";
+        ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
+        echo "Finished ./gradlew uploadArchives";
         popd;
-        mvn deploy -DskipTests=true --settings CI/settings.xml;
-        echo "Finished mvn deploy for $TRAVIS_BRANCH";
       fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
