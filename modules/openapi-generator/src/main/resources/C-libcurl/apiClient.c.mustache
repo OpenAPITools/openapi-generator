@@ -275,3 +275,29 @@ size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp) {
 
 	return size * nmemb;
 }
+
+int str_replace(char *in, char* toreplace, char* replaceby ){
+	int i,mark,copy_len=0;
+	char* copy;
+	int in_len=strlen(in);
+
+	for(i=0;i<in_len-strlen(toreplace);i++){
+	 if(memcmp(in+i,toreplace,strlen(toreplace)) == 0){
+		mark = i;
+		copy = malloc(in_len+strlen(replaceby));
+		memcpy(copy,in,mark-1);
+		copy_len=mark-1;
+		memcpy(copy+copy_len,replaceby,strlen(replaceby));
+		copy_len += strlen(replaceby);
+		memcpy(copy+copy_len,in+mark+strlen(toreplace)+1,in_len-mark-1-strlen(toreplace));
+		copy_len += in_len-mark-1-strlen(toreplace);
+	 }
+	}
+	if(!copy_len)
+		goto error;
+	free(in);
+	memcpy(in,copy,copy_len);
+	return 1;
+error:
+	return 0;
+}
