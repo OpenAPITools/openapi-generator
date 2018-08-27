@@ -28,6 +28,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;
