@@ -31,7 +31,7 @@
     {{#pathParams}}
     // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
     // TODO base path = {{{basePath}}}
-    replace_str(localVarPath, "{" + "{{baseName}}" + "}", {{paramName}})// TODO need to revise
+    str_replace(localVarPath,{{baseName}}, {{paramName}})
     {{/pathParams}}
 
     {{#headerParams}}
