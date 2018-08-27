@@ -7,6 +7,8 @@
 {{/imports}}
 
 #define MAX_BUFFER_LENGTH 4096
+#define vstr(s) str(s)
+#define str(s) #s
 
 {{#operations}}
 {{#operation}}
@@ -31,7 +33,9 @@
     {{#pathParams}}
     // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
     // TODO base path = {{{basePath}}}
-    str_replace(localVarPath,{{baseName}}, {{paramName}})
+    char* baseNameMod=malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
+    snprintf(baseNameMod,strlen(baseName)+3,"%s%s%s","{",{{baseName}},"}");
+    str_replace(localVarPath,baseNameMod, vstr({{paramName}}));
     {{/pathParams}}
 
     {{#headerParams}}
