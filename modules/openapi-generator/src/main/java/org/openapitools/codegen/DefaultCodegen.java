@@ -776,7 +776,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         } else {
             return name;
         }
@@ -794,7 +794,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         }
         return name;
     }
