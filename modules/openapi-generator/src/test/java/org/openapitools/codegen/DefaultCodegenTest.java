@@ -307,6 +307,41 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void updateCodegenPropertyEnumWithExtention() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty enumProperty = codegenPropertyWithXEnumVarName();
+
+        codegen.updateCodegenPropertyEnum(enumProperty);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+    }
+
+    @Test
+    public void postProcessModelsEnumWithExtention() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        Map<String, Object> objs = codegenModelWithXEnumVarName();
+        CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
+
+        codegen.postProcessModelsEnum(objs);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+    }
+
+    @Test
     public void testExample1() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -477,5 +512,32 @@ public class DefaultCodegenTest {
         array.setItems(items);
         array.dataType = "Array";
         return array;
+    }
+
+    private CodegenProperty codegenPropertyWithXEnumVarName() {
+        final CodegenProperty var = new CodegenProperty();
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", Arrays.asList("dog", "cat"));
+        var.setAllowableValues(allowableValues);
+        var.dataType = "String";
+        final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
+        Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
+        var.setVendorExtensions(extentions);
+        return var;
+    }
+
+    private Map<String, Object> codegenModelWithXEnumVarName() {
+        final CodegenModel cm = new CodegenModel();
+        cm.isEnum = true;
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", Arrays.asList("dog", "cat"));
+        cm.setAllowableValues(allowableValues);
+        cm.dataType = "String";
+        final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
+        Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
+        cm.setVendorExtensions(extentions);
+        cm.setVars(Collections.emptyList());
+        Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));
+        return objs;
     }
 }
