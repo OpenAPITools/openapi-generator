@@ -957,6 +957,7 @@
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/finch</module>
+                <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
     </profiles>

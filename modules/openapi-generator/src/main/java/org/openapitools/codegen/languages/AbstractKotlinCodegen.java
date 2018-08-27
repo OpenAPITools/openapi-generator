@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -28,11 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
@@ -55,6 +52,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         languageSpecificPrimitives = new HashSet<String>(Arrays.asList(
                 "kotlin.Byte",
+                "kotlin.ByteArray",
                 "kotlin.Short",
                 "kotlin.Int",
                 "kotlin.Long",
@@ -139,6 +137,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         defaultIncludes = new HashSet<String>(Arrays.asList(
                 "kotlin.Byte",
+                "kotlin.ByteArray",
                 "kotlin.Short",
                 "kotlin.Int",
                 "kotlin.Long",
@@ -159,21 +158,22 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("float", "kotlin.Float");
         typeMapping.put("long", "kotlin.Long");
         typeMapping.put("double", "kotlin.Double");
+        typeMapping.put("ByteArray", "kotlin.ByteArray");
         typeMapping.put("number", "java.math.BigDecimal");
         typeMapping.put("date-time", "java.time.LocalDateTime");
         typeMapping.put("date", "java.time.LocalDateTime");
         typeMapping.put("file", "java.io.File");
         typeMapping.put("array", "kotlin.Array");
-        typeMapping.put("list", "kotlin.Array");
+        typeMapping.put("list", "kotlin.collections.List");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
         typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
         typeMapping.put("Date", "java.time.LocalDateTime");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "arrayOf");
-        instantiationTypes.put("list", "arrayOf");
-        instantiationTypes.put("map", "mapOf");
+        instantiationTypes.put("array", "kotlin.arrayOf");
+        instantiationTypes.put("list", "kotlin.arrayOf");
+        instantiationTypes.put("map", "kotlin.mapOf");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
@@ -473,11 +473,51 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         // Camelize name of nested properties
         modifiedName = camelize(modifiedName);
 
-        if (reservedWords.contains(modifiedName)) {
-            modifiedName = escapeReservedWord(modifiedName);
+        // model name cannot use reserved keyword, e.g. return
+        if (isReservedWord(modifiedName)) {
+            final String modelName = "Model" + modifiedName;
+            LOGGER.warn(modifiedName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
+        }
+
+        // model name starts with number
+        if (modifiedName.matches("^\\d.*")) {
+            final String modelName = "Model" + modifiedName; // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            return modelName;
         }
 
         return titleCase(modifiedName);
+    }
+
+    /**
+     * Return the operation ID (method name)
+     *
+     * @param operationId operation ID
+     * @return the sanitized method name
+     */
+    @Override
+    public String toOperationId(String operationId) {
+        // throw exception if method name is empty
+        if (StringUtils.isEmpty(operationId))
+            throw new RuntimeException("Empty method/operation name (operationId) not allowed");
+
+        operationId = camelize(sanitizeName(operationId), true);
+
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
+            operationId = camelize("call_" + operationId, true);
+        }
+
+        return operationId;
     }
 
     @Override
@@ -576,5 +616,71 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public boolean isDataTypeString(final String dataType) {
         return "String".equals(dataType) || "kotlin.String".equals(dataType);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        // to avoid conflicts with 'callback' parameter for async call
+        if ("callback".equals(name)) {
+            return "paramCallback";
+        }
+
+        // should be the same as variable name
+        return toVarName(name);
+    }
+
+    @Override
+    public String toVarName(String name) {
+        // sanitize name
+        name = sanitizeName(name, "\\W-[\\$]");
+
+        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
+            return "propertyClass";
+        }
+
+        if ("_".equals(name)) {
+            name = "_u";
+        }
+
+        // if it's all uppper case, do nothing
+        if (name.matches("^[A-Z_]*$")) {
+            return name;
+        }
+
+        if (startsWithTwoUppercaseLetters(name)) {
+            name = name.substring(0, 2).toLowerCase(Locale.ROOT) + name.substring(2);
+        }
+
+        // If name contains special chars -> replace them.
+        if ((name.chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character))))) {
+            List<String> allowedCharacters = new ArrayList<>();
+            allowedCharacters.add("_");
+            allowedCharacters.add("$");
+            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+        }
+
+        // camelize (lower first character) the variable name
+        // pet_id => petId
+        name = camelize(name, true);
+
+        // for reserved word or word starting with number or containing dollar symbol, escape it
+        if (isReservedWord(name) || name.matches("(^\\d.*)|(.*[$].*)")) {
+            name = escapeReservedWord(name);
+        }
+
+        return name;
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
+    }
+
+    private boolean startsWithTwoUppercaseLetters(String name) {
+        boolean startsWithTwoUppercaseLetters = false;
+        if (name.length() > 1) {
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
+        }
+        return startsWithTwoUppercaseLetters;
     }
 }
