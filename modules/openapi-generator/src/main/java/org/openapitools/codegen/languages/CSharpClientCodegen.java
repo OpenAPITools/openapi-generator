@@ -18,8 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -706,7 +704,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return camelize(getSymbolName(value));
+            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(value));
         }
 
         // number
@@ -722,7 +720,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // string
         String var = value.replaceAll("_", " ");
         //var = WordUtils.capitalizeFully(var);
-        var = camelize(var);
+        var = org.openapitools.codegen.utils.StringUtils.camelize(var);
         var = var.replaceAll("\\W+", "");
 
         if (var.matches("\\d.*")) {
@@ -757,11 +755,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
             case PascalCase:
-                return camelize(name);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name);
             case snake_case:
-                return underscore(name);
+                return org.openapitools.codegen.utils.StringUtils.underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +

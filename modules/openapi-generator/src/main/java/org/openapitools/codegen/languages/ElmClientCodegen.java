@@ -47,7 +47,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String X_ENCODER = "x-encoder";
@@ -174,7 +173,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
-        final String modelName = camelize(name);
+        final String modelName = org.openapitools.codegen.utils.StringUtils.camelize(name);
         return defaultIncludes.contains(modelName) ? modelName + "_" : modelName;
     }
 
@@ -190,13 +189,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = camelize(name, true);
+        final String varName = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        final String camelized = camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+        final String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
         if (!Character.isUpperCase(camelized.charAt(0))) {
             return "N" + camelized;
         }
@@ -299,8 +298,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                         elmImport.moduleName = modulePrefix + cm.arrayModelType;
                         elmImport.exposures = new TreeSet<>();
                         elmImport.exposures.add(cm.arrayModelType);
-                        elmImport.exposures.add(camelize(cm.arrayModelType, true) + "Decoder");
-                        elmImport.exposures.add(camelize(cm.arrayModelType, true) + "Encoder");
+                        elmImport.exposures.add(org.openapitools.codegen.utils.StringUtils.camelize(cm.arrayModelType, true) + "Decoder");
+                        elmImport.exposures.add(org.openapitools.codegen.utils.StringUtils.camelize(cm.arrayModelType, true) + "Encoder");
                         elmImport.hasExposures = true;
                         elmImports.add(elmImport);
                     }
@@ -536,7 +535,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (isMapContainer) {
             isPrimitiveType = isPrimitiveDataType(dataType);
         }
-        final String baseName = camelize(dataType, true);
+        final String baseName = org.openapitools.codegen.utils.StringUtils.camelize(dataType, true);
         String encoderName;
         String decoderName;
         if (isPrimitiveType) {

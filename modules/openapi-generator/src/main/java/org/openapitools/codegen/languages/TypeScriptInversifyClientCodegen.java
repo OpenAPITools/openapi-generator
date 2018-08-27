@@ -28,7 +28,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -328,7 +327,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(name, true) + ".service";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, true) + ".service";
     }
 
     @Override
@@ -338,7 +337,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(toModelName(name), true);
     }
 
     @Override
@@ -377,7 +376,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
 
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + "/").length());
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
 }

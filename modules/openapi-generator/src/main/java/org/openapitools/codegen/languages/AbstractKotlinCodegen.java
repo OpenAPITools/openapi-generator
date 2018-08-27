@@ -34,8 +34,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
@@ -403,16 +401,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
-                modified = camelize(modified, true);
+                modified = org.openapitools.codegen.utils.StringUtils.camelize(modified, true);
                 break;
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
-                String result = camelize(modified);
+                String result = org.openapitools.codegen.utils.StringUtils.camelize(modified);
                 modified = titleCase(result);
                 break;
             case snake_case:
                 // NOTE: Removes hyphens
-                modified = underscore(modified);
+                modified = org.openapitools.codegen.utils.StringUtils.underscore(modified);
                 break;
             case UPPERCASE:
                 modified = modified.toUpperCase(Locale.ROOT);
@@ -474,7 +472,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         modifiedName = sanitizeKotlinSpecificNames(modifiedName);
 
         // Camelize name of nested properties
-        modifiedName = camelize(modifiedName);
+        modifiedName = org.openapitools.codegen.utils.StringUtils.camelize(modifiedName);
 
         if (reservedWords.contains(modifiedName)) {
             modifiedName = escapeReservedWord(modifiedName);

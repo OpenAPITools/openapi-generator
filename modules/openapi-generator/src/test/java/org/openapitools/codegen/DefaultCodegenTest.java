@@ -46,7 +46,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class DefaultCodegenTest {
 

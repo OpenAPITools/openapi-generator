@@ -17,18 +17,15 @@
 
 package org.openapitools.codegen.mustache;
 
-import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.DefaultCodegen;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.IOException;
 import java.io.Writer;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 
 /**
  * Converts text in a fragment to camelCase.

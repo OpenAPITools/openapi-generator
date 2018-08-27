@@ -41,7 +41,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
@@ -200,8 +199,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         String classname = (String) operations.get("classname");
-        operations.put("classnameSnakeUpperCase", underscore(classname).toUpperCase(Locale.ROOT));
-        operations.put("classnameSnakeLowerCase", underscore(classname).toLowerCase(Locale.ROOT));
+        operations.put("classnameSnakeUpperCase", org.openapitools.codegen.utils.StringUtils.underscore(classname).toUpperCase(Locale.ROOT));
+        operations.put("classnameSnakeLowerCase", org.openapitools.codegen.utils.StringUtils.underscore(classname).toLowerCase(Locale.ROOT));
 
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {

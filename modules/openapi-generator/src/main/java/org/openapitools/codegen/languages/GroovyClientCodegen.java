@@ -21,7 +21,6 @@ import org.openapitools.codegen.*;
 
 import java.io.File;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -100,7 +99,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     public void setConfigPackage(String configPackage) {

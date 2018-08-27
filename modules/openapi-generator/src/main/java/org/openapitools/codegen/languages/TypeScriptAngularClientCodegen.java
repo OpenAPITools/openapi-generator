@@ -29,7 +29,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
@@ -457,7 +456,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(removeModelSuffixIfNecessary(name), true) + serviceFileSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(removeModelSuffixIfNecessary(name), true) + serviceFileSuffix;
     }
 
     @Override
@@ -468,7 +467,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public String toModelFilename(String name) {
         String modelName = toModelName(name);
-        return camelize(removeModelSuffixIfNecessary(modelName), true) + modelFileSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(removeModelSuffixIfNecessary(modelName), true) + modelFileSuffix;
     }
 
     @Override
@@ -513,7 +512,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (modelFileSuffix.length() > 0) {
             name = name.substring(0, name.length() - modelFileSuffix.length());
         }
-        return camelize(name) + modelSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + modelSuffix;
     }
 
     @Override

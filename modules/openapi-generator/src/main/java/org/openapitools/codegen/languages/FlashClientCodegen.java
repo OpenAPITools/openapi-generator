@@ -29,8 +29,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
@@ -267,7 +265,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // underscore the variable name
         // petId => pet_id
-        name = camelize(dropDots(name), true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(dropDots(name), true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -297,13 +295,13 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -318,7 +316,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -327,7 +325,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -335,7 +333,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -347,11 +345,11 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return underscore(operationId);
+        return org.openapitools.codegen.utils.StringUtils.underscore(operationId);
     }
 
     public void setPackageName(String packageName) {

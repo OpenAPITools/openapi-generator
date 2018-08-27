@@ -834,6 +834,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Return the name with escaped characters.
+     *
+     * @param name the name to be escaped
+     * @param charactersToAllow characters that are not escaped
+     * @param appdendixToReplacement String to append to replaced characters.
+     * @return the escaped word
+     * <p>
+     * throws Runtime exception as word is not escaped properly.
+     * @deprecated since version 3.2.3, use {@see org.openapitools.codegen.utils.StringUtils#escape} directly instead
+     *      May be removed with the next major release (4.0)
+     */
+    @Deprecated
+    public String escapeSpecialCharacters(String name, List<String> charactersToAllow, String appdendixToReplacement) {
+        return escape(name, specialCharReplacements, charactersToAllow, appdendixToReplacement);
+    }
+
+    /**
      * Return the fully-qualified "Model" name for import
      *
      * @param name the name of the "Model"
@@ -1728,7 +1745,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name == null || name.length() == 0) {
             return name;
         }
-        return camelize(toVarName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name));
     }
 
     /**
@@ -1747,7 +1764,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
-        property.nameInCamelCase = camelize(property.name, false);
+        property.nameInCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
@@ -3129,8 +3146,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
         co.operationId = uniqueName;
         co.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
-        co.operationIdCamelCase = camelize(uniqueName);
-        co.operationIdSnakeCase = underscore(uniqueName);
+        co.operationIdCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(uniqueName);
+        co.operationIdSnakeCase = org.openapitools.codegen.utils.StringUtils.underscore(uniqueName);
         opList.add(co);
         co.baseName = tag;
     }
@@ -3150,6 +3167,35 @@ public class DefaultCodegen implements CodegenConfig {
         if (mappedType != null) {
             addImport(model, mappedType);
         }
+    }
+
+    /**
+     * Underscore the given word.
+     * Copied from Twitter elephant bird
+     * https://github.com/twitter/elephant-bird/blob/master/core/src/main/java/com/twitter/elephantbird/util/Strings.java
+     *
+     * @param word The word
+     * @return The underscored version of the word
+     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#underscore} directly instead
+     *   May be removed with the next major release (4.0)
+     */
+    @Deprecated
+    public static String underscore(String word) {
+        return org.openapitools.codegen.utils.StringUtils.underscore(word);
+    }
+
+    /**
+     * Dashize the given word.
+     *
+     * @param word The word
+     * @return The dashized version of the word, e.g. "my-name"
+     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#dashize} directly instead
+     *   May be removed with the next major release (4.0)
+     */
+    @SuppressWarnings("static-method")
+    @Deprecated
+    protected String dashize(String word) {
+        return org.openapitools.codegen.utils.StringUtils.dashize(word);
     }
 
     /**
@@ -3347,6 +3393,36 @@ public class DefaultCodegen implements CodegenConfig {
             result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
         }
         return result;
+    }
+
+
+    /**
+     * Camelize name (parameter, property, method, etc) with upper case for first letter
+     * copied from Twitter elephant bird
+     * https://github.com/twitter/elephant-bird/blob/master/core/src/main/java/com/twitter/elephantbird/util/Strings.java
+     *
+     * @param word string to be camelize
+     * @return camelized string
+     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#camelize(String)} directly instead
+     *   May be removed with the next major release (4.0)
+     */
+    @Deprecated
+    public static String camelize(String word) {
+        return org.openapitools.codegen.utils.StringUtils.camelize(word);
+    }
+
+    /**
+     * Camelize name (parameter, property, method, etc)
+     *
+     * @param word                 string to be camelize
+     * @param lowercaseFirstLetter lower case for first letter if set to true
+     * @return camelized string
+     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#camelize(String, boolean)} directly instead
+     *   May be removed with the next major release (4.0)
+     */
+    @Deprecated
+    public static String camelize(String word, boolean lowercaseFirstLetter) {
+        return org.openapitools.codegen.utils.StringUtils.camelize(word, lowercaseFirstLetter);
     }
 
 

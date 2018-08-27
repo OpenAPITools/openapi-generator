@@ -35,8 +35,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.StringUtils.dashize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String PROJECT_NAME = "projectName";
@@ -112,7 +110,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             Info info = openAPI.getInfo();
             if (projectName == null && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = dashize(info.getTitle());
+                projectName = org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle());
             }
             if (projectVersion == null) {
                 // when projectVersion is not specified, use info.version
@@ -151,7 +149,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             projectDescription = "Client library of " + projectName;
         }
         if (baseNamespace == null) {
-            baseNamespace = dashize(projectName);
+            baseNamespace = org.openapitools.codegen.utils.StringUtils.dashize(projectName);
         }
         apiPackage = baseNamespace + ".api";
 
@@ -185,17 +183,17 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        return dashize(sanitizeName(operationId));
+        return org.openapitools.codegen.utils.StringUtils.dashize(sanitizeName(operationId));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return underscore(toApiName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toApiName(name));
     }
 
     @Override
     public String toApiName(String name) {
-        return dashize(name);
+        return org.openapitools.codegen.utils.StringUtils.dashize(name);
     }
 
     @Override
@@ -206,7 +204,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toVarName(String name) {
         name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        name = dashize(name);
+        name = org.openapitools.codegen.utils.StringUtils.dashize(name);
         return name;
     }
 

@@ -31,8 +31,6 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ScalazClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalazClientCodegen.class);
@@ -166,11 +164,11 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
             case PascalCase:
-                return camelize(name);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name);
             case snake_case:
-                return underscore(name);
+                return org.openapitools.codegen.utils.StringUtils.underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
@@ -206,7 +204,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return camelize(operationId, true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(operationId, true);
     }
 
     @Override
@@ -215,7 +213,7 @@ public class ScalazClientCodegen extends AbstractScalaCodegen implements Codegen
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = camelize(sanitizedName);
+        final String camelizedName = org.openapitools.codegen.utils.StringUtils.camelize(sanitizedName);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {

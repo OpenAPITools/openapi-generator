@@ -50,7 +50,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.capitalize;
@@ -334,7 +333,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
             return "Empty";
         }
 
-        final String enumName = camelize(
+        final String enumName = org.openapitools.codegen.utils.StringUtils.camelize(
                 sanitizeName(name)
                         .replaceFirst("^_", "")
                         .replaceFirst("_$", "")
@@ -401,7 +400,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumName(final CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
     }
 
     @Override

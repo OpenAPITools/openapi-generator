@@ -32,7 +32,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -221,6 +220,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             return primaryResourceName + "Api";
         }
         computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(computed) + "Api";
     }
 }

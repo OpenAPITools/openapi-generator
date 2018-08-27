@@ -36,7 +36,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AndroidClientCodegen.class);
@@ -230,7 +229,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -259,7 +258,7 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = camelize(sanitizeName(name));
+        name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(name));
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -356,11 +355,11 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
