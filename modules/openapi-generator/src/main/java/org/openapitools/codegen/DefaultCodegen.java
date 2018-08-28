@@ -842,8 +842,9 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the escaped word
      * <p>
      * throws Runtime exception as word is not escaped properly.
-     * @deprecated since version 3.2.3, use {@see org.openapitools.codegen.utils.StringUtils#escape} directly instead
-     *      May be removed with the next major release (4.0)
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#escape directly instead
+     *
      */
     @Deprecated
     public String escapeSpecialCharacters(String name, List<String> charactersToAllow, String appdendixToReplacement) {
@@ -3176,8 +3177,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The underscored version of the word
-     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#underscore} directly instead
-     *   May be removed with the next major release (4.0)
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#underscore
      */
     @Deprecated
     public static String underscore(String word) {
@@ -3189,8 +3190,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The dashized version of the word, e.g. "my-name"
-     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#dashize} directly instead
-     *   May be removed with the next major release (4.0)
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#dashize
      */
     @SuppressWarnings("static-method")
     @Deprecated
@@ -3403,8 +3404,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word string to be camelize
      * @return camelized string
-     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#camelize(String)} directly instead
-     *   May be removed with the next major release (4.0)
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#camelize(String)
      */
     @Deprecated
     public static String camelize(String word) {
@@ -3417,8 +3418,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param word                 string to be camelize
      * @param lowercaseFirstLetter lower case for first letter if set to true
      * @return camelized string
-     * @deprecated since version 3.2.3, {@see org.openapitools.codegen.utils.StringUtils#camelize(String, boolean)} directly instead
-     *   May be removed with the next major release (4.0)
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#camelize(String, boolean)
      */
     @Deprecated
     public static String camelize(String word, boolean lowercaseFirstLetter) {
