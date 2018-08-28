@@ -1,40 +1,47 @@
-part of tests;
+@TestOn('browser')
 
-testPetApi() {
+import 'dart:async';
+
+import 'package:http/http.dart';
+import 'package:openapi/api.dart';
+import 'package:test/test.dart';
+
+import 'random_id.dart';
+
+void main() {
   var petApi = new PetApi();
 
-  describe('Pet API ', () {
-    it('adds a new pet and gets it by id', () async {
+  group('Pet API ', () {
+    test('adds a new pet and gets it by id', () async {
       var id = newId();
 
       await petApi.addPet(new Pet()..id = id);
       var pet = await petApi.getPetById(id);
-      expect(pet.id).toEqual(id);
+      expect(pet.id, equals(id));
     });
 
-    it('doesn\'t get non-existing pet by id', () {
-      expect(petApi.getPetById(newId()))
-          .toThrowWith(anInstanceOf: ApiException);
+    test('doesn\'t get non-existing pet by id', () {
+      expect(petApi.getPetById(newId()), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
-    it('deletes existing pet by id', () async {
+    test('deletes existing pet by id', () async {
       var id = newId();
       await petApi.addPet(new Pet()..id = id);
       await petApi.deletePet(id, apiKey: 'special-key');
-      expect(petApi.getPetById(id)).toThrowWith(anInstanceOf: ApiException);
+      expect(petApi.getPetById(id), throwsA(equals(TypeMatcher<ApiException>())));
     });
 
-    it('updates pet with form', () async {
+    test('updates pet with form', () async {
       var id = newId();
       await petApi.addPet(new Pet()
         ..id = id
         ..name = 'Snowy');
       await petApi.updatePetWithForm(id, name: 'Doge', status: '');
       var pet = await petApi.getPetById(id);
-      expect(pet.name).toEqual('Doge');
+      expect(pet.name, equals('Doge'));
     });
 
-    it('updates existing pet', () async {
+    test('updates existing pet', () async {
       var id = newId();
       var name = 'Snowy';
 
@@ -43,10 +50,10 @@ testPetApi() {
         ..id = id
         ..name = name);
       var pet = await petApi.getPetById(id);
-      expect(pet.name).toEqual(name);
+      expect(pet.name, equals(name));
     });
 
-    it('finds pets by status', () async {
+    test('finds pets by status', () async {
       var id1 = newId();
       var id2 = newId();
       var id3 = newId();
@@ -65,13 +72,13 @@ testPetApi() {
       ]).then((_) async {
         var pets = await petApi.findPetsByStatus([status]);
         var petIds = pets.map((pet) => pet.id).toList();
-        expect(petIds).toContain(id1);
-        expect(petIds).toContain(id2);
-        expect(petIds).not.toContain(id3);
+        expect(petIds, contains(id1));
+        expect(petIds, contains(id2));
+        expect(petIds, isNot(contains(id3)));
       });
     });
 
-    it('uploads a pet image', () async {
+    test('uploads a pet image', () async {
       var id = newId();
       await petApi.addPet(new Pet()..id = id);
       var file = new MultipartFile.fromBytes('file', [104, 101, 108, 108, 111]);

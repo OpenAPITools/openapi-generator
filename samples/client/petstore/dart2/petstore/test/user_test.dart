@@ -1,20 +1,25 @@
-part of tests;
+@TestOn('browser')
 
-testUserApi() {
+import 'package:openapi/api.dart';
+import 'package:test/test.dart';
+
+import 'random_id.dart';
+
+void main() {
   var userApi = new UserApi();
 
-  describe('User API ', () {
-    it('creates a user', () async {
+  group('User API ', () {
+    test('creates a user', () async {
       var id = newId();
       var username = 'Mally45';
       await userApi.createUser(new User()
         ..id = id
         ..username = username);
       var user = await userApi.getUserByName(username);
-      expect(user.id).toEqual(id);
+      expect(user.id, equals(id));
     });
 
-    it('creates users with list input', () async {
+    test('creates users with list input', () async {
       var firstId = newId();
       var joe = 'Joe';
 
@@ -33,11 +38,11 @@ testUserApi() {
       await userApi.createUsersWithListInput(users);
       var firstUser = await userApi.getUserByName(joe);
       var secondUser = await userApi.getUserByName(sally);
-      expect(firstUser.id).toEqual(firstId);
-      expect(secondUser.id).toEqual(secondId);
+      expect(firstUser.id, equals(firstId));
+      expect(secondUser.id, equals(secondId));
     });
 
-    it('updates a user', () async {
+    test('updates a user', () async {
       var username = 'Arkjam89';
       var email = 'test@example.com';
       var user = new User()
@@ -48,20 +53,19 @@ testUserApi() {
       user.email = email;
       await userApi.updateUser(username, user);
       var foundUser = await userApi.getUserByName(username);
-      expect(foundUser.email).toEqual(email);
+      expect(foundUser.email, equals(email));
     });
 
-    it('deletes a user', () async {
+    test('deletes a user', () async {
       var username = 'Riddlem325';
       await userApi.createUser(new User()
         ..id = newId()
         ..username = username);
       await userApi.deleteUser(username);
-      expect(userApi.getUserByName(username))
-          .toThrowWith(anInstanceOf: ApiException);
+      expect(userApi.getUserByName(username), throwsA(TypeMatcher<ApiException>()));
     });
 
-    it('logs a user in', () async {
+    test('logs a user in', () async {
       var username = 'sgarad625';
       var password = 'lokimoki1';
       var user = new User()
@@ -71,7 +75,7 @@ testUserApi() {
 
       await userApi.createUser(user);
       var result = await userApi.loginUser(username, password);
-      expect(result).toContain('logged in user session:');
+      expect(result, contains('logged in user session:'));
     });
   });
 }
