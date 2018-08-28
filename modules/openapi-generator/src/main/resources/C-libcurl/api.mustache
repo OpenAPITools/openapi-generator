@@ -7,8 +7,11 @@
 {{/imports}}
 
 #define MAX_BUFFER_LENGTH 4096
-#define vstr(s) str(s)
-#define str(s) #s
+#define int_to_str(dst,src) \
+    do {\
+    char dst[64];\
+    snprintf(dst,64,"%ld",(long int)(src));\
+}while(0)
 
 {{#operations}}
 {{#operation}}
@@ -21,21 +24,30 @@
 //
 {{/notes}}
 {{#returnType}}{{{.}}}_t{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}} {{paramName}}{{/allParams}}) {
-    list_t		*localVarQueryParameters,
-    list_t		*localVarHeaderParameters,
-    list_t		*localVarFormParameters,
-    char		*localVarBodyParameters,
+    list_t    *localVarQueryParameters,
+    list_t    *localVarHeaderParameters,
+    list_t    *localVarFormParameters,
+    char      *localVarBodyParameters,
 
     // create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
+   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+   snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
 
     {{#pathParams}}
     // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
     // TODO base path = {{{basePath}}}
     char* baseNameMod=malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
     snprintf(baseNameMod,strlen(baseName)+3,"%s%s%s","{",{{baseName}},"}");
-    str_replace(localVarPath,baseNameMod, vstr({{paramName}}));
+    {{#paramName}}
+    {{#isLong}}
+    char buff[64];
+    int_to_str(buf,{{paramName}});
+    str_replace(localVarPath,baseNameMod,buff);
+    {{/isLong}}
+    {{#isString}}
+    str_replace(localVarPath,baseNameMod,{{paramName}});
+    {{/isString}}
+    {{/paramName}}
     {{/pathParams}}
 
     {{#headerParams}}
@@ -61,25 +73,25 @@
     localVarBodyParameters = cJSON_Print({{{paramName}}}JSONObject);
 
     {{/bodyParam}}
-	apiClient_invoke(apiClient,
-	                 "pet",
-	                 localVarPath,
-	                 localVarQueryParameters,
-	                 localVarHeaderParameters,
-	                 localVarFormParameters,
-	                 localVarBodyParameters,
-	                 "{{{httpMethod}}}");
+   apiClient_invoke(apiClient,
+                    "pet",
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarBodyParameters,
+                    "{{{httpMethod}}}");
 
-	free(apiClient->dataReceived);
-	{{#allParams}}
-	{{^bodyParam}}
-	free({{{paramName}}}String);
-	{{/bodyParam}}
-	{{#bodyParam}}
+   free(apiClient->dataReceived);
+   {{#allParams}}
+   {{^bodyParam}}
+   free({{{paramName}}}String);
+   {{/bodyParam}}
+   {{#bodyParam}}
     free(localVarBodyParameters);
-	cJSON_Delete()
-	{{/bodyParam}}
-	{{/allParams}}
+   cJSON_Delete()
+   {{/bodyParam}}
+   {{/allParams}}
     {{#returnType}}
     localVar{{{returnType}}} = {{complexType}}_parseFromJSON(apiClient->dataReceived);
     if(localVar{{{returnType}}} == NULL) {
@@ -89,13 +101,15 @@
         cJSON_Delete(jsonObject);
     }
 
-	return localVar{{{returnType}}};
-	{{/returnType}}
+   return localVar{{{returnType}}};
+   {{/returnType}}
     {{^returnType}}
-	return;
-	{{/returnType}}
+   return;
+   {{/returnType}}
 
 }
 
 {{/operation}}
 {{/operations}}
+
+
