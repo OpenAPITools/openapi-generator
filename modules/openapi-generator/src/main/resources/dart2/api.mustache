@@ -13,7 +13,7 @@ class {{classname}} {
   ///
   /// {{notes}}
   {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    Object postBody;
+    Object postBody{{#bodyParam}} = {{paramName}}{{/bodyParam}};
 
     // verify required params are set
     {{#allParams}}
