@@ -158,7 +158,7 @@ class UserApi {
   ///
   /// This can only be done by the logged in user.
   Future deleteUser(String username) async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
     if(username == null) {
@@ -207,7 +207,7 @@ class UserApi {
   ///
   /// 
   Future<User> getUserByName(String username) async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
     if(username == null) {
@@ -257,7 +257,7 @@ class UserApi {
   ///
   /// 
   Future<String> loginUser(String username, String password) async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
     if(username == null) {
@@ -312,7 +312,7 @@ class UserApi {
   ///
   /// 
   Future logoutUser() async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
 

@@ -19,7 +19,7 @@ class ApiKeyAuth implements Authentication {
     }
 
     if (location == 'query' && value != null) {
-      queryParams.add(new QueryParam(paramName, value));
+      queryParams.add(QueryParam(paramName, value));
     } else if (location == 'header' && value != null) {
       headerParams[paramName] = value;
     }

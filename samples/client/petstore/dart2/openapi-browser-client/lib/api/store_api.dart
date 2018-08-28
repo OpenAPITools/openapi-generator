@@ -11,7 +11,7 @@ class StoreApi {
   ///
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrder(String orderId) async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
     if(orderId == null) {
@@ -60,7 +60,7 @@ class StoreApi {
   ///
   /// Returns a map of status codes to quantities
   Future<Map<String, int>> getInventory() async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
 
@@ -108,7 +108,7 @@ class StoreApi {
   ///
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   Future<Order> getOrderById(int orderId) async {
-    Object postBody = null;
+    Object postBody;
 
     // verify required params are set
     if(orderId == null) {

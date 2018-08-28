@@ -26,7 +26,7 @@ class Pet {
     id = json['id'];
     category = new Category.fromJson(json['category']);
     name = json['name'];
-    photoUrls = (json['photoUrls'] as List).map((item) => item as String).toList();
+    photoUrls = ((json['photoUrls'] ?? []) as List).map((item) => item as String).toList();
     tags = Tag.listFromJson(json['tags']);
     status = json['status'];
   }
