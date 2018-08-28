@@ -28,6 +28,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -125,7 +126,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code"));
-        cliOptions.add(new CliOption(SUPPORT_DART2, "support dart2").defaultValue("false"));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "support dart2").defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -190,7 +191,8 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        if (Boolean.TRUE.equals(additionalProperties.get(SUPPORT_DART2))) {
+        final Object isSupportDart2 = additionalProperties.get(SUPPORT_DART2);
+        if (Boolean.TRUE.equals(isSupportDart2) || (isSupportDart2 instanceof String && Boolean.parseBoolean((String)isSupportDart2))) {
             embeddedTemplateDir = templateDir = "dart2";
         } else {
             supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
