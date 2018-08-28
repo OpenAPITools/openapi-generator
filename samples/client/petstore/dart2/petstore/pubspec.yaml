@@ -6,6 +6,8 @@ environment:
 dependencies:
   openapi:
     path: ../openapi-browser-client
-  browser: any
+  test: ^1.3.0
 dev_dependencies:
-  guinness: '^0.1.17'
+  build_runner: ^0.10.1+1
+  build_test: ^0.10.3+1
+  build_web_compilers: ^0.4.2+2
