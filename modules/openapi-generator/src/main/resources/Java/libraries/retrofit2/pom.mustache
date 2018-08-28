@@ -300,11 +300,34 @@
                 </dependency>
 
             {{/withXml}}
+
+            {{#play24}}
             <dependency>
                 <groupId>com.typesafe.play</groupId>
                 <artifactId>play-java-ws_2.11</artifactId>
                 <version>${play-version}</version>
             </dependency>
+            {{/play24}}
+            {{#play25}}
+            <dependency>
+                <groupId>com.typesafe.play</groupId>
+                <artifactId>play-java-ws_2.11</artifactId>
+                <version>${play-version}</version>
+            </dependency>
+            {{/play25}}
+            {{#play26}}
+            <dependency>
+                <groupId>com.typesafe.play</groupId>
+                <artifactId>play-ahc-ws_2.12</artifactId>
+                <version>${play-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.1.0.Final</version>
+            </dependency>
+            {{/play26}}
+
         {{/usePlayWS}}
 
         {{#parcelableModel}}
@@ -341,6 +364,10 @@
                 <jackson-version>2.7.8</jackson-version>
                 <play-version>2.5.15</play-version>
             {{/play25}}
+            {{#play26}}
+                <jackson-version>2.8.10</jackson-version>
+                <play-version>2.6.7</play-version>
+            {{/play26}}
         {{/usePlayWS}}
         <retrofit-version>2.3.0</retrofit-version>
         {{#useRxJava}}

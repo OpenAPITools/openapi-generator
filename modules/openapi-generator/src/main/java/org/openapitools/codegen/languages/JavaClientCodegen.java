@@ -17,10 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import static com.google.common.base.CaseFormat.LOWER_CAMEL;
-import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
-import static java.util.Collections.sort;
-
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -43,11 +39,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import static com.google.common.base.CaseFormat.LOWER_CAMEL;
+import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
+import static java.util.Collections.sort;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures,
@@ -67,6 +65,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
+    public static final String PLAY_26 = "play26";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -333,7 +332,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play24/Play24CallFactory.mustache", invokerFolder, "Play24CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory.mustache", invokerFolder,
                         "Play24CallAdapterFactory.java"));
-            } else {
+            }
+
+            if (PLAY_25.equals(playVersion)) {
                 additionalProperties.put(PLAY_25, true);
                 apiTemplateFiles.put("play25/api.mustache", ".java");
 
@@ -341,6 +342,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play25/Play25CallFactory.mustache", invokerFolder, "Play25CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory.mustache", invokerFolder,
                         "Play25CallAdapterFactory.java"));
+                additionalProperties.put("java8", "true");
+            }
+
+            if (PLAY_26.equals(playVersion)) {
+                additionalProperties.put(PLAY_26, true);
+                apiTemplateFiles.put("play26/api.mustache", ".java");
+
+                supportingFiles.add(new SupportingFile("play26/ApiClient.mustache", invokerFolder, "ApiClient.java"));
+                supportingFiles.add(new SupportingFile("play26/Play26CallFactory.mustache", invokerFolder, "Play26CallFactory.java"));
+                supportingFiles.add(new SupportingFile("play26/Play26CallAdapterFactory.mustache", invokerFolder,
+                        "Play26CallAdapterFactory.java"));
                 additionalProperties.put("java8", "true");
             }
 
