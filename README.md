@@ -476,6 +476,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
 - [unblu inc.](https://www.unblu.com/)
+- [Zalando](https://www.zalando.com)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
 
@@ -640,7 +641,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Groovy    |  |
 | Haskell   |  |
 | Java      | @bbdouglas (2017/07) @JFCote (2017/08) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) |
-| Kotlin    | @jimschubert (2017/09) |
+| Kotlin    | @jimschubert (2017/09) @dr4ke616 (2018/08) |
 | Lua       | @daurnimator (2017/08) |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
