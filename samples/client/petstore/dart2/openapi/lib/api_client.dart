@@ -78,7 +78,7 @@ class ApiClient {
 
     if (targetType == 'String') return json;
 
-    var decodedJson = JSON.decode(json);
+    var decodedJson = jsonDecode(json);
     return _deserialize(decodedJson, targetType);
   }
 
@@ -87,7 +87,7 @@ class ApiClient {
     if (obj == null) {
       serialized = '';
     } else {
-      serialized = JSON.encode(obj);
+      serialized = json.encode(obj);
     }
     return serialized;
   }

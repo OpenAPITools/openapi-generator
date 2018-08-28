@@ -305,7 +305,7 @@ packages:
   openapi:
     dependency: "direct main"
     description:
-      path: "../openapi-browser-client"
+      path: "../openapi"
       relative: true
     source: path
     version: "1.0.0"

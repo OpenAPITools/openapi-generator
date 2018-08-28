@@ -1,5 +1,3 @@
-@TestOn('browser')
-
 import 'package:openapi/api.dart';
 import 'package:test/test.dart';
 
