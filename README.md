@@ -469,6 +469,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 
 - [Angular.Schule](https://angular.schule/)
 - [Bithost GmbH](https://www.bithost.ch)
+- [Boxever](https://www.boxever.com/)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
