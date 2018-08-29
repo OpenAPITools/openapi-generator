@@ -290,7 +290,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
-            o.httpMethod = o.httpMethod.toLowerCase();
+            o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
 
             if (o.isListContainer) {
                 o.returnType = "[" + o.returnBaseType + "]";

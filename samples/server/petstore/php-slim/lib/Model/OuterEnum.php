@@ -7,6 +7,6 @@ namespace OpenAPIServer\Model;
 /**
  * OuterEnum
  */
-class OuterEnum {
-
+class OuterEnum
+{
 }

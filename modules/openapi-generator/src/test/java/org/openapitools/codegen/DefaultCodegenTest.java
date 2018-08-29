@@ -38,12 +38,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DefaultCodegenTest {
@@ -208,9 +203,7 @@ public class DefaultCodegenTest {
 
         };
 
-        Method method = DefaultCodegen.class.getDeclaredMethod("getAllAliases", Map.class);
-        method.setAccessible(true);
-        Map<String, String> aliases = (Map<String, String>)method.invoke(null, schemas);
+        Map<String, String> aliases = DefaultCodegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
     }
@@ -407,6 +400,60 @@ public class DefaultCodegenTest {
         Schema person = openAPI.getComponents().getSchemas().get("Person");
         CodegenModel personModel = codegen.fromModel("Person", person, openAPI.getComponents().getSchemas());
         verifyPersonDiscriminator(personModel.discriminator);
+    }
+
+    @Test
+    public void testCallbacks() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/callbacks.yaml", null, new ParseOptions()).getOpenAPI();
+        final CodegenConfig codegen = new DefaultCodegen();
+
+        final String path = "/streams";
+        Operation subscriptionOperation = openAPI.getPaths().get("/streams").getPost();
+        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation, openAPI.getComponents().getSchemas(), openAPI);
+
+        Assert.assertFalse(op.isCallbackRequest);
+        Assert.assertNotNull(op.operationId);
+        Assert.assertEquals(op.callbacks.size(), 2);
+
+        CodegenCallback cbB = op.callbacks.get(1);
+        Assert.assertEquals(cbB.name, "dummy");
+        Assert.assertFalse(cbB.hasMore);
+        Assert.assertEquals(cbB.urls.size(), 0);
+
+        CodegenCallback cbA = op.callbacks.get(0);
+        Assert.assertEquals(cbA.name, "onData");
+        Assert.assertTrue(cbA.hasMore);
+
+        Assert.assertEquals(cbA.urls.size(), 2);
+
+        CodegenCallback.Url urlB = cbA.urls.get(1);
+        Assert.assertEquals(urlB.expression, "{$request.query.callbackUrl}/test");
+        Assert.assertFalse(urlB.hasMore);
+        Assert.assertEquals(urlB.requests.size(), 0);
+
+        CodegenCallback.Url urlA = cbA.urls.get(0);
+        Assert.assertEquals(urlA.expression, "{$request.query.callbackUrl}/data");
+        Assert.assertTrue(urlA.hasMore);
+        Assert.assertEquals(urlA.requests.size(), 2);
+
+        urlA.requests.forEach(req -> {
+            Assert.assertTrue(req.isCallbackRequest);
+            Assert.assertNotNull(req.bodyParam);
+            Assert.assertEquals(req.responses.size(), 2);
+
+            switch (req.httpMethod.toLowerCase(Locale.getDefault())) {
+            case "post":
+                Assert.assertEquals(req.operationId, "onDataDataPost");
+                Assert.assertEquals(req.bodyParam.dataType, "NewNotificationData");
+                break;
+            case "delete":
+                Assert.assertEquals(req.operationId, "onDataDataDelete");
+                Assert.assertEquals(req.bodyParam.dataType, "DeleteNotificationData");
+                break;
+            default:
+                Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
+            }
+        });
     }
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {

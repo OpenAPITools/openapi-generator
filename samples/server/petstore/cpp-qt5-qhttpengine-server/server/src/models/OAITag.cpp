@@ -31,7 +31,7 @@ OAITag::OAITag() {
 }
 
 OAITag::~OAITag() {
-    
+
 }
 
 void

@@ -36,55 +36,56 @@ use OpenAPIServer\Model\Model200Response;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Model200Response
  */
-class Model200ResponseTest extends \PHPUnit_Framework_TestCase {
+class Model200ResponseTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "Model200Response"
      */
-    public function testModel200Response() {
+    public function testModel200Response()
+    {
         $testModel200Response = new Model200Response();
     }
 
     /**
      * Test attribute "name"
      */
-    public function testPropertyName() {
-
+    public function testPropertyName()
+    {
     }
 
     /**
      * Test attribute "class"
      */
-    public function testPropertyClass() {
-
+    public function testPropertyClass()
+    {
     }
 }
-

@@ -20,6 +20,7 @@ package org.openapitools.codegen;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class CodegenResponse {
@@ -47,7 +48,7 @@ public class CodegenResponse {
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", code, containerType);
+        return String.format(Locale.ROOT, "%s(%s)", code, containerType);
     }
 
     @Override

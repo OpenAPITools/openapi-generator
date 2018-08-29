@@ -36,62 +36,63 @@ use OpenAPIServer\Model\OuterComposite;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\OuterComposite
  */
-class OuterCompositeTest extends \PHPUnit_Framework_TestCase {
+class OuterCompositeTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "OuterComposite"
      */
-    public function testOuterComposite() {
+    public function testOuterComposite()
+    {
         $testOuterComposite = new OuterComposite();
     }
 
     /**
      * Test attribute "myNumber"
      */
-    public function testPropertyMyNumber() {
-
+    public function testPropertyMyNumber()
+    {
     }
 
     /**
      * Test attribute "myString"
      */
-    public function testPropertyMyString() {
-
+    public function testPropertyMyString()
+    {
     }
 
     /**
      * Test attribute "myBoolean"
      */
-    public function testPropertyMyBoolean() {
-
+    public function testPropertyMyBoolean()
+    {
     }
 }
-

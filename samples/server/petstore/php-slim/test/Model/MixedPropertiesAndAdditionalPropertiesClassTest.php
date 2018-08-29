@@ -36,62 +36,63 @@ use OpenAPIServer\Model\MixedPropertiesAndAdditionalPropertiesClass;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\MixedPropertiesAndAdditionalPropertiesClass
  */
-class MixedPropertiesAndAdditionalPropertiesClassTest extends \PHPUnit_Framework_TestCase {
+class MixedPropertiesAndAdditionalPropertiesClassTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "MixedPropertiesAndAdditionalPropertiesClass"
      */
-    public function testMixedPropertiesAndAdditionalPropertiesClass() {
+    public function testMixedPropertiesAndAdditionalPropertiesClass()
+    {
         $testMixedPropertiesAndAdditionalPropertiesClass = new MixedPropertiesAndAdditionalPropertiesClass();
     }
 
     /**
      * Test attribute "uuid"
      */
-    public function testPropertyUuid() {
-
+    public function testPropertyUuid()
+    {
     }
 
     /**
      * Test attribute "dateTime"
      */
-    public function testPropertyDateTime() {
-
+    public function testPropertyDateTime()
+    {
     }
 
     /**
      * Test attribute "map"
      */
-    public function testPropertyMap() {
-
+    public function testPropertyMap()
+    {
     }
 }
-

@@ -45,34 +45,35 @@ use {{apiPackage}}\{{classname}};
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \{{modelPackage}}\{{classname}}
  */
-{{#operations}}class {{classname}}Test extends \PHPUnit_Framework_TestCase {
+{{#operations}}class {{classname}}Test extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
     {{#operation}}
 
@@ -82,8 +83,8 @@ use {{apiPackage}}\{{classname}};
      * {{{summary}}}.
      * @covers ::{{{operationId}}}
      */
-    public function test{{operationIdCamelCase}}() {
-
+    public function test{{operationIdCamelCase}}()
+    {
     }
     {{/operation}}
 }

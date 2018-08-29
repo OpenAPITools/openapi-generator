@@ -20,7 +20,7 @@ namespace {{this}} {
 class {{classname}}Request : public QObject
 {
     Q_OBJECT
-    
+
 public:
     {{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* handler);
     virtual ~{{classname}}Request();
@@ -60,7 +60,7 @@ private:
             resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
         }
         socket->setHeaders(resHeaders);
-        socket->writeHeaders();        
+        socket->writeHeaders();
     }
 };
 
