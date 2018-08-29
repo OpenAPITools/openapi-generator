@@ -38,15 +38,14 @@
     // TODO base path = {{{basePath}}}
     char* baseNameMod=malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
     snprintf(baseNameMod,strlen(baseName)+3,"%s%s%s","{",{{baseName}},"}");
-    char *localVarPathMod = malloc(MAX_BUFFER_LENGTH);
     {{#paramName}}
     {{#isLong}}
     char buff[64];
     int_to_str(buf,{{paramName}});
-    localVarPathMod = str_replace(localVarPath,baseNameMod,buff);
+    localVarPath = str_replace(localVarPath,baseNameMod,buff);
     {{/isLong}}
     {{#isString}}
-    localVarPathMod = str_replace(localVarPath,baseNameMod,{{paramName}});
+    localVarPath = str_replace(localVarPath,baseNameMod,{{paramName}});
     {{/isString}}
     {{/paramName}}
     {{/pathParams}}
