@@ -275,7 +275,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarHttpResponse.Body, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil {
+		if err != nil {
 			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, err
 		}
 	}
