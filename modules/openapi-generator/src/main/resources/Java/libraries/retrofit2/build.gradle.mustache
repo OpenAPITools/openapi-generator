@@ -129,6 +129,10 @@ ext {
     jackson_version = "2.7.8"
     play_version = "2.5.14"
     {{/play25}}
+    {{#play26}}
+    jackson_version = "2.8.10"
+    play_version = "2.6.7"
+    {{/play26}}
     {{/usePlayWS}}
     swagger_annotations_version = "1.5.21"
     junit_version = "4.12"
@@ -171,7 +175,13 @@ dependencies {
     compile "org.threeten:threetenbp:$threetenbp_version"
     {{/threetenbp}}
     {{#usePlayWS}}
+    {{#play26}}
+    compile "com.typesafe.play:play-ahc-ws_2.12:$play_version"
+    compile "javax.validation:validation-api:1.1.0.Final"
+    {{/play26}}
+    {{^play26}}
     compile "com.typesafe.play:play-java-ws_2.11:$play_version"
+    {{/play26}}
     compile "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
