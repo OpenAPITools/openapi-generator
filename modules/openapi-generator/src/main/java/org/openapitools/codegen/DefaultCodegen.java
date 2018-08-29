@@ -4760,11 +4760,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Post-process the auto-generated file, e.g. using go-fmt to format the Go code
+     * Post-process the auto-generated file, e.g. using go-fmt to format the Go code. The file type can be "model-test",
+     * "model-doc", "model", "api", "api-test", "api-doc", "supporting-mustache", "supporting-common",
+     * "openapi-generator-ignore", "openapi-generator-version"
+     *
+     * TODO: store these values in enum instead
      *
      * @param file file to be processed
      * @param fileType file type
-\    */
+     */
     public void postProcessFile(File file, String fileType) {
         LOGGER.info("Post processing file {} ({})", file, fileType);
     }
