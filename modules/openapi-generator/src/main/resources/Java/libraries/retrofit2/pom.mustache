@@ -260,7 +260,6 @@
                 <version>${retrofit-version}</version>
             </dependency>
         {{/useRxJava2}}
-
         {{#usePlayWS}}
             <!-- JSON processing: jackson -->
             <dependency>
@@ -296,7 +295,6 @@
                     <version>${jackson-version}</version>
                 </dependency>
             {{/withXml}}
-
             {{#play24}}
             <dependency>
                 <groupId>com.typesafe.play</groupId>
@@ -323,7 +321,6 @@
                 <version>1.1.0.Final</version>
             </dependency>
             {{/play26}}
-
         {{/usePlayWS}}
         {{#parcelableModel}}
             <!-- Needed for Parcelable support-->

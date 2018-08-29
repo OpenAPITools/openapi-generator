@@ -227,7 +227,6 @@
                 <artifactId>threetenbp</artifactId>
                 <version>${threetenbp-version}</version>
             </dependency>
-
             <!-- JSON processing: jackson -->
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
@@ -254,7 +253,6 @@
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.typesafe.play</groupId>
                 <artifactId>play-java-ws_2.11</artifactId>
