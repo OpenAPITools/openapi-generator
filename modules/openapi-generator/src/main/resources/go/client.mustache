@@ -306,16 +306,21 @@ func (c *APIClient) prepareRequest(
 	return localVarRequest, nil
 }
 
-func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
+func (c *APIClient) decode(v interface{}, reader io.ReadCloser, contentType string) (err error) {
 		if strings.Contains(contentType, "application/xml") {
-			if err = xml.Unmarshal(b, v); err != nil {
+			defer reader.Close()
+			if err = xml.NewDecoder(reader).Decode(v); err != nil {
 				return err
 			}
 			return nil
 		} else if strings.Contains(contentType, "application/json") {
-			if err = json.Unmarshal(b, v); err != nil {
+			defer reader.Close()
+			if err = json.NewDecoder(reader).Decode(v); err != nil {
 				return err
 			}
+			return nil
+		} else if strings.Contains(contentType, "application/octet-stream") {
+			// do nothing
 			return nil
 		}
 	return errors.New("undefined response type")
