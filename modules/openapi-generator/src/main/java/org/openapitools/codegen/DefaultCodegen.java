@@ -4027,10 +4027,9 @@ public class DefaultCodegen implements CodegenConfig {
     private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
         if (vendorExtensions != null && vendorExtensions.containsKey("x-enum-varnames")) {
             List<String> alias = (List<String>) vendorExtensions.get("x-enum-varnames");
-            if (alias.size() == enumVars.size()) {
-                for (int i = 0; i < alias.size(); i++) {
-                    enumVars.get(i).put("name", alias.get(i));
-                }
+            int size = Math.min(enumVars.size(), alias.size());
+            for (int i = 0; i < size; i++) {
+                enumVars.get(i).put("name", alias.get(i));
             }
         }
     }

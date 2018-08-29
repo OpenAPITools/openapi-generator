@@ -308,19 +308,44 @@ public class DefaultCodegenTest {
 
     @Test
     public void updateCodegenPropertyEnumWithExtention() {
-        final DefaultCodegen codegen = new DefaultCodegen();
-        CodegenProperty enumProperty = codegenPropertyWithXEnumVarName();
-
-        codegen.updateCodegenPropertyEnum(enumProperty);
-
-        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
-        Assert.assertNotNull(enumVars);
-        Assert.assertNotNull(enumVars.get(0));
-        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
-        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
-        Assert.assertNotNull(enumVars.get(1));
-        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
-        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("dog", "cat"), Arrays.asList("DOGVAR", "CATVAR"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertNotNull(enumVars);
+            Assert.assertNotNull(enumVars.get(0));
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
+            Assert.assertNotNull(enumVars.get(1));
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+        }
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("1", "2"), Arrays.asList("ONE", "TWO"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "ONE");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"1\"");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "TWO");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"2\"");
+        }
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("a", "b", "c", "d"), Arrays.asList("FOO", "BAR"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "FOO");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "BAR");
+            Assert.assertEquals(enumVars.get(2).getOrDefault("name", ""), "C");
+            Assert.assertEquals(enumVars.get(3).getOrDefault("name", ""), "D");
+        }
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("a", "b"), Arrays.asList("FOO", "BAR", "BAZ"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "FOO");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "BAR");
+            Assert.assertEquals(enumVars.size(), 2);
+        }
     }
 
     @Test
@@ -514,13 +539,12 @@ public class DefaultCodegenTest {
         return array;
     }
 
-    private CodegenProperty codegenPropertyWithXEnumVarName() {
+    private CodegenProperty codegenPropertyWithXEnumVarName(List<String> values, List<String> aliases) {
         final CodegenProperty var = new CodegenProperty();
         final HashMap<String, Object> allowableValues = new HashMap<>();
-        allowableValues.put("values", Arrays.asList("dog", "cat"));
+        allowableValues.put("values", values);
         var.setAllowableValues(allowableValues);
         var.dataType = "String";
-        final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
         Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
         var.setVendorExtensions(extentions);
         return var;
