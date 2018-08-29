@@ -114,8 +114,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -127,8 +126,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -191,7 +189,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>${swagger-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.retrofit2</groupId>
@@ -224,7 +222,6 @@
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
         </dependency>
-
             <!-- JSON processing: jackson -->
             <dependency>
                 <groupId>com.squareup.retrofit2</groupId>
@@ -251,15 +248,11 @@
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.typesafe.play</groupId>
                 <artifactId>play-java-ws_2.11</artifactId>
                 <version>${play-version}</version>
             </dependency>
-
-
-
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -274,9 +267,9 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.8.0</gson-fire-version>
-        <swagger-core-version>1.5.18</swagger-core-version>
-                <jackson-version>2.6.6</jackson-version>
-                <play-version>2.4.11</play-version>
+        <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <jackson-version>2.6.6</jackson-version>
+        <play-version>2.4.11</play-version>
         <retrofit-version>2.3.0</retrofit-version>
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.12</junit-version>
