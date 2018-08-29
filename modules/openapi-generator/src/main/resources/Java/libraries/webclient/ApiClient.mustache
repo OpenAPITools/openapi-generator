@@ -130,7 +130,6 @@ public class ApiClient {
     public static WebClient buildWebClient(ObjectMapper mapper, DateFormat dateFormat) {
         mapper.setDateFormat(dateFormat);
         mapper.registerModule(new JavaTimeModule());
-        mapper.findAndRegisterModules();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
