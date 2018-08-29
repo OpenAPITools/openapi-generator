@@ -87,6 +87,7 @@ org.openapitools.codegen.languages.Swift4Codegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
+org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen
 org.openapitools.codegen.languages.TypeScriptFetchClientCodegen
 org.openapitools.codegen.languages.TypeScriptInversifyClientCodegen
 org.openapitools.codegen.languages.TypeScriptJqueryClientCodegen
