@@ -20,11 +20,14 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public abstract class AbstractGoCodegen extends DefaultCodegen implements CodegenConfig {
@@ -601,6 +604,40 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return schema.getDefault().toString();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
+        Set<String> supportedFileType = new HashSet<String>(
+                Arrays.asList(
+                        "supporting-mustache",
+                        "model-test",
+                        "model",
+                        "api-test",
+                        "api"));
+        if (!supportedFileType.contains(fileType)) {
+            return;
+        }
+
+        String goFmtPath = System.getenv("GO_FMT_PATH");
+
+        // only process files with go extension
+        if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
+            // currently only support "gofmt -w yourcode.go"
+            // another way is "go fmt path/to/your/package"
+            String command = goFmtPath + " -w " + file.toString();
+            try {
+                Runtime.getRuntime().exec(command);
+            } catch (IOException e) {
+                LOGGER.error("Error running the command: " + command);
+            }
+            LOGGER.info("Successfully executed: " + command);
         }
     }
 }

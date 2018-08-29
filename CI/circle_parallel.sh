@@ -8,6 +8,10 @@ if [ "$NODE_INDEX" = "1" ]; then
   cp CI/pom.xml.circleci pom.xml
   java -version
   mvn --quiet verify -Psamples
+elif [ "$NODE_INDEX" = "2" ]; then
+  echo "Running node $NODE_INDEX ..."
+  export GO_FMT_PATH=`which gofmt`
+  ./bin/utils/ensure-up-to-date
 else
   echo "Running node $NODE_INDEX to test CI/pom.xml.circleci.java7 ..."
   sudo update-java-alternatives -s java-1.7.0-openjdk-amd64

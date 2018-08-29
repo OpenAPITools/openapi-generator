@@ -4758,4 +4758,14 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isNullable = property.isNullable;
         }
     }
+
+    /**
+     * Post-process the auto-generated file, e.g. using go-fmt to format the Go code
+     *
+     * @param file file to be processed
+     * @param fileType file type
+\    */
+    public void postProcessFile(File file, String fileType) {
+        LOGGER.info("Post processing file {} ({})", file, fileType);
+    }
 }
