@@ -89,16 +89,21 @@ public class ApiClient {
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        this.webClient = buildWebClient(new ObjectMapper(), dateFormat);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(dateFormat);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        this.webClient = buildWebClient(mapper);
         this.init();
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
-        this(buildWebClient(mapper.copy(), format), format);
+        this(buildWebClient(mapper.copy()), format);
     }
 
     public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy(), format)), format);
+        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy())), format);
     }
 
     private ApiClient(WebClient webClient, DateFormat format) {
@@ -128,11 +133,7 @@ public class ApiClient {
     * Build the RestTemplate used to make HTTP requests.
     * @return RestTemplate
     */
-    public static WebClient buildWebClient(ObjectMapper mapper, DateFormat dateFormat) {
-        mapper.setDateFormat(dateFormat);
-        mapper.registerModule(new JavaTimeModule());
-        mapper.findAndRegisterModules();
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public static WebClient buildWebClient(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
