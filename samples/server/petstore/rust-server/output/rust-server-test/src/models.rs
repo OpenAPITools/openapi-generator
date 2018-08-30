@@ -18,12 +18,16 @@ pub struct ANullableContainer {
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_thing: Option<swagger::Nullable<String>>,
 
+    #[serde(rename = "RequiredNullableThing")]
+    pub required_nullable_thing: swagger::Nullable<String>,
+
 }
 
 impl ANullableContainer {
-    pub fn new() -> ANullableContainer {
+    pub fn new(required_nullable_thing: swagger::Nullable<String>, ) -> ANullableContainer {
         ANullableContainer {
             nullable_thing: None,
+            required_nullable_thing: required_nullable_thing,
         }
     }
 }
