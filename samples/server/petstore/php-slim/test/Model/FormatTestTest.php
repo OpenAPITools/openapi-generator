@@ -36,132 +36,133 @@ use OpenAPIServer\Model\FormatTest;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FormatTest
  */
-class FormatTestTest extends \PHPUnit_Framework_TestCase {
+class FormatTestTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "FormatTest"
      */
-    public function testFormatTest() {
+    public function testFormatTest()
+    {
         $testFormatTest = new FormatTest();
     }
 
     /**
      * Test attribute "integer"
      */
-    public function testPropertyInteger() {
-
+    public function testPropertyInteger()
+    {
     }
 
     /**
      * Test attribute "int32"
      */
-    public function testPropertyInt32() {
-
+    public function testPropertyInt32()
+    {
     }
 
     /**
      * Test attribute "int64"
      */
-    public function testPropertyInt64() {
-
+    public function testPropertyInt64()
+    {
     }
 
     /**
      * Test attribute "number"
      */
-    public function testPropertyNumber() {
-
+    public function testPropertyNumber()
+    {
     }
 
     /**
      * Test attribute "float"
      */
-    public function testPropertyFloat() {
-
+    public function testPropertyFloat()
+    {
     }
 
     /**
      * Test attribute "double"
      */
-    public function testPropertyDouble() {
-
+    public function testPropertyDouble()
+    {
     }
 
     /**
      * Test attribute "string"
      */
-    public function testPropertyString() {
-
+    public function testPropertyString()
+    {
     }
 
     /**
      * Test attribute "byte"
      */
-    public function testPropertyByte() {
-
+    public function testPropertyByte()
+    {
     }
 
     /**
      * Test attribute "binary"
      */
-    public function testPropertyBinary() {
-
+    public function testPropertyBinary()
+    {
     }
 
     /**
      * Test attribute "date"
      */
-    public function testPropertyDate() {
-
+    public function testPropertyDate()
+    {
     }
 
     /**
      * Test attribute "dateTime"
      */
-    public function testPropertyDateTime() {
-
+    public function testPropertyDateTime()
+    {
     }
 
     /**
      * Test attribute "uuid"
      */
-    public function testPropertyUuid() {
-
+    public function testPropertyUuid()
+    {
     }
 
     /**
      * Test attribute "password"
      */
-    public function testPropertyPassword() {
-
+    public function testPropertyPassword()
+    {
     }
 }
-

@@ -1,0 +1,18 @@
+package {{package}}
+
+import java.util.Objects
+{{#imports}}import {{import}}
+{{/imports}}
+{{#useBeanValidation}}
+import javax.validation.Valid
+import javax.validation.constraints.*
+{{/useBeanValidation}}
+{{#swaggerAnnotations}}
+import io.swagger.annotations.ApiModelProperty
+{{/swaggerAnnotations}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}{{>enumClass}}{{/isEnum}}{{^isEnum}}{{>dataClass}}{{/isEnum}}
+{{/model}}
+{{/models}}

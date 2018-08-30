@@ -115,14 +115,14 @@ samples/client/petstore/swift/**/SwaggerClientTests/SwaggerClient.xcworkspace/xc
 samples/client/petstore/swift/**/SwaggerClientTests/Pods/
 #samples/client/petstore/swift/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
 #samples/client/petstore/swift/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
-samples/client/petstore/swift/**/SwaggerClientTests/Podfile.lock 
+samples/client/petstore/swift/**/SwaggerClientTests/Podfile.lock
 # Swift3
 samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
 samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
 #samples/client/petstore/swift3/**/SwaggerClientTests/Pods/
 #samples/client/petstore/swift3/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
 #samples/client/petstore/swift3/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
-samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock 
+samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock
 
 # C#
 *.csproj.user

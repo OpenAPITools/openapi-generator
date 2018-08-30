@@ -24,6 +24,7 @@ import com.samskivert.mustache.Mustache.Compiler;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -50,6 +51,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.serializer.SerializerUtils;
@@ -76,6 +78,11 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -284,6 +291,8 @@ public class DefaultCodegen implements CodegenConfig {
                     enumVar.put("isString", isDataTypeString(cm.dataType));
                     enumVars.add(enumVar);
                 }
+                // if "x-enum-varnames" defined, update varnames
+                updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions());
                 cm.allowableValues.put("enumVars", enumVars);
             }
 
@@ -772,7 +781,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         } else {
             return name;
         }
@@ -790,7 +799,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         }
         return name;
     }
@@ -832,27 +841,19 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the name with escaped characters.
      *
-     * @param name                   the name to be escaped
-     * @param charactersToAllow      characters that are not escaped
+     * @param name the name to be escaped
+     * @param charactersToAllow characters that are not escaped
      * @param appdendixToReplacement String to append to replaced characters.
      * @return the escaped word
      * <p>
      * throws Runtime exception as word is not escaped properly.
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#escape directly instead
+     *
      */
+    @Deprecated
     public String escapeSpecialCharacters(String name, List<String> charactersToAllow, String appdendixToReplacement) {
-        String result = (String) ((CharSequence) name).chars().mapToObj(c -> {
-            String character = "" + (char) c;
-            if (charactersToAllow != null && charactersToAllow.contains(character)) {
-                return character;
-            } else if (specialCharReplacements.containsKey(character)) {
-                return specialCharReplacements.get(character) + (appdendixToReplacement != null ? appdendixToReplacement : "");
-            } else {
-                return character;
-            }
-        }).reduce((c1, c2) -> "" + c1 + c2).orElse(null);
-
-        if (result != null) return result;
-        throw new RuntimeException("Word '" + name + "' could not be escaped.");
+        return escape(name, specialCharReplacements, charactersToAllow, appdendixToReplacement);
     }
 
     /**
@@ -1750,7 +1751,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name == null || name.length() == 0) {
             return name;
         }
-        return camelize(toVarName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name));
     }
 
     /**
@@ -1769,7 +1770,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
-        property.nameInCamelCase = camelize(property.name, false);
+        property.nameInCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
@@ -2228,14 +2229,17 @@ public class DefaultCodegen implements CodegenConfig {
                                           Map<String, Schema> schemas,
                                           OpenAPI openAPI) {
         LOGGER.debug("fromOperation => operation: " + operation);
+        if (operation == null)
+            throw new RuntimeException("operation cannot be null in fromOperation");
+
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
         if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
             op.vendorExtensions.putAll(operation.getExtensions());
-        }
 
-        if (operation == null)
-            throw new RuntimeException("operation cannot be null in fromOperation");
+            Object isCallbackRequest = op.vendorExtensions.remove("x-callback-request");
+            op.isCallbackRequest = Boolean.TRUE.equals(isCallbackRequest);
+        }
 
         // store the original operationId for plug-in
         op.operationIdOriginal = operation.getOperationId();
@@ -2249,6 +2253,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         operationId = removeNonNameElementToCamelCase(operationId);
+
         op.path = path;
         op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
@@ -2338,6 +2343,15 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 addHeaders(openAPI, methodResponse, op.responseHeaders);
             }
+        }
+
+        if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
+            operation.getCallbacks().forEach((name, callback) -> {
+                CodegenCallback c = fromCallback(name, callback, schemas, openAPI);
+                c.hasMore = true;
+                op.callbacks.add(c);
+            });
+            op.callbacks.get(op.callbacks.size() - 1).hasMore = false;
         }
 
         List<Parameter> parameters = operation.getParameters();
@@ -2618,6 +2632,79 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Convert OAS Callback object to Codegen Callback object
+     *
+     * @param name     callback name
+     * @param callback OAS Callback object
+     * @param schemas  a map of OAS models
+     * @param openAPI  a OAS object representing the spec
+     * @return Codegen Response object
+     */
+    public CodegenCallback fromCallback(String name, Callback callback, Map<String, Schema> schemas, OpenAPI openAPI) {
+        CodegenCallback c = new CodegenCallback();
+        c.name = name;
+
+        if (callback.getExtensions() != null && !callback.getExtensions().isEmpty()) {
+            c.vendorExtensions.putAll(callback.getExtensions());
+        }
+
+        callback.forEach((expression, pi) -> {
+            CodegenCallback.Url u = new CodegenCallback.Url();
+            u.expression = expression;
+            u.hasMore = true;
+
+            if (pi.getExtensions() != null && !pi.getExtensions().isEmpty()) {
+                u.vendorExtensions.putAll(pi.getExtensions());
+            }
+
+            Stream.of(
+                    Pair.of("get",     pi.getGet()),
+                    Pair.of("head",    pi.getHead()),
+                    Pair.of("put",     pi.getPut()),
+                    Pair.of("post",    pi.getPost()),
+                    Pair.of("delete",  pi.getDelete()),
+                    Pair.of("patch",   pi.getPatch()),
+                    Pair.of("options", pi.getOptions()))
+                    .filter(p -> p.getValue() != null)
+                    .forEach(p -> {
+                        String method = p.getKey();
+                        Operation op = p.getValue();
+
+                        boolean genId = op.getOperationId() == null;
+                        if (genId) {
+                            op.setOperationId(getOrGenerateOperationId(op, c.name+"_"+expression.replaceAll("\\{\\$.*}", ""), method));
+                        }
+
+                        if (op.getExtensions() == null) {
+                            op.setExtensions(new HashMap<>());
+                        }
+                        // This extension will be removed later by `fromOperation()` as it is only needed here to
+                        // distinguish between normal operations and callback requests
+                        op.getExtensions().put("x-callback-request", true);
+
+                        CodegenOperation co = fromOperation(expression, method, op, schemas, openAPI);
+                        if (genId) {
+                            co.operationIdOriginal = null;
+                            // legacy (see `fromOperation()`)
+                            co.nickname = co.operationId;
+                        }
+                        u.requests.add(co);
+                    });
+
+            if (!u.requests.isEmpty()) {
+                u.requests.get(u.requests.size() - 1).hasMore = false;
+            }
+            c.urls.add(u);
+        });
+
+        if (!c.urls.isEmpty()) {
+            c.urls.get(c.urls.size() - 1).hasMore = false;
+        }
+
+        return c;
+    }
+
+    /**
      * Convert OAS Parameter object to Codegen Parameter object
      *
      * @param parameter OAS parameter object
@@ -2649,6 +2736,11 @@ public class DefaultCodegen implements CodegenConfig {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
+
+            if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
+                codegenParameter.isNullable = true;
+            }
+
             // set default value
             if (parameterSchema.getDefault() != null) {
                 codegenParameter.defaultValue = toDefaultValue(parameterSchema);
@@ -3139,8 +3231,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
         co.operationId = uniqueName;
         co.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
-        co.operationIdCamelCase = DefaultCodegen.camelize(uniqueName);
-        co.operationIdSnakeCase = DefaultCodegen.underscore(uniqueName);
+        co.operationIdCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(uniqueName);
+        co.operationIdSnakeCase = org.openapitools.codegen.utils.StringUtils.underscore(uniqueName);
         opList.add(co);
         co.baseName = tag;
     }
@@ -3169,23 +3261,12 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The underscored version of the word
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#underscore
      */
+    @Deprecated
     public static String underscore(String word) {
-        String firstPattern = "([A-Z]+)([A-Z][a-z])";
-        String secondPattern = "([a-z\\d])([A-Z])";
-        String replacementPattern = "$1_$2";
-        // Replace package separator with slash.
-        word = word.replaceAll("\\.", "/"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // Replace $ with two underscores for inner classes.
-        word = word.replaceAll("\\$", "__");
-        // Replace capital letter with _ plus lowercase letter.
-        word = word.replaceAll(firstPattern, replacementPattern);
-        word = word.replaceAll(secondPattern, replacementPattern);
-        word = word.replace('-', '_');
-        // replace space with underscore
-        word = word.replace(' ', '_');
-        word = word.toLowerCase(Locale.ROOT);
-        return word;
+        return org.openapitools.codegen.utils.StringUtils.underscore(word);
     }
 
     /**
@@ -3193,10 +3274,13 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The dashized version of the word, e.g. "my-name"
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#dashize
      */
     @SuppressWarnings("static-method")
+    @Deprecated
     protected String dashize(String word) {
-        return underscore(word).replaceAll("[_ ]", "-");
+        return org.openapitools.codegen.utils.StringUtils.dashize(word);
     }
 
     /**
@@ -3396,6 +3480,7 @@ public class DefaultCodegen implements CodegenConfig {
         return result;
     }
 
+
     /**
      * Camelize name (parameter, property, method, etc) with upper case for first letter
      * copied from Twitter elephant bird
@@ -3403,9 +3488,12 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word string to be camelize
      * @return camelized string
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#camelize(String)
      */
+    @Deprecated
     public static String camelize(String word) {
-        return camelize(word, false);
+        return org.openapitools.codegen.utils.StringUtils.camelize(word);
     }
 
     /**
@@ -3414,79 +3502,14 @@ public class DefaultCodegen implements CodegenConfig {
      * @param word                 string to be camelize
      * @param lowercaseFirstLetter lower case for first letter if set to true
      * @return camelized string
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#camelize(String, boolean)
      */
+    @Deprecated
     public static String camelize(String word, boolean lowercaseFirstLetter) {
-        // Replace all slashes with dots (package separator)
-        Pattern p = Pattern.compile("\\/(.?)");
-        Matcher m = p.matcher(word);
-        while (m.find()) {
-            word = m.replaceFirst("." + m.group(1)/*.toUpperCase(Locale.ROOT)*/); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-            m = p.matcher(word);
-        }
-
-        // case out dots
-        String[] parts = word.split("\\.");
-        StringBuilder f = new StringBuilder();
-        for (String z : parts) {
-            if (z.length() > 0) {
-                f.append(Character.toUpperCase(z.charAt(0))).append(z.substring(1));
-            }
-        }
-        word = f.toString();
-
-        m = p.matcher(word);
-        while (m.find()) {
-            word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase(Locale.ROOT)*/);
-            m = p.matcher(word);
-        }
-
-        // Uppercase the class name.
-        p = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
-        m = p.matcher(word);
-        if (m.find()) {
-            String rep = m.group(1) + m.group(2).toUpperCase(Locale.ROOT) + m.group(3);
-            rep = rep.replaceAll("\\$", "\\\\\\$");
-            word = m.replaceAll(rep);
-        }
-
-        // Remove all underscores (underscore_case to camelCase)
-        p = Pattern.compile("(_)(.)");
-        m = p.matcher(word);
-        while (m.find()) {
-            String original = m.group(2);
-            String upperCase = original.toUpperCase(Locale.ROOT);
-            if (original.equals(upperCase)) {
-                word = word.replaceFirst("_", "");
-            } else {
-                word = m.replaceFirst(upperCase);
-            }
-            m = p.matcher(word);
-        }
-
-        // Remove all hyphens (hyphen-case to camelCase)
-        p = Pattern.compile("(-)(.)");
-        m = p.matcher(word);
-        while (m.find()) {
-            word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
-            m = p.matcher(word);
-        }
-
-        if (lowercaseFirstLetter && word.length() > 0) {
-            int i = 0;
-            char charAt = word.charAt(i);
-            while (i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
-                i = i + 1;
-                charAt = word.charAt(i);
-            }
-            i = i + 1;
-            word = word.substring(0, i).toLowerCase(Locale.ROOT) + word.substring(i);
-        }
-
-        // remove all underscore
-        word = word.replaceAll("_", "");
-
-        return word;
+        return org.openapitools.codegen.utils.StringUtils.camelize(word, lowercaseFirstLetter);
     }
+
 
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
@@ -3902,6 +3925,8 @@ public class DefaultCodegen implements CodegenConfig {
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
+        // if "x-enum-varnames" defined, update varnames
+        updateEnumVarsWithExtensions(enumVars, var.getVendorExtensions());
         allowableValues.put("enumVars", enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
@@ -3915,6 +3940,16 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (enumName != null) {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+            }
+        }
+    }
+
+    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
+        if (vendorExtensions != null && vendorExtensions.containsKey("x-enum-varnames")) {
+            List<String> alias = (List<String>) vendorExtensions.get("x-enum-varnames");
+            int size = Math.min(enumVars.size(), alias.size());
+            for (int i = 0; i < size; i++) {
+                enumVars.get(i).put("name", alias.get(i));
             }
         }
     }
@@ -4265,6 +4300,9 @@ public class DefaultCodegen implements CodegenConfig {
                     // default to csv:
                     codegenParameter.collectionFormat = StringUtils.isEmpty(collectionFormat) ? "csv" : collectionFormat;
 
+                    // set nullable
+                    setParameterNullable(codegenParameter, codegenProperty);
+
                     // recursively add import
                     while (codegenProperty != null) {
                         imports.add(codegenProperty.baseType);
@@ -4293,7 +4331,7 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
-        LOGGER.debug("Debugging fromFormProperty: " + name);
+        LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
         CodegenProperty codegenProperty = fromProperty(name, propertySchema);
 
         codegenParameter.isFormParam = Boolean.TRUE;
@@ -4306,7 +4344,6 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.unescapedDescription = codegenProperty.getDescription();
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
         codegenParameter.defaultValue = codegenProperty.getDefaultValue();
-
 
         if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
             codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
@@ -4366,6 +4403,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         setParameterExampleValue(codegenParameter);
+        // set nullable
+        setParameterNullable(codegenParameter, codegenProperty);
 
         //TODO collectionFormat for form parameter not yet supported
         //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
@@ -4415,6 +4454,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isMapContainer = Boolean.TRUE;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
@@ -4454,6 +4496,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isListContainer = Boolean.TRUE;
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
 
             while (codegenProperty != null) {
                 imports.add(codegenProperty.baseType);
@@ -4516,6 +4560,8 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+                // set nullable
+                setParameterNullable(codegenParameter, codegenProperty);
             }
 
         } else {
@@ -4539,6 +4585,8 @@ public class DefaultCodegen implements CodegenConfig {
 
             }
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+            // set nullable
+            setParameterNullable(codegenParameter, codegenProperty);
         }
 
         // set the parameter's example value
@@ -4635,5 +4683,9 @@ public class DefaultCodegen implements CodegenConfig {
             codegenServerVariables.add(codegenServerVariable);
         }
         return codegenServerVariables;
+    }
+
+    private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+        parameter.isNullable = property.isNullable;
     }
 }

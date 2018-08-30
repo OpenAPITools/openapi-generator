@@ -31,7 +31,7 @@ namespace OpenAPI {
 class OAIPetApiRequest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     OAIPetApiRequest(QHttpEngine::Socket *s, OAIPetApiHandler* handler);
     virtual ~OAIPetApiRequest();
@@ -99,7 +99,7 @@ private:
             resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
         }
         socket->setHeaders(resHeaders);
-        socket->writeHeaders();        
+        socket->writeHeaders();
     }
 };
 

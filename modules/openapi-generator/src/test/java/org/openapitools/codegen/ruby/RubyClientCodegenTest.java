@@ -172,7 +172,7 @@ public class RubyClientCodegenTest {
 
 
     @Test(description = "test nullable for properties")
-    public void nullableTest() {
+    public void nullablePropertyTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
@@ -227,4 +227,48 @@ public class RubyClientCodegenTest {
         Assert.assertFalse(cp5.isNullable);
     }
 
+    @Test(description = "test nullable for parameters (OAS3)")
+    public void nullableParameterOAS3Test() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet/{petId}";
+
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+
+        Assert.assertEquals(op.pathParams.size(), 1);
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertTrue(pp.isNullable);
+
+        Assert.assertEquals(op.formParams.size(), 2);
+        CodegenParameter name = op.formParams.get(0);
+        Assert.assertFalse(name.isNullable);
+        CodegenParameter status = op.formParams.get(1);
+        Assert.assertTrue(status.isNullable);
+    }
+
+    @Test(description = "test nullable for parameters (OAS2)")
+    public void nullableParameterOAS2Test() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-nullable.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet/{petId}";
+
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+
+        // path parameter x-nullable test
+        Assert.assertEquals(op.pathParams.size(), 1);
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertTrue(pp.isNullable);
+
+        // form parameter x-nullable test
+        Assert.assertEquals(op.formParams.size(), 2);
+        CodegenParameter name = op.formParams.get(0);
+        Assert.assertFalse(name.isNullable);
+        CodegenParameter status = op.formParams.get(1);
+        // TODO comment out the following until https://github.com/swagger-api/swagger-parser/issues/820 is solved
+        //Assert.assertTrue(status.isNullable);
+    }
 }

@@ -41,6 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
     protected boolean isAddExternalLibs = true;
@@ -198,8 +199,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         String classname = (String) operations.get("classname");
-        operations.put("classnameSnakeUpperCase", DefaultCodegen.underscore(classname).toUpperCase(Locale.ROOT));
-        operations.put("classnameSnakeLowerCase", DefaultCodegen.underscore(classname).toLowerCase(Locale.ROOT));
+        operations.put("classnameSnakeUpperCase", org.openapitools.codegen.utils.StringUtils.underscore(classname).toUpperCase(Locale.ROOT));
+        operations.put("classnameSnakeLowerCase", org.openapitools.codegen.utils.StringUtils.underscore(classname).toLowerCase(Locale.ROOT));
 
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
@@ -246,11 +247,13 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
             op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson);
             op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported);
+            
+            // Check if any one of the operations needs a model, then at API file level, at least one model has to be included.
             for(String hdr : op.imports) {
                 if(importMapping.containsKey(hdr)) {
                     continue;
                 }
-                additionalProperties.put("hasModelImport", true);
+                operations.put("hasModelImport", true);
             }
         }
 
