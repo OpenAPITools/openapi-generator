@@ -242,6 +242,31 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "convert a model with restriced characters")
+    public void restrictedCharactersPropertiesTest() {
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("@Some:restricted%characters#to!handle+", new BooleanSchema());
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "@Some:restricted%characters#to!handle+");
+        Assert.assertEquals(property.getter, "getAtSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
+        Assert.assertEquals(property.setter, "setAtSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
+        Assert.assertEquals(property.dataType, "Boolean");
+        Assert.assertEquals(property.name, "atSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
+        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.baseType, "Boolean");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isNotContainer);
+    }
+
     @Test(description = "convert a model with complex properties")
     public void complexPropertiesTest() {
         final Schema schema = new Schema()
@@ -768,7 +793,8 @@ public class JavaModelTest {
     @Test(description = "convert a boolean parameter")
     public void booleanPropertyTest() {
         final BooleanSchema property = new BooleanSchema();
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setBooleanGetterPrefix("is");
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");

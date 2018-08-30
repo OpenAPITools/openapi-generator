@@ -23,6 +23,7 @@ import org.openapitools.codegen.languages.RubyClientCodegen;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.apache.commons.io.FileUtils;
@@ -169,4 +170,106 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(bp.example, "OnlinePetstore::Pet.new");
     }
 
+
+    @Test(description = "test nullable for properties")
+    public void nullablePropertyTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("NullablePet");
+        CodegenModel nullablePet = codegen.fromModel("NullablePet", schema, openAPI.getComponents().getSchemas());
+        CodegenProperty cp0 = nullablePet.getVars().get(0);
+        Assert.assertTrue(cp0.isNullable);
+
+        CodegenProperty cp1 = nullablePet.getVars().get(1);
+        Assert.assertFalse(cp1.isNullable);
+
+        CodegenProperty cp2 = nullablePet.getVars().get(2);
+        Assert.assertTrue(cp2.isNullable);
+
+        CodegenProperty cp3 = nullablePet.getVars().get(3);
+        Assert.assertTrue(cp3.isNullable);
+
+        CodegenProperty cp4 = nullablePet.getVars().get(4);
+        Assert.assertFalse(cp4.isNullable);
+
+        CodegenProperty cp5 = nullablePet.getVars().get(5);
+        Assert.assertTrue(cp5.isNullable);
+    }
+
+    @Test(description = "test properties without nullable")
+    public void propertiesWithoutNullableTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("Pet");
+        CodegenModel nullablePet = codegen.fromModel("Pet", schema, openAPI.getComponents().getSchemas());
+        CodegenProperty cp0 = nullablePet.getVars().get(0);
+        Assert.assertFalse(cp0.isNullable);
+
+        CodegenProperty cp1 = nullablePet.getVars().get(1);
+        Assert.assertFalse(cp1.isNullable);
+
+        CodegenProperty cp2 = nullablePet.getVars().get(2);
+        Assert.assertFalse(cp2.isNullable);
+
+        CodegenProperty cp3 = nullablePet.getVars().get(3);
+        Assert.assertFalse(cp3.isNullable);
+
+        CodegenProperty cp4 = nullablePet.getVars().get(4);
+        Assert.assertFalse(cp4.isNullable);
+
+        CodegenProperty cp5 = nullablePet.getVars().get(5);
+        Assert.assertFalse(cp5.isNullable);
+    }
+
+    @Test(description = "test nullable for parameters (OAS3)")
+    public void nullableParameterOAS3Test() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet/{petId}";
+
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+
+        Assert.assertEquals(op.pathParams.size(), 1);
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertTrue(pp.isNullable);
+
+        Assert.assertEquals(op.formParams.size(), 2);
+        CodegenParameter name = op.formParams.get(0);
+        Assert.assertFalse(name.isNullable);
+        CodegenParameter status = op.formParams.get(1);
+        Assert.assertTrue(status.isNullable);
+    }
+
+    @Test(description = "test nullable for parameters (OAS2)")
+    public void nullableParameterOAS2Test() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-nullable.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet/{petId}";
+
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+
+        // path parameter x-nullable test
+        Assert.assertEquals(op.pathParams.size(), 1);
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertTrue(pp.isNullable);
+
+        // form parameter x-nullable test
+        Assert.assertEquals(op.formParams.size(), 2);
+        CodegenParameter name = op.formParams.get(0);
+        Assert.assertFalse(name.isNullable);
+        CodegenParameter status = op.formParams.get(1);
+        // TODO comment out the following as there seems to be an issue with swagger parser not brining over the
+        // vendor extensions of the form parameter when creating the schema
+        //Assert.assertTrue(status.isNullable);
+    }
 }

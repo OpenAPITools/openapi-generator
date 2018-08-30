@@ -156,7 +156,7 @@ public class Order   {
    * Get complete
    * @return complete
   **/
-    public Boolean isComplete() {
+    public Boolean getComplete() {
     return complete;
   }
 

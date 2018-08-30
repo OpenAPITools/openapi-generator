@@ -282,8 +282,8 @@ instance HasOptionalParam UploadFile AdditionalMetadata where
     req `_addMultiFormPart` NH.partLBS "additionalMetadata" (mimeRender' MimeMultipartFormData xs)
 
 -- | /Optional Param/ "file" - file to upload
-instance HasOptionalParam UploadFile File where
-  applyOptionalParam req (File xs) =
+instance HasOptionalParam UploadFile File2 where
+  applyOptionalParam req (File2 xs) =
     req `_addMultiFormPart` NH.partFileSource "file" xs
 
 -- | @multipart/form-data@
@@ -291,4 +291,36 @@ instance Consumes UploadFile MimeMultipartFormData
 
 -- | @application/json@
 instance Produces UploadFile MimeJSON
+
+
+-- *** uploadFileWithRequiredFile
+
+-- | @POST \/fake\/{petId}\/uploadImageWithRequiredFile@
+-- 
+-- uploads an image (required)
+-- 
+-- AuthMethod: 'AuthOAuthPetstoreAuth'
+-- 
+uploadFileWithRequiredFile 
+  :: (Consumes UploadFileWithRequiredFile MimeMultipartFormData)
+  => RequiredFile -- ^ "requiredFile" -  file to upload
+  -> PetId -- ^ "petId" -  ID of pet to update
+  -> OpenAPIPetstoreRequest UploadFileWithRequiredFile MimeMultipartFormData ApiResponse MimeJSON
+uploadFileWithRequiredFile (RequiredFile requiredFile) (PetId petId) =
+  _mkRequest "POST" ["/fake/",toPath petId,"/uploadImageWithRequiredFile"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
+    `_addMultiFormPart` NH.partFileSource "requiredFile" requiredFile
+
+data UploadFileWithRequiredFile  
+
+-- | /Optional Param/ "additionalMetadata" - Additional data to pass to server
+instance HasOptionalParam UploadFileWithRequiredFile AdditionalMetadata where
+  applyOptionalParam req (AdditionalMetadata xs) =
+    req `_addMultiFormPart` NH.partLBS "additionalMetadata" (mimeRender' MimeMultipartFormData xs)
+
+-- | @multipart/form-data@
+instance Consumes UploadFileWithRequiredFile MimeMultipartFormData
+
+-- | @application/json@
+instance Produces UploadFileWithRequiredFile MimeJSON
 

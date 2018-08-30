@@ -72,14 +72,14 @@ newtype AdditionalMetadata = AdditionalMetadata { unAdditionalMetadata :: Text }
 -- ** ApiKey
 newtype ApiKey = ApiKey { unApiKey :: Text } deriving (P.Eq, P.Show)
 
--- ** Body
-newtype Body = Body { unBody :: Double } deriving (P.Eq, P.Show, A.ToJSON)
+-- ** Body6
+newtype Body6 = Body6 { unBody6 :: Double } deriving (P.Eq, P.Show, A.ToJSON)
 
--- ** BodyBool
-newtype BodyBool = BodyBool { unBodyBool :: Bool } deriving (P.Eq, P.Show, A.ToJSON)
+-- ** Body7
+newtype Body7 = Body7 { unBody7 :: Text } deriving (P.Eq, P.Show, A.ToJSON)
 
--- ** BodyText
-newtype BodyText = BodyText { unBodyText :: Text } deriving (P.Eq, P.Show, A.ToJSON)
+-- ** Body8
+newtype Body8 = Body8 { unBody8 :: Bool } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** Byte
 newtype Byte = Byte { unByte :: ByteArray } deriving (P.Eq, P.Show)
@@ -111,8 +111,8 @@ newtype EnumQueryString = EnumQueryString { unEnumQueryString :: E'EnumFormStrin
 -- ** EnumQueryStringArray
 newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: [E'EnumFormStringArray] } deriving (P.Eq, P.Show)
 
--- ** File
-newtype File = File { unFile :: FilePath } deriving (P.Eq, P.Show)
+-- ** File2
+newtype File2 = File2 { unFile2 :: FilePath } deriving (P.Eq, P.Show)
 
 -- ** Int32
 newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
@@ -168,8 +168,14 @@ newtype PatternWithoutDelimiter = PatternWithoutDelimiter { unPatternWithoutDeli
 -- ** PetId
 newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
 
+-- ** Query
+newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
+
 -- ** RequestBody
 newtype RequestBody = RequestBody { unRequestBody :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
+
+-- ** RequiredFile
+newtype RequiredFile = RequiredFile { unRequiredFile :: FilePath } deriving (P.Eq, P.Show)
 
 -- ** Status
 newtype Status = Status { unStatus :: [E'Status2] } deriving (P.Eq, P.Show)
@@ -408,6 +414,253 @@ mkArrayTest =
   { arrayTestArrayOfString = Nothing
   , arrayTestArrayArrayOfInteger = Nothing
   , arrayTestArrayArrayOfModel = Nothing
+  }
+
+-- ** Body
+-- | Body
+data Body = Body
+  { bodyName :: !(Maybe Text) -- ^ "name" - Updated name of the pet
+  , bodyStatus :: !(Maybe Text) -- ^ "status" - Updated status of the pet
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Body
+instance A.FromJSON Body where
+  parseJSON = A.withObject "Body" $ \o ->
+    Body
+      <$> (o .:? "name")
+      <*> (o .:? "status")
+
+-- | ToJSON Body
+instance A.ToJSON Body where
+  toJSON Body {..} =
+   _omitNulls
+      [ "name" .= bodyName
+      , "status" .= bodyStatus
+      ]
+
+
+-- | Construct a value of type 'Body' (by applying it's required fields, if any)
+mkBody
+  :: Body
+mkBody =
+  Body
+  { bodyName = Nothing
+  , bodyStatus = Nothing
+  }
+
+-- ** Body1
+-- | Body1
+data Body1 = Body1
+  { body1AdditionalMetadata :: !(Maybe Text) -- ^ "additionalMetadata" - Additional data to pass to server
+  , body1File :: !(Maybe FilePath) -- ^ "file" - file to upload
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Body1
+instance A.FromJSON Body1 where
+  parseJSON = A.withObject "Body1" $ \o ->
+    Body1
+      <$> (o .:? "additionalMetadata")
+      <*> (o .:? "file")
+
+-- | ToJSON Body1
+instance A.ToJSON Body1 where
+  toJSON Body1 {..} =
+   _omitNulls
+      [ "additionalMetadata" .= body1AdditionalMetadata
+      , "file" .= body1File
+      ]
+
+
+-- | Construct a value of type 'Body1' (by applying it's required fields, if any)
+mkBody1
+  :: Body1
+mkBody1 =
+  Body1
+  { body1AdditionalMetadata = Nothing
+  , body1File = Nothing
+  }
+
+-- ** Body2
+-- | Body2
+data Body2 = Body2
+  { body2EnumFormStringArray :: !(Maybe [E'EnumFormStringArray]) -- ^ "enum_form_string_array" - Form parameter enum test (string array)
+  , body2EnumFormString :: !(Maybe E'EnumFormString) -- ^ "enum_form_string" - Form parameter enum test (string)
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Body2
+instance A.FromJSON Body2 where
+  parseJSON = A.withObject "Body2" $ \o ->
+    Body2
+      <$> (o .:? "enum_form_string_array")
+      <*> (o .:? "enum_form_string")
+
+-- | ToJSON Body2
+instance A.ToJSON Body2 where
+  toJSON Body2 {..} =
+   _omitNulls
+      [ "enum_form_string_array" .= body2EnumFormStringArray
+      , "enum_form_string" .= body2EnumFormString
+      ]
+
+
+-- | Construct a value of type 'Body2' (by applying it's required fields, if any)
+mkBody2
+  :: Body2
+mkBody2 =
+  Body2
+  { body2EnumFormStringArray = Nothing
+  , body2EnumFormString = Nothing
+  }
+
+-- ** Body3
+-- | Body3
+data Body3 = Body3
+  { body3Integer :: !(Maybe Int) -- ^ "integer" - None
+  , body3Int32 :: !(Maybe Int) -- ^ "int32" - None
+  , body3Int64 :: !(Maybe Integer) -- ^ "int64" - None
+  , body3Number :: !(Double) -- ^ /Required/ "number" - None
+  , body3Float :: !(Maybe Float) -- ^ "float" - None
+  , body3Double :: !(Double) -- ^ /Required/ "double" - None
+  , body3String :: !(Maybe Text) -- ^ "string" - None
+  , body3PatternWithoutDelimiter :: !(Text) -- ^ /Required/ "pattern_without_delimiter" - None
+  , body3Byte :: !(ByteArray) -- ^ /Required/ "byte" - None
+  , body3Binary :: !(Maybe FilePath) -- ^ "binary" - None
+  , body3Date :: !(Maybe Date) -- ^ "date" - None
+  , body3DateTime :: !(Maybe DateTime) -- ^ "dateTime" - None
+  , body3Password :: !(Maybe Text) -- ^ "password" - None
+  , body3Callback :: !(Maybe Text) -- ^ "callback" - None
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Body3
+instance A.FromJSON Body3 where
+  parseJSON = A.withObject "Body3" $ \o ->
+    Body3
+      <$> (o .:? "integer")
+      <*> (o .:? "int32")
+      <*> (o .:? "int64")
+      <*> (o .:  "number")
+      <*> (o .:? "float")
+      <*> (o .:  "double")
+      <*> (o .:? "string")
+      <*> (o .:  "pattern_without_delimiter")
+      <*> (o .:  "byte")
+      <*> (o .:? "binary")
+      <*> (o .:? "date")
+      <*> (o .:? "dateTime")
+      <*> (o .:? "password")
+      <*> (o .:? "callback")
+
+-- | ToJSON Body3
+instance A.ToJSON Body3 where
+  toJSON Body3 {..} =
+   _omitNulls
+      [ "integer" .= body3Integer
+      , "int32" .= body3Int32
+      , "int64" .= body3Int64
+      , "number" .= body3Number
+      , "float" .= body3Float
+      , "double" .= body3Double
+      , "string" .= body3String
+      , "pattern_without_delimiter" .= body3PatternWithoutDelimiter
+      , "byte" .= body3Byte
+      , "binary" .= body3Binary
+      , "date" .= body3Date
+      , "dateTime" .= body3DateTime
+      , "password" .= body3Password
+      , "callback" .= body3Callback
+      ]
+
+
+-- | Construct a value of type 'Body3' (by applying it's required fields, if any)
+mkBody3
+  :: Double -- ^ 'body3Number': None
+  -> Double -- ^ 'body3Double': None
+  -> Text -- ^ 'body3PatternWithoutDelimiter': None
+  -> ByteArray -- ^ 'body3Byte': None
+  -> Body3
+mkBody3 body3Number body3Double body3PatternWithoutDelimiter body3Byte =
+  Body3
+  { body3Integer = Nothing
+  , body3Int32 = Nothing
+  , body3Int64 = Nothing
+  , body3Number
+  , body3Float = Nothing
+  , body3Double
+  , body3String = Nothing
+  , body3PatternWithoutDelimiter
+  , body3Byte
+  , body3Binary = Nothing
+  , body3Date = Nothing
+  , body3DateTime = Nothing
+  , body3Password = Nothing
+  , body3Callback = Nothing
+  }
+
+-- ** Body4
+-- | Body4
+data Body4 = Body4
+  { body4Param :: !(Text) -- ^ /Required/ "param" - field1
+  , body4Param2 :: !(Text) -- ^ /Required/ "param2" - field2
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Body4
+instance A.FromJSON Body4 where
+  parseJSON = A.withObject "Body4" $ \o ->
+    Body4
+      <$> (o .:  "param")
+      <*> (o .:  "param2")
+
+-- | ToJSON Body4
+instance A.ToJSON Body4 where
+  toJSON Body4 {..} =
+   _omitNulls
+      [ "param" .= body4Param
+      , "param2" .= body4Param2
+      ]
+
+
+-- | Construct a value of type 'Body4' (by applying it's required fields, if any)
+mkBody4
+  :: Text -- ^ 'body4Param': field1
+  -> Text -- ^ 'body4Param2': field2
+  -> Body4
+mkBody4 body4Param body4Param2 =
+  Body4
+  { body4Param
+  , body4Param2
+  }
+
+-- ** Body5
+-- | Body5
+data Body5 = Body5
+  { body5AdditionalMetadata :: !(Maybe Text) -- ^ "additionalMetadata" - Additional data to pass to server
+  , body5RequiredFile :: !(FilePath) -- ^ /Required/ "requiredFile" - file to upload
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Body5
+instance A.FromJSON Body5 where
+  parseJSON = A.withObject "Body5" $ \o ->
+    Body5
+      <$> (o .:? "additionalMetadata")
+      <*> (o .:  "requiredFile")
+
+-- | ToJSON Body5
+instance A.ToJSON Body5 where
+  toJSON Body5 {..} =
+   _omitNulls
+      [ "additionalMetadata" .= body5AdditionalMetadata
+      , "requiredFile" .= body5RequiredFile
+      ]
+
+
+-- | Construct a value of type 'Body5' (by applying it's required fields, if any)
+mkBody5
+  :: FilePath -- ^ 'body5RequiredFile': file to upload
+  -> Body5
+mkBody5 body5RequiredFile =
+  Body5
+  { body5AdditionalMetadata = Nothing
+  , body5RequiredFile
   }
 
 -- ** Capitalization
@@ -698,6 +951,67 @@ mkEnumTest enumTestEnumStringRequired =
   , enumTestOuterEnum = Nothing
   }
 
+-- ** File
+-- | File
+-- Must be named `File` for test.
+data File = File
+  { fileSourceUri :: !(Maybe Text) -- ^ "sourceURI" - Test capitalization
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON File
+instance A.FromJSON File where
+  parseJSON = A.withObject "File" $ \o ->
+    File
+      <$> (o .:? "sourceURI")
+
+-- | ToJSON File
+instance A.ToJSON File where
+  toJSON File {..} =
+   _omitNulls
+      [ "sourceURI" .= fileSourceUri
+      ]
+
+
+-- | Construct a value of type 'File' (by applying it's required fields, if any)
+mkFile
+  :: File
+mkFile =
+  File
+  { fileSourceUri = Nothing
+  }
+
+-- ** FileSchemaTestClass
+-- | FileSchemaTestClass
+data FileSchemaTestClass = FileSchemaTestClass
+  { fileSchemaTestClassFile :: !(Maybe File) -- ^ "file"
+  , fileSchemaTestClassFiles :: !(Maybe [File]) -- ^ "files"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON FileSchemaTestClass
+instance A.FromJSON FileSchemaTestClass where
+  parseJSON = A.withObject "FileSchemaTestClass" $ \o ->
+    FileSchemaTestClass
+      <$> (o .:? "file")
+      <*> (o .:? "files")
+
+-- | ToJSON FileSchemaTestClass
+instance A.ToJSON FileSchemaTestClass where
+  toJSON FileSchemaTestClass {..} =
+   _omitNulls
+      [ "file" .= fileSchemaTestClassFile
+      , "files" .= fileSchemaTestClassFiles
+      ]
+
+
+-- | Construct a value of type 'FileSchemaTestClass' (by applying it's required fields, if any)
+mkFileSchemaTestClass
+  :: FileSchemaTestClass
+mkFileSchemaTestClass =
+  FileSchemaTestClass
+  { fileSchemaTestClassFile = Nothing
+  , fileSchemaTestClassFiles = Nothing
+  }
+
 -- ** FormatTest
 -- | FormatTest
 data FormatTest = FormatTest
@@ -815,6 +1129,8 @@ mkHasOnlyReadOnly =
 data MapTest = MapTest
   { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
   , mapTestMapOfEnumString :: !(Maybe (Map.Map String E'Inner)) -- ^ "map_of_enum_string"
+  , mapTestDirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
+  , mapTestIndirectMap :: !(Maybe StringBooleanMap) -- ^ "indirect_map"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON MapTest
@@ -823,6 +1139,8 @@ instance A.FromJSON MapTest where
     MapTest
       <$> (o .:? "map_map_of_string")
       <*> (o .:? "map_of_enum_string")
+      <*> (o .:? "direct_map")
+      <*> (o .:? "indirect_map")
 
 -- | ToJSON MapTest
 instance A.ToJSON MapTest where
@@ -830,6 +1148,8 @@ instance A.ToJSON MapTest where
    _omitNulls
       [ "map_map_of_string" .= mapTestMapMapOfString
       , "map_of_enum_string" .= mapTestMapOfEnumString
+      , "direct_map" .= mapTestDirectMap
+      , "indirect_map" .= mapTestIndirectMap
       ]
 
 
@@ -840,6 +1160,8 @@ mkMapTest =
   MapTest
   { mapTestMapMapOfString = Nothing
   , mapTestMapOfEnumString = Nothing
+  , mapTestDirectMap = Nothing
+  , mapTestIndirectMap = Nothing
   }
 
 -- ** MixedPropertiesAndAdditionalPropertiesClass
@@ -1230,6 +1552,34 @@ mkSpecialModelName
 mkSpecialModelName =
   SpecialModelName
   { specialModelNameSpecialPropertyName = Nothing
+  }
+
+-- ** StringBooleanMap
+-- | StringBooleanMap
+data StringBooleanMap = StringBooleanMap
+  { 
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON StringBooleanMap
+instance A.FromJSON StringBooleanMap where
+  parseJSON = A.withObject "StringBooleanMap" $ \o ->
+    pure StringBooleanMap
+      
+
+-- | ToJSON StringBooleanMap
+instance A.ToJSON StringBooleanMap where
+  toJSON StringBooleanMap  =
+   _omitNulls
+      [ 
+      ]
+
+
+-- | Construct a value of type 'StringBooleanMap' (by applying it's required fields, if any)
+mkStringBooleanMap
+  :: StringBooleanMap
+mkStringBooleanMap =
+  StringBooleanMap
+  { 
   }
 
 -- ** Tag

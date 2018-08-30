@@ -41,6 +41,7 @@ public class CodegenParameter {
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
+    public boolean isNullable;
 
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",
@@ -150,6 +151,7 @@ public class CodegenParameter {
             output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
         }
         output.hasValidation = this.hasValidation;
+        output.isNullable = this.isNullable;
         output.isBinary = this.isBinary;
         output.isByteArray = this.isByteArray;
         output.isString = this.isString;
@@ -269,6 +271,8 @@ public class CodegenParameter {
             return false;
         if (hasValidation != that.hasValidation)
             return false;
+        if (isNullable != that.isNullable)
+            return false;
         if (required != that.required)
             return false;
         if (maximum != null ? !maximum.equals(that.maximum) : that.maximum != null)
@@ -344,6 +348,7 @@ public class CodegenParameter {
         result = 31 * result + (mostInnerItems != null ? mostInnerItems.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + (hasValidation ? 13:31);
+        result = 31 * result + (isNullable ? 13:31);
         result = 31 * result + (required ? 13:31);
         result = 31 * result + (maximum != null ? maximum.hashCode() : 0);
         result = 31 * result + (exclusiveMaximum ? 13:31);
@@ -409,6 +414,7 @@ public class CodegenParameter {
                 ", mostInnerItems=" + mostInnerItems +
                 ", vendorExtensions=" + vendorExtensions +
                 ", hasValidation=" + hasValidation +
+                ", isNullable=" + isNullable +
                 ", required=" + required +
                 ", maximum='" + maximum + '\'' +
                 ", exclusiveMaximum=" + exclusiveMaximum +

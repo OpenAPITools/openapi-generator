@@ -54,12 +54,14 @@ public class CodegenProperty implements Cloneable {
     public boolean exclusiveMinimum;
     public boolean exclusiveMaximum;
     public boolean hasMore, required, secondaryParam;
-    public boolean hasMoreNonReadOnly; // for model constructor, true if next properyt is not readonly
+    public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType, isContainer, isNotContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
-    public boolean isReadOnly = false;
+    public boolean isReadOnly;
+    public boolean isWriteOnly;
+    public boolean isNullable;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -437,6 +439,8 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isNotContainer ? 13:31));
         result = prime * result + ((isPrimitiveType  ? 13:31));
         result = prime * result + ((isReadOnly  ? 13:31));
+        result = prime * result + ((isWriteOnly  ? 13:31));
+        result = prime * result + ((isNullable  ? 13:31));
         result = prime * result + ((items == null) ? 0 : items.hashCode());
         result = prime * result + ((mostInnerItems == null) ? 0 : mostInnerItems.hashCode());
         result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
@@ -585,6 +589,12 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (this.isReadOnly != other.isReadOnly) {
+            return false;
+        }
+        if (this.isWriteOnly != other.isWriteOnly) {
+            return false;
+        }
+        if (this.isNullable != other.isNullable) {
             return false;
         }
         if (this._enum != other._enum && (this._enum == null || !this._enum.equals(other._enum))) {
@@ -769,6 +779,8 @@ public class CodegenProperty implements Cloneable {
                 ", isMapContainer=" + isMapContainer +
                 ", isEnum=" + isEnum +
                 ", isReadOnly=" + isReadOnly +
+                ", isWriteOnly=" + isWriteOnly+
+                ", isNullable=" + isNullable +
                 ", _enum=" + _enum +
                 ", allowableValues=" + allowableValues +
                 ", items=" + items +

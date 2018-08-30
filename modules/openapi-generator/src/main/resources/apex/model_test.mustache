@@ -46,15 +46,6 @@ private class {{classname}}Test {
     }
 
     @isTest
-    private static void notEqualsUnlikeInstance() {
-        {{classname}} {{classVarName}}1 = {{classname}}.getExample();
-        {{classname}} {{classVarName}}2 = new {{classname}}();
-
-        System.assertEquals(false, {{classVarName}}1.equals({{classVarName}}2));
-        System.assertEquals(false, {{classVarName}}2.equals({{classVarName}}1));
-    }
-
-    @isTest
     private static void notEqualsDifferentType() {
         {{classname}} {{classVarName}}1 = {{classname}}.getExample();
         {{classname}} {{classVarName}}2 = new {{classname}}();

@@ -32,6 +32,11 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
+            {{#supportJava6}}
+            sourceCompatibility JavaVersion.VERSION_1_6
+            targetCompatibility JavaVersion.VERSION_1_6
+            {{/supportJava6}}
+            {{^supportJava6}}
             {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -40,6 +45,7 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
             {{/java8}}
+            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -83,6 +89,11 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven'
+    {{#supportJava6}}
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
+    {{/supportJava6}}
+    {{^supportJava6}}
     {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -91,6 +102,7 @@ if(hasProperty('target') && target == 'android') {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
     {{/java8}}
+    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
@@ -105,17 +117,20 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.17"
-    jackson_version = "2.8.9"
+    swagger_annotations_version = "1.5.21"
+    jackson_version = "2.9.6"
     {{#supportJava6}}
     jersey_version = "2.6"
     commons_io_version=2.5
     commons_lang3_version=3.6
     {{/supportJava6}}
     {{^supportJava6}}
-    jersey_version = "2.25.1"
+    jersey_version = "2.27"
     {{/supportJava6}}
     junit_version = "4.12"
+    {{#threetenbp}}
+    threetenbp_version = "2.6.4"
+    {{/threetenbp}}
 }
 
 dependencies {
@@ -127,17 +142,17 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     {{#joda}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version",
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}
     {{#java8}}
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version",
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{#supportJava6}}
     compile "commons-io:commons-io:$commons_io_version"
     compile "org.apache.commons:commons-lang3:$commons_lang3_version"
     {{/supportJava6}}
     {{#threetenbp}}
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version",
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
     {{/threetenbp}}
     {{^java8}}
     compile "com.brsanthu:migbase64:2.2"

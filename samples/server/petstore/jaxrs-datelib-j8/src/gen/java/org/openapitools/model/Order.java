@@ -69,7 +69,7 @@ public class Order  implements Serializable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
@@ -185,7 +185,7 @@ public class Order  implements Serializable {
    **/
   @JsonProperty("complete")
   @ApiModelProperty(value = "")
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 

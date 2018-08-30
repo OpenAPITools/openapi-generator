@@ -73,7 +73,7 @@ fakeOuterBooleanSerialize  _ =
 data FakeOuterBooleanSerialize 
 
 -- | /Body Param/ "body" - Input boolean as post body
-instance HasBodyParam FakeOuterBooleanSerialize BodyBool 
+instance HasBodyParam FakeOuterBooleanSerialize Body8 
 
 -- | @application/json@
 instance Consumes FakeOuterBooleanSerialize MimeJSON
@@ -123,7 +123,7 @@ fakeOuterNumberSerialize  _ =
 data FakeOuterNumberSerialize 
 
 -- | /Body Param/ "body" - Input number as post body
-instance HasBodyParam FakeOuterNumberSerialize Body 
+instance HasBodyParam FakeOuterNumberSerialize Body6 
 
 -- | @application/json@
 instance Consumes FakeOuterNumberSerialize MimeJSON
@@ -148,13 +148,59 @@ fakeOuterStringSerialize  _ =
 data FakeOuterStringSerialize 
 
 -- | /Body Param/ "body" - Input string as post body
-instance HasBodyParam FakeOuterStringSerialize BodyText 
+instance HasBodyParam FakeOuterStringSerialize Body7 
 
 -- | @application/json@
 instance Consumes FakeOuterStringSerialize MimeJSON
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterStringSerialize mtype
+
+
+-- *** testBodyWithFileSchema
+
+-- | @PUT \/fake\/body-with-file-schema@
+-- 
+-- For this test, the body for this request much reference a schema named `File`.
+-- 
+testBodyWithFileSchema 
+  :: (Consumes TestBodyWithFileSchema MimeJSON, MimeRender MimeJSON FileSchemaTestClass)
+  => FileSchemaTestClass -- ^ "fileSchemaTestClass"
+  -> OpenAPIPetstoreRequest TestBodyWithFileSchema MimeJSON NoContent MimeNoContent
+testBodyWithFileSchema fileSchemaTestClass =
+  _mkRequest "PUT" ["/fake/body-with-file-schema"]
+    `setBodyParam` fileSchemaTestClass
+
+data TestBodyWithFileSchema 
+instance HasBodyParam TestBodyWithFileSchema FileSchemaTestClass 
+
+-- | @application/json@
+instance Consumes TestBodyWithFileSchema MimeJSON
+
+instance Produces TestBodyWithFileSchema MimeNoContent
+
+
+-- *** testBodyWithQueryParams
+
+-- | @PUT \/fake\/body-with-query-params@
+-- 
+testBodyWithQueryParams 
+  :: (Consumes TestBodyWithQueryParams MimeJSON, MimeRender MimeJSON User)
+  => User -- ^ "user"
+  -> Query -- ^ "query"
+  -> OpenAPIPetstoreRequest TestBodyWithQueryParams MimeJSON NoContent MimeNoContent
+testBodyWithQueryParams user (Query query) =
+  _mkRequest "PUT" ["/fake/body-with-query-params"]
+    `setBodyParam` user
+    `setQuery` toQuery ("query", Just query)
+
+data TestBodyWithQueryParams 
+instance HasBodyParam TestBodyWithQueryParams User 
+
+-- | @application/json@
+instance Consumes TestBodyWithQueryParams MimeJSON
+
+instance Produces TestBodyWithQueryParams MimeNoContent
 
 
 -- *** testClientModel

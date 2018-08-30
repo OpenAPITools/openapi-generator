@@ -32,6 +32,11 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
+            {{#supportJava6}}
+            sourceCompatibility JavaVersion.VERSION_1_6
+            targetCompatibility JavaVersion.VERSION_1_6
+            {{/supportJava6}}
+            {{^supportJava6}}
             {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -40,6 +45,7 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
             {{/java8}}
+            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -103,7 +109,7 @@ ext {
     okhttp_version = "2.7.5"
     oltu_version = "1.0.1"
     retrofit_version = "1.9.0"
-    swagger_annotations_version = "1.5.8"
+    swagger_annotations_version = "1.5.21"
     junit_version = "4.12"
     jodatime_version = "2.9.3"
     {{#threetenbp}}

@@ -14,6 +14,7 @@
 
 import ApiClient from "../ApiClient";
 import Client from '../model/Client';
+import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
 
@@ -195,6 +196,49 @@ export default class FakeApi {
 
       return this.apiClient.callApi(
         '/fake/outer/string', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the testBodyWithFileSchema operation.
+     * @callback module:api/FakeApi~testBodyWithFileSchemaCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:api/FakeApi~testBodyWithFileSchemaCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    testBodyWithFileSchema(fileSchemaTestClass, callback) {
+      let postBody = fileSchemaTestClass;
+
+      // verify the required parameter 'fileSchemaTestClass' is set
+      if (fileSchemaTestClass === undefined || fileSchemaTestClass === null) {
+        throw new Error("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/body-with-file-schema', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );

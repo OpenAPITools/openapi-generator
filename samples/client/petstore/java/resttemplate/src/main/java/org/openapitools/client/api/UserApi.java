@@ -7,6 +7,7 @@ import org.openapitools.client.model.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,7 +148,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void deleteUser(String username) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -184,7 +185,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public User getUserByName(String username) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -223,7 +224,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public String loginUser(String username, String password) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -263,7 +264,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void logoutUser() throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         String path = UriComponentsBuilder.fromPath("/user/logout").build().toUriString();
         

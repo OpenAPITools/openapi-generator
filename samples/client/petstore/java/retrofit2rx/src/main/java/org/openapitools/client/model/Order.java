@@ -78,7 +78,7 @@ public class Order {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {
@@ -203,7 +203,7 @@ public class Order {
    * @return complete
   **/
   @ApiModelProperty(value = "")
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 

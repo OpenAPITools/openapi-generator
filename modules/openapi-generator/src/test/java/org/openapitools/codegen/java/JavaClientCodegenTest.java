@@ -31,15 +31,20 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,113 +52,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JavaClientCodegenTest {
-
-    @Test
-    public void modelInheritanceSupportInGson() throws Exception {
-        List<Map<String, Object>> allModels = new ArrayList<>();
-
-        CodegenModel parent1 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        parent1.setName("parent1");
-        parent1.setClassname("test.Parent1");
-
-        Map<String, Object> modelMap = new HashMap<>();
-        modelMap.put("model", parent1);
-        allModels.add(modelMap);
-
-        CodegenModel parent2 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        parent2.setName("parent2");
-        parent2.setClassname("test.Parent2");
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", parent2);
-        allModels.add(modelMap);
-
-        CodegenModel model1 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model1.setName("model1");
-        model1.setClassname("test.Model1");
-        model1.setParentModel(parent1);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model1);
-        allModels.add(modelMap);
-
-        CodegenModel model2 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model2.setName("model2");
-        model2.setClassname("test.Model2");
-        model2.setParentModel(parent1);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model2);
-        allModels.add(modelMap);
-
-        CodegenModel model3 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model3.setName("model3");
-        model3.setClassname("test.Model3");
-        model3.setParentModel(parent1);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model3);
-        allModels.add(modelMap);
-
-        CodegenModel model4 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model4.setName("model4");
-        model4.setClassname("test.Model4");
-        model4.setParentModel(parent2);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model4);
-        allModels.add(modelMap);
-
-        CodegenModel model5 = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        model5.setName("model5");
-        model5.setClassname("test.Model5");
-        model5.setParentModel(parent2);
-
-        modelMap = new HashMap<>();
-        modelMap.put("model", model5);
-        allModels.add(modelMap);
-
-        List<Map<String, Object>> parentsList = JavaClientCodegen.modelInheritanceSupportInGson(allModels);
-
-        Assert.assertNotNull(parentsList);
-        Assert.assertEquals(parentsList.size(), 2);
-
-        Map<String, Object> parent = parentsList.get(0);
-        Assert.assertEquals(parent.get("classname"), "test.Parent1");
-
-        List<CodegenModel> children = (List<CodegenModel>) parent.get("children");
-        Assert.assertNotNull(children);
-        Assert.assertEquals(children.size(), 3);
-
-        Map<String, Object> models = (Map<String, Object>) children.get(0);
-        Assert.assertEquals(models.get("name"), "model1");
-        Assert.assertEquals(models.get("classname"), "test.Model1");
-
-        models = (Map<String, Object>) children.get(1);
-        Assert.assertEquals(models.get("name"), "model2");
-        Assert.assertEquals(models.get("classname"), "test.Model2");
-
-        models = (Map<String, Object>) children.get(2);
-        Assert.assertEquals(models.get("name"), "model3");
-        Assert.assertEquals(models.get("classname"), "test.Model3");
-
-        parent = parentsList.get(1);
-        Assert.assertEquals(parent.get("classname"), "test.Parent2");
-
-        children = (List<CodegenModel>) parent.get("children");
-        Assert.assertNotNull(children);
-        Assert.assertEquals(children.size(), 2);
-
-        models = (Map<String, Object>) children.get(0);
-        Assert.assertEquals(models.get("name"), "model4");
-        Assert.assertEquals(models.get("classname"), "test.Model4");
-
-        models = (Map<String, Object>) children.get(1);
-        Assert.assertEquals(models.get("name"), "model5");
-        Assert.assertEquals(models.get("classname"), "test.Model5");
-    }
 
     @Test
     public void arraysInRequestBody() throws Exception {
@@ -213,7 +114,7 @@ public class JavaClientCodegenTest {
 
         Map<String, Object> objs = ImmutableMap.of("operations", operations, "imports", new ArrayList<Map<String, String>>());
 
-        javaClientCodegen.postProcessOperations(objs);
+        javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
         Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
         Assert.assertTrue(pathParam1.hasMore);
@@ -329,6 +230,126 @@ public class JavaClientCodegenTest {
         Assert.assertNotNull(testedEnumVar);
         Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"NUMBER_1");
         Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+    }
+
+    @Test
+    public void testGeneratePing() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        Map<String, String> generatedFiles = generator.getFiles();
+        Assert.assertEquals(generatedFiles.size(), 35);
+        ensureContainsFile(generatedFiles, output, ".gitignore");
+        ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
+        ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
+        ensureContainsFile(generatedFiles, output, ".travis.yml");
+        ensureContainsFile(generatedFiles, output, "build.gradle");
+        ensureContainsFile(generatedFiles, output, "build.sbt");
+        ensureContainsFile(generatedFiles, output, "docs/DefaultApi.md");
+        ensureContainsFile(generatedFiles, output, "git_push.sh");
+        ensureContainsFile(generatedFiles, output, "gradle.properties");
+        ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.jar");
+        ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.properties");
+        ensureContainsFile(generatedFiles, output, "gradlew.bat");
+        ensureContainsFile(generatedFiles, output, "gradlew");
+        ensureContainsFile(generatedFiles, output, "pom.xml");
+        ensureContainsFile(generatedFiles, output, "README.md");
+        ensureContainsFile(generatedFiles, output, "settings.gradle");
+        ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiCallback.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiClient.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiException.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiResponse.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuth.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuthFlow.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/Configuration.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/GzipRequestInterceptor.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/JSON.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/Pair.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ProgressRequestBody.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ProgressResponseBody.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/StringUtil.java");
+        ensureContainsFile(generatedFiles, output, "src/test/java/xyz/abcdef/api/DefaultApiTest.java");
+
+        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
+        String defaultApiConent = generatedFiles.get(defaultApiFilename);
+        Assert.assertTrue(defaultApiConent.contains("public class DefaultApi")); 
+
+        WrittenTemplateBasedFile templateBasedFile = TestUtils.getTemplateBasedFile(generator, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
+        Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
+
+        output.deleteOnExit();
+    }
+
+    @Test
+    public void testReferencedHeader() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue855.yaml", null, new ParseOptions()).getOpenAPI();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
+        CodegenResponse response = codegen.fromResponse(openAPI, "200", ok_200);
+
+        Assert.assertEquals(1, response.headers.size());
+        CodegenProperty header = response.headers.get(0);
+        Assert.assertEquals("UUID", header.dataType);
+        Assert.assertEquals("Request", header.baseName);
+    }
+
+    @Test
+    public void testFreeFormObjects() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue796.yaml", null, new ParseOptions()).getOpenAPI();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
+        CodegenModel cm1 = codegen.fromModel("MapTest1", test1, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm1.getDataType(), "Map");
+        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm1.getClassname(), "MapTest1");
+
+        Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
+        CodegenModel cm2 = codegen.fromModel("MapTest2", test2, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm2.getDataType(), "Map");
+        Assert.assertEquals(cm2.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm2.getClassname(), "MapTest2");
+
+        Schema test3 = openAPI.getComponents().getSchemas().get("MapTest3");
+        CodegenModel cm3 = codegen.fromModel("MapTest3", test3, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm3.getDataType(), "Map");
+        Assert.assertEquals(cm3.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm3.getClassname(), "MapTest3");
+
+        Schema other = openAPI.getComponents().getSchemas().get("OtherObj");
+        CodegenModel cm = codegen.fromModel("OtherObj", other, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm.getDataType(), "Object");
+        Assert.assertEquals(cm.getClassname(), "OtherObj");
+    }
+
+    private void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {
+        File file = new File(root, filename);
+        String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
+        if(!generatedFiles.containsKey(absoluteFilename)) {
+            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" + 
+                    generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
+        }
+        Assert.assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {

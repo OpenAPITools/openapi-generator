@@ -34,7 +34,7 @@ public class ApiClientTest {
         assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T02:49:09.356-01:00")));
 
         // custom date format: without milli-seconds, custom time zone
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.ROOT);
         format.setTimeZone(TimeZone.getTimeZone("GMT+10"));
         apiClient.setDateFormat(format);
         dateStr = "2015-11-07T13:49:09+10:00";

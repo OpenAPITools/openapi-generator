@@ -4,6 +4,7 @@ import Date
 import Date.Extra exposing (fromIsoString, toIsoString)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
+import Result
 
 
 type alias DateTime =
@@ -24,11 +25,8 @@ dateTimeEncoder model =
 decodeIsoString : String -> Decoder DateTime
 decodeIsoString str =
     case fromIsoString str of
-        Just date ->
+        Result.Ok date ->
             Decode.succeed date
 
-        Nothing ->
-            Decode.fail <|
-                "Cannot convert "
-                    ++ str
-                    ++ " to DateTime"
+        Result.Err msg ->
+            Decode.fail msg

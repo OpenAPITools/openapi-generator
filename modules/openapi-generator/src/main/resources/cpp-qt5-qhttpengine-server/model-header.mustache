@@ -1,0 +1,58 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H
+#define {{classname}}_H
+
+#include <QJsonObject>
+
+{{/model}}{{/models}}
+{{#imports}}{{{import}}}
+{{/imports}}
+
+#include "{{prefix}}Object.h"
+
+{{#models}}
+{{#model}}
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{classname}}: public {{prefix}}Object {
+public:
+    {{classname}}();
+    {{classname}}(QString json);
+    ~{{classname}}() override;
+    void init();
+
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
+    void fromJsonObject(QJsonObject json) override;
+    void fromJson(QString jsonString) override;
+
+    {{#vars}}
+    {{{dataType}}} {{getter}}() const;
+    void {{setter}}(const {{{dataType}}} &{{name}});
+
+    {{/vars}}
+    virtual bool isSet() const override;
+
+private:
+    {{#vars}}
+    {{{dataType}}} {{name}};
+    bool m_{{name}}_isSet;
+
+    {{/vars}}
+};
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
+
+#endif // {{classname}}_H
+{{/model}}
+{{/models}}

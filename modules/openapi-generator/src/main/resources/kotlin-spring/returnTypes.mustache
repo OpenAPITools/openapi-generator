@@ -1,0 +1,1 @@
+{{#isMapContainer}}{{#reactive}}Mono<{{/reactive}}Map<String, {{{returnType}}}{{#reactive}}>{{/reactive}}>{{/isMapContainer}}{{#isListContainer}}{{#reactive}}Flux{{/reactive}}{{^reactive}}List{{/reactive}}<{{{returnType}}}>{{/isListContainer}}{{^returnContainer}}{{#reactive}}Mono<{{{returnType}}}>{{/reactive}}{{^reactive}}{{{returnType}}}{{/reactive}}{{/returnContainer}}

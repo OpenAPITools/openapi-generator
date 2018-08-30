@@ -2,6 +2,7 @@ package controllers;
 
 import java.math.BigDecimal;
 import apimodels.Client;
+import apimodels.FileSchemaTestClass;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
@@ -114,6 +115,22 @@ public class FakeApiController extends Controller {
         String obj = imp.fakeOuterStringSerialize(body);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
+    }
+
+    @ApiAction
+    public Result testBodyWithFileSchema() throws Exception {
+        JsonNode nodefileSchemaTestClass = request().body().asJson();
+        FileSchemaTestClass fileSchemaTestClass;
+        if (nodefileSchemaTestClass != null) {
+            fileSchemaTestClass = mapper.readValue(nodefileSchemaTestClass.toString(), FileSchemaTestClass.class);
+            if (configuration.getBoolean("useInputBeanValidation")) {
+                OpenAPIUtils.validate(fileSchemaTestClass);
+            }
+        } else {
+            throw new IllegalArgumentException("'FileSchemaTestClass' parameter is required");
+        }
+        imp.testBodyWithFileSchema(fileSchemaTestClass);
+        return ok();
     }
 
     @ApiAction

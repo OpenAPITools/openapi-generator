@@ -456,4 +456,67 @@ export default class PetApi {
     }
 
 
+    /**
+     * uploads an image (required)
+     * @param {Number} petId ID of pet to update
+     * @param {File} requiredFile file to upload
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.additionalMetadata Additional data to pass to server
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/ApiResponse} and HTTP response
+     */
+    uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, opts) {
+      opts = opts || {};
+      let postBody = null;
+
+      // verify the required parameter 'petId' is set
+      if (petId === undefined || petId === null) {
+        throw new Error("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+      }
+
+      // verify the required parameter 'requiredFile' is set
+      if (requiredFile === undefined || requiredFile === null) {
+        throw new Error("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
+      }
+
+
+      let pathParams = {
+        'petId': petId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+        'additionalMetadata': opts['additionalMetadata'],
+        'requiredFile': requiredFile
+      };
+
+      let authNames = ['petstore_auth'];
+      let contentTypes = ['multipart/form-data'];
+      let accepts = ['application/json'];
+      let returnType = ApiResponse;
+
+      return this.apiClient.callApi(
+        '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * uploads an image (required)
+     * @param {Number} petId ID of pet to update
+     * @param {File} requiredFile file to upload
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.additionalMetadata Additional data to pass to server
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/ApiResponse}
+     */
+    uploadFileWithRequiredFile(petId, requiredFile, opts) {
+      return this.uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
 }

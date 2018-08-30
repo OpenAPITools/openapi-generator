@@ -21,11 +21,16 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.utils.ModelUtils;
@@ -33,12 +38,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DefaultCodegenTest {
 
@@ -138,6 +139,33 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testGetProducesInfo() throws Exception {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/produces.yaml", null, new ParseOptions()).getOpenAPI();
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Operation textOperation = openAPI.getPaths().get("/ping/text").getGet();
+        CodegenOperation coText = codegen.fromOperation("/ping/text", "get", textOperation, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertTrue(coText.hasProduces);
+        Assert.assertEquals(coText.produces.size(), 1);
+        Assert.assertEquals(coText.produces.get(0).get("mediaType"), "text/plain");
+
+        Operation jsonOperation = openAPI.getPaths().get("/ping/json").getGet();
+        CodegenOperation coJson = codegen.fromOperation("/ping/json", "get", jsonOperation, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertTrue(coJson.hasProduces);
+        Assert.assertEquals(coJson.produces.size(), 1);
+        Assert.assertEquals(coJson.produces.get(0).get("mediaType"), "application/json");
+
+        Operation issue443Operation = openAPI.getPaths().get("/other/issue443").getGet();
+        CodegenOperation coIssue443 = codegen.fromOperation("/other/issue443", "get", issue443Operation, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertTrue(coIssue443.hasProduces);
+        Assert.assertEquals(coIssue443.produces.size(), 2);
+        Assert.assertEquals(coIssue443.produces.get(0).get("mediaType"), "application/json");
+        Assert.assertEquals(coIssue443.produces.get(0).get("hasMore"), "true");
+        Assert.assertEquals(coIssue443.produces.get(1).get("mediaType"), "application/text");
+        Assert.assertEquals(coIssue443.produces.get(1).get("hasMore"), null);
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.processOpts();
@@ -175,9 +203,7 @@ public class DefaultCodegenTest {
 
         };
 
-        Method method = DefaultCodegen.class.getDeclaredMethod("getAllAliases", Map.class);
-        method.setAccessible(true);
-        Map<String, String> aliases = (Map<String, String>)method.invoke(null, schemas);
+        Map<String, String> aliases = DefaultCodegen.getAllAliases(schemas);
 
         Assert.assertEquals(aliases.size(), 0);
     }
@@ -204,6 +230,26 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
     }
+    
+    @Test
+    public void testConsistentParameterNameAfterUniquenessRename() throws Exception {
+        Operation operation = new Operation()
+            .operationId("opId")
+            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+            .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        CodegenOperation co = codegen.fromOperation("p/", "get", operation, Collections.emptyMap());
+        Assert.assertEquals(co.path, "p/");
+        Assert.assertEquals(co.allParams.size(), 2);
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(allParamsNames.contains("myparam"));
+        Assert.assertTrue(allParamsNames.contains("myparam2"));
+        List<String> queryParamsNames = co.queryParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        Assert.assertTrue(queryParamsNames.contains("myparam"));
+        Assert.assertTrue(queryParamsNames.contains("myparam2"));
+    }
 
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithOneOf() {
@@ -215,6 +261,33 @@ public class DefaultCodegenTest {
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
+    }
+
+    @Test
+    public void testEscapeText() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        Assert.assertEquals(codegen.escapeText("\n"), " ");
+        Assert.assertEquals(codegen.escapeText("\r"), " ");
+        Assert.assertEquals(codegen.escapeText("\t"), " ");
+        Assert.assertEquals(codegen.escapeText("\\"), "\\\\");
+        Assert.assertEquals(codegen.escapeText("\""), "\\\"");
+        Assert.assertEquals(codegen.escapeText("\\/"), "/");
+    }
+
+    @Test
+    public void testEscapeTextWhileAllowingNewLines() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        // allow new lines
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\n"), "\n");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\r"), "\r");
+
+        // escape other special characters
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\t"), " ");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\"), "\\\\");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\""), "\\\"");
+        Assert.assertEquals(codegen.escapeTextWhileAllowingNewLines("\\/"), "/");
     }
 
     @Test
@@ -238,11 +311,17 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        Operation operation = openAPI.getPaths().get("/example1").getGet();
+        Operation operation = openAPI.getPaths().get("/example1/singular").getGet();
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter, operation.getParameters().get(0));
 
         Assert.assertEquals(codegenParameter.example, "example1 value");
+
+        Operation operation2 = openAPI.getPaths().get("/example1/plural").getGet();
+        CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegen.setParameterExampleValue(codegenParameter2, operation2.getParameters().get(0));
+
+        Assert.assertEquals(codegenParameter2.example, "An example1 value");
     }
 
     @Test
@@ -250,7 +329,7 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        Operation operation = openAPI.getPaths().get("/example2").getGet();
+        Operation operation = openAPI.getPaths().get("/example2/singular").getGet();
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter, operation.getParameters().get(0));
 
@@ -262,11 +341,17 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        Operation operation = openAPI.getPaths().get("/example3").getGet();
+        Operation operation = openAPI.getPaths().get("/example3/singular").getGet();
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter, operation.getParameters().get(0));
 
         Assert.assertEquals(codegenParameter.example, "example3: parameter value");
+
+        Operation operation2 = openAPI.getPaths().get("/example3/plural").getGet();
+        CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegen.setParameterExampleValue(codegenParameter2, operation2.getParameters().get(0));
+
+        Assert.assertEquals(codegenParameter2.example, "example3: parameter value");
     }
 
     @Test
@@ -274,11 +359,112 @@ public class DefaultCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        Operation operation = openAPI.getPaths().get("/example4").getGet();
+        Operation operation = openAPI.getPaths().get("/example4/singular").getPost();
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegen.setParameterExampleValue(codegenParameter, operation.getRequestBody());
 
         Assert.assertEquals(codegenParameter.example, "example4 value");
+
+        Operation operation2 = openAPI.getPaths().get("/example4/plural").getPost();
+        CodegenParameter codegenParameter2 = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        codegen.setParameterExampleValue(codegenParameter2, operation2.getRequestBody());
+
+        Assert.assertEquals(codegenParameter2.example, "An example4 value");
+    }
+
+    @Test
+    public void testDiscriminator() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema animal = openAPI.getComponents().getSchemas().get("Animal");
+        CodegenModel animalModel = codegen.fromModel("Animal", animal, openAPI.getComponents().getSchemas());
+        CodegenDiscriminator discriminator = animalModel.getDiscriminator();
+        CodegenDiscriminator test = new CodegenDiscriminator();
+        test.setPropertyName("className");
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Dog", "Dog"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
+        Assert.assertEquals(discriminator, test);
+    }
+
+    @Test
+    public void testDiscriminatorWithCustomMapping() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        String path = "/person/display/{personId}";
+        Operation operation = openAPI.getPaths().get(path).getGet();
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI.getComponents().getSchemas());
+        verifyPersonDiscriminator(codegenOperation.discriminator);
+
+        Schema person = openAPI.getComponents().getSchemas().get("Person");
+        CodegenModel personModel = codegen.fromModel("Person", person, openAPI.getComponents().getSchemas());
+        verifyPersonDiscriminator(personModel.discriminator);
+    }
+
+    @Test
+    public void testCallbacks() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/callbacks.yaml", null, new ParseOptions()).getOpenAPI();
+        final CodegenConfig codegen = new DefaultCodegen();
+
+        final String path = "/streams";
+        Operation subscriptionOperation = openAPI.getPaths().get("/streams").getPost();
+        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation, openAPI.getComponents().getSchemas(), openAPI);
+
+        Assert.assertFalse(op.isCallbackRequest);
+        Assert.assertNotNull(op.operationId);
+        Assert.assertEquals(op.callbacks.size(), 2);
+
+        CodegenCallback cbB = op.callbacks.get(1);
+        Assert.assertEquals(cbB.name, "dummy");
+        Assert.assertFalse(cbB.hasMore);
+        Assert.assertEquals(cbB.urls.size(), 0);
+
+        CodegenCallback cbA = op.callbacks.get(0);
+        Assert.assertEquals(cbA.name, "onData");
+        Assert.assertTrue(cbA.hasMore);
+
+        Assert.assertEquals(cbA.urls.size(), 2);
+
+        CodegenCallback.Url urlB = cbA.urls.get(1);
+        Assert.assertEquals(urlB.expression, "{$request.query.callbackUrl}/test");
+        Assert.assertFalse(urlB.hasMore);
+        Assert.assertEquals(urlB.requests.size(), 0);
+
+        CodegenCallback.Url urlA = cbA.urls.get(0);
+        Assert.assertEquals(urlA.expression, "{$request.query.callbackUrl}/data");
+        Assert.assertTrue(urlA.hasMore);
+        Assert.assertEquals(urlA.requests.size(), 2);
+
+        urlA.requests.forEach(req -> {
+            Assert.assertTrue(req.isCallbackRequest);
+            Assert.assertNotNull(req.bodyParam);
+            Assert.assertEquals(req.responses.size(), 2);
+
+            switch (req.httpMethod.toLowerCase(Locale.getDefault())) {
+            case "post":
+                Assert.assertEquals(req.operationId, "onDataDataPost");
+                Assert.assertEquals(req.bodyParam.dataType, "NewNotificationData");
+                break;
+            case "delete":
+                Assert.assertEquals(req.operationId, "onDataDataDelete");
+                Assert.assertEquals(req.bodyParam.dataType, "DeleteNotificationData");
+                break;
+            default:
+                Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
+            }
+        });
+    }
+
+    private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
+        CodegenDiscriminator test = new CodegenDiscriminator();
+        test.setPropertyName("$_type");
+        test.setMapping(new HashMap<>());
+        test.getMapping().put("a", "#/components/schemas/Adult");
+        test.getMapping().put("c", "#/components/schemas/Child");
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("a", "Adult"));
+        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("c", "Child"));
+        Assert.assertEquals(discriminator, test);
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {

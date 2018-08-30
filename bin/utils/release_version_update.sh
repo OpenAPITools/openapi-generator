@@ -40,16 +40,12 @@ declare -a files=("CI/pom.xml.bash"
                   "CI/pom.xml.circleci.java7"
                   "CI/pom.xml.ios"
                   "modules/openapi-generator-cli/pom.xml"
-                  "modules/openapi-generator-gradle-plugin/README.adoc"
                   "modules/openapi-generator-gradle-plugin/gradle.properties"
                   "modules/openapi-generator-gradle-plugin/pom.xml"
-                  "modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle"
                   "modules/openapi-generator-maven-plugin/pom.xml"
                   "modules/openapi-generator-online/pom.xml"
                   "modules/openapi-generator/pom.xml"
-                  "modules/openapi-generator-online/Dockerfile"
-                  "pom.xml"
-                  "README.md")
+                  "pom.xml")
 
 for filename in "${files[@]}"; do
   # e.g. sed -i '' "s/3.0.1-SNAPSHOT/3.0.1/g" CI/pom.xml.bash
