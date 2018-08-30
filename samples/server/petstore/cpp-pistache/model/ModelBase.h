@@ -50,7 +50,7 @@ public:
     static bool toJson( bool const value );
     static nlohmann::json toJson(ModelBase const& content ); 
 
-	static std::string toStringValue(const std::string &value);
+    static std::string toStringValue(const std::string &value);
     static std::string toStringValue(const int32_t &value);
     static std::string toStringValue(const int64_t &value);
     static std::string toStringValue(const bool &value);
