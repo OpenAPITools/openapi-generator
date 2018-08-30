@@ -18,56 +18,56 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.File;
 import javax.validation.constraints.*;
 
 /**
- * A category for a pet
+ * Body1
  */
-@ApiModel(description = "A category for a pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-29T07:47:48.785+02:00[Europe/Zurich]")
-public class Category   {
-  @JsonProperty("id")
-  private Long id = null;
+public class Body1   {
+  @JsonProperty("additionalMetadata")
+  private String additionalMetadata = null;
 
-  @JsonProperty("name")
-  private String name = null;
+  @JsonProperty("file")
+  private File file = null;
 
-  public Category id(Long id) {
-    this.id = id;
+  public Body1 additionalMetadata(String additionalMetadata) {
+    this.additionalMetadata = additionalMetadata;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * Additional data to pass to server
+   * @return additionalMetadata
    **/
-  @JsonProperty("id")
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
+  @JsonProperty("additionalMetadata")
+  @ApiModelProperty(value = "Additional data to pass to server")
+  public String getAdditionalMetadata() {
+    return additionalMetadata;
   }
 
-  public void setId(Long id) {
-    this.id = id;
+  public void setAdditionalMetadata(String additionalMetadata) {
+    this.additionalMetadata = additionalMetadata;
   }
 
-  public Category name(String name) {
-    this.name = name;
+  public Body1 file(File file) {
+    this.file = file;
     return this;
   }
 
   /**
-   * Get name
-   * @return name
+   * file to upload
+   * @return file
    **/
-  @JsonProperty("name")
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
+  @JsonProperty("file")
+  @ApiModelProperty(value = "file to upload")
+  public File getFile() {
+    return file;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setFile(File file) {
+    this.file = file;
   }
 
 
@@ -79,24 +79,24 @@ public class Category   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Category category = (Category) o;
-    return Objects.equals(this.id, category.id) &&
-        Objects.equals(this.name, category.name);
+    Body1 body1 = (Body1) o;
+    return Objects.equals(this.additionalMetadata, body1.additionalMetadata) &&
+        Objects.equals(this.file, body1.file);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(additionalMetadata, file);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Body1 {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalMetadata: ").append(toIndentedString(additionalMetadata)).append("\n");
+    sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("}");
     return sb.toString();
   }
