@@ -17,6 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -24,16 +29,11 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.info.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.util.Map;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String PROJECT_NAME = "projectName";
@@ -216,12 +216,12 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
         for (CodegenOperation op : ops) {
             // Convert httpMethod to lower case, e.g. "get", "post"
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
         }
         return operations;
     }

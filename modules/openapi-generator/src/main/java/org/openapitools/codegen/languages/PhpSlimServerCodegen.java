@@ -17,41 +17,29 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.*;
-
 import java.io.File;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.Comparator;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
 
-    protected String invokerPackage;
-    protected String srcBasePath = "lib";
+    public static final String PHPCS_STANDARD = "phpcsStandard";
+
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
-    protected String artifactVersion = "1.0.0";
-    protected String packagePath = ""; // empty packagePath (top folder)
-
-
-    private String variableNamingConvention = "camelCase";
+    protected String phpcsStandard = "PSR12";
 
     public PhpSlimServerCodegen() {
         super();
@@ -60,68 +48,34 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
         // at the moment
         importMapping.clear();
 
-        invokerPackage = camelize("OpenAPIServer");
-        modelPackage = packagePath + "\\Models";
-        apiPackage = packagePath;
+        variableNamingConvention = "camelCase";
+        artifactVersion = "1.0.0";
+        setInvokerPackage("OpenAPIServer");
+        apiPackage = invokerPackage + "\\" + apiDirName;
+        modelPackage = invokerPackage + "\\" + modelDirName;
         outputFolder = "generated-code" + File.separator + "slim";
-        modelTemplateFiles.put("model.mustache", ".php");
 
-        // no api files
-        apiTemplateFiles.clear();
+        modelTestTemplateFiles.put("model_test.mustache", ".php");
+        // no doc files
+        modelDocTemplateFiles.clear();
+        apiDocTemplateFiles.clear();
 
-        embeddedTemplateDir = templateDir = "slim";
+        embeddedTemplateDir = templateDir = "php-slim-server";
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
-        );
-
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
-        // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "boolean",
-                        "int",
-                        "integer",
-                        "double",
-                        "float",
-                        "string",
-                        "object",
-                        "DateTime",
-                        "mixed",
-                        "number")
-        );
+        // override cliOptions from AbstractPhpCodegen
+        for (CliOption co : cliOptions) {
+            if (co.getOpt().equals(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION)) {
+                co.setDescription("naming convention of variable name, e.g. camelCase.");
+                co.setDefault("camelCase");
+                break;
+            }
+        }
 
-        instantiationTypes.put("array", "array");
-        instantiationTypes.put("map", "map");
-
-        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "int");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("string", "string");
-        typeMapping.put("byte", "int");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "\\DateTime");
-        typeMapping.put("datetime", "\\DateTime");
-        typeMapping.put("file", "\\SplFileObject");
-        typeMapping.put("map", "map");
-        typeMapping.put("array", "array");
-        typeMapping.put("list", "array");
-        typeMapping.put("object", "object");
-        typeMapping.put("binary", "\\SplFileObject");
-
-        supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
-        supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
-        supportingFiles.add(new SupportingFile(".gitignore", packagePath.replace('/', File.separatorChar), ".gitignore"));
+        cliOptions.add(new CliOption(PHPCS_STANDARD, "PHP CodeSniffer <standard> option. Accepts name or path of the coding standard to use.")
+                .defaultValue("PSR12"));
     }
 
     @Override
@@ -140,226 +94,47 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(apiPackage, srcBasePath));
+        if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+            // need to strip out invokerPackage from path
+            return (outputFolder + File.separator + toSrcPath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+        }
+        return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(modelPackage, srcBasePath));
-    }
-
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getTypeDeclaration(inner) + "[]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String type = super.getTypeDeclaration(p);
-            return (!languageSpecificPrimitives.contains(type))
-                    ? "\\" + modelPackage + "\\" + type : type;
+        if (modelPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+            // need to strip out invokerPackage from path
+            return (outputFolder + File.separator + toSrcPath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
         }
-        return super.getTypeDeclaration(p);
+        return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
 
     @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            } else if (instantiationTypes.containsKey(type)) {
-                return type;
-            }
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(PHPCS_STANDARD)) {
+            this.setPhpcsStandard((String) additionalProperties.get(PHPCS_STANDARD));
         } else {
-            type = openAPIType;
+            additionalProperties.put(PHPCS_STANDARD, phpcsStandard);
         }
-        if (type == null) {
-            return null;
-        }
-        return toModelName(type);
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+        supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), "AbstractApiController.php"));
+        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
+        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
     }
 
     @Override
-    public String getTypeDeclaration(String name) {
-        if (!languageSpecificPrimitives.contains(name)) {
-            return "\\" + modelPackage + "\\" + name;
-        }
-        return super.getTypeDeclaration(name);
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        return "null";
-    }
-
-    public void setParameterNamingConvention(String variableNamingConvention) {
-        this.variableNamingConvention = variableNamingConvention;
-    }
-
-    @Override
-    public String toVarName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if ("camelCase".equals(variableNamingConvention)) {
-            // return the name in camelCase style
-            // phone_number => phoneNumber
-            name = camelize(name, true);
-        } else { // default to snake case
-            // return the name in underscore style
-            // PhoneNumber => phone_number
-            name = underscore(name);
-        }
-
-        // parameter name starting with number won't compile
-        // need to escape it by appending _ at the beginning
-        if (name.matches("^\\d.*")) {
-            name = "_" + name;
-        }
-
-        return name;
-    }
-
-    @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
-    public String toModelName(String name) {
-        // remove [
-        name = name.replaceAll("\\]", "");
-
-        // Note: backslash ("\\") is allowed for e.g. "\\DateTime"
-        name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // remove dollar sign
-        name = name.replaceAll("$", "");
-
-        // model name cannot use reserved keyword
-        if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
-            name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        // add prefix and/or suffic only if name does not start wth \ (e.g. \DateTime)
-        if (!name.matches("^\\\\.*")) {
-            if (!StringUtils.isEmpty(modelNamePrefix)) {
-                name = modelNamePrefix + "_" + name;
-            }
-
-            if (!StringUtils.isEmpty(modelNameSuffix)) {
-                name = name + "_" + modelNameSuffix;
-            }
-        }
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
-    }
-
-    @Override
-    public String toModelFilename(String name) {
-        // should be the same as the model name
-        return toModelName(name);
-    }
-
-    @Override
-    public String toOperationId(String operationId) {
-        // throw exception if method name is empty
-        if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
-        }
-
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
-            operationId = "call_" + operationId;
-        }
-
-        return camelize(sanitizeName(operationId), true);
-    }
-
-    public String toPackagePath(String packageName, String basePath) {
-        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        }
-
-        String regFirstPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regFirstPathSeparator = "^/";
-        } else { // for windows
-            regFirstPathSeparator = "^\\\\";
-        }
-
-        String regLastPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regLastPathSeparator = "/$";
-        } else { // for windows
-            regLastPathSeparator = "\\\\$";
-        }
-
-        return (getPackagePath() + File.separatorChar + basePath
-                // Replace period, backslash, forward slash with file separator in package name
-                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
-                // Trim prefix file separators from package path
-                .replaceAll(regFirstPathSeparator, ""))
-                // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator + "$", "");
-    }
-
-    public String getPackagePath() {
-        return packagePath;
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "");
-    }
-
-    @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        for (CodegenOperation op : operationList) {
-            if (op.hasProduces) {
-                // need to escape */* values because they breakes current mustaches
-                List<Map<String, String>> c = op.produces;
-                for (Map<String, String> mediaType : c) {
-                    if ("*/*".equals(mediaType.get("mediaType"))) {
-                        mediaType.put("mediaType", "*_/_*");
-                    }
-                }
-            }
-        }
+        escapeMediaType(operationList);
         return objs;
     }
 
@@ -383,6 +158,10 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
             });
         }
         return objs;
+    }
+
+    public void setPhpcsStandard(String phpcsStandard) {
+        this.phpcsStandard = phpcsStandard;
     }
 
 }

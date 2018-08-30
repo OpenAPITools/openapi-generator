@@ -17,12 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +33,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -252,20 +256,6 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     }
 
     /**
-     * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
-     * those terms here.  This logic is only called if a variable matches the reserved words
-     *
-     * @return the escaped term
-     */
-    @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    /**
      * Location to write model files.  You can use the modelPackage() as defined when the class is
      * instantiated
      */
@@ -308,7 +298,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">*";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">*";
         }
         if (foundationClasses.contains(openAPIType)) {
@@ -339,7 +329,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "new QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -379,32 +369,13 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     }
 
     @Override
-    public String toModelName(String type) {
-        if (type == null) {
-            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
-            type = "UnknownModel";
-        }
-
-        if (typeMapping.keySet().contains(type) ||
-                typeMapping.values().contains(type) ||
-                importMapping.values().contains(type) ||
-                defaultIncludes.contains(type) ||
-                languageSpecificPrimitives.contains(type)) {
-            return type;
-        } else {
-            String typeName = sanitizeName(type);
-            return modelNamePrefix + Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
-        }
-    }
-
-    @Override
     public String toVarName(String name) {
         // sanitize name
         String varName = sanitizeName(name); 
 
         // if it's all uppper case, convert to lower case
         if (varName.matches("^[A-Z_]*$")) {
-            varName = varName.toLowerCase();
+            varName = varName.toLowerCase(Locale.ROOT);
         }
 
         // camelize (lower first character) the variable name
@@ -422,22 +393,6 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     @Override
     public String toParamName(String name) {
         return toVarName(name);
-    }
-
-    @Override
-    public String toApiName(String type) {
-        return modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api";
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove " to avoid code injection
-        return input.replace("\"", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     public void setOptionalProjectFileFlag(boolean flag) {

@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>3.1.0-SNAPSHOT</version>
+        <version>3.2.3-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>openapi-generator-online</artifactId>
@@ -27,6 +27,7 @@
         </dependencies>
     </dependencyManagement>
     <build>
+        <finalName>openapi-generator-online</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
             <plugin>

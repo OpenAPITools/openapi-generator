@@ -17,6 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -27,11 +30,6 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,12 +38,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
-
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
@@ -159,11 +154,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
         supportedLibraries.put("tornado", "tornado-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado, urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -198,10 +195,22 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageVersion("1.0.0");
         }
 
+        Boolean generateSourceCodeOnly = false;
+        if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
+            generateSourceCodeOnly = true;
+        }
+
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
+        if (generateSourceCodeOnly) {
+            // tests in <package>/test
+            testFolder = packageName + File.separatorChar + testFolder;
+            // api/model docs in <package>/docs
+            apiDocPath = packageName + File.separatorChar + apiDocPath;
+            modelDocPath = packageName + File.separatorChar + modelDocPath;
+        }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -210,12 +219,24 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
         }
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        String readmePath = "README.md";
+        String readmeTemplate = "README.mustache";
+        if (generateSourceCodeOnly) {
+            readmePath = packageName + "_" + readmePath;
+            readmeTemplate = "README_onlypackage.mustache";
+        }
+        supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
-        supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
-        supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-        supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+        if (!generateSourceCodeOnly) {
+            supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
+            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
 
+            supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+            supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+            supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+        }
         supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
@@ -224,10 +245,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+
         supportingFiles.add(new SupportingFile("api_client.mustache", packageName, "api_client.py"));
 
         if ("asyncio".equals(getLibrary())) {
@@ -381,7 +399,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
@@ -413,7 +431,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+            name = name.toLowerCase(Locale.ROOT);
         }
 
         // underscore the variable name
@@ -526,6 +544,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 

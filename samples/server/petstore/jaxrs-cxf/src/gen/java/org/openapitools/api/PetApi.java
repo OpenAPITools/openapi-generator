@@ -134,9 +134,22 @@ public interface PetApi  {
     @Path("/pet/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "uploads an image", tags={ "pet" })
+    @ApiOperation(value = "uploads an image", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment fileDetail);
+
+    /**
+     * uploads an image (required)
+     *
+     */
+    @POST
+    @Path("/fake/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "uploads an image (required)", tags={ "pet" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    public ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @Multipart(value = "requiredFile" ) Attachment requiredFileDetail, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata);
 }
 

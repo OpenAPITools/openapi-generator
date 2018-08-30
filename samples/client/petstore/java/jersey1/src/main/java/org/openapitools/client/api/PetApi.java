@@ -405,4 +405,58 @@ if (file != null)
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
+  /**
+   * uploads an image (required)
+   * 
+   * @param petId ID of pet to update (required)
+   * @param requiredFile file to upload (required)
+   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @return ModelApiResponse
+   * @throws ApiException if fails to make API call
+   */
+  public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'petId' is set
+    if (petId == null) {
+      throw new ApiException(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+    }
+    
+    // verify the required parameter 'requiredFile' is set
+    if (requiredFile == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
+      .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    if (additionalMetadata != null)
+      localVarFormParams.put("additionalMetadata", additionalMetadata);
+if (requiredFile != null)
+      localVarFormParams.put("requiredFile", requiredFile);
+
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "multipart/form-data"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] { "petstore_auth" };
+
+    GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
 }

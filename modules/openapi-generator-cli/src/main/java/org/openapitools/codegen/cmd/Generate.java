@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.cmd;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import org.openapitools.codegen.ClientOptInput;
@@ -32,6 +34,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
@@ -194,8 +197,28 @@ public class Generate implements Runnable {
             description = CodegenConstants.REMOVE_OPERATION_ID_PREFIX_DESC)
     private Boolean removeOperationIdPrefix;
 
+    @Option(name = {"--skip-validate-spec"},
+            title = "skip spec validation",
+            description = "Skips the default behavior of validating an input specification.")
+    private Boolean skipValidateSpec;
+
+    @Option(name = {"--log-to-stderr"},
+            title = "Log to STDERR",
+            description = "write all log messages (not just errors) to STDOUT."
+                    + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
+    private Boolean logToStderr;
+
     @Override
     public void run() {
+        if (logToStderr != null) {
+            LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+            Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
+                    .map(lc::getLogger)
+                    .peek(logger -> logger.detachAppender("STDOUT"))
+                    .reduce((logger, next) -> logger.getName().equals(Logger.ROOT_LOGGER_NAME) ? logger : next)
+                    .map(root -> root.getAppender("STDERR"))
+                    .ifPresent(FilterAttachable::clearAllFilters);
+        }
 
         // attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
@@ -207,6 +230,10 @@ public class Generate implements Runnable {
         }
 
         // now override with any specified parameters
+        if (skipValidateSpec != null) {
+            configurator.setValidateSpec(false);
+        }
+
         if (verbose != null) {
             configurator.setVerbose(verbose);
         }

@@ -19,12 +19,10 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache.Compiler;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -42,6 +40,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
@@ -69,9 +68,9 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put("appName", "OpenAPI Sample");
-        additionalProperties.put("appDescription", "A sample openapi server");
-        additionalProperties.put("infoUrl", "https://helloreverb.com");
-        additionalProperties.put("infoEmail", "hello@helloreverb.com");
+        additionalProperties.put("appDescription", "A sample OpenAPI server");
+        additionalProperties.put("infoUrl", "https//openapi-generator.tech");
+        additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -118,18 +117,18 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
             for (CodegenResponse response : op.responses) {
                 if ("0".equals(response.code)) {
                     response.code = "default";

@@ -25,7 +25,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
 
-@Path("/FakeClassnameTags123")
+@Path("")
 
 
 @io.swagger.annotations.Api(description = "the FakeClassnameTags123 API")
@@ -55,7 +55,7 @@ public class FakeClassnameTags123Api  {
    }
 
     @PATCH
-    
+    @Path("/fake_classname_test")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", response = Client.class, authorizations = {

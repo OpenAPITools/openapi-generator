@@ -57,7 +57,7 @@ public class JavaCXFClientCodegenTest {
         Map<String, Object> objs = new HashMap<>();
         objs.put("operations", Collections.singletonMap("operation", Collections.singletonList(co)));
         objs.put("imports", Collections.emptyList());
-        codegen.postProcessOperations(objs);
+        codegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
         Assert.assertEquals(co.responses.size(), 2);
         CodegenResponse cr1 = co.responses.get(0);

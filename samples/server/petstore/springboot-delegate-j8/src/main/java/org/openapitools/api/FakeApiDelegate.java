@@ -2,8 +2,10 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
@@ -95,6 +97,14 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testBodyWithFileSchema
+     */
+    default ResponseEntity<Void> testBodyWithFileSchema( FileSchemaTestClass  fileSchemaTestClass) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * @see FakeApi#testBodyWithQueryParams
      */
     default ResponseEntity<Void> testBodyWithQueryParams( String  query,
@@ -168,6 +178,24 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testJsonFormData( String  param,
          String  param2) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
+     * @see FakeApi#uploadFileWithRequiredFile
+     */
+    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( Long  petId,
+        MultipartFile requiredFile,
+         String  additionalMetadata) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

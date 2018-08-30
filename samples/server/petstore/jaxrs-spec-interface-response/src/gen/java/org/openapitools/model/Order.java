@@ -1,14 +1,18 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-
 import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 
 
 public class Order  implements Serializable {
@@ -46,7 +50,7 @@ public enum StatusEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -149,7 +153,7 @@ public enum StatusEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
   public void setComplete(Boolean complete) {

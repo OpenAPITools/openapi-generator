@@ -191,7 +191,13 @@ public class ExampleGenerator {
             Schema innerType = ((ArraySchema) property).getItems();
             if (innerType != null) {
                 int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
-                if (arrayLength > 1024) {
+                if (arrayLength == Integer.MAX_VALUE) {
+                    // swagger-jersey2-jaxrs generated spec may contain maxItem = 2147483647
+                    // semantically this means there is no upper limit
+                    // treating this as if the property was not present at all
+                    LOGGER.warn("The max items allowed in property {} of {} equals Integer.MAX_VALUE. Treating this as if no max items has been specified.", property, arrayLength);
+                    arrayLength = 2;
+                } else if (arrayLength > 1024) {
                     LOGGER.warn("The max items allowed in property {} is too large ({} items), restricting it to 1024 items", property, arrayLength);
                     arrayLength = 1024;
                 }
@@ -230,10 +236,10 @@ public class ExampleGenerator {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
             }
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {

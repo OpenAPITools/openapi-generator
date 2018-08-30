@@ -124,6 +124,150 @@ arrayTestArrayArrayOfModelL f ArrayTest{..} = (\arrayTestArrayArrayOfModel -> Ar
 
 
 
+-- * Body
+
+-- | 'bodyName' Lens
+bodyNameL :: Lens_' Body (Maybe Text)
+bodyNameL f Body{..} = (\bodyName -> Body { bodyName, ..} ) <$> f bodyName
+{-# INLINE bodyNameL #-}
+
+-- | 'bodyStatus' Lens
+bodyStatusL :: Lens_' Body (Maybe Text)
+bodyStatusL f Body{..} = (\bodyStatus -> Body { bodyStatus, ..} ) <$> f bodyStatus
+{-# INLINE bodyStatusL #-}
+
+
+
+-- * Body1
+
+-- | 'body1AdditionalMetadata' Lens
+body1AdditionalMetadataL :: Lens_' Body1 (Maybe Text)
+body1AdditionalMetadataL f Body1{..} = (\body1AdditionalMetadata -> Body1 { body1AdditionalMetadata, ..} ) <$> f body1AdditionalMetadata
+{-# INLINE body1AdditionalMetadataL #-}
+
+-- | 'body1File' Lens
+body1FileL :: Lens_' Body1 (Maybe FilePath)
+body1FileL f Body1{..} = (\body1File -> Body1 { body1File, ..} ) <$> f body1File
+{-# INLINE body1FileL #-}
+
+
+
+-- * Body2
+
+-- | 'body2EnumFormStringArray' Lens
+body2EnumFormStringArrayL :: Lens_' Body2 (Maybe [E'EnumFormStringArray])
+body2EnumFormStringArrayL f Body2{..} = (\body2EnumFormStringArray -> Body2 { body2EnumFormStringArray, ..} ) <$> f body2EnumFormStringArray
+{-# INLINE body2EnumFormStringArrayL #-}
+
+-- | 'body2EnumFormString' Lens
+body2EnumFormStringL :: Lens_' Body2 (Maybe E'EnumFormString)
+body2EnumFormStringL f Body2{..} = (\body2EnumFormString -> Body2 { body2EnumFormString, ..} ) <$> f body2EnumFormString
+{-# INLINE body2EnumFormStringL #-}
+
+
+
+-- * Body3
+
+-- | 'body3Integer' Lens
+body3IntegerL :: Lens_' Body3 (Maybe Int)
+body3IntegerL f Body3{..} = (\body3Integer -> Body3 { body3Integer, ..} ) <$> f body3Integer
+{-# INLINE body3IntegerL #-}
+
+-- | 'body3Int32' Lens
+body3Int32L :: Lens_' Body3 (Maybe Int)
+body3Int32L f Body3{..} = (\body3Int32 -> Body3 { body3Int32, ..} ) <$> f body3Int32
+{-# INLINE body3Int32L #-}
+
+-- | 'body3Int64' Lens
+body3Int64L :: Lens_' Body3 (Maybe Integer)
+body3Int64L f Body3{..} = (\body3Int64 -> Body3 { body3Int64, ..} ) <$> f body3Int64
+{-# INLINE body3Int64L #-}
+
+-- | 'body3Number' Lens
+body3NumberL :: Lens_' Body3 (Double)
+body3NumberL f Body3{..} = (\body3Number -> Body3 { body3Number, ..} ) <$> f body3Number
+{-# INLINE body3NumberL #-}
+
+-- | 'body3Float' Lens
+body3FloatL :: Lens_' Body3 (Maybe Float)
+body3FloatL f Body3{..} = (\body3Float -> Body3 { body3Float, ..} ) <$> f body3Float
+{-# INLINE body3FloatL #-}
+
+-- | 'body3Double' Lens
+body3DoubleL :: Lens_' Body3 (Double)
+body3DoubleL f Body3{..} = (\body3Double -> Body3 { body3Double, ..} ) <$> f body3Double
+{-# INLINE body3DoubleL #-}
+
+-- | 'body3String' Lens
+body3StringL :: Lens_' Body3 (Maybe Text)
+body3StringL f Body3{..} = (\body3String -> Body3 { body3String, ..} ) <$> f body3String
+{-# INLINE body3StringL #-}
+
+-- | 'body3PatternWithoutDelimiter' Lens
+body3PatternWithoutDelimiterL :: Lens_' Body3 (Text)
+body3PatternWithoutDelimiterL f Body3{..} = (\body3PatternWithoutDelimiter -> Body3 { body3PatternWithoutDelimiter, ..} ) <$> f body3PatternWithoutDelimiter
+{-# INLINE body3PatternWithoutDelimiterL #-}
+
+-- | 'body3Byte' Lens
+body3ByteL :: Lens_' Body3 (ByteArray)
+body3ByteL f Body3{..} = (\body3Byte -> Body3 { body3Byte, ..} ) <$> f body3Byte
+{-# INLINE body3ByteL #-}
+
+-- | 'body3Binary' Lens
+body3BinaryL :: Lens_' Body3 (Maybe FilePath)
+body3BinaryL f Body3{..} = (\body3Binary -> Body3 { body3Binary, ..} ) <$> f body3Binary
+{-# INLINE body3BinaryL #-}
+
+-- | 'body3Date' Lens
+body3DateL :: Lens_' Body3 (Maybe Date)
+body3DateL f Body3{..} = (\body3Date -> Body3 { body3Date, ..} ) <$> f body3Date
+{-# INLINE body3DateL #-}
+
+-- | 'body3DateTime' Lens
+body3DateTimeL :: Lens_' Body3 (Maybe DateTime)
+body3DateTimeL f Body3{..} = (\body3DateTime -> Body3 { body3DateTime, ..} ) <$> f body3DateTime
+{-# INLINE body3DateTimeL #-}
+
+-- | 'body3Password' Lens
+body3PasswordL :: Lens_' Body3 (Maybe Text)
+body3PasswordL f Body3{..} = (\body3Password -> Body3 { body3Password, ..} ) <$> f body3Password
+{-# INLINE body3PasswordL #-}
+
+-- | 'body3Callback' Lens
+body3CallbackL :: Lens_' Body3 (Maybe Text)
+body3CallbackL f Body3{..} = (\body3Callback -> Body3 { body3Callback, ..} ) <$> f body3Callback
+{-# INLINE body3CallbackL #-}
+
+
+
+-- * Body4
+
+-- | 'body4Param' Lens
+body4ParamL :: Lens_' Body4 (Text)
+body4ParamL f Body4{..} = (\body4Param -> Body4 { body4Param, ..} ) <$> f body4Param
+{-# INLINE body4ParamL #-}
+
+-- | 'body4Param2' Lens
+body4Param2L :: Lens_' Body4 (Text)
+body4Param2L f Body4{..} = (\body4Param2 -> Body4 { body4Param2, ..} ) <$> f body4Param2
+{-# INLINE body4Param2L #-}
+
+
+
+-- * Body5
+
+-- | 'body5AdditionalMetadata' Lens
+body5AdditionalMetadataL :: Lens_' Body5 (Maybe Text)
+body5AdditionalMetadataL f Body5{..} = (\body5AdditionalMetadata -> Body5 { body5AdditionalMetadata, ..} ) <$> f body5AdditionalMetadata
+{-# INLINE body5AdditionalMetadataL #-}
+
+-- | 'body5RequiredFile' Lens
+body5RequiredFileL :: Lens_' Body5 (FilePath)
+body5RequiredFileL f Body5{..} = (\body5RequiredFile -> Body5 { body5RequiredFile, ..} ) <$> f body5RequiredFile
+{-# INLINE body5RequiredFileL #-}
+
+
+
 -- * Capitalization
 
 -- | 'capitalizationSmallCamel' Lens
@@ -275,6 +419,29 @@ enumTestOuterEnumL f EnumTest{..} = (\enumTestOuterEnum -> EnumTest { enumTestOu
 
 
 
+-- * File
+
+-- | 'fileSourceUri' Lens
+fileSourceUriL :: Lens_' File (Maybe Text)
+fileSourceUriL f File{..} = (\fileSourceUri -> File { fileSourceUri, ..} ) <$> f fileSourceUri
+{-# INLINE fileSourceUriL #-}
+
+
+
+-- * FileSchemaTestClass
+
+-- | 'fileSchemaTestClassFile' Lens
+fileSchemaTestClassFileL :: Lens_' FileSchemaTestClass (Maybe File)
+fileSchemaTestClassFileL f FileSchemaTestClass{..} = (\fileSchemaTestClassFile -> FileSchemaTestClass { fileSchemaTestClassFile, ..} ) <$> f fileSchemaTestClassFile
+{-# INLINE fileSchemaTestClassFileL #-}
+
+-- | 'fileSchemaTestClassFiles' Lens
+fileSchemaTestClassFilesL :: Lens_' FileSchemaTestClass (Maybe [File])
+fileSchemaTestClassFilesL f FileSchemaTestClass{..} = (\fileSchemaTestClassFiles -> FileSchemaTestClass { fileSchemaTestClassFiles, ..} ) <$> f fileSchemaTestClassFiles
+{-# INLINE fileSchemaTestClassFilesL #-}
+
+
+
 -- * FormatTest
 
 -- | 'formatTestInteger' Lens
@@ -369,6 +536,16 @@ mapTestMapMapOfStringL f MapTest{..} = (\mapTestMapMapOfString -> MapTest { mapT
 mapTestMapOfEnumStringL :: Lens_' MapTest (Maybe (Map.Map String E'Inner))
 mapTestMapOfEnumStringL f MapTest{..} = (\mapTestMapOfEnumString -> MapTest { mapTestMapOfEnumString, ..} ) <$> f mapTestMapOfEnumString
 {-# INLINE mapTestMapOfEnumStringL #-}
+
+-- | 'mapTestDirectMap' Lens
+mapTestDirectMapL :: Lens_' MapTest (Maybe (Map.Map String Bool))
+mapTestDirectMapL f MapTest{..} = (\mapTestDirectMap -> MapTest { mapTestDirectMap, ..} ) <$> f mapTestDirectMap
+{-# INLINE mapTestDirectMapL #-}
+
+-- | 'mapTestIndirectMap' Lens
+mapTestIndirectMapL :: Lens_' MapTest (Maybe StringBooleanMap)
+mapTestIndirectMapL f MapTest{..} = (\mapTestIndirectMap -> MapTest { mapTestIndirectMap, ..} ) <$> f mapTestIndirectMap
+{-# INLINE mapTestIndirectMapL #-}
 
 
 
@@ -567,6 +744,10 @@ readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { re
 specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe Integer)
 specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelNameSpecialPropertyName -> SpecialModelName { specialModelNameSpecialPropertyName, ..} ) <$> f specialModelNameSpecialPropertyName
 {-# INLINE specialModelNameSpecialPropertyNameL #-}
+
+
+
+-- * StringBooleanMap
 
 
 

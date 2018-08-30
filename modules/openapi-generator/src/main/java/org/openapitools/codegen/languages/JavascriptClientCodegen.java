@@ -18,7 +18,12 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -27,18 +32,9 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.info.*;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +44,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -601,7 +598,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -837,6 +834,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return newOperationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            String newOperationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
+            return newOperationId;
+        }
+
         return operationId;
     }
 
@@ -856,9 +860,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(am.getItems()));
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (model.getAdditionalProperties() != null) {
+            if (ModelUtils.getAdditionalProperties(model) != null) {
                 codegenModel.getVendorExtensions().put("x-isMap", true);
-                codegenModel.getVendorExtensions().put("x-itemType", getSchemaType((Schema) model.getAdditionalProperties()));
+                codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(ModelUtils.getAdditionalProperties(model)));
             } else {
                 String type = model.getType();
                 if (isPrimitiveType(type)){
@@ -955,7 +959,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         // Generate and store argument list string of each operation into
         // vendor-extension: x-codegen-argList.
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
@@ -1125,7 +1129,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return (getSymbolName(value)).toUpperCase();
+            return (getSymbolName(value)).toUpperCase(Locale.ROOT);
         }
 
         return value;

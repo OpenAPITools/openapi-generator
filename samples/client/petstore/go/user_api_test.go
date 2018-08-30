@@ -1,12 +1,12 @@
 package main
 
 import (
+	"context"
 	"testing"
 
-	sw "./go-petstore"
-	"golang.org/x/net/context"
-
 	"github.com/stretchr/testify/assert"
+
+	sw "./go-petstore"
 )
 
 func TestCreateUser(t *testing.T) {

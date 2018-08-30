@@ -23,7 +23,7 @@ class StoreAPITests: XCTestCase {
         let shipDate = Date()
         let order = Order(_id: 1000, petId: 1000, quantity: 10, shipDate: shipDate, status: .placed, complete: true)
         let expectation = self.expectation(description: "testPlaceOrder")
-        StoreAPI.placeOrder(body: order).subscribe(onNext: { order in
+        StoreAPI.placeOrder(order: order).subscribe(onNext: { order in
             XCTAssert(order._id == 1000, "invalid id")
             XCTAssert(order.quantity == 10, "invalid quantity")
             XCTAssert(order.status == .placed, "invalid status")

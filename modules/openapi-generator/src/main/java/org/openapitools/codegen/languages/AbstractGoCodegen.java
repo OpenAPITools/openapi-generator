@@ -17,26 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.core.util.Yaml;
-
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 public abstract class AbstractGoCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
 
+    protected boolean withGoCodegenComment = false;
     protected boolean withXml = false;
 
     protected String packageName = "openapi";
@@ -144,8 +139,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toVarName(String name) {
+
         // replace - with _ e.g. created-at => created_at
-        name = sanitizeName(name.replaceAll("-", "_"));
+        name = sanitizeName(name);
 
         // if it's all uppper case, do nothing
         if (name.matches("^[A-Z_]*$"))
@@ -200,7 +196,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelFilename(String name) {
-        return toModel("model_" + name);
+        name = toModel("model_" + name);
+        if (name.endsWith("_test")) {
+            LOGGER.warn(name + ".go with `_test.go` suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
+            name += "_";
+        }
+        return name;
     }
 
     public String toModel(String name) {
@@ -236,7 +237,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.go => pet_api.go
-        return "api_" + underscore(name);
+        name = "api_" + underscore(name);
+        if (name.endsWith("_test")) {
+            LOGGER.warn(name + ".go with `_test.go` suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
+            name += "_";
+        }
+        return name;
     }
 
     @Override
@@ -246,7 +252,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             Schema inner = ap.getItems();
             return "[]" + getTypeDeclaration(inner);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
         }
         //return super.getTypeDeclaration(p);
@@ -254,6 +260,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String openAPIType = getSchemaType(p);
+        String ref = p.get$ref();
+        if (ref != null && !ref.isEmpty()) {
+            String tryRefV2 = "#/definitions/" + openAPIType;
+            String tryRefV3 = "#/components/schemas/" + openAPIType;
+            if (ref.equals(tryRefV2) || ref.equals(tryRefV3)) {
+                return toModelName(openAPIType);
+            }
+        }
+
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
         }
@@ -272,8 +287,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
+        String ref = p.get$ref();
         String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
+
+        if (ref != null && !ref.isEmpty()) {
+            type = openAPIType;
+        } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return (type);
@@ -289,7 +308,13 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + operationId));
+                    + camelize("call_" + sanitizedOperationId));
+            sanitizedOperationId = "call_" + sanitizedOperationId;
+        }
+
+        // operationId starts with a number
+        if (sanitizedOperationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
@@ -297,14 +322,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
-            operation.httpMethod = camelize(operation.httpMethod.toLowerCase());
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
 
         // remove model imports to avoid error
@@ -358,7 +383,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     } else {
                         // Map optional type to dataType
                         param.vendorExtensions.put("x-optionalDataType",
-                                param.dataType.substring(0, 1).toUpperCase() + param.dataType.substring(1));
+                                param.dataType.substring(0, 1).toUpperCase(Locale.ROOT) + param.dataType.substring(1));
                     }
                 }
 
@@ -531,16 +556,18 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return getSymbolName(name).toUpperCase();
+            return getSymbolName(name).toUpperCase(Locale.ROOT);
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase());
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        if (isReservedWord(enumName) || enumName.matches("\\d.*")) { // reserved word or starts with number
+        if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
+        } else if (enumName.matches("\\d.*")) { // starts with a number
+            return "_" + enumName;
         } else {
             return enumName;
         }
@@ -548,7 +575,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase();
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
@@ -558,6 +585,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else {
             return enumName;
         }
+    }
+
+    public void setWithGoCodegenComment(boolean withGoCodegenComment) {
+        this.withGoCodegenComment = withGoCodegenComment;
     }
 
     public void setWithXml(boolean withXml) {

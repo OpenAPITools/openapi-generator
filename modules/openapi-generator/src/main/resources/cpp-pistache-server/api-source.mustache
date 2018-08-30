@@ -7,7 +7,8 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-using namespace {{modelNamespace}};
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
 
 {{classname}}::{{classname}}(Pistache::Address addr)
     : httpEndpoint(addr)
@@ -52,8 +53,8 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     {{/hasPathParams}}{{#hasBodyParam}}
     // Getting the body param
     {{#bodyParam}}
-    {{^isPrimitiveType}}
-    {{baseType}} {{paramName}};{{/isPrimitiveType}}
+    {{^isPrimitiveType}}{{^isContainer}}
+    {{baseType}} {{paramName}};{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}> {{paramName}};{{/isListContainer}}{{#isMapContainer}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMapContainer}}{{/isPrimitiveType}}
     {{#isPrimitiveType}}
     {{dataType}} {{paramName}};
     {{/isPrimitiveType}}
@@ -74,9 +75,9 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     {{#hasBodyParam}}
     {{#bodyParam}}
       nlohmann::json request_body = nlohmann::json::parse(request.body());
-    {{^isPrimitiveType}}
+    {{^isPrimitiveType}}{{^isContainer}}
       {{paramName}}.fromJson(request_body);
-    {{/isPrimitiveType}}
+    {{/isContainer}}{{/isPrimitiveType}}{{#isContainer}}  {{paramName}} = {{#isListContainer}}  {{prefix}}ModelArrayHelper{{/isListContainer}}{{#isMapContainer}}  {{prefix}}ModelMapHelper{{/isMapContainer}}::fromJson<{{items.baseType}}>(request_body);{{/isContainer}}
     {{#isPrimitiveType}}
       // The conversion is done automatically by the json library
       {{paramName}} = request_body;

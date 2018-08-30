@@ -408,5 +408,61 @@ export default class PetApi {
       );
     }
 
+    /**
+     * Callback function to receive the result of the uploadFileWithRequiredFile operation.
+     * @callback module:api/PetApi~uploadFileWithRequiredFileCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/ApiResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * uploads an image (required)
+     * @param {Number} petId ID of pet to update
+     * @param {File} requiredFile file to upload
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.additionalMetadata Additional data to pass to server
+     * @param {module:api/PetApi~uploadFileWithRequiredFileCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/ApiResponse}
+     */
+    uploadFileWithRequiredFile(petId, requiredFile, opts, callback) {
+      opts = opts || {};
+      let postBody = null;
+
+      // verify the required parameter 'petId' is set
+      if (petId === undefined || petId === null) {
+        throw new Error("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+      }
+
+      // verify the required parameter 'requiredFile' is set
+      if (requiredFile === undefined || requiredFile === null) {
+        throw new Error("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
+      }
+
+
+      let pathParams = {
+        'petId': petId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+        'additionalMetadata': opts['additionalMetadata'],
+        'requiredFile': requiredFile
+      };
+
+      let authNames = ['petstore_auth'];
+      let contentTypes = ['multipart/form-data'];
+      let accepts = ['application/json'];
+      let returnType = ApiResponse;
+
+      return this.apiClient.callApi(
+        '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
 
 }
