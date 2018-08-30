@@ -29,6 +29,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
@@ -106,7 +107,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (name.length() == 0) {
             return "default" + apiSuffix;
         }
-        return camelize(name, true) + apiSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, true) + apiSuffix;
     }
 
     @Override
@@ -116,7 +117,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name), true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(toModelName(name), true);
     }
 
     @Override
@@ -295,6 +296,6 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + File.separator).length());
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 }

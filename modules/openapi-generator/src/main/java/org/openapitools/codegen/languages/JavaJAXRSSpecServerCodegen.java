@@ -33,6 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
@@ -221,6 +222,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             return primaryResourceName + "Api";
         }
         computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(computed) + "Api";
     }
 }

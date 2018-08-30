@@ -41,24 +41,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 public class DefaultCodegenTest {
-
-    @Test
-    public void testCamelize() throws Exception {
-        Assert.assertEquals(DefaultCodegen.camelize("abcd"), "Abcd");
-        Assert.assertEquals(DefaultCodegen.camelize("some-value"), "SomeValue");
-        Assert.assertEquals(DefaultCodegen.camelize("some_value"), "SomeValue");
-        Assert.assertEquals(DefaultCodegen.camelize("$type"), "$Type");
-
-        Assert.assertEquals(DefaultCodegen.camelize("abcd", true), "abcd");
-        Assert.assertEquals(DefaultCodegen.camelize("some-value", true), "someValue");
-        Assert.assertEquals(DefaultCodegen.camelize("some_value", true), "someValue");
-        Assert.assertEquals(DefaultCodegen.camelize("Abcd", true), "abcd");
-        Assert.assertEquals(DefaultCodegen.camelize("$type", true), "$type");
-
-        Assert.assertEquals(DefaultCodegen.camelize("123", true), "123");
-        Assert.assertEquals(DefaultCodegen.camelize("$123", true), "$123");
-    }
 
     @Test
     public void testHasBodyParameter() throws Exception {
