@@ -77,8 +77,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -1794,11 +1794,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getWriteOnly() != null) {
             property.isWriteOnly = p.getWriteOnly();
         }
-
-        // use x-nullable
-        if (p.getExtensions() != null && p.getExtensions().get("x-nullable") != null) {
-            property.isNullable = Boolean.valueOf(p.getExtensions().get("x-nullable").toString());
-        } else if (p.getNullable() != null) { // use nullable defined in OAS3
+        if (p.getNullable() != null) {
             property.isNullable = p.getNullable();
         }
 
@@ -2745,10 +2741,7 @@ public class DefaultCodegen implements CodegenConfig {
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
 
-            // x-nullable extension in OAS2
-            if (parameter.getExtensions() != null && parameter.getExtensions().get("x-nullable") != null) {
-                codegenParameter.isNullable = Boolean.valueOf(parameter.getExtensions().get("x-nullable").toString());
-            } else if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
+            if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
                 codegenParameter.isNullable = true;
             }
 
@@ -4766,10 +4759,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
-        if (property.getVendorExtensions() != null && property.getVendorExtensions().get("x-nullable") != null) {
-            parameter.isNullable = Boolean.valueOf(property.getVendorExtensions().get("x-nullable").toString());
-        } else {
-            parameter.isNullable = property.isNullable;
-        }
+        parameter.isNullable = property.isNullable;
     }
 }
