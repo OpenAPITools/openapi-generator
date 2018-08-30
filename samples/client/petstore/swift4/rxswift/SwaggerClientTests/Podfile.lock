@@ -8,15 +8,20 @@ PODS:
 DEPENDENCIES:
   - PetstoreClient (from `../`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - RxSwift
+
 EXTERNAL SOURCES:
   PetstoreClient:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
-  PetstoreClient: 321849311dc2fb14d6801d393b57c016953b6319
+  PetstoreClient: cec377a07dc2206a1c5ef08f05cb9281c70f449c
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
 
 PODFILE CHECKSUM: cedb3058b02f4776d7c31f6d92ae2f674fdf424d
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.3

@@ -61,7 +61,7 @@ public enum StatusEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -171,7 +171,7 @@ public enum StatusEnum {
    * @return complete
   **/
   @JsonProperty("complete")
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 

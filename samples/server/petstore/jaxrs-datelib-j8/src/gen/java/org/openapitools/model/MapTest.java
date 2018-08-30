@@ -61,7 +61,7 @@ public class MapTest  implements Serializable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
  

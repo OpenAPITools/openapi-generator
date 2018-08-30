@@ -10,12 +10,17 @@
         {{/isString}}
         {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#vendorExtensions.x-enum-byte}}: byte{{/vendorExtensions.x-enum-byte}}
         {
-            {{#allowableValues}}{{#enumVars}}
+            {{#allowableValues}}
+            {{#enumVars}}
             /// <summary>
             /// Enum {{name}} for value: {{{value}}}
             /// </summary>
-            {{#isString}}[EnumMember(Value = "{{{value}}}")]{{/isString}}
-            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},
-            {{/-last}}{{/enumVars}}{{/allowableValues}}
+            {{#isString}}
+            [EnumMember(Value = "{{{value}}}")]
+            {{/isString}}
+            {{name}}{{^isString}} = {{{value}}}{{/isString}}{{#isString}} = {{-index}}{{/isString}}{{^-last}},{{/-last}}
+
+            {{/enumVars}}
+            {{/allowableValues}}
         }
         {{/isContainer}}

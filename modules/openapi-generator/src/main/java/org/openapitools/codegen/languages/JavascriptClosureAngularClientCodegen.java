@@ -37,7 +37,6 @@ import io.swagger.v3.oas.models.info.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.TreeSet;
 import java.util.*;
 import java.io.File;
 
@@ -237,7 +236,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "Object<!string, "+ getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isFileSchema(p)) {
             return "Object";
@@ -285,7 +284,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         if (objs.get("imports") instanceof List) {
             List<Map<String, String>> imports = (ArrayList<Map<String, String>>)objs.get("imports");
             Collections.sort(imports, new Comparator<Map<String, String>>() {

@@ -44,6 +44,7 @@ open class FakeClassnameTags123API: APIBase {
     /**
      To test class name in snake case
      - PATCH /fake_classname_test
+     - To test class name in snake case
      - API Key:
        - type: apiKey api_key_query (QUERY)
        - name: api_key_query

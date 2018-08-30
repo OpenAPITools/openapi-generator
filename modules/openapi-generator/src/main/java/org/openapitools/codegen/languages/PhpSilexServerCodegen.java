@@ -46,9 +46,9 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         super();
 
         invokerPackage = camelize("OpenAPIServer");
-        String packagePath = "OpenAPIServer";
-        modelPackage = packagePath + File.separator + "lib" + File.separator + "models";
-        apiPackage = packagePath + File.separator + "lib";
+        String packageName = "OpenAPIServer";
+        modelPackage = "lib" + File.separator + "models";
+        apiPackage = "lib";
         outputFolder = "generated-code" + File.separator + "php-silex";
 
         // no model, api files
@@ -112,10 +112,13 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         // mapped to String as a workaround
         typeMapping.put("binary", "string");
 
-        supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
-        supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.json", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+
+        // remove this line when this class extends AbstractPhpCodegen
+        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
     }
 
     @Override
@@ -160,7 +163,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -243,7 +246,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {

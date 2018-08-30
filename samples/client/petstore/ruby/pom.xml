@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.wordnik</groupId>
+    <groupId>org.openapitools</groupId>
     <artifactId>RubyPetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Ruby Swagger Petstore Client</name>
+    <name>Ruby OpenAPI Petstore Client</name>
     <build>
         <plugins>
             <plugin>

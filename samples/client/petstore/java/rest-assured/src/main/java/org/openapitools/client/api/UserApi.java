@@ -24,7 +24,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -34,6 +36,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "User")
 public class UserApi {
 
     private RequestSpecBuilder reqSpec;
@@ -47,34 +50,87 @@ public class UserApi {
     }
 
 
+    @ApiOperation(value = "Create user",
+            notes = "This can only be done by the logged in user.",
+            nickname = "createUser",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUserOper createUser() {
         return new CreateUserOper(reqSpec);
     }
 
+    @ApiOperation(value = "Creates list of users with given input array",
+            notes = "",
+            nickname = "createUsersWithArrayInput",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithArrayInputOper createUsersWithArrayInput() {
         return new CreateUsersWithArrayInputOper(reqSpec);
     }
 
+    @ApiOperation(value = "Creates list of users with given input array",
+            notes = "",
+            nickname = "createUsersWithListInput",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithListInputOper createUsersWithListInput() {
         return new CreateUsersWithListInputOper(reqSpec);
     }
 
+    @ApiOperation(value = "Delete user",
+            notes = "This can only be done by the logged in user.",
+            nickname = "deleteUser",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Invalid username supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public DeleteUserOper deleteUser() {
         return new DeleteUserOper(reqSpec);
     }
 
+    @ApiOperation(value = "Get user by user name",
+            notes = "",
+            nickname = "getUserByName",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid username supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public GetUserByNameOper getUserByName() {
         return new GetUserByNameOper(reqSpec);
     }
 
+    @ApiOperation(value = "Logs user into the system",
+            notes = "",
+            nickname = "loginUser",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid username/password supplied")  })
     public LoginUserOper loginUser() {
         return new LoginUserOper(reqSpec);
     }
 
+    @ApiOperation(value = "Logs out current logged in user session",
+            notes = "",
+            nickname = "logoutUser",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 0, message = "successful operation")  })
     public LogoutUserOper logoutUser() {
         return new LogoutUserOper(reqSpec);
     }
 
+    @ApiOperation(value = "Updated user",
+            notes = "This can only be done by the logged in user.",
+            nickname = "updateUser",
+            tags = { "user" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Invalid user supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public UpdateUserOper updateUser() {
         return new UpdateUserOper(reqSpec);
     }
@@ -95,20 +151,13 @@ public class UserApi {
      *
      * @see #body Created user object (required)
      */
-    public class CreateUserOper {
+    public static class CreateUserOper {
 
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public CreateUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public CreateUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -124,7 +173,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -162,20 +211,13 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public class CreateUsersWithArrayInputOper {
+    public static class CreateUsersWithArrayInputOper {
 
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user/createWithArray";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public CreateUsersWithArrayInputOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public CreateUsersWithArrayInputOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -191,7 +233,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -229,20 +271,13 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public class CreateUsersWithListInputOper {
+    public static class CreateUsersWithListInputOper {
 
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user/createWithList";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public CreateUsersWithListInputOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public CreateUsersWithListInputOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -258,7 +293,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -296,19 +331,13 @@ public class UserApi {
      *
      * @see #usernamePath The name that needs to be deleted (required)
      */
-    public class DeleteUserOper {
+    public static class DeleteUserOper {
 
+        public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/user/{username}";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public DeleteUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public DeleteUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -323,7 +352,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         public static final String USERNAME_PATH = "username";
@@ -364,19 +393,13 @@ public class UserApi {
      * @see #usernamePath The name that needs to be fetched. Use user1 for testing. (required)
      * return User
      */
-    public class GetUserByNameOper {
+    public static class GetUserByNameOper {
 
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/{username}";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public GetUserByNameOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public GetUserByNameOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -391,7 +414,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -443,19 +466,13 @@ public class UserApi {
      * @see #passwordQuery The password for login in clear text (required)
      * return String
      */
-    public class LoginUserOper {
+    public static class LoginUserOper {
 
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/login";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public LoginUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public LoginUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -470,7 +487,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -530,19 +547,13 @@ public class UserApi {
      * 
      *
      */
-    public class LogoutUserOper {
+    public static class LogoutUserOper {
 
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/logout";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public LogoutUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public LogoutUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -557,7 +568,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -587,20 +598,13 @@ public class UserApi {
      * @see #usernamePath name that need to be deleted (required)
      * @see #body Updated user object (required)
      */
-    public class UpdateUserOper {
+    public static class UpdateUserOper {
 
+        public static final Method REQ_METHOD = PUT;
         public static final String REQ_URI = "/user/{username}";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public UpdateUserOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public UpdateUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -616,7 +620,7 @@ public class UserApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**

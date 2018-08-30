@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**UpdatePet**](PetApi.md#UpdatePet) | **Put** /pet | Update an existing pet
 [**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **Post** /pet/{petId} | Updates a pet in the store with form data
 [**UploadFile**](PetApi.md#UploadFile) | **Post** /pet/{petId}/uploadImage | uploads an image
+[**UploadFileWithRequiredFile**](PetApi.md#UploadFileWithRequiredFile) | **Post** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **AddPet**
@@ -241,6 +242,43 @@ Name | Type | Description  | Notes
 
  **additionalMetadata** | **optional.String**| Additional data to pass to server | 
  **file** | **optional.Interface of *os.File****optional.*os.File**| file to upload | 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **UploadFileWithRequiredFile**
+> ApiResponse UploadFileWithRequiredFile(ctx, petId, requiredFile, optional)
+uploads an image (required)
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **petId** | **int64**| ID of pet to update | 
+  **requiredFile** | ***os.File*****os.File**| file to upload | 
+ **optional** | ***UploadFileWithRequiredFileOpts** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a pointer to a UploadFileWithRequiredFileOpts struct
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+ **additionalMetadata** | **optional.String**| Additional data to pass to server | 
 
 ### Return type
 

@@ -43,7 +43,27 @@ public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
     @Override
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
+            clientCodegen.setModelPackage(PhpSlimServerOptionsProvider.MODEL_PACKAGE_VALUE);
+            times = 1;
+            clientCodegen.setApiPackage(PhpSlimServerOptionsProvider.API_PACKAGE_VALUE);
+            times = 1;
+            clientCodegen.setParameterNamingConvention(PhpSlimServerOptionsProvider.VARIABLE_NAMING_CONVENTION_VALUE);
+            times = 1;
+            clientCodegen.setInvokerPackage(PhpSlimServerOptionsProvider.INVOKER_PACKAGE_VALUE);
+            times = 1;
+            clientCodegen.setPackageName(PhpSlimServerOptionsProvider.PACKAGE_NAME_VALUE);
+            times = 1;
+            clientCodegen.setSrcBasePath(PhpSlimServerOptionsProvider.SRC_BASE_PATH_VALUE);
+            times = 1;
+            clientCodegen.setGitUserId(PhpSlimServerOptionsProvider.GIT_USER_ID_VALUE);
+            times = 1;
+            clientCodegen.setGitRepoId(PhpSlimServerOptionsProvider.GIT_REPO_ID_VALUE);
+            times = 1;
+            clientCodegen.setArtifactVersion(PhpSlimServerOptionsProvider.ARTIFACT_VERSION_VALUE);
+            times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(PhpSlimServerOptionsProvider.SORT_PARAMS_VALUE));
+            times = 1;
+            clientCodegen.setPhpcsStandard(PhpSlimServerOptionsProvider.PHPCS_STANDARD_VALUE);
             times = 1;
         }};
     }

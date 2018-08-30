@@ -39,8 +39,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -67,6 +65,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
+    public static final String PLAY_26 = "play26";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -75,6 +74,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String OKHTTP_GSON = "okhttp-gson";
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
+    public static final String WEBCLIENT = "webclient";
     public static final String REST_ASSURED = "rest-assured";
     public static final String RETROFIT_1 = "retrofit";
     public static final String RETROFIT_2 = "retrofit2";
@@ -120,6 +120,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.8.0. JSON processing: Gson 2.6.1 (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.3.9-RELEASE. JSON processing: Jackson 2.8.9");
+        supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.0.7-RELEASE. JSON processing: Jackson 2.9.5");
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.1.3.Final. JSON processing: Jackson 2.8.9");
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.2.4. JSON processing: Jackson 2.8.9");
         supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.23.0. JSON processing: Jackson 2.8.9");
@@ -151,6 +152,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public void processOpts() {
+        if (WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
+            dateLibrary = "java8";
+        }
+
         super.processOpts();
 
         if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
@@ -280,6 +285,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (RESTTEMPLATE.equals(getLibrary())) {
             additionalProperties.put("jackson", "true");
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
+        } else if (WEBCLIENT.equals(getLibrary())) {
+            setJava8Mode(true);
+            additionalProperties.put("java8", "true");
+            additionalProperties.put("jackson", "true");
         } else if (VERTX.equals(getLibrary())) {
             typeMapping.put("file", "AsyncFile");
             importMapping.put("AsyncFile", "io.vertx.core.file.AsyncFile");
@@ -323,7 +332,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play24/Play24CallFactory.mustache", invokerFolder, "Play24CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play24/Play24CallAdapterFactory.mustache", invokerFolder,
                         "Play24CallAdapterFactory.java"));
-            } else {
+            }
+
+            if (PLAY_25.equals(playVersion)) {
                 additionalProperties.put(PLAY_25, true);
                 apiTemplateFiles.put("play25/api.mustache", ".java");
 
@@ -331,6 +342,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 supportingFiles.add(new SupportingFile("play25/Play25CallFactory.mustache", invokerFolder, "Play25CallFactory.java"));
                 supportingFiles.add(new SupportingFile("play25/Play25CallAdapterFactory.mustache", invokerFolder,
                         "Play25CallAdapterFactory.java"));
+                additionalProperties.put("java8", "true");
+            }
+
+            if (PLAY_26.equals(playVersion)) {
+                additionalProperties.put(PLAY_26, true);
+                apiTemplateFiles.put("play26/api.mustache", ".java");
+
+                supportingFiles.add(new SupportingFile("play26/ApiClient.mustache", invokerFolder, "ApiClient.java"));
+                supportingFiles.add(new SupportingFile("play26/Play26CallFactory.mustache", invokerFolder, "Play26CallFactory.java"));
+                supportingFiles.add(new SupportingFile("play26/Play26CallAdapterFactory.mustache", invokerFolder,
+                        "Play26CallAdapterFactory.java"));
                 additionalProperties.put("java8", "true");
             }
 
@@ -360,8 +382,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
         if (usesAnyRetrofitLibrary()) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {
@@ -513,25 +535,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, Object> allProcessedModels = super.postProcessAllModels(objs);
-        if (!additionalProperties.containsKey("gsonFactoryMethod")) {
-            List<Object> allModels = new ArrayList<Object>();
-            for (String name : allProcessedModels.keySet()) {
-                Map<String, Object> models = (Map<String, Object>) allProcessedModels.get(name);
-                try {
-                    allModels.add(((List<Object>) models.get("models")).get(0));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            additionalProperties.put("parent", modelInheritanceSupportInGson(allModels));
-        }
-        return allProcessedModels;
-    }
-
     @Override
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
@@ -552,34 +555,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
         return objs;
-    }
-
-    public static List<Map<String, Object>> modelInheritanceSupportInGson(List<?> allModels) {
-        Map<CodegenModel, List<CodegenModel>> byParent = new LinkedHashMap<>();
-        for (Object model : allModels) {
-            Map entry = (Map) model;
-            CodegenModel parent = ((CodegenModel)entry.get("model")).parentModel;
-            if(null!= parent) {
-                byParent.computeIfAbsent(parent, k -> new LinkedList<>()).add((CodegenModel)entry.get("model"));
-            }
-        }
-        List<Map<String, Object>> parentsList = new ArrayList<>();
-        for (CodegenModel parentModel : byParent.keySet()) {
-            List<Map<String, Object>> childrenList = new ArrayList<>();
-            Map<String, Object> parent = new HashMap<>();
-            parent.put("classname", parentModel.classname);
-            List<CodegenModel> childrenModels = byParent.get(parentModel);
-            for (CodegenModel model : childrenModels) {
-                Map<String, Object> child = new HashMap<>();
-                child.put("name", model.name);
-                child.put("classname", model.classname);
-                childrenList.add(child);
-            }
-            parent.put("children", childrenList);
-            parent.put("discriminator", parentModel.discriminator);
-            parentsList.add(parent);
-        }
-        return parentsList;
     }
 
     public void setUseRxJava(boolean useRxJava) {

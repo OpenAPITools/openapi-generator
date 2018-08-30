@@ -18,6 +18,7 @@ install:
   - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
+  - cmd: java -version
   - cmd: dir/w
   - git clone https://github.com/wing328/swagger-samples
   - ps: Start-Process -FilePath 'C:\maven\apache-maven-3.2.5\bin\mvn' -ArgumentList 'jetty:run' -WorkingDirectory "$env:appveyor_build_folder\swagger-samples\java\java-jersey-jaxrs-ci"
@@ -34,6 +35,8 @@ build_script:
   # install openapi-generator locally
   - mvn clean install --quiet
 test_script:
+  # restore test-related files
+  - copy /b/v/y CI\samples.ci\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client
   - nunit-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
   # test c# API client (with PropertyChanged)
@@ -41,6 +44,10 @@ test_script:
 
   # generate all petstore clients
   - .\bin\windows\run-all-petstore.cmd
+
+  # generate all petstore clients (openapi3)
+  - .\bin\openapi3\windows\run-all-petstore.cmd
+
 cache:
   - C:\maven\
   - C:\Users\appveyor\.m2

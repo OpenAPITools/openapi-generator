@@ -105,7 +105,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.testSpecialTags(client, callback);
+api.call123testSpecialTags(client, callback);
 
 ```
 
@@ -115,11 +115,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*OpenApiPetstore.AnotherFakeApi* | [**testSpecialTags**](docs/AnotherFakeApi.md#testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*OpenApiPetstore.AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 *OpenApiPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*OpenApiPetstore.FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *OpenApiPetstore.FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 *OpenApiPetstore.FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -135,6 +136,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.PetApi* | [**updatePet**](docs/PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 *OpenApiPetstore.PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *OpenApiPetstore.PetApi* | [**uploadFile**](docs/PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*OpenApiPetstore.PetApi* | [**uploadFileWithRequiredFile**](docs/PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *OpenApiPetstore.StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *OpenApiPetstore.StoreApi* | [**getInventory**](docs/StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
 *OpenApiPetstore.StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -167,6 +169,8 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.EnumArrays](docs/EnumArrays.md)
  - [OpenApiPetstore.EnumClass](docs/EnumClass.md)
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)
+ - [OpenApiPetstore.File](docs/File.md)
+ - [OpenApiPetstore.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [OpenApiPetstore.FormatTest](docs/FormatTest.md)
  - [OpenApiPetstore.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [OpenApiPetstore.List](docs/List.md)
@@ -182,6 +186,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
+ - [OpenApiPetstore.StringBooleanMap](docs/StringBooleanMap.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 

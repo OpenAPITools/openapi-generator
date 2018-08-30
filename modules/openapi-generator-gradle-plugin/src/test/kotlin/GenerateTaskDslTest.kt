@@ -31,7 +31,7 @@ class GenerateTaskDslTest : TestBase()  {
     fun `openApiGenerate should create an expected file structure from DSL config`() {
         // Arrange
         val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
         )
         withProject(defaultBuildGradle, projectFiles)
 

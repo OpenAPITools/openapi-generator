@@ -114,8 +114,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -127,8 +126,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -139,6 +137,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
+                    {{#supportJava6}}
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    {{/supportJava6}}
+                    {{^supportJava6}}
                     {{#java8}}
                         <source>1.8</source>
                         <target>1.8</target>
@@ -147,6 +150,7 @@
                         <source>1.7</source>
                         <target>1.7</target>
                     {{/java8}}
+                    {{/supportJava6}}
                 </configuration>
             </plugin>
             <plugin>
@@ -321,7 +325,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.17</swagger-annotations-version>
+        <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jersey-version>1.19.4</jersey-version>
         {{#supportJava6}}
         <commons_io_version>2.5</commons_io_version>

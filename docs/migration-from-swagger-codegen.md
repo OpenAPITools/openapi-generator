@@ -246,8 +246,8 @@ If your API client is using named parameters in the function call (e.g. Perl req
 
 The following gnereators are not yet fully migrated and tested
 
-- `rust-server`
-- `apex`
+- ~~rust-server~~ (migrated)
+- `apex` (migration scheduled in Jul/Aug 2018)
 
 and we welcome contributions from the community to help with the migration
 

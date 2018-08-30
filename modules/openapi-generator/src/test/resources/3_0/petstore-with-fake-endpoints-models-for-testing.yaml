@@ -1,6 +1,4 @@
 openapi: 3.0.0
-servers:
-  - url: 'http://petstore.swagger.io:80/v2'
 info:
   description: >-
     This spec is mainly for testing Petstore server and contains fake endpoints,
@@ -436,7 +434,7 @@ paths:
                 type: integer
                 format: int32
             X-Expires-After:
-              description: date in UTC when toekn expires
+              description: date in UTC when token expires
               schema:
                 type: string
                 format: date-time
@@ -573,7 +571,6 @@ paths:
       parameters:
         - name: enum_header_string_array
           in: header
-          explode: true
           description: Header parameter enum test (string array)
           schema:
             type: array
@@ -876,13 +873,33 @@ paths:
                 type: string
         description: request body
         required: true
+  /fake/body-with-query-params:
+    put:
+      tags:
+        - fake
+      operationId: testBodyWithQueryParams
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
   /another-fake/dummy:
     patch:
       tags:
         - $another-fake?
       summary: To test special tags
-      description: To test special tags
-      operationId: test_special_tags
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       responses:
         '200':
           description: successful operation
@@ -892,9 +909,66 @@ paths:
                 $ref: '#/components/schemas/Client'
       requestBody:
         $ref: '#/components/requestBodies/Client'
-externalDocs:
-  description: Find out more about Swagger
-  url: 'http://swagger.io'
+  /fake/body-with-file-schema:
+    put:
+      tags:
+        - fake
+      description: >-
+        For this test, the body for this request much reference a schema named
+        `File`.
+      operationId: testBodyWithFileSchema
+      responses:
+        '200':
+          description: Success
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileSchemaTestClass'
+        required: true
+  '/fake/{petId}/uploadImageWithRequiredFile':
+    post:
+      tags:
+        - pet
+      summary: uploads an image (required)
+      description: ''
+      operationId: uploadFileWithRequiredFile
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                requiredFile:
+                  description: file to upload
+                  type: string
+                  format: binary
+              required:
+                - requiredFile
+servers:
+  - url: 'http://petstore.swagger.io:80/v2'
 components:
   requestBodies:
     UserArray:
@@ -1317,6 +1391,12 @@ components:
             enum:
               - UPPER
               - lower
+        direct_map:
+          type: object
+          additionalProperties:
+            type: boolean
+        indirect_map:
+          $ref: '#/components/schemas/StringBooleanMap'
     ArrayTest:
       type: object
       properties:
@@ -1394,6 +1474,26 @@ components:
       type: string
     OuterBoolean:
       type: boolean
+      x-codegen-body-parameter-name: boolean_post_body
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+    FileSchemaTestClass:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/File'
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+    File:
+      type: object
+      description: Must be named `File` for test.
+      properties:
+        sourceURI:
+          description: Test capitalization
+          type: string
     _special_model.name_:
       properties:
         '$special[property.name]':

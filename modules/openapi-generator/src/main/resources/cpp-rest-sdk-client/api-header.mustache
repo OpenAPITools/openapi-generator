@@ -22,11 +22,38 @@ namespace {{this}} {
 
 using namespace {{modelNamespace}};
 
-class {{declspec}} {{classname}}
+{{#gmockApis}}
+class {{declspec}} I{{classname}}
 {
 public:
-    {{classname}}( std::shared_ptr<ApiClient> apiClient );
+    I{{classname}}() = default;
+    virtual ~I{{classname}}() = default;
+
+    {{#operation}}
+    virtual pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
+        {{#allParams}}
+        {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{/allParams}}
+    ) = 0;
+    {{/operation}}
+};{{/gmockApis}}
+
+class {{declspec}} {{classname}} {{#gmockApis}} : public I{{classname}} {{/gmockApis}}
+{
+public:
+    {{#gmockApis}}
+    using Base = I{{classname}};
+    {{/gmockApis}}
+
+    explicit {{classname}}( std::shared_ptr<ApiClient> apiClient );
+
+    {{#gmockApis}}
+    ~{{classname}}() override;
+    {{/gmockApis}}
+    {{^gmockApis}}
     virtual ~{{classname}}();
+    {{/gmockApis}}
+
     {{#operation}}
     /// <summary>
     /// {{summary}}
@@ -35,13 +62,13 @@ public:
     /// {{notes}}
     /// </remarks>
     {{#allParams}}
-    /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+    /// <param name="{{paramName}}">{{#lambda.multiline_comment_4}}{{description}}{{/lambda.multiline_comment_4}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
     {{/allParams}}
     pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{operationId}}(
         {{#allParams}}
         {{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}
-    );
+    ){{#gmockApis}} override{{/gmockApis}};
     {{/operation}}
 
 protected:

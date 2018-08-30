@@ -175,7 +175,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
                 @SuppressWarnings("unchecked")
@@ -203,7 +203,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                 LOGGER.error("Unable to find operations List", e);
             }
         }
-        return super.postProcessOperations(objs);
+        return super.postProcessOperationsWithModels(objs, allModels);
     }
 
     @Override
@@ -276,7 +276,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

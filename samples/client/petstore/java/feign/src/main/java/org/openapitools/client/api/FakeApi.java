@@ -6,6 +6,7 @@ import org.openapitools.client.EncodingUtils;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -72,6 +73,18 @@ public interface FakeApi extends ApiClient.Api {
     "Accept: */*",
   })
   String fakeOuterStringSerialize(String body);
+
+  /**
+   * 
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+    * @param fileSchemaTestClass  (required)
+   */
+  @RequestLine("PUT /fake/body-with-file-schema")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
 
   /**
    * 

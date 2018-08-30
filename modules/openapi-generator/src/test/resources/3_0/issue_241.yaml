@@ -1,0 +1,47 @@
+openapi: "3.0.0"
+info:
+  description: "test"
+  version: "1.0.0"
+  title: "myTest"
+  contact:
+    email: "my@mail.com"
+servers:
+- url: "http://localhost:9998/v1"
+tags:
+- name: "users"
+paths:
+  /users/create/{username}:
+    post:
+      tags:
+      - "user"
+      operationId: "createUser"
+      parameters:
+      - name: "username"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        200:
+          description: "The User just created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+components:
+  schemas:
+    User:
+      allOf:
+        - $ref: "#/components/schemas/UserDetail"
+        - type: "object"
+          description: "The User"
+          required:
+          - "userid"
+          - "username"
+    UserDetail:
+      type: "object"
+      description: "Detail of a User"
+      properties:
+        name:
+          type: "string"
+          description: "the name of the user"

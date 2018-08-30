@@ -1,15 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"testing"
 
-	sw "./go-petstore"
-	"golang.org/x/net/context"
-
 	"github.com/antihax/optional"
 	"github.com/stretchr/testify/assert"
+
+	sw "./go-petstore"
 )
 
 var client *sw.APIClient
@@ -149,6 +149,26 @@ func TestUploadFile(t *testing.T) {
 		AdditionalMetadata: optional.NewString("golang"),
 		File:               optional.NewInterface(file),
 	})
+
+	if err != nil {
+		t.Errorf("Error while uploading file")
+		t.Log(err)
+	}
+
+	if r.StatusCode != 200 {
+		t.Log(r)
+	}
+}
+
+func TestUploadFileRequired(t *testing.T) {
+	return // remove when server supports this endpoint
+	file, _ := os.Open("../python/testfiles/foo.png")
+
+	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830,
+		file,
+		&sw.UploadFileWithRequiredFileOpts{
+			AdditionalMetadata: optional.NewString("golang"),
+		})
 
 	if err != nil {
 		t.Errorf("Error while uploading file")

@@ -19,13 +19,17 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.mustache.IndentedLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Map;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -129,6 +133,38 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public String toApiName(String type) {
+        return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api");
+    }
+
+    @Override
+    public String toModelName(String type) {
+        if (type == null) {
+            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
+            type = "UnknownModel";
+        }
+
+        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
+                || importMapping.values().contains(type) || defaultIncludes.contains(type)
+                || languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+        }
+    }
+
+    @Override
     public String toVarName(String name) {
         if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
                 || importMapping.values().contains(name) || defaultIncludes.contains(name)
@@ -136,7 +172,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return sanitizeName(name);
         }
 
-        if (isReservedWord(name)) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             return escapeReservedWord(name);
         }
 
@@ -173,6 +209,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toParamName(String name) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            return escapeReservedWord(name);
+        }
+
         return sanitizeName(super.toParamName(name));
     }
 
@@ -185,6 +225,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         } else {
             nameInCamelCase = sanitizeName(nameInCamelCase);
         }
+        if (isReservedWord(nameInCamelCase) || nameInCamelCase.matches("^\\d.*")) {
+            nameInCamelCase =  escapeReservedWord(nameInCamelCase);
+        }        
         property.nameInCamelCase = nameInCamelCase;
         return property;
     }
@@ -202,5 +245,24 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public String getTypeDeclaration(String str) {
         return "std::shared_ptr<" + toModelName(str) + ">";
+    }
+
+    public void processOpts() {
+        super.processOpts();
+        addMustacheLambdas(additionalProperties);
+    }
+
+    private void addMustacheLambdas(Map<String, Object> objs) {
+
+        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
+                .put("multiline_comment_4", new IndentedLambda(4, " ", "///"))
+                .build();
+
+        if (objs.containsKey("lambda")) {
+            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'.");
+            objs.put("_lambda", lambdas);
+        } else {
+            objs.put("lambda", lambdas);
+        }
     }
 }

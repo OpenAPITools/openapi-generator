@@ -465,7 +465,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         } else {
             baseTitle = baseTitle.trim();
             // Drop any API suffix
-            if (baseTitle.toUpperCase().endsWith("API")) {
+            if (baseTitle.toUpperCase(Locale.ROOT).endsWith("API")) {
                 baseTitle = baseTitle.substring(0, baseTitle.length() - 3);
             }
         }
@@ -473,7 +473,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (!additionalProperties.containsKey(PROP_CABAL_PACKAGE)) {
             List<String> words = new ArrayList<>();
             for (String word : baseTitle.split(" ")) {
-                words.add(word.toLowerCase());
+                words.add(word.toLowerCase(Locale.ROOT));
             }
             setCabalPackage(StringUtils.join(words, "-"));
         }
@@ -548,7 +548,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
@@ -570,7 +570,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = (Schema) p.getAdditionalProperties();
+            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //
@@ -615,7 +615,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             LOGGER.warn("generated unique operationId `" + uniqueName + "`");
         }
         op.operationId = uniqueName;
-        op.operationIdLowerCase = uniqueName.toLowerCase();
+        op.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
         op.operationIdCamelCase = DefaultCodegen.camelize(uniqueName);
         op.operationIdSnakeCase = DefaultCodegen.underscore(uniqueName);
         opList.add(op);
@@ -628,7 +628,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         op.vendorExtensions.put(X_OPERATION_TYPE, operationType);
         typeNames.add(operationType);
 
-        op.vendorExtensions.put(X_HADDOCK_PATH, String.format("%s %s", op.httpMethod, op.path.replace("/", "\\/")));
+        op.vendorExtensions.put(X_HADDOCK_PATH, String.format(Locale.ROOT, "%s %s", op.httpMethod, op.path.replace("/", "\\/")));
         op.vendorExtensions.put(X_HAS_BODY_OR_FORM_PARAM, op.getHasBodyParam() || op.getHasFormParams());
 
         for (CodegenParameter param : op.allParams) {
@@ -683,20 +683,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> ret = super.postProcessOperations(objs);
-
-        HashMap<String, Object> pathOps = (HashMap<String, Object>) ret.get("operations");
-        ArrayList<CodegenOperation> ops = (ArrayList<CodegenOperation>) pathOps.get("operation");
-        if (ops.size() > 0) {
-            ops.get(0).vendorExtensions.put(X_HAS_NEW_TAG, true);
-        }
-
-        updateGlobalAdditionalProps();
-        return ret;
-    }
-
-    @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         updateGlobalAdditionalProps();
         return super.postProcessAllModels(objs);
@@ -728,6 +714,16 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> ret = super.postProcessOperationsWithModels(objs, allModels);
+
+        HashMap<String, Object> pathOps = (HashMap<String, Object>) ret.get("operations");
+        ArrayList<CodegenOperation> ops = (ArrayList<CodegenOperation>) pathOps.get("operation");
+        if (ops.size() > 0) {
+            ops.get(0).vendorExtensions.put(X_HAS_NEW_TAG, true);
+        }
+
+        updateGlobalAdditionalProps();
+
         for (Object o : allModels) {
             HashMap<String, Object> h = (HashMap<String, Object>) o;
             CodegenModel m = (CodegenModel) h.get("model");
@@ -746,9 +742,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                     }
                 }
             }
-
         }
-        return objs;
+        return ret;
     }
 
     @Override
@@ -1008,9 +1003,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (word.length() == 0) {
             return word;
         } else if (word.length() == 1) {
-            return word.substring(0, 1).toUpperCase();
+            return word.substring(0, 1).toUpperCase(Locale.ROOT);
         } else {
-            return word.substring(0, 1).toUpperCase() + word.substring(1);
+            return word.substring(0, 1).toUpperCase(Locale.ROOT) + word.substring(1);
         }
     }
 
@@ -1018,9 +1013,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (word.length() == 0) {
             return word;
         } else if (word.length() == 1) {
-            return word.substring(0, 1).toLowerCase();
+            return word.substring(0, 1).toLowerCase(Locale.ROOT);
         } else {
-            return word.substring(0, 1).toLowerCase() + word.substring(1);
+            return word.substring(0, 1).toLowerCase(Locale.ROOT) + word.substring(1);
         }
     }
 
@@ -1308,7 +1303,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
 
         // number
-        if (num.contains(datatype.toLowerCase())) {
+        if (num.contains(datatype.toLowerCase(Locale.ROOT))) {
             String varName = "Num" + value;
             varName = varName.replaceAll("-", "Minus_");
             varName = varName.replaceAll("\\+", "Plus_");
@@ -1322,7 +1317,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toEnumValue(String value, String datatype) {
         List<String> num = new ArrayList<>(Arrays.asList("integer", "int", "double", "long", "float"));
-        if (num.contains(datatype.toLowerCase())) {
+        if (num.contains(datatype.toLowerCase(Locale.ROOT))) {
             return value;
         } else {
             return "\"" + escapeText(value) + "\"";

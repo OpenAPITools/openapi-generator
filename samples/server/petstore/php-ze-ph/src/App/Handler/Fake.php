@@ -36,7 +36,7 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
         throw new PHException\HttpCode(500, "Not implemented");
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented

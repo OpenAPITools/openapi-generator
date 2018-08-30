@@ -22,12 +22,12 @@ $app->get('/', function () use ($app) {
 });
 
 /**
- * patch testSpecialTags
+ * patch call123TestSpecialTags
  * Summary: To test special tags
- * Notes: To test special tags
+ * Notes: To test special tags and operation ID starting with number
  * Output-Formats: [application/json]
  */
-$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
+$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
@@ -37,8 +37,8 @@ $app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
 $app->patch('/v2/fake', 'FakeApi@testClientModel');
 /**
  * post testEndpointParameters
- * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
- * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+ * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 
  */
 $app->post('/v2/fake', 'FakeApi@testEndpointParameters');
@@ -49,6 +49,13 @@ $app->post('/v2/fake', 'FakeApi@testEndpointParameters');
 
  */
 $app->get('/v2/fake', 'FakeApi@testEnumParameters');
+/**
+ * put testBodyWithFileSchema
+ * Summary: 
+ * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
+ */
+$app->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema');
 /**
  * put testBodyWithQueryParams
  * Summary: 
@@ -74,28 +81,28 @@ $app->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
  * post fakeOuterBooleanSerialize
  * Summary: 
  * Notes: Test serialization of outer boolean types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/boolean', 'FakeApi@fakeOuterBooleanSerialize');
 /**
  * post fakeOuterCompositeSerialize
  * Summary: 
  * Notes: Test serialization of object with outer number type
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/composite', 'FakeApi@fakeOuterCompositeSerialize');
 /**
  * post fakeOuterNumberSerialize
  * Summary: 
  * Notes: Test serialization of outer number types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/number', 'FakeApi@fakeOuterNumberSerialize');
 /**
  * post fakeOuterStringSerialize
  * Summary: 
  * Notes: Test serialization of outer string types
- * Output-Formats: [*/*]
+ * Output-Formats: [*_/_*]
  */
 $app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
 /**
@@ -105,6 +112,13 @@ $app->post('/v2/fake/outer/string', 'FakeApi@fakeOuterStringSerialize');
  * Output-Formats: [application/json]
  */
 $app->patch('/v2/fake_classname_test', 'FakeClassnameTags123Api@testClassname');
+/**
+ * post uploadFileWithRequiredFile
+ * Summary: uploads an image (required)
+ * Notes: 
+ * Output-Formats: [application/json]
+ */
+$app->post('/v2/fake/{petId}/uploadImageWithRequiredFile', 'PetApi@uploadFileWithRequiredFile');
 /**
  * post addPet
  * Summary: Add a new pet to the store

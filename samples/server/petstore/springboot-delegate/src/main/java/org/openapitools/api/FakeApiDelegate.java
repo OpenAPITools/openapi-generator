@@ -2,8 +2,10 @@ package org.openapitools.api;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
@@ -41,6 +43,11 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterStringSerialize
      */
     ResponseEntity<String> fakeOuterStringSerialize( String  body);
+
+    /**
+     * @see FakeApi#testBodyWithFileSchema
+     */
+    ResponseEntity<Void> testBodyWithFileSchema( FileSchemaTestClass  fileSchemaTestClass);
 
     /**
      * @see FakeApi#testBodyWithQueryParams
@@ -93,5 +100,12 @@ public interface FakeApiDelegate {
      */
     ResponseEntity<Void> testJsonFormData( String  param,
          String  param2);
+
+    /**
+     * @see FakeApi#uploadFileWithRequiredFile
+     */
+    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( Long  petId,
+        MultipartFile requiredFile,
+         String  additionalMetadata);
 
 }
