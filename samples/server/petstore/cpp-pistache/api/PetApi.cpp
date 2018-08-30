@@ -94,7 +94,14 @@ void PetApi::delete_pet_handler(const Pistache::Rest::Request &request, Pistache
 void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
-    auto status = request.query().get("status");
+    auto statusQuery = request.query().get("status");
+    Pistache::Optional<std::vector<std::string>> status;
+    if(!statusQuery.isEmpty()){
+        std::vector<std::string> value;
+        if(ModelBase::fromStringValue(statusQuery.get(), value)){
+            status = Pistache::Some(value);
+        }
+    }
     
     try {
       this->find_pets_by_status(status, response);
@@ -108,7 +115,14 @@ void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request,
 void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
-    auto tags = request.query().get("tags");
+    auto tagsQuery = request.query().get("tags");
+    Pistache::Optional<std::vector<std::string>> tags;
+    if(!tagsQuery.isEmpty()){
+        std::vector<std::string> value;
+        if(ModelBase::fromStringValue(tagsQuery.get(), value)){
+            tags = Pistache::Some(value);
+        }
+    }
     
     try {
       this->find_pets_by_tags(tags, response);

@@ -136,8 +136,22 @@ void UserApi::get_user_by_name_handler(const Pistache::Rest::Request &request, P
 void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
-    auto username = request.query().get("username");
-    auto password = request.query().get("password");
+    auto usernameQuery = request.query().get("username");
+    Pistache::Optional<std::string> username;
+    if(!usernameQuery.isEmpty()){
+        std::string value;
+        if(ModelBase::fromStringValue(usernameQuery.get(), value)){
+            username = Pistache::Some(value);
+        }
+    }
+    auto passwordQuery = request.query().get("password");
+    Pistache::Optional<std::string> password;
+    if(!passwordQuery.isEmpty()){
+        std::string value;
+        if(ModelBase::fromStringValue(passwordQuery.get(), value)){
+            password = Pistache::Some(value);
+        }
+    }
     
     try {
       this->login_user(username, password, response);

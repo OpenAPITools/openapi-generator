@@ -56,6 +56,9 @@ set(<%classnameSnakeUpperCase%>_SERVER_SOURCES
 <%#operations%>
 add_executable(<%classnameSnakeLowerCase%>_server
 ${<%classnameSnakeUpperCase%>_SERVER_SOURCES})
+<%#addExternalLibs%>
+add_dependencies(<%classnameSnakeLowerCase%>_server PISTACHE NLOHMANN)
+<%/addExternalLibs%>
 <%/operations%>
 <%/apiInfo.apis%>
 
