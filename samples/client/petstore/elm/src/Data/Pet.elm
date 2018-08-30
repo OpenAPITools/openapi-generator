@@ -15,7 +15,7 @@ module Data.Pet exposing (Pet, Status(..), petDecoder, petEncoder)
 import Data.Category exposing (Category, categoryDecoder, categoryEncoder)
 import Data.Tag exposing (Tag, tagDecoder, tagEncoder)
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Maybe exposing (map, withDefault)
 
@@ -41,7 +41,7 @@ type Status
 
 petDecoder : Decoder Pet
 petDecoder =
-    decode Pet
+    Decode.succeed Pet
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "category" (Decode.nullable categoryDecoder) Nothing
         |> required "name" Decode.string
@@ -57,8 +57,8 @@ petEncoder model =
         [ ( "id", withDefault Encode.null (map Encode.int model.id) )
         , ( "category", withDefault Encode.null (map categoryEncoder model.category) )
         , ( "name", Encode.string model.name )
-        , ( "photoUrls", (Encode.list << List.map Encode.string) model.photoUrls )
-        , ( "tags", withDefault Encode.null (map (Encode.list << List.map tagEncoder) model.tags) )
+        , ( "photoUrls", (Encode.list Encode.string) model.photoUrls )
+        , ( "tags", withDefault Encode.null (map (Encode.list tagEncoder) model.tags) )
         , ( "status", withDefault Encode.null (map statusEncoder model.status) )
         ]
 

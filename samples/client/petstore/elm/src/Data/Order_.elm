@@ -14,7 +14,7 @@ module Data.Order_ exposing (Order_, Status(..), orderDecoder, orderEncoder)
 
 import DateTime exposing (DateTime, dateTimeDecoder, dateTimeEncoder)
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Maybe exposing (map, withDefault)
 
@@ -40,7 +40,7 @@ type Status
 
 orderDecoder : Decoder Order_
 orderDecoder =
-    decode Order_
+    Decode.succeed Order_
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "petId" (Decode.nullable Decode.int) Nothing
         |> optional "quantity" (Decode.nullable Decode.int) Nothing

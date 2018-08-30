@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -49,10 +50,11 @@ import java.util.TreeSet;
 
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final String X_ENCODER = "x-encoder";
-    private static final String X_DECODER = "x-decoder";
+    private static final String ELM_VERSION = "elmVersion";
+    private static final String ENCODER = "elmEncoder";
+    private static final String DECODER = "elmDecoder";
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
-    private static final String X_UNION_TYPE = "x-union-type";
+    private static final String UNION_TYPE = "elmUnionType";
 
     private Set<String> customPrimitives = new HashSet<String>();
 
@@ -144,13 +146,51 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.clear();
 
+        final CliOption elmVersion = new CliOption(ELM_VERSION, "Option. Elm version. Defaults to 0.19.");
+        final Map<String, String> supportedVersions = new HashMap<>();
+        supportedVersions.put("0.18", "Elm 0.18");
+        supportedVersions.put("0.19", "Elm 0.19");
+        elmVersion.setEnum(supportedVersions);
+        cliOptions.add(elmVersion);
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        String elmVersion;
+        if (additionalProperties.containsKey(ELM_VERSION)) {
+            elmVersion = additionalProperties.get(ELM_VERSION).toString();
+        } else {
+            elmVersion = "0.19";
+        }
+        final boolean isElm018 = "0.18".equals(elmVersion);
+        final boolean isElm019 = "0.19".equals(elmVersion);
+
+        if (isElm018) {
+            additionalProperties.put("isElm018", true);
+        } else if (isElm019) {
+            additionalProperties.put("isElm019", true);
+        } else {
+            throw new RuntimeException("Unsupported Elm version: " + elmVersion);
+        }
+
         supportingFiles.add(new SupportingFile("Byte.mustache", "src", "Byte.elm"));
-        supportingFiles.add(new SupportingFile("DateOnly.mustache", "src", "DateOnly.elm"));
-        supportingFiles.add(new SupportingFile("DateTime.mustache", "src", "DateTime.elm"));
-        supportingFiles.add(new SupportingFile("Main.mustache", "src", "Main.elm"));
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("elm-package.mustache", "", "elm-package.json"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        if (isElm018) {
+            supportingFiles.add(new SupportingFile("DateOnly018.mustache", "src", "DateOnly.elm"));
+            supportingFiles.add(new SupportingFile("DateTime018.mustache", "src", "DateTime.elm"));
+            supportingFiles.add(new SupportingFile("elm-package.mustache", "", "elm-package.json"));
+            supportingFiles.add(new SupportingFile("Main018.mustache", "src", "Main.elm"));
+        }
+        if (isElm019) {
+            supportingFiles.add(new SupportingFile("DateOnly019.mustache", "src", "DateOnly.elm"));
+            supportingFiles.add(new SupportingFile("DateTime019.mustache", "src", "DateTime.elm"));
+            supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
+            supportingFiles.add(new SupportingFile("Main019.mustache", "src", "Main.elm"));
+        }
     }
 
     @Override
@@ -279,7 +319,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.isEnum) {
                     this.addEncoderAndDecoder(cm.vendorExtensions, cm.classname, false, false);
-                    cm.vendorExtensions.put(X_UNION_TYPE, cm.classname);
+                    cm.vendorExtensions.put(UNION_TYPE, cm.classname);
                 } else if (cm.isAlias) {
                     this.addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, false, true);
                 }
@@ -365,11 +405,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         elmImport.moduleName = modulePrefix + property.complexType;
         elmImport.exposures = new TreeSet<>();
         elmImport.exposures.add(property.complexType);
-        if (property.vendorExtensions.containsKey(X_DECODER)) {
-            elmImport.exposures.add((String) property.vendorExtensions.get(X_DECODER));
+        if (property.vendorExtensions.containsKey(DECODER)) {
+            elmImport.exposures.add((String) property.vendorExtensions.get(DECODER));
         }
-        if (property.vendorExtensions.containsKey(X_ENCODER)) {
-            elmImport.exposures.add((String) property.vendorExtensions.get(X_ENCODER));
+        if (property.vendorExtensions.containsKey(ENCODER)) {
+            elmImport.exposures.add((String) property.vendorExtensions.get(ENCODER));
         }
         elmImport.hasExposures = true;
         return elmImport;
@@ -397,7 +437,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
 
             if (op.bodyParam != null && !op.bodyParam.isPrimitiveType && !op.bodyParam.isMapContainer) {
-                final String encoder = (String) op.bodyParam.vendorExtensions.get(X_ENCODER);
+                final String encoder = (String) op.bodyParam.vendorExtensions.get(ENCODER);
                 if (encoder != null) {
                     if (!dependencies.containsKey(op.bodyParam.dataType)) {
                         dependencies.put(op.bodyParam.dataType, new TreeSet<String>());
@@ -409,7 +449,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (resp.primitiveType || resp.isMapContainer) {
                     continue;
                 }
-                final String decoder = (String) resp.vendorExtensions.get(X_DECODER);
+                final String decoder = (String) resp.vendorExtensions.get(DECODER);
                 if (decoder != null) {
                     if (!dependencies.containsKey(resp.dataType)) {
                         dependencies.put(resp.dataType, new TreeSet<String>());
@@ -507,7 +547,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final String dataType = property.isEnum ? property.baseName : property.dataType;
         addEncoderAndDecoder(property.vendorExtensions, dataType, property.isMapContainer, property.isPrimitiveType && !property.isEnum);
         if (property.isEnum) {
-            property.vendorExtensions.put(X_UNION_TYPE, property.datatypeWithEnum);
+            property.vendorExtensions.put(UNION_TYPE, property.datatypeWithEnum);
         }
 
         return property;
@@ -545,11 +585,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             encoderName = baseName + "Encoder";
             decoderName = baseName + "Decoder";
         }
-        if (!vendorExtensions.containsKey(X_ENCODER)) {
-            vendorExtensions.put(X_ENCODER, encoderName);
+        if (!vendorExtensions.containsKey(ENCODER)) {
+            vendorExtensions.put(ENCODER, encoderName);
         }
-        if (!vendorExtensions.containsKey(X_DECODER)) {
-            vendorExtensions.put(X_DECODER, decoderName);
+        if (!vendorExtensions.containsKey(DECODER)) {
+            vendorExtensions.put(DECODER, decoderName);
         }
     }
 

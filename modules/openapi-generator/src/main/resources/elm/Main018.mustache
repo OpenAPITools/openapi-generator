@@ -1,9 +1,6 @@
-module Main exposing (..)
+module Main exposing (main)
 
-import Json.Decode as Decode
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
-import Http
+import Html exposing (Html)
 
 
 main : Program Never Model Msg
@@ -15,29 +12,49 @@ main =
         , subscriptions = subscriptions
         }
 
+
+
+-- MODEL
+
+
 type alias Model =
-    { status : Maybe Int
+    { value : Int
     }
 
-init : (Model, Cmd Msg)
+
+init : ( Model, Cmd Msg )
 init =
-    ( Model Nothing, Cmd.none )
+    ( Model 0, Cmd.none )
+
+
+
+-- UPDATE
+
 
 type Msg
     = NoOp
 
-update : Msg -> Model -> (Model, Cmd Msg)
+
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
 
 
-view : Model -> Html Msg
-view model =
-    Html.text "main"
+
+-- SUBSCRIPTIONS
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
+
+
+
+-- VIEW
+
+
+view : Model -> Html Msg
+view _ =
+    Html.text "main"
