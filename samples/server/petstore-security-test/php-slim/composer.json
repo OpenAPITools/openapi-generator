@@ -22,6 +22,7 @@
     ],
     "test-apis": "phpunit --testsuite Apis",
     "test-models": "phpunit --testsuite Models",
-    "phpcs": "phpcs ./ --ignore=vendor --warning-severity=0 --standard=PSR12"
+    "phpcs": "phpcs ./ --ignore=vendor --warning-severity=0 --standard=PSR12",
+    "phplint": "phplint ./ --exclude=vendor"
   }
 }
