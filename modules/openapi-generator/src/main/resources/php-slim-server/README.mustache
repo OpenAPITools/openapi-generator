@@ -5,7 +5,7 @@
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 5.5 or newer
+* PHP 5.5.9 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.

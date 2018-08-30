@@ -1,7 +1,7 @@
 {
   "minimum-stability": "RC",
   "require": {
-    "php": ">=5.5",
+    "php": ">=5.5.9",
     "slim/slim": "3.*",
     "tuupola/slim-basic-auth": "^3.0.0"
   },
