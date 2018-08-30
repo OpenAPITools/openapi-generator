@@ -287,6 +287,8 @@ public class DefaultCodegen implements CodegenConfig {
                     enumVar.put("isString", isDataTypeString(cm.dataType));
                     enumVars.add(enumVar);
                 }
+                // if "x-enum-varnames" defined, update varnames
+                updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions());
                 cm.allowableValues.put("enumVars", enumVars);
             }
 
@@ -4003,6 +4005,8 @@ public class DefaultCodegen implements CodegenConfig {
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
+        // if "x-enum-varnames" defined, update varnames
+        updateEnumVarsWithExtensions(enumVars, var.getVendorExtensions());
         allowableValues.put("enumVars", enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
@@ -4016,6 +4020,16 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (enumName != null) {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+            }
+        }
+    }
+
+    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
+        if (vendorExtensions != null && vendorExtensions.containsKey("x-enum-varnames")) {
+            List<String> alias = (List<String>) vendorExtensions.get("x-enum-varnames");
+            int size = Math.min(enumVars.size(), alias.size());
+            for (int i = 0; i < size; i++) {
+                enumVars.get(i).put("name", alias.get(i));
             }
         }
     }
