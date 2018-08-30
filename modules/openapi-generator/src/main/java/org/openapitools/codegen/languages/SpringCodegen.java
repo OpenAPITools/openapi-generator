@@ -60,6 +60,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
+    public static final String VIRTUAL_SERVICE = "virtualService";
+
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
@@ -89,6 +91,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean openapiDocketConfig = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
+    protected boolean virtualService = false;
 
     public SpringCodegen() {
         super();
@@ -113,6 +116,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
+        cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Default generate without virtual service"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers.", implicitHeaders));
@@ -196,6 +200,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
         } else {
             additionalProperties.put(BASE_PACKAGE, basePackage);
+        }
+        
+        if (additionalProperties.containsKey(VIRTUAL_SERVICE)) {
+            this.setVirtualService(Boolean.valueOf(additionalProperties.get(VIRTUAL_SERVICE).toString()));
         }
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
@@ -662,6 +670,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     public void setJava8(boolean java8) { this.java8 = java8; }
+
+    public void setVirtualService(boolean virtualService) { this.virtualService = virtualService; }
 
     public void setAsync(boolean async) { this.async = async; }
 
