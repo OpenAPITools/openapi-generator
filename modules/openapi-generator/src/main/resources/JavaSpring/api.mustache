@@ -10,7 +10,8 @@ package {{package}};
 import io.swagger.annotations.*;
 {{#jdk8-no-delegate}}
 {{#virtualService}}
-import org.openapitools.virtualan.annotation.ApiVirtual;
+import io.virtualan.annotation.ApiVirtual;
+import io.virtualan.annotation.VirtualService;
 {{/virtualService}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,6 +62,9 @@ import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture
 {{/useBeanValidation}}
 @Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
 {{#operations}}
+{{#virtualService}}
+@VirtualService
+{{/virtualService}}
 public interface {{classname}} {
 {{#jdk8}}
     {{^isDelegate}}
