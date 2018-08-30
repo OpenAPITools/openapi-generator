@@ -2,9 +2,8 @@
 import {
     {{#imports}}
     {{{.}}},
-    {{^isOriginalModelPropertyNaming}}
     {{.}}FromJSON,
-    {{/isOriginalModelPropertyNaming}}
+    {{.}}ToJSON,
     {{/imports}}
 } from './';
 
@@ -54,7 +53,7 @@ export function {{classname}}ToJSON(value: {{classname}}): any {
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isContainer}}
-        '{{baseName}}': (value.name as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        '{{baseName}}': (value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
         {{/isContainer}}
         {{^isContainer}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
