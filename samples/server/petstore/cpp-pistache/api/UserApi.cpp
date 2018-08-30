@@ -11,12 +11,14 @@
 */
 
 #include "UserApi.h"
+#include "Helpers.h"
 
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
+using namespace org::openapitools::server::helpers;
 using namespace org::openapitools::server::model;
 
 UserApi::UserApi(Pistache::Address addr)
@@ -140,7 +142,7 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
     Pistache::Optional<std::string> username;
     if(!usernameQuery.isEmpty()){
         std::string value;
-        if(ModelBase::fromStringValue(usernameQuery.get(), value)){
+        if(fromStringValue(usernameQuery.get(), value)){
             username = Pistache::Some(value);
         }
     }
@@ -148,7 +150,7 @@ void UserApi::login_user_handler(const Pistache::Rest::Request &request, Pistach
     Pistache::Optional<std::string> password;
     if(!passwordQuery.isEmpty()){
         std::string value;
-        if(ModelBase::fromStringValue(passwordQuery.get(), value)){
+        if(fromStringValue(passwordQuery.get(), value)){
             password = Pistache::Some(value);
         }
     }

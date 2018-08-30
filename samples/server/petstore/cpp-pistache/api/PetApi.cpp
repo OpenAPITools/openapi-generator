@@ -11,12 +11,14 @@
 */
 
 #include "PetApi.h"
+#include "Helpers.h"
 
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
+using namespace org::openapitools::server::helpers;
 using namespace org::openapitools::server::model;
 
 PetApi::PetApi(Pistache::Address addr)
@@ -98,7 +100,7 @@ void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request,
     Pistache::Optional<std::vector<std::string>> status;
     if(!statusQuery.isEmpty()){
         std::vector<std::string> value;
-        if(ModelBase::fromStringValue(statusQuery.get(), value)){
+        if(fromStringValue(statusQuery.get(), value)){
             status = Pistache::Some(value);
         }
     }
@@ -119,7 +121,7 @@ void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, P
     Pistache::Optional<std::vector<std::string>> tags;
     if(!tagsQuery.isEmpty()){
         std::vector<std::string> value;
-        if(ModelBase::fromStringValue(tagsQuery.get(), value)){
+        if(fromStringValue(tagsQuery.get(), value)){
             tags = Pistache::Some(value);
         }
     }

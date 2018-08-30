@@ -49,45 +49,6 @@ public:
     static double toJson( double const value );
     static bool toJson( bool const value );
     static nlohmann::json toJson(ModelBase const& content ); 
-
-    static std::string toStringValue(const std::string &value);
-    static std::string toStringValue(const int32_t &value);
-    static std::string toStringValue(const int64_t &value);
-    static std::string toStringValue(const bool &value);
-    static std::string toStringValue(const float &value);
-    static std::string toStringValue(const double &value);
-
-    static bool fromStringValue(const std::string &inStr, std::string &value);
-    static bool fromStringValue(const std::string &inStr, int32_t &value);
-    static bool fromStringValue(const std::string &inStr, int64_t &value);
-    static bool fromStringValue(const std::string &inStr, bool &value);
-    static bool fromStringValue(const std::string &inStr, float &value);
-    static bool fromStringValue(const std::string &inStr, double &value);
-    template<typename T>
-    static bool fromStringValue(const std::vector<std::string> &inStr, std::vector<T> &value){
-        try{
-            for(auto & item : inStr){
-                T itemValue;
-                if(fromStringValue(item, itemValue)){
-                    value.push_back(itemValue);
-                }
-            }
-        }
-        catch(...){
-            return false;
-        }
-        return value.size() > 0;
-    }
-    template<typename T>
-    static bool fromStringValue(const std::string &inStr, std::vector<T> &value, char separator = ','){
-        std::vector<std::string> inStrings;
-        std::istringstream f(inStr);
-        std::string s;
-        while (std::getline(f, s, separator)) {
-            inStrings.push_back(s);
-        }
-        return fromStringValue(inStrings, value);
-    }
 };
 
 class ModelArrayHelper {

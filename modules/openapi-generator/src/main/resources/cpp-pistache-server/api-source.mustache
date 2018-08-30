@@ -2,11 +2,13 @@
 {{#operations}}
 
 #include "{{classname}}.h"
+#include "{{prefix}}Helpers.h"
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
+using namespace {{helpersNamespace}};
 {{#hasModelImport}}
 using namespace {{modelNamespace}};{{/hasModelImport}}
 
@@ -66,7 +68,7 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     Pistache::Optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}}> {{paramName}};
     if(!{{paramName}}Query.isEmpty()){
         {{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}} value;
-        if(ModelBase::fromStringValue({{paramName}}Query.get(), value)){
+        if(fromStringValue({{paramName}}Query.get(), value)){
             {{paramName}} = Pistache::Some(value);
         }
     }
