@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
 
@@ -161,7 +162,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(jsProjectName) && info.getTitle() != null) {
                 // when jsProjectName is not specified, generate it from info.title
-                jsProjectName = sanitizeName(dashize(info.getTitle()));
+                jsProjectName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
             }
         }
 
@@ -170,7 +171,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             jsProjectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(jsModuleName)) {
-            jsModuleName = camelize(underscore(jsProjectName));
+            jsModuleName = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(jsProjectName));
         }
 
         additionalProperties.put("jsProjectName", jsProjectName);
