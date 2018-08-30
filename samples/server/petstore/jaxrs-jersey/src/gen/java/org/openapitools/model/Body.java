@@ -21,53 +21,52 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 
 /**
- * A category for a pet
+ * Body
  */
-@ApiModel(description = "A category for a pet")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-29T07:47:48.785+02:00[Europe/Zurich]")
-public class Category   {
-  @JsonProperty("id")
-  private Long id = null;
-
+public class Body   {
   @JsonProperty("name")
   private String name = null;
 
-  public Category id(Long id) {
-    this.id = id;
-    return this;
-  }
+  @JsonProperty("status")
+  private String status = null;
 
-  /**
-   * Get id
-   * @return id
-   **/
-  @JsonProperty("id")
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public Category name(String name) {
+  public Body name(String name) {
     this.name = name;
     return this;
   }
 
   /**
-   * Get name
+   * Updated name of the pet
    * @return name
    **/
   @JsonProperty("name")
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Updated name of the pet")
   public String getName() {
     return name;
   }
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Body status(String status) {
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Updated status of the pet
+   * @return status
+   **/
+  @JsonProperty("status")
+  @ApiModelProperty(value = "Updated status of the pet")
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
 
@@ -79,24 +78,24 @@ public class Category   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Category category = (Category) o;
-    return Objects.equals(this.id, category.id) &&
-        Objects.equals(this.name, category.name);
+    Body body = (Body) o;
+    return Objects.equals(this.name, body.name) &&
+        Objects.equals(this.status, body.status);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(name, status);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Category {\n");
+    sb.append("class Body {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("}");
     return sb.toString();
   }
