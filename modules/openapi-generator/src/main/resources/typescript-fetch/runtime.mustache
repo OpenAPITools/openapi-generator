@@ -141,7 +141,7 @@ export class Configuration {
         return this.configuration.password;
     }
 
-    get apiKey(): (name: string) => string | undefined {
+    get apiKey(): ((name: string) => string) | undefined {
         const apiKey = this.configuration.apiKey;
         if (apiKey) {
             return typeof apiKey === 'function' ? apiKey : () => apiKey;
@@ -149,7 +149,7 @@ export class Configuration {
         return undefined;
     }
 
-    get accessToken(): (name: string, scopes?: string[]) => string | undefined {
+    get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
         const accessToken = this.configuration.accessToken;
         if (accessToken) {
             return typeof accessToken === 'function' ? accessToken : () => accessToken;

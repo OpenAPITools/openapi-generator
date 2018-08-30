@@ -6,9 +6,8 @@ import * as runtime from '../runtime';
 import {
     {{#imports}}
     {{className}},
-    {{^isOriginalModelPropertyNaming}}
     {{className}}FromJSON,
-    {{/isOriginalModelPropertyNaming}}
+    {{className}}ToJSON,
     {{/imports}}
 } from '../models';
 {{/imports.0}}
@@ -174,7 +173,7 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/hasQueryParams}}
             {{#hasBodyParam}}
             {{#bodyParam}}
-            body: requestParameters.{{paramName}},
+            body: {{dataType}}ToJSON(requestParameters.{{paramName}}),
             {{/bodyParam}}
             {{/hasBodyParam}}
             {{#hasFormParams}}

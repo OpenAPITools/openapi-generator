@@ -45,6 +45,24 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         {{/vars}}
     };
 }
+
+export function {{classname}}ToJSON(value: {{classname}}): any {
+    return {
+        {{#vars}}
+        {{#isPrimitiveType}}
+        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isContainer}}
+        '{{baseName}}': (value.name as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        {{/isContainer}}
+        {{^isContainer}}
+        '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{/vars}}
+    };
+}
 {{#hasEnums}}
 
 /**
