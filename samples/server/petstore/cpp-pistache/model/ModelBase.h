@@ -57,14 +57,14 @@ public:
     static std::string toStringValue(const float &value);
     static std::string toStringValue(const double &value);
 
-	static bool fromStringValue(const std::string &inStr, std::string &value);
+    static bool fromStringValue(const std::string &inStr, std::string &value);
     static bool fromStringValue(const std::string &inStr, int32_t &value);
     static bool fromStringValue(const std::string &inStr, int64_t &value);
     static bool fromStringValue(const std::string &inStr, bool &value);
     static bool fromStringValue(const std::string &inStr, float &value);
     static bool fromStringValue(const std::string &inStr, double &value);
-	template<typename T>
-	static bool fromStringValue(const std::vector<std::string> &inStr, std::vector<T> &value){
+    template<typename T>
+    static bool fromStringValue(const std::vector<std::string> &inStr, std::vector<T> &value){
         try{
             for(auto & item : inStr){
                 T itemValue;
