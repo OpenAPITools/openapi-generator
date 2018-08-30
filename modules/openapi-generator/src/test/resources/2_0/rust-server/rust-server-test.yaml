@@ -19,3 +19,9 @@ definitions:
     additionalProperties:
       type: string
     example: "foo"
+  aNullableContainer:
+    type: object
+    properties:
+      NullableThing:
+        type: string
+        x-nullable: true
