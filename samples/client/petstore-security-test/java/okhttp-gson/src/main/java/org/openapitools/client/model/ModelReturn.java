@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore *_/ ' \" =end -- \\r\\n \\n \\r
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  *_/ ' \" =end --       
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  *_/ ' \" =end --
  *
  * OpenAPI spec version: 1.0.0 *_/ ' \" =end -- \\r\\n \\n \\r
  * Contact: something@something.abc *_/ ' \" =end -- \\r\\n \\n \\r
@@ -13,16 +13,11 @@
 
 package org.openapitools.client.model;
 
-import java.util.Objects;
-import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
+
+import java.util.Objects;
 
 /**
  * Model for testing reserved words  *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
@@ -30,7 +25,8 @@ import java.io.IOException;
 @ApiModel(description = "Model for testing reserved words  *_/ ' \" =end -- \\r\\n \\n \\r")
 
 public class ModelReturn {
-  @SerializedName("return")
+  public static final String SERIALIZED_NAME_RETURN = "return";
+  @SerializedName(SERIALIZED_NAME_RETURN)
   private Integer _return = null;
 
   public ModelReturn _return(Integer _return) {
@@ -74,7 +70,7 @@ public class ModelReturn {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelReturn {\n");
-    
+
     sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
     sb.append("}");
     return sb.toString();

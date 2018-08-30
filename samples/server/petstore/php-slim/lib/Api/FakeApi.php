@@ -37,11 +37,11 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class FakeApi extends AbstractApiController {
-
+class FakeApi extends AbstractApiController
+{
+    
     /**
      * POST fakeOuterBooleanSerialize
-     * Summary: 
      * Notes: Test serialization of outer boolean types
      * Output-Formats: [*_/_*]
      *
@@ -49,7 +49,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterBooleanSerialize($request, $response, $args) {
+    public function fakeOuterBooleanSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterBooleanSerialize as a POST method ?');
         return $response;
@@ -57,7 +58,6 @@ class FakeApi extends AbstractApiController {
     
     /**
      * POST fakeOuterCompositeSerialize
-     * Summary: 
      * Notes: Test serialization of object with outer number type
      * Output-Formats: [*_/_*]
      *
@@ -65,7 +65,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterCompositeSerialize($request, $response, $args) {
+    public function fakeOuterCompositeSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterCompositeSerialize as a POST method ?');
         return $response;
@@ -73,7 +74,6 @@ class FakeApi extends AbstractApiController {
     
     /**
      * POST fakeOuterNumberSerialize
-     * Summary: 
      * Notes: Test serialization of outer number types
      * Output-Formats: [*_/_*]
      *
@@ -81,7 +81,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterNumberSerialize($request, $response, $args) {
+    public function fakeOuterNumberSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterNumberSerialize as a POST method ?');
         return $response;
@@ -89,7 +90,6 @@ class FakeApi extends AbstractApiController {
     
     /**
      * POST fakeOuterStringSerialize
-     * Summary: 
      * Notes: Test serialization of outer string types
      * Output-Formats: [*_/_*]
      *
@@ -97,7 +97,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterStringSerialize($request, $response, $args) {
+    public function fakeOuterStringSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterStringSerialize as a POST method ?');
         return $response;
@@ -105,14 +106,14 @@ class FakeApi extends AbstractApiController {
     
     /**
      * PUT testBodyWithFileSchema
-     * Summary: 
      * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testBodyWithFileSchema($request, $response, $args) {
+    public function testBodyWithFileSchema($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testBodyWithFileSchema as a PUT method ?');
         return $response;
@@ -120,14 +121,13 @@ class FakeApi extends AbstractApiController {
     
     /**
      * PUT testBodyWithQueryParams
-     * Summary: 
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testBodyWithQueryParams($request, $response, $args) {
+    public function testBodyWithQueryParams($request, $response, $args)
+    {
         $queryParams = $request->getQueryParams();
         $query = $request->getQueryParam('query');
         $body = $request->getParsedBody();
@@ -145,7 +145,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testClientModel($request, $response, $args) {
+    public function testClientModel($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testClientModel as a PATCH method ?');
         return $response;
@@ -160,7 +161,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testEndpointParameters($request, $response, $args) {
+    public function testEndpointParameters($request, $response, $args)
+    {
         $integer = $request->getParsedBodyParam('integer');
         $int32 = $request->getParsedBodyParam('int32');
         $int64 = $request->getParsedBodyParam('int64');
@@ -188,7 +190,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testEnumParameters($request, $response, $args) {
+    public function testEnumParameters($request, $response, $args)
+    {
         $headers = $request->getHeaders();
         $enumHeaderStringArray = $request->hasHeader('enum_header_string_array') ? $headers['enum_header_string_array'] : null;
         $enumHeaderString = $request->hasHeader('enum_header_string') ? $headers['enum_header_string'] : null;
@@ -206,13 +209,13 @@ class FakeApi extends AbstractApiController {
     /**
      * POST testInlineAdditionalProperties
      * Summary: test inline additionalProperties
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testInlineAdditionalProperties($request, $response, $args) {
+    public function testInlineAdditionalProperties($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testInlineAdditionalProperties as a POST method ?');
         return $response;
@@ -221,17 +224,16 @@ class FakeApi extends AbstractApiController {
     /**
      * GET testJsonFormData
      * Summary: test json serialization of form data
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testJsonFormData($request, $response, $args) {
+    public function testJsonFormData($request, $response, $args)
+    {
         $param = $request->getParsedBodyParam('param');
         $param2 = $request->getParsedBodyParam('param2');
         $response->write('How about implementing testJsonFormData as a GET method ?');
         return $response;
     }
-    
 }

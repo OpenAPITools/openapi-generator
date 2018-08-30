@@ -52,7 +52,7 @@ import org.openapitools.client.auth.OAuth;
 
 public class ApiClient {
 
-    private String basePath = "petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r";
+    private String basePath = "http://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r";
     private boolean debugging = false;
     private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
     private String tempFolderPath = null;
@@ -107,7 +107,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r
+     * @param basePath Base path of the URL (e.g http://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {
@@ -895,7 +895,7 @@ public class ApiClient {
      * @param <T> Type
      * @param response Response
      * @param returnType Return type
-     * @throws ApiException If the response has a unsuccessful status code or
+     * @throws ApiException If the response has an unsuccessful status code or
      *   fail to deserialize the response body
      * @return Type
      */

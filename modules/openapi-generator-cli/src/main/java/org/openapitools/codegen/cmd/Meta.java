@@ -67,6 +67,11 @@ public class Meta implements Runnable {
             description = "the package to put the main class into (defaults to org.openapitools.codegen)")
     private String targetPackage = "org.openapitools.codegen";
 
+    @Option(name = {"-t", "--type"}, title = "type",
+            description = "the type of generator that is created",
+            allowedValues = {"CLIENT", "SERVER", "DOCUMENTATION", "CONFIG", "OTHER"})
+    private String type = "OTHER";
+
     @Override
     public void run() {
         final File targetDir = new File(outputFolder);
@@ -87,8 +92,11 @@ public class Meta implements Runnable {
         String currentVersion = Version.readVersionFromResources();
 
         Map<String, Object> data =
-                new ImmutableMap.Builder<String, Object>().put("generatorPackage", targetPackage)
-                        .put("generatorClass", mainClass).put("name", name)
+                new ImmutableMap.Builder<String, Object>()
+                        .put("generatorPackage", targetPackage)
+                        .put("generatorClass", mainClass)
+                        .put("name", name)
+                        .put("generatorType", type)
                         .put("fullyQualifiedGeneratorClass", targetPackage + "." + mainClass)
                         .put("openapiGeneratorVersion", currentVersion).build();
 

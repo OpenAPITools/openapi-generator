@@ -36,83 +36,84 @@ use OpenAPIServer\Model\Order;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Order
  */
-class OrderTest extends \PHPUnit_Framework_TestCase {
+class OrderTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "Order"
      */
-    public function testOrder() {
+    public function testOrder()
+    {
         $testOrder = new Order();
     }
 
     /**
      * Test attribute "id"
      */
-    public function testPropertyId() {
-
+    public function testPropertyId()
+    {
     }
 
     /**
      * Test attribute "petId"
      */
-    public function testPropertyPetId() {
-
+    public function testPropertyPetId()
+    {
     }
 
     /**
      * Test attribute "quantity"
      */
-    public function testPropertyQuantity() {
-
+    public function testPropertyQuantity()
+    {
     }
 
     /**
      * Test attribute "shipDate"
      */
-    public function testPropertyShipDate() {
-
+    public function testPropertyShipDate()
+    {
     }
 
     /**
      * Test attribute "status"
      */
-    public function testPropertyStatus() {
-
+    public function testPropertyStatus()
+    {
     }
 
     /**
      * Test attribute "complete"
      */
-    public function testPropertyComplete() {
-
+    public function testPropertyComplete()
+    {
     }
 }
-

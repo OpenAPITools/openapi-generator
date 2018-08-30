@@ -26,11 +26,11 @@ then
 fi
 
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="meta -n myClientCodegen -p com.my.company.codegen -o samples/meta-codegen/lib $@"
+ags="meta -n myClientCodegen -t DOCUMENTATION -p com.my.company.codegen -o samples/meta-codegen/lib $@"
 
 java $JAVA_OPTS -jar $executable $ags
 
-mvn verify -f samples/meta-codegen/lib/pom.xml
+mvn clean package -f samples/meta-codegen/pom.xml
 
 ags2="generate -g myClientCodegen -i modules/openapi-generator/src/test/resources/2_0/petstore.json -o samples/meta-codegen/usage $@"
 

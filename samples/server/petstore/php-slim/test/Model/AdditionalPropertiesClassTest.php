@@ -36,55 +36,56 @@ use OpenAPIServer\Model\AdditionalPropertiesClass;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\AdditionalPropertiesClass
  */
-class AdditionalPropertiesClassTest extends \PHPUnit_Framework_TestCase {
+class AdditionalPropertiesClassTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "AdditionalPropertiesClass"
      */
-    public function testAdditionalPropertiesClass() {
+    public function testAdditionalPropertiesClass()
+    {
         $testAdditionalPropertiesClass = new AdditionalPropertiesClass();
     }
 
     /**
      * Test attribute "mapProperty"
      */
-    public function testPropertyMapProperty() {
-
+    public function testPropertyMapProperty()
+    {
     }
 
     /**
      * Test attribute "mapOfMapProperty"
      */
-    public function testPropertyMapOfMapProperty() {
-
+    public function testPropertyMapOfMapProperty()
+    {
     }
 }
-
