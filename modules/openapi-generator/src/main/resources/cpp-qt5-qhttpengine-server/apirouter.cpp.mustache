@@ -3,7 +3,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
-#include <QRegularExpression>
+
 
 #include "{{prefix}}ApiRouter.h"
 {{#apiInfo}}{{#apis}}{{#operations}}#include "{{classname}}Request.h"
@@ -18,7 +18,7 @@ namespace {{this}} {
 }
 
 {{prefix}}ApiRouter::~{{prefix}}ApiRouter(){
-    qDebug() << "~ApiRouter()";{{#apiInfo}}{{#apis}}
+    {{#apiInfo}}{{#apis}}
     delete {{classname}}ApiHandler;{{/apis}}{{/apiInfo}}
 }
 
@@ -62,11 +62,7 @@ bool {{prefix}}ApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *
     {
         auto completePath = QString("%1 %2").arg("{{httpMethod}}").arg("{{{basePathWithoutHost}}}{{{path}}}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 {{#pathParams}}
                 QString {{baseName}} = match.captured(QString("{{baseName}}").toLower());
