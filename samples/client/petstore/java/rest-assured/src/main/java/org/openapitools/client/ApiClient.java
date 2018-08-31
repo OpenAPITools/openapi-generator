@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-
+//XXXXXXX Modification that should be catched by ensure-up-to-date !!
 package org.openapitools.client;
 
 import org.openapitools.client.api.*;
