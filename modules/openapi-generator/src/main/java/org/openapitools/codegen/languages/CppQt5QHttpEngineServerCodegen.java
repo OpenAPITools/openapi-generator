@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+
 public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implements CodegenConfig {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5QHttpEngineServerCodegen.class);
@@ -429,7 +430,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        varName = underscore(varName);
+        varName = org.openapitools.codegen.utils.StringUtils.underscore(varName);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(varName) || varName.matches("^\\d.*")) {

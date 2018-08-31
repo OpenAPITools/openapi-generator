@@ -39,6 +39,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
 
@@ -243,7 +244,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
@@ -266,23 +267,23 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return underscore(toModelName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toModelName(name));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return underscore(toApiName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toApiName(name));
     }
 
     @Override
@@ -401,7 +402,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 new ArrayList<Map<String, String>>();
         for (Map<String, Object> value : values) {
             Map<String, String> enumVar = new HashMap<String, String>();
-            String name = camelize((String) value.get("identifier"), true);
+            String name = org.openapitools.codegen.utils.StringUtils.camelize((String) value.get("identifier"), true);
             if (isReservedWord(name)) {
                 name = escapeReservedWord(name);
             }
@@ -427,7 +428,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "int".equalsIgnoreCase(datatype)) {
             var = "Number" + var;
         }
-        return escapeReservedWord(camelize(var, true));
+        return escapeReservedWord(org.openapitools.codegen.utils.StringUtils.camelize(var, true));
     }
 
     @Override
@@ -444,12 +445,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return camelize(operationId, true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(operationId, true);
     }
 
     public void setBrowserClient(boolean browserClient) {
