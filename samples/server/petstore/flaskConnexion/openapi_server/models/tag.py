@@ -15,7 +15,7 @@ class Tag(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, name: str=None):  # noqa: E501
+    def __init__(self, id: 'int'=None, name: 'str'=None):  # noqa: E501
         """Tag - a model defined in OpenAPI
 
         :param id: The id of this Tag.  # noqa: E501
@@ -24,8 +24,8 @@ class Tag(Model):
         :type name: str
         """
         self.openapi_types = {
-            'id': int,
-            'name': str
+            'id': 'int',
+            'name': 'str'
         }
 
         self.attribute_map = {
@@ -48,7 +48,7 @@ class Tag(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
+    def id(self) -> 'int':
         """Gets the id of this Tag.
 
 
@@ -58,7 +58,7 @@ class Tag(Model):
         return self._id
 
     @id.setter
-    def id(self, id: int):
+    def id(self, id: 'int'):
         """Sets the id of this Tag.
 
 
@@ -69,7 +69,7 @@ class Tag(Model):
         self._id = id
 
     @property
-    def name(self) -> str:
+    def name(self) -> 'str':
         """Gets the name of this Tag.
 
 
@@ -79,7 +79,7 @@ class Tag(Model):
         return self._name
 
     @name.setter
-    def name(self, name: str):
+    def name(self, name: 'str'):
         """Sets the name of this Tag.
 
 

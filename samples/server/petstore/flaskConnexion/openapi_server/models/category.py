@@ -15,7 +15,7 @@ class Category(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, name: str=None):  # noqa: E501
+    def __init__(self, id: 'int'=None, name: 'str'=None):  # noqa: E501
         """Category - a model defined in OpenAPI
 
         :param id: The id of this Category.  # noqa: E501
@@ -24,8 +24,8 @@ class Category(Model):
         :type name: str
         """
         self.openapi_types = {
-            'id': int,
-            'name': str
+            'id': 'int',
+            'name': 'str'
         }
 
         self.attribute_map = {
@@ -48,7 +48,7 @@ class Category(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
+    def id(self) -> 'int':
         """Gets the id of this Category.
 
 
@@ -58,7 +58,7 @@ class Category(Model):
         return self._id
 
     @id.setter
-    def id(self, id: int):
+    def id(self, id: 'int'):
         """Sets the id of this Category.
 
 
@@ -69,7 +69,7 @@ class Category(Model):
         self._id = id
 
     @property
-    def name(self) -> str:
+    def name(self) -> 'str':
         """Gets the name of this Category.
 
 
@@ -79,7 +79,7 @@ class Category(Model):
         return self._name
 
     @name.setter
-    def name(self, name: str):
+    def name(self, name: 'str'):
         """Sets the name of this Category.
 
 

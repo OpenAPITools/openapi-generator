@@ -6,8 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from {{modelPackage}}.base_model_ import Model
-{{#imports}}{{import}}  # noqa: F401,E501
-{{/imports}}
 from {{packageName}} import util
 
 
@@ -27,7 +25,7 @@ class {{classname}}(Model):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
-    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{dataType}}{{/supportPython2}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: '{{dataType}}'{{/supportPython2}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
         {{#vars}}
@@ -37,7 +35,7 @@ class {{classname}}(Model):
         """
         self.openapi_types = {
 {{#vars}}
-            '{{name}}': {{{dataType}}}{{#hasMore}},{{/hasMore}}
+            '{{name}}': '{{{dataType}}}'{{#hasMore}},{{/hasMore}}
 {{/vars}}
         }
 
@@ -64,7 +62,7 @@ class {{classname}}(Model):
 
 {{/-first}}
     @property
-    def {{name}}(self){{^supportPython2}} -> {{dataType}}{{/supportPython2}}:
+    def {{name}}(self){{^supportPython2}} -> '{{dataType}}'{{/supportPython2}}:
         """Gets the {{name}} of this {{classname}}.
 
         {{#description}}
@@ -77,7 +75,7 @@ class {{classname}}(Model):
         return self._{{name}}
 
     @{{name}}.setter
-    def {{name}}(self, {{name}}{{^supportPython2}}: {{dataType}}{{/supportPython2}}):
+    def {{name}}(self, {{name}}{{^supportPython2}}: '{{dataType}}'{{/supportPython2}}):
         """Sets the {{name}} of this {{classname}}.
 
         {{#description}}

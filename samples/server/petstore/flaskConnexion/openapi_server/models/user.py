@@ -15,7 +15,7 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, username: str=None, first_name: str=None, last_name: str=None, email: str=None, password: str=None, phone: str=None, user_status: int=None):  # noqa: E501
+    def __init__(self, id: 'int'=None, username: 'str'=None, first_name: 'str'=None, last_name: 'str'=None, email: 'str'=None, password: 'str'=None, phone: 'str'=None, user_status: 'int'=None):  # noqa: E501
         """User - a model defined in OpenAPI
 
         :param id: The id of this User.  # noqa: E501
@@ -36,14 +36,14 @@ class User(Model):
         :type user_status: int
         """
         self.openapi_types = {
-            'id': int,
-            'username': str,
-            'first_name': str,
-            'last_name': str,
-            'email': str,
-            'password': str,
-            'phone': str,
-            'user_status': int
+            'id': 'int',
+            'username': 'str',
+            'first_name': 'str',
+            'last_name': 'str',
+            'email': 'str',
+            'password': 'str',
+            'phone': 'str',
+            'user_status': 'int'
         }
 
         self.attribute_map = {
@@ -78,7 +78,7 @@ class User(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
+    def id(self) -> 'int':
         """Gets the id of this User.
 
 
@@ -88,7 +88,7 @@ class User(Model):
         return self._id
 
     @id.setter
-    def id(self, id: int):
+    def id(self, id: 'int'):
         """Sets the id of this User.
 
 
@@ -99,7 +99,7 @@ class User(Model):
         self._id = id
 
     @property
-    def username(self) -> str:
+    def username(self) -> 'str':
         """Gets the username of this User.
 
 
@@ -109,7 +109,7 @@ class User(Model):
         return self._username
 
     @username.setter
-    def username(self, username: str):
+    def username(self, username: 'str'):
         """Sets the username of this User.
 
 
@@ -120,7 +120,7 @@ class User(Model):
         self._username = username
 
     @property
-    def first_name(self) -> str:
+    def first_name(self) -> 'str':
         """Gets the first_name of this User.
 
 
@@ -130,7 +130,7 @@ class User(Model):
         return self._first_name
 
     @first_name.setter
-    def first_name(self, first_name: str):
+    def first_name(self, first_name: 'str'):
         """Sets the first_name of this User.
 
 
@@ -141,7 +141,7 @@ class User(Model):
         self._first_name = first_name
 
     @property
-    def last_name(self) -> str:
+    def last_name(self) -> 'str':
         """Gets the last_name of this User.
 
 
@@ -151,7 +151,7 @@ class User(Model):
         return self._last_name
 
     @last_name.setter
-    def last_name(self, last_name: str):
+    def last_name(self, last_name: 'str'):
         """Sets the last_name of this User.
 
 
@@ -162,7 +162,7 @@ class User(Model):
         self._last_name = last_name
 
     @property
-    def email(self) -> str:
+    def email(self) -> 'str':
         """Gets the email of this User.
 
 
@@ -172,7 +172,7 @@ class User(Model):
         return self._email
 
     @email.setter
-    def email(self, email: str):
+    def email(self, email: 'str'):
         """Sets the email of this User.
 
 
@@ -183,7 +183,7 @@ class User(Model):
         self._email = email
 
     @property
-    def password(self) -> str:
+    def password(self) -> 'str':
         """Gets the password of this User.
 
 
@@ -193,7 +193,7 @@ class User(Model):
         return self._password
 
     @password.setter
-    def password(self, password: str):
+    def password(self, password: 'str'):
         """Sets the password of this User.
 
 
@@ -204,7 +204,7 @@ class User(Model):
         self._password = password
 
     @property
-    def phone(self) -> str:
+    def phone(self) -> 'str':
         """Gets the phone of this User.
 
 
@@ -214,7 +214,7 @@ class User(Model):
         return self._phone
 
     @phone.setter
-    def phone(self, phone: str):
+    def phone(self, phone: 'str'):
         """Sets the phone of this User.
 
 
@@ -225,7 +225,7 @@ class User(Model):
         self._phone = phone
 
     @property
-    def user_status(self) -> int:
+    def user_status(self) -> 'int':
         """Gets the user_status of this User.
 
         User Status  # noqa: E501
@@ -236,7 +236,7 @@ class User(Model):
         return self._user_status
 
     @user_status.setter
-    def user_status(self, user_status: int):
+    def user_status(self, user_status: 'int'):
         """Sets the user_status of this User.
 
         User Status  # noqa: E501

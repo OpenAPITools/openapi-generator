@@ -15,7 +15,7 @@ class Order(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, pet_id: int=None, quantity: int=None, ship_date: datetime=None, status: str=None, complete: bool=False):  # noqa: E501
+    def __init__(self, id: 'int'=None, pet_id: 'int'=None, quantity: 'int'=None, ship_date: 'datetime'=None, status: 'str'=None, complete: 'bool'=False):  # noqa: E501
         """Order - a model defined in OpenAPI
 
         :param id: The id of this Order.  # noqa: E501
@@ -32,12 +32,12 @@ class Order(Model):
         :type complete: bool
         """
         self.openapi_types = {
-            'id': int,
-            'pet_id': int,
-            'quantity': int,
-            'ship_date': datetime,
-            'status': str,
-            'complete': bool
+            'id': 'int',
+            'pet_id': 'int',
+            'quantity': 'int',
+            'ship_date': 'datetime',
+            'status': 'str',
+            'complete': 'bool'
         }
 
         self.attribute_map = {
@@ -68,7 +68,7 @@ class Order(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
+    def id(self) -> 'int':
         """Gets the id of this Order.
 
 
@@ -78,7 +78,7 @@ class Order(Model):
         return self._id
 
     @id.setter
-    def id(self, id: int):
+    def id(self, id: 'int'):
         """Sets the id of this Order.
 
 
@@ -89,7 +89,7 @@ class Order(Model):
         self._id = id
 
     @property
-    def pet_id(self) -> int:
+    def pet_id(self) -> 'int':
         """Gets the pet_id of this Order.
 
 
@@ -99,7 +99,7 @@ class Order(Model):
         return self._pet_id
 
     @pet_id.setter
-    def pet_id(self, pet_id: int):
+    def pet_id(self, pet_id: 'int'):
         """Sets the pet_id of this Order.
 
 
@@ -110,7 +110,7 @@ class Order(Model):
         self._pet_id = pet_id
 
     @property
-    def quantity(self) -> int:
+    def quantity(self) -> 'int':
         """Gets the quantity of this Order.
 
 
@@ -120,7 +120,7 @@ class Order(Model):
         return self._quantity
 
     @quantity.setter
-    def quantity(self, quantity: int):
+    def quantity(self, quantity: 'int'):
         """Sets the quantity of this Order.
 
 
@@ -131,7 +131,7 @@ class Order(Model):
         self._quantity = quantity
 
     @property
-    def ship_date(self) -> datetime:
+    def ship_date(self) -> 'datetime':
         """Gets the ship_date of this Order.
 
 
@@ -141,7 +141,7 @@ class Order(Model):
         return self._ship_date
 
     @ship_date.setter
-    def ship_date(self, ship_date: datetime):
+    def ship_date(self, ship_date: 'datetime'):
         """Sets the ship_date of this Order.
 
 
@@ -152,7 +152,7 @@ class Order(Model):
         self._ship_date = ship_date
 
     @property
-    def status(self) -> str:
+    def status(self) -> 'str':
         """Gets the status of this Order.
 
         Order Status  # noqa: E501
@@ -163,7 +163,7 @@ class Order(Model):
         return self._status
 
     @status.setter
-    def status(self, status: str):
+    def status(self, status: 'str'):
         """Sets the status of this Order.
 
         Order Status  # noqa: E501
@@ -181,7 +181,7 @@ class Order(Model):
         self._status = status
 
     @property
-    def complete(self) -> bool:
+    def complete(self) -> 'bool':
         """Gets the complete of this Order.
 
 
@@ -191,7 +191,7 @@ class Order(Model):
         return self._complete
 
     @complete.setter
-    def complete(self, complete: bool):
+    def complete(self, complete: 'bool'):
         """Sets the complete of this Order.
 
 

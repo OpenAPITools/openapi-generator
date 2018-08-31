@@ -6,8 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.category import Category  # noqa: F401,E501
-from openapi_server.models.tag import Tag  # noqa: F401,E501
 from openapi_server import util
 
 
@@ -17,7 +15,7 @@ class Pet(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id: int=None, category: Category=None, name: str=None, photo_urls: List[str]=None, tags: List[Tag]=None, status: str=None):  # noqa: E501
+    def __init__(self, id: 'int'=None, category: 'Category'=None, name: 'str'=None, photo_urls: 'List[str]'=None, tags: 'List[Tag]'=None, status: 'str'=None):  # noqa: E501
         """Pet - a model defined in OpenAPI
 
         :param id: The id of this Pet.  # noqa: E501
@@ -34,12 +32,12 @@ class Pet(Model):
         :type status: str
         """
         self.openapi_types = {
-            'id': int,
-            'category': Category,
-            'name': str,
-            'photo_urls': List[str],
-            'tags': List[Tag],
-            'status': str
+            'id': 'int',
+            'category': 'Category',
+            'name': 'str',
+            'photo_urls': 'List[str]',
+            'tags': 'List[Tag]',
+            'status': 'str'
         }
 
         self.attribute_map = {
@@ -70,7 +68,7 @@ class Pet(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self) -> int:
+    def id(self) -> 'int':
         """Gets the id of this Pet.
 
 
@@ -80,7 +78,7 @@ class Pet(Model):
         return self._id
 
     @id.setter
-    def id(self, id: int):
+    def id(self, id: 'int'):
         """Sets the id of this Pet.
 
 
@@ -91,7 +89,7 @@ class Pet(Model):
         self._id = id
 
     @property
-    def category(self) -> Category:
+    def category(self) -> 'Category':
         """Gets the category of this Pet.
 
 
@@ -101,7 +99,7 @@ class Pet(Model):
         return self._category
 
     @category.setter
-    def category(self, category: Category):
+    def category(self, category: 'Category'):
         """Sets the category of this Pet.
 
 
@@ -112,7 +110,7 @@ class Pet(Model):
         self._category = category
 
     @property
-    def name(self) -> str:
+    def name(self) -> 'str':
         """Gets the name of this Pet.
 
 
@@ -122,7 +120,7 @@ class Pet(Model):
         return self._name
 
     @name.setter
-    def name(self, name: str):
+    def name(self, name: 'str'):
         """Sets the name of this Pet.
 
 
@@ -135,7 +133,7 @@ class Pet(Model):
         self._name = name
 
     @property
-    def photo_urls(self) -> List[str]:
+    def photo_urls(self) -> 'List[str]':
         """Gets the photo_urls of this Pet.
 
 
@@ -145,7 +143,7 @@ class Pet(Model):
         return self._photo_urls
 
     @photo_urls.setter
-    def photo_urls(self, photo_urls: List[str]):
+    def photo_urls(self, photo_urls: 'List[str]'):
         """Sets the photo_urls of this Pet.
 
 
@@ -158,7 +156,7 @@ class Pet(Model):
         self._photo_urls = photo_urls
 
     @property
-    def tags(self) -> List[Tag]:
+    def tags(self) -> 'List[Tag]':
         """Gets the tags of this Pet.
 
 
@@ -168,7 +166,7 @@ class Pet(Model):
         return self._tags
 
     @tags.setter
-    def tags(self, tags: List[Tag]):
+    def tags(self, tags: 'List[Tag]'):
         """Sets the tags of this Pet.
 
 
@@ -179,7 +177,7 @@ class Pet(Model):
         self._tags = tags
 
     @property
-    def status(self) -> str:
+    def status(self) -> 'str':
         """Gets the status of this Pet.
 
         pet status in the store  # noqa: E501
@@ -190,7 +188,7 @@ class Pet(Model):
         return self._status
 
     @status.setter
-    def status(self, status: str):
+    def status(self, status: 'str'):
         """Sets the status of this Pet.
 
         pet status in the store  # noqa: E501
