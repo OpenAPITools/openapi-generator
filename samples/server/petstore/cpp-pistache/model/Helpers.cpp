@@ -67,8 +67,9 @@ bool fromStringValue(const std::string &inStr, int64_t &value){
 }
 
 bool fromStringValue(const std::string &inStr, bool &value){
-    inStr == "true"?value = true: value = false;
-    return true;
+    bool result = true;
+    inStr == "true"?value = true: inStr == "false"?value = false: result = false;
+    return result;
 }
 
 bool fromStringValue(const std::string &inStr, float &value){
