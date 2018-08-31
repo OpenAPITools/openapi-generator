@@ -1036,6 +1036,7 @@
                 <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby</module>
                 <module>samples/server/petstore/rust-server</module>
+                <module>samples/client/petstore/dart2/petstore</module>
             </modules>
         </profile>
         <profile>
