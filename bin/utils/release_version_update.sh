@@ -31,8 +31,6 @@ else
     exit 1;
 fi
 
-
-echo "IMPORTANT: this script works on Mac only"
 echo "Release preparation: replacing $FROM with $TO in different files"
 
 declare -a files=("CI/pom.xml.bash"
@@ -48,10 +46,15 @@ declare -a files=("CI/pom.xml.bash"
                   "samples/meta-codegen/lib/pom.xml"
                   "pom.xml")
 
+sedi () {
+  # Cross-platform version of sed -i that works both on Mac and Linux
+  sed --version >/dev/null 2>&1 && sed -i -e "$@" || sed -i "" "$@"
+}
+
 for filename in "${files[@]}"; do
   # e.g. sed -i '' "s/3.0.1-SNAPSHOT/3.0.1/g" CI/pom.xml.bash
   #echo "Running command: sed -i '' "s/$FROM/$TO/g" $filename"
-  if sed -i '' "s/$FROM/$TO/g" $filename; then
+  if sedi "s/$FROM/$TO/g" $filename; then
     echo "Updated $filename successfully!"
   else
     echo "ERROR: Failed to update $filename with the following command"
