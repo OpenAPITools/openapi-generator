@@ -77,8 +77,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.escape;
 
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
@@ -287,6 +291,8 @@ public class DefaultCodegen implements CodegenConfig {
                     enumVar.put("isString", isDataTypeString(cm.dataType));
                     enumVars.add(enumVar);
                 }
+                // if "x-enum-varnames" defined, update varnames
+                updateEnumVarsWithExtensions(enumVars, cm.getVendorExtensions());
                 cm.allowableValues.put("enumVars", enumVars);
             }
 
@@ -775,7 +781,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         } else {
             return name;
         }
@@ -793,7 +799,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escapeSpecialCharacters(name, null, null);
+            return escape(name, specialCharReplacements, null, null);
         }
         return name;
     }
@@ -835,27 +841,19 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the name with escaped characters.
      *
-     * @param name                   the name to be escaped
-     * @param charactersToAllow      characters that are not escaped
+     * @param name the name to be escaped
+     * @param charactersToAllow characters that are not escaped
      * @param appdendixToReplacement String to append to replaced characters.
      * @return the escaped word
      * <p>
      * throws Runtime exception as word is not escaped properly.
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#escape directly instead
+     *
      */
+    @Deprecated
     public String escapeSpecialCharacters(String name, List<String> charactersToAllow, String appdendixToReplacement) {
-        String result = (String) ((CharSequence) name).chars().mapToObj(c -> {
-            String character = "" + (char) c;
-            if (charactersToAllow != null && charactersToAllow.contains(character)) {
-                return character;
-            } else if (specialCharReplacements.containsKey(character)) {
-                return specialCharReplacements.get(character) + (appdendixToReplacement != null ? appdendixToReplacement : "");
-            } else {
-                return character;
-            }
-        }).reduce((c1, c2) -> "" + c1 + c2).orElse(null);
-
-        if (result != null) return result;
-        throw new RuntimeException("Word '" + name + "' could not be escaped.");
+        return escape(name, specialCharReplacements, charactersToAllow, appdendixToReplacement);
     }
 
     /**
@@ -1753,7 +1751,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name == null || name.length() == 0) {
             return name;
         }
-        return camelize(toVarName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name));
     }
 
     /**
@@ -1772,7 +1770,7 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
-        property.nameInCamelCase = camelize(property.name, false);
+        property.nameInCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
@@ -1792,11 +1790,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (p.getWriteOnly() != null) {
             property.isWriteOnly = p.getWriteOnly();
         }
-
-        // use x-nullable
-        if (p.getExtensions() != null && p.getExtensions().get("x-nullable") != null) {
-            property.isNullable = Boolean.valueOf(p.getExtensions().get("x-nullable").toString());
-        } else if (p.getNullable() != null) { // use nullable defined in OAS3
+        if (p.getNullable() != null) {
             property.isNullable = p.getNullable();
         }
 
@@ -2743,10 +2737,7 @@ public class DefaultCodegen implements CodegenConfig {
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
             }
 
-            // x-nullable extension in OAS2
-            if (parameter.getExtensions() != null && parameter.getExtensions().get("x-nullable") != null) {
-                codegenParameter.isNullable = Boolean.valueOf(parameter.getExtensions().get("x-nullable").toString());
-            } else if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
+            if (Boolean.TRUE.equals(parameterSchema.getNullable())) { // use nullable defined in the spec
                 codegenParameter.isNullable = true;
             }
 
@@ -3240,8 +3231,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
         co.operationId = uniqueName;
         co.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
-        co.operationIdCamelCase = DefaultCodegen.camelize(uniqueName);
-        co.operationIdSnakeCase = DefaultCodegen.underscore(uniqueName);
+        co.operationIdCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(uniqueName);
+        co.operationIdSnakeCase = org.openapitools.codegen.utils.StringUtils.underscore(uniqueName);
         opList.add(co);
         co.baseName = tag;
     }
@@ -3270,23 +3261,12 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The underscored version of the word
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#underscore
      */
+    @Deprecated
     public static String underscore(String word) {
-        String firstPattern = "([A-Z]+)([A-Z][a-z])";
-        String secondPattern = "([a-z\\d])([A-Z])";
-        String replacementPattern = "$1_$2";
-        // Replace package separator with slash.
-        word = word.replaceAll("\\.", "/"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        // Replace $ with two underscores for inner classes.
-        word = word.replaceAll("\\$", "__");
-        // Replace capital letter with _ plus lowercase letter.
-        word = word.replaceAll(firstPattern, replacementPattern);
-        word = word.replaceAll(secondPattern, replacementPattern);
-        word = word.replace('-', '_');
-        // replace space with underscore
-        word = word.replace(' ', '_');
-        word = word.toLowerCase(Locale.ROOT);
-        return word;
+        return org.openapitools.codegen.utils.StringUtils.underscore(word);
     }
 
     /**
@@ -3294,10 +3274,13 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The dashized version of the word, e.g. "my-name"
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#dashize
      */
     @SuppressWarnings("static-method")
+    @Deprecated
     protected String dashize(String word) {
-        return underscore(word).replaceAll("[_ ]", "-");
+        return org.openapitools.codegen.utils.StringUtils.dashize(word);
     }
 
     /**
@@ -3497,6 +3480,7 @@ public class DefaultCodegen implements CodegenConfig {
         return result;
     }
 
+
     /**
      * Camelize name (parameter, property, method, etc) with upper case for first letter
      * copied from Twitter elephant bird
@@ -3504,9 +3488,12 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word string to be camelize
      * @return camelized string
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#camelize(String)
      */
+    @Deprecated
     public static String camelize(String word) {
-        return camelize(word, false);
+        return org.openapitools.codegen.utils.StringUtils.camelize(word);
     }
 
     /**
@@ -3515,79 +3502,14 @@ public class DefaultCodegen implements CodegenConfig {
      * @param word                 string to be camelize
      * @param lowercaseFirstLetter lower case for first letter if set to true
      * @return camelized string
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
+     * @see org.openapitools.codegen.utils.StringUtils#camelize(String, boolean)
      */
+    @Deprecated
     public static String camelize(String word, boolean lowercaseFirstLetter) {
-        // Replace all slashes with dots (package separator)
-        Pattern p = Pattern.compile("\\/(.?)");
-        Matcher m = p.matcher(word);
-        while (m.find()) {
-            word = m.replaceFirst("." + m.group(1)/*.toUpperCase(Locale.ROOT)*/); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-            m = p.matcher(word);
-        }
-
-        // case out dots
-        String[] parts = word.split("\\.");
-        StringBuilder f = new StringBuilder();
-        for (String z : parts) {
-            if (z.length() > 0) {
-                f.append(Character.toUpperCase(z.charAt(0))).append(z.substring(1));
-            }
-        }
-        word = f.toString();
-
-        m = p.matcher(word);
-        while (m.find()) {
-            word = m.replaceFirst("" + Character.toUpperCase(m.group(1).charAt(0)) + m.group(1).substring(1)/*.toUpperCase(Locale.ROOT)*/);
-            m = p.matcher(word);
-        }
-
-        // Uppercase the class name.
-        p = Pattern.compile("(\\.?)(\\w)([^\\.]*)$");
-        m = p.matcher(word);
-        if (m.find()) {
-            String rep = m.group(1) + m.group(2).toUpperCase(Locale.ROOT) + m.group(3);
-            rep = rep.replaceAll("\\$", "\\\\\\$");
-            word = m.replaceAll(rep);
-        }
-
-        // Remove all underscores (underscore_case to camelCase)
-        p = Pattern.compile("(_)(.)");
-        m = p.matcher(word);
-        while (m.find()) {
-            String original = m.group(2);
-            String upperCase = original.toUpperCase(Locale.ROOT);
-            if (original.equals(upperCase)) {
-                word = word.replaceFirst("_", "");
-            } else {
-                word = m.replaceFirst(upperCase);
-            }
-            m = p.matcher(word);
-        }
-
-        // Remove all hyphens (hyphen-case to camelCase)
-        p = Pattern.compile("(-)(.)");
-        m = p.matcher(word);
-        while (m.find()) {
-            word = m.replaceFirst(m.group(2).toUpperCase(Locale.ROOT));
-            m = p.matcher(word);
-        }
-
-        if (lowercaseFirstLetter && word.length() > 0) {
-            int i = 0;
-            char charAt = word.charAt(i);
-            while (i + 1 < word.length() && !((charAt >= 'a' && charAt <= 'z') || (charAt >= 'A' && charAt <= 'Z'))) {
-                i = i + 1;
-                charAt = word.charAt(i);
-            }
-            i = i + 1;
-            word = word.substring(0, i).toLowerCase(Locale.ROOT) + word.substring(i);
-        }
-
-        // remove all underscore
-        word = word.replaceAll("_", "");
-
-        return word;
+        return org.openapitools.codegen.utils.StringUtils.camelize(word, lowercaseFirstLetter);
     }
+
 
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
@@ -4003,6 +3925,8 @@ public class DefaultCodegen implements CodegenConfig {
             enumVar.put("isString", isDataTypeString(dataType));
             enumVars.add(enumVar);
         }
+        // if "x-enum-varnames" defined, update varnames
+        updateEnumVarsWithExtensions(enumVars, var.getVendorExtensions());
         allowableValues.put("enumVars", enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
@@ -4016,6 +3940,16 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (enumName != null) {
                 var.defaultValue = toEnumDefaultValue(enumName, var.datatypeWithEnum);
+            }
+        }
+    }
+
+    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
+        if (vendorExtensions != null && vendorExtensions.containsKey("x-enum-varnames")) {
+            List<String> alias = (List<String>) vendorExtensions.get("x-enum-varnames");
+            int size = Math.min(enumVars.size(), alias.size());
+            for (int i = 0; i < size; i++) {
+                enumVars.get(i).put("name", alias.get(i));
             }
         }
     }
@@ -4752,11 +4686,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
-        if (property.getVendorExtensions() != null && property.getVendorExtensions().get("x-nullable") != null) {
-            parameter.isNullable = Boolean.valueOf(property.getVendorExtensions().get("x-nullable").toString());
-        } else {
-            parameter.isNullable = property.isNullable;
-        }
+        parameter.isNullable = property.isNullable;
     }
 
     /**
