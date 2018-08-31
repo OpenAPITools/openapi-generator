@@ -438,7 +438,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 for (int i = 0; i < items.length; ++i) {
                     if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                         // camelize path variable
-                        items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                        items[i] = "{" + org.openapitools.codegen.utils.StringUtils.camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
                     }
                 }
                 op.path = StringUtils.join(items, "/");

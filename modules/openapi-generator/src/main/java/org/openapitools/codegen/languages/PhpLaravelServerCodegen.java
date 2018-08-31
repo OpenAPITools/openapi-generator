@@ -22,6 +22,7 @@ import org.openapitools.codegen.*;
 import java.io.File;
 import java.util.*;
 
+
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     protected String apiVersion = "1.0.0";
 
@@ -240,7 +241,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
     }
 
     protected String controllerFileFolder() {
@@ -262,6 +263,6 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
     }
 }

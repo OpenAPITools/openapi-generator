@@ -29,6 +29,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
@@ -516,7 +517,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (modelFileSuffix.length() > 0) {
             name = name.substring(0, name.length() - modelFileSuffix.length());
         }
-        return camelize(name) + modelSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + modelSuffix;
     }
 
     @Override
