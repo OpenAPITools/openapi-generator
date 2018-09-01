@@ -127,7 +127,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(PUB_DESCRIPTION, "Description in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "source folder for generated code"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "support dart2").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "support dart2").defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -193,11 +193,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("modelDocPath", modelDocPath);
 
         final Object isSupportDart2 = additionalProperties.get(SUPPORT_DART2);
-        if (Boolean.TRUE.equals(isSupportDart2) || (isSupportDart2 instanceof String && Boolean.parseBoolean((String)isSupportDart2))) {
-            embeddedTemplateDir = templateDir = "dart2";
-        } else {
+        if (Boolean.FALSE.equals(isSupportDart2) || (isSupportDart2 instanceof String && !Boolean.parseBoolean((String)isSupportDart2))) {
+            // dart 1.x
+            LOGGER.info("Dart version: 1.x");
             supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
+        } else {
+            // dart 2.x
+            LOGGER.info("Dart version: 2.x");
+            embeddedTemplateDir = templateDir = "dart2";
         }
+
         final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
         supportingFiles.add(new SupportingFile("api_client.mustache", libFolder, "api_client.dart"));
