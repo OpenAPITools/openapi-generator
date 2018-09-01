@@ -153,7 +153,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("DART_FMT_PATH"))) {
-            LOGGER.info("Environment variable DART_FMT_PATH not defined so Go code may not be properly formatted. To define it, try 'export DART_FMT_PATH=/usr/local/bin/dartfmt' (Linux/Mac)");
+            LOGGER.info("Environment variable DART_FMT_PATH not defined so the Dart code may not be properly formatted. To define it, try 'export DART_FMT_PATH=/usr/local/bin/dartfmt' (Linux/Mac)");
         }
 
         if (additionalProperties.containsKey(BROWSER_CLIENT)) {
@@ -513,7 +513,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (file == null) {
             return;
         }
-         // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
+
+        String dartFmtPath = System.getenv("DART_FMT_PATH");
+        if (StringUtils.isEmpty(dartFmtPath)) {
+            return; // skip if DART_FMT_PATH env variable is not defined
+        }
+
+        // only procees the following type (or we can simply rely on the file extension to check if it's a Dart file)
         Set<String> supportedFileType = new HashSet<String>(
                 Arrays.asList(
                         "supporting-mustache",
@@ -524,19 +530,19 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (!supportedFileType.contains(fileType)) {
             return;
         }
-         String dartFmtPath = System.getenv("DART_FMT_PATH");
-         // only process files with go extension
+
+         // only process files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
-            // currently only support "dartfmt -w yourcode.go"
+            // currently only support "dartfmt -w yourcode.dart"
             String command = dartFmtPath + " -w " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
                 if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", p.exitValue(), command);
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
                 }
-            } catch (IOException e) {
-                LOGGER.error("Error running the command: " + command);
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
             }
             LOGGER.info("Successfully executed: " + command);
         }
