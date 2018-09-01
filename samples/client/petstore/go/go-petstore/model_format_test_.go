@@ -8,23 +8,24 @@
  */
 
 package petstore
+
 import (
 	"os"
 	"time"
 )
 
 type FormatTest struct {
-	Integer int32 `json:"integer,omitempty"`
-	Int32 int32 `json:"int32,omitempty"`
-	Int64 int64 `json:"int64,omitempty"`
-	Number float32 `json:"number"`
-	Float float32 `json:"float,omitempty"`
-	Double float64 `json:"double,omitempty"`
-	String string `json:"string,omitempty"`
-	Byte string `json:"byte"`
-	Binary *os.File `json:"binary,omitempty"`
-	Date string `json:"date"`
+	Integer  int32     `json:"integer,omitempty"`
+	Int32    int32     `json:"int32,omitempty"`
+	Int64    int64     `json:"int64,omitempty"`
+	Number   float32   `json:"number"`
+	Float    float32   `json:"float,omitempty"`
+	Double   float64   `json:"double,omitempty"`
+	String   string    `json:"string,omitempty"`
+	Byte     string    `json:"byte"`
+	Binary   *os.File  `json:"binary,omitempty"`
+	Date     string    `json:"date"`
 	DateTime time.Time `json:"dateTime,omitempty"`
-	Uuid string `json:"uuid,omitempty"`
-	Password string `json:"password"`
+	Uuid     string    `json:"uuid,omitempty"`
+	Password string    `json:"password"`
 }

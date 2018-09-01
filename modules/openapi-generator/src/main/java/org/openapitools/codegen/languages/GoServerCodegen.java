@@ -17,14 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 
 public class GoServerCodegen extends AbstractGoCodegen {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -84,6 +89,10 @@ public class GoServerCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("GO_FMT_PATH"))) {
+            LOGGER.info("Environment variable GO_FMT_PATH not defined so Go code may not be properly formatted. To define it, try 'export GO_FMT_PATH=/usr/local/bin/gofmt' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
