@@ -33,7 +33,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>./elm-compile-test</executable>
+                            <executable>./elm-0.18-compile-test</executable>
                         </configuration>
                     </execution>
                 </executions>
