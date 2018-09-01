@@ -920,7 +920,7 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>2.0.2-OpenAPITools.org-1</swagger-parser-version>
+        <swagger-parser-version>2.0.3-OpenAPITools.org-1</swagger-parser-version>
         <swagger-core-version>2.0.1</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>
