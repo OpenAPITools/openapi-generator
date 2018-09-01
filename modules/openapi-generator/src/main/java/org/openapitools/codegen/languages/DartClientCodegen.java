@@ -29,17 +29,20 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -142,12 +145,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart client library.";
+        return "Generates a Dart (1.x or 2.x) client library.";
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("DART_FMT_PATH"))) {
+            LOGGER.info("Environment variable DART_FMT_PATH not defined so Go code may not be properly formatted. To define it, try 'export DART_FMT_PATH=/usr/local/bin/dartfmt' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(BROWSER_CLIENT)) {
             this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
@@ -501,4 +508,37 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+         // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
+        Set<String> supportedFileType = new HashSet<String>(
+                Arrays.asList(
+                        "supporting-mustache",
+                        "model-test",
+                        "model",
+                        "api-test",
+                        "api"));
+        if (!supportedFileType.contains(fileType)) {
+            return;
+        }
+         String dartFmtPath = System.getenv("DART_FMT_PATH");
+         // only process files with go extension
+        if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
+            // currently only support "dartfmt -w yourcode.go"
+            String command = dartFmtPath + " -w " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", p.exitValue(), command);
+                }
+            } catch (IOException e) {
+                LOGGER.error("Error running the command: " + command);
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
+    }
 }
