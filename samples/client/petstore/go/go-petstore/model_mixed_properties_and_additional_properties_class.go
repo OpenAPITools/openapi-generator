@@ -8,12 +8,13 @@
  */
 
 package petstore
+
 import (
 	"time"
 )
 
 type MixedPropertiesAndAdditionalPropertiesClass struct {
-	Uuid string `json:"uuid,omitempty"`
-	DateTime time.Time `json:"dateTime,omitempty"`
-	Map map[string]Animal `json:"map,omitempty"`
+	Uuid     string            `json:"uuid,omitempty"`
+	DateTime time.Time         `json:"dateTime,omitempty"`
+	Map      map[string]Animal `json:"map,omitempty"`
 }
