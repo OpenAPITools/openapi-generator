@@ -146,7 +146,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.clear();
 
-        final CliOption elmVersion = new CliOption(ELM_VERSION, "Option. Elm version. Defaults to 0.19.");
+        final CliOption elmVersion = new CliOption(ELM_VERSION, "Elm version: 0.18, 0.19").defaultValue("0.19");
         final Map<String, String> supportedVersions = new HashMap<>();
         supportedVersions.put("0.18", "Elm 0.18");
         supportedVersions.put("0.19", "Elm 0.19");

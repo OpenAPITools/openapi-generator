@@ -1006,7 +1006,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/haskell-http-client</module>
-                <module>samples/client/petstore/elm</module>
+                <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
                 <!--<module>samples/client/petstore/perl</module>-->
@@ -1048,6 +1048,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/elm</module>
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <!-- servers -->
