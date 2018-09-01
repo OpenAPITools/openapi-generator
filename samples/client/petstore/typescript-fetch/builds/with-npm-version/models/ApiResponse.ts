@@ -45,4 +45,12 @@ export function ApiResponseFromJSON(json: any): ApiResponse {
     };
 }
 
+export function ApiResponseToJSON(value: ApiResponse): any {
+    return {
+        'code': value.code,
+        'type': value.type,
+        'message': value.message,
+    };
+}
+
 

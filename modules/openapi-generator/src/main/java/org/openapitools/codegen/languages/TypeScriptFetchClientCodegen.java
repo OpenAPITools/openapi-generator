@@ -31,6 +31,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
+import java.util.List;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);

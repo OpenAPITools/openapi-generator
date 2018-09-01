@@ -66,6 +66,17 @@ export function OrderFromJSON(json: any): Order {
     };
 }
 
+export function OrderToJSON(value: Order): any {
+    return {
+        'id': value.id,
+        'petId': value.petId,
+        'quantity': value.quantity,
+        'shipDate': value.shipDate === undefined ? undefined : value.shipDate.toISOString(),
+        'status': value.status,
+        'complete': value.complete,
+    };
+}
+
 /**
  * @export
  * @namespace Order

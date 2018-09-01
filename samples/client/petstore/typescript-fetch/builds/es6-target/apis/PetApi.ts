@@ -16,8 +16,10 @@ import * as runtime from '../runtime';
 import {
     ApiResponse,
     ApiResponseFromJSON,
+    ApiResponseToJSON,
     Pet,
     PetFromJSON,
+    PetToJSON,
 } from '../models';
 
 export interface AddPetRequest {
@@ -87,7 +89,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet`,
             method: 'POST',
             headers: headerParameters,
-            body: requestParameters.pet,
+            body: PetToJSON(requestParameters.pet),
         });
         return response;
     }
@@ -243,7 +245,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet`,
             method: 'PUT',
             headers: headerParameters,
-            body: requestParameters.pet,
+            body: PetToJSON(requestParameters.pet),
         });
         return response;
     }

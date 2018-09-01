@@ -16,6 +16,7 @@ import * as runtime from '../runtime';
 import {
     User,
     UserFromJSON,
+    UserToJSON,
 } from '../models';
 
 export interface CreateUserRequest {
@@ -70,7 +71,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user`,
             method: 'POST',
             headers: headerParameters,
-            body: requestParameters.user,
+            body: UserToJSON(requestParameters.user),
         });
         return response;
     }
@@ -91,7 +92,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/createWithArray`,
             method: 'POST',
             headers: headerParameters,
-            body: requestParameters.user,
+            body: Array&lt;User&gt;ToJSON(requestParameters.user),
         });
         return response;
     }
@@ -112,7 +113,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/createWithList`,
             method: 'POST',
             headers: headerParameters,
-            body: requestParameters.user,
+            body: Array&lt;User&gt;ToJSON(requestParameters.user),
         });
         return response;
     }
@@ -222,7 +223,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
             method: 'PUT',
             headers: headerParameters,
-            body: requestParameters.user,
+            body: UserToJSON(requestParameters.user),
         });
         return response;
     }

@@ -38,4 +38,11 @@ export function TagFromJSON(json: any): Tag {
     };
 }
 
+export function TagToJSON(value: Tag): any {
+    return {
+        'id': value.id,
+        'name': value.name,
+    };
+}
+
 
