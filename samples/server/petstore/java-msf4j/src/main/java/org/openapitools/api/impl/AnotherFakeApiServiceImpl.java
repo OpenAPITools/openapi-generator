@@ -19,7 +19,7 @@ import javax.ws.rs.core.SecurityContext;
 
 public class AnotherFakeApiServiceImpl extends AnotherFakeApiService {
     @Override
-    public Response testSpecialTags(Client client
+    public Response call123testSpecialTags(Client client
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

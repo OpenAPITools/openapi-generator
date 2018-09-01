@@ -1,0 +1,3 @@
+spring.application.name=openAPIPetstore
+server.port=8080
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS=false

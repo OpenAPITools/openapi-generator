@@ -257,26 +257,139 @@ export interface User {
 }
 
 
+<<<<<<< HEAD
 export interface AddPetRequest {
     pet: Pet;
 }
+=======
+/**
+ * PetApi - fetch parameter creator
+ * @export
+ */
+export const PetApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary Add a new pet to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        addPet(pet: Pet, options: any = {}): FetchArgs {
+            // verify required parameter 'pet' is not null or undefined
+            if (pet === null || pet === undefined) {
+                throw new RequiredError('pet','Required parameter pet was null or undefined when calling addPet.');
+            }
+            const localVarPath = `/pet`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
 export interface DeletePetRequest {
     petId: number;
     apiKey?: string;
 }
 
+<<<<<<< HEAD
 export interface FindPetsByStatusRequest {
     status: Array<'available' | 'pending' | 'sold'>;
 }
+=======
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Deletes a pet
+         * @param {number} petId Pet id to delete
+         * @param {string} [apiKey] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deletePet(petId: number, apiKey?: string, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling deletePet.');
+            }
+            const localVarPath = `/pet/{petId}`
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'DELETE' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
 export interface FindPetsByTagsRequest {
     tags: Array<string>;
 }
 
+<<<<<<< HEAD
 export interface GetPetByIdRequest {
     petId: number;
 }
+=======
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Multiple status values can be provided with comma separated strings
+         * @summary Finds Pets by status
+         * @param {Array<'available' | 'pending' | 'sold'>} status Status values that need to be considered for filter
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options: any = {}): FetchArgs {
+            // verify required parameter 'status' is not null or undefined
+            if (status === null || status === undefined) {
+                throw new RequiredError('status','Required parameter status was null or undefined when calling findPetsByStatus.');
+            }
+            const localVarPath = `/pet/findByStatus`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
 export interface UpdatePetRequest {
     pet: Pet;
@@ -288,11 +401,45 @@ export interface UpdatePetWithFormRequest {
     status?: string;
 }
 
+<<<<<<< HEAD
 export interface UploadFileRequest {
     petId: number;
     additionalMetadata?: string;
     file?: any;
 }
+=======
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+         * @summary Finds Pets by tags
+         * @param {Array<string>} tags Tags to filter by
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findPetsByTags(tags: Array<string>, options: any = {}): FetchArgs {
+            // verify required parameter 'tags' is not null or undefined
+            if (tags === null || tags === undefined) {
+                throw new RequiredError('tags','Required parameter tags was null or undefined when calling findPetsByTags.');
+            }
+            const localVarPath = `/pet/findByTags`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
 export interface DeleteOrderRequest {
     orderId: string;
@@ -302,6 +449,7 @@ export interface GetOrderByIdRequest {
     orderId: number;
 }
 
+<<<<<<< HEAD
 export interface PlaceOrderRequest {
     order: Order;
 }
@@ -309,14 +457,139 @@ export interface PlaceOrderRequest {
 export interface CreateUserRequest {
     user: User;
 }
+=======
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns a single pet
+         * @summary Find pet by ID
+         * @param {number} petId ID of pet to return
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPetById(petId: number, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling getPetById.');
+            }
+            const localVarPath = `/pet/{petId}`
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("api_key")
+					: configuration.apiKey;
+                localVarHeaderParameter["api_key"] = localVarApiKeyValue;
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update an existing pet
+         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePet(pet: Pet, options: any = {}): FetchArgs {
+            // verify required parameter 'pet' is not null or undefined
+            if (pet === null || pet === undefined) {
+                throw new RequiredError('pet','Required parameter pet was null or undefined when calling updatePet.');
+            }
+            const localVarPath = `/pet`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'PUT' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
 export interface CreateUsersWithArrayInputRequest {
     user: Array<User>;
 }
 
+<<<<<<< HEAD
 export interface CreateUsersWithListInputRequest {
     user: Array<User>;
 }
+=======
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Updates a pet in the store with form data
+         * @param {number} petId ID of pet that needs to be updated
+         * @param {string} [name] Updated name of the pet
+         * @param {string} [status] Updated status of the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updatePetWithForm(petId: number, name?: string, status?: string, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling updatePetWithForm.');
+            }
+            const localVarPath = `/pet/{petId}`
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new url.URLSearchParams();
+
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
 export interface DeleteUserRequest {
     username: string;
@@ -326,10 +599,60 @@ export interface GetUserByNameRequest {
     username: string;
 }
 
+<<<<<<< HEAD
 export interface LoginUserRequest {
     username: string;
     password: string;
 }
+=======
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            localVarRequestOptions.body = localVarFormParams.toString();
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary uploads an image
+         * @param {number} petId ID of pet to update
+         * @param {string} [additionalMetadata] Additional data to pass to server
+         * @param {any} [file] file to upload
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadFile(petId: number, additionalMetadata?: string, file?: any, options: any = {}): FetchArgs {
+            // verify required parameter 'petId' is not null or undefined
+            if (petId === null || petId === undefined) {
+                throw new RequiredError('petId','Required parameter petId was null or undefined when calling uploadFile.');
+            }
+            const localVarPath = `/pet/{petId}/uploadImage`
+                .replace(`{${"petId"}}`, encodeURIComponent(String(petId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new url.URLSearchParams();
+
+            // authentication petstore_auth required
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("petstore_auth", ["write:pets", "read:pets"])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
 export interface UpdateUserRequest {
     username: string;
@@ -652,19 +975,168 @@ export class PetApi extends BaseAPI {
 
         const headerParameters: HTTPHeaders = {};
 
+<<<<<<< HEAD
         if (this.configuration && this.configuration.accessToken) {
             // oauth required
             if (typeof this.configuration.accessToken === 'function') {
                 headerParameters["Authorization"] = this.configuration.accessToken("petstore_auth", ["write:pets", "read:pets"]);
             } else {
                 headerParameters["Authorization"] = this.configuration.accessToken;
+=======
+/**
+ * StoreApi - fetch parameter creator
+ * @export
+ */
+export const StoreApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+         * @summary Delete purchase order by ID
+         * @param {string} orderId ID of the order that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOrder(orderId: string, options: any = {}): FetchArgs {
+            // verify required parameter 'orderId' is not null or undefined
+            if (orderId === null || orderId === undefined) {
+                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling deleteOrder.');
+            }
+            const localVarPath = `/store/order/{orderId}`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'DELETE' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Returns a map of status codes to quantities
+         * @summary Returns pet inventories by status
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getInventory(options: any = {}): FetchArgs {
+            const localVarPath = `/store/inventory`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication api_key required
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("api_key")
+					: configuration.apiKey;
+                localVarHeaderParameter["api_key"] = localVarApiKeyValue;
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
             }
         }
 
+<<<<<<< HEAD
         const formData = new FormData();
         if (requestParameters.name !== undefined) {
             formData.append('name', requestParameters.name as any);
         }
+=======
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+         * @summary Find purchase order by ID
+         * @param {number} orderId ID of pet that needs to be fetched
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderById(orderId: number, options: any = {}): FetchArgs {
+            // verify required parameter 'orderId' is not null or undefined
+            if (orderId === null || orderId === undefined) {
+                throw new RequiredError('orderId','Required parameter orderId was null or undefined when calling getOrderById.');
+            }
+            const localVarPath = `/store/order/{orderId}`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Place an order for a pet
+         * @param {Order} order order placed for purchasing the pet
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        placeOrder(order: Order, options: any = {}): FetchArgs {
+            // verify required parameter 'order' is not null or undefined
+            if (order === null || order === undefined) {
+                throw new RequiredError('order','Required parameter order was null or undefined when calling placeOrder.');
+            }
+            const localVarPath = `/store/order`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"Order" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(order || {}) : (order || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
         if (requestParameters.status !== undefined) {
             formData.append('status', requestParameters.status as any);
@@ -791,10 +1263,224 @@ export class StoreApi extends BaseAPI {
             throw new RequiredError('order','Required parameter requestParameters.order was null or undefined when calling placeOrder.');
         }
 
+<<<<<<< HEAD
         const headerParameters: HTTPHeaders = {};
+=======
+/**
+ * UserApi - fetch parameter creator
+ * @export
+ */
+export const UserApiFetchParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * This can only be done by the logged in user.
+         * @summary Create user
+         * @param {User} user Created user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUser(user: User, options: any = {}): FetchArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUser.');
+            }
+            const localVarPath = `/user`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"User" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Creates list of users with given input array
+         * @param {Array<User>} user List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUsersWithArrayInput(user: Array<User>, options: any = {}): FetchArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+            }
+            const localVarPath = `/user/createWithArray`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Creates list of users with given input array
+         * @param {Array<User>} user List of user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createUsersWithListInput(user: Array<User>, options: any = {}): FetchArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUsersWithListInput.');
+            }
+            const localVarPath = `/user/createWithList`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'POST' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * This can only be done by the logged in user.
+         * @summary Delete user
+         * @param {string} username The name that needs to be deleted
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUser(username: string, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling deleteUser.');
+            }
+            const localVarPath = `/user/{username}`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'DELETE' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Get user by user name
+         * @param {string} username The name that needs to be fetched. Use user1 for testing.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getUserByName(username: string, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling getUserByName.');
+            }
+            const localVarPath = `/user/{username}`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Logs user into the system
+         * @param {string} username The user name for login
+         * @param {string} password The password for login in clear text
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        loginUser(username: string, password: string, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling loginUser.');
+            }
+            // verify required parameter 'password' is not null or undefined
+            if (password === null || password === undefined) {
+                throw new RequiredError('password','Required parameter password was null or undefined when calling loginUser.');
+            }
+            const localVarPath = `/user/login`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (username !== undefined) {
+                localVarQueryParameter['username'] = username;
+            }
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
 
         headerParameters['Content-Type'] = 'application/json';
 
+<<<<<<< HEAD
         return this.request<Order>({
             path: `/store/order`,
             method: 'POST',
@@ -803,6 +1489,87 @@ export class StoreApi extends BaseAPI {
             responseType: this.getResponseType('Order'),
             modelPropertyNaming: 'camelCase',
         });
+=======
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Logs out current logged in user session
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        logoutUser(options: any = {}): FetchArgs {
+            const localVarPath = `/user/logout`;
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'GET' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * This can only be done by the logged in user.
+         * @summary Updated user
+         * @param {string} username name that need to be deleted
+         * @param {User} user Updated user object
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUser(username: string, user: User, options: any = {}): FetchArgs {
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling updateUser.');
+            }
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling updateUser.');
+            }
+            const localVarPath = `/user/{username}`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'PUT' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+            const needsSerialization = (<any>"User" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+>>>>>>> d327c5be464d02aa31e24d2ef6eae959e0563a86
     }
 
 }

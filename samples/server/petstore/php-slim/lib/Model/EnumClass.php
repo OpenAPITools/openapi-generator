@@ -7,6 +7,6 @@ namespace OpenAPIServer\Model;
 /**
  * EnumClass
  */
-class EnumClass {
-
+class EnumClass
+{
 }

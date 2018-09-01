@@ -7,9 +7,9 @@ namespace OpenAPIServer\Model;
 /**
  * ArrayOfArrayOfNumberOnly
  */
-class ArrayOfArrayOfNumberOnly {
-
+class ArrayOfArrayOfNumberOnly
+{
+    
     /** @var float[][] $arrayArrayNumber */
     private $arrayArrayNumber;
-
 }

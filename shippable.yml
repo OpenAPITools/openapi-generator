@@ -12,7 +12,7 @@ build:
   ci:
     - mvn --quiet clean install
     # ensure all modifications created by 'mature' generators are in the git repo
-    - ./bin/utils/ensure-up-to-date
+    # moved to CircleCI ./bin/utils/ensure-up-to-date 
     # prepare environment for tests
     - sudo apt-get update -qq
     # install stack
@@ -39,3 +39,5 @@ build:
     - ./bin/run-all-petstore
     # generate all petstore samples (openapi3)
     - ./bin/openapi3/run-all-petstore
+    # generate test scripts
+    - ./bin/tests/run-all-test

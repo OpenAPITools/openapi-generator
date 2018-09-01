@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected boolean optionalAssemblyInfoFlag = true;
@@ -234,7 +235,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-            LOGGER.warn(String.format("%s is not used by C# generators. Please use %s",
+            LOGGER.warn(String.format(Locale.ROOT, "%s is not used by C# generators. Please use %s",
                     CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
         }
 
@@ -313,9 +314,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
-            if ("false".equals(useInterfacePrefix.toLowerCase())) {
+            if ("false".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
                 setInterfacePrefix("");
-            } else if (!"true".equals(useInterfacePrefix.toLowerCase())) {
+            } else if (!"true".equals(useInterfacePrefix.toLowerCase(Locale.ROOT))) {
                 // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
                 setInterfacePrefix(sanitizeName(useInterfacePrefix));
             }
@@ -600,17 +601,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return camelize(sanitizeName(operationId));
+        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId));
     }
 
     @Override
@@ -625,7 +626,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // camelize the variable name
         // pet_id => PetId
-        name = camelize(name);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -648,9 +649,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return name;
         }
 
-        // camelize(lower) the variable name
+        // org.openapitools.codegen.utils.StringUtils.camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -768,8 +769,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // NOTE: typeMapping here supports things like string/String, long/Long, datetime/DateTime as lowercase keys.
         //       Should we require explicit casing here (values are not insensitive).
         // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(openAPIType.toLowerCase())) {
-            type = typeMapping.get(openAPIType.toLowerCase());
+        if (typeMapping.containsKey(openAPIType.toLowerCase(Locale.ROOT))) {
+            type = typeMapping.get(openAPIType.toLowerCase(Locale.ROOT));
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
@@ -811,7 +812,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(p);
@@ -836,19 +837,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -936,7 +937,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(name));
         }
 
         String enumName = sanitizeName(name);
@@ -944,7 +945,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = camelize(enumName) + "Enum";
+        enumName = org.openapitools.codegen.utils.StringUtils.camelize(enumName) + "Enum";
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -955,7 +956,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
     }
 
     public String testPackageName() {

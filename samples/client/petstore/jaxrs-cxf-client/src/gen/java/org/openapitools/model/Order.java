@@ -31,7 +31,6 @@ public class Order  {
   @ApiModelProperty(value = "")
   private Date shipDate = null;
 
-
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
 public enum StatusEnum {
@@ -60,7 +59,7 @@ public enum StatusEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -170,7 +169,7 @@ public enum StatusEnum {
    * @return complete
   **/
   @JsonProperty("complete")
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 

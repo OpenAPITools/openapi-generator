@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -130,6 +132,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         super.processOpts();
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         if (generatePom) {
             writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         }
@@ -219,6 +222,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             return primaryResourceName + "Api";
         }
         computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(computed) + "Api";
     }
 }
