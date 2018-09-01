@@ -11,6 +11,6 @@
 package petstore
 
 type AdditionalPropertiesClass struct {
-	MapProperty map[string]string `json:"map_property,omitempty" xml:"map_property"`
+	MapProperty      map[string]string            `json:"map_property,omitempty" xml:"map_property"`
 	MapOfMapProperty map[string]map[string]string `json:"map_of_map_property,omitempty" xml:"map_of_map_property"`
 }

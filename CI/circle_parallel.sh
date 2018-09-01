@@ -10,6 +10,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   mvn --quiet verify -Psamples
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test ensure-up-to-date"
+  export GO_FMT_PATH=`which gofmt`
   ./bin/utils/ensure-up-to-date
 else
   echo "Running node $NODE_INDEX to test CI/pom.xml.circleci.java7 ..."
