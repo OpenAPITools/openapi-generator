@@ -69,6 +69,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String variableNamingConvention = "snake_case";
     protected String apiDocPath = docsBasePath + File.separator + apiDirName;
     protected String modelDocPath = docsBasePath + File.separator + modelDirName;
+    protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
+    protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
+    protected String traitNamePrefix = "", traitNameSuffix = "Trait";
 
     public AbstractPhpCodegen() {
         super();
@@ -240,6 +243,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // make test path available in mustache template
         additionalProperties.put("testBasePath", testBasePath);
+
+        // make class prefixes and suffixes available in mustache templates
+        additionalProperties.put("interfaceNamePrefix", interfaceNamePrefix);
+        additionalProperties.put("interfaceNameSuffix", interfaceNameSuffix);
+        additionalProperties.put("abstractNamePrefix", abstractNamePrefix);
+        additionalProperties.put("abstractNameSuffix", abstractNameSuffix);
+        additionalProperties.put("traitNamePrefix", traitNamePrefix);
+        additionalProperties.put("traitNameSuffix", traitNameSuffix);
 
         // apache v2 license
         // supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
@@ -485,6 +496,36 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toModelTestFilename(String name) {
         // should be the same as the model name
         return toModelName(name) + "Test";
+    }
+
+    /**
+     * Output the proper interface name (capitalized).
+     *
+     * @param name the name of the interface
+     * @return capitalized model name
+     */
+    public String toInterfaceName(final String name) {
+        return org.openapitools.codegen.utils.StringUtils.camelize(interfaceNamePrefix + name + interfaceNameSuffix);
+    }
+
+    /**
+     * Output the proper abstract class name (capitalized).
+     *
+     * @param name the name of the class
+     * @return capitalized abstract class name
+     */
+    public String toAbstractName(final String name) {
+        return org.openapitools.codegen.utils.StringUtils.camelize(abstractNamePrefix + name + abstractNameSuffix);
+    }
+
+    /**
+     * Output the proper trait name (capitalized).
+     *
+     * @param name the name of the trait
+     * @return capitalized trait name
+     */
+    public String toTraitName(final String name) {
+        return org.openapitools.codegen.utils.StringUtils.camelize(traitNamePrefix + name + traitNameSuffix);
     }
 
     @Override

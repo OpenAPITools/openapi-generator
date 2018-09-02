@@ -39,7 +39,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class FakeClassnameTags123Api extends AbstractApiController
 {
-    
+
     /**
      * PATCH testClassname
      * Summary: To test class name in snake case
