@@ -35,7 +35,7 @@ mod mimetypes;
 
 pub use swagger::{ApiError, ContextWrapper};
 
-pub const BASE_PATH: &'static str = "";
+pub const BASE_PATH: &'static str = "/";
 pub const API_VERSION: &'static str = "1.0.0";
 
 
