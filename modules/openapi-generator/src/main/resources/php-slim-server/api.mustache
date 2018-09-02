@@ -34,7 +34,7 @@
  */
 namespace {{apiPackage}};
 
-use {{invokerPackage}}\AbstractApiController;
+use {{invokerPackage}}\{{abstractNamePrefix}}ApiController{{abstractNameSuffix}};
 
 /**
  * {{classname}} Class Doc Comment
@@ -46,11 +46,11 @@ use {{invokerPackage}}\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class {{classname}} extends AbstractApiController
+class {{classname}} extends {{abstractNamePrefix}}ApiController{{abstractNameSuffix}}
 {
     {{#operations}}
     {{#operation}}
-    
+
     /**
      * {{httpMethod}} {{operationId}}
      {{#summary}}
