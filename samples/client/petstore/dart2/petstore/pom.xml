@@ -27,6 +27,19 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
+                        <id>export-dartfmt</id>
+                        <phase>pre-install-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>export</executable>
+                            <arguments>
+                                <argument>DART_FMT_PATH=/usr/local/bin/dartfmt</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>pub-get</id>
                         <phase>pre-integration-test</phase>
                         <goals>
