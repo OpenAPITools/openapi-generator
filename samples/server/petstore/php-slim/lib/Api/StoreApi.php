@@ -39,7 +39,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class StoreApi extends AbstractApiController
 {
-    
+
     /**
      * DELETE deleteOrder
      * Summary: Delete purchase order by ID
@@ -55,7 +55,7 @@ class StoreApi extends AbstractApiController
         $response->write('How about implementing deleteOrder as a DELETE method ?');
         return $response;
     }
-    
+
     /**
      * GET getInventory
      * Summary: Returns pet inventories by status
@@ -71,7 +71,7 @@ class StoreApi extends AbstractApiController
         $response->write('How about implementing getInventory as a GET method ?');
         return $response;
     }
-    
+
     /**
      * GET getOrderById
      * Summary: Find purchase order by ID
@@ -88,7 +88,7 @@ class StoreApi extends AbstractApiController
         $response->write('How about implementing getOrderById as a GET method ?');
         return $response;
     }
-    
+
     /**
      * POST placeOrder
      * Summary: Place an order for a pet

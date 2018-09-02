@@ -39,7 +39,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class PetApi extends AbstractApiController
 {
-    
+
     /**
      * POST addPet
      * Summary: Add a new pet to the store
@@ -54,7 +54,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing addPet as a POST method ?');
         return $response;
     }
-    
+
     /**
      * DELETE deletePet
      * Summary: Deletes a pet
@@ -71,7 +71,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing deletePet as a DELETE method ?');
         return $response;
     }
-    
+
     /**
      * GET findPetsByStatus
      * Summary: Finds Pets by status
@@ -89,7 +89,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing findPetsByStatus as a GET method ?');
         return $response;
     }
-    
+
     /**
      * GET findPetsByTags
      * Summary: Finds Pets by tags
@@ -107,7 +107,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing findPetsByTags as a GET method ?');
         return $response;
     }
-    
+
     /**
      * GET getPetById
      * Summary: Find pet by ID
@@ -124,7 +124,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing getPetById as a GET method ?');
         return $response;
     }
-    
+
     /**
      * PUT updatePet
      * Summary: Update an existing pet
@@ -139,7 +139,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing updatePet as a PUT method ?');
         return $response;
     }
-    
+
     /**
      * POST updatePetWithForm
      * Summary: Updates a pet in the store with form data
@@ -156,7 +156,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing updatePetWithForm as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST uploadFile
      * Summary: uploads an image
@@ -174,7 +174,7 @@ class PetApi extends AbstractApiController
         $response->write('How about implementing uploadFile as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST uploadFileWithRequiredFile
      * Summary: uploads an image (required)

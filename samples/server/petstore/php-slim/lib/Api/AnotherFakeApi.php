@@ -39,7 +39,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class AnotherFakeApi extends AbstractApiController
 {
-    
+
     /**
      * PATCH call123TestSpecialTags
      * Summary: To test special tags
