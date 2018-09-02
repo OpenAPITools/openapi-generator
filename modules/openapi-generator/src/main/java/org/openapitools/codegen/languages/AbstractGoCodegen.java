@@ -613,6 +613,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return;
         }
 
+        String goFmtPath = System.getenv("GO_FMT_PATH");
+        if (StringUtils.isEmpty(goFmtPath)) {
+            return; // skip if GO_FMT_PATH env variable is not defined
+        }
+
         // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
         Set<String> supportedFileType = new HashSet<String>(
                 Arrays.asList(
@@ -625,17 +630,19 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return;
         }
 
-        String goFmtPath = System.getenv("GO_FMT_PATH");
-
         // only process files with go extension
         if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently only support "gofmt -w yourcode.go"
             // another way is "go fmt path/to/your/package"
             String command = goFmtPath + " -w " + file.toString();
             try {
-                Runtime.getRuntime().exec(command);
-            } catch (IOException e) {
-                LOGGER.error("Error running the command: " + command);
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
             }
             LOGGER.info("Successfully executed: " + command);
         }
