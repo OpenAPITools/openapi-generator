@@ -92,7 +92,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/createWithArray`,
             method: 'POST',
             headers: headerParameters,
-            body: Array&lt;User&gt;ToJSON(requestParameters.user),
+            body: requestParameters.user.map(UserToJSON),
         });
         return response;
     }
@@ -113,7 +113,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/createWithList`,
             method: 'POST',
             headers: headerParameters,
-            body: Array&lt;User&gt;ToJSON(requestParameters.user),
+            body: requestParameters.user.map(UserToJSON),
         });
         return response;
     }
