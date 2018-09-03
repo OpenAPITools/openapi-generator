@@ -470,6 +470,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Bithost GmbH](https://www.bithost.ch)
 - [Boxever](https://www.boxever.com/)
 - [GMO Pepabo](https://pepabo.com/en/)
+- [JustStar](https://www.juststarinfo.com)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
 - [REST United](https://restunited.com)
@@ -633,7 +634,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @fvarose (2017/11) @etherealjoy (2018/02) @martindelille (2018/03) |
 | C#        | @mandrean (2017/08) @jimschubert (2017/09) |
 | Clojure   |  |
-| Dart      | @ircecho (2017/07) |
+| Dart      | @ircecho (2017/07) @swipesight (2018/09) |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    |  |
 | Elm       |  |
