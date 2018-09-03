@@ -7,10 +7,10 @@
 {{/imports}}
 
 #define MAX_BUFFER_LENGTH 4096
-#define int_to_str(dst,src) \
+#define intToStr(dst, src) \
     do {\
     char dst[64];\
-    snprintf(dst,64,"%ld",(long int)(src));\
+    snprintf(dst, 64, "%ld", (long int)(src));\
 }while(0)
 
 {{#operations}}
@@ -36,16 +36,16 @@
     {{#pathParams}}
     // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
     // TODO base path = {{{basePath}}}
-    char* baseNameMod=malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod,strlen(baseName)+3,"%s%s%s","{",{{baseName}},"}");
+    char* baseNameMod = malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
+    snprintf(baseNameMod, strlen(baseName)+3, "%s%s%s", "{", {{baseName}}, "}");
     {{#paramName}}
     {{#isLong}}
     char buff[64];
-    int_to_str(buf,{{paramName}});
-    localVarPath = str_replace(localVarPath,baseNameMod,buff);
+    intToStr(buf, {{paramName}});
+    localVarPath = strReplace(localVarPath, baseNameMod, buff);
     {{/isLong}}
     {{#isString}}
-    localVarPath = str_replace(localVarPath,baseNameMod,{{paramName}});
+    localVarPath = strReplace(localVarPath, baseNameMod, {{paramName}});
     {{/isString}}
     {{/paramName}}
     {{/pathParams}}
