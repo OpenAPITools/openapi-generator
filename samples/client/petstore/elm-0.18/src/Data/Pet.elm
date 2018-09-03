@@ -57,8 +57,8 @@ petEncoder model =
         [ ( "id", withDefault Encode.null (map Encode.int model.id) )
         , ( "category", withDefault Encode.null (map categoryEncoder model.category) )
         , ( "name", Encode.string model.name )
-        , ( "photoUrls", (Encode.list Encode.string) model.photoUrls )
-        , ( "tags", withDefault Encode.null (map (Encode.list tagEncoder) model.tags) )
+        , ( "photoUrls", (Encode.list << List.map Encode.string) model.photoUrls )
+        , ( "tags", withDefault Encode.null (map (Encode.list << List.map tagEncoder) model.tags) )
         , ( "status", withDefault Encode.null (map statusEncoder model.status) )
         ]
 

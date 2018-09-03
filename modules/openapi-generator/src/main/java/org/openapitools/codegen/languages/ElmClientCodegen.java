@@ -61,6 +61,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
 
+    private ElmVersion elmVersion = ElmVersion.ELM_019;
+
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -158,34 +160,35 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        String elmVersion;
         if (additionalProperties.containsKey(ELM_VERSION)) {
-            elmVersion = additionalProperties.get(ELM_VERSION).toString();
-        } else {
-            elmVersion = "0.19";
+            final String version = (String) additionalProperties.get(ELM_VERSION);
+            if ("0.18".equals(version)) {
+                elmVersion = ElmVersion.ELM_018;
+            }
         }
-        final boolean isElm018 = "0.18".equals(elmVersion);
-        final boolean isElm019 = "0.19".equals(elmVersion);
 
-        if (isElm018) {
-            additionalProperties.put("isElm018", true);
-        } else if (isElm019) {
-            additionalProperties.put("isElm019", true);
-        } else {
-            throw new RuntimeException("Unsupported Elm version: " + elmVersion);
+        switch (elmVersion) {
+            case ELM_018:
+                additionalProperties.put("isElm018", true);
+                break;
+            case ELM_019:
+                additionalProperties.put("isElm019", true);
+                break;
+            default:
+                throw new RuntimeException("Undefined Elm version");
         }
 
         supportingFiles.add(new SupportingFile("Byte.mustache", "src", "Byte.elm"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        if (isElm018) {
+        if (ElmVersion.ELM_018.equals(elmVersion)) {
             supportingFiles.add(new SupportingFile("DateOnly018.mustache", "src", "DateOnly.elm"));
             supportingFiles.add(new SupportingFile("DateTime018.mustache", "src", "DateTime.elm"));
             supportingFiles.add(new SupportingFile("elm-package.mustache", "", "elm-package.json"));
             supportingFiles.add(new SupportingFile("Main018.mustache", "src", "Main.elm"));
         }
-        if (isElm019) {
+        if (ElmVersion.ELM_019.equals(elmVersion)) {
             supportingFiles.add(new SupportingFile("DateOnly019.mustache", "src", "DateOnly.elm"));
             supportingFiles.add(new SupportingFile("DateTime019.mustache", "src", "DateTime.elm"));
             supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
@@ -431,7 +434,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (CodegenOperation op : ops) {
             String path = op.path;
             for (CodegenParameter param : op.pathParams) {
-                final String var = param.isString ? param.paramName : "toString " + param.paramName;
+                final String var = paramToString(param);
                 path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
             }
             op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
@@ -511,6 +514,23 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "Nothing";
         }
         return "(Just " + value + ")";
+    }
+
+    private String paramToString(final CodegenParameter param) {
+        final String paramName = param.paramName;
+        if (param.isString) {
+            return paramName;
+        }
+        if (ElmVersion.ELM_018.equals(elmVersion)) {
+            return "toString " + paramName;
+        }
+        if (param.isInteger || param.isLong) {
+            return "String.fromInt " + paramName;
+        }
+        if (param.isFloat || param.isDouble) {
+            return "String.fromFloat " + paramName;
+        }
+        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string");
     }
 
     @Override
@@ -598,5 +618,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         public String as;
         public Set<String> exposures;
         public Boolean hasExposures;
+    }
+
+    private enum ElmVersion {
+        ELM_018,
+        ELM_019
     }
 }
