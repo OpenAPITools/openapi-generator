@@ -15,7 +15,7 @@ class ApiResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, code: 'int'=None, type: 'str'=None, message: 'str'=None):  # noqa: E501
+    def __init__(self, code=None, type=None, message=None):  # noqa: E501
         """ApiResponse - a model defined in OpenAPI
 
         :param code: The code of this ApiResponse.  # noqa: E501
@@ -53,7 +53,7 @@ class ApiResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def code(self) -> 'int':
+    def code(self):
         """Gets the code of this ApiResponse.
 
 
@@ -63,7 +63,7 @@ class ApiResponse(Model):
         return self._code
 
     @code.setter
-    def code(self, code: 'int'):
+    def code(self, code):
         """Sets the code of this ApiResponse.
 
 
@@ -74,7 +74,7 @@ class ApiResponse(Model):
         self._code = code
 
     @property
-    def type(self) -> 'str':
+    def type(self):
         """Gets the type of this ApiResponse.
 
 
@@ -84,7 +84,7 @@ class ApiResponse(Model):
         return self._type
 
     @type.setter
-    def type(self, type: 'str'):
+    def type(self, type):
         """Sets the type of this ApiResponse.
 
 
@@ -95,7 +95,7 @@ class ApiResponse(Model):
         self._type = type
 
     @property
-    def message(self) -> 'str':
+    def message(self):
         """Gets the message of this ApiResponse.
 
 
@@ -105,7 +105,7 @@ class ApiResponse(Model):
         return self._message
 
     @message.setter
-    def message(self, message: 'str'):
+    def message(self, message):
         """Sets the message of this ApiResponse.
 
 
