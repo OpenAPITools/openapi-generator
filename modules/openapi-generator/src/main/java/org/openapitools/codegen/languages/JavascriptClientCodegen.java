@@ -1161,31 +1161,31 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
-	@Override
-	public void postProcessFile(File file, String fileType) {
-		if (file == null) {
-			return;
-		}
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
 
-		String jsBeautifyPath = System.getenv("JS_BEAUTIFY_PATH");
-		if (StringUtils.isEmpty(jsBeautifyPath)) {
-			return; // skip if JS_BEAUTIFY_PATH env variable is not defined
-		}
+        String jsBeautifyPath = System.getenv("JS_BEAUTIFY_PATH");
+        if (StringUtils.isEmpty(jsBeautifyPath)) {
+            return; // skip if JS_BEAUTIFY_PATH env variable is not defined
+        }
 
-		// only process files with js extension
-		if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-			String command = jsBeautifyPath + " -r -f " + file.toString();
-			try {
-				Process p = Runtime.getRuntime().exec(command);
-				p.waitFor();
-				if (p.exitValue() != 0) {
-					LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
-				}
-			} catch (Exception e) {
-				LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
-			}
-			LOGGER.info("Successfully executed: " + command);
-		}
-	}
+        // only process files with js extension
+        if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = jsBeautifyPath + " -r -f " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
+    }
 
 }
