@@ -37,7 +37,6 @@ type Status
     | Delivered
 
 
-
 orderDecoder : Decoder Order_
 orderDecoder =
     Decode.succeed Order_
@@ -47,7 +46,6 @@ orderDecoder =
         |> optional "shipDate" (Decode.nullable dateTimeDecoder) Nothing
         |> optional "status" (Decode.nullable statusDecoder) Nothing
         |> optional "complete" (Decode.nullable Decode.bool) (Just False)
-
 
 
 orderEncoder : Order_ -> Encode.Value
@@ -65,20 +63,21 @@ orderEncoder model =
 statusDecoder : Decoder Status
 statusDecoder =
     Decode.string
-        |> Decode.andThen (\str ->
-            case str of
-                "placed" ->
-                    Decode.succeed Placed
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "placed" ->
+                        Decode.succeed Placed
 
-                "approved" ->
-                    Decode.succeed Approved
+                    "approved" ->
+                        Decode.succeed Approved
 
-                "delivered" ->
-                    Decode.succeed Delivered
+                    "delivered" ->
+                        Decode.succeed Delivered
 
-                other ->
-                    Decode.fail <| "Unknown type: " ++ other
-        )
+                    other ->
+                        Decode.fail <| "Unknown type: " ++ other
+            )
 
 
 statusEncoder : Status -> Encode.Value
@@ -92,6 +91,3 @@ statusEncoder model =
 
         Delivered ->
             Encode.string "delivered"
-
-
-
