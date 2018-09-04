@@ -381,7 +381,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
             im.put("filename", im.get("import"));
-            im.put("classname", im.get("classname")/*getModelnameFromModelFilename(im.get("filename").toString())*/);
+            im.put("classname", im.get("classname"));
         }
 
         return operations;
