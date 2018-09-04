@@ -136,26 +136,24 @@
         </dependency>
 {{/useBeanValidation}}
 {{#virtualService}}
-<!-- START Virtual Service API support -->
-		<dependency>
-			<groupId>io.virtualan</groupId>
-			<artifactId>virtualan-plugin</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		
-		<!-- HyperSQL DB -->
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>${hsqldb.version}</version>
-		</dependency>
-
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-jpa</artifactId>
-		    <version>1.5.9.RELEASE</version>
-		</dependency>
+    <!-- START Virtual Service API support -->
+        <dependency>
+            <groupId>io.virtualan</groupId>
+            <artifactId>virtualan-plugin</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- HyperSQL DB -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>1.5.9.RELEASE</version>
+        </dependency>
     <!-- END Virtual Service API support -->
-{{/virtualService}}       
+{{/virtualService}}
     </dependencies>
 </project>
