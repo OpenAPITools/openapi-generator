@@ -50,6 +50,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
+    public static final String FILE_NAMING = "fileNaming";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -58,6 +59,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
+    protected String fileNaming = "camelCase";
 
     private boolean taggedUnions = false;
 
@@ -95,6 +97,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model. Default is ''."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts). Default is ''."));
+        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'. Default is 'camelCase'."));
     }
 
     @Override
@@ -188,6 +191,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(MODEL_FILE_SUFFIX)) {
             modelFileSuffix = additionalProperties.get(MODEL_FILE_SUFFIX).toString();
             validateFileSuffixArgument("Model", modelFileSuffix);
+        }
+        if (additionalProperties.containsKey(FILE_NAMING)) {
+            this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
     }
 
@@ -375,7 +381,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
             im.put("filename", im.get("import"));
-            im.put("classname", getModelnameFromModelFilename(im.get("filename").toString()));
+            im.put("classname", im.get("classname"));
         }
 
         return operations;
@@ -456,7 +462,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "default.service";
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(removeModelSuffixIfNecessary(name), true) + serviceFileSuffix;
+        return this.convertUsingFileNamingConvention(name) + serviceFileSuffix;
     }
 
     @Override
@@ -466,8 +472,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelFilename(String name) {
-        String modelName = toModelName(name);
-        return org.openapitools.codegen.utils.StringUtils.camelize(removeModelSuffixIfNecessary(modelName), true) + modelFileSuffix;
+        return this.convertUsingFileNamingConvention(name) + modelFileSuffix;
     }
 
     @Override
@@ -557,5 +562,33 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
             );
         }
+    }
+
+    /**
+     * Set the file naming type.
+     * @param fileNaming the file naming to use
+     */
+    private void setFileNaming(String fileNaming) {
+        if ("camelCase".equals(fileNaming) || "kebab-case".equals(fileNaming)) {
+            this.fileNaming = fileNaming;
+        } else {
+            throw new IllegalArgumentException("Invalid file naming '" +
+                    fileNaming + "'. Must be 'camelCase' or 'kebab-case'");
+        }
+    }
+
+    /**
+     * Converts the original name according to the current <tt>fileNaming</tt> strategy.
+     * @param originalName the original name to transform
+     * @return the transformed name
+     */
+    private String convertUsingFileNamingConvention(String originalName) {
+        String name = this.removeModelSuffixIfNecessary(originalName);
+        if ("kebab-case".equals(fileNaming)) {
+            name = dashize(underscore(name));
+        } else {
+            name = camelize(name, true);
+        }
+        return name;
     }
 }
