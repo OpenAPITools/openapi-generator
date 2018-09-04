@@ -38,7 +38,6 @@ type Status
     | Sold
 
 
-
 petDecoder : Decoder Pet
 petDecoder =
     decode Pet
@@ -48,7 +47,6 @@ petDecoder =
         |> required "photoUrls" (Decode.list Decode.string)
         |> optional "tags" (Decode.nullable (Decode.list tagDecoder)) Nothing
         |> optional "status" (Decode.nullable statusDecoder) Nothing
-
 
 
 petEncoder : Pet -> Encode.Value
@@ -66,20 +64,21 @@ petEncoder model =
 statusDecoder : Decoder Status
 statusDecoder =
     Decode.string
-        |> Decode.andThen (\str ->
-            case str of
-                "available" ->
-                    Decode.succeed Available
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "available" ->
+                        Decode.succeed Available
 
-                "pending" ->
-                    Decode.succeed Pending
+                    "pending" ->
+                        Decode.succeed Pending
 
-                "sold" ->
-                    Decode.succeed Sold
+                    "sold" ->
+                        Decode.succeed Sold
 
-                other ->
-                    Decode.fail <| "Unknown type: " ++ other
-        )
+                    other ->
+                        Decode.fail <| "Unknown type: " ++ other
+            )
 
 
 statusEncoder : Status -> Encode.Value
@@ -93,6 +92,3 @@ statusEncoder model =
 
         Sold ->
             Encode.string "sold"
-
-
-
