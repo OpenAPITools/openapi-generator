@@ -21,7 +21,7 @@ type {{classname}}
         _ ->
             Decode.fail <|
                 "Trying to decode {{classname}}, but {{{discriminatorName}}} "
-                ++ toString {{{discriminatorName}}} ++ " is not supported."
+                ++ {{{discriminatorName}}} ++ " is not supported."
 
 
 {{classVarName}}Encoder : {{classname}} -> Encode.Value

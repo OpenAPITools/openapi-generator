@@ -1,10 +1,10 @@
 #!/bin/bash -e
-# elm make all elm files under src
+# elm 0.18 make all elm files under src
 
 for ELM in `find src -name "*.elm"`
 do
     echo "Compiling $ELM"
-    elm make $ELM --output /dev/null
+    elm make $ELM --output /dev/null --yes
     rc=$?
     if [[ $rc != 0 ]]
     then
