@@ -73,7 +73,7 @@ fakeOuterBooleanSerialize  _ =
 data FakeOuterBooleanSerialize 
 
 -- | /Body Param/ "body" - Input boolean as post body
-instance HasBodyParam FakeOuterBooleanSerialize BodyBool 
+instance HasBodyParam FakeOuterBooleanSerialize Body8 
 
 -- | @application/json@
 instance Consumes FakeOuterBooleanSerialize MimeJSON
@@ -123,7 +123,7 @@ fakeOuterNumberSerialize  _ =
 data FakeOuterNumberSerialize 
 
 -- | /Body Param/ "body" - Input number as post body
-instance HasBodyParam FakeOuterNumberSerialize Body 
+instance HasBodyParam FakeOuterNumberSerialize Body6 
 
 -- | @application/json@
 instance Consumes FakeOuterNumberSerialize MimeJSON
@@ -148,7 +148,7 @@ fakeOuterStringSerialize  _ =
 data FakeOuterStringSerialize 
 
 -- | /Body Param/ "body" - Input string as post body
-instance HasBodyParam FakeOuterStringSerialize BodyText 
+instance HasBodyParam FakeOuterStringSerialize Body7 
 
 -- | @application/json@
 instance Consumes FakeOuterStringSerialize MimeJSON

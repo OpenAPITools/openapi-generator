@@ -36,34 +36,35 @@ use OpenAPIServer\Api\UserApi;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\UserApi
  */
-class UserApiTest extends \PHPUnit_Framework_TestCase {
+class UserApiTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
@@ -72,8 +73,8 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Create user.
      * @covers ::createUser
      */
-    public function testCreateUser() {
-
+    public function testCreateUser()
+    {
     }
 
     /**
@@ -82,8 +83,8 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Creates list of users with given input array.
      * @covers ::createUsersWithArrayInput
      */
-    public function testCreateUsersWithArrayInput() {
-
+    public function testCreateUsersWithArrayInput()
+    {
     }
 
     /**
@@ -92,8 +93,8 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Creates list of users with given input array.
      * @covers ::createUsersWithListInput
      */
-    public function testCreateUsersWithListInput() {
-
+    public function testCreateUsersWithListInput()
+    {
     }
 
     /**
@@ -102,8 +103,8 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Delete user.
      * @covers ::deleteUser
      */
-    public function testDeleteUser() {
-
+    public function testDeleteUser()
+    {
     }
 
     /**
@@ -112,8 +113,8 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Get user by user name.
      * @covers ::getUserByName
      */
-    public function testGetUserByName() {
-
+    public function testGetUserByName()
+    {
     }
 
     /**
@@ -122,8 +123,8 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Logs user into the system.
      * @covers ::loginUser
      */
-    public function testLoginUser() {
-
+    public function testLoginUser()
+    {
     }
 
     /**
@@ -132,8 +133,8 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Logs out current logged in user session.
      * @covers ::logoutUser
      */
-    public function testLogoutUser() {
-
+    public function testLogoutUser()
+    {
     }
 
     /**
@@ -142,7 +143,7 @@ class UserApiTest extends \PHPUnit_Framework_TestCase {
      * Updated user.
      * @covers ::updateUser
      */
-    public function testUpdateUser() {
-
+    public function testUpdateUser()
+    {
     }
 }

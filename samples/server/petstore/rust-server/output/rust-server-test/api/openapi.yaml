@@ -19,4 +19,15 @@ components:
       description: An additionalPropertiesObject
       example: foo
       type: object
+    aNullableContainer:
+      properties:
+        NullableThing:
+          nullable: true
+          type: string
+        RequiredNullableThing:
+          nullable: true
+          type: string
+      required:
+      - RequiredNullableThing
+      type: object
 

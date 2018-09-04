@@ -10,7 +10,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.2.1-SNAPSHOT</version>
+    <version>3.3.0-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -608,6 +608,19 @@
             </modules>
         </profile>
         <profile>
+            <!-- openapi v3's one -->
+            <id>jaxrs-jersey</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-jersey</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jaxrs-spec</id>
             <activation>
                 <property>
@@ -886,6 +899,7 @@
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/java/retrofit2-play25</module>
+                <module>samples/client/petstore/java/retrofit2-play26</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
@@ -898,6 +912,7 @@
                 <module>samples/client/petstore/kotlin-threetenbp/</module>
                 <module>samples/client/petstore/kotlin-string/</module>
                 <!-- servers -->
+                <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
                 <module>samples/server/petstore/jaxrs-spec-interface</module>
                 <module>samples/server/petstore/jaxrs-spec-interface-response</module>
@@ -943,6 +958,7 @@
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/finch</module>
+                <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
     </profiles>

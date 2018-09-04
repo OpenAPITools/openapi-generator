@@ -36,55 +36,56 @@ use OpenAPIServer\Model\FileSchemaTestClass;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FileSchemaTestClass
  */
-class FileSchemaTestClassTest extends \PHPUnit_Framework_TestCase {
+class FileSchemaTestClassTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "FileSchemaTestClass"
      */
-    public function testFileSchemaTestClass() {
+    public function testFileSchemaTestClass()
+    {
         $testFileSchemaTestClass = new FileSchemaTestClass();
     }
 
     /**
      * Test attribute "file"
      */
-    public function testPropertyFile() {
-
+    public function testPropertyFile()
+    {
     }
 
     /**
      * Test attribute "files"
      */
-    public function testPropertyFiles() {
-
+    public function testPropertyFiles()
+    {
     }
 }
-

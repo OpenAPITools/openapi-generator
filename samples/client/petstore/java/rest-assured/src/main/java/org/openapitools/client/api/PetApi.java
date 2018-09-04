@@ -26,7 +26,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -36,6 +38,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "Pet")
 public class PetApi {
 
     private RequestSpecBuilder reqSpec;
@@ -49,39 +52,99 @@ public class PetApi {
     }
 
 
+    @ApiOperation(value = "Add a new pet to the store",
+            notes = "",
+            nickname = "addPet",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 405, message = "Invalid input")  })
     public AddPetOper addPet() {
         return new AddPetOper(reqSpec);
     }
 
+    @ApiOperation(value = "Deletes a pet",
+            notes = "",
+            nickname = "deletePet",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Invalid pet value")  })
     public DeletePetOper deletePet() {
         return new DeletePetOper(reqSpec);
     }
 
+    @ApiOperation(value = "Finds Pets by status",
+            notes = "Multiple status values can be provided with comma separated strings",
+            nickname = "findPetsByStatus",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid status value")  })
     public FindPetsByStatusOper findPetsByStatus() {
         return new FindPetsByStatusOper(reqSpec);
     }
 
+    @ApiOperation(value = "Finds Pets by tags",
+            notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+            nickname = "findPetsByTags",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid tag value")  })
     @Deprecated
     public FindPetsByTagsOper findPetsByTags() {
         return new FindPetsByTagsOper(reqSpec);
     }
 
+    @ApiOperation(value = "Find pet by ID",
+            notes = "Returns a single pet",
+            nickname = "getPetById",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Pet not found")  })
     public GetPetByIdOper getPetById() {
         return new GetPetByIdOper(reqSpec);
     }
 
+    @ApiOperation(value = "Update an existing pet",
+            notes = "",
+            nickname = "updatePet",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Pet not found") ,
+            @ApiResponse(code = 405, message = "Validation exception")  })
     public UpdatePetOper updatePet() {
         return new UpdatePetOper(reqSpec);
     }
 
+    @ApiOperation(value = "Updates a pet in the store with form data",
+            notes = "",
+            nickname = "updatePetWithForm",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 405, message = "Invalid input")  })
     public UpdatePetWithFormOper updatePetWithForm() {
         return new UpdatePetWithFormOper(reqSpec);
     }
 
+    @ApiOperation(value = "uploads an image",
+            notes = "",
+            nickname = "uploadFile",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileOper uploadFile() {
         return new UploadFileOper(reqSpec);
     }
 
+    @ApiOperation(value = "uploads an image (required)",
+            notes = "",
+            nickname = "uploadFileWithRequiredFile",
+            tags = { "pet" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileWithRequiredFileOper uploadFileWithRequiredFile() {
         return new UploadFileWithRequiredFileOper(reqSpec);
     }
@@ -102,22 +165,13 @@ public class PetApi {
      *
      * @see #body Pet object that needs to be added to the store (required)
      */
-    public class AddPetOper {
+    public static class AddPetOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/pet";
-        public static final String SUMMARY = "Add a new pet to the store";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public AddPetOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public AddPetOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -133,7 +187,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -172,21 +226,13 @@ public class PetApi {
      * @see #petIdPath Pet id to delete (required)
      * @see #apiKeyHeader  (optional)
      */
-    public class DeletePetOper {
+    public static class DeletePetOper {
 
-        public static final String REQ_METHOD = "DELETE";
+        public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/pet/{petId}";
-        public static final String SUMMARY = "Deletes a pet";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public DeletePetOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public DeletePetOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -201,7 +247,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(DELETE, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         public static final String API_KEY_HEADER = "api_key";
@@ -253,21 +299,13 @@ public class PetApi {
      * @see #statusQuery Status values that need to be considered for filter (required)
      * return List&lt;Pet&gt;
      */
-    public class FindPetsByStatusOper {
+    public static class FindPetsByStatusOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/pet/findByStatus";
-        public static final String SUMMARY = "Finds Pets by status";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public FindPetsByStatusOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public FindPetsByStatusOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -282,7 +320,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -298,7 +336,7 @@ public class PetApi {
         public static final String STATUS_QUERY = "status";
 
         /**
-         * @param status (List<String>) Status values that need to be considered for filter (required)
+         * @param status (List&lt;String&gt;) Status values that need to be considered for filter (required)
          * @return operation
          */
         public FindPetsByStatusOper statusQuery(Object... status) {
@@ -335,21 +373,13 @@ public class PetApi {
      * @deprecated
      */
     @Deprecated
-    public class FindPetsByTagsOper {
+    public static class FindPetsByTagsOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/pet/findByTags";
-        public static final String SUMMARY = "Finds Pets by tags";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public FindPetsByTagsOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public FindPetsByTagsOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -364,7 +394,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -380,7 +410,7 @@ public class PetApi {
         public static final String TAGS_QUERY = "tags";
 
         /**
-         * @param tags (List<String>) Tags to filter by (required)
+         * @param tags (List&lt;String&gt;) Tags to filter by (required)
          * @return operation
          */
         public FindPetsByTagsOper tagsQuery(Object... tags) {
@@ -415,21 +445,13 @@ public class PetApi {
      * @see #petIdPath ID of pet to return (required)
      * return Pet
      */
-    public class GetPetByIdOper {
+    public static class GetPetByIdOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/pet/{petId}";
-        public static final String SUMMARY = "Find pet by ID";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public GetPetByIdOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public GetPetByIdOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -444,7 +466,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -494,22 +516,13 @@ public class PetApi {
      *
      * @see #body Pet object that needs to be added to the store (required)
      */
-    public class UpdatePetOper {
+    public static class UpdatePetOper {
 
-        public static final String REQ_METHOD = "PUT";
+        public static final Method REQ_METHOD = PUT;
         public static final String REQ_URI = "/pet";
-        public static final String SUMMARY = "Update an existing pet";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public UpdatePetOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public UpdatePetOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -525,7 +538,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -565,22 +578,13 @@ public class PetApi {
      * @see #nameForm Updated name of the pet (optional, default to null)
      * @see #statusForm Updated status of the pet (optional, default to null)
      */
-    public class UpdatePetWithFormOper {
+    public static class UpdatePetWithFormOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/pet/{petId}";
-        public static final String SUMMARY = "Updates a pet in the store with form data";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public UpdatePetWithFormOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/x-www-form-urlencoded");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public UpdatePetWithFormOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -596,7 +600,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         public static final String PET_ID_PATH = "petId";
@@ -661,22 +665,13 @@ public class PetApi {
      * @see #fileMultiPart file to upload (optional, default to null)
      * return ModelApiResponse
      */
-    public class UploadFileOper {
+    public static class UploadFileOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/pet/{petId}/uploadImage";
-        public static final String SUMMARY = "uploads an image";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public UploadFileOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("multipart/form-data");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public UploadFileOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -692,7 +687,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -767,22 +762,13 @@ public class PetApi {
      * @see #additionalMetadataForm Additional data to pass to server (optional, default to null)
      * return ModelApiResponse
      */
-    public class UploadFileWithRequiredFileOper {
+    public static class UploadFileWithRequiredFileOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake/{petId}/uploadImageWithRequiredFile";
-        public static final String SUMMARY = "uploads an image (required)";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public UploadFileWithRequiredFileOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("multipart/form-data");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public UploadFileWithRequiredFileOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -798,7 +784,7 @@ public class PetApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**

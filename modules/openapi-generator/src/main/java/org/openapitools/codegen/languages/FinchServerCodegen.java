@@ -239,7 +239,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -341,7 +341,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private void generateScalaPath(CodegenOperation op) {
-        op.httpMethod = op.httpMethod.toLowerCase();
+        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
 
         String path = op.path;
 
@@ -366,7 +366,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
                 final CodegenParameter cp = op.pathParams.get(pathParamIndex);
 
                 // TODO: Handle non-primitives…
-                scalaPath = colConcat(scalaPath, cp.dataType.toLowerCase());
+                scalaPath = colConcat(scalaPath, cp.dataType.toLowerCase(Locale.ROOT));
 
                 pathParamIndex++;
             } else {
@@ -425,7 +425,7 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
                     p.vendorExtensions.put("x-codegen-normalized-path-type", toPathParameter(p, "param", true));
                 } else {
                     // If parameter is primitive and required, we can rely on data types like "string" or "long"
-                    p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase());
+                    p.vendorExtensions.put("x-codegen-normalized-path-type", p.dataType.toLowerCase(Locale.ROOT));
                 }
                 p.vendorExtensions.put("x-codegen-normalized-input-type", toInputParameter(p));
             } else {

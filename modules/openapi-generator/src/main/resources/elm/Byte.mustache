@@ -16,4 +16,3 @@ byteDecoder =
 byteEncoder : Byte -> Encode.Value
 byteEncoder model =
     Encode.string model
-

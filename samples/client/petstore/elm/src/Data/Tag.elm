@@ -13,7 +13,7 @@
 module Data.Tag exposing (Tag, tagDecoder, tagEncoder)
 
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Maybe exposing (map, withDefault)
 
@@ -28,7 +28,7 @@ type alias Tag =
 
 tagDecoder : Decoder Tag
 tagDecoder =
-    decode Tag
+    Decode.succeed Tag
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
@@ -40,5 +40,4 @@ tagEncoder model =
         [ ( "id", withDefault Encode.null (map Encode.int model.id) )
         , ( "name", withDefault Encode.null (map Encode.string model.name) )
         ]
-
 

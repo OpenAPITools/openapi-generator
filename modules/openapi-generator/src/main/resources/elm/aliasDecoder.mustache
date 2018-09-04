@@ -1,6 +1,6 @@
 {{classVarName}}Decoder : Decoder {{classname}}
 {{classVarName}}Decoder =
-    decode {{classname}}
+    {{#isElm018}}decode{{/isElm018}}{{#isElm019}}Decode.succeed{{/isElm019}} {{classname}}
 {{#allVars}}
 {{^discriminatorValue}}        |> {{>fieldDecoder}}
 {{/discriminatorValue}}

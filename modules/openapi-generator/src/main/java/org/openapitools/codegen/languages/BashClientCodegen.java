@@ -388,7 +388,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -637,7 +637,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                                 mapper.writerWithDefaultPrettyPrinter().writeValueAsString(
                                         definitions.get(p.dataType).getExample()));
                     } catch (JsonProcessingException e) {
-                        e.printStackTrace();
+                        LOGGER.warn(e.getMessage(), e);
                     }
                 } else {
                     /**

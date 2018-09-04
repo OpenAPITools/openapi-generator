@@ -29,10 +29,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm");
+    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
@@ -98,7 +99,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -455,7 +456,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "default.service";
         }
-        return camelize(removeModelSuffixIfNecessary(name), true) + serviceFileSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(removeModelSuffixIfNecessary(name), true) + serviceFileSuffix;
     }
 
     @Override
@@ -466,7 +467,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public String toModelFilename(String name) {
         String modelName = toModelName(name);
-        return camelize(removeModelSuffixIfNecessary(modelName), true) + modelFileSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(removeModelSuffixIfNecessary(modelName), true) + modelFileSuffix;
     }
 
     @Override
@@ -511,7 +512,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (modelFileSuffix.length() > 0) {
             name = name.substring(0, name.length() - modelFileSuffix.length());
         }
-        return camelize(name) + modelSuffix;
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + modelSuffix;
     }
 
     @Override
@@ -539,7 +540,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private void validateFileSuffixArgument(String argument, String value) {
         if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
-                    String.format("%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
+                    String.format(Locale.ROOT, "%s file suffix only allows '.', '-' and alphanumeric characters.", argument)
             );
         }
     }
@@ -553,7 +554,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
-                    String.format("%s class suffix only allows alphanumeric characters.", argument)
+                    String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
             );
         }
     }

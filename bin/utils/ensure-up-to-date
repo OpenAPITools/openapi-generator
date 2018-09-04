@@ -10,7 +10,7 @@ echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 sleep 5
 
 # LIST OF SCRIPTS:
-./bin/ruby-petstore.sh > /dev/null 2>&1
+./bin/ruby-client-petstore.sh > /dev/null 2>&1
 ./bin/java-petstore-all.sh > /dev/null 2>&1
 ./bin/java-jaxrs-petstore-server-all.sh > /dev/null 2>&1
 ./bin/spring-all-pestore.sh > /dev/null 2>&1
@@ -31,6 +31,9 @@ sleep 5
 ./bin/typescript-inversify-petstore.sh > /dev/null 2>&1
 ./bin/rust-server-petstore.sh > /dev/null 2>&1
 ./bin/openapi3/haskell-http-client-petstore.sh > /dev/null 2>&1
+./bin/csharp-petstore.sh > /dev/null 2>&1
+./bin/meta-codegen.sh > /dev/null 2>&1
+./bin/utils/export_docs_generators.sh > /dev/null 2>&1
 
 # Check:
 if [ -n "$(git status --porcelain)" ]; then
