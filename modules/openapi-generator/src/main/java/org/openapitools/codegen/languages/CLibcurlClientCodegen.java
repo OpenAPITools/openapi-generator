@@ -184,7 +184,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("list.c.mustache", "src", "list.c"));
         // include folder
         supportingFiles.add(new SupportingFile("apiClient.h.mustache", "include", "apiClient.h"));
-        supportingFiles.add(new SupportingFile("apiKey.h.mustache", "include", "apiKey.h"));
+        supportingFiles.add(new SupportingFile("keyValuePair.h.mustache", "include", "keyValuePair.h"));
         supportingFiles.add(new SupportingFile("list.h.mustache", "include", "list.h"));
         // external folder
         supportingFiles.add(new SupportingFile("cJSON.licence.mustache", "external", "cJSON.licence"));
