@@ -58,7 +58,7 @@ getInventory =
 getOrderById : Int -> Http.Request Order_
 getOrderById orderId =
     { method = "GET"
-    , url = basePath ++ "/store/order/" ++ String.fromInt orderId
+    , url = basePath ++ "/store/order/" ++ toString orderId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectJson orderDecoder

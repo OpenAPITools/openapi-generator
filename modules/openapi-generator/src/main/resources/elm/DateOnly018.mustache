@@ -1,14 +1,14 @@
 module DateOnly exposing (DateOnly, dateOnlyDecoder, dateOnlyEncoder)
 
-import Iso8601
+import Date
+import Date.Extra exposing (fromIsoString, toFormattedString)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
 import Result
-import Time
 
 
 type alias DateOnly =
-    Time.Posix
+    Date.Date
 
 
 dateOnlyDecoder : Decoder DateOnly
@@ -19,16 +19,14 @@ dateOnlyDecoder =
 
 dateOnlyEncoder : DateOnly -> Encode.Value
 dateOnlyEncoder model =
-    Iso8601.fromTime model
-        |> String.left 10
-        |> Encode.string
+    Encode.string <| toFormattedString "yyyy-MM-dd" model
 
 
 decodeIsoString : String -> Decoder DateOnly
 decodeIsoString str =
-    case Iso8601.toTime (str ++ "T00:00:00.000Z") of
-        Result.Ok posix ->
-            Decode.succeed posix
+    case fromIsoString str of
+        Result.Ok date ->
+            Decode.succeed date
 
-        Result.Err _ ->
-            Decode.fail <| "Invalid date: " ++ str
+        Result.Err msg ->
+            Decode.fail msg

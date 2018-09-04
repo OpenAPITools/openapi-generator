@@ -1,12 +1,11 @@
 module Main exposing (main)
 
-import Browser
 import Html exposing (Html)
 
 
-main : Program () Model Msg
+main : Program Never Model Msg
 main =
-    Browser.element
+    Html.program
         { init = init
         , view = view
         , update = update
@@ -23,8 +22,8 @@ type alias Model =
     }
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
+init : ( Model, Cmd Msg )
+init =
     ( Model 0, Cmd.none )
 
 
