@@ -323,7 +323,7 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val configOptions = project.objects.property<Map<String, String>>()
 
-    private val originalEnvironmentVariables = mutableMapOf<String, String>()
+    private val originalEnvironmentVariables = mutableMapOf<String, String?>()
 
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
@@ -352,8 +352,9 @@ open class GenerateTask : DefaultTask() {
         try {
             if (systemProperties.isPresent) {
                 systemProperties.get().forEach { (key, value) ->
-                    originalEnvironmentVariables[key] = System.getProperty(key)
-                    System.setProperty(key, value)
+                    // System.setProperty returns the original value for a key, or null.
+                    // Cache the original value or null…we will late put the properties back in their original state.
+                    originalEnvironmentVariables[key] = System.setProperty(key, value)
                     configurator.addSystemProperty(key, value)
                 }
             }
@@ -540,8 +541,12 @@ open class GenerateTask : DefaultTask() {
                 throw GradleException("Code generation failed.", e)
             }
         } finally {
-            originalEnvironmentVariables.forEach { entry ->
-                System.setProperty(entry.key, entry.value)
+            // Reset all modified system properties back to their original state
+            originalEnvironmentVariables.forEach {
+                when {
+                    it.value == null -> System.clearProperty(it.key)
+                    else -> System.setProperty(it.key, it.value)
+                }
             }
             originalEnvironmentVariables.clear()
         }

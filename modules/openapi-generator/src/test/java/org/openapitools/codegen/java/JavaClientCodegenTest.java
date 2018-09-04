@@ -31,20 +31,12 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenModelFactory;
-import org.openapitools.codegen.CodegenModelType;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -305,6 +297,49 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
 
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testReferencedHeader() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue855.yaml", null, new ParseOptions()).getOpenAPI();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
+        CodegenResponse response = codegen.fromResponse(openAPI, "200", ok_200);
+
+        Assert.assertEquals(1, response.headers.size());
+        CodegenProperty header = response.headers.get(0);
+        Assert.assertEquals("UUID", header.dataType);
+        Assert.assertEquals("Request", header.baseName);
+    }
+
+    @Test
+    public void testFreeFormObjects() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue796.yaml", null, new ParseOptions()).getOpenAPI();
+        JavaClientCodegen codegen = new JavaClientCodegen();
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");
+        CodegenModel cm1 = codegen.fromModel("MapTest1", test1, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm1.getDataType(), "Map");
+        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm1.getClassname(), "MapTest1");
+
+        Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
+        CodegenModel cm2 = codegen.fromModel("MapTest2", test2, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm2.getDataType(), "Map");
+        Assert.assertEquals(cm2.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm2.getClassname(), "MapTest2");
+
+        Schema test3 = openAPI.getComponents().getSchemas().get("MapTest3");
+        CodegenModel cm3 = codegen.fromModel("MapTest3", test3, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm3.getDataType(), "Map");
+        Assert.assertEquals(cm3.getParent(), "HashMap<String, Object>");
+        Assert.assertEquals(cm3.getClassname(), "MapTest3");
+
+        Schema other = openAPI.getComponents().getSchemas().get("OtherObj");
+        CodegenModel cm = codegen.fromModel("OtherObj", other, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(cm.getDataType(), "Object");
+        Assert.assertEquals(cm.getClassname(), "OtherObj");
     }
 
     private void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {

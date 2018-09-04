@@ -36,55 +36,56 @@ use OpenAPIServer\Model\EnumArrays;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\EnumArrays
  */
-class EnumArraysTest extends \PHPUnit_Framework_TestCase {
+class EnumArraysTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "EnumArrays"
      */
-    public function testEnumArrays() {
+    public function testEnumArrays()
+    {
         $testEnumArrays = new EnumArrays();
     }
 
     /**
      * Test attribute "justSymbol"
      */
-    public function testPropertyJustSymbol() {
-
+    public function testPropertyJustSymbol()
+    {
     }
 
     /**
      * Test attribute "arrayEnum"
      */
-    public function testPropertyArrayEnum() {
-
+    public function testPropertyArrayEnum()
+    {
     }
 }
-

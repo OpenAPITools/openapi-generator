@@ -7,12 +7,12 @@
   },
   "version": "0.0.1",
   "source": {
-    "git": "git@github.com:swagger-api/swagger-mustache.git",
+    "git": "git@github.com:openapitools/openapi-generator.git",
     "tag": "v1.0.0"
   },
   "authors": "",
   "license": "Proprietary",
-  "homepage": "https://github.com/swagger-api/swagger-codegen",
+  "homepage": "https://github.com/openapitools/openapi-generator",
   "summary": "PetstoreClient",
   "source_files": "PetstoreClient/Classes/**/*.swift",
   "dependencies": {

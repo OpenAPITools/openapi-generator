@@ -5,6 +5,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapMapOfString** | **{String: {String: String}}** |  | [optional] 
 **mapOfEnumString** | **{String: String}** |  | [optional] 
+**directMap** | **{String: Boolean}** |  | [optional] 
+**indirectMap** | [**StringBooleanMap**](StringBooleanMap.md) |  | [optional] 
 
 
 <a name="{String: String}"></a>

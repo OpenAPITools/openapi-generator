@@ -36,62 +36,63 @@ use OpenAPIServer\Model\Cat;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Cat
  */
-class CatTest extends \PHPUnit_Framework_TestCase {
+class CatTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "Cat"
      */
-    public function testCat() {
+    public function testCat()
+    {
         $testCat = new Cat();
     }
 
     /**
      * Test attribute "className"
      */
-    public function testPropertyClassName() {
-
+    public function testPropertyClassName()
+    {
     }
 
     /**
      * Test attribute "color"
      */
-    public function testPropertyColor() {
-
+    public function testPropertyColor()
+    {
     }
 
     /**
      * Test attribute "declawed"
      */
-    public function testPropertyDeclawed() {
-
+    public function testPropertyDeclawed()
+    {
     }
 }
-
