@@ -279,6 +279,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
+                config.postProcessFile(written, "model-test");
             }
         }
     }
@@ -295,6 +296,23 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
+                config.postProcessFile(written, "model-doc");
+            }
+        }
+    }
+
+    private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+        for (String templateName : config.modelTemplateFiles().keySet()) {
+            String suffix = config.modelTemplateFiles().get(templateName);
+            String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
+            if (!config.shouldOverwrite(filename)) {
+                LOGGER.info("Skipped overwriting " + filename);
+                continue;
+            }
+            File written = processTemplateToFile(models, templateName, filename);
+            if (written != null) {
+                files.add(written);
+                config.postProcessFile(written, "model");
             }
         }
     }
@@ -442,19 +460,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 allModels.add(modelTemplate);
 
-                for (String templateName : config.modelTemplateFiles().keySet()) {
-                    String suffix = config.modelTemplateFiles().get(templateName);
-                    String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
-                    if (!config.shouldOverwrite(filename)) {
-                        LOGGER.info("Skipped overwriting " + filename);
-                        continue;
-                    }
-                    File written = processTemplateToFile(models, templateName, filename);
-                    if (written != null) {
-                        files.add(written);
-                    }
-                }
+                // to generate model files
+                generateModel(files, models, modelName);
+
                 if (generateModelTests) {
+                    // to generate model test files
                     generateModelTests(files, models, modelName);
                 }
                 if (generateModelDocumentation) {
@@ -548,6 +558,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     File written = processTemplateToFile(operation, templateName, filename);
                     if (written != null) {
                         files.add(written);
+                        config.postProcessFile(written, "api");
                     }
                 }
 
@@ -564,6 +575,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         File written = processTemplateToFile(operation, templateName, filename);
                         if (written != null) {
                             files.add(written);
+                            config.postProcessFile(written, "api-test");
                         }
                     }
                 }
@@ -581,6 +593,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         File written = processTemplateToFile(operation, templateName, filename);
                         if (written != null) {
                             files.add(written);
+                            config.postProcessFile(written, "api-doc");
                         }
                     }
                 }
@@ -651,7 +664,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                 .compile(template);
 
                         writeToFile(outputFilename, tmpl.execute(bundle));
-                        files.add(new File(outputFilename));
+                        File written = new File(outputFilename);
+                        files.add(written);
+                        config.postProcessFile(written, "supporting-mustache");
                     } else {
                         InputStream in = null;
 
@@ -665,6 +680,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         }
                         File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
                         files.add(outputFile);
+                        config.postProcessFile(outputFile, "supporting-common");
                     }
                 } else {
                     LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .openapi-generator-ignore");
@@ -688,6 +704,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 throw new RuntimeException("Could not generate supporting file '" + openapiGeneratorIgnore + "'", e);
             }
             files.add(ignoreFile);
+            config.postProcessFile(ignoreFile, "openapi-generator-ignore");
         }
 
         if (generateMetadata) {
@@ -696,6 +713,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             try {
                 writeToFile(versionMetadata, ImplementationVersion.read());
                 files.add(versionMetadataFile);
+                config.postProcessFile(ignoreFile, "openapi-generator-version");
             } catch (IOException e) {
                 throw new RuntimeException("Could not generate supporting file '" + versionMetadata + "'", e);
             }
@@ -762,7 +780,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
         }
-        
+
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
         if (servers != null && !servers.isEmpty()) {
             bundle.put("servers", servers);

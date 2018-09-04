@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.v3.core.util.Json;
@@ -204,7 +206,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             // (after camelize)
         }
 
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     @Override
@@ -215,7 +217,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // methods parameters as 'final'.
 
         // e.g. PetApi.go => pet_api.go
-        return underscore(name) + "_api";
+        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
     }
 
     @Override
@@ -333,7 +335,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + operationId));
+                    + org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
         // method name from updateSomething to update_Something.
@@ -351,7 +353,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
 
-            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+            operation.httpMethod = org.openapitools.codegen.utils.StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
 
         // remove model imports to avoid error

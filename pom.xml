@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.2.3-SNAPSHOT</version>
+    <version>3.3.0-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -1017,6 +1017,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/haskell-http-client</module>
                 <module>samples/client/petstore/elm</module>
                 <module>samples/client/petstore/groovy</module>

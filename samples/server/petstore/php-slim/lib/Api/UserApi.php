@@ -39,7 +39,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class UserApi extends AbstractApiController
 {
-    
+
     /**
      * POST createUser
      * Summary: Create user
@@ -55,7 +55,7 @@ class UserApi extends AbstractApiController
         $response->write('How about implementing createUser as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST createUsersWithArrayInput
      * Summary: Creates list of users with given input array
@@ -70,7 +70,7 @@ class UserApi extends AbstractApiController
         $response->write('How about implementing createUsersWithArrayInput as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST createUsersWithListInput
      * Summary: Creates list of users with given input array
@@ -85,7 +85,7 @@ class UserApi extends AbstractApiController
         $response->write('How about implementing createUsersWithListInput as a POST method ?');
         return $response;
     }
-    
+
     /**
      * DELETE deleteUser
      * Summary: Delete user
@@ -101,7 +101,7 @@ class UserApi extends AbstractApiController
         $response->write('How about implementing deleteUser as a DELETE method ?');
         return $response;
     }
-    
+
     /**
      * GET getUserByName
      * Summary: Get user by user name
@@ -117,7 +117,7 @@ class UserApi extends AbstractApiController
         $response->write('How about implementing getUserByName as a GET method ?');
         return $response;
     }
-    
+
     /**
      * GET loginUser
      * Summary: Logs user into the system
@@ -135,7 +135,7 @@ class UserApi extends AbstractApiController
         $response->write('How about implementing loginUser as a GET method ?');
         return $response;
     }
-    
+
     /**
      * GET logoutUser
      * Summary: Logs out current logged in user session
@@ -149,7 +149,7 @@ class UserApi extends AbstractApiController
         $response->write('How about implementing logoutUser as a GET method ?');
         return $response;
     }
-    
+
     /**
      * PUT updateUser
      * Summary: Updated user

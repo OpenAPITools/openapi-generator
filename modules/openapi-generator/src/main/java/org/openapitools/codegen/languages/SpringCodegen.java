@@ -49,6 +49,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, OptionalFeatures {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
@@ -362,6 +363,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (this.async) {
                 additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
             }
+            if (this.reactive) {
+                additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+            }
         } else if (this.async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
@@ -449,7 +453,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(title), true);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -599,7 +603,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (CodegenSecurity authMethod : authMethods) {
-                    authMethod.name = camelize(sanitizeName(authMethod.name), true);
+                    authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
                 }
             }
         }
@@ -612,7 +616,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
