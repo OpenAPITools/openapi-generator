@@ -216,6 +216,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("Rakefile.mustache", "", "Rakefile"));
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
+        supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
 
         // test files should not be overwritten
