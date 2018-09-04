@@ -7,11 +7,12 @@
 #ifndef _{{classname}}_H_
 #define _{{classname}}_H_
 
-{{/model}}{{/models}}
-#include string.h
+#include <string.h>
 {{#imports}}
-#include "{{{.}}}h"
+#include "{{{.}}}.h"
 {{/imports}}
+{{/model}}{{/models}}
+
 
 {{classname}}_t *{{classname}}_create(
 		{{#vars}}
