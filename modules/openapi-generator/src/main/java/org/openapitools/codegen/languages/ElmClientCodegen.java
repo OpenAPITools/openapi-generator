@@ -34,6 +34,12 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.text.Collator;
 import java.util.ArrayList;
@@ -48,20 +54,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
+    private Set<String> customPrimitives = new HashSet<String>();
+    private ElmVersion elmVersion = ElmVersion.ELM_019;
+
     private static final String ELM_VERSION = "elmVersion";
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNION_TYPE = "elmUnionType";
 
-    private Set<String> customPrimitives = new HashSet<String>();
-
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
-
-    private ElmVersion elmVersion = ElmVersion.ELM_019;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -159,6 +164,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("ELM_FORMAT_PATH"))) {
+            LOGGER.info("Environment variable ELM_FORMAT_PATH not defined so the Elm code may not be properly formatted. To define it, try 'export ELM_FORMAT_PATH=/usr/local/bin/elm-format' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(ELM_VERSION)) {
             final String version = (String) additionalProperties.get(ELM_VERSION);
@@ -623,5 +632,45 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private enum ElmVersion {
         ELM_018,
         ELM_019
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String elmFmtPath = System.getenv("ELM_FORMAT_PATH");
+        if (StringUtils.isEmpty(elmFmtPath)) {
+            return; // skip if ELM_FORMAT_PATH env variable is not defined
+        }
+
+        // only procees the following type (or we can simply rely on the file extension to check if it's a elm file)
+        Set<String> supportedFileType = new HashSet<String>(
+                Arrays.asList(
+                        "supporting-mustache",
+                        "model-test",
+                        "model",
+                        "api-test",
+                        "api"));
+        if (!supportedFileType.contains(fileType)) {
+            return;
+        }
+
+         // only process files with elm extension
+        if ("elm".equals(FilenameUtils.getExtension(file.toString()))) {
+            // currently only support "elm-format -w yourcode.elm"
+            String command = elmFmtPath + " --yes " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
     }
 }
