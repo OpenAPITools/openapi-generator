@@ -1,42 +1,34 @@
 #![allow(unused_extern_crates)]
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
 extern crate chrono;
+extern crate hyper_tls;
+extern crate mime;
+extern crate native_tls;
+extern crate openssl;
+extern crate tokio_core;
 extern crate url;
 
-
-
-use hyper;
-use hyper::header::{Headers, ContentType};
-use hyper::Uri;
+use self::tokio_core::reactor::Handle;
 use self::url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 use futures;
-use futures::{Future, Stream};
 use futures::{future, stream};
-use self::tokio_core::reactor::Handle;
+use futures::{Future, Stream};
+use hyper;
+use hyper::header::{ContentType, Headers};
+use hyper::Uri;
+use mimetypes;
+use serde_json;
+#[allow(unused_imports)]
+use swagger::{self, ApiError, XSpanId, XSpanIdString, Has, AuthData};
 use std::borrow::Cow;
-use std::io::{Read, Error, ErrorKind};
+#[allow(unused_imports)]
+use std::collections::BTreeMap;
 use std::error;
 use std::fmt;
+use std::io::{Error, ErrorKind, Read};
 use std::path::Path;
-use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
-
-use mimetypes;
-
-use serde_json;
-
-
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
-#[allow(unused_imports)]
-use swagger;
-
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
+use std::sync::Arc;
 
 use {BASE_PATH,
      Api,
