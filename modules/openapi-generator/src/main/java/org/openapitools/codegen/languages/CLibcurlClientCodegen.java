@@ -47,8 +47,10 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separator + "C-libcurl";
-        modelTemplateFiles.put("model.mustache", ".c");
-        apiTemplateFiles.put("api.mustache", ".c");
+        modelTemplateFiles.put("model-header.mustache", ".h");
+        modelTemplateFiles.put("model-body.mustache", ".c");
+        apiTemplateFiles.put("api-header.mustache", ".h");
+        apiTemplateFiles.put("api-body.mustache", ".c");
         //modelDocTemplateFiles.put("model_doc.mustache", ".md");
         //apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C-libcurl";

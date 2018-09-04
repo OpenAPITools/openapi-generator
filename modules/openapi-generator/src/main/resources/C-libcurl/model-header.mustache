@@ -1,0 +1,26 @@
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef _{{classname}}_H_
+#define _{{classname}}_H_
+
+{{/model}}{{/models}}
+#include string.h
+{{#imports}}
+#include "{{{.}}}h"
+{{/imports}}
+
+{{classname}}_t *{{classname}}_create(
+		{{#vars}}
+		{{{dataType}}}		*{{{baseName}}}{{#hasMore}},{{/hasMore}}
+		{{/vars}}
+		)
+		
+void {{classname}}_free({{classname}}_t *{{classname}})
+
+cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) 
+
+#endif /* _{{classname}}_H_ */
