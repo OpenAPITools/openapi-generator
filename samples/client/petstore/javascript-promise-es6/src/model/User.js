@@ -23,8 +23,8 @@ class User {
      * Constructs a new <code>User</code>.
      * @alias module:model/User
      */
-    constructor() { 
-        
+    constructor() {
+
         User.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class User {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>User</code> from a plain JavaScript object, optionally creating a new instance.
@@ -125,4 +124,3 @@ User.prototype['userStatus'] = undefined;
 
 
 export default User;
-

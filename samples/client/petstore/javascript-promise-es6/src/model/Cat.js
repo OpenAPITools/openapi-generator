@@ -27,7 +27,7 @@ class Cat {
      * @implements module:model/Animal
      * @param className {} 
      */
-    constructor(className) { 
+    constructor(className) {
         Animal.initialize(this, className);
         Cat.initialize(this, className);
     }
@@ -37,8 +37,7 @@ class Cat {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, className) { 
-    }
+    static initialize(obj, className) {}
 
     /**
      * Constructs a <code>Cat</code> from a plain JavaScript object, optionally creating a new instance.
@@ -84,4 +83,3 @@ Animal.prototype['color'] = 'red';
 
 
 export default Cat;
-

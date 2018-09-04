@@ -23,8 +23,8 @@ class EnumArrays {
      * Constructs a new <code>EnumArrays</code>.
      * @alias module:model/EnumArrays
      */
-    constructor() { 
-        
+    constructor() {
+
         EnumArrays.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class EnumArrays {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>EnumArrays</code> from a plain JavaScript object, optionally creating a new instance.
@@ -118,4 +117,3 @@ EnumArrays['ArrayEnumEnum'] = {
 
 
 export default EnumArrays;
-

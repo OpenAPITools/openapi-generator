@@ -25,10 +25,10 @@ class AnimalFarm extends Array {
      * @alias module:model/AnimalFarm
      * @extends Array
      */
-    constructor() { 
+    constructor() {
         super();
-        
-        
+
+
         AnimalFarm.initialize(this);
     }
 
@@ -37,8 +37,7 @@ class AnimalFarm extends Array {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>AnimalFarm</code> from a plain JavaScript object, optionally creating a new instance.
@@ -52,7 +51,7 @@ class AnimalFarm extends Array {
             obj = obj || new AnimalFarm();
 
             ApiClient.constructFromObject(data, obj, 'Animal');
-            
+
 
         }
         return obj;
@@ -67,4 +66,3 @@ class AnimalFarm extends Array {
 
 
 export default AnimalFarm;
-

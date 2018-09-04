@@ -27,8 +27,8 @@ class FormatTest {
      * @param _date {Date} 
      * @param password {String} 
      */
-    constructor(_number, _byte, _date, password) { 
-        
+    constructor(_number, _byte, _date, password) {
+
         FormatTest.initialize(this, _number, _byte, _date, password);
     }
 
@@ -37,7 +37,7 @@ class FormatTest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, _number, _byte, _date, password) { 
+    static initialize(obj, _number, _byte, _date, password) {
         obj['number'] = _number;
         obj['byte'] = _byte;
         obj['date'] = _date;
@@ -172,4 +172,3 @@ FormatTest.prototype['password'] = undefined;
 
 
 export default FormatTest;
-

@@ -24,8 +24,8 @@ class Animal {
      * @alias module:model/Animal
      * @param className {String} 
      */
-    constructor(className) { 
-        
+    constructor(className) {
+
         Animal.initialize(this, className);
     }
 
@@ -34,7 +34,7 @@ class Animal {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, className) { 
+    static initialize(obj, className) {
         obj['className'] = className;
     }
 
@@ -79,4 +79,3 @@ Animal.prototype['color'] = 'red';
 
 
 export default Animal;
-

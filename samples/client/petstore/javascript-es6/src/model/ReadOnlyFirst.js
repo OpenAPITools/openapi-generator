@@ -23,8 +23,8 @@ class ReadOnlyFirst {
      * Constructs a new <code>ReadOnlyFirst</code>.
      * @alias module:model/ReadOnlyFirst
      */
-    constructor() { 
-        
+    constructor() {
+
         ReadOnlyFirst.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class ReadOnlyFirst {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>ReadOnlyFirst</code> from a plain JavaScript object, optionally creating a new instance.
@@ -76,4 +75,3 @@ ReadOnlyFirst.prototype['baz'] = undefined;
 
 
 export default ReadOnlyFirst;
-

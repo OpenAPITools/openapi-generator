@@ -23,8 +23,8 @@ class HasOnlyReadOnly {
      * Constructs a new <code>HasOnlyReadOnly</code>.
      * @alias module:model/HasOnlyReadOnly
      */
-    constructor() { 
-        
+    constructor() {
+
         HasOnlyReadOnly.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class HasOnlyReadOnly {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>HasOnlyReadOnly</code> from a plain JavaScript object, optionally creating a new instance.
@@ -76,4 +75,3 @@ HasOnlyReadOnly.prototype['foo'] = undefined;
 
 
 export default HasOnlyReadOnly;
-

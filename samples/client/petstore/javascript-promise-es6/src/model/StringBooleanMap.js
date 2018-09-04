@@ -24,8 +24,8 @@ class StringBooleanMap {
      * @alias module:model/StringBooleanMap
      * @extends Object
      */
-    constructor() { 
-        
+    constructor() {
+
         StringBooleanMap.initialize(this);
     }
 
@@ -34,8 +34,7 @@ class StringBooleanMap {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>StringBooleanMap</code> from a plain JavaScript object, optionally creating a new instance.
@@ -49,7 +48,7 @@ class StringBooleanMap {
             obj = obj || new StringBooleanMap();
 
             ApiClient.constructFromObject(data, obj, 'Boolean');
-            
+
 
         }
         return obj;
@@ -64,4 +63,3 @@ class StringBooleanMap {
 
 
 export default StringBooleanMap;
-

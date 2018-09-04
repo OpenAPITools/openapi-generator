@@ -23,8 +23,8 @@ class Category {
      * Constructs a new <code>Category</code>.
      * @alias module:model/Category
      */
-    constructor() { 
-        
+    constructor() {
+
         Category.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class Category {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>Category</code> from a plain JavaScript object, optionally creating a new instance.
@@ -76,4 +75,3 @@ Category.prototype['name'] = undefined;
 
 
 export default Category;
-

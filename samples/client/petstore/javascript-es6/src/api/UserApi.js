@@ -16,19 +16,19 @@ import ApiClient from "../ApiClient";
 import User from '../model/User';
 
 /**
-* User service.
-* @module api/UserApi
-* @version 1.0.0
-*/
+ * User service.
+ * @module api/UserApi
+ * @version 1.0.0
+ */
 export default class UserApi {
 
     /**
-    * Constructs a new UserApi. 
-    * @alias module:api/UserApi
-    * @class
-    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-    * default to {@link module:ApiClient#instance} if unspecified.
-    */
+     * Constructs a new UserApi. 
+     * @alias module:api/UserApi
+     * @class
+     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link module:ApiClient#instance} if unspecified.
+     */
     constructor(apiClient) {
         this.apiClient = apiClient || ApiClient.instance;
     }
@@ -49,33 +49,29 @@ export default class UserApi {
      * @param {module:api/UserApi~createUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     createUser(user, callback) {
-      let postBody = user;
+        let postBody = user;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUser");
-      }
+        // verify the required parameter 'user' is set
+        if (user === undefined || user === null) {
+            throw new Error("Missing the required parameter 'user' when calling createUser");
+        }
 
 
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {};
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = [];
+        let returnType = null;
 
-      return this.apiClient.callApi(
-        '/user', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user', 'POST',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
     /**
@@ -92,33 +88,29 @@ export default class UserApi {
      * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
     createUsersWithArrayInput(user, callback) {
-      let postBody = user;
+        let postBody = user;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
-      }
+        // verify the required parameter 'user' is set
+        if (user === undefined || user === null) {
+            throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+        }
 
 
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {};
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = [];
+        let returnType = null;
 
-      return this.apiClient.callApi(
-        '/user/createWithArray', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user/createWithArray', 'POST',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
     /**
@@ -135,33 +127,29 @@ export default class UserApi {
      * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
     createUsersWithListInput(user, callback) {
-      let postBody = user;
+        let postBody = user;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
-      }
+        // verify the required parameter 'user' is set
+        if (user === undefined || user === null) {
+            throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
+        }
 
 
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {};
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = [];
+        let returnType = null;
 
-      return this.apiClient.callApi(
-        '/user/createWithList', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user/createWithList', 'POST',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
     /**
@@ -179,34 +167,31 @@ export default class UserApi {
      * @param {module:api/UserApi~deleteUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     deleteUser(username, callback) {
-      let postBody = null;
+        let postBody = null;
 
-      // verify the required parameter 'username' is set
-      if (username === undefined || username === null) {
-        throw new Error("Missing the required parameter 'username' when calling deleteUser");
-      }
+        // verify the required parameter 'username' is set
+        if (username === undefined || username === null) {
+            throw new Error("Missing the required parameter 'username' when calling deleteUser");
+        }
 
 
-      let pathParams = {
-        'username': username
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {
+            'username': username
+        };
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = [];
+        let returnType = null;
 
-      return this.apiClient.callApi(
-        '/user/{username}', 'DELETE',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user/{username}', 'DELETE',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
     /**
@@ -224,34 +209,31 @@ export default class UserApi {
      * data is of type: {@link module:model/User}
      */
     getUserByName(username, callback) {
-      let postBody = null;
+        let postBody = null;
 
-      // verify the required parameter 'username' is set
-      if (username === undefined || username === null) {
-        throw new Error("Missing the required parameter 'username' when calling getUserByName");
-      }
+        // verify the required parameter 'username' is set
+        if (username === undefined || username === null) {
+            throw new Error("Missing the required parameter 'username' when calling getUserByName");
+        }
 
 
-      let pathParams = {
-        'username': username
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {
+            'username': username
+        };
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['application/xml', 'application/json'];
-      let returnType = User;
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = ['application/xml', 'application/json'];
+        let returnType = User;
 
-      return this.apiClient.callApi(
-        '/user/{username}', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user/{username}', 'GET',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
     /**
@@ -270,40 +252,37 @@ export default class UserApi {
      * data is of type: {@link String}
      */
     loginUser(username, password, callback) {
-      let postBody = null;
+        let postBody = null;
 
-      // verify the required parameter 'username' is set
-      if (username === undefined || username === null) {
-        throw new Error("Missing the required parameter 'username' when calling loginUser");
-      }
+        // verify the required parameter 'username' is set
+        if (username === undefined || username === null) {
+            throw new Error("Missing the required parameter 'username' when calling loginUser");
+        }
 
-      // verify the required parameter 'password' is set
-      if (password === undefined || password === null) {
-        throw new Error("Missing the required parameter 'password' when calling loginUser");
-      }
+        // verify the required parameter 'password' is set
+        if (password === undefined || password === null) {
+            throw new Error("Missing the required parameter 'password' when calling loginUser");
+        }
 
 
-      let pathParams = {
-      };
-      let queryParams = {
-        'username': username,
-        'password': password
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {};
+        let queryParams = {
+            'username': username,
+            'password': password
+        };
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['application/xml', 'application/json'];
-      let returnType = 'String';
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = ['application/xml', 'application/json'];
+        let returnType = 'String';
 
-      return this.apiClient.callApi(
-        '/user/login', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user/login', 'GET',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
     /**
@@ -319,28 +298,24 @@ export default class UserApi {
      * @param {module:api/UserApi~logoutUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     logoutUser(callback) {
-      let postBody = null;
+        let postBody = null;
 
 
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {};
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = [];
+        let returnType = null;
 
-      return this.apiClient.callApi(
-        '/user/logout', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user/logout', 'GET',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
     /**
@@ -359,39 +334,36 @@ export default class UserApi {
      * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     updateUser(username, user, callback) {
-      let postBody = user;
+        let postBody = user;
 
-      // verify the required parameter 'username' is set
-      if (username === undefined || username === null) {
-        throw new Error("Missing the required parameter 'username' when calling updateUser");
-      }
+        // verify the required parameter 'username' is set
+        if (username === undefined || username === null) {
+            throw new Error("Missing the required parameter 'username' when calling updateUser");
+        }
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling updateUser");
-      }
+        // verify the required parameter 'user' is set
+        if (user === undefined || user === null) {
+            throw new Error("Missing the required parameter 'user' when calling updateUser");
+        }
 
 
-      let pathParams = {
-        'username': username
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {
+            'username': username
+        };
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+        let authNames = [];
+        let contentTypes = [];
+        let accepts = [];
+        let returnType = null;
 
-      return this.apiClient.callApi(
-        '/user/{username}', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/user/{username}', 'PUT',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
 

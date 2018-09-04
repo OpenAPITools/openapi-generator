@@ -23,8 +23,8 @@ class Order {
      * Constructs a new <code>Order</code>.
      * @alias module:model/Order
      */
-    constructor() { 
-        
+    constructor() {
+
         Order.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class Order {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>Order</code> from a plain JavaScript object, optionally creating a new instance.
@@ -137,4 +136,3 @@ Order['StatusEnum'] = {
 
 
 export default Order;
-

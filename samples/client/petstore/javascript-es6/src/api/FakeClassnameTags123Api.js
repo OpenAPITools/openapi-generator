@@ -16,19 +16,19 @@ import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 
 /**
-* FakeClassnameTags123 service.
-* @module api/FakeClassnameTags123Api
-* @version 1.0.0
-*/
+ * FakeClassnameTags123 service.
+ * @module api/FakeClassnameTags123Api
+ * @version 1.0.0
+ */
 export default class FakeClassnameTags123Api {
 
     /**
-    * Constructs a new FakeClassnameTags123Api. 
-    * @alias module:api/FakeClassnameTags123Api
-    * @class
-    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-    * default to {@link module:ApiClient#instance} if unspecified.
-    */
+     * Constructs a new FakeClassnameTags123Api. 
+     * @alias module:api/FakeClassnameTags123Api
+     * @class
+     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link module:ApiClient#instance} if unspecified.
+     */
     constructor(apiClient) {
         this.apiClient = apiClient || ApiClient.instance;
     }
@@ -50,33 +50,29 @@ export default class FakeClassnameTags123Api {
      * data is of type: {@link module:model/Client}
      */
     testClassname(client, callback) {
-      let postBody = client;
+        let postBody = client;
 
-      // verify the required parameter 'client' is set
-      if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling testClassname");
-      }
+        // verify the required parameter 'client' is set
+        if (client === undefined || client === null) {
+            throw new Error("Missing the required parameter 'client' when calling testClassname");
+        }
 
 
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {};
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = ['api_key_query'];
-      let contentTypes = ['application/json'];
-      let accepts = ['application/json'];
-      let returnType = Client;
+        let authNames = ['api_key_query'];
+        let contentTypes = ['application/json'];
+        let accepts = ['application/json'];
+        let returnType = Client;
 
-      return this.apiClient.callApi(
-        '/fake_classname_test', 'PATCH',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+        return this.apiClient.callApi(
+            '/fake_classname_test', 'PATCH',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType, callback
+        );
     }
 
 

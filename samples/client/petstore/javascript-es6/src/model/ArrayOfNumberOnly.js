@@ -23,8 +23,8 @@ class ArrayOfNumberOnly {
      * Constructs a new <code>ArrayOfNumberOnly</code>.
      * @alias module:model/ArrayOfNumberOnly
      */
-    constructor() { 
-        
+    constructor() {
+
         ArrayOfNumberOnly.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class ArrayOfNumberOnly {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>ArrayOfNumberOnly</code> from a plain JavaScript object, optionally creating a new instance.
@@ -68,4 +67,3 @@ ArrayOfNumberOnly.prototype['ArrayNumber'] = undefined;
 
 
 export default ArrayOfNumberOnly;
-

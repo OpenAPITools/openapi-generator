@@ -23,8 +23,8 @@ class Capitalization {
      * Constructs a new <code>Capitalization</code>.
      * @alias module:model/Capitalization
      */
-    constructor() { 
-        
+    constructor() {
+
         Capitalization.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class Capitalization {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>Capitalization</code> from a plain JavaScript object, optionally creating a new instance.
@@ -109,4 +108,3 @@ Capitalization.prototype['ATT_NAME'] = undefined;
 
 
 export default Capitalization;
-

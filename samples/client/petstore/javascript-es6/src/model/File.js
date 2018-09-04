@@ -24,8 +24,8 @@ class File {
      * Must be named &#x60;File&#x60; for test.
      * @alias module:model/File
      */
-    constructor() { 
-        
+    constructor() {
+
         File.initialize(this);
     }
 
@@ -34,8 +34,7 @@ class File {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>File</code> from a plain JavaScript object, optionally creating a new instance.
@@ -70,4 +69,3 @@ File.prototype['sourceURI'] = undefined;
 
 
 export default File;
-

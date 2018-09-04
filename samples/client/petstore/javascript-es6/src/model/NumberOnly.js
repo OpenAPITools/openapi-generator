@@ -23,8 +23,8 @@ class NumberOnly {
      * Constructs a new <code>NumberOnly</code>.
      * @alias module:model/NumberOnly
      */
-    constructor() { 
-        
+    constructor() {
+
         NumberOnly.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class NumberOnly {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>NumberOnly</code> from a plain JavaScript object, optionally creating a new instance.
@@ -68,4 +67,3 @@ NumberOnly.prototype['JustNumber'] = undefined;
 
 
 export default NumberOnly;
-

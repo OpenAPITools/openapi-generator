@@ -24,8 +24,8 @@ class ModelReturn {
      * Model for testing reserved words
      * @alias module:model/ModelReturn
      */
-    constructor() { 
-        
+    constructor() {
+
         ModelReturn.initialize(this);
     }
 
@@ -34,8 +34,7 @@ class ModelReturn {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>ModelReturn</code> from a plain JavaScript object, optionally creating a new instance.
@@ -69,4 +68,3 @@ ModelReturn.prototype['return'] = undefined;
 
 
 export default ModelReturn;
-

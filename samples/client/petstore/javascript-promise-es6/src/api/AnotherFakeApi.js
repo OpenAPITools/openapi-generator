@@ -16,19 +16,19 @@ import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 
 /**
-* AnotherFake service.
-* @module api/AnotherFakeApi
-* @version 1.0.0
-*/
+ * AnotherFake service.
+ * @module api/AnotherFakeApi
+ * @version 1.0.0
+ */
 export default class AnotherFakeApi {
 
     /**
-    * Constructs a new AnotherFakeApi. 
-    * @alias module:api/AnotherFakeApi
-    * @class
-    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-    * default to {@link module:ApiClient#instance} if unspecified.
-    */
+     * Constructs a new AnotherFakeApi. 
+     * @alias module:api/AnotherFakeApi
+     * @class
+     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link module:ApiClient#instance} if unspecified.
+     */
     constructor(apiClient) {
         this.apiClient = apiClient || ApiClient.instance;
     }
@@ -42,33 +42,29 @@ export default class AnotherFakeApi {
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
     call123testSpecialTagsWithHttpInfo(client) {
-      let postBody = client;
+        let postBody = client;
 
-      // verify the required parameter 'client' is set
-      if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling call123testSpecialTags");
-      }
+        // verify the required parameter 'client' is set
+        if (client === undefined || client === null) {
+            throw new Error("Missing the required parameter 'client' when calling call123testSpecialTags");
+        }
 
 
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
+        let pathParams = {};
+        let queryParams = {};
+        let headerParams = {};
+        let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json'];
-      let accepts = ['application/json'];
-      let returnType = Client;
+        let authNames = [];
+        let contentTypes = ['application/json'];
+        let accepts = ['application/json'];
+        let returnType = Client;
 
-      return this.apiClient.callApi(
-        '/another-fake/dummy', 'PATCH',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
-      );
+        return this.apiClient.callApi(
+            '/another-fake/dummy', 'PATCH',
+            pathParams, queryParams, headerParams, formParams, postBody,
+            authNames, contentTypes, accepts, returnType
+        );
     }
 
     /**
@@ -78,10 +74,10 @@ export default class AnotherFakeApi {
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
      */
     call123testSpecialTags(client) {
-      return this.call123testSpecialTagsWithHttpInfo(client)
-        .then(function(response_and_data) {
-          return response_and_data.data;
-        });
+        return this.call123testSpecialTagsWithHttpInfo(client)
+            .then(function(response_and_data) {
+                return response_and_data.data;
+            });
     }
 
 

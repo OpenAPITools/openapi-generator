@@ -23,8 +23,8 @@ class FileSchemaTestClass {
      * Constructs a new <code>FileSchemaTestClass</code>.
      * @alias module:model/FileSchemaTestClass
      */
-    constructor() { 
-        
+    constructor() {
+
         FileSchemaTestClass.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class FileSchemaTestClass {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>FileSchemaTestClass</code> from a plain JavaScript object, optionally creating a new instance.
@@ -76,4 +75,3 @@ FileSchemaTestClass.prototype['files'] = undefined;
 
 
 export default FileSchemaTestClass;
-

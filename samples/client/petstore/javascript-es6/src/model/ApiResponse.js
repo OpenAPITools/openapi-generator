@@ -23,8 +23,8 @@ class ApiResponse {
      * Constructs a new <code>ApiResponse</code>.
      * @alias module:model/ApiResponse
      */
-    constructor() { 
-        
+    constructor() {
+
         ApiResponse.initialize(this);
     }
 
@@ -33,8 +33,7 @@ class ApiResponse {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
-    }
+    static initialize(obj) {}
 
     /**
      * Constructs a <code>ApiResponse</code> from a plain JavaScript object, optionally creating a new instance.
@@ -84,4 +83,3 @@ ApiResponse.prototype['message'] = undefined;
 
 
 export default ApiResponse;
-
