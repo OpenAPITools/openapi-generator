@@ -8,20 +8,20 @@ typedef int bool;
 #define false 0
 
 typedef struct apiClient_t {
-    char *basePath;
-    void *dataReceived;
-    // this would only be generated for basic authentication
+	char *basePath;
+	void *dataReceived;
+	// this would only be generated for basic authentication
     #ifdef BASIC_AUTH
-    char *username;
-    char *password;
+	char *username;
+	char *password;
     #endif //BASIC_AUTH
-    // this would only be generated for OAUTH2 authentication
+	// this would only be generated for OAUTH2 authentication
     #ifdef OAUTH2
-    char *accessToken;
+	char *accessToken;
     #endif // OAUTH2
     #ifdef API_KEY
-    //this would only be generated for apiKey authentication
-    list_t *apiKeys;
+	//this would only be generated for apiKey authentication
+	list_t *apiKeys;
     #endif // API_KEY
 } apiClient_t;
 

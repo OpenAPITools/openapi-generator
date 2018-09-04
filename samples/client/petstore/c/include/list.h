@@ -8,16 +8,16 @@ typedef struct list_t list_t;
 typedef struct listEntry_t listEntry_t;
 
 struct listEntry_t {
-    listEntry_t* nextListEntry;
-    listEntry_t* prevListEntry;
-    void* data;
+	listEntry_t* nextListEntry;
+	listEntry_t* prevListEntry;
+	void* data;
 };
 
 typedef struct list_t {
-    listEntry_t *firstEntry;
-    listEntry_t *lastEntry;
+	listEntry_t *firstEntry;
+	listEntry_t *lastEntry;
 
-    long count;
+	long count;
 } list_t;
 
 #define list_ForEach(element, list) for(element = (list != NULL) ? (list)->firstEntry : NULL; element != NULL; element = element->nextListEntry)

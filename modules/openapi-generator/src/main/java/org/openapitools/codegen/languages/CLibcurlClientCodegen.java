@@ -30,8 +30,10 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
@@ -168,7 +170,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_PATH"))) {
-            LOGGER.info("Environment variable UNCRUSTIFY_PATH not defined so the C code may not be properly formatted. To define it, try 'export UNCRUSTIFY_PATH=/usr/local/bin/uncrustify-format' (Linux/Mac)");
+            LOGGER.info("Environment variable UNCRUSTIFY_PATH not defined so the C code may not be properly formatted. To define it, try 'export UNCRUSTIFY_PATH=/usr/local/bin/uncrustify' (Linux/Mac)");
         }
 
         if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_CONFIG"))) {
