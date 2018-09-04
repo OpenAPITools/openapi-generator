@@ -55,7 +55,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
     private Set<String> customPrimitives = new HashSet<String>();
     private ElmVersion elmVersion = ElmVersion.ELM_019;
 
