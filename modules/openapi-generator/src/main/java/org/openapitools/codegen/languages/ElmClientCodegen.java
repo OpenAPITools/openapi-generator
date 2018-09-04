@@ -645,22 +645,14 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return; // skip if ELM_FORMAT_PATH env variable is not defined
         }
 
-        // only procees the following type (or we can simply rely on the file extension to check if it's a elm file)
-        Set<String> supportedFileType = new HashSet<String>(
-                Arrays.asList(
-                        "supporting-mustache",
-                        "model-test",
-                        "model",
-                        "api-test",
-                        "api"));
-        if (!supportedFileType.contains(fileType)) {
-            return;
-        }
-
-         // only process files with elm extension
+        // only process files with elm extension
         if ("elm".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently only support "elm-format -w yourcode.elm"
             String command = elmFmtPath + " --yes " + file.toString();
+            if (ElmVersion.ELM_018.equals(elmVersion)) {
+                command += " --elm-version=0.18";
+            }
+
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
