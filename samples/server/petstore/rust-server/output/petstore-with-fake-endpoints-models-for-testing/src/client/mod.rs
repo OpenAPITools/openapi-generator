@@ -38,7 +38,8 @@ use swagger;
 
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
-use {Api,
+use {BASE_PATH,
+     Api,
      TestSpecialTagsResponse,
      FakeOuterBooleanSerializeResponse,
      FakeOuterCompositeSerializeResponse,
@@ -280,8 +281,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         let uri = format!(
-            "{}/v2/another-fake/dummy",
-            self.base_path
+            "{host}{base_path}/another-fake/dummy",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -355,8 +357,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         let uri = format!(
-            "{}/v2/fake/outer/boolean",
-            self.base_path
+            "{host}{base_path}/fake/outer/boolean",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -432,8 +435,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/outer/composite",
-            self.base_path
+            "{host}{base_path}/fake/outer/composite",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -507,8 +511,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/outer/number",
-            self.base_path
+            "{host}{base_path}/fake/outer/number",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -582,8 +587,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/outer/string",
-            self.base_path
+            "{host}{base_path}/fake/outer/string",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -660,8 +666,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/body-with-query-params?{query}",
-            self.base_path,
+            "{host}{base_path}/fake/body-with-query-params?{query}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
             query=utf8_percent_encode(&query_query, QUERY_ENCODE_SET)
         );
 
@@ -724,8 +731,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake",
-            self.base_path
+            "{host}{base_path}/fake",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -797,8 +805,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake",
-            self.base_path
+            "{host}{base_path}/fake",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -894,8 +903,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake?{enum_query_string_array}{enum_query_string}{enum_query_integer}{enum_query_double}",
-            self.base_path,
+            "{host}{base_path}/fake?{enum_query_string_array}{enum_query_string}{enum_query_integer}{enum_query_double}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
             enum_query_string_array=utf8_percent_encode(&query_enum_query_string_array, QUERY_ENCODE_SET),
             enum_query_string=utf8_percent_encode(&query_enum_query_string, QUERY_ENCODE_SET),
             enum_query_integer=utf8_percent_encode(&query_enum_query_integer, QUERY_ENCODE_SET),
@@ -976,8 +986,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/inline-additionalProperties",
-            self.base_path
+            "{host}{base_path}/fake/inline-additionalProperties",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1039,8 +1050,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/jsonFormData",
-            self.base_path
+            "{host}{base_path}/fake/jsonFormData",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1103,8 +1115,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake_classname_test",
-            self.base_path
+            "{host}{base_path}/fake_classname_test",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1178,8 +1191,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet",
-            self.base_path
+            "{host}{base_path}/pet",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1243,8 +1257,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1307,8 +1323,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/findByStatus?{status}",
-            self.base_path,
+            "{host}{base_path}/pet/findByStatus?{status}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
             status=utf8_percent_encode(&query_status, QUERY_ENCODE_SET)
         );
 
@@ -1389,8 +1406,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/findByTags?{tags}",
-            self.base_path,
+            "{host}{base_path}/pet/findByTags?{tags}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
             tags=utf8_percent_encode(&query_tags, QUERY_ENCODE_SET)
         );
 
@@ -1468,8 +1486,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1555,8 +1575,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet",
-            self.base_path
+            "{host}{base_path}/pet",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1636,8 +1657,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1700,8 +1723,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}/uploadImage",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}/uploadImage",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1774,8 +1799,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/order/{order_id}",
-            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/store/order/{order_id}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1840,8 +1867,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/inventory",
-            self.base_path
+            "{host}{base_path}/store/inventory",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1907,8 +1935,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/order/{order_id}",
-            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/store/order/{order_id}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1994,8 +2024,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/order",
-            self.base_path
+            "{host}{base_path}/store/order",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2078,8 +2109,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user",
-            self.base_path
+            "{host}{base_path}/user",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2143,8 +2175,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/createWithArray",
-            self.base_path
+            "{host}{base_path}/user/createWithArray",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2206,8 +2239,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/createWithList",
-            self.base_path
+            "{host}{base_path}/user/createWithList",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2269,8 +2303,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/user/{username}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2335,8 +2371,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/user/{username}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2426,8 +2464,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/login?{username}{password}",
-            self.base_path,
+            "{host}{base_path}/user/login?{username}{password}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
             username=utf8_percent_encode(&query_username, QUERY_ENCODE_SET),
             password=utf8_percent_encode(&query_password, QUERY_ENCODE_SET)
         );
@@ -2516,8 +2555,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/logout",
-            self.base_path
+            "{host}{base_path}/user/logout",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2573,8 +2613,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/user/{username}",
+            host=self.base_path,
+            base_path=*BASE_PATH,
+            username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {

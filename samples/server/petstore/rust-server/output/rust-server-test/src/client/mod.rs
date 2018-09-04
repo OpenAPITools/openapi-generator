@@ -38,7 +38,8 @@ use swagger;
 
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
-use {Api,
+use {BASE_PATH,
+     Api,
      DummyGetResponse
      };
 use models;
@@ -249,8 +250,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         let uri = format!(
-            "{}//dummy",
-            self.base_path
+            "{host}{base_path}/dummy",
+            host=self.base_path,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
