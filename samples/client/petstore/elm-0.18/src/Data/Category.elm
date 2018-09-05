@@ -33,11 +33,9 @@ categoryDecoder =
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-
 categoryEncoder : Category -> Encode.Value
 categoryEncoder model =
     Encode.object
         [ ( "id", withDefault Encode.null (map Encode.int model.id) )
         , ( "name", withDefault Encode.null (map Encode.string model.name) )
         ]
-

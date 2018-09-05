@@ -33,11 +33,9 @@ tagDecoder =
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-
 tagEncoder : Tag -> Encode.Value
 tagEncoder model =
     Encode.object
         [ ( "id", withDefault Encode.null (map Encode.int model.id) )
         , ( "name", withDefault Encode.null (map Encode.string model.name) )
         ]
-
