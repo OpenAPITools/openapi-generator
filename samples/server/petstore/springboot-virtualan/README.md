@@ -17,9 +17,10 @@ http://localhost:80/
 
 Change default port value in application.properties
 
-Virtualan UI:
+## Virtualan :
 
-   Navigate to http://localhost/virtualan-ui.html.
+You can view Virtualan UI by pointing to  
+http://localhost:80//virtualan-ui.html.
 
-   More details about the user interface refer- https://github.com/elan-venture/virtualan/wiki
-
+How to use guide available in the Virtualan wiki  
+https://github.com/elan-venture/virtualan/wiki
