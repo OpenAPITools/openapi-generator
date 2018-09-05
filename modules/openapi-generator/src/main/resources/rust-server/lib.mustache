@@ -35,7 +35,10 @@ mod mimetypes;
 
 pub use swagger::{ApiError, ContextWrapper};
 
-pub const BASE_PATH: &'static str = "{{{basePathWithoutHost}}}";
+lazy_static!{
+    /// Base path (without host) with trailing '/'s removed.
+    pub static ref BASE_PATH: &'static str = "{{{basePathWithoutHost}}}".trim_right_matches('/');
+}
 pub const API_VERSION: &'static str = "{{{appVersion}}}";
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}

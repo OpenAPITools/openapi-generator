@@ -80,32 +80,34 @@ header! { (Warning, "Warning") => [String] }
 mod paths {
     extern crate regex;
 
+    use BASE_PATH;
+
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
-            r"^/v2/another-fake/dummy$",
-            r"^/v2/fake$",
-            r"^/v2/fake/body-with-query-params$",
-            r"^/v2/fake/inline-additionalProperties$",
-            r"^/v2/fake/jsonFormData$",
-            r"^/v2/fake/outer/boolean$",
-            r"^/v2/fake/outer/composite$",
-            r"^/v2/fake/outer/number$",
-            r"^/v2/fake/outer/string$",
-            r"^/v2/fake_classname_test$",
-            r"^/v2/pet$",
-            r"^/v2/pet/findByStatus$",
-            r"^/v2/pet/findByTags$",
-            r"^/v2/pet/(?P<petId>[^/?#]*)$",
-            r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$",
-            r"^/v2/store/inventory$",
-            r"^/v2/store/order$",
-            r"^/v2/store/order/(?P<order_id>[^/?#]*)$",
-            r"^/v2/user$",
-            r"^/v2/user/createWithArray$",
-            r"^/v2/user/createWithList$",
-            r"^/v2/user/login$",
-            r"^/v2/user/logout$",
-            r"^/v2/user/(?P<username>[^/?#]*)$"
+            format!(r"^{}/another-fake/dummy$", *BASE_PATH),
+            format!(r"^{}/fake$", *BASE_PATH),
+            format!(r"^{}/fake/body-with-query-params$", *BASE_PATH),
+            format!(r"^{}/fake/inline-additionalProperties$", *BASE_PATH),
+            format!(r"^{}/fake/jsonFormData$", *BASE_PATH),
+            format!(r"^{}/fake/outer/boolean$", *BASE_PATH),
+            format!(r"^{}/fake/outer/composite$", *BASE_PATH),
+            format!(r"^{}/fake/outer/number$", *BASE_PATH),
+            format!(r"^{}/fake/outer/string$", *BASE_PATH),
+            format!(r"^{}/fake_classname_test$", *BASE_PATH),
+            format!(r"^{}/pet$", *BASE_PATH),
+            format!(r"^{}/pet/findByStatus$", *BASE_PATH),
+            format!(r"^{}/pet/findByTags$", *BASE_PATH),
+            format!(r"^{}/pet/(?P<petId>[^/?#]*)$", *BASE_PATH),
+            format!(r"^{}/pet/(?P<petId>[^/?#]*)/uploadImage$", *BASE_PATH),
+            format!(r"^{}/store/inventory$", *BASE_PATH),
+            format!(r"^{}/store/order$", *BASE_PATH),
+            format!(r"^{}/store/order/(?P<order_id>[^/?#]*)$", *BASE_PATH),
+            format!(r"^{}/user$", *BASE_PATH),
+            format!(r"^{}/user/createWithArray$", *BASE_PATH),
+            format!(r"^{}/user/createWithList$", *BASE_PATH),
+            format!(r"^{}/user/login$", *BASE_PATH),
+            format!(r"^{}/user/logout$", *BASE_PATH),
+            format!(r"^{}/user/(?P<username>[^/?#]*)$", *BASE_PATH),
         ]).unwrap();
     }
     pub static ID_ANOTHER_FAKE_DUMMY: usize = 0;
@@ -123,17 +125,17 @@ mod paths {
     pub static ID_PET_FINDBYTAGS: usize = 12;
     pub static ID_PET_PETID: usize = 13;
     lazy_static! {
-        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)$").unwrap();
+        pub static ref REGEX_PET_PETID: regex::Regex = regex::Regex::new(&format!(r"^{}/pet/(?P<petId>[^/?#]*)$", *BASE_PATH),).unwrap();
     }
     pub static ID_PET_PETID_UPLOADIMAGE: usize = 14;
     lazy_static! {
-        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(r"^/v2/pet/(?P<petId>[^/?#]*)/uploadImage$").unwrap();
+        pub static ref REGEX_PET_PETID_UPLOADIMAGE: regex::Regex = regex::Regex::new(&format!(r"^{}/pet/(?P<petId>[^/?#]*)/uploadImage$", *BASE_PATH),).unwrap();
     }
     pub static ID_STORE_INVENTORY: usize = 15;
     pub static ID_STORE_ORDER: usize = 16;
     pub static ID_STORE_ORDER_ORDER_ID: usize = 17;
     lazy_static! {
-        pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex = regex::Regex::new(r"^/v2/store/order/(?P<order_id>[^/?#]*)$").unwrap();
+        pub static ref REGEX_STORE_ORDER_ORDER_ID: regex::Regex = regex::Regex::new(&format!(r"^{}/store/order/(?P<order_id>[^/?#]*)$", *BASE_PATH),).unwrap();
     }
     pub static ID_USER: usize = 18;
     pub static ID_USER_CREATEWITHARRAY: usize = 19;
@@ -142,7 +144,7 @@ mod paths {
     pub static ID_USER_LOGOUT: usize = 22;
     pub static ID_USER_USERNAME: usize = 23;
     lazy_static! {
-        pub static ref REGEX_USER_USERNAME: regex::Regex = regex::Regex::new(r"^/v2/user/(?P<username>[^/?#]*)$").unwrap();
+        pub static ref REGEX_USER_USERNAME: regex::Regex = regex::Regex::new(&format!(r"^{}/user/(?P<username>[^/?#]*)$", *BASE_PATH),).unwrap();
     }
 }
 

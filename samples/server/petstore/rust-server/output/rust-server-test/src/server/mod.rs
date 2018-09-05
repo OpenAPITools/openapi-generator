@@ -49,9 +49,11 @@ header! { (Warning, "Warning") => [String] }
 mod paths {
     extern crate regex;
 
+    use BASE_PATH;
+
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
-            r"^//dummy$"
+            format!(r"^{}/dummy$", *BASE_PATH),
         ]).unwrap();
     }
     pub static ID_DUMMY: usize = 0;

@@ -49,10 +49,12 @@ header! { (Warning, "Warning") => [String] }
 mod paths {
     extern crate regex;
 
+    use BASE_PATH;
+
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
 {{#pathSet}}
-            r"^{{{basePathWithoutHost}}}{{{pathRegEx}}}"{{^-last}},{{/-last}}
+            format!(r"^{}{{{pathRegEx}}}", *BASE_PATH),
 {{/pathSet}}
         ]).unwrap();
     }
@@ -60,7 +62,7 @@ mod paths {
     pub static ID_{{{PATH_ID}}}: usize = {{{index}}};
 {{#hasPathParams}}
     lazy_static! {
-        pub static ref REGEX_{{{PATH_ID}}}: regex::Regex = regex::Regex::new(r"^{{{basePathWithoutHost}}}{{{pathRegEx}}}").unwrap();
+        pub static ref REGEX_{{{PATH_ID}}}: regex::Regex = regex::Regex::new(&format!(r"^{}{{{pathRegEx}}}", *BASE_PATH),).unwrap();
     }
 {{/hasPathParams}}
 {{/pathSet}}

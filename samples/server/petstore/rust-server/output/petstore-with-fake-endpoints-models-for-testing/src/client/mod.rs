@@ -1,44 +1,39 @@
 #![allow(unused_extern_crates)]
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
 extern crate chrono;
-extern crate url;
+extern crate hyper_tls;
+extern crate mime;
+extern crate native_tls;
+extern crate openssl;
 extern crate serde_urlencoded;
+extern crate tokio_core;
+extern crate url;
 
-
-use hyper;
-use hyper::header::{Headers, ContentType};
-use hyper::Uri;
+use self::tokio_core::reactor::Handle;
 use self::url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 use futures;
-use futures::{Future, Stream};
 use futures::{future, stream};
-use self::tokio_core::reactor::Handle;
-use std::borrow::Cow;
-use std::io::{Read, Error, ErrorKind};
-use std::error;
-use std::fmt;
-use std::path::Path;
-use std::sync::Arc;
-use std::str;
-use std::str::FromStr;
-
+use futures::{Future, Stream};
+use hyper;
+use hyper::header::{ContentType, Headers};
+use hyper::Uri;
 use mimetypes;
-
 use serde_json;
 use serde_xml_rs;
-
 #[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
+use swagger::{self, ApiError, XSpanId, XSpanIdString, Has, AuthData};
+use std::borrow::Cow;
 #[allow(unused_imports)]
-use swagger;
+use std::collections::{BTreeMap, HashMap};
+use std::error;
+use std::fmt;
+use std::io::{Error, ErrorKind, Read};
+use std::path::Path;
+use std::str;
+use std::str::FromStr;
+use std::sync::Arc;
 
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
-
-use {Api,
+use {BASE_PATH,
+     Api,
      TestSpecialTagsResponse,
      FakeOuterBooleanSerializeResponse,
      FakeOuterCompositeSerializeResponse,
@@ -82,9 +77,9 @@ define_encode_set! {
     pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
 }
 
-/// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
-fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
-    // First convert to Uri, since a base path is a subset of Uri.
+/// Convert input into a base URL, e.g. "http://example:123". Also checks the scheme as it goes.
+fn into_base_url(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
+    // First convert to Uri, since a base URL is a subset of Uri.
     let uri = Uri::from_str(input)?;
 
     let scheme = uri.scheme().ok_or(ClientInitError::InvalidScheme)?;
@@ -105,13 +100,13 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 pub struct Client<F> where
   F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
     client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
-    base_path: String,
+    base_url: String,
 }
 
 impl<F> fmt::Debug for Client<F> where
    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Client {{ base_path: {} }}", self.base_path)
+        write!(f, "Client {{ base_url: {} }}", self.base_url)
     }
 }
 
@@ -120,7 +115,7 @@ impl<F> Clone for Client<F> where
     fn clone(&self) -> Self {
         Client {
             client_service: self.client_service.clone(),
-            base_path: self.base_path.clone()
+            base_url: self.base_url.clone()
         }
     }
 }
@@ -131,12 +126,12 @@ impl Client<hyper::client::FutureResponse> {
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
-    pub fn try_new_http(handle: Handle, base_path: &str) -> Result<Client<hyper::client::FutureResponse>, ClientInitError> {
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
+    pub fn try_new_http(handle: Handle, base_url: &str) -> Result<Client<hyper::client::FutureResponse>, ClientInitError> {
         let http_connector = swagger::http_connector();
         Self::try_new_with_connector::<hyper::client::HttpConnector>(
             handle,
-            base_path,
+            base_url,
             Some("http"),
             http_connector,
         )
@@ -146,11 +141,11 @@ impl Client<hyper::client::FutureResponse> {
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     pub fn try_new_https<CA>(
         handle: Handle,
-        base_path: &str,
+        base_url: &str,
         ca_certificate: CA,
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
@@ -159,7 +154,7 @@ impl Client<hyper::client::FutureResponse> {
         let https_connector = swagger::https_connector(ca_certificate);
         Self::try_new_with_connector::<hyper_tls::HttpsConnector<hyper::client::HttpConnector>>(
             handle,
-            base_path,
+            base_url,
             Some("https"),
             https_connector,
         )
@@ -169,13 +164,13 @@ impl Client<hyper::client::FutureResponse> {
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
     pub fn try_new_https_mutual<CA, K, C>(
         handle: Handle,
-        base_path: &str,
+        base_url: &str,
         ca_certificate: CA,
         client_key: K,
         client_certificate: C,
@@ -189,7 +184,7 @@ impl Client<hyper::client::FutureResponse> {
             swagger::https_mutual_connector(ca_certificate, client_key, client_certificate);
         Self::try_new_with_connector::<hyper_tls::HttpsConnector<hyper::client::HttpConnector>>(
             handle,
-            base_path,
+            base_url,
             Some("https"),
             https_connector,
         )
@@ -208,12 +203,12 @@ impl Client<hyper::client::FutureResponse> {
     /// # Arguments
     ///
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
     /// * `connector_fn` - Function which returns an implementation of `hyper::client::Connect`
     pub fn try_new_with_connector<C>(
         handle: Handle,
-        base_path: &str,
+        base_url: &str,
         protocol: Option<&'static str>,
         connector_fn: Box<Fn(&Handle) -> C + Send + Sync>,
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
@@ -227,7 +222,7 @@ impl Client<hyper::client::FutureResponse> {
 
         Ok(Client {
             client_service: Arc::new(client_service),
-            base_path: into_base_path(base_path, protocol)?,
+            base_url: into_base_url(base_url, protocol)?,
         })
     }
 
@@ -244,12 +239,12 @@ impl Client<hyper::client::FutureResponse> {
     pub fn try_new_with_hyper_client(
         hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
         handle: Handle,
-        base_path: &str
+        base_url: &str
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     {
         Ok(Client {
             client_service: hyper_client,
-            base_path: into_base_path(base_path, None)?,
+            base_url: into_base_url(base_url, None)?,
         })
     }
 }
@@ -262,12 +257,12 @@ impl<F> Client<F> where
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
     pub fn try_new_with_client_service(client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
                                        handle: Handle,
-                                       base_path: &str)
+                                       base_url: &str)
                                     -> Result<Client<F>, ClientInitError>
     {
         Ok(Client {
             client_service: client_service,
-            base_path: into_base_path(base_path, None)?,
+            base_url: into_base_url(base_url, None)?,
         })
     }
 }
@@ -280,8 +275,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         let uri = format!(
-            "{}/v2/another-fake/dummy",
-            self.base_path
+            "{host}{base_path}/another-fake/dummy",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -355,8 +351,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         let uri = format!(
-            "{}/v2/fake/outer/boolean",
-            self.base_path
+            "{host}{base_path}/fake/outer/boolean",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -432,8 +429,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/outer/composite",
-            self.base_path
+            "{host}{base_path}/fake/outer/composite",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -507,8 +505,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/outer/number",
-            self.base_path
+            "{host}{base_path}/fake/outer/number",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -582,8 +581,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/outer/string",
-            self.base_path
+            "{host}{base_path}/fake/outer/string",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -660,8 +660,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/body-with-query-params?{query}",
-            self.base_path,
+            "{host}{base_path}/fake/body-with-query-params?{query}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
             query=utf8_percent_encode(&query_query, QUERY_ENCODE_SET)
         );
 
@@ -724,8 +725,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake",
-            self.base_path
+            "{host}{base_path}/fake",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -797,8 +799,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake",
-            self.base_path
+            "{host}{base_path}/fake",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -894,8 +897,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake?{enum_query_string_array}{enum_query_string}{enum_query_integer}{enum_query_double}",
-            self.base_path,
+            "{host}{base_path}/fake?{enum_query_string_array}{enum_query_string}{enum_query_integer}{enum_query_double}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
             enum_query_string_array=utf8_percent_encode(&query_enum_query_string_array, QUERY_ENCODE_SET),
             enum_query_string=utf8_percent_encode(&query_enum_query_string, QUERY_ENCODE_SET),
             enum_query_integer=utf8_percent_encode(&query_enum_query_integer, QUERY_ENCODE_SET),
@@ -976,8 +980,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/inline-additionalProperties",
-            self.base_path
+            "{host}{base_path}/fake/inline-additionalProperties",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1039,8 +1044,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake/jsonFormData",
-            self.base_path
+            "{host}{base_path}/fake/jsonFormData",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1103,8 +1109,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/fake_classname_test",
-            self.base_path
+            "{host}{base_path}/fake_classname_test",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1178,8 +1185,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet",
-            self.base_path
+            "{host}{base_path}/pet",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1243,8 +1251,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1307,8 +1317,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/findByStatus?{status}",
-            self.base_path,
+            "{host}{base_path}/pet/findByStatus?{status}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
             status=utf8_percent_encode(&query_status, QUERY_ENCODE_SET)
         );
 
@@ -1389,8 +1400,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/findByTags?{tags}",
-            self.base_path,
+            "{host}{base_path}/pet/findByTags?{tags}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
             tags=utf8_percent_encode(&query_tags, QUERY_ENCODE_SET)
         );
 
@@ -1468,8 +1480,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1555,8 +1569,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet",
-            self.base_path
+            "{host}{base_path}/pet",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1636,8 +1651,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1700,8 +1717,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/pet/{petId}/uploadImage",
-            self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/pet/{petId}/uploadImage",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1774,8 +1793,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/order/{order_id}",
-            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/store/order/{order_id}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1840,8 +1861,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/inventory",
-            self.base_path
+            "{host}{base_path}/store/inventory",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1907,8 +1929,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/order/{order_id}",
-            self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/store/order/{order_id}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -1994,8 +2018,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/store/order",
-            self.base_path
+            "{host}{base_path}/store/order",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2078,8 +2103,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user",
-            self.base_path
+            "{host}{base_path}/user",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2143,8 +2169,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/createWithArray",
-            self.base_path
+            "{host}{base_path}/user/createWithArray",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2206,8 +2233,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/createWithList",
-            self.base_path
+            "{host}{base_path}/user/createWithList",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2269,8 +2297,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/user/{username}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2335,8 +2365,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/user/{username}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2426,8 +2458,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/login?{username}{password}",
-            self.base_path,
+            "{host}{base_path}/user/login?{username}{password}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
             username=utf8_percent_encode(&query_username, QUERY_ENCODE_SET),
             password=utf8_percent_encode(&query_password, QUERY_ENCODE_SET)
         );
@@ -2516,8 +2549,9 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/logout",
-            self.base_path
+            "{host}{base_path}/user/logout",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
@@ -2573,8 +2607,10 @@ if let Some(body) = body {
 
 
         let uri = format!(
-            "{}/v2/user/{username}",
-            self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
+            "{host}{base_path}/user/{username}",
+            host=self.base_url,
+            base_path=*BASE_PATH,
+            username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
 
         let uri = match Uri::from_str(&uri) {

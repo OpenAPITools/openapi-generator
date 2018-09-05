@@ -1,44 +1,37 @@
 #![allow(unused_extern_crates)]
-extern crate tokio_core;
-extern crate native_tls;
-extern crate hyper_tls;
-extern crate openssl;
-extern crate mime;
 extern crate chrono;
+extern crate hyper_tls;
+extern crate mime;
+extern crate native_tls;
+extern crate openssl;
+extern crate tokio_core;
 extern crate url;
 
-
-
-use hyper;
-use hyper::header::{Headers, ContentType};
-use hyper::Uri;
+use self::tokio_core::reactor::Handle;
 use self::url::percent_encoding::{utf8_percent_encode, PATH_SEGMENT_ENCODE_SET, QUERY_ENCODE_SET};
 use futures;
-use futures::{Future, Stream};
 use futures::{future, stream};
-use self::tokio_core::reactor::Handle;
+use futures::{Future, Stream};
+use hyper;
+use hyper::header::{ContentType, Headers};
+use hyper::Uri;
+use mimetypes;
+use serde_json;
+#[allow(unused_imports)]
+use swagger::{self, ApiError, XSpanId, XSpanIdString, Has, AuthData};
 use std::borrow::Cow;
-use std::io::{Read, Error, ErrorKind};
+#[allow(unused_imports)]
+use std::collections::{BTreeMap, HashMap};
 use std::error;
 use std::fmt;
+use std::io::{Error, ErrorKind, Read};
 use std::path::Path;
-use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
+use std::sync::Arc;
 
-use mimetypes;
-
-use serde_json;
-
-
-#[allow(unused_imports)]
-use std::collections::{HashMap, BTreeMap};
-#[allow(unused_imports)]
-use swagger;
-
-use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
-
-use {Api,
+use {BASE_PATH,
+     Api,
      DummyGetResponse
      };
 use models;
@@ -51,9 +44,9 @@ define_encode_set! {
     pub ID_ENCODE_SET = [PATH_SEGMENT_ENCODE_SET] | {'|'}
 }
 
-/// Convert input into a base path, e.g. "http://example:123". Also checks the scheme as it goes.
-fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
-    // First convert to Uri, since a base path is a subset of Uri.
+/// Convert input into a base URL, e.g. "http://example:123". Also checks the scheme as it goes.
+fn into_base_url(input: &str, correct_scheme: Option<&'static str>) -> Result<String, ClientInitError> {
+    // First convert to Uri, since a base URL is a subset of Uri.
     let uri = Uri::from_str(input)?;
 
     let scheme = uri.scheme().ok_or(ClientInitError::InvalidScheme)?;
@@ -74,13 +67,13 @@ fn into_base_path(input: &str, correct_scheme: Option<&'static str>) -> Result<S
 pub struct Client<F> where
   F: Future<Item=hyper::Response, Error=hyper::Error> + 'static {
     client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
-    base_path: String,
+    base_url: String,
 }
 
 impl<F> fmt::Debug for Client<F> where
    F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Client {{ base_path: {} }}", self.base_path)
+        write!(f, "Client {{ base_url: {} }}", self.base_url)
     }
 }
 
@@ -89,7 +82,7 @@ impl<F> Clone for Client<F> where
     fn clone(&self) -> Self {
         Client {
             client_service: self.client_service.clone(),
-            base_path: self.base_path.clone()
+            base_url: self.base_url.clone()
         }
     }
 }
@@ -100,12 +93,12 @@ impl Client<hyper::client::FutureResponse> {
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
-    pub fn try_new_http(handle: Handle, base_path: &str) -> Result<Client<hyper::client::FutureResponse>, ClientInitError> {
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
+    pub fn try_new_http(handle: Handle, base_url: &str) -> Result<Client<hyper::client::FutureResponse>, ClientInitError> {
         let http_connector = swagger::http_connector();
         Self::try_new_with_connector::<hyper::client::HttpConnector>(
             handle,
-            base_path,
+            base_url,
             Some("http"),
             http_connector,
         )
@@ -115,11 +108,11 @@ impl Client<hyper::client::FutureResponse> {
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     pub fn try_new_https<CA>(
         handle: Handle,
-        base_path: &str,
+        base_url: &str,
         ca_certificate: CA,
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     where
@@ -128,7 +121,7 @@ impl Client<hyper::client::FutureResponse> {
         let https_connector = swagger::https_connector(ca_certificate);
         Self::try_new_with_connector::<hyper_tls::HttpsConnector<hyper::client::HttpConnector>>(
             handle,
-            base_path,
+            base_url,
             Some("https"),
             https_connector,
         )
@@ -138,13 +131,13 @@ impl Client<hyper::client::FutureResponse> {
     ///
     /// # Arguments
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
     /// * `ca_certificate` - Path to CA certificate used to authenticate the server
     /// * `client_key` - Path to the client private key
     /// * `client_certificate` - Path to the client's public certificate associated with the private key
     pub fn try_new_https_mutual<CA, K, C>(
         handle: Handle,
-        base_path: &str,
+        base_url: &str,
         ca_certificate: CA,
         client_key: K,
         client_certificate: C,
@@ -158,7 +151,7 @@ impl Client<hyper::client::FutureResponse> {
             swagger::https_mutual_connector(ca_certificate, client_key, client_certificate);
         Self::try_new_with_connector::<hyper_tls::HttpsConnector<hyper::client::HttpConnector>>(
             handle,
-            base_path,
+            base_url,
             Some("https"),
             https_connector,
         )
@@ -177,12 +170,12 @@ impl Client<hyper::client::FutureResponse> {
     /// # Arguments
     ///
     /// * `handle` - tokio reactor handle to use for execution
-    /// * `base_path` - base path of the client API, i.e. "www.my-api-implementation.com"
+    /// * `base_url` - base URL of the client API, i.e. "www.my-api-implementation.com"
     /// * `protocol` - Which protocol to use when constructing the request url, e.g. `Some("http")`
     /// * `connector_fn` - Function which returns an implementation of `hyper::client::Connect`
     pub fn try_new_with_connector<C>(
         handle: Handle,
-        base_path: &str,
+        base_url: &str,
         protocol: Option<&'static str>,
         connector_fn: Box<Fn(&Handle) -> C + Send + Sync>,
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
@@ -196,7 +189,7 @@ impl Client<hyper::client::FutureResponse> {
 
         Ok(Client {
             client_service: Arc::new(client_service),
-            base_path: into_base_path(base_path, protocol)?,
+            base_url: into_base_url(base_url, protocol)?,
         })
     }
 
@@ -213,12 +206,12 @@ impl Client<hyper::client::FutureResponse> {
     pub fn try_new_with_hyper_client(
         hyper_client: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=hyper::client::FutureResponse>>>,
         handle: Handle,
-        base_path: &str
+        base_url: &str
     ) -> Result<Client<hyper::client::FutureResponse>, ClientInitError>
     {
         Ok(Client {
             client_service: hyper_client,
-            base_path: into_base_path(base_path, None)?,
+            base_url: into_base_url(base_url, None)?,
         })
     }
 }
@@ -231,12 +224,12 @@ impl<F> Client<F> where
     /// This allows adding custom wrappers around the underlying transport, for example for logging.
     pub fn try_new_with_client_service(client_service: Arc<Box<hyper::client::Service<Request=hyper::Request<hyper::Body>, Response=hyper::Response, Error=hyper::Error, Future=F>>>,
                                        handle: Handle,
-                                       base_path: &str)
+                                       base_url: &str)
                                     -> Result<Client<F>, ClientInitError>
     {
         Ok(Client {
             client_service: client_service,
-            base_path: into_base_path(base_path, None)?,
+            base_url: into_base_url(base_url, None)?,
         })
     }
 }
@@ -249,8 +242,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         let uri = format!(
-            "{}//dummy",
-            self.base_path
+            "{host}{base_path}/dummy",
+            host=self.base_url,
+            base_path=*BASE_PATH
         );
 
         let uri = match Uri::from_str(&uri) {
