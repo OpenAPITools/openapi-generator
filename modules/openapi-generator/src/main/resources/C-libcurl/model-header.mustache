@@ -12,10 +12,21 @@
 #include "{{{.}}}.h"
 {{/imports}}
 
-typedef struct {{classname}}_t{
+typedef struct {{classname}}_t {
 	{{#vars}}
-	{{dataType}} {{#isContainer}}{{#items}}*{{/items}}{{/isContainer}}{{name}};
+	{{#isPrimitiveType}}
+	{{#isString}}
+	{{dataType}} *{{name}};
+	{{/isString}}
+	{{^isString}} 
+	{{dataType}} {{name}}; //TODO can be modified for numeric in mustache
+	{{/isString}}
+	{{/isPrimitiveType}}
+	{{^isPrimitiveType}}
+	{{{dataType}}}_t {{#isContainer}}{{#items}}*{{/items}}{{/isContainer}}{{name}};
+	{{/isPrimitiveType}}
 	{{/vars}}
+	
 } {{classname}}_t;
 
 {{classname}}_t *{{classname}}_create(
@@ -25,6 +36,8 @@ typedef struct {{classname}}_t{
 		);
 		
 void {{classname}}_free({{classname}}_t *{{classname}});
+
+{{classname}}_t *{{classname}}_parseFromJSON(char *jsonString)
 
 cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}});
 
