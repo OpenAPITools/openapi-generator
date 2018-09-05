@@ -616,4 +616,99 @@ sub upload_file {
     return $_response_object;
 }
 
+#
+# upload_file_with_required_file
+#
+# uploads an image (required)
+# 
+# @param int $pet_id ID of pet to update (required)
+# @param string $required_file file to upload (required)
+# @param string $additional_metadata Additional data to pass to server (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'ID of pet to update',
+        required => '1',
+    },
+    'required_file' => {
+        data_type => 'string',
+        description => 'file to upload',
+        required => '1',
+    },
+    'additional_metadata' => {
+        data_type => 'string',
+        description => 'Additional data to pass to server',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'upload_file_with_required_file' } = { 
+    	summary => 'uploads an image (required)',
+        params => $params,
+        returns => 'ApiResponse',
+        };
+}
+# @return ApiResponse
+#
+sub upload_file_with_required_file {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling upload_file_with_required_file");
+    }
+
+    # verify the required parameter 'required_file' is set
+    unless (exists $args{'required_file'}) {
+      croak("Missing the required parameter 'required_file' when calling upload_file_with_required_file");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/{petId}/uploadImageWithRequiredFile';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('multipart/form-data');
+
+    # path params
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+
+    # form params
+    if ( exists $args{'additional_metadata'} ) {
+                $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
+    }
+    
+    # form params
+    if ( exists $args{'required_file'} ) {
+        $form_params->{'requiredFile'} = [] unless defined $form_params->{'requiredFile'};
+        push @{$form_params->{'requiredFile'}}, $args{'required_file'};
+            }
+    
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw(petstore_auth )];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('ApiResponse', $response);
+    return $_response_object;
+}
+
 1;

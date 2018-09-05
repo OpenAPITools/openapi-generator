@@ -30,6 +30,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
+use WWW::OpenAPIClient::Object::StringBooleanMap;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -157,16 +158,34 @@ __PACKAGE__->method_documentation({
     	format => '',
     	read_only => '',
     		},
+    'direct_map' => {
+    	datatype => 'HASH[string,boolean]',
+    	base_name => 'direct_map',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
+    'indirect_map' => {
+    	datatype => 'StringBooleanMap',
+    	base_name => 'indirect_map',
+    	description => '',
+    	format => '',
+    	read_only => '',
+    		},
 });
 
 __PACKAGE__->openapi_types( {
     'map_map_of_string' => 'HASH[string,HASH[string,string]]',
-    'map_of_enum_string' => 'HASH[string,string]'
+    'map_of_enum_string' => 'HASH[string,string]',
+    'direct_map' => 'HASH[string,boolean]',
+    'indirect_map' => 'StringBooleanMap'
 } );
 
 __PACKAGE__->attribute_map( {
     'map_map_of_string' => 'map_map_of_string',
-    'map_of_enum_string' => 'map_of_enum_string'
+    'map_of_enum_string' => 'map_of_enum_string',
+    'direct_map' => 'direct_map',
+    'indirect_map' => 'indirect_map'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

@@ -289,6 +289,67 @@ sub fake_outer_string_serialize {
 }
 
 #
+# test_body_with_file_schema
+#
+# 
+# 
+# @param FileSchemaTestClass $file_schema_test_class  (required)
+{
+    my $params = {
+    'file_schema_test_class' => {
+        data_type => 'FileSchemaTestClass',
+        description => '',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_body_with_file_schema' } = { 
+    	summary => '',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_body_with_file_schema {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'file_schema_test_class' is set
+    unless (exists $args{'file_schema_test_class'}) {
+      croak("Missing the required parameter 'file_schema_test_class' when calling test_body_with_file_schema");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/body-with-file-schema';
+
+    my $_method = 'PUT';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'file_schema_test_class'}) {
+        $_body_data = $args{'file_schema_test_class'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
 # test_body_with_query_params
 #
 # 

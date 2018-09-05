@@ -32,7 +32,7 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
-
+import org.apache.commons.io.FilenameUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
@@ -132,6 +132,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("PERLTIDY_PATH"))) {
+            LOGGER.info("Environment variable PERLTIDY_PATH not defined so the Perl code may not be properly formatted. To define it, try 'export PERLTIDY_PATH=/usr/local/bin/perltidy' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(MODULE_VERSION)) {
             setModuleVersion((String) additionalProperties.get(MODULE_VERSION));
@@ -559,5 +563,33 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String escapeUnsafeCharacters(String input) {
         // remove =end, =cut to avoid code injection
         return input.replace("=begin", "=_begin").replace("=end", "=_end").replace("=cut", "=_cut").replace("=pod", "=_pod");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String perlTidyPath = System.getenv("PERLTIDY_PATH");
+        if (StringUtils.isEmpty(perlTidyPath)) {
+            return; // skip if PERLTIDY_PATH env variable is not defined
+        }
+
+        // only process files with .t, .pm extension
+        if ("t".equals(FilenameUtils.getExtension(file.toString())) ||
+                "pm".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = perlTidyPath + " -b " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
     }
 }

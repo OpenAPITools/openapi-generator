@@ -49,7 +49,7 @@ sub new {
 
 
 #
-# test_special_tags
+# call_123_test_special_tags
 #
 # To test special tags
 # 
@@ -62,7 +62,7 @@ sub new {
         required => '1',
     },
     };
-    __PACKAGE__->method_documentation->{ 'test_special_tags' } = { 
+    __PACKAGE__->method_documentation->{ 'call_123_test_special_tags' } = { 
     	summary => 'To test special tags',
         params => $params,
         returns => 'Client',
@@ -70,12 +70,12 @@ sub new {
 }
 # @return Client
 #
-sub test_special_tags {
+sub call_123_test_special_tags {
     my ($self, %args) = @_;
 
     # verify the required parameter 'client' is set
     unless (exists $args{'client'}) {
-      croak("Missing the required parameter 'client' when calling test_special_tags");
+      croak("Missing the required parameter 'client' when calling call_123_test_special_tags");
     }
 
     # parse inputs
