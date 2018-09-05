@@ -4700,6 +4700,6 @@ public class DefaultCodegen implements CodegenConfig {
      * @param fileType file type
      */
     public void postProcessFile(File file, String fileType) {
-        LOGGER.info("Post processing file {} ({})", file, fileType);
+        LOGGER.debug("Post processing file {} ({})", file, fileType);
     }
 }
