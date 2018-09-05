@@ -27,7 +27,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUser
      */
-    default ResponseEntity<Void> createUser( User  user) {
+    default ResponseEntity<Void> createUser(User user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -35,7 +35,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    default ResponseEntity<Void> createUsersWithArrayInput( List<User>  user) {
+    default ResponseEntity<Void> createUsersWithArrayInput(List<User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -43,7 +43,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    default ResponseEntity<Void> createUsersWithListInput( List<User>  user) {
+    default ResponseEntity<Void> createUsersWithListInput(List<User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -51,7 +51,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#deleteUser
      */
-    default ResponseEntity<Void> deleteUser( String  username) {
+    default ResponseEntity<Void> deleteUser(String username) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -59,7 +59,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#getUserByName
      */
-    default ResponseEntity<User> getUserByName( String  username) {
+    default ResponseEntity<User> getUserByName(String username) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -79,8 +79,8 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#loginUser
      */
-    default ResponseEntity<String> loginUser( String  username,
-         String  password) {
+    default ResponseEntity<String> loginUser(String username,
+        String password) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -96,8 +96,8 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#updateUser
      */
-    default ResponseEntity<Void> updateUser( String  username,
-         User  user) {
+    default ResponseEntity<Void> updateUser(String username,
+        User user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
