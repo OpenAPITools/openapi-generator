@@ -137,7 +137,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         super();
 
         if (StringUtils.isEmpty(System.getenv("HFMT_PATH"))) {
-            LOGGER.info("Environment variable HFMT_PATH not defined so the Haskell code may not be properly formatted. To define it, try 'export HFMT_PATH=/usr/local/bin/hfmt' (Linux/Mac)");
+            LOGGER.info("Environment variable HFMT_PATH not defined so the Haskell code may not be properly formatted. To define it, try 'export HFMT_PATH=$HOME/.local/bin/hfmt' (Linux/Mac)");
         }
 
         this.prependFormOrBodyParameters = true;
