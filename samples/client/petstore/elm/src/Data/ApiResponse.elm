@@ -35,7 +35,6 @@ apiResponseDecoder =
         |> optional "message" (Decode.nullable Decode.string) Nothing
 
 
-
 apiResponseEncoder : ApiResponse -> Encode.Value
 apiResponseEncoder model =
     Encode.object
@@ -43,4 +42,3 @@ apiResponseEncoder model =
         , ( "type", withDefault Encode.null (map Encode.string model.type_) )
         , ( "message", withDefault Encode.null (map Encode.string model.message) )
         ]
-

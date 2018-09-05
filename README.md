@@ -637,7 +637,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Dart      | @ircecho (2017/07) @swipesight (2018/09) |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    |  |
-| Elm       |  |
+| Elm       | @trenneman (2018/09) |
 | Erlang    | @tsloughter (2017/11) |
 | Go        | @antihax (2017/11) @bvwells (2017/12) @grokify (2018/07) |
 | Groovy    |  |
