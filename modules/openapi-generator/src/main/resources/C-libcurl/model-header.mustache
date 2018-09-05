@@ -11,17 +11,22 @@
 {{#imports}}
 #include "{{{.}}}.h"
 {{/imports}}
-{{/model}}{{/models}}
 
+typedef struct {{classname}}_t{
+	{{#vars}}
+	{{dataType}} {{#isContainer}}{{#items}}*{{/items}}{{/isContainer}}{{name}};
+	{{/vars}}
+} {{classname}}_t;
 
 {{classname}}_t *{{classname}}_create(
 		{{#vars}}
 		{{{dataType}}}		*{{{baseName}}}{{#hasMore}},{{/hasMore}}
 		{{/vars}}
-		)
+		);
 		
-void {{classname}}_free({{classname}}_t *{{classname}})
+void {{classname}}_free({{classname}}_t *{{classname}});
 
-cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) 
+cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}});
 
 #endif /* _{{classname}}_H_ */
+{{/model}}{{/models}}
