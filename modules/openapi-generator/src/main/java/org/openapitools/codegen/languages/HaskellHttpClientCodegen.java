@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -134,6 +135,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     public HaskellHttpClientCodegen() {
         super();
+
+        if (StringUtils.isEmpty(System.getenv("HFMT_PATH"))) {
+            LOGGER.info("Environment variable HFMT_PATH not defined so the Haskell code may not be properly formatted. To define it, try 'export HFMT_PATH=/usr/local/bin/hfmt' (Linux/Mac)");
+        }
 
         this.prependFormOrBodyParameters = true;
 
@@ -1344,5 +1349,31 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+         String hfmtPath = System.getenv("HFMT_PATH");
+        if (StringUtils.isEmpty(hfmtPath)) {
+            return; // skip if HFMT_PATH env variable is not defined
+        }
+
+        // only process files with hs extension
+        if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = hfmtPath + " -w " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
     }
 }
