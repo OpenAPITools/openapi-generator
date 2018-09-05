@@ -1,3 +1,4 @@
+
 =begin comment
 
 OpenAPI Petstore
@@ -22,7 +23,7 @@ package WWW::OpenAPIClient::AnotherFakeApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -31,15 +32,16 @@ use WWW::OpenAPIClient::ApiClient;
 
 use base "Class::Data::Inheritable";
 
-__PACKAGE__->mk_classdata('method_documentation' => {});
+__PACKAGE__->mk_classdata( 'method_documentation' => {} );
 
 sub new {
     my $class = shift;
     my $api_client;
 
-    if ($_[0] && ref $_[0] && ref $_[0] eq 'WWW::OpenAPIClient::ApiClient' ) {
+    if ( $_[0] && ref $_[0] && ref $_[0] eq 'WWW::OpenAPIClient::ApiClient' ) {
         $api_client = $_[0];
-    } else {
+    }
+    else {
         $api_client = WWW::OpenAPIClient::ApiClient->new(@_);
     }
 
@@ -47,55 +49,60 @@ sub new {
 
 }
 
-
 #
 # call_123_test_special_tags
 #
 # To test special tags
-# 
+#
 # @param Client $client client model (required)
 {
     my $params = {
-    'client' => {
-        data_type => 'Client',
-        description => 'client model',
-        required => '1',
-    },
+        'client' => {
+            data_type   => 'Client',
+            description => 'client model',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'call_123_test_special_tags' } = { 
-    	summary => 'To test special tags',
-        params => $params,
+    __PACKAGE__->method_documentation->{'call_123_test_special_tags'} = {
+        summary => 'To test special tags',
+        params  => $params,
         returns => 'Client',
-        };
+    };
 }
+
 # @return Client
 #
 sub call_123_test_special_tags {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'client' is set
-    unless (exists $args{'client'}) {
-      croak("Missing the required parameter 'client' when calling call_123_test_special_tags");
+    unless ( exists $args{'client'} ) {
+        croak(
+"Missing the required parameter 'client' when calling call_123_test_special_tags"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/another-fake/dummy';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type('application/json');
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'client'}) {
+    if ( exists $args{'client'} ) {
         $_body_data = $args{'client'};
     }
 
@@ -103,13 +110,15 @@ sub call_123_test_special_tags {
     my $auth_settings = [qw()];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('Client', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'Client', $response );
     return $_response_object;
 }
 

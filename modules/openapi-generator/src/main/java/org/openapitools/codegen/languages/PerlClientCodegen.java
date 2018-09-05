@@ -578,7 +578,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // only process files with .t, .pm extension
         if ("t".equals(FilenameUtils.getExtension(file.toString())) ||
-                "pm".equals(FilenameUtils.getExtension(file.toString()))) {
+                "pm".equals(FilenameUtils.getExtension(file.toString())) ||
+                "pl".equals(FilenameUtils.getExtension(file.toString()))) {
             String command = perlTidyPath + " -b " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
