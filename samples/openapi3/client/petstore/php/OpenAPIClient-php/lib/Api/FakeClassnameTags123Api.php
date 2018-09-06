@@ -154,9 +154,6 @@ class FakeClassnameTags123Api
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('\OpenAPI\Client\Model\Client' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -172,9 +169,6 @@ class FakeClassnameTags123Api
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -242,9 +236,6 @@ class FakeClassnameTags123Api
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [

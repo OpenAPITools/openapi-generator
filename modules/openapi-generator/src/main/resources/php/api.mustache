@@ -166,9 +166,6 @@ use {{invokerPackage}}\ObjectSerializer;
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('{{dataType}}' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -188,9 +185,6 @@ use {{invokerPackage}}\ObjectSerializer;
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -280,9 +274,6 @@ use {{invokerPackage}}\ObjectSerializer;
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [

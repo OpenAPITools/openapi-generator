@@ -376,9 +376,6 @@ class StoreApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('map[string,int]' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -394,9 +391,6 @@ class StoreApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -462,9 +456,6 @@ class StoreApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -645,9 +636,6 @@ class StoreApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('\OpenAPI\Client\Model\Order' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -663,9 +651,6 @@ class StoreApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -733,9 +718,6 @@ class StoreApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -933,9 +915,6 @@ class StoreApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('\OpenAPI\Client\Model\Order' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -951,9 +930,6 @@ class StoreApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -1021,9 +997,6 @@ class StoreApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
