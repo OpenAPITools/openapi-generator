@@ -1,3 +1,4 @@
+
 =begin comment
 
 OpenAPI Petstore
@@ -91,80 +92,81 @@ default: http://petstore.swagger.io:80/v2
 =cut
 
 sub new {
-	my ($self, %p) = (shift,@_);
+    my ( $self, %p ) = ( shift, @_ );
 
-	# class/static variables
-	$p{http_timeout} //= 180;
-	$p{http_user_agent} //= 'OpenAPI-Generator/1.0.0/perl';
+    # class/static variables
+    $p{http_timeout}    //= 180;
+    $p{http_user_agent} //= 'OpenAPI-Generator/1.0.0/perl';
 
-	# authentication setting
-	$p{api_key} //= {};
-	$p{api_key_prefix} //= {};
-	$p{api_key_in} //= {};
+    # authentication setting
+    $p{api_key}        //= {};
+    $p{api_key_prefix} //= {};
+    $p{api_key_in}     //= {};
 
-	# username and password for HTTP basic authentication
-	$p{username} //= '';
-	$p{password} //= '';
+    # username and password for HTTP basic authentication
+    $p{username} //= '';
+    $p{password} //= '';
 
-	# access token for OAuth
-	$p{access_token} //= '';
+    # access token for OAuth
+    $p{access_token} //= '';
 
-	# base_url
-        $p{base_url} //= 'http://petstore.swagger.io:80/v2';
+    # base_url
+    $p{base_url} //= 'http://petstore.swagger.io:80/v2';
 
-	return bless \%p => $self;
+    return bless \%p => $self;
 }
 
-
 sub get_tokens {
-	my $self = shift;
-	
-	my $tokens = {};
-	$tokens->{username} = $self->{username} if $self->{username};
-	$tokens->{password} = $self->{password} if $self->{password};
-	$tokens->{access_token} = $self->{access_token} if $self->{access_token};
-	
-	foreach my $token_name (keys %{ $self->{api_key} }) {
-		$tokens->{$token_name}->{token} = $self->{api_key}{$token_name};
-		$tokens->{$token_name}->{prefix} = $self->{api_key_prefix}{$token_name};
-		$tokens->{$token_name}->{in} = $self->{api_key_in}{$token_name};
-	}
+    my $self = shift;
 
-	return $tokens;
+    my $tokens = {};
+    $tokens->{username}     = $self->{username}     if $self->{username};
+    $tokens->{password}     = $self->{password}     if $self->{password};
+    $tokens->{access_token} = $self->{access_token} if $self->{access_token};
+
+    foreach my $token_name ( keys %{ $self->{api_key} } ) {
+        $tokens->{$token_name}->{token}  = $self->{api_key}{$token_name};
+        $tokens->{$token_name}->{prefix} = $self->{api_key_prefix}{$token_name};
+        $tokens->{$token_name}->{in}     = $self->{api_key_in}{$token_name};
+    }
+
+    return $tokens;
 }
 
 sub clear_tokens {
-	my $self = shift;
-	my %tokens = %{$self->get_tokens}; # copy
-	
-	$self->{username} = '';
-	$self->{password} = '';
-	$self->{access_token} = '';
+    my $self   = shift;
+    my %tokens = %{ $self->get_tokens };    # copy
 
-	$self->{api_key} = {};
-	$self->{api_key_prefix} = {};
-	$self->{api_key_in} = {};
-	
-	return \%tokens;
+    $self->{username}     = '';
+    $self->{password}     = '';
+    $self->{access_token} = '';
+
+    $self->{api_key}        = {};
+    $self->{api_key_prefix} = {};
+    $self->{api_key_in}     = {};
+
+    return \%tokens;
 }
 
 sub accept_tokens {
-	my ($self, $tokens) = @_;
-	
-	foreach my $known_name (qw(username password access_token)) {
-		next unless $tokens->{$known_name};
-		$self->{$known_name} = delete $tokens->{$known_name};
-	}
-	
-	foreach my $token_name (keys %$tokens) {
-		$self->{api_key}{$token_name} = $tokens->{$token_name}{token};
-		if ($tokens->{$token_name}{prefix}) {
-			$self->{api_key_prefix}{$token_name} = $tokens->{$token_name}{prefix};
-		}
-		my $in = $tokens->{$token_name}->{in} || 'head';
-		croak "Tokens can only go in 'head' or 'query' (not in '$in')" unless $in =~ /^(?:head|query)$/;
-		$self->{api_key_in}{$token_name} = $in;
-	}
-}	
+    my ( $self, $tokens ) = @_;
+
+    foreach my $known_name (qw(username password access_token)) {
+        next unless $tokens->{$known_name};
+        $self->{$known_name} = delete $tokens->{$known_name};
+    }
+
+    foreach my $token_name ( keys %$tokens ) {
+        $self->{api_key}{$token_name} = $tokens->{$token_name}{token};
+        if ( $tokens->{$token_name}{prefix} ) {
+            $self->{api_key_prefix}{$token_name} =
+              $tokens->{$token_name}{prefix};
+        }
+        my $in = $tokens->{$token_name}->{in} || 'head';
+        croak "Tokens can only go in 'head' or 'query' (not in '$in')"
+          unless $in =~ /^(?:head|query)$/;
+        $self->{api_key_in}{$token_name} = $in;
+    }
+}
 
 1;

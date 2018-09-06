@@ -123,9 +123,9 @@ open class PetAPI: APIBase {
      * enum for parameter status
      */
     public enum Status_findPetsByStatus: String { 
-        case available = "available"
-        case pending = "pending"
-        case sold = "sold"
+        case available = ""available""
+        case pending = ""pending""
+        case sold = ""sold""
     }
 
     /**

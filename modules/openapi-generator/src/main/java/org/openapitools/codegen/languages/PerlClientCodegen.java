@@ -32,6 +32,7 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
@@ -132,6 +133,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("PERLTIDY_PATH"))) {
+            LOGGER.info("Environment variable PERLTIDY_PATH not defined so the Perl code may not be properly formatted. To define it, try 'export PERLTIDY_PATH=/usr/local/bin/perltidy' (Linux/Mac)");
+        }
+
         if (additionalProperties.containsKey(MODULE_VERSION)) {
             setModuleVersion((String) additionalProperties.get(MODULE_VERSION));
         } else {
@@ -220,7 +225,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -276,7 +281,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = org.openapitools.codegen.utils.StringUtils.underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
@@ -298,13 +303,13 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -319,7 +324,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -354,7 +359,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. phone_number_api.rb => PhoneNumberApi.rb
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -363,32 +368,32 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
     public String toOperationId(String operationId) {
         //rename to empty_function_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            operationId = underscore("empty_function_name_" + emptyFunctionNameCounter++);
+            operationId = org.openapitools.codegen.utils.StringUtils.underscore("empty_function_name_" + emptyFunctionNameCounter++);
             LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
-            return underscore(sanitizeName("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId));
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        //return underscore(operationId).replaceAll("[^A-Za-z0-9_]", "");
-        return underscore(sanitizeName(operationId));
+        //return org.openapitools.codegen.utils.StringUtils.underscore(operationId).replaceAll("[^A-Za-z0-9_]", "");
+        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(operationId));
     }
 
     public void setModuleName(String moduleName) {
@@ -558,5 +563,34 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String escapeUnsafeCharacters(String input) {
         // remove =end, =cut to avoid code injection
         return input.replace("=begin", "=_begin").replace("=end", "=_end").replace("=cut", "=_cut").replace("=pod", "=_pod");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String perlTidyPath = System.getenv("PERLTIDY_PATH");
+        if (StringUtils.isEmpty(perlTidyPath)) {
+            return; // skip if PERLTIDY_PATH env variable is not defined
+        }
+
+        // only process files with .t, .pm extension
+        if ("t".equals(FilenameUtils.getExtension(file.toString())) ||
+                "pm".equals(FilenameUtils.getExtension(file.toString())) ||
+                "pl".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = perlTidyPath + " -b -bext='/' " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
     }
 }

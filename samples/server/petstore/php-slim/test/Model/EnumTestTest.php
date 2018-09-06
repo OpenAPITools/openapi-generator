@@ -36,76 +36,77 @@ use OpenAPIServer\Model\EnumTest;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\EnumTest
  */
-class EnumTestTest extends \PHPUnit_Framework_TestCase {
+class EnumTestTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "EnumTest"
      */
-    public function testEnumTest() {
+    public function testEnumTest()
+    {
         $testEnumTest = new EnumTest();
     }
 
     /**
      * Test attribute "enumString"
      */
-    public function testPropertyEnumString() {
-
+    public function testPropertyEnumString()
+    {
     }
 
     /**
      * Test attribute "enumStringRequired"
      */
-    public function testPropertyEnumStringRequired() {
-
+    public function testPropertyEnumStringRequired()
+    {
     }
 
     /**
      * Test attribute "enumInteger"
      */
-    public function testPropertyEnumInteger() {
-
+    public function testPropertyEnumInteger()
+    {
     }
 
     /**
      * Test attribute "enumNumber"
      */
-    public function testPropertyEnumNumber() {
-
+    public function testPropertyEnumNumber()
+    {
     }
 
     /**
      * Test attribute "outerEnum"
      */
-    public function testPropertyOuterEnum() {
-
+    public function testPropertyOuterEnum()
+    {
     }
 }
-

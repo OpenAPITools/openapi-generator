@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
 
@@ -181,7 +182,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -206,7 +207,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return instantiationTypes.get("map") + "[String, " + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -235,7 +236,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "new HashMap[String, " + inner + "]() ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -273,7 +274,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     protected String formatIdentifier(String name, boolean capitalized) {
-        String identifier = camelize(sanitizeName(name), true);
+        String identifier = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(name), true);
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
         }

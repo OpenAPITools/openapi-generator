@@ -90,6 +90,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
         importMapping.put("std::vector", "#include <vector>");
@@ -269,8 +270,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isByteArraySchema(p)) {
+            return "std::string";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p)
                 || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
@@ -301,8 +304,10 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 return "0L";
             }
             return "0";
+        } else if (ModelUtils.isByteArraySchema(p)) {
+            return "\"\"";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

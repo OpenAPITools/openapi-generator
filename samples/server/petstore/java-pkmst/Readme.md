@@ -17,20 +17,20 @@ g)Allow you to integrate with tracing server (Example Zipkin)
 h)Allow you to capture log in your microservice and send to Log management server (Ex ELK or splunk)
 i)Allow you to configure Oauth2 security based authorization for your microservice
 
- Additonal Features
+ Additional Features
  j)generate sample cucumber file and dependency to drive your Behaviour driven development.
- k)generate gatling based perfromance test , which can be excuted via build pipeline like jenkins etc.
+ k)generate gatling based performance test, which can be excuted via build pipeline like jenkins etc.
  
  
 Working:
-Using swagger specification you can convert any definition to spring boot microservice.
+Using OpenAPI specification you can convert any definition to spring boot microservice.
 It has the integration with the below services:
 eureka registry, zipkin , spring boot admin, circuit breaker.
 
 By default only the circuit breaker annotation is enabled. But one has to write the fallback method. The needed dependency for it is also been enabled. To generate the integration and 
 related configuration for eureka, zipkin, spring boot admin one has two options:
 
-1) When generating from UI one has to provide vendor extensions inside the swagger specification as below:
+1) When generating from UI one has to provide vendor extensions inside the OpenAPI specification as below:
 swagger: "2.0"
 info:
   description: "This is a sample Product Catalogue Server.\
@@ -43,11 +43,11 @@ info:
     springBootAdminUri: "http://localhost:8000"
     pkmstInterceptor: "true"
     
-PLease note the vendor extensions are inside the info tag of the swagger specification. All the tags are case sensitive. Once given all the related configuration and the dependency 
+PLease note the vendor extensions are inside the info tag of the OpenAPI specification. All the tags are case sensitive. Once given all the related configuration and the dependency
 will be enabled.
 
 2) When generating from the maven plugin one has to provide configuration inside pom as below:
-inside the swagger codegen maven plugin under the configuration section 
+inside the openapi generator maven plugin under the configuration section
 
 						<configuration>
 							<inputSpec>product-openapi.yaml</inputSpec>
@@ -136,7 +136,7 @@ HttpLogging filter is provided for logging in the request and response. Can be f
 Spring security is also provided to secure the resources. Please modify according to your needs.
 
 First run:
-Import the project in to the eclipse. Run the app as an spring boot application.The project will run on http://localhost:8008
+Import the project in to the eclipse. Run the app as a spring boot application.The project will run on http://localhost:8008
 Swagger ui available on:
 http://localhost:8008/swagger-ui.html
 If all the configurations have been enabled(depending on the port) below are some of the URls to access:

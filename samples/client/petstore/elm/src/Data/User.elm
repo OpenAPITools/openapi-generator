@@ -13,7 +13,7 @@
 module Data.User exposing (User, userDecoder, userEncoder)
 
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Maybe exposing (map, withDefault)
 
@@ -34,7 +34,7 @@ type alias User =
 
 userDecoder : Decoder User
 userDecoder =
-    decode User
+    Decode.succeed User
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "username" (Decode.nullable Decode.string) Nothing
         |> optional "firstName" (Decode.nullable Decode.string) Nothing
@@ -43,7 +43,6 @@ userDecoder =
         |> optional "password" (Decode.nullable Decode.string) Nothing
         |> optional "phone" (Decode.nullable Decode.string) Nothing
         |> optional "userStatus" (Decode.nullable Decode.int) Nothing
-
 
 
 userEncoder : User -> Encode.Value
@@ -58,5 +57,3 @@ userEncoder model =
         , ( "phone", withDefault Encode.null (map Encode.string model.phone) )
         , ( "userStatus", withDefault Encode.null (map Encode.int model.userStatus) )
         ]
-
-

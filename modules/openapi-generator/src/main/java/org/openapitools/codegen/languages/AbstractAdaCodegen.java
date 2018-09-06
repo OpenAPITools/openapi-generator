@@ -19,13 +19,11 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -43,7 +41,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
@@ -180,7 +180,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     public String toFilename(String name) {
-        return name.replace(".", "-").toLowerCase();
+        return name.replace(".", "-").toLowerCase(Locale.ROOT);
     }
 
     /**
@@ -329,7 +329,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith("Swagger.")) {
                 return name;
@@ -391,7 +391,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 String mt = media.get("mediaType");
                 if (mt != null) {
                     mt = mt.replace('/', '_');
-                    media.put("adaMediaType", mt.toUpperCase());
+                    media.put("adaMediaType", mt.toUpperCase(Locale.ROOT));
                     count++;
                 }
             }
@@ -620,7 +620,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         }
                     }
                 }
-                authMethod.name = camelize(sanitizeName(authMethod.name), true);
+                authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
             }
         }
     }

@@ -134,7 +134,7 @@ namespace OpenAPI {
             for(auto itemkey : varmap.keys() ){
                 T itemVal;
                 fromJsonValue(itemVal, QJsonValue::fromVariant(varmap.value(itemkey)));
-                val.insert(itemkey, val);
+                val.insert(itemkey, itemVal);
             }
         }
         return;

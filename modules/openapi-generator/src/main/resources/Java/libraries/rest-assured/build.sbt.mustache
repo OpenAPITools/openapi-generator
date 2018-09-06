@@ -9,7 +9,7 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.15",
+      "io.swagger" % "swagger-annotations" % "1.5.21",
       "io.rest-assured" % "scala-support" % "3.1.0",
       "com.google.code.gson" % "gson" % "2.6.1",
       "io.gsonfire" % "gson-fire" % "1.8.2" % "compile",

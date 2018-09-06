@@ -19,43 +19,43 @@
 #include <QStringList>
 #include <QSharedPointer>
 #include <QObject>
-#ifdef __linux__ 
+#ifdef __linux__
 #include <signal.h>
 #include <unistd.h>
-#endif 
+#endif
 #include <qhttpengine/server.h>
 #include "OAIApiRouter.h"
 
-#ifdef __linux__ 
+#ifdef __linux__
 void catchUnixSignals(QList<int> quitSignals) {
     auto handler = [](int sig) -> void {
         // blocking and not aysnc-signal-safe func are valid
         qDebug() << "\nquit the application by signal " << sig;
         QCoreApplication::quit();
     };
-    
-    sigset_t blocking_mask;   
-    sigemptyset(&blocking_mask);  
-    for (auto sig : quitSignals) 
-        sigaddset(&blocking_mask, sig);  
-        
-    struct sigaction sa;   
-    sa.sa_handler = handler;   
-    sa.sa_mask    = blocking_mask;  
-    sa.sa_flags   = 0;    
-    
-    for (auto sig : quitSignals)   
+
+    sigset_t blocking_mask;
+    sigemptyset(&blocking_mask);
+    for (auto sig : quitSignals)
+        sigaddset(&blocking_mask, sig);
+
+    struct sigaction sa;
+    sa.sa_handler = handler;
+    sa.sa_mask    = blocking_mask;
+    sa.sa_flags   = 0;
+
+    for (auto sig : quitSignals)
         sigaction(sig, &sa, nullptr);
 }
-#endif 
+#endif
 
 int main(int argc, char * argv[])
 {
     QCoreApplication a(argc, argv);
-#ifdef __linux__ 
+#ifdef __linux__
     QList<int> sigs({SIGQUIT, SIGINT, SIGTERM, SIGHUP});
     catchUnixSignals(sigs);
-#endif      
+#endif
     // Build the command-line options
     QCommandLineParser parser;
     QCommandLineOption addressOption(
@@ -80,11 +80,11 @@ int main(int argc, char * argv[])
     // Obtain the values
     QHostAddress address = QHostAddress(parser.value(addressOption));
     quint16 port = static_cast<quint16>(parser.value(portOption).toInt());
-   
-    QSharedPointer<OpenAPI::RequestHandler> handler(new OpenAPI::RequestHandler());
-    OpenAPI::ApiRouter   router;
+
+    QSharedPointer<OpenAPI::OAIApiRequestHandler> handler(new OpenAPI::OAIApiRequestHandler());
+    OpenAPI::OAIApiRouter  router;
     router.setUpRoutes();
-    QObject::connect(handler.data(), &OpenAPI::RequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
+    QObject::connect(handler.data(), &OpenAPI::OAIApiRequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
         router.processRequest(socket);
     });
 
@@ -95,6 +95,6 @@ int main(int argc, char * argv[])
         qCritical("Unable to listen on the specified port.");
         return 1;
     }
-    
+
     return a.exec();
 }

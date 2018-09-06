@@ -36,69 +36,70 @@ use OpenAPIServer\Model\Name;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Name
  */
-class NameTest extends \PHPUnit_Framework_TestCase {
+class NameTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "Name"
      */
-    public function testName() {
+    public function testName()
+    {
         $testName = new Name();
     }
 
     /**
      * Test attribute "name"
      */
-    public function testPropertyName() {
-
+    public function testPropertyName()
+    {
     }
 
     /**
      * Test attribute "snakeCase"
      */
-    public function testPropertySnakeCase() {
-
+    public function testPropertySnakeCase()
+    {
     }
 
     /**
      * Test attribute "property"
      */
-    public function testPropertyProperty() {
-
+    public function testPropertyProperty()
+    {
     }
 
     /**
      * Test attribute "_123number"
      */
-    public function testProperty123number() {
-
+    public function testProperty123number()
+    {
     }
 }
-

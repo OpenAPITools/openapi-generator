@@ -27,6 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import org.openapitools.client.model.UNKNOWN_BASE_TYPE;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class FakeApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call testCodeInjectEndRnNRCall(Object UNKNOWN_BASE_TYPE, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call testCodeInjectEndRnNRCall(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = UNKNOWN_BASE_TYPE;
 
         // create path and map variables
@@ -103,7 +104,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call testCodeInjectEndRnNRValidateBeforeCall(Object UNKNOWN_BASE_TYPE, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call testCodeInjectEndRnNRValidateBeforeCall(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
         com.squareup.okhttp.Call call = testCodeInjectEndRnNRCall(UNKNOWN_BASE_TYPE, progressListener, progressRequestListener);
@@ -113,35 +114,35 @@ public class FakeApi {
 
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-     * 
+     * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param UNKNOWN_BASE_TYPE  (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void testCodeInjectEndRnNR(Object UNKNOWN_BASE_TYPE) throws ApiException {
+    public void testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE) throws ApiException {
         testCodeInjectEndRnNRWithHttpInfo(UNKNOWN_BASE_TYPE);
     }
 
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-     * 
+     * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param UNKNOWN_BASE_TYPE  (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> testCodeInjectEndRnNRWithHttpInfo(Object UNKNOWN_BASE_TYPE) throws ApiException {
+    public ApiResponse<Void> testCodeInjectEndRnNRWithHttpInfo(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE) throws ApiException {
         com.squareup.okhttp.Call call = testCodeInjectEndRnNRValidateBeforeCall(UNKNOWN_BASE_TYPE, null, null);
         return apiClient.execute(call);
     }
 
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r (asynchronously)
-     * 
+     * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * @param UNKNOWN_BASE_TYPE  (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call testCodeInjectEndRnNRAsync(Object UNKNOWN_BASE_TYPE, final ApiCallback<Void> callback) throws ApiException {
+    public com.squareup.okhttp.Call testCodeInjectEndRnNRAsync(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE, final ApiCallback<Void> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
