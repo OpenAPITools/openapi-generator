@@ -12,8 +12,8 @@
 
 module Request.Pet exposing (addPet, deletePet, findPetsByStatus, findPetsByTags, getPetById, updatePet, updatePetWithForm, uploadFile)
 
-import Data.Pet exposing (Pet, petDecoder, petEncoder)
 import Data.ApiResponse exposing (ApiResponse, apiResponseDecoder)
+import Data.Pet exposing (Pet, petDecoder, petEncoder)
 import Dict
 import Http
 import Json.Decode as Decode

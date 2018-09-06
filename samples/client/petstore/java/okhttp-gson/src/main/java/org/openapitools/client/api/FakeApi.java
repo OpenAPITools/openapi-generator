@@ -77,16 +77,15 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             
@@ -94,7 +93,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -194,16 +193,15 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             
@@ -211,7 +209,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -311,16 +309,15 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             
@@ -328,7 +325,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -428,16 +425,15 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             "*/*"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             
@@ -445,7 +441,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -545,16 +541,15 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             "application/json"
@@ -562,7 +557,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -664,18 +659,19 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (query != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("query", query));
+        if (query != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("query", query));
+        }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             "application/json"
@@ -683,7 +679,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -792,16 +788,15 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             "application/json"
@@ -809,7 +804,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -927,44 +922,71 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (integer != null)
-        localVarFormParams.put("integer", integer);
-        if (int32 != null)
-        localVarFormParams.put("int32", int32);
-        if (int64 != null)
-        localVarFormParams.put("int64", int64);
-        if (number != null)
-        localVarFormParams.put("number", number);
-        if (_float != null)
-        localVarFormParams.put("float", _float);
-        if (_double != null)
-        localVarFormParams.put("double", _double);
-        if (string != null)
-        localVarFormParams.put("string", string);
-        if (patternWithoutDelimiter != null)
-        localVarFormParams.put("pattern_without_delimiter", patternWithoutDelimiter);
-        if (_byte != null)
-        localVarFormParams.put("byte", _byte);
-        if (binary != null)
-        localVarFormParams.put("binary", binary);
-        if (date != null)
-        localVarFormParams.put("date", date);
-        if (dateTime != null)
-        localVarFormParams.put("dateTime", dateTime);
-        if (password != null)
-        localVarFormParams.put("password", password);
-        if (paramCallback != null)
-        localVarFormParams.put("callback", paramCallback);
+        if (integer != null) {
+            localVarFormParams.put("integer", integer);
+        }
+
+        if (int32 != null) {
+            localVarFormParams.put("int32", int32);
+        }
+
+        if (int64 != null) {
+            localVarFormParams.put("int64", int64);
+        }
+
+        if (number != null) {
+            localVarFormParams.put("number", number);
+        }
+
+        if (_float != null) {
+            localVarFormParams.put("float", _float);
+        }
+
+        if (_double != null) {
+            localVarFormParams.put("double", _double);
+        }
+
+        if (string != null) {
+            localVarFormParams.put("string", string);
+        }
+
+        if (patternWithoutDelimiter != null) {
+            localVarFormParams.put("pattern_without_delimiter", patternWithoutDelimiter);
+        }
+
+        if (_byte != null) {
+            localVarFormParams.put("byte", _byte);
+        }
+
+        if (binary != null) {
+            localVarFormParams.put("binary", binary);
+        }
+
+        if (date != null) {
+            localVarFormParams.put("date", date);
+        }
+
+        if (dateTime != null) {
+            localVarFormParams.put("dateTime", dateTime);
+        }
+
+        if (password != null) {
+            localVarFormParams.put("password", password);
+        }
+
+        if (paramCallback != null) {
+            localVarFormParams.put("callback", paramCallback);
+        }
 
         final String[] localVarAccepts = {
             
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
@@ -972,7 +994,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -1134,32 +1156,47 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        if (enumQueryStringArray != null)
-        localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
-        if (enumQueryString != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_string", enumQueryString));
-        if (enumQueryInteger != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_integer", enumQueryInteger));
-        if (enumQueryDouble != null)
-        localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_double", enumQueryDouble));
+        if (enumQueryStringArray != null) {
+            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
+        }
+
+        if (enumQueryString != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_string", enumQueryString));
+        }
+
+        if (enumQueryInteger != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_integer", enumQueryInteger));
+        }
+
+        if (enumQueryDouble != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_double", enumQueryDouble));
+        }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (enumHeaderStringArray != null)
-        localVarHeaderParams.put("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
-        if (enumHeaderString != null)
-        localVarHeaderParams.put("enum_header_string", apiClient.parameterToString(enumHeaderString));
+        if (enumHeaderStringArray != null) {
+            localVarHeaderParams.put("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
+        }
+
+        if (enumHeaderString != null) {
+            localVarHeaderParams.put("enum_header_string", apiClient.parameterToString(enumHeaderString));
+        }
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (enumFormStringArray != null)
-        localVarFormParams.put("enum_form_string_array", enumFormStringArray);
-        if (enumFormString != null)
-        localVarFormParams.put("enum_form_string", enumFormString);
+        if (enumFormStringArray != null) {
+            localVarFormParams.put("enum_form_string_array", enumFormStringArray);
+        }
+
+        if (enumFormString != null) {
+            localVarFormParams.put("enum_form_string", enumFormString);
+        }
 
         final String[] localVarAccepts = {
             
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
@@ -1167,7 +1204,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -1284,16 +1321,15 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
         final String[] localVarAccepts = {
             
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             "application/json"
@@ -1301,7 +1337,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
@@ -1403,20 +1439,23 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-        if (param != null)
-        localVarFormParams.put("param", param);
-        if (param2 != null)
-        localVarFormParams.put("param2", param2);
+        if (param != null) {
+            localVarFormParams.put("param", param);
+        }
+
+        if (param2 != null) {
+            localVarFormParams.put("param2", param2);
+        }
 
         final String[] localVarAccepts = {
             
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
 
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
@@ -1424,7 +1463,7 @@ public class FakeApi {
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if(progressListener != null) {
+        if (progressListener != null) {
             apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
                 @Override
                 public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
