@@ -2,9 +2,9 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
-#include "arrayh"
-#include "categoryh"
-#include "tagh"
+#include "array.h"
+#include "category.h"
+#include "tag.h"
 
 
 pet_t *pet_create(
