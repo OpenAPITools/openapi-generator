@@ -24,8 +24,8 @@ class Model200Response {
      * Model for testing model name starting with number
      * @alias module:model/Model200Response
      */
-    constructor() {
-
+    constructor() { 
+        
         Model200Response.initialize(this);
     }
 
@@ -34,7 +34,8 @@ class Model200Response {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>Model200Response</code> from a plain JavaScript object, optionally creating a new instance.
@@ -76,3 +77,4 @@ Model200Response.prototype['class'] = undefined;
 
 
 export default Model200Response;
+

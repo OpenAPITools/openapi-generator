@@ -25,8 +25,8 @@ class Name {
      * @alias module:model/Name
      * @param name {Number} 
      */
-    constructor(name) {
-
+    constructor(name) { 
+        
         Name.initialize(this, name);
     }
 
@@ -35,7 +35,7 @@ class Name {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, name) {
+    static initialize(obj, name) { 
         obj['name'] = name;
     }
 
@@ -95,3 +95,4 @@ Name.prototype['123Number'] = undefined;
 
 
 export default Name;
+

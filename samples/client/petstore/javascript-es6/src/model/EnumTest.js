@@ -25,8 +25,8 @@ class EnumTest {
      * @alias module:model/EnumTest
      * @param enumStringRequired {module:model/EnumTest.EnumStringRequiredEnum} 
      */
-    constructor(enumStringRequired) {
-
+    constructor(enumStringRequired) { 
+        
         EnumTest.initialize(this, enumStringRequired);
     }
 
@@ -35,7 +35,7 @@ class EnumTest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, enumStringRequired) {
+    static initialize(obj, enumStringRequired) { 
         obj['enum_string_required'] = enumStringRequired;
     }
 
@@ -199,3 +199,4 @@ EnumTest['EnumNumberEnum'] = {
 
 
 export default EnumTest;
+

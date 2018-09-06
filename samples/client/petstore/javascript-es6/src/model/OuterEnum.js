@@ -13,40 +13,41 @@
 
 import ApiClient from '../ApiClient';
 /**
- * Enum class OuterEnum.
- * @enum {}
- * @readonly
- */
+* Enum class OuterEnum.
+* @enum {}
+* @readonly
+*/
 export default class OuterEnum {
+    
+        /**
+         * value: "placed"
+         * @const
+         */
+        "placed" = "placed";
+
+    
+        /**
+         * value: "approved"
+         * @const
+         */
+        "approved" = "approved";
+
+    
+        /**
+         * value: "delivered"
+         * @const
+         */
+        "delivered" = "delivered";
+
+    
 
     /**
-     * value: "placed"
-     * @const
-     */
-    "placed" = "placed";
-
-
-    /**
-     * value: "approved"
-     * @const
-     */
-    "approved" = "approved";
-
-
-    /**
-     * value: "delivered"
-     * @const
-     */
-    "delivered" = "delivered";
-
-
-
-    /**
-     * Returns a <code>OuterEnum</code> enum value from a Javascript object name.
-     * @param {Object} data The plain JavaScript object containing the name of the enum value.
-     * @return {module:model/OuterEnum} The enum <code>OuterEnum</code> value.
-     */
+    * Returns a <code>OuterEnum</code> enum value from a Javascript object name.
+    * @param {Object} data The plain JavaScript object containing the name of the enum value.
+    * @return {module:model/OuterEnum} The enum <code>OuterEnum</code> value.
+    */
     static constructFromObject(object) {
         return object;
     }
 }
+

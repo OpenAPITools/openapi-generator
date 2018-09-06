@@ -17,19 +17,19 @@ import ApiResponse from '../model/ApiResponse';
 import Pet from '../model/Pet';
 
 /**
- * Pet service.
- * @module api/PetApi
- * @version 1.0.0
- */
+* Pet service.
+* @module api/PetApi
+* @version 1.0.0
+*/
 export default class PetApi {
 
     /**
-     * Constructs a new PetApi. 
-     * @alias module:api/PetApi
-     * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
-     */
+    * Constructs a new PetApi. 
+    * @alias module:api/PetApi
+    * @class
+    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
+    * default to {@link module:ApiClient#instance} if unspecified.
+    */
     constructor(apiClient) {
         this.apiClient = apiClient || ApiClient.instance;
     }
@@ -49,29 +49,33 @@ export default class PetApi {
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
     addPet(pet, callback) {
-        let postBody = pet;
+      let postBody = pet;
 
-        // verify the required parameter 'pet' is set
-        if (pet === undefined || pet === null) {
-            throw new Error("Missing the required parameter 'pet' when calling addPet");
-        }
+      // verify the required parameter 'pet' is set
+      if (pet === undefined || pet === null) {
+        throw new Error("Missing the required parameter 'pet' when calling addPet");
+      }
 
 
-        let pathParams = {};
-        let queryParams = {};
-        let headerParams = {};
-        let formParams = {};
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = ['application/json', 'application/xml'];
-        let accepts = [];
-        let returnType = null;
+      let authNames = ['petstore_auth'];
+      let contentTypes = ['application/json', 'application/xml'];
+      let accepts = [];
+      let returnType = null;
 
-        return this.apiClient.callApi(
-            '/pet', 'POST',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -90,34 +94,36 @@ export default class PetApi {
      * @param {module:api/PetApi~deletePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
     deletePet(petId, opts, callback) {
-        opts = opts || {};
-        let postBody = null;
+      opts = opts || {};
+      let postBody = null;
 
-        // verify the required parameter 'petId' is set
-        if (petId === undefined || petId === null) {
-            throw new Error("Missing the required parameter 'petId' when calling deletePet");
-        }
+      // verify the required parameter 'petId' is set
+      if (petId === undefined || petId === null) {
+        throw new Error("Missing the required parameter 'petId' when calling deletePet");
+      }
 
 
-        let pathParams = {
-            'petId': petId
-        };
-        let queryParams = {};
-        let headerParams = {
-            'api_key': opts['apiKey']
-        };
-        let formParams = {};
+      let pathParams = {
+        'petId': petId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'api_key': opts['apiKey']
+      };
+      let formParams = {
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = [];
-        let accepts = [];
-        let returnType = null;
+      let authNames = ['petstore_auth'];
+      let contentTypes = [];
+      let accepts = [];
+      let returnType = null;
 
-        return this.apiClient.callApi(
-            '/pet/{petId}', 'DELETE',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet/{petId}', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -136,31 +142,34 @@ export default class PetApi {
      * data is of type: {@link Array.<module:model/Pet>}
      */
     findPetsByStatus(status, callback) {
-        let postBody = null;
+      let postBody = null;
 
-        // verify the required parameter 'status' is set
-        if (status === undefined || status === null) {
-            throw new Error("Missing the required parameter 'status' when calling findPetsByStatus");
-        }
+      // verify the required parameter 'status' is set
+      if (status === undefined || status === null) {
+        throw new Error("Missing the required parameter 'status' when calling findPetsByStatus");
+      }
 
 
-        let pathParams = {};
-        let queryParams = {
-            'status': this.apiClient.buildCollectionParam(status, 'csv')
-        };
-        let headerParams = {};
-        let formParams = {};
+      let pathParams = {
+      };
+      let queryParams = {
+        'status': this.apiClient.buildCollectionParam(status, 'csv')
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = [];
-        let accepts = ['application/xml', 'application/json'];
-        let returnType = [Pet];
+      let authNames = ['petstore_auth'];
+      let contentTypes = [];
+      let accepts = ['application/xml', 'application/json'];
+      let returnType = [Pet];
 
-        return this.apiClient.callApi(
-            '/pet/findByStatus', 'GET',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet/findByStatus', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -179,31 +188,34 @@ export default class PetApi {
      * data is of type: {@link Array.<module:model/Pet>}
      */
     findPetsByTags(tags, callback) {
-        let postBody = null;
+      let postBody = null;
 
-        // verify the required parameter 'tags' is set
-        if (tags === undefined || tags === null) {
-            throw new Error("Missing the required parameter 'tags' when calling findPetsByTags");
-        }
+      // verify the required parameter 'tags' is set
+      if (tags === undefined || tags === null) {
+        throw new Error("Missing the required parameter 'tags' when calling findPetsByTags");
+      }
 
 
-        let pathParams = {};
-        let queryParams = {
-            'tags': this.apiClient.buildCollectionParam(tags, 'csv')
-        };
-        let headerParams = {};
-        let formParams = {};
+      let pathParams = {
+      };
+      let queryParams = {
+        'tags': this.apiClient.buildCollectionParam(tags, 'csv')
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = [];
-        let accepts = ['application/xml', 'application/json'];
-        let returnType = [Pet];
+      let authNames = ['petstore_auth'];
+      let contentTypes = [];
+      let accepts = ['application/xml', 'application/json'];
+      let returnType = [Pet];
 
-        return this.apiClient.callApi(
-            '/pet/findByTags', 'GET',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet/findByTags', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -222,31 +234,34 @@ export default class PetApi {
      * data is of type: {@link module:model/Pet}
      */
     getPetById(petId, callback) {
-        let postBody = null;
+      let postBody = null;
 
-        // verify the required parameter 'petId' is set
-        if (petId === undefined || petId === null) {
-            throw new Error("Missing the required parameter 'petId' when calling getPetById");
-        }
+      // verify the required parameter 'petId' is set
+      if (petId === undefined || petId === null) {
+        throw new Error("Missing the required parameter 'petId' when calling getPetById");
+      }
 
 
-        let pathParams = {
-            'petId': petId
-        };
-        let queryParams = {};
-        let headerParams = {};
-        let formParams = {};
+      let pathParams = {
+        'petId': petId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
 
-        let authNames = ['api_key'];
-        let contentTypes = [];
-        let accepts = ['application/xml', 'application/json'];
-        let returnType = Pet;
+      let authNames = ['api_key'];
+      let contentTypes = [];
+      let accepts = ['application/xml', 'application/json'];
+      let returnType = Pet;
 
-        return this.apiClient.callApi(
-            '/pet/{petId}', 'GET',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet/{petId}', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -263,29 +278,33 @@ export default class PetApi {
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
     updatePet(pet, callback) {
-        let postBody = pet;
+      let postBody = pet;
 
-        // verify the required parameter 'pet' is set
-        if (pet === undefined || pet === null) {
-            throw new Error("Missing the required parameter 'pet' when calling updatePet");
-        }
+      // verify the required parameter 'pet' is set
+      if (pet === undefined || pet === null) {
+        throw new Error("Missing the required parameter 'pet' when calling updatePet");
+      }
 
 
-        let pathParams = {};
-        let queryParams = {};
-        let headerParams = {};
-        let formParams = {};
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = ['application/json', 'application/xml'];
-        let accepts = [];
-        let returnType = null;
+      let authNames = ['petstore_auth'];
+      let contentTypes = ['application/json', 'application/xml'];
+      let accepts = [];
+      let returnType = null;
 
-        return this.apiClient.callApi(
-            '/pet', 'PUT',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -305,35 +324,37 @@ export default class PetApi {
      * @param {module:api/PetApi~updatePetWithFormCallback} callback The callback function, accepting three arguments: error, data, response
      */
     updatePetWithForm(petId, opts, callback) {
-        opts = opts || {};
-        let postBody = null;
+      opts = opts || {};
+      let postBody = null;
 
-        // verify the required parameter 'petId' is set
-        if (petId === undefined || petId === null) {
-            throw new Error("Missing the required parameter 'petId' when calling updatePetWithForm");
-        }
+      // verify the required parameter 'petId' is set
+      if (petId === undefined || petId === null) {
+        throw new Error("Missing the required parameter 'petId' when calling updatePetWithForm");
+      }
 
 
-        let pathParams = {
-            'petId': petId
-        };
-        let queryParams = {};
-        let headerParams = {};
-        let formParams = {
-            'name': opts['name'],
-            'status': opts['status']
-        };
+      let pathParams = {
+        'petId': petId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+        'name': opts['name'],
+        'status': opts['status']
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = ['application/x-www-form-urlencoded'];
-        let accepts = [];
-        let returnType = null;
+      let authNames = ['petstore_auth'];
+      let contentTypes = ['application/x-www-form-urlencoded'];
+      let accepts = [];
+      let returnType = null;
 
-        return this.apiClient.callApi(
-            '/pet/{petId}', 'POST',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet/{petId}', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -354,35 +375,37 @@ export default class PetApi {
      * data is of type: {@link module:model/ApiResponse}
      */
     uploadFile(petId, opts, callback) {
-        opts = opts || {};
-        let postBody = null;
+      opts = opts || {};
+      let postBody = null;
 
-        // verify the required parameter 'petId' is set
-        if (petId === undefined || petId === null) {
-            throw new Error("Missing the required parameter 'petId' when calling uploadFile");
-        }
+      // verify the required parameter 'petId' is set
+      if (petId === undefined || petId === null) {
+        throw new Error("Missing the required parameter 'petId' when calling uploadFile");
+      }
 
 
-        let pathParams = {
-            'petId': petId
-        };
-        let queryParams = {};
-        let headerParams = {};
-        let formParams = {
-            'additionalMetadata': opts['additionalMetadata'],
-            'file': opts['file']
-        };
+      let pathParams = {
+        'petId': petId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+        'additionalMetadata': opts['additionalMetadata'],
+        'file': opts['file']
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = ['multipart/form-data'];
-        let accepts = ['application/json'];
-        let returnType = ApiResponse;
+      let authNames = ['petstore_auth'];
+      let contentTypes = ['multipart/form-data'];
+      let accepts = ['application/json'];
+      let returnType = ApiResponse;
 
-        return this.apiClient.callApi(
-            '/pet/{petId}/uploadImage', 'POST',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/pet/{petId}/uploadImage', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
     /**
@@ -403,40 +426,42 @@ export default class PetApi {
      * data is of type: {@link module:model/ApiResponse}
      */
     uploadFileWithRequiredFile(petId, requiredFile, opts, callback) {
-        opts = opts || {};
-        let postBody = null;
+      opts = opts || {};
+      let postBody = null;
 
-        // verify the required parameter 'petId' is set
-        if (petId === undefined || petId === null) {
-            throw new Error("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
-        }
+      // verify the required parameter 'petId' is set
+      if (petId === undefined || petId === null) {
+        throw new Error("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+      }
 
-        // verify the required parameter 'requiredFile' is set
-        if (requiredFile === undefined || requiredFile === null) {
-            throw new Error("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
-        }
+      // verify the required parameter 'requiredFile' is set
+      if (requiredFile === undefined || requiredFile === null) {
+        throw new Error("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
+      }
 
 
-        let pathParams = {
-            'petId': petId
-        };
-        let queryParams = {};
-        let headerParams = {};
-        let formParams = {
-            'additionalMetadata': opts['additionalMetadata'],
-            'requiredFile': requiredFile
-        };
+      let pathParams = {
+        'petId': petId
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+        'additionalMetadata': opts['additionalMetadata'],
+        'requiredFile': requiredFile
+      };
 
-        let authNames = ['petstore_auth'];
-        let contentTypes = ['multipart/form-data'];
-        let accepts = ['application/json'];
-        let returnType = ApiResponse;
+      let authNames = ['petstore_auth'];
+      let contentTypes = ['multipart/form-data'];
+      let accepts = ['application/json'];
+      let returnType = ApiResponse;
 
-        return this.apiClient.callApi(
-            '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
-            pathParams, queryParams, headerParams, formParams, postBody,
-            authNames, contentTypes, accepts, returnType, callback
-        );
+      return this.apiClient.callApi(
+        '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
     }
 
 

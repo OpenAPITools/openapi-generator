@@ -23,8 +23,8 @@ class AdditionalPropertiesClass {
      * Constructs a new <code>AdditionalPropertiesClass</code>.
      * @alias module:model/AdditionalPropertiesClass
      */
-    constructor() {
-
+    constructor() { 
+        
         AdditionalPropertiesClass.initialize(this);
     }
 
@@ -33,7 +33,8 @@ class AdditionalPropertiesClass {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>AdditionalPropertiesClass</code> from a plain JavaScript object, optionally creating a new instance.
@@ -47,16 +48,10 @@ class AdditionalPropertiesClass {
             obj = obj || new AdditionalPropertiesClass();
 
             if (data.hasOwnProperty('map_property')) {
-                obj['map_property'] = ApiClient.convertToType(data['map_property'], {
-                    'String': 'String'
-                });
+                obj['map_property'] = ApiClient.convertToType(data['map_property'], {'String': 'String'});
             }
             if (data.hasOwnProperty('map_of_map_property')) {
-                obj['map_of_map_property'] = ApiClient.convertToType(data['map_of_map_property'], {
-                    'String': {
-                        'String': 'String'
-                    }
-                });
+                obj['map_of_map_property'] = ApiClient.convertToType(data['map_of_map_property'], {'String': {'String': 'String'}});
             }
         }
         return obj;
@@ -81,3 +76,4 @@ AdditionalPropertiesClass.prototype['map_of_map_property'] = undefined;
 
 
 export default AdditionalPropertiesClass;
+

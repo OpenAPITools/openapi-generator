@@ -23,8 +23,8 @@ class ArrayOfArrayOfNumberOnly {
      * Constructs a new <code>ArrayOfArrayOfNumberOnly</code>.
      * @alias module:model/ArrayOfArrayOfNumberOnly
      */
-    constructor() {
-
+    constructor() { 
+        
         ArrayOfArrayOfNumberOnly.initialize(this);
     }
 
@@ -33,7 +33,8 @@ class ArrayOfArrayOfNumberOnly {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>ArrayOfArrayOfNumberOnly</code> from a plain JavaScript object, optionally creating a new instance.
@@ -47,9 +48,7 @@ class ArrayOfArrayOfNumberOnly {
             obj = obj || new ArrayOfArrayOfNumberOnly();
 
             if (data.hasOwnProperty('ArrayArrayNumber')) {
-                obj['ArrayArrayNumber'] = ApiClient.convertToType(data['ArrayArrayNumber'], [
-                    ['Number']
-                ]);
+                obj['ArrayArrayNumber'] = ApiClient.convertToType(data['ArrayArrayNumber'], [['Number']]);
             }
         }
         return obj;
@@ -69,3 +68,4 @@ ArrayOfArrayOfNumberOnly.prototype['ArrayArrayNumber'] = undefined;
 
 
 export default ArrayOfArrayOfNumberOnly;
+

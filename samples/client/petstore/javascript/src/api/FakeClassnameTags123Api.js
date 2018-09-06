@@ -14,81 +14,86 @@
  */
 
 (function(root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['ApiClient', 'model/Client'], factory);
-    } else if (typeof module === 'object' && module.exports) {
-        // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../ApiClient'), require('../model/Client'));
-    } else {
-        // Browser globals (root is window)
-        if (!root.OpenApiPetstore) {
-            root.OpenApiPetstore = {};
-        }
-        root.OpenApiPetstore.FakeClassnameTags123Api = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client);
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['ApiClient', 'model/Client'], factory);
+  } else if (typeof module === 'object' && module.exports) {
+    // CommonJS-like environments that support module.exports, like Node.
+    module.exports = factory(require('../ApiClient'), require('../model/Client'));
+  } else {
+    // Browser globals (root is window)
+    if (!root.OpenApiPetstore) {
+      root.OpenApiPetstore = {};
     }
+    root.OpenApiPetstore.FakeClassnameTags123Api = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client);
+  }
 }(this, function(ApiClient, Client) {
-    'use strict';
+  'use strict';
+
+  /**
+   * FakeClassnameTags123 service.
+   * @module api/FakeClassnameTags123Api
+   * @version 1.0.0
+   */
+
+  /**
+   * Constructs a new FakeClassnameTags123Api. 
+   * @alias module:api/FakeClassnameTags123Api
+   * @class
+   * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
+   * default to {@link module:ApiClient#instance} if unspecified.
+   */
+  var exports = function(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+
 
     /**
-     * FakeClassnameTags123 service.
-     * @module api/FakeClassnameTags123Api
-     * @version 1.0.0
+     * Callback function to receive the result of the testClassname operation.
+     * @callback module:api/FakeClassnameTags123Api~testClassnameCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/Client} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Constructs a new FakeClassnameTags123Api. 
-     * @alias module:api/FakeClassnameTags123Api
-     * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * To test class name in snake case
+     * To test class name in snake case
+     * @param {module:model/Client} client client model
+     * @param {module:api/FakeClassnameTags123Api~testClassnameCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/Client}
      */
-    var exports = function(apiClient) {
-        this.apiClient = apiClient || ApiClient.instance;
+    this.testClassname = function(client, callback) {
+      var postBody = client;
+
+      // verify the required parameter 'client' is set
+      if (client === undefined || client === null) {
+        throw new Error("Missing the required parameter 'client' when calling testClassname");
+      }
 
 
-        /**
-         * Callback function to receive the result of the testClassname operation.
-         * @callback module:api/FakeClassnameTags123Api~testClassnameCallback
-         * @param {String} error Error message, if any.
-         * @param {module:model/Client} data The data returned by the service call.
-         * @param {String} response The complete HTTP response.
-         */
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
 
-        /**
-         * To test class name in snake case
-         * To test class name in snake case
-         * @param {module:model/Client} client client model
-         * @param {module:api/FakeClassnameTags123Api~testClassnameCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Client}
-         */
-        this.testClassname = function(client, callback) {
-            var postBody = client;
+      var authNames = ['api_key_query'];
+      var contentTypes = ['application/json'];
+      var accepts = ['application/json'];
+      var returnType = Client;
 
-            // verify the required parameter 'client' is set
-            if (client === undefined || client === null) {
-                throw new Error("Missing the required parameter 'client' when calling testClassname");
-            }
+      return this.apiClient.callApi(
+        '/fake_classname_test', 'PATCH',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+  };
 
-
-            var pathParams = {};
-            var queryParams = {};
-            var collectionQueryParams = {};
-            var headerParams = {};
-            var formParams = {};
-
-            var authNames = ['api_key_query'];
-            var contentTypes = ['application/json'];
-            var accepts = ['application/json'];
-            var returnType = Client;
-
-            return this.apiClient.callApi(
-                '/fake_classname_test', 'PATCH',
-                pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-                authNames, contentTypes, accepts, returnType, callback
-            );
-        }
-    };
-
-    return exports;
+  return exports;
 }));

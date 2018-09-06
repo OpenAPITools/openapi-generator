@@ -58,36 +58,36 @@ import UserApi from './api/UserApi';
 
 
 /**
- * This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters__.<br>
- * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
- * <p>
- * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
- * <pre>
- * var OpenApiPetstore = require('index'); // See note below*.
- * var xxxSvc = new OpenApiPetstore.XxxApi(); // Allocate the API class we're going to use.
- * var yyyModel = new OpenApiPetstore.Yyy(); // Construct a model instance.
- * yyyModel.someProperty = 'someValue';
- * ...
- * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
- * ...
- * </pre>
- * <em>*NOTE: For a top-level AMD script, use require(['index'], function(){...})
- * and put the application logic within the callback function.</em>
- * </p>
- * <p>
- * A non-AMD browser application (discouraged) might do something like this:
- * <pre>
- * var xxxSvc = new OpenApiPetstore.XxxApi(); // Allocate the API class we're going to use.
- * var yyy = new OpenApiPetstore.Yyy(); // Construct a model instance.
- * yyyModel.someProperty = 'someValue';
- * ...
- * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
- * ...
- * </pre>
- * </p>
- * @module index
- * @version 1.0.0
- */
+* This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters__.<br>
+* The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
+* <p>
+* An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
+* <pre>
+* var OpenApiPetstore = require('index'); // See note below*.
+* var xxxSvc = new OpenApiPetstore.XxxApi(); // Allocate the API class we're going to use.
+* var yyyModel = new OpenApiPetstore.Yyy(); // Construct a model instance.
+* yyyModel.someProperty = 'someValue';
+* ...
+* var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
+* ...
+* </pre>
+* <em>*NOTE: For a top-level AMD script, use require(['index'], function(){...})
+* and put the application logic within the callback function.</em>
+* </p>
+* <p>
+* A non-AMD browser application (discouraged) might do something like this:
+* <pre>
+* var xxxSvc = new OpenApiPetstore.XxxApi(); // Allocate the API class we're going to use.
+* var yyy = new OpenApiPetstore.Yyy(); // Construct a model instance.
+* yyyModel.someProperty = 'someValue';
+* ...
+* var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
+* ...
+* </pre>
+* </p>
+* @module index
+* @version 1.0.0
+*/
 export {
     /**
      * The ApiClient constructor.
@@ -312,38 +312,38 @@ export {
     User,
 
     /**
-     * The AnotherFakeApi service constructor.
-     * @property {module:api/AnotherFakeApi}
-     */
+    * The AnotherFakeApi service constructor.
+    * @property {module:api/AnotherFakeApi}
+    */
     AnotherFakeApi,
 
     /**
-     * The FakeApi service constructor.
-     * @property {module:api/FakeApi}
-     */
+    * The FakeApi service constructor.
+    * @property {module:api/FakeApi}
+    */
     FakeApi,
 
     /**
-     * The FakeClassnameTags123Api service constructor.
-     * @property {module:api/FakeClassnameTags123Api}
-     */
+    * The FakeClassnameTags123Api service constructor.
+    * @property {module:api/FakeClassnameTags123Api}
+    */
     FakeClassnameTags123Api,
 
     /**
-     * The PetApi service constructor.
-     * @property {module:api/PetApi}
-     */
+    * The PetApi service constructor.
+    * @property {module:api/PetApi}
+    */
     PetApi,
 
     /**
-     * The StoreApi service constructor.
-     * @property {module:api/StoreApi}
-     */
+    * The StoreApi service constructor.
+    * @property {module:api/StoreApi}
+    */
     StoreApi,
 
     /**
-     * The UserApi service constructor.
-     * @property {module:api/UserApi}
-     */
+    * The UserApi service constructor.
+    * @property {module:api/UserApi}
+    */
     UserApi
 };

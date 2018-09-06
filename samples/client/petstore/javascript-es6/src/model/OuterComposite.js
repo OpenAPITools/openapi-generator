@@ -23,8 +23,8 @@ class OuterComposite {
      * Constructs a new <code>OuterComposite</code>.
      * @alias module:model/OuterComposite
      */
-    constructor() {
-
+    constructor() { 
+        
         OuterComposite.initialize(this);
     }
 
@@ -33,7 +33,8 @@ class OuterComposite {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>OuterComposite</code> from a plain JavaScript object, optionally creating a new instance.
@@ -83,3 +84,4 @@ OuterComposite.prototype['my_boolean'] = undefined;
 
 
 export default OuterComposite;
+

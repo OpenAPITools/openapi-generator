@@ -23,8 +23,8 @@ class Client {
      * Constructs a new <code>Client</code>.
      * @alias module:model/Client
      */
-    constructor() {
-
+    constructor() { 
+        
         Client.initialize(this);
     }
 
@@ -33,7 +33,8 @@ class Client {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>Client</code> from a plain JavaScript object, optionally creating a new instance.
@@ -67,3 +68,4 @@ Client.prototype['client'] = undefined;
 
 
 export default Client;
+

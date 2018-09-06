@@ -23,8 +23,8 @@ class SpecialModelName {
      * Constructs a new <code>SpecialModelName</code>.
      * @alias module:model/SpecialModelName
      */
-    constructor() {
-
+    constructor() { 
+        
         SpecialModelName.initialize(this);
     }
 
@@ -33,7 +33,8 @@ class SpecialModelName {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>SpecialModelName</code> from a plain JavaScript object, optionally creating a new instance.
@@ -67,3 +68,4 @@ SpecialModelName.prototype['$special[property.name]'] = undefined;
 
 
 export default SpecialModelName;
+

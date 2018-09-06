@@ -24,8 +24,8 @@ class MapTest {
      * Constructs a new <code>MapTest</code>.
      * @alias module:model/MapTest
      */
-    constructor() {
-
+    constructor() { 
+        
         MapTest.initialize(this);
     }
 
@@ -34,7 +34,8 @@ class MapTest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>MapTest</code> from a plain JavaScript object, optionally creating a new instance.
@@ -48,21 +49,13 @@ class MapTest {
             obj = obj || new MapTest();
 
             if (data.hasOwnProperty('map_map_of_string')) {
-                obj['map_map_of_string'] = ApiClient.convertToType(data['map_map_of_string'], {
-                    'String': {
-                        'String': 'String'
-                    }
-                });
+                obj['map_map_of_string'] = ApiClient.convertToType(data['map_map_of_string'], {'String': {'String': 'String'}});
             }
             if (data.hasOwnProperty('map_of_enum_string')) {
-                obj['map_of_enum_string'] = ApiClient.convertToType(data['map_of_enum_string'], {
-                    'String': 'String'
-                });
+                obj['map_of_enum_string'] = ApiClient.convertToType(data['map_of_enum_string'], {'String': 'String'});
             }
             if (data.hasOwnProperty('direct_map')) {
-                obj['direct_map'] = ApiClient.convertToType(data['direct_map'], {
-                    'String': 'Boolean'
-                });
+                obj['direct_map'] = ApiClient.convertToType(data['direct_map'], {'String': 'Boolean'});
             }
             if (data.hasOwnProperty('indirect_map')) {
                 obj['indirect_map'] = StringBooleanMap.constructFromObject(data['indirect_map']);
@@ -121,3 +114,4 @@ MapTest['InnerEnum'] = {
 
 
 export default MapTest;
+

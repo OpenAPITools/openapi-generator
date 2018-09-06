@@ -23,8 +23,8 @@ class List {
      * Constructs a new <code>List</code>.
      * @alias module:model/List
      */
-    constructor() {
-
+    constructor() { 
+        
         List.initialize(this);
     }
 
@@ -33,7 +33,8 @@ class List {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>List</code> from a plain JavaScript object, optionally creating a new instance.
@@ -67,3 +68,4 @@ List.prototype['123-list'] = undefined;
 
 
 export default List;
+

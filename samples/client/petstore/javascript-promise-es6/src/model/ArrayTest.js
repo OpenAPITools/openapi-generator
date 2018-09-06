@@ -24,8 +24,8 @@ class ArrayTest {
      * Constructs a new <code>ArrayTest</code>.
      * @alias module:model/ArrayTest
      */
-    constructor() {
-
+    constructor() { 
+        
         ArrayTest.initialize(this);
     }
 
@@ -34,7 +34,8 @@ class ArrayTest {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>ArrayTest</code> from a plain JavaScript object, optionally creating a new instance.
@@ -51,14 +52,10 @@ class ArrayTest {
                 obj['array_of_string'] = ApiClient.convertToType(data['array_of_string'], ['String']);
             }
             if (data.hasOwnProperty('array_array_of_integer')) {
-                obj['array_array_of_integer'] = ApiClient.convertToType(data['array_array_of_integer'], [
-                    ['Number']
-                ]);
+                obj['array_array_of_integer'] = ApiClient.convertToType(data['array_array_of_integer'], [['Number']]);
             }
             if (data.hasOwnProperty('array_array_of_model')) {
-                obj['array_array_of_model'] = ApiClient.convertToType(data['array_array_of_model'], [
-                    [ReadOnlyFirst]
-                ]);
+                obj['array_array_of_model'] = ApiClient.convertToType(data['array_array_of_model'], [[ReadOnlyFirst]]);
             }
         }
         return obj;
@@ -88,3 +85,4 @@ ArrayTest.prototype['array_array_of_model'] = undefined;
 
 
 export default ArrayTest;
+

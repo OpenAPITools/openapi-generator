@@ -24,8 +24,8 @@ class ClassModel {
      * Model for testing model with \&quot;_class\&quot; property
      * @alias module:model/ClassModel
      */
-    constructor() {
-
+    constructor() { 
+        
         ClassModel.initialize(this);
     }
 
@@ -34,7 +34,8 @@ class ClassModel {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>ClassModel</code> from a plain JavaScript object, optionally creating a new instance.
@@ -68,3 +69,4 @@ ClassModel.prototype['_class'] = undefined;
 
 
 export default ClassModel;
+

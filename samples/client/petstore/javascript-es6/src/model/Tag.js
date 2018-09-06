@@ -23,8 +23,8 @@ class Tag {
      * Constructs a new <code>Tag</code>.
      * @alias module:model/Tag
      */
-    constructor() {
-
+    constructor() { 
+        
         Tag.initialize(this);
     }
 
@@ -33,7 +33,8 @@ class Tag {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>Tag</code> from a plain JavaScript object, optionally creating a new instance.
@@ -75,3 +76,4 @@ Tag.prototype['name'] = undefined;
 
 
 export default Tag;
+

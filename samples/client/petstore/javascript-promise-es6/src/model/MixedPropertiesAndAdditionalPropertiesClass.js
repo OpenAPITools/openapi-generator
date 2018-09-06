@@ -24,8 +24,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
      * Constructs a new <code>MixedPropertiesAndAdditionalPropertiesClass</code>.
      * @alias module:model/MixedPropertiesAndAdditionalPropertiesClass
      */
-    constructor() {
-
+    constructor() { 
+        
         MixedPropertiesAndAdditionalPropertiesClass.initialize(this);
     }
 
@@ -34,7 +34,8 @@ class MixedPropertiesAndAdditionalPropertiesClass {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) {}
+    static initialize(obj) { 
+    }
 
     /**
      * Constructs a <code>MixedPropertiesAndAdditionalPropertiesClass</code> from a plain JavaScript object, optionally creating a new instance.
@@ -54,9 +55,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
                 obj['dateTime'] = ApiClient.convertToType(data['dateTime'], 'Date');
             }
             if (data.hasOwnProperty('map')) {
-                obj['map'] = ApiClient.convertToType(data['map'], {
-                    'String': Animal
-                });
+                obj['map'] = ApiClient.convertToType(data['map'], {'String': Animal});
             }
         }
         return obj;
@@ -86,3 +85,4 @@ MixedPropertiesAndAdditionalPropertiesClass.prototype['map'] = undefined;
 
 
 export default MixedPropertiesAndAdditionalPropertiesClass;
+
