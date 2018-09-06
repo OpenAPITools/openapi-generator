@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -307,7 +308,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+            name = name.toLowerCase(Locale.ROOT);
         }
 
         name = underscore(name);
@@ -424,7 +425,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // string
-        String enumName = sanitizeName(camelize(name).toUpperCase());
+        String enumName = sanitizeName(camelize(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -437,7 +438,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = camelize(toModelName(property.name)).toUpperCase();
+        String enumName = camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
