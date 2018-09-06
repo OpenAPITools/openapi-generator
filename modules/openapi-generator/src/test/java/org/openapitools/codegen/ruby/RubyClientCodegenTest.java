@@ -268,7 +268,6 @@ public class RubyClientCodegenTest {
         CodegenParameter name = op.formParams.get(0);
         Assert.assertFalse(name.isNullable);
         CodegenParameter status = op.formParams.get(1);
-        // TODO comment out the following until https://github.com/swagger-api/swagger-parser/issues/820 is solved
-        //Assert.assertTrue(status.isNullable);
+        Assert.assertTrue(status.isNullable);
     }
 }
