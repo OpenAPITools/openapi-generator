@@ -12,6 +12,8 @@ Method | HTTP request | Description
 
 To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
+To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
+
 ### Example
 ```php
 <?php

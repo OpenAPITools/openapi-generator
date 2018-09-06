@@ -230,6 +230,8 @@ class ObjectSerializer
         if (null === $data) {
             return null;
         } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
+            $data = is_string($data) ? json_decode($data) : $data;
+            settype($data, 'array');
             $inner = substr($class, 4, -1);
             $deserialized = [];
             if (strrpos($inner, ",") !== false) {
@@ -241,6 +243,7 @@ class ObjectSerializer
             }
             return $deserialized;
         } elseif (strcasecmp(substr($class, -2), '[]') === 0) {
+            $data = is_string($data) ? json_decode($data) : $data;
             $subClass = substr($class, 0, -2);
             $values = [];
             foreach ($data as $key => $value) {
@@ -290,6 +293,7 @@ class ObjectSerializer
             }
             return $data;
         } else {
+            $data = is_string($data) ? json_decode($data) : $data;
             // If a discriminator is defined and points to a valid subclass, use it.
             $discriminator = $class::DISCRIMINATOR;
             if (!empty($discriminator) && isset($data->{$discriminator}) && is_string($data->{$discriminator})) {
