@@ -68,19 +68,21 @@ class NumberOnly(object):
 
         self._just_number = just_number
 
-    def to_dict(self):
+    def to_dict(self, mapped_attributes=False):
         """Returns the model properties as a dict"""
         result = {}
 
         for attr, _ in six.iteritems(self.openapi_types):
             value = getattr(self, attr)
+            if mapped_attributes and attr in self.attribute_map:
+                attr = self.attribute_map[attr]
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
                     value
                 ))
             elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
+                result[attr] = value.to_dict(mapped_attributes)
             elif isinstance(value, dict):
                 result[attr] = dict(map(
                     lambda item: (item[0], item[1].to_dict())
