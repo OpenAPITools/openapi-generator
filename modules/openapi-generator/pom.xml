@@ -203,11 +203,11 @@
             <artifactId>swagger-core</artifactId>
             <version>${swagger-core-version}</version>
         </dependency>
-        <dependency> 
+        <dependency>
             <groupId>org.openapitools.swagger.parser</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser-version}</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>com.samskivert</groupId>
             <artifactId>jmustache</artifactId>
