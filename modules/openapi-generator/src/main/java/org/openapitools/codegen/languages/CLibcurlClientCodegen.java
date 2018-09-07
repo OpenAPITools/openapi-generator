@@ -144,6 +144,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("binary", "char");
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
+        typeMapping.put("array", "list");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
@@ -179,6 +180,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
+        supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
         // src folder
         supportingFiles.add(new SupportingFile("apiClient.c.mustache", "src", "apiClient.c"));
         supportingFiles.add(new SupportingFile("apiKey.c.mustache", "src", "apiKey.c"));
