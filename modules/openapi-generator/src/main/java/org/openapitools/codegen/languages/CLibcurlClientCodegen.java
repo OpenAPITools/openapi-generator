@@ -145,7 +145,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
         typeMapping.put("array", "list");
-
+        
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
         while (itr.hasNext()) {
@@ -486,6 +486,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toApiImport(String name) {
         return apiPackage() + "/" + toApiFilename(name);
+    }
+    
+    @Override
+    public String toModelImport(String name) {
+        return "#include \"" + name + ".h";
     }
 
     @Override
