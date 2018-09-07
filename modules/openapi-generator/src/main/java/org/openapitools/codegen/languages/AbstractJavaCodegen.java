@@ -131,7 +131,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         typeMapping.put("object", "Object");
         typeMapping.put("integer", "Integer");
         typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("binary", "File");
+        typeMapping.put("binary", "InputStream");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
         typeMapping.put("date", "Date");
@@ -141,6 +141,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
         importMapping.put("File", "java.io.File");
+        importMapping.put("InputStream", "java.io.InputStream");
         importMapping.put("Date", "java.util.Date");
         importMapping.put("Timestamp", "java.sql.Timestamp");
         importMapping.put("Map", "java.util.Map");
