@@ -2,8 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
-#include "array.h"
 #include "category.h"
+#include "list.h"
 #include "tag.h"
 
 
@@ -11,8 +11,8 @@ pet_t *pet_create(
 		long		*id,
 		category		*category,
 		char		*name,
-		array		*photoUrls,
-		array		*tags,
+		list		*photoUrls,
+		list		*tags,
 		char		*status
 		) {
 	pet_t *pet = malloc(sizeof(pet_t));

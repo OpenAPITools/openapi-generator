@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-#include "models.map.h" // TODO will fix the import later
-#include "models.order.h" // TODO will fix the import later
+#include "#include "map.h.h" // TODO will fix the import later
+#include "#include "order.h.h" // TODO will fix the import later
 
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \

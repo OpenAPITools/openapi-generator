@@ -10,26 +10,25 @@
 #include <string.h>
 
 typedef struct user_t {
-	long id; //TODO can be modified for numeric in mustache
+	long id;
 	char *username;
-	char *first_name;
-	char *last_name;
+	char *firstName;
+	char *lastName;
 	char *email;
 	char *password;
 	char *phone;
-	int user_status; //TODO can be modified for numeric in mustache
-	
+	int userStatus;
 } user_t;
 
 user_t *user_create(
-		long		*id,
-		char		*username,
-		char		*firstName,
-		char		*lastName,
-		char		*email,
-		char		*password,
-		char		*phone,
-		int		*userStatus
+		long id,
+		char *username,
+		char *firstName,
+		char *lastName,
+		char *email,
+		char *password,
+		char *phone,
+		int userStatus
 		);
 		
 void user_free(user_t *user);

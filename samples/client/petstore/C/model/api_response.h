@@ -10,16 +10,15 @@
 #include <string.h>
 
 typedef struct api_response_t {
-	int code; //TODO can be modified for numeric in mustache
+	int code;
 	char *type;
 	char *message;
-	
 } api_response_t;
 
 api_response_t *api_response_create(
-		int		*code,
-		char		*type,
-		char		*message
+		int code,
+		char *type,
+		char *message
 		);
 		
 void api_response_free(api_response_t *api_response);

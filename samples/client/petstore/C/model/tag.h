@@ -10,14 +10,13 @@
 #include <string.h>
 
 typedef struct tag_t {
-	long id; //TODO can be modified for numeric in mustache
+	long id;
 	char *name;
-	
 } tag_t;
 
 tag_t *tag_create(
-		long		*id,
-		char		*name
+		long id,
+		char *name
 		);
 		
 void tag_free(tag_t *tag);

@@ -8,27 +8,26 @@
 #define _pet_H_
 
 #include <string.h>
-#include "array.h"
 #include "category.h"
+#include "list.h"
 #include "tag.h"
 
 typedef struct pet_t {
-	long id; //TODO can be modified for numeric in mustache
-	category_t category;
+	long id;
+	category_t *category;
 	char *name;
-	array photo_urls; //TODO can be modified for numeric in mustache
-	array_t *tags;
+	list *photoUrls;
+	list_t *tags;
 	char *status;
-	
 } pet_t;
 
 pet_t *pet_create(
-		long		*id,
-		category		*category,
-		char		*name,
-		array		*photoUrls,
-		array		*tags,
-		char		*status
+		long id,
+		category_t *category,
+		char *name,
+		list *photoUrls,
+		list_t *tags,
+		char *status
 		);
 		
 void pet_free(pet_t *pet);
