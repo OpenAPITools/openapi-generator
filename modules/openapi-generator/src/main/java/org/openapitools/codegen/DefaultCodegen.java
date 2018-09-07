@@ -917,67 +917,6 @@ public class DefaultCodegen implements CodegenConfig {
      * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList("double",
-                        "int",
-                        "long",
-                        "short",
-                        "char",
-                        "float",
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Void",
-                        "Integer",
-                        "Long",
-                        "Float")
-        );
-
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("array", "List");
-        typeMapping.put("map", "Map");
-        typeMapping.put("List", "List");
-        typeMapping.put("boolean", "Boolean");
-        typeMapping.put("string", "String");
-        typeMapping.put("int", "Integer");
-        typeMapping.put("float", "Float");
-        typeMapping.put("number", "BigDecimal");
-        typeMapping.put("DateTime", "Date");
-        typeMapping.put("long", "Long");
-        typeMapping.put("short", "Short");
-        typeMapping.put("char", "String");
-        typeMapping.put("double", "Double");
-        typeMapping.put("object", "Object");
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("ByteArray", "byte[]");
-        typeMapping.put("binary", "File");
-        typeMapping.put("file", "File");
-        typeMapping.put("UUID", "UUID");
-        //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
-
-
-        instantiationTypes = new HashMap<String, String>();
-
-        reservedWords = new HashSet<String>();
-
-        importMapping = new HashMap<String, String>();
-        importMapping.put("BigDecimal", "java.math.BigDecimal");
-        importMapping.put("UUID", "java.util.UUID");
-        importMapping.put("File", "java.io.File");
-        importMapping.put("Date", "java.util.Date");
-        importMapping.put("Timestamp", "java.sql.Timestamp");
-        importMapping.put("Map", "java.util.Map");
-        importMapping.put("HashMap", "java.util.HashMap");
-        importMapping.put("Array", "java.util.List");
-        importMapping.put("ArrayList", "java.util.ArrayList");
-        importMapping.put("List", "java.util.*");
-        importMapping.put("Set", "java.util.*");
-        importMapping.put("DateTime", "org.joda.time.*");
-        importMapping.put("LocalDateTime", "org.joda.time.*");
-        importMapping.put("LocalDate", "org.joda.time.*");
-        importMapping.put("LocalTime", "org.joda.time.*");
-
         // we've used the .openapi-generator-ignore approach as
         // suppportingFiles can be cleared by code generator that extends
         // the default codegen, leaving the commented code below for
