@@ -91,10 +91,10 @@ public class Swift3ModelTest {
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "binary");
-        Assert.assertEquals(property4.dataType, "URL");
+        Assert.assertEquals(property4.dataType, "Data");
         Assert.assertEquals(property4.name, "binary");
         Assert.assertNull(property4.defaultValue);
-        Assert.assertEquals(property4.baseType, "URL");
+        Assert.assertEquals(property4.baseType, "Data");
         Assert.assertTrue(property4.hasMore);
         Assert.assertFalse(property4.required);
         Assert.assertFalse(property4.isContainer);

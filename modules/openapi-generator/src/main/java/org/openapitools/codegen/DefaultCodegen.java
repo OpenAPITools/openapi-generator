@@ -1420,10 +1420,10 @@ public class DefaultCodegen implements CodegenConfig {
             return "BigDecimal";
         } else if (ModelUtils.isByteArraySchema(schema)) {
             return "ByteArray";
-        } else if (ModelUtils.isFileSchema(schema)) {
-            return "file";
         } else if (ModelUtils.isBinarySchema(schema)) {
             return SchemaTypeUtil.BINARY_FORMAT;
+        } else if (ModelUtils.isFileSchema(schema)) {
+            return "file";
         } else if (ModelUtils.isBooleanSchema(schema)) {
             return SchemaTypeUtil.BOOLEAN_TYPE;
         } else if (ModelUtils.isDateSchema(schema)) {
