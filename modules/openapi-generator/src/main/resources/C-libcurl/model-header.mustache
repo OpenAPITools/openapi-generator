@@ -14,24 +14,13 @@
 
 typedef struct {{classname}}_t {
 	{{#vars}}
-	{{#isPrimitiveType}}
-	{{#isString}}
-	{{dataType}} *{{name}};
-	{{/isString}}
-	{{^isString}} 
-	{{dataType}} {{name}}; //TODO can be modified for numeric in mustache
-	{{/isString}}
-	{{/isPrimitiveType}}
-	{{^isPrimitiveType}}
-	{{{dataType}}}_t {{#isContainer}}{{#items}}*{{/items}}{{/isContainer}}{{name}};
-	{{/isPrimitiveType}}
-	{{/vars}}
-	
+	{{#isPrimitiveType}}{{datatype}} {{#isNumeric}}{{baseName}}{{/isNumeric}}{{^isNumeric}}*{{baseName}}{{/isNumeric}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{datatype}}_t *{{baseName}}{{/isPrimitiveType}};
+	{{/vars}}	
 } {{classname}}_t;
 
 {{classname}}_t *{{classname}}_create(
 		{{#vars}}
-		{{{dataType}}}		*{{{baseName}}}{{#hasMore}},{{/hasMore}}
+		{{#isPrimitiveType}}{{datatype}} {{#isNumeric}}{{baseName}}{{/isNumeric}}{{^isNumeric}}*{{baseName}}{{/isNumeric}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{datatype}}_t *{{baseName}}{{/isPrimitiveType}}{{#hasMore}},{{/hasMore}}
 		{{/vars}}
 		);
 		
