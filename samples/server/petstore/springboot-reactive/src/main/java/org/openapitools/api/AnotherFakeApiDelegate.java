@@ -7,6 +7,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -26,16 +29,17 @@ public interface AnotherFakeApiDelegate {
     /**
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    default ResponseEntity<Client> call123testSpecialTags(Client client) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
-                    break;
-                }
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> client,
+        ServerWebExchange exchange) {
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        Mono<Void> result = Mono.empty();
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
+                break;
             }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        }
+        return result.then(Mono.empty());
 
     }
 

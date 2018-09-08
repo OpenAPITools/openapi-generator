@@ -8,8 +8,6 @@ package org.openapitools.api;
 import java.util.Map;
 import org.openapitools.model.Order;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +26,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Validated
 @Api(value = "store", description = "the store API")
 public interface StoreApi {
+
+    default StoreApiDelegate getDelegate() {
+        return new StoreApiDelegate() {};
+    }
 
     @ApiOperation(value = "Delete purchase order by ID", nickname = "deleteOrder", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", tags={ "store", })
     @ApiResponses(value = { 
@@ -41,10 +42,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{order_id}",
         method = RequestMethod.DELETE)
     default Mono<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().deleteOrder(orderId, exchange);
     }
 
 
@@ -57,10 +55,7 @@ public interface StoreApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().getInventory(exchange);
     }
 
 
@@ -73,20 +68,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default Mono<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}");
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                result = ApiUtil.getExampleResponse(exchange, "<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().getOrderById(orderId, exchange);
     }
 
 
@@ -98,20 +80,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
     default Mono<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Mono<Order> order, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}");
-                break;
-            }
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                result = ApiUtil.getExampleResponse(exchange, "<Order>  <id>123456789</id>  <petId>123456789</petId>  <quantity>123</quantity>  <shipDate>2000-01-23T04:56:07.000Z</shipDate>  <status>aeiou</status>  <complete>true</complete></Order>");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().placeOrder(order, exchange);
     }
 
 }

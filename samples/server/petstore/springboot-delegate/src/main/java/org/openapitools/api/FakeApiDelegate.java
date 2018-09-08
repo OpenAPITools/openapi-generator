@@ -27,85 +27,85 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize( Boolean  body);
+    ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body);
 
     /**
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize( OuterComposite  outerComposite);
+    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite);
 
     /**
      * @see FakeApi#fakeOuterNumberSerialize
      */
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize( BigDecimal  body);
+    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body);
 
     /**
      * @see FakeApi#fakeOuterStringSerialize
      */
-    ResponseEntity<String> fakeOuterStringSerialize( String  body);
+    ResponseEntity<String> fakeOuterStringSerialize(String body);
 
     /**
      * @see FakeApi#testBodyWithFileSchema
      */
-    ResponseEntity<Void> testBodyWithFileSchema( FileSchemaTestClass  fileSchemaTestClass);
+    ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
 
     /**
      * @see FakeApi#testBodyWithQueryParams
      */
-    ResponseEntity<Void> testBodyWithQueryParams( String  query,
-         User  user);
+    ResponseEntity<Void> testBodyWithQueryParams(String query,
+        User user);
 
     /**
      * @see FakeApi#testClientModel
      */
-    ResponseEntity<Client> testClientModel( Client  client);
+    ResponseEntity<Client> testClientModel(Client client);
 
     /**
      * @see FakeApi#testEndpointParameters
      */
-    ResponseEntity<Void> testEndpointParameters( BigDecimal  number,
-         Double  _double,
-         String  patternWithoutDelimiter,
-         byte[]  _byte,
-         Integer  integer,
-         Integer  int32,
-         Long  int64,
-         Float  _float,
-         String  string,
+    ResponseEntity<Void> testEndpointParameters(BigDecimal number,
+        Double _double,
+        String patternWithoutDelimiter,
+        byte[] _byte,
+        Integer integer,
+        Integer int32,
+        Long int64,
+        Float _float,
+        String string,
         MultipartFile binary,
-         LocalDate  date,
-         OffsetDateTime  dateTime,
-         String  password,
-         String  paramCallback);
+        LocalDate date,
+        OffsetDateTime dateTime,
+        String password,
+        String paramCallback);
 
     /**
      * @see FakeApi#testEnumParameters
      */
-    ResponseEntity<Void> testEnumParameters( List<String>  enumHeaderStringArray,
-         String  enumHeaderString,
-         List<String>  enumQueryStringArray,
-         String  enumQueryString,
-         Integer  enumQueryInteger,
-         Double  enumQueryDouble,
-         List<String>  enumFormStringArray,
-         String  enumFormString);
+    ResponseEntity<Void> testEnumParameters(List<String> enumHeaderStringArray,
+        String enumHeaderString,
+        List<String> enumQueryStringArray,
+        String enumQueryString,
+        Integer enumQueryInteger,
+        Double enumQueryDouble,
+        List<String> enumFormStringArray,
+        String enumFormString);
 
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    ResponseEntity<Void> testInlineAdditionalProperties( Map<String, String>  requestBody);
+    ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody);
 
     /**
      * @see FakeApi#testJsonFormData
      */
-    ResponseEntity<Void> testJsonFormData( String  param,
-         String  param2);
+    ResponseEntity<Void> testJsonFormData(String param,
+        String param2);
 
     /**
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile( Long  petId,
+    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
-         String  additionalMetadata);
+        String additionalMetadata);
 
 }
