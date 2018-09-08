@@ -53,6 +53,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -703,7 +704,7 @@ public class ModelUtils {
         if (openAPI.getPaths() != null) {
             List<String> pathErrors = openAPI.getPaths().keySet().stream()
                 .filter(path -> !path.startsWith("/"))
-                .map(path -> String.format("'%s' must begin with a slash, change it to '/%s'", path, path))
+                .map(path -> String.format(Locale.ROOT, "'%s' must begin with a slash, change it to '/%s'", path, path))
                 .collect(Collectors.toList());
             errors.addAll(pathErrors);
         }
