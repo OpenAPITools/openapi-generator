@@ -40,6 +40,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -136,7 +137,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             Set<String> modelImports = new HashSet<>();
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (String modelImport : cm.imports) {
-                if(!modelToIgnore.contains(modelImport.toLowerCase())) {
+                if(!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
                     modelImports.add(underscore(modelImport));
                 }
             }
@@ -156,7 +157,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         Set<String> modelImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
-            op.httpMethod = StringUtils.capitalize(op.httpMethod.toLowerCase());
+            op.httpMethod = StringUtils.capitalize(op.httpMethod.toLowerCase(Locale.ROOT));
             boolean isJson = true; //default to JSON
             boolean isForm = false;
             boolean isMultipart = false;
@@ -178,7 +179,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
-                if(!modelToIgnore.contains(item.toLowerCase())) {
+                if(!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
                     imports.add(underscore(item));
                 }
             }
