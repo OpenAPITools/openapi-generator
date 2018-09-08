@@ -692,4 +692,21 @@ public class ModelUtils {
         }
         return null;
     }
+
+    /**
+     * Compute additional error messages that are not detected by the parser
+     * @param openAPI specification being checked
+     * @return a list of errors (items that are not conform)
+     */
+    public static List<String> getErrorMessages(OpenAPI openAPI) {
+        List<String> errors = new ArrayList<>();
+        if (openAPI.getPaths() != null) {
+            List<String> pathErrors = openAPI.getPaths().keySet().stream()
+                .filter(path -> !path.startsWith("/"))
+                .map(path -> String.format("'%s' must begin with a slash, change it to '/%s'", path, path))
+                .collect(Collectors.toList());
+            errors.addAll(pathErrors);
+        }
+        return errors;
+    }
 }

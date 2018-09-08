@@ -19,10 +19,13 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.TestUtils;
@@ -192,5 +195,26 @@ public class ModelUtilsTest {
         allSchemas.put("SomeComposedSchema", composedSchema);
 
         Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
+    }
+
+    @Test
+    public void testGetErrorMessages() {
+        //empty case:
+        OpenAPI openAPI1 = TestUtils.createOpenAPI();
+        List<String> errors1 = ModelUtils.getErrorMessages(openAPI1);
+        Assert.assertEquals(errors1.size(), 0);
+
+        //wrong path:
+        OpenAPI openAPI2 = TestUtils.createOpenAPI();
+        openAPI2.path("some/path", new PathItem().get(new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
+        List<String> errors2 = ModelUtils.getErrorMessages(openAPI2);
+        Assert.assertEquals(errors2.size(), 1);
+        Assert.assertEquals(errors2.get(0), "'some/path' must begin with a slash, change it to '/some/path'");
+
+        //correct path:
+        OpenAPI openAPI3 = TestUtils.createOpenAPI();
+        openAPI3.path("/path2", new PathItem().get(new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
+        List<String> errors3 = ModelUtils.getErrorMessages(openAPI3);
+        Assert.assertEquals(errors3.size(), 0);
     }
 }

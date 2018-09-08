@@ -543,6 +543,7 @@ public class CodegenConfigurator implements Serializable {
 
         Set<String> validationMessages = new HashSet<>(result.getMessages());
         OpenAPI specification = result.getOpenAPI();
+        validationMessages.addAll(ModelUtils.getErrorMessages(specification));
 
         // NOTE: We will only expose errors+warnings if there are already errors in the spec.
         if (validationMessages.size() > 0) {

@@ -46,6 +46,7 @@ public class Validate implements Runnable {
         SwaggerParseResult result = new OpenAPIParser().readLocation(spec, null, null);
         List<String> messageList = result.getMessages();
         Set<String> errors = new HashSet<String>(messageList);
+        errors.addAll(ModelUtils.getErrorMessages(result.getOpenAPI()));
         Set<String> warnings = new HashSet<String>();
 
         StringBuilder sb = new StringBuilder();
