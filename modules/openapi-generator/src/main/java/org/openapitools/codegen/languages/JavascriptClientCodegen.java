@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -46,7 +47,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -231,6 +231,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             setUseES6(false); // default to ES5
         }
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("JS_BEAUTIFY_PATH"))) {
+            LOGGER.info("Environment variable JS_BEAUTIFY_PATH not defined so the JS code may not be properly formatted. To define it, try 'export JS_BEAUTIFY_PATH=/usr/local/bin/js-beautify' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
             setProjectName(((String) additionalProperties.get(PROJECT_NAME)));
@@ -1155,6 +1159,33 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String jsBeautifyPath = System.getenv("JS_BEAUTIFY_PATH");
+        if (StringUtils.isEmpty(jsBeautifyPath)) {
+            return; // skip if JS_BEAUTIFY_PATH env variable is not defined
+        }
+
+        // only process files with js extension
+        if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = jsBeautifyPath + " -r -f " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
     }
 
 }
