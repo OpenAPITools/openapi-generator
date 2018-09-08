@@ -7,8 +7,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +25,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Validated
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
 public interface FakeClassnameTestApi {
+
+    default FakeClassnameTestApiDelegate getDelegate() {
+        return new FakeClassnameTestApiDelegate() {};
+    }
 
     @ApiOperation(value = "To test class name in snake case", nickname = "testClassname", notes = "To test class name in snake case", response = Client.class, authorizations = {
         @Authorization(value = "api_key_query")
@@ -43,16 +44,7 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
     default Mono<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().testClassname(client, exchange);
     }
 
 }
