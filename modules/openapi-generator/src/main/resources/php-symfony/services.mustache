@@ -24,6 +24,7 @@ services:
 {{#operations}}
     {{bundleAlias}}.controller.{{pathPrefix}}:
         class: {{controllerPackage}}\{{baseName}}Controller
+        public: true
         calls:
          - [setSerializer, ['@{{bundleAlias}}.service.serializer']]
          - [setValidator,  ['@{{bundleAlias}}.service.validator']]

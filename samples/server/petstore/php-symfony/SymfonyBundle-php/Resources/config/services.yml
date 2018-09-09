@@ -21,6 +21,7 @@ services:
 
     open_apiserver.controller.pet:
         class: OpenAPI\Server\Controller\PetController
+        public: true
         calls:
          - [setSerializer, ['@open_apiserver.service.serializer']]
          - [setValidator,  ['@open_apiserver.service.validator']]
@@ -28,6 +29,7 @@ services:
 
     open_apiserver.controller.store:
         class: OpenAPI\Server\Controller\StoreController
+        public: true
         calls:
          - [setSerializer, ['@open_apiserver.service.serializer']]
          - [setValidator,  ['@open_apiserver.service.validator']]
@@ -35,6 +37,7 @@ services:
 
     open_apiserver.controller.user:
         class: OpenAPI\Server\Controller\UserController
+        public: true
         calls:
          - [setSerializer, ['@open_apiserver.service.serializer']]
          - [setValidator,  ['@open_apiserver.service.validator']]
