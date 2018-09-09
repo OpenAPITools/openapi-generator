@@ -27,7 +27,7 @@ import kotlin.collections.Map
 @Controller
 @Validated
 @Api(value = "User", description = "The User API")
-@RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
+@RequestMapping("\${api.base-path:/v2}")
 class UserApiController(@Autowired(required = true) val service: UserApiService) {
 
     @ApiOperation(

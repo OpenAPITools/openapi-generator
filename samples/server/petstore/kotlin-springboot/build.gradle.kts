@@ -38,6 +38,7 @@ dependencies {
     compile("io.swagger:swagger-annotations:1.5.21")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
