@@ -1,4 +1,7 @@
 {
     "library": "feign",
-    "artifactId": "petstore-feign"
+    "artifactId": "petstore-feign",
+    "additionalProperties": {
+        "useFeign10": true
+    }
 }

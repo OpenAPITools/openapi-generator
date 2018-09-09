@@ -293,7 +293,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <feign-version>9.4.0</feign-version>
+        <feign-version>{{#useFeign10}}10.0.1{{/useFeign10}}{{^useFeign10}}9.4.0{{/useFeign10}}</feign-version>
         <feign-form-version>2.1.0</feign-form-version>
         <jackson-version>2.8.9</jackson-version>
         {{#threetenbp}}
