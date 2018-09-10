@@ -28,6 +28,9 @@ namespace {{packageName}}
             Configuration = configuration;
         }
 
+        /// <summary>
+            /// The application configuration.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace {{packageName}}
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseHttpsRedirection();
             app
