@@ -97,7 +97,7 @@ ext {
     swagger_annotations_version = "1.5.21"
     jackson_version = "2.8.7"
     threepane_version = "2.6.4"
-    feign_version = "9.4.0"
+    feign_version = "10.0.1"
     feign_form_version = "2.1.0"
     junit_version = "4.12"
     oltu_version = "1.0.1"
