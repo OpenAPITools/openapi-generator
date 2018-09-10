@@ -22,7 +22,7 @@ class {{classname}} extends _${{classname}}Client implements ApiClient {
     /// {{summary}}
     ///
     /// {{notes}}
-    @{{httpMethod}}Req(path: '{{path}}')
+    @{{httpMethod}}Req(path: "{{path}}"{{#hasAuthMethods}}, metadata: {"auth": [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}]}{{/hasAuthMethods}})
     Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{nickname}}(
     {{#pathParams}}
         {{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}

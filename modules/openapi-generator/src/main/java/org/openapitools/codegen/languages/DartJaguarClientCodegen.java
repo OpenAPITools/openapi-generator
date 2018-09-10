@@ -119,12 +119,18 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
         final String libFolder = sourceFolder + File.separator + "lib";
         supportingFiles.add(new SupportingFile("pubspec.mustache", "", "pubspec.yaml"));
-        supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
+        supportingFiles.add(new SupportingFile("analysis_options.mustache", "", "analysis_options.yaml"));
         supportingFiles.add(new SupportingFile("apilib.mustache", libFolder, "api.dart"));
 
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
+        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
     }
 
 

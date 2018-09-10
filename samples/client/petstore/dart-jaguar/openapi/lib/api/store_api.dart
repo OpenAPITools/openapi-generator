@@ -19,7 +19,7 @@ class StoreApi extends _$StoreApiClient implements ApiClient {
     /// Delete purchase order by ID
     ///
     /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-    @DeleteReq(path: '/store/order/:orderId')
+    @DeleteReq(path: "/store/order/:orderId")
     Future<void> deleteOrder(
         String orderId
     );
@@ -27,14 +27,14 @@ class StoreApi extends _$StoreApiClient implements ApiClient {
     /// Returns pet inventories by status
     ///
     /// Returns a map of status codes to quantities
-    @GetReq(path: '/store/inventory')
+    @GetReq(path: "/store/inventory", metadata: {"auth": [ {"type": "apiKey", "name": "api_key", "keyName": "api_key", "where": "header" }]})
     Future<Map<String, int>> getInventory(
     );
 
     /// Find purchase order by ID
     ///
     /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-    @GetReq(path: '/store/order/:orderId')
+    @GetReq(path: "/store/order/:orderId")
     Future<Order> getOrderById(
         int orderId
     );
@@ -42,7 +42,7 @@ class StoreApi extends _$StoreApiClient implements ApiClient {
     /// Place an order for a pet
     ///
     /// 
-    @PostReq(path: '/store/order')
+    @PostReq(path: "/store/order")
     Future<Order> placeOrder(
         
         @AsJson() Order order

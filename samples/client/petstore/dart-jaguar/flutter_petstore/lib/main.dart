@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:swagger/api.dart';
 import 'package:swagger/model/order.dart';
 import 'package:swagger/model/pet.dart';
@@ -82,19 +83,19 @@ class _MyHomePageState extends State<MyHomePage> {
       .then((Order order) => print(order));
     }).catchError((error) {
       print('error fetching pets');
-      print(error);
+      throw error;
     });
   }
 
   void fetchStoreInventory() {
     print('fetching inventory...');
     swaggerGen.getStoreApi().getInventory()
-        .then((Map<String, int> inventory) {
+        .then((Map inventory) {
       print('inventory received: ');
       print(inventory);
     }).catchError((error) {
       print('error fetching inventory');
-      print(error);
+      throw error;
     });
   }
 
@@ -106,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print(user);
     }).catchError((error) {
       print('error fetching user');
-      print(error);
+      throw error;
     });
   }
 

@@ -20,7 +20,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Add a new pet to the store
     ///
     /// 
-    @PostReq(path: '/pet')
+    @PostReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> addPet(
         
         @AsJson() Pet pet
@@ -29,7 +29,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Deletes a pet
     ///
     /// 
-    @DeleteReq(path: '/pet/:petId')
+    @DeleteReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> deletePet(
         int petId
         ,
@@ -39,7 +39,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Finds Pets by status
     ///
     /// Multiple status values can be provided with comma separated strings
-    @GetReq(path: '/pet/findByStatus')
+    @GetReq(path: "/pet/findByStatus", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<List<Pet>> findPetsByStatus(
         
         @QueryParam("status") List<String> status
@@ -48,7 +48,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Finds Pets by tags
     ///
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    @GetReq(path: '/pet/findByTags')
+    @GetReq(path: "/pet/findByTags", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<List<Pet>> findPetsByTags(
         
         @QueryParam("tags") List<String> tags
@@ -57,7 +57,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Find pet by ID
     ///
     /// Returns a single pet
-    @GetReq(path: '/pet/:petId')
+    @GetReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "apiKey", "name": "api_key", "keyName": "api_key", "where": "header" }]})
     Future<Pet> getPetById(
         int petId
     );
@@ -65,7 +65,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Update an existing pet
     ///
     /// 
-    @PutReq(path: '/pet')
+    @PutReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> updatePet(
         
         @AsJson() Pet pet
@@ -74,7 +74,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Updates a pet in the store with form data
     ///
     /// 
-    @PostReq(path: '/pet/:petId')
+    @PostReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> updatePetWithForm(
         int petId
         ,
@@ -86,7 +86,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// uploads an image
     ///
     /// 
-    @PostReq(path: '/pet/:petId/uploadImage')
+    @PostReq(path: "/pet/:petId/uploadImage", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<ApiResponse> uploadFile(
         int petId
         ,
