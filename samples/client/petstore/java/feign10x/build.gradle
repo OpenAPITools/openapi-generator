@@ -83,7 +83,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'petstore-feign'
+            pom.artifactId = 'petstore-feign-10x'
         }
     }
 
