@@ -21,7 +21,7 @@ class StoreApi extends _$StoreApiClient implements ApiClient {
     /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     @DeleteReq(path: "/store/order/:orderId")
     Future<void> deleteOrder(
-        String orderId
+            @PathParam("orderId") String orderId
     );
 
     /// Returns pet inventories by status
@@ -36,7 +36,7 @@ class StoreApi extends _$StoreApiClient implements ApiClient {
     /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     @GetReq(path: "/store/order/:orderId")
     Future<Order> getOrderById(
-        int orderId
+            @PathParam("orderId") int orderId
     );
 
     /// Place an order for a pet

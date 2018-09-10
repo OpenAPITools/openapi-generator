@@ -48,7 +48,7 @@ class UserApi extends _$UserApiClient implements ApiClient {
     /// This can only be done by the logged in user.
     @DeleteReq(path: "/user/:username")
     Future<void> deleteUser(
-        String username
+            @PathParam("username") String username
     );
 
     /// Get user by user name
@@ -56,7 +56,7 @@ class UserApi extends _$UserApiClient implements ApiClient {
     /// 
     @GetReq(path: "/user/:username")
     Future<User> getUserByName(
-        String username
+            @PathParam("username") String username
     );
 
     /// Logs user into the system
@@ -82,7 +82,7 @@ class UserApi extends _$UserApiClient implements ApiClient {
     /// This can only be done by the logged in user.
     @PutReq(path: "/user/:username")
     Future<void> updateUser(
-        String username
+            @PathParam("username") String username
         ,
         @AsJson() User user
     );

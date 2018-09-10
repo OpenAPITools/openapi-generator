@@ -30,15 +30,15 @@ final jsonJaguarRepo = JsonRepo()
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
 
-class SwaggerGen {
+class JaguarApiGen {
     List<Interceptor> interceptors;
     String baseSwaggerPath = "http://petstore.swagger.io/v2";
     Route _baseRoute;
 
     /**
-     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
-     */
-    SwaggerGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl}) {
+    * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
+    */
+    JaguarApiGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl}) {
         _baseRoute = Route(baseUrl ?? baseSwaggerPath).withClient(globalClient ?? IOClient());
         if(interceptors == null) {
             this.interceptors = _defaultInterceptors;
@@ -70,9 +70,9 @@ class SwaggerGen {
 
     
     /**
-     * Get PetApi instance, base route and serializer can be overridden by a given but be careful,
-     * by doing that all interceptors will not be executed
-     */
+    * Get PetApi instance, base route and serializer can be overridden by a given but be careful,
+    * by doing that all interceptors will not be executed
+    */
     PetApi getPetApi({Route base, SerializerRepo serializers}) {
         if(base == null) {
             base = _baseRoute;
@@ -85,9 +85,9 @@ class SwaggerGen {
 
     
     /**
-     * Get StoreApi instance, base route and serializer can be overridden by a given but be careful,
-     * by doing that all interceptors will not be executed
-     */
+    * Get StoreApi instance, base route and serializer can be overridden by a given but be careful,
+    * by doing that all interceptors will not be executed
+    */
     StoreApi getStoreApi({Route base, SerializerRepo serializers}) {
         if(base == null) {
             base = _baseRoute;
@@ -100,9 +100,9 @@ class SwaggerGen {
 
     
     /**
-     * Get UserApi instance, base route and serializer can be overridden by a given but be careful,
-     * by doing that all interceptors will not be executed
-     */
+    * Get UserApi instance, base route and serializer can be overridden by a given but be careful,
+    * by doing that all interceptors will not be executed
+    */
     UserApi getUserApi({Route base, SerializerRepo serializers}) {
         if(base == null) {
             base = _baseRoute;
