@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -18,19 +19,16 @@ namespace {{packageName}}
     /// </summary>
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnv;
-        private readonly IConfiguration _configuration;
-
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="env"></param>
         /// <param name="configuration"></param>
-        public Startup(IHostingEnvironment env, IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
-            _hostingEnv = env;
-            _configuration = configuration;
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -41,6 +39,7 @@ namespace {{packageName}}
             // Add framework services.
             services
                 .AddMvc()
+                .SetCompatibilityVersion                (CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -86,6 +85,7 @@ namespace {{packageName}}
         /// <param name="app"></param>
         public void Configure(IApplicationBuilder app)
         {
+            app.UseHttpsRedirection();
             app
                 .UseMvc()
                 .UseDefaultFiles()
@@ -103,14 +103,13 @@ namespace {{packageName}}
                     // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
                 }){{/useSwashbuckle}};
 
-            if (_hostingEnv.IsDevelopment())
+if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                //TODO: Enable production exception handling (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/error-handling)
-                // app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
         }
     }
