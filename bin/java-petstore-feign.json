@@ -1,7 +1,5 @@
 {
     "library": "feign",
     "artifactId": "petstore-feign",
-    "additionalProperties": {
-        "useFeign10": true
-    }
+    "feignVersion": "10.x"
 }
