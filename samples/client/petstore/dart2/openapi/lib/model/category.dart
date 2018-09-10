@@ -1,9 +1,8 @@
 part of openapi.api;
 
 class Category {
-  
   int id = null;
-  
+
   String name = null;
   Category();
 
@@ -19,22 +18,22 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name
-    };
+    return {'id': id, 'name': name};
   }
 
   static List<Category> listFromJson(List<dynamic> json) {
-    return json == null ? new List<Category>() : json.map((value) => new Category.fromJson(value)).toList();
+    return json == null
+        ? new List<Category>()
+        : json.map((value) => new Category.fromJson(value)).toList();
   }
 
-  static Map<String, Category> mapFromJson(Map<String, Map<String, dynamic>> json) {
+  static Map<String, Category> mapFromJson(
+      Map<String, Map<String, dynamic>> json) {
     var map = new Map<String, Category>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) => map[key] = new Category.fromJson(value));
+      json.forEach((String key, Map<String, dynamic> value) =>
+          map[key] = new Category.fromJson(value));
     }
     return map;
   }
 }
-
