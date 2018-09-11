@@ -11,6 +11,7 @@ set(ALL_SRC_LIST ${SRC_C} ${UNIT_TESTS_C} ${MODEL_C} ${API_C})
 include(CTest)
 include_directories(include)
 include_directories(external/include)
+include_directories(model)
 
 find_program(VALGRIND valgrind)
 if(VALGRIND)
