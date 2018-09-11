@@ -8,9 +8,9 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/repositories/releases/"
         }
-        maven {
-            url "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+//        maven {
+//            url "https://oss.sonatype.org/content/repositories/snapshots/"
+//        }
     }
     dependencies {
         // Updated version can be passed via command line arg as -PopenApiGeneratorVersion=VERSION
