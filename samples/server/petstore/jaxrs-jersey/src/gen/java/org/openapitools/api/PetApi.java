@@ -26,12 +26,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/pet")
 
 
 @io.swagger.annotations.Api(description = "the pet API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-29T07:47:48.785+02:00[Europe/Zurich]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-11T15:41:15.984+09:00[Asia/Tokyo]")
 public class PetApi  {
    private final PetApiService delegate;
 
@@ -68,7 +69,7 @@ public class PetApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet pet
+    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @Valid Pet pet
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(pet,securityContext);
@@ -163,7 +164,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet pet
+    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @Valid Pet pet
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(pet,securityContext);

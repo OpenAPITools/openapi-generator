@@ -20,11 +20,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Body1
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-29T07:47:48.785+02:00[Europe/Zurich]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-11T15:41:15.984+09:00[Asia/Tokyo]")
 public class Body1   {
   @JsonProperty("additionalMetadata")
   private String additionalMetadata = null;
@@ -43,6 +44,7 @@ public class Body1   {
    **/
   @JsonProperty("additionalMetadata")
   @ApiModelProperty(value = "Additional data to pass to server")
+  
   public String getAdditionalMetadata() {
     return additionalMetadata;
   }
@@ -62,6 +64,7 @@ public class Body1   {
    **/
   @JsonProperty("file")
   @ApiModelProperty(value = "file to upload")
+  
   public File getFile() {
     return file;
   }

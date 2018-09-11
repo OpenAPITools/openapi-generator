@@ -24,12 +24,13 @@ import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * A pet for sale in the pet store
  */
 @ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-29T07:47:48.785+02:00[Europe/Zurich]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-11T15:41:15.984+09:00[Asia/Tokyo]")
 public class Pet   {
   @JsonProperty("id")
   private Long id = null;
@@ -93,6 +94,7 @@ public class Pet   {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -112,6 +114,7 @@ public class Pet   {
    **/
   @JsonProperty("category")
   @ApiModelProperty(value = "")
+  @Valid
   public Category getCategory() {
     return category;
   }
@@ -131,7 +134,8 @@ public class Pet   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @NotNull
+    @NotNull
+
   public String getName() {
     return name;
   }
@@ -156,7 +160,8 @@ public class Pet   {
    **/
   @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+    @NotNull
+
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -184,6 +189,7 @@ public class Pet   {
    **/
   @JsonProperty("tags")
   @ApiModelProperty(value = "")
+  @Valid
   public List<Tag> getTags() {
     return tags;
   }
@@ -203,6 +209,7 @@ public class Pet   {
    **/
   @JsonProperty("status")
   @ApiModelProperty(value = "pet status in the store")
+  
   public StatusEnum getStatus() {
     return status;
   }
