@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-#include "models.array.h" // TODO will fix the import later
 #include "models.user.h" // TODO will fix the import later
 
 #define MAX_BUFFER_LENGTH 4096
@@ -51,7 +50,7 @@ void *UserAPI_createUser(apiClient_t *apiClient, user User) {
 
 // Creates list of users with given input array
 //
-void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, array User) {
+void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list User) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -65,7 +64,7 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, array User) {
 
     // JSON HTTP Request - user
     cJSON *UserJSONObject;
-    UserJSONObject = array_convertToJSON(User);
+    UserJSONObject = list_convertToJSON(User);
     localVarBodyParameters = cJSON_Print(UserJSONObject);
 
    apiClient_invoke(apiClient,
@@ -86,7 +85,7 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, array User) {
 
 // Creates list of users with given input array
 //
-void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, array User) {
+void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list User) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -100,7 +99,7 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, array User) {
 
     // JSON HTTP Request - user
     cJSON *UserJSONObject;
-    UserJSONObject = array_convertToJSON(User);
+    UserJSONObject = list_convertToJSON(User);
     localVarBodyParameters = cJSON_Print(UserJSONObject);
 
    apiClient_invoke(apiClient,

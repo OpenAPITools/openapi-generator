@@ -52,7 +52,7 @@ void *StoreAPI_deleteOrder(apiClient_t *apiClient, char OrderId) {
 //
 // Returns a map of status codes to quantities
 //
-map_t *StoreAPI_getInventory(apiClient_t *apiClient) {
+map<String, int>_t *StoreAPI_getInventory(apiClient_t *apiClient) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -74,15 +74,15 @@ map_t *StoreAPI_getInventory(apiClient_t *apiClient) {
                     "GET");
 
    free(apiClient->dataReceived);
-    localVarmap = _parseFromJSON(apiClient->dataReceived);
-    if(localVarmap == NULL) {
+    localVarmap<String, int> = _parseFromJSON(apiClient->dataReceived);
+    if(localVarmap<String, int> == NULL) {
         return 0;
     } else {
         cJSON *jsonObject = _convertToJSON();
         cJSON_Delete(jsonObject);
     }
 
-   return localVarmap;
+   return localVarmap<String, int>;
 
 }
 

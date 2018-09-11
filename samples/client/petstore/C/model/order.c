@@ -5,12 +5,12 @@
 
 
 order_t *order_create(
-		long		*id,
-		long		*petId,
-		int		*quantity,
-		char		*shipDate,
-		char		*status,
-		int		*complete
+        long      id,
+        long      petId,
+        int      quantity,
+        char      shipDate,
+        char      status,
+        int      complete
 		) {
 	order_t *order = malloc(sizeof(order_t));
 	order->id = id;

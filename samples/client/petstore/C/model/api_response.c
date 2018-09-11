@@ -5,9 +5,9 @@
 
 
 api_response_t *api_response_create(
-		int		*code,
-		char		*type,
-		char		*message
+        int      code,
+        char      type,
+        char      message
 		) {
 	api_response_t *api_response = malloc(sizeof(api_response_t));
 	api_response->code = code;

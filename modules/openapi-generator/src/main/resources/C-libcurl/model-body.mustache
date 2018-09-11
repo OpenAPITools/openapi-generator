@@ -10,9 +10,14 @@
 
 
 {{classname}}_t *{{classname}}_create(
-		{{#vars}}
-		{{{dataType}}}		*{{{baseName}}}{{#hasMore}},{{/hasMore}}
-		{{/vars}}
+        {{#vars}}
+        {{#isPrimitiveType}}
+        {{{dataType}}}      {{{baseName}}}{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{{dataType}}}_t {{#isContainer}}{{#items}}*{{/items}}{{/isContainer}}{{baseName}}}{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{/vars}}
 		) {
 	{{classname}}_t *{{classname}} = malloc(sizeof({{classname}}_t));
 	{{#vars}}

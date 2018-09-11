@@ -2,18 +2,17 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
-#include "array.h"
 #include "category.h"
 #include "tag.h"
 
 
 pet_t *pet_create(
-		long		*id,
-		category		*category,
-		char		*name,
-		array		*photoUrls,
-		array		*tags,
-		char		*status
+        long      id,
+        category_t category},
+        char      name,
+        list      photoUrls,
+        list_t *tags},
+        char      status
 		) {
 	pet_t *pet = malloc(sizeof(pet_t));
 	pet->id = id;

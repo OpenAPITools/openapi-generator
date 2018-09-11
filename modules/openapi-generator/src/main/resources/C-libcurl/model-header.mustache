@@ -1,4 +1,6 @@
-{{#models}}{{#model}}/*
+{{#models}}
+{{#model}}
+/*
  * {{classname}}.h
  *
  * {{description}}
@@ -16,10 +18,10 @@ typedef struct {{classname}}_t {
 	{{#vars}}
 	{{#isPrimitiveType}}
 	{{#isString}}
-	{{dataType}} *{{name}};
+	{{dataType}}    {{name}};
 	{{/isString}}
 	{{^isString}} 
-	{{dataType}} {{name}}; //TODO can be modified for numeric in mustache
+	{{dataType}}    {{name}}; //TODO can be modified for numeric in mustache
 	{{/isString}}
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
@@ -31,7 +33,12 @@ typedef struct {{classname}}_t {
 
 {{classname}}_t *{{classname}}_create(
 		{{#vars}}
-		{{{dataType}}}		*{{{baseName}}}{{#hasMore}},{{/hasMore}}
+        {{#isPrimitiveType}}
+		{{{dataType}}}    {{{baseName}}}{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{{dataType}}}_t {{#isContainer}}{{#items}}*{{/items}}{{/isContainer}}{{{baseName}}}{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
 		{{/vars}}
 		);
 		
@@ -42,4 +49,5 @@ void {{classname}}_free({{classname}}_t *{{classname}});
 cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}});
 
 #endif /* _{{classname}}_H_ */
-{{/model}}{{/models}}
+{{/model}}
+{{/models}}

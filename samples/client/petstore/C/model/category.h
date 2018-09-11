@@ -10,14 +10,14 @@
 #include <string.h>
 
 typedef struct category_t {
-	long id; //TODO can be modified for numeric in mustache
-	char *name;
+	long    id; //TODO can be modified for numeric in mustache
+	char    name;
 	
 } category_t;
 
 category_t *category_create(
-		long		*id,
-		char		*name
+		long    id,
+		char    name
 		);
 		
 void category_free(category_t *category);
