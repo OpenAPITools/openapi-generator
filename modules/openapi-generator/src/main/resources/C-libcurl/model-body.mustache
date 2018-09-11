@@ -4,16 +4,56 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "{{classname}}.h"
 {{#imports}}
 #include "{{{.}}}.h"
 {{/imports}}
 
 
 {{classname}}_t *{{classname}}_create(
-		{{#vars}}
-		{{{dataType}}}		*{{{baseName}}}{{#hasMore}},{{/hasMore}}
-		{{/vars}}
-		) {
+    {{#vars}}
+    {{^isContainer}}
+    {{^isPrimitiveType}}
+    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{#isNumeric}}
+    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isNumeric}}
+    {{#isBoolean}}
+    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isBoolean}}
+    {{#isEnum}}
+    {{#isString}}
+    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isString}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#isString}}
+    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isString}}
+    {{/isEnum}}
+    {{#isDateTime}}
+    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#isListContainer}}
+    {{#isPrimitiveType}}
+    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{/isPrimitiveType}}
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    // TODO map/hash not supported at the moment
+    {{/isMapContainer}}
+    {{/isContainer}}
+    {{/vars}}
+    ) {
 	{{classname}}_t *{{classname}} = malloc(sizeof({{classname}}_t));
 	{{#vars}}
 	{{classname}}->{{{baseName}}} = {{{baseName}}};
@@ -30,23 +70,40 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
 	{{{name}}}_free({{{classname}}}->{{{baseName}}});
 	{{/isPrimitiveType}}
 	{{#isPrimitiveType}}
-	{{#isString}}
-	free({{{classname}}}->{{{baseName}}});
-	{{/isString}}
+    {{#isNumeric}}
+    //free({{{classname}}}->{{{baseName}}});
+    {{/isNumeric}}
+    {{#isBoolean}}
+    //free({{{classname}}}->{{{baseName}}});
+    {{/isBoolean}}
+    {{#isEnum}}
+    {{#isString}}
+    free({{{classname}}}->{{{baseName}}});
+    {{/isString}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#isString}}
+    free({{{classname}}}->{{{baseName}}});
+    {{/isString}}
+    {{/isEnum}}
+    {{#isDateTime}}
+    free({{{classname}}}->{{{baseName}}});
+    {{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{/isContainer}}
 	{{#isContainer}}
 	{{#isListContainer}}
 	{{#isPrimitiveType}}
-	listEntry_t *{{{baseName}}}_ListEntry;
-	list_ForEach({{{baseName}}}_ListEntry, {{classname}}->{{baseName}}) {
-		free({{{baseName}}}_ListEntry->data);
+	listEntry_t *{{{baseName}}}ListEntry;
+	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{baseName}}) {
+		free({{{baseName}}}ListEntry->data);
 	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
-	list_ForEach({{{baseName}}}_ListEntry, {{classname}}->{{baseName}}) {
-		{{baseName}}_free({{{baseName}}}_ListEntry->data);
+    listEntry_t *{{{baseName}}}ListEntry;
+	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{baseName}}) {
+		{{baseName}}_free({{{baseName}}}ListEntry->data);
 	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
@@ -55,8 +112,8 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
 	// TODO map/hash not supported at the moment
 	{{/isMapContainer}}
 	{{/isContainer}}
-
 	{{/vars}}
+
 	free({{classname}});
 }
 
@@ -66,24 +123,42 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
 	// {{{classname}}}->{{{baseName}}}
 	{{^isContainer}}
 	{{#isPrimitiveType}}
-	{{#isNumeric}}
-	if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
-    	goto fail; //Numeric
+    {{#isNumeric}}
+    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    goto fail; //Numeric
     }
-
-	{{/isNumeric}}
-	{{#isString}}
-	if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
-		goto fail; //String
-	}
-	{{/isString}}
+    {{/isNumeric}}
+    {{#isBoolean}}
+    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    goto fail; //Numeric
+    }
+    {{/isBoolean}}
+    {{#isEnum}}
+    {{#isString}}
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    goto fail; //String
+    }
+    {{/isString}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#isString}}
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    goto fail; //String
+    }
+    {{/isString}}
+    {{/isEnum}}
+    {{#isDateTime}}
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    goto fail; //String
+    }
+    {{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
-	cJSON *{{{baseName}}}Item = {{{baseName}}}_convertToJSON({{{classname}}}->{{{baseName}}});
+	cJSON *{{{baseName}}} = {{{baseName}}}_convertToJSON({{{classname}}}->{{{baseName}}});
 	if({{{baseName}}} == NULL) {
 		goto fail; //nonprimitive
 	}
-	cJSON_AddItemToObject(item, "{{{baseName}}}", {{{baseName}}}Item);
+	cJSON_AddItemToObject(item, "{{{baseName}}}", {{{baseName}}});
 	if(item->child == NULL) {
 		goto fail; 
 	}
@@ -133,11 +208,11 @@ fail:
 	return NULL;
 }
 
-{{classname}}_t *{{classname}}_parseFromJSON(char *jsonString){
+{{classname}}_t *{{classname}}_parseFromJSON(cJSON *jsonString){
 
     {{classname}}_t *{{classname}} = NULL;
-
-    cJSON *{{classname}}JSON = cJSON_Parse(jsonString);
+    char *parsedString = cJSON_Print(jsonString);
+    cJSON *{{classname}}JSON = cJSON_Parse(parsedString);
     if({{classname}}JSON == NULL){
         const char *error_ptr = cJSON_GetErrorPtr();
         if (error_ptr != NULL) {
@@ -152,20 +227,43 @@ fail:
     {{#isPrimitiveType}}
     {{#isNumeric}}
     cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
-    if(!cJSON_IsNumber({{classname}}->{{{baseName}}}))
+    if(!cJSON_IsNumber({{{baseName}}}))
     {
-        goto end; //Numeric
+    goto end; //Numeric
     }
     {{/isNumeric}}
+    {{#isBoolean}}
+    cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if(!cJSON_IsNumber({{{baseName}}}))
+    {
+    goto end; //Numeric
+    }
+    {{/isBoolean}}
+    {{#isEnum}}
     {{#isString}}
     cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
-    if(!cJSON_IsString({{classname}}->{{{baseName}}}) || ({{classname}}{{{baseName}}}->valuestring == NULL)){
-        goto end; //String
+    if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL)){
+    goto end; //String
     }
     {{/isString}}
+    {{/isEnum}}
+    {{^isEnum}}
+    {{#isString}}
+    cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL)){
+    goto end; //String
+    }
+    {{/isString}}
+    {{/isEnum}}
+    {{#isDateTime}}
+    cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL)){
+    goto end; //String
+    }
+    {{/isDateTime}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{baseName}}_t *{{baseName}}
+    {{baseName}}_t *{{baseName}};
     cJSON *{{baseName}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{baseName}}");
     if({{classname}}JSON == NULL){
         const char *error_ptr = cJSON_GetErrorPtr();
@@ -179,8 +277,9 @@ fail:
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
+    cJSON *{{{baseName}}};
     cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
-    if(!cJSON_IsArray({{classname}}->{{{baseName}}})) {
+    if(!cJSON_IsArray({{{baseName}}}JSON)) {
         goto end;//primitive container
     }
     list_t *{{{baseName}}}List = list_create();
@@ -195,11 +294,13 @@ fail:
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    list_t *{{{baseName}}}List = list_create();
+    cJSON *{{{baseName}}};
     cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON,"{{{baseName}}}");
     if(!cJSON_IsArray({{{baseName}}}JSON)){
         goto end; //nonprimitive container
     }
+
+    list_t *{{{baseName}}}List = list_create();
 
     cJSON_ArrayForEach({{{baseName}}},{{{baseName}}}JSON )
     {
@@ -207,9 +308,9 @@ fail:
             goto end;
         }
 
-        {{{baseName}}}_t *{{{baseName}}} = {{{baseName}}}_parseFromJSON({{{baseName}}} );
+        {{{baseName}}}_t *{{{baseName}}}Item = {{{baseName}}}_parseFromJSON({{{baseName}}});
 
-        list_addEement({{{baseName}}}List, {{{baseName}}});
+        list_addEement({{{baseName}}}List, {{{baseName}}}Item);
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}
@@ -230,9 +331,22 @@ fail:
         {{#isNumeric}}
         {{{baseName}}}->valuedouble{{#hasMore}},{{/hasMore}}
         {{/isNumeric}}
+        {{#isBoolean}}
+        {{{baseName}}}->valuedouble{{#hasMore}},{{/hasMore}}
+        {{/isBoolean}}
+        {{#isEnum}}
         {{#isString}}
         strdup({{{baseName}}}->valuestring){{#hasMore}},{{/hasMore}}
         {{/isString}}
+        {{/isEnum}}
+        {{^isEnum}}
+        {{#isString}}
+        strdup({{{baseName}}}->valuestring){{#hasMore}},{{/hasMore}}
+        {{/isString}}
+        {{/isEnum}}
+        {{#isDateTime}}
+        strdup({{{baseName}}}->valuestring){{#hasMore}},{{/hasMore}}
+        {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}
         {{#isContainer}}
