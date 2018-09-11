@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -129,6 +128,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.add("char");
         languageSpecificPrimitives.add("FILE");
         languageSpecificPrimitives.add("Object");
+        languageSpecificPrimitives.add("list");
 
         typeMapping.put("string", "char");
         typeMapping.put("char", "char");
@@ -140,10 +140,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("date", "char");
         typeMapping.put("DateTime", "char");
         typeMapping.put("boolean", "int");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "FILE");
         typeMapping.put("binary", "char");
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
+        typeMapping.put("array", "list");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
@@ -254,15 +255,13 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String getTypeDeclaration(Schema schema) {
-        /* comment out below as we'll do it in the template instead
         if (ModelUtils.isArraySchema(schema)) {
             Schema inner = ((ArraySchema) schema).getItems();
-            return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
+            return getSchemaType(schema);
         } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = (Schema) schema.getAdditionalProperties();
             return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
-        */
 
         return super.getTypeDeclaration(schema);
     }

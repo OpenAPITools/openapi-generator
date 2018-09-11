@@ -10,22 +10,22 @@
 #include <string.h>
 
 typedef struct order_t {
-	long id; //TODO can be modified for numeric in mustache
-	long pet_id; //TODO can be modified for numeric in mustache
-	int quantity; //TODO can be modified for numeric in mustache
-	char ship_date; //TODO can be modified for numeric in mustache
-	char *status;
-	int complete; //TODO can be modified for numeric in mustache
+	long    id; //TODO can be modified for numeric in mustache
+	long    pet_id; //TODO can be modified for numeric in mustache
+	int    quantity; //TODO can be modified for numeric in mustache
+	char    ship_date; //TODO can be modified for numeric in mustache
+	char    status;
+	int    complete; //TODO can be modified for numeric in mustache
 	
 } order_t;
 
 order_t *order_create(
-		long		*id,
-		long		*petId,
-		int		*quantity,
-		char		*shipDate,
-		char		*status,
-		int		*complete
+		long    id,
+		long    petId,
+		int    quantity,
+		char    shipDate,
+		char    status,
+		int    complete
 		);
 		
 void order_free(order_t *order);

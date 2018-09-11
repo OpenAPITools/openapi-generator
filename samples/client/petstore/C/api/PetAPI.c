@@ -3,7 +3,6 @@
 #include "apiClient.h"
 #include "cJSON.h"
 #include "models.api_response.h" // TODO will fix the import later
-#include "models.file.h" // TODO will fix the import later
 #include "models.pet.h" // TODO will fix the import later
 
 #define MAX_BUFFER_LENGTH 4096
@@ -91,7 +90,7 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char ApiKey) {
 //
 // Multiple status values can be provided with comma separated strings
 //
-array_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, array Status) {
+list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list Status) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -118,15 +117,15 @@ array_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, array Status) {
 
    free(apiClient->dataReceived);
    free(StatusString);
-    localVararray = _parseFromJSON(apiClient->dataReceived);
-    if(localVararray == NULL) {
+    localVarlist = _parseFromJSON(apiClient->dataReceived);
+    if(localVarlist == NULL) {
         return 0;
     } else {
         cJSON *jsonObject = _convertToJSON();
         cJSON_Delete(jsonObject);
     }
 
-   return localVararray;
+   return localVarlist;
 
 }
 
@@ -134,7 +133,7 @@ array_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, array Status) {
 //
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
-array_t *PetAPI_findPetsByTags(apiClient_t *apiClient, array Tags) {
+list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list Tags) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -161,15 +160,15 @@ array_t *PetAPI_findPetsByTags(apiClient_t *apiClient, array Tags) {
 
    free(apiClient->dataReceived);
    free(TagsString);
-    localVararray = _parseFromJSON(apiClient->dataReceived);
-    if(localVararray == NULL) {
+    localVarlist = _parseFromJSON(apiClient->dataReceived);
+    if(localVarlist == NULL) {
         return 0;
     } else {
         cJSON *jsonObject = _convertToJSON();
         cJSON_Delete(jsonObject);
     }
 
-   return localVararray;
+   return localVarlist;
 
 }
 
@@ -300,7 +299,7 @@ void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char Name, ch
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char AdditionalMetadata, File File) {
+api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char AdditionalMetadata, FILE File) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,

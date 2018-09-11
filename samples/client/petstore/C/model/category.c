@@ -5,8 +5,8 @@
 
 
 category_t *category_create(
-		long		*id,
-		char		*name
+        long      id,
+        char      name
 		) {
 	category_t *category = malloc(sizeof(category_t));
 	category->id = id;

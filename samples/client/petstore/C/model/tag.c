@@ -5,8 +5,8 @@
 
 
 tag_t *tag_create(
-		long		*id,
-		char		*name
+        long      id,
+        char      name
 		) {
 	tag_t *tag = malloc(sizeof(tag_t));
 	tag->id = id;
