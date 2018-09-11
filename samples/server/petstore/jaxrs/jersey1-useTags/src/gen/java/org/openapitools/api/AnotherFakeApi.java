@@ -42,7 +42,7 @@ public class AnotherFakeApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Response call123testSpecialTags(
-        @ApiParam(value = "client model" ,required=true) Client client,
+        @ApiParam(value = "client model" ,required=true) @Valid Client client,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.call123testSpecialTags(client,securityContext);
