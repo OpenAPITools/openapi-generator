@@ -185,8 +185,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
         supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
-        supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
-
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
 
         supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
