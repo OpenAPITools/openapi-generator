@@ -1,6 +1,6 @@
 # flutter_petstore
 
-Swagger petstore sample flutter
+OpenApi petstore sample flutter
 
 ## Getting Started
 

@@ -28,11 +28,11 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 
 # Generate client
-ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l dart-jaguar -o samples/client/petstore/dart-jaguar/openapi -DhideGenerationTimestamp=true"
+ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l dart-jaguar -o samples/client/petstore/dart-jaguar/openapi -DhideGenerationTimestamp=true -DpubName=openapi"
 java $JAVA_OPTS -jar $executable $ags
 
 # Generate non-browserClient and put it to the flutter sample app
-ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l dart-jaguar -o samples/client/petstore/dart-jaguar/flutter_petstore/openapi -DhideGenerationTimestamp=true"
+ags="$@ generate -t modules/openapi-generator/src/main/resources/dart-jaguar -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -l dart-jaguar -o samples/client/petstore/dart-jaguar/flutter_petstore/openapi -DhideGenerationTimestamp=true -DpubName=openapi"
 java $JAVA_OPTS -jar $executable $ags
 
 # There is a proposal to allow importing different libraries depending on the environment:

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:swagger/api.dart';
-import 'package:swagger/model/order.dart';
-import 'package:swagger/model/pet.dart';
-import 'package:swagger/model/user.dart';
+import 'package:openapi/api.dart';
+import 'package:openapi/model/order.dart';
+import 'package:openapi/model/pet.dart';
+import 'package:openapi/model/user.dart';
+import 'package:jaguar_resty/jaguar_resty.dart';
 
-void main() => runApp(MyApp());
+
+void main() {
+  globalClient = IOClient();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -49,7 +54,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  SwaggerGen swaggerGen = SwaggerGen();
+  JaguarApiGen jaguarApiGen = JaguarApiGen();
 
   void _incrementCounter() {
     setState(() {
@@ -74,12 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
     print('fetching pets by status...');
     var statuses = List<String>();
     statuses.add('available');
-    swaggerGen.getPetApi().findPetsByStatus(statuses)
+    jaguarApiGen.getPetApi().findPetsByStatus(statuses)
         .then((List<Pet> pets) {
       print('pets received: ');
       print(pets);
       var order = Order(petId: pets[0].id, quantity: 1);
-      swaggerGen.getStoreApi().placeOrder(order)
+      jaguarApiGen.getStoreApi().placeOrder(order)
       .then((Order order) => print(order));
     }).catchError((error) {
       print('error fetching pets');
@@ -89,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void fetchStoreInventory() {
     print('fetching inventory...');
-    swaggerGen.getStoreApi().getInventory()
+    jaguarApiGen.getStoreApi().getInventory()
         .then((Map inventory) {
       print('inventory received: ');
       print(inventory);
@@ -101,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void fetchUser() {
     print('fetching user1...');
-    swaggerGen.getUserApi().getUserByName('user1')
+    jaguarApiGen.getUserApi().getUserByName('user1')
         .then((User user) {
       print('user received: ');
       print(user);

@@ -31,7 +31,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// 
     @DeleteReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> deletePet(
-        int petId
+            @PathParam("petId") int petId
         ,
         @Header("api_key") String apiKey
     );
@@ -59,7 +59,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// Returns a single pet
     @GetReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "apiKey", "name": "api_key", "keyName": "api_key", "where": "header" }]})
     Future<Pet> getPetById(
-        int petId
+            @PathParam("petId") int petId
     );
 
     /// Update an existing pet
@@ -76,7 +76,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// 
     @PostReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> updatePetWithForm(
-        int petId
+            @PathParam("petId") int petId
         ,
         @AsFormField() String name, 
         
@@ -88,7 +88,7 @@ class PetApi extends _$PetApiClient implements ApiClient {
     /// 
     @PostReq(path: "/pet/:petId/uploadImage", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<ApiResponse> uploadFile(
-        int petId
+            @PathParam("petId") int petId
         ,
         @AsMultipartField() String additionalMetadata, 
         

@@ -18,16 +18,16 @@ final jsonJaguarRepo = JsonRepo()
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];
 
-class SwaggerGen {
+class JaguarApiGen {
     List<Interceptor> interceptors;
-    String baseSwaggerPath = "{{basePath}}";
+    String basePath = "{{basePath}}";
     Route _baseRoute;
 
     /**
-     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
-     */
-    SwaggerGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl}) {
-        _baseRoute = Route(baseUrl ?? baseSwaggerPath).withClient(globalClient ?? IOClient());
+    * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
+    */
+    JaguarApiGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl}) {
+        _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? IOClient());
         if(interceptors == null) {
             this.interceptors = _defaultInterceptors;
         }
@@ -58,9 +58,9 @@ class SwaggerGen {
 
     {{#apiInfo}}{{#apis}}
     /**
-     * Get {{classname}} instance, base route and serializer can be overridden by a given but be careful,
-     * by doing that all interceptors will not be executed
-     */
+    * Get {{classname}} instance, base route and serializer can be overridden by a given but be careful,
+    * by doing that all interceptors will not be executed
+    */
     {{classname}} get{{classname}}({Route base, SerializerRepo serializers}) {
         if(base == null) {
             base = _baseRoute;
