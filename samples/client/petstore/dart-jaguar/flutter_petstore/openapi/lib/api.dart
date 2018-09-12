@@ -32,14 +32,14 @@ final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKey
 
 class JaguarApiGen {
     List<Interceptor> interceptors;
-    String baseSwaggerPath = "http://petstore.swagger.io/v2";
+    String basePath = "http://petstore.swagger.io/v2";
     Route _baseRoute;
 
     /**
     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
     */
     JaguarApiGen({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl}) {
-        _baseRoute = Route(baseUrl ?? baseSwaggerPath).withClient(globalClient ?? IOClient());
+        _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? IOClient());
         if(interceptors == null) {
             this.interceptors = _defaultInterceptors;
         }
