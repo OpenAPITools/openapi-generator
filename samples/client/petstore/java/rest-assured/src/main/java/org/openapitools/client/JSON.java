@@ -52,19 +52,17 @@ public class JSON {
 
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-          .registerTypeSelector(Animal.class, new TypeSelector() {
-            @Override
-            public Class getClassForElement(JsonElement readElement) {
-                Map classByDiscriminatorValue = new HashMap();
-                classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
-                classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
-                classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
-                return getClassByDiscriminator(
-                                           classByDiscriminatorValue,
-                                           getDiscriminatorValue(readElement, "className"));
-            }
+                .registerTypeSelector(Animal.class, new TypeSelector() {
+                    @Override
+                    public Class getClassForElement(JsonElement readElement) {
+                        Map classByDiscriminatorValue = new HashMap();
+                        classByDiscriminatorValue.put("Dog".toUpperCase(Locale.ROOT), Dog.class);
+                        classByDiscriminatorValue.put("Cat".toUpperCase(Locale.ROOT), Cat.class);
+                        classByDiscriminatorValue.put("Animal".toUpperCase(Locale.ROOT), Animal.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "className"));
+                    }
           })
-        
         ;
         GsonBuilder builder = fireBuilder.createGsonBuilder();
         return builder;
@@ -72,7 +70,7 @@ public class JSON {
 
     private static String getDiscriminatorValue(JsonElement readElement, String discriminatorField) {
         JsonElement element = readElement.getAsJsonObject().get(discriminatorField);
-        if(null == element) {
+        if (null == element) {
             throw new IllegalArgumentException("missing discriminator field: <" + discriminatorField + ">");
         }
         return element.getAsString();
@@ -80,7 +78,7 @@ public class JSON {
 
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
         Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
-        if(null == clazz) {
+        if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }
         return clazz;
@@ -153,9 +151,11 @@ public class JSON {
         } catch (JsonParseException e) {
             // Fallback processing when failed to parse JSON form response body:
             // return the response body string directly for the String return type;
-            if (returnType.equals(String.class))
+            if (returnType.equals(String.class)) {
                 return (T) body;
-            else throw (e);
+            } else {
+                throw (e);
+            }
         }
     }
 
@@ -291,8 +291,7 @@ public class JSON {
 
         private DateFormat dateFormat;
 
-        public SqlDateTypeAdapter() {
-        }
+        public SqlDateTypeAdapter() {}
 
         public SqlDateTypeAdapter(DateFormat dateFormat) {
             this.dateFormat = dateFormat;
@@ -345,8 +344,7 @@ public class JSON {
 
         private DateFormat dateFormat;
 
-        public DateTypeAdapter() {
-        }
+        public DateTypeAdapter() {}
 
         public DateTypeAdapter(DateFormat dateFormat) {
             this.dateFormat = dateFormat;

@@ -52,8 +52,10 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separator + "C-libcurl";
-        modelTemplateFiles.put("model.mustache", ".c");
-        apiTemplateFiles.put("api.mustache", ".c");
+        modelTemplateFiles.put("model-header.mustache", ".h");
+        modelTemplateFiles.put("model-body.mustache", ".c");
+        apiTemplateFiles.put("api-header.mustache", ".h");
+        apiTemplateFiles.put("api-body.mustache", ".c");
         //modelDocTemplateFiles.put("model_doc.mustache", ".md");
         //apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C-libcurl";
@@ -146,7 +148,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("binary", "char");
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
-
+        typeMapping.put("array", "list");
+        typeMapping.put("date-time", "char");
+        
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
         while (itr.hasNext()) {
@@ -189,13 +193,14 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("CMakeLists.txt.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("libcurl.licence.mustache", "", "libcurl.licence"));
         supportingFiles.add(new SupportingFile("uncrustify-rules.cfg.mustache", "", "uncrustify-rules.cfg"));
+        supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
         // src folder
         supportingFiles.add(new SupportingFile("apiClient.c.mustache", "src", "apiClient.c"));
         supportingFiles.add(new SupportingFile("apiKey.c.mustache", "src", "apiKey.c"));
         supportingFiles.add(new SupportingFile("list.c.mustache", "src", "list.c"));
         // include folder
         supportingFiles.add(new SupportingFile("apiClient.h.mustache", "include", "apiClient.h"));
-        supportingFiles.add(new SupportingFile("apiKey.h.mustache", "include", "apiKey.h"));
+        supportingFiles.add(new SupportingFile("keyValuePair.h.mustache", "include", "keyValuePair.h"));
         supportingFiles.add(new SupportingFile("list.h.mustache", "include", "list.h"));
         // external folder
         supportingFiles.add(new SupportingFile("cJSON.licence.mustache", "external", "cJSON.licence"));
@@ -494,6 +499,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toApiImport(String name) {
         return apiPackage() + "/" + toApiFilename(name);
+    }
+    
+    @Override
+    public String toModelImport(String name) {
+        return "#include \"" + name + ".h\"";
     }
 
     @Override

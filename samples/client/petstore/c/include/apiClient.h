@@ -14,19 +14,26 @@ typedef struct apiClient_t {
     #ifdef BASIC_AUTH
 	char *username;
 	char *password;
-    #endif //BASIC_AUTH
+    #endif // BASIC_AUTH
 	// this would only be generated for OAUTH2 authentication
     #ifdef OAUTH2
 	char *accessToken;
     #endif // OAUTH2
     #ifdef API_KEY
-	//this would only be generated for apiKey authentication
+	// this would only be generated for apiKey authentication
 	list_t *apiKeys;
     #endif // API_KEY
 } apiClient_t;
 
-apiClient_t* apiClient_create();
+apiClient_t *apiClient_create();
 void apiClient_free(apiClient_t *apiClient);
-void apiClient_invoke(apiClient_t *apiClient, char* operationName, char* operationParameter, list_t *queryParameters, list_t *headerParameters, list_t *formParameters, char *bodyParameters, char *requestType);
+void apiClient_invoke(apiClient_t	*apiClient,
+                      char		*operationName,
+                      char		*operationParameter,
+                      list_t		*queryParameters,
+                      list_t		*headerParameters,
+                      list_t		*formParameters,
+                      char		*bodyParameters,
+                      char		*requestType);
 
 #endif // INCLUDE_API_CLIENT_H

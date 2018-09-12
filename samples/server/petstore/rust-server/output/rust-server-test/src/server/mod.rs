@@ -51,7 +51,7 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
-            r"^/dummy$"
+            r"^//dummy$"
         ]).unwrap();
     }
     pub static ID_DUMMY: usize = 0;

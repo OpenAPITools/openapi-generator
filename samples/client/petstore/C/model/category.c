@@ -2,12 +2,10 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "category.h"
 
 
-category_t *category_create(
-		long		*id,
-		char		*name
-		) {
+category_t *category_create(long id, char *name) {
 	category_t *category = malloc(sizeof(category_t));
 	category->id = id;
 	category->name = name;
@@ -17,8 +15,8 @@ category_t *category_create(
 
 
 void category_free(category_t *category) {
-
-	free(category->name)
+	// free(category->id);
+	free(category->name);
 
 	free(category);
 }
@@ -27,17 +25,54 @@ cJSON *category_convertToJSON(category_t *category) {
 	cJSON *item = cJSON_CreateObject();
 	// category->id
 	if(cJSON_AddNumberToObject(item, "id", category->id) == NULL) {
-    	goto fail;
-    }
-
+		goto fail; // Numeric
+	}
 
 	// category->name
 	if(cJSON_AddStringToObject(item, "name", category->name) == NULL) {
-		goto fail;
+		goto fail; // String
 	}
 
 	return item;
 fail:
 	cJSON_Delete(item);
+	return NULL;
+}
+
+category_t *category_parseFromJSON(cJSON *jsonString) {
+	category_t *category = NULL;
+	char *parsedString = cJSON_Print(jsonString);
+	cJSON *categoryJSON = cJSON_Parse(parsedString);
+	if(categoryJSON == NULL) {
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if(error_ptr != NULL) {
+			fprintf(stderr, "Error Before: %s\n", error_ptr);
+			goto end;
+		}
+	}
+
+	// category->id
+	cJSON *id = cJSON_GetObjectItemCaseSensitive(categoryJSON, "id");
+	if(!cJSON_IsNumber(id)) {
+		goto end; // Numeric
+	}
+
+	// category->name
+	cJSON *name = cJSON_GetObjectItemCaseSensitive(categoryJSON, "name");
+	if(!cJSON_IsString(name) ||
+	   (name->valuestring == NULL))
+	{
+		goto end; // String
+	}
+
+
+	category = category_create(
+		id->valuedouble,
+		strdup(name->valuestring)
+		);
+
+	return category;
+end:
+	cJSON_Delete(categoryJSON);
 	return NULL;
 }

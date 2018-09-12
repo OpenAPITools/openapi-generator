@@ -45,7 +45,6 @@ userDecoder =
         |> optional "userStatus" (Decode.nullable Decode.int) Nothing
 
 
-
 userEncoder : User -> Encode.Value
 userEncoder model =
     Encode.object
@@ -58,4 +57,3 @@ userEncoder model =
         , ( "phone", withDefault Encode.null (map Encode.string model.phone) )
         , ( "userStatus", withDefault Encode.null (map Encode.int model.userStatus) )
         ]
-

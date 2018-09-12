@@ -1,0 +1,24 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "apiClient.h"
+#include "cJSON.h"
+{{#imports}}{{{import}}}
+{{/imports}}
+
+
+{{#operations}}
+{{#operation}}
+{{#summary}}
+// {{{summary}}}
+//
+{{/summary}}
+{{#notes}}
+// {{{notes}}}
+//
+{{/notes}}
+{{#returnType}}{{{.}}}_t{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}},{{{dataType}}}{{#isListContainer}}_t*{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}}{{/isListContainer}} {{paramName}}{{/allParams}}); 
+
+{{/operation}}
+{{/operations}}
+
+

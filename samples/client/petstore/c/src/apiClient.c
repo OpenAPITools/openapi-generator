@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "apiClient.h"
-#include "pet.h"
 #include "keyValuePair.h"
+#include "pet.h" // TODO: Manual Path check if its ok
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
@@ -34,10 +34,10 @@ void replaceSpaceWithPlus(char *stringToProcess) {
 	}
 }
 
-char *assembleTargetUrl(char   *basePath,
-                        char   *operationName,
-                        char   *operationParameter,
-                        list_t *queryParameters) {
+char *assembleTargetUrl(char	*basePath,
+                        char	*operationName,
+                        char	*operationParameter,
+                        list_t	*queryParameters) {
 	int neededBufferSizeForQueryParameters = 0;
 	listEntry_t *listEntry;
 
@@ -113,14 +113,14 @@ void postData(CURL *handle, char *bodyParameters) {
 }
 
 
-void apiClient_invoke(apiClient_t  *apiClient,
-                      char    *operationName,
-                      char    *operationParameter,
-                      list_t      *queryParameters,
-                      list_t      *headerParameters,
-                      list_t      *formParameters,
-                      char    *bodyParameters,
-                      char    *requestType) {
+void apiClient_invoke(apiClient_t	*apiClient,
+                      char		*operationName,
+                      char		*operationParameter,
+                      list_t		*queryParameters,
+                      list_t		*headerParameters,
+                      list_t		*formParameters,
+                      char		*bodyParameters,
+                      char		*requestType) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
 
@@ -286,32 +286,38 @@ char *strReplace(char *orig, char *rep, char *with) {
 	int count; // number of replacements
 
 	// sanity checks and initialization
-	if (!orig || !rep)
+	if(!orig ||
+	   !rep)
+	{
 		return NULL;
+	}
 	lenRep = strlen(rep);
-	if (lenRep == 0)
+	if(lenRep == 0) {
 		return NULL; // empty rep causes infinite loop during count
-	if (!with)
+	}
+	if(!with) {
 		with = "";
+	}
 	lenWith = strlen(with);
 
 	// count the number of replacements needed
 	ins = orig;
-	for (count = 0; tmp = strstr(ins, rep); ++count) {
+	for(count = 0; tmp = strstr(ins, rep); ++count) {
 		ins = tmp + lenRep;
 	}
 
 	tmp = result = malloc(strlen(orig) + (lenWith - lenRep) * count + 1);
 
-	if (!result)
+	if(!result) {
 		return NULL;
+	}
 
 	// first time through the loop, all the variable are set correctly
 	// from here on,
-	//    tmp points to the end of the result string
-	//    ins points to the next occurrence of rep in orig
-	//    orig points to the remainder of orig after "end of rep"
-	while (count--) {
+	// tmp points to the end of the result string
+	// ins points to the next occurrence of rep in orig
+	// orig points to the remainder of orig after "end of rep"
+	while(count--) {
 		ins = strstr(orig, rep);
 		lenFront = ins - orig;
 		tmp = strncpy(tmp, orig, lenFront) + lenFront;
@@ -321,5 +327,3 @@ char *strReplace(char *orig, char *rep, char *with) {
 	strcpy(tmp, orig);
 	return result;
 }
-
-
