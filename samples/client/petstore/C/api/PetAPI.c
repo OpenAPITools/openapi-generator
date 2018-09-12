@@ -3,7 +3,6 @@
 #include "apiClient.h"
 #include "cJSON.h"
 #include "api_response.h"
-#include "file.h"
 #include "pet.h"
 
 #define MAX_BUFFER_LENGTH 4096
@@ -300,7 +299,7 @@ void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char* Name, c
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char* AdditionalMetadata, File File) {
+api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char* AdditionalMetadata, FILE File) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
