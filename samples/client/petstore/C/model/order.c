@@ -5,12 +5,14 @@
 #include "order.h"
 
 
-order_t *order_create(long	id,
-                      long	petId,
-                      int	quantity,
-                      char	*shipDate,
-                      char	*status,
-                      int	complete) {
+order_t *order_create(
+    long id,
+    long petId,
+    int quantity,
+    char *shipDate,
+    char *status,
+    int complete
+    ) {
 	order_t *order = malloc(sizeof(order_t));
 	order->id = id;
 	order->petId = petId;
@@ -24,12 +26,12 @@ order_t *order_create(long	id,
 
 
 void order_free(order_t *order) {
-	// free(order->id);
-	// free(order->petId);
-	// free(order->quantity);
-	free(order->shipDate);
-	free(order->status);
-	// free(order->complete);
+    //free(order->id);
+    //free(order->petId);
+    //free(order->quantity);
+    free(order->shipDate);
+    free(order->status);
+    //free(order->complete);
 
 	free(order);
 }
@@ -37,34 +39,34 @@ void order_free(order_t *order) {
 cJSON *order_convertToJSON(order_t *order) {
 	cJSON *item = cJSON_CreateObject();
 	// order->id
-	if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
-		goto fail; // Numeric
-	}
+    if(cJSON_AddNumberToObject(item, "id", order->id) == NULL) {
+    goto fail; //Numeric
+    }
 
 	// order->petId
-	if(cJSON_AddNumberToObject(item, "petId", order->petId) == NULL) {
-		goto fail; // Numeric
-	}
+    if(cJSON_AddNumberToObject(item, "petId", order->petId) == NULL) {
+    goto fail; //Numeric
+    }
 
 	// order->quantity
-	if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
-		goto fail; // Numeric
-	}
+    if(cJSON_AddNumberToObject(item, "quantity", order->quantity) == NULL) {
+    goto fail; //Numeric
+    }
 
 	// order->shipDate
-	if(cJSON_AddStringToObject(item, "shipDate", order->shipDate) == NULL) {
-		goto fail; // String
-	}
+    if(cJSON_AddStringToObject(item, "shipDate", order->shipDate) == NULL) {
+    goto fail; //String
+    }
 
 	// order->status
-	if(cJSON_AddStringToObject(item, "status", order->status) == NULL) {
-		goto fail; // String
-	}
+    if(cJSON_AddStringToObject(item, "status", order->status) == NULL) {
+    goto fail; //String
+    }
 
 	// order->complete
-	if(cJSON_AddNumberToObject(item, "complete", order->complete) == NULL) {
-		goto fail; // Numeric
-	}
+    if(cJSON_AddNumberToObject(item, "complete", order->complete) == NULL) {
+    goto fail; //Numeric
+    }
 
 	return item;
 fail:
@@ -72,73 +74,73 @@ fail:
 	return NULL;
 }
 
-order_t *order_parseFromJSON(cJSON *jsonString) {
-	order_t *order = NULL;
-	char *parsedString = cJSON_Print(jsonString);
-	cJSON *orderJSON = cJSON_Parse(parsedString);
-	if(orderJSON == NULL) {
-		const char *error_ptr = cJSON_GetErrorPtr();
-		if(error_ptr != NULL) {
-			fprintf(stderr, "Error Before: %s\n", error_ptr);
-			goto end;
-		}
-	}
+order_t *order_parseFromJSON(cJSON *jsonString){
 
-	// order->id
-	cJSON *id = cJSON_GetObjectItemCaseSensitive(orderJSON, "id");
-	if(!cJSON_IsNumber(id)) {
-		goto end; // Numeric
-	}
+    order_t *order = NULL;
+    char *parsedString = cJSON_Print(jsonString);
+    cJSON *orderJSON = cJSON_Parse(parsedString);
+    if(orderJSON == NULL){
+        const char *error_ptr = cJSON_GetErrorPtr();
+        if (error_ptr != NULL) {
+            fprintf(stderr, "Error Before: %s\n", error_ptr);
+            goto end;
+        }
+    }
 
-	// order->petId
-	cJSON *petId = cJSON_GetObjectItemCaseSensitive(orderJSON, "petId");
-	if(!cJSON_IsNumber(petId)) {
-		goto end; // Numeric
-	}
+    // order->id
+    cJSON *id = cJSON_GetObjectItemCaseSensitive(orderJSON, "id");
+    if(!cJSON_IsNumber(id))
+    {
+    goto end; //Numeric
+    }
 
-	// order->quantity
-	cJSON *quantity =
-		cJSON_GetObjectItemCaseSensitive(orderJSON, "quantity");
-	if(!cJSON_IsNumber(quantity)) {
-		goto end; // Numeric
-	}
+    // order->petId
+    cJSON *petId = cJSON_GetObjectItemCaseSensitive(orderJSON, "petId");
+    if(!cJSON_IsNumber(petId))
+    {
+    goto end; //Numeric
+    }
 
-	// order->shipDate
-	cJSON *shipDate =
-		cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
-	if(!cJSON_IsString(shipDate) ||
-	   (shipDate->valuestring == NULL))
-	{
-		goto end; // String
-	}
+    // order->quantity
+    cJSON *quantity = cJSON_GetObjectItemCaseSensitive(orderJSON, "quantity");
+    if(!cJSON_IsNumber(quantity))
+    {
+    goto end; //Numeric
+    }
 
-	// order->status
-	cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
-	if(!cJSON_IsString(status) ||
-	   (status->valuestring == NULL))
-	{
-		goto end; // String
-	}
+    // order->shipDate
+    cJSON *shipDate = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
+    if(!cJSON_IsString(shipDate) || (shipDate->valuestring == NULL)){
+    goto end; //String
+    }
 
-	// order->complete
-	cJSON *complete =
-		cJSON_GetObjectItemCaseSensitive(orderJSON, "complete");
-	if(!cJSON_IsNumber(complete)) {
-		goto end; // Numeric
-	}
+    // order->status
+    cJSON *status = cJSON_GetObjectItemCaseSensitive(orderJSON, "status");
+    if(!cJSON_IsString(status) || (status->valuestring == NULL)){
+    goto end; //String
+    }
+
+    // order->complete
+    cJSON *complete = cJSON_GetObjectItemCaseSensitive(orderJSON, "complete");
+    if(!cJSON_IsNumber(complete))
+    {
+    goto end; //Numeric
+    }
 
 
-	order = order_create(
-		id->valuedouble,
-		petId->valuedouble,
-		quantity->valuedouble,
-		strdup(shipDate->valuestring),
-		strdup(status->valuestring),
-		complete->valuedouble
-		);
+    order = order_create (
+        id->valuedouble,
+        petId->valuedouble,
+        quantity->valuedouble,
+        strdup(shipDate->valuestring),
+        strdup(status->valuestring),
+        complete->valuedouble
+        );
 
-	return order;
+    return order;
 end:
-	cJSON_Delete(orderJSON);
-	return NULL;
+    cJSON_Delete(orderJSON);
+    return NULL;
+
 }
+
