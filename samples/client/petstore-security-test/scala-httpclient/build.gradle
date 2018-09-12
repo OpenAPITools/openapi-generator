@@ -1,7 +1,7 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-group = 'io.swagger'
+group = 'org.openapitools'
 version = '1.0.0'
 
 buildscript {
@@ -84,7 +84,7 @@ if(hasProperty('target') && target == 'android') {
     
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'swagger-scala-client'
+            pom.artifactId = 'openapi-scala-client'
         }
     }
     
