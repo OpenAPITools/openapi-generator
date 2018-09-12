@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
 
-namespace Org.OpenAPITools
+namespace {{packageName}}
 {
     /// <summary>
     /// Program
@@ -25,6 +25,6 @@ namespace Org.OpenAPITools
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://0.0.0.0:8080/");
+                .UseUrls("http://0.0.0.0:{{#serverPort}}{{serverPort}}{{/serverPort}}{{^serverPort}}8080{{/serverPort}}/");
     }
 }
