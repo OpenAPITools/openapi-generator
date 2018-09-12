@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -32,6 +33,7 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
@@ -371,7 +373,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonValue");
             }
-
         } else {
             //Needed imports for Jackson's JsonCreator
             if (additionalProperties.containsKey("jackson")) {
@@ -379,6 +380,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
+            model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo"));
+        }
     }
 
     @Override
@@ -497,5 +501,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             writer.write(fragment.execute().replaceAll(from, to));
         }
+    }
+
+    // Can't figure out the logic in DefaultCodegen but optional vars are getting duplicated when there's
+    // inheritance involved. Also, isInherited doesn't seem to be getting set properly ¯\_(ツ)_/¯
+    @Override
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
+        CodegenModel m = super.fromModel(name, schema, allDefinitions);
+
+        m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
+        m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
+
+        return m;
     }
 }
