@@ -5,10 +5,7 @@
 #include "tag.h"
 
 
-tag_t *tag_create(
-    long id,
-    char *name
-    ) {
+tag_t *tag_create(long id, char *name) {
 	tag_t *tag = malloc(sizeof(tag_t));
 	tag->id = id;
 	tag->name = name;
@@ -18,8 +15,8 @@ tag_t *tag_create(
 
 
 void tag_free(tag_t *tag) {
-    //free(tag->id);
-    free(tag->name);
+	// free(tag->id);
+	free(tag->name);
 
 	free(tag);
 }
@@ -27,14 +24,14 @@ void tag_free(tag_t *tag) {
 cJSON *tag_convertToJSON(tag_t *tag) {
 	cJSON *item = cJSON_CreateObject();
 	// tag->id
-    if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
-    goto fail; //Numeric
-    }
+	if(cJSON_AddNumberToObject(item, "id", tag->id) == NULL) {
+		goto fail; // Numeric
+	}
 
 	// tag->name
-    if(cJSON_AddStringToObject(item, "name", tag->name) == NULL) {
-    goto fail; //String
-    }
+	if(cJSON_AddStringToObject(item, "name", tag->name) == NULL) {
+		goto fail; // String
+	}
 
 	return item;
 fail:
@@ -42,42 +39,40 @@ fail:
 	return NULL;
 }
 
-tag_t *tag_parseFromJSON(cJSON *jsonString){
+tag_t *tag_parseFromJSON(cJSON *jsonString) {
+	tag_t *tag = NULL;
+	char *parsedString = cJSON_Print(jsonString);
+	cJSON *tagJSON = cJSON_Parse(parsedString);
+	if(tagJSON == NULL) {
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if(error_ptr != NULL) {
+			fprintf(stderr, "Error Before: %s\n", error_ptr);
+			goto end;
+		}
+	}
 
-    tag_t *tag = NULL;
-    char *parsedString = cJSON_Print(jsonString);
-    cJSON *tagJSON = cJSON_Parse(parsedString);
-    if(tagJSON == NULL){
-        const char *error_ptr = cJSON_GetErrorPtr();
-        if (error_ptr != NULL) {
-            fprintf(stderr, "Error Before: %s\n", error_ptr);
-            goto end;
-        }
-    }
+	// tag->id
+	cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
+	if(!cJSON_IsNumber(id)) {
+		goto end; // Numeric
+	}
 
-    // tag->id
-    cJSON *id = cJSON_GetObjectItemCaseSensitive(tagJSON, "id");
-    if(!cJSON_IsNumber(id))
-    {
-    goto end; //Numeric
-    }
-
-    // tag->name
-    cJSON *name = cJSON_GetObjectItemCaseSensitive(tagJSON, "name");
-    if(!cJSON_IsString(name) || (name->valuestring == NULL)){
-    goto end; //String
-    }
+	// tag->name
+	cJSON *name = cJSON_GetObjectItemCaseSensitive(tagJSON, "name");
+	if(!cJSON_IsString(name) ||
+	   (name->valuestring == NULL))
+	{
+		goto end; // String
+	}
 
 
-    tag = tag_create (
-        id->valuedouble,
-        strdup(name->valuestring)
-        );
+	tag = tag_create(
+		id->valuedouble,
+		strdup(name->valuestring)
+		);
 
-    return tag;
+	return tag;
 end:
-    cJSON_Delete(tagJSON);
-    return NULL;
-
+	cJSON_Delete(tagJSON);
+	return NULL;
 }
-

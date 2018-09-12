@@ -11,28 +11,25 @@
 #include "cJSON.h"
 
 typedef struct user_t {
-        long id; //numeric
-        char *username; //no enum string
-        char *firstName; //no enum string
-        char *lastName; //no enum string
-        char *email; //no enum string
-        char *password; //no enum string
-        char *phone; //no enum string
-        int userStatus; //numeric
-
+	long id; // numeric
+	char *username; // no enum string
+	char *firstName; // no enum string
+	char *lastName; // no enum string
+	char *email; // no enum string
+	char *password; // no enum string
+	char *phone; // no enum string
+	int userStatus; // numeric
 } user_t;
 
-user_t *user_create(
-        long id,
-        char *username,
-        char *firstName,
-        char *lastName,
-        char *email,
-        char *password,
-        char *phone,
-        int userStatus
-);
-		
+user_t *user_create(long	id,
+                    char	*username,
+                    char	*firstName,
+                    char	*lastName,
+                    char	*email,
+                    char	*password,
+                    char	*phone,
+                    int		userStatus);
+
 void user_free(user_t *user);
 
 user_t *user_parseFromJSON(cJSON *jsonString);

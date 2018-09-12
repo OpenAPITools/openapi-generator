@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +24,16 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
@@ -168,6 +172,14 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_PATH"))) {
+            LOGGER.info("Environment variable UNCRUSTIFY_PATH not defined so the C code may not be properly formatted. To define it, try 'export UNCRUSTIFY_PATH=/usr/local/bin/uncrustify' (Linux/Mac)");
+        }
+
+        if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_CONFIG"))) {
+            LOGGER.info("Environment variable UNCRUSTIFY_CONFIG not defined so the C code may not be properly formatted. To define it, try 'export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg' (Linux/Mac)");
+        }
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -577,4 +589,48 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         return input.replace("=end", "=_end").replace("=begin", "=_begin");
     }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String uncrustifyFmtPath = System.getenv("UNCRUSTIFY_PATH");
+        if (StringUtils.isEmpty(uncrustifyFmtPath)) {
+            return; // skip if UNCRUSTIFY_PATH env variable is not defined
+        }
+
+        if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_CONFIG"))) {
+            return; // skip if UNCRUSTIFY_CONFIG env variable is not defined
+        }
+
+        // only procees the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
+        Set<String> supportedFileType = new HashSet<String>(
+                Arrays.asList(
+                        "supporting-mustache",
+                        "model-test",
+                        "model",
+                        "api-test",
+                        "api"));
+        if (!supportedFileType.contains(fileType)) {
+            return;
+        }
+
+        // only process files with .c or .h extension
+        if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
+                "h".equals(FilenameUtils.getExtension(file.toString()))) {
+            // currently only support "uncrustify --no-backup  your_code.c"
+            String command = uncrustifyFmtPath + " --no-backup " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
+        }
+    }
 }
