@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-#include "api_response.h
-#include "file.h
-#include "pet.h
+#include "api_response.h"
+#include "file.h"
+#include "pet.h"
 
 
 // Add a new pet to the store

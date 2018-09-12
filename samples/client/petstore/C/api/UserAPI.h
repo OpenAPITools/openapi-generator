@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-#include "list.h
-#include "user.h
+#include "list.h"
+#include "user.h"
 
 
 // Create user

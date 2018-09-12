@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-#include "#include "map.h.h" // TODO will fix the import later
-#include "#include "order.h.h" // TODO will fix the import later
+#include "map.h"
+#include "order.h"
 
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
@@ -16,7 +16,7 @@
 //
 // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 //
-void *StoreAPI_deleteOrder(apiClient_t *apiClient, char OrderId) {
+void *StoreAPI_deleteOrder(apiClient_t *apiClient, char* OrderId) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -134,7 +134,7 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long OrderId) {
 
 // Place an order for a pet
 //
-order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order Order) {
+order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t* Order) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -162,7 +162,7 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order Order) {
 
    free(apiClient->dataReceived);
     free(localVarBodyParameters);
-   cJSON_Delete()
+   cJSON_Delete(OrderJSONObject);
     localVarorder = _parseFromJSON(apiClient->dataReceived);
     if(localVarorder == NULL) {
         return 0;
