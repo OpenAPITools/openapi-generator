@@ -174,11 +174,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_PATH"))) {
-            LOGGER.info("Environment variable UNCRUSTIFY_PATH not defined so the C code may not be properly formatted. To define it, try 'export UNCRUSTIFY_PATH=/usr/local/bin/uncrustify' (Linux/Mac)");
+            LOGGER.info("Environment variable UNCRUSTIFY_PATH not defined so the C code may not be properly formatted by uncrustify (0.66 or later). To define it, try 'export UNCRUSTIFY_PATH=/usr/local/bin/uncrustify' (Linux/Mac)");
         }
 
         if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_CONFIG"))) {
-            LOGGER.info("Environment variable UNCRUSTIFY_CONFIG not defined so the C code may not be properly formatted. To define it, try 'export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg' (Linux/Mac)");
+            LOGGER.info("Environment variable UNCRUSTIFY_CONFIG not defined so the C code may not be properly formatted by uncrustify (0.66 or later). To define it, try 'export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg' (Linux/Mac)");
         }
 
         // make api and model doc path available in mustache template
