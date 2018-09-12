@@ -39,7 +39,7 @@ void pet_free(pet_t *pet) {
 	list_free(pet->photoUrls);
     listEntry_t *tagsListEntry;
 	list_ForEach(tagsListEntry, pet->tags) {
-		tags_free(tagsListEntry->data);
+		tag_free(tagsListEntry->data);
 	}
 	list_free(pet->tags);
     free(pet->status);

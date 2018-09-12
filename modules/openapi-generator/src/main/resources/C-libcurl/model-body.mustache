@@ -103,7 +103,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
 	{{^isPrimitiveType}}
     listEntry_t *{{{baseName}}}ListEntry;
 	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{baseName}}) {
-		{{baseName}}_free({{{baseName}}}ListEntry->data);
+		{{complexType}}_free({{{baseName}}}ListEntry->data);
 	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
