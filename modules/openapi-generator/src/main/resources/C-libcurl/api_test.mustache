@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-{{#imports}}
-#include "{{{.}}}.h"
+{{#imports}}{{{import}}}
 {{/imports}}
 
 #define MAX_BUFFER_LENGTH 9
