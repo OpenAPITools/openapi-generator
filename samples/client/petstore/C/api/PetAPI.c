@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-#include "models.api_response.h" // TODO will fix the import later
-#include "models.file.h" // TODO will fix the import later
-#include "models.pet.h" // TODO will fix the import later
+#include "api_response.h"
+#include "file.h"
+#include "pet.h"
 
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
@@ -15,7 +15,7 @@
 
 // Add a new pet to the store
 //
-void *PetAPI_addPet(apiClient_t *apiClient, pet Pet) {
+void *PetAPI_addPet(apiClient_t *apiClient, pet_t* Pet) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -43,14 +43,14 @@ void *PetAPI_addPet(apiClient_t *apiClient, pet Pet) {
 
    free(apiClient->dataReceived);
     free(localVarBodyParameters);
-   cJSON_Delete()
+   cJSON_Delete(PetJSONObject);
    return;
 
 }
 
 // Deletes a pet
 //
-void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char ApiKey) {
+void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char* ApiKey) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -91,7 +91,7 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char ApiKey) {
 //
 // Multiple status values can be provided with comma separated strings
 //
-array_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, array Status) {
+list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t* Status) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -118,15 +118,15 @@ array_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, array Status) {
 
    free(apiClient->dataReceived);
    free(StatusString);
-    localVararray = _parseFromJSON(apiClient->dataReceived);
-    if(localVararray == NULL) {
+    localVarlist = _parseFromJSON(apiClient->dataReceived);
+    if(localVarlist == NULL) {
         return 0;
     } else {
         cJSON *jsonObject = _convertToJSON();
         cJSON_Delete(jsonObject);
     }
 
-   return localVararray;
+   return localVarlist;
 
 }
 
@@ -134,7 +134,7 @@ array_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, array Status) {
 //
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
-array_t *PetAPI_findPetsByTags(apiClient_t *apiClient, array Tags) {
+list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t* Tags) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -161,15 +161,15 @@ array_t *PetAPI_findPetsByTags(apiClient_t *apiClient, array Tags) {
 
    free(apiClient->dataReceived);
    free(TagsString);
-    localVararray = _parseFromJSON(apiClient->dataReceived);
-    if(localVararray == NULL) {
+    localVarlist = _parseFromJSON(apiClient->dataReceived);
+    if(localVarlist == NULL) {
         return 0;
     } else {
         cJSON *jsonObject = _convertToJSON();
         cJSON_Delete(jsonObject);
     }
 
-   return localVararray;
+   return localVarlist;
 
 }
 
@@ -221,7 +221,7 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long PetId) {
 
 // Update an existing pet
 //
-void *PetAPI_updatePet(apiClient_t *apiClient, pet Pet) {
+void *PetAPI_updatePet(apiClient_t *apiClient, pet_t* Pet) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -249,14 +249,14 @@ void *PetAPI_updatePet(apiClient_t *apiClient, pet Pet) {
 
    free(apiClient->dataReceived);
     free(localVarBodyParameters);
-   cJSON_Delete()
+   cJSON_Delete(PetJSONObject);
    return;
 
 }
 
 // Updates a pet in the store with form data
 //
-void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char Name, char Status) {
+void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char* Name, char* Status) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
@@ -300,7 +300,7 @@ void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char Name, ch
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char AdditionalMetadata, File File) {
+api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char* AdditionalMetadata, File File) {
     list_t    *localVarQueryParameters,
     list_t    *localVarHeaderParameters,
     list_t    *localVarFormParameters,
