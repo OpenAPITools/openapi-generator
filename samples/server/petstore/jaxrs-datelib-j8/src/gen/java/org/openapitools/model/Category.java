@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Category
@@ -43,6 +44,7 @@ public class Category  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -62,6 +64,7 @@ public class Category  implements Serializable {
    **/
   @JsonProperty("name")
   @ApiModelProperty(value = "")
+  
   public String getName() {
     return name;
   }

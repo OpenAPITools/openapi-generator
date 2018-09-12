@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Capitalization
@@ -55,6 +56,7 @@ public class Capitalization  implements Serializable {
    **/
   @JsonProperty("smallCamel")
   @ApiModelProperty(value = "")
+  
   public String getSmallCamel() {
     return smallCamel;
   }
@@ -74,6 +76,7 @@ public class Capitalization  implements Serializable {
    **/
   @JsonProperty("CapitalCamel")
   @ApiModelProperty(value = "")
+  
   public String getCapitalCamel() {
     return capitalCamel;
   }
@@ -93,6 +96,7 @@ public class Capitalization  implements Serializable {
    **/
   @JsonProperty("small_Snake")
   @ApiModelProperty(value = "")
+  
   public String getSmallSnake() {
     return smallSnake;
   }
@@ -112,6 +116,7 @@ public class Capitalization  implements Serializable {
    **/
   @JsonProperty("Capital_Snake")
   @ApiModelProperty(value = "")
+  
   public String getCapitalSnake() {
     return capitalSnake;
   }
@@ -131,6 +136,7 @@ public class Capitalization  implements Serializable {
    **/
   @JsonProperty("SCA_ETH_Flow_Points")
   @ApiModelProperty(value = "")
+  
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
@@ -150,6 +156,7 @@ public class Capitalization  implements Serializable {
    **/
   @JsonProperty("ATT_NAME")
   @ApiModelProperty(value = "Name of the pet ")
+  
   public String getATTNAME() {
     return ATT_NAME;
   }
