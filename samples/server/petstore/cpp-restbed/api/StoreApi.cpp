@@ -100,7 +100,7 @@ void StoreApiStoreOrderOrderIdResource::GET_method_handler(const std::shared_ptr
 			// Getting the path params
 			const int64_t orderId = request->get_path_parameter("orderId", 0L);
 			
-		
+
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
