@@ -59,6 +59,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
 
     private String basePackage;
+    private String invokerPackage;
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private String resourceFolder = "src/main/resources";
@@ -79,12 +80,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         embeddedTemplateDir = templateDir = "kotlin-spring";
 
         artifactId = "openapi-spring";
-        basePackage = "org.openapitools";
+        basePackage = invokerPackage = "org.openapitools";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
         addOption(TITLE, "server title name or client service name", title);
-        addOption(BASE_PACKAGE, "base package for generated code", basePackage);
+        addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
@@ -121,6 +122,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
+    }
+
+    public String getInvokerPackage() {
+        return this.invokerPackage;
+    }
+
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
     }
 
     public String getServerPort() {
@@ -225,11 +234,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        // TODO when adding invokerPackage
-        //importMapping.put("StringUtil", invokerPackage + ".StringUtil");
-
         if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             additionalProperties.put(CodegenConstants.LIBRARY, library);
+        }
+
+        // Set basePackage from invokerPackage
+        if (!additionalProperties.containsKey(BASE_PACKAGE)
+                && additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            additionalProperties.put(BASE_PACKAGE, basePackage);
+            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
         }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
