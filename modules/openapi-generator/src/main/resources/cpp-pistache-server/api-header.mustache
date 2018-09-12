@@ -29,7 +29,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 class {{declspec}} {{classname}} {
 public:
     {{classname}}(Pistache::Address addr);
-    virtual ~{{classname}}() {};
+    virtual ~{{classname}}() {}
     void init(size_t thr);
     void start();
     void shutdown();

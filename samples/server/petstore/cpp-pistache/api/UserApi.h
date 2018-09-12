@@ -40,7 +40,7 @@ using namespace org::openapitools::server::model;
 class  UserApi {
 public:
     UserApi(Pistache::Address addr);
-    virtual ~UserApi() {};
+    virtual ~UserApi() {}
     void init(size_t thr);
     void start();
     void shutdown();
