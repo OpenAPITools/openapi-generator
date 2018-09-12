@@ -116,7 +116,8 @@ static int case_insensitive_strcmp(const unsigned char	*string1,
 
 	for( ;
 	     tolower(*string1) == tolower(*string2);
-	     (void) string1++, string2++) {
+	     (void) string1++, string2++)
+	{
 		if(*string1 == '\0') {
 			return 0;
 		}
@@ -255,13 +256,13 @@ typedef struct {
 
 /* check if the given size is left to read in a given parse buffer (starting with 1) */
 #define can_read(buffer, size) ((buffer != NULL) && \
-                                (((buffer)->offset + size) <= (buffer)->length))
+	                        (((buffer)->offset + size) <= (buffer)->length))
 /* check if the buffer can be accessed at the given index (starting with 0) */
 #define can_access_at_index(buffer, index) ((buffer != NULL) && \
-                                            (((buffer)->offset + index) < \
-                                             (buffer)->length))
+	                                    (((buffer)->offset + index) < \
+	                                     (buffer)->length))
 #define cannot_access_at_index(buffer, \
-                               index) (!can_access_at_index(buffer, index))
+	                       index) (!can_access_at_index(buffer, index))
 /* get a pointer to the buffer at the position */
 #define buffer_at_offset(buffer) ((buffer)->content + (buffer)->offset)
 
@@ -546,9 +547,9 @@ static unsigned parse_hex4(const unsigned char *const input) {
 /* converts a UTF-16 literal to UTF-8
  * A literal can be one or two sequences of the form \uXXXX */
 static unsigned char utf16_literal_to_utf8(
-        const unsigned char *const	input_pointer,
-        const unsigned char *const	input_end,
-        unsigned char			**output_pointer) {
+	const unsigned char *const	input_pointer,
+	const unsigned char *const	input_end,
+	unsigned char			**output_pointer) {
 	long unsigned int codepoint = 0;
 	unsigned int first_code = 0;
 	const unsigned char *first_sequence = input_pointer;
@@ -605,8 +606,8 @@ static unsigned char utf16_literal_to_utf8(
 
 		/* calculate the unicode codepoint from the surrogate pair */
 		codepoint = 0x10000 +
-		            (((first_code &
-		               0x3FF) << 10) | (second_code & 0x3FF));
+		            (((first_code & 0x3FF) << 10) |
+		             (second_code & 0x3FF));
 	} else {
 		sequence_length = 6; /* \uXXXX */
 		codepoint = first_code;
@@ -641,13 +642,13 @@ static unsigned char utf16_literal_to_utf8(
 	    utf8_position--) {
 		/* 10xxxxxx */
 		(*output_pointer)[utf8_position] =
-		        (unsigned char) ((codepoint | 0x80) & 0xBF);
+			(unsigned char) ((codepoint | 0x80) & 0xBF);
 		codepoint >>= 6;
 	}
 	/* encode first byte */
 	if(utf8_length > 1) {
 		(*output_pointer)[0] =
-		        (unsigned char) ((codepoint | first_byte_mark) & 0xFF);
+			(unsigned char) ((codepoint | first_byte_mark) & 0xFF);
 	} else {
 		(*output_pointer)[0] = (unsigned char) (codepoint & 0x7F);
 	}
@@ -703,11 +704,10 @@ static cJSON_bool parse_string(cJSON *const		item,
 
 		/* This is at most how much we need for the output */
 		allocation_length =
-		        (size_t) (input_end -
-		                  buffer_at_offset(input_buffer)) -
-		        skipped_bytes;
+			(size_t) (input_end - buffer_at_offset(input_buffer)) -
+			skipped_bytes;
 		output = (unsigned char *) input_buffer->hooks.allocate(
-		        allocation_length + sizeof(""));
+			allocation_length + sizeof(""));
 		if(output == NULL) {
 			goto fail; /* allocation failure */
 		}
@@ -756,9 +756,9 @@ static cJSON_bool parse_string(cJSON *const		item,
 			/* UTF-16 literal */
 			case 'u':
 				sequence_length = utf16_literal_to_utf8(
-				        input_pointer,
-				        input_end,
-				        &output_pointer);
+					input_pointer,
+					input_end,
+					&output_pointer);
 				if(sequence_length == 0) {
 					/* failed to convert UTF16-literal to UTF-8 */
 					goto fail;
@@ -790,7 +790,7 @@ fail:
 
 	if(input_pointer != NULL) {
 		input_buffer->offset =
-		        (size_t) (input_pointer - input_buffer->content);
+			(size_t) (input_pointer - input_buffer->content);
 	}
 
 	return false;
@@ -798,8 +798,7 @@ fail:
 
 /* Render the cstring provided to an escaped version that can be printed. */
 static cJSON_bool print_string_ptr(const unsigned char *const	input,
-                                   printbuffer *const		output_buffer)
-{
+                                   printbuffer *const		output_buffer) {
 	const unsigned char *input_pointer = NULL;
 	unsigned char *output = NULL;
 	unsigned char *output_pointer = NULL;
@@ -1006,8 +1005,7 @@ CJSON_PUBLIC(cJSON *) cJSON_ParseWithOpts(const char *value,
 		goto fail;
 	}
 
-	if(!parse_value(item,
-	                buffer_skip_whitespace(skip_utf8_bom(&buffer)))) {
+	if(!parse_value(item, buffer_skip_whitespace(skip_utf8_bom(&buffer)))) {
 		/* parse failure. ep is set. */
 		goto fail;
 	}
@@ -1088,10 +1086,9 @@ static unsigned char *print(const cJSON *const		item,
 
 	/* check if reallocate is available */
 	if(hooks->reallocate != NULL) {
-		printed = (unsigned char *) hooks->reallocate(
-		        buffer->buffer,
-		        buffer->offset +
-		        1);
+		printed = (unsigned char *) hooks->reallocate(buffer->buffer,
+		                                              buffer->offset +
+		                                              1);
 		if(printed == NULL) {
 			goto fail;
 		}
@@ -1234,9 +1231,7 @@ static cJSON_bool parse_value(cJSON *const		item,
 	if(can_access_at_index(input_buffer, 0) &&
 	   ((buffer_at_offset(input_buffer)[0] == '-') ||
 	    ((buffer_at_offset(input_buffer)[0] >= '0') &&
-	     (buffer_at_offset(
-	              input_buffer)[0] <=
-	      '9'))))
+	     (buffer_at_offset(input_buffer)[0] <= '9'))))
 	{
 		return parse_number(item, input_buffer);
 	}
@@ -1633,8 +1628,8 @@ static cJSON_bool print_object(const cJSON *const	item,
 
 		/* print comma if not last */
 		length =
-		        (size_t) ((output_buffer->format ? 1 : 0) +
-		                  (current_item->next ? 1 : 0));
+			(size_t) ((output_buffer->format ? 1 : 0) +
+			          (current_item->next ? 1 : 0));
 		output_pointer = ensure(output_buffer, length + 1);
 		if(output_pointer == NULL) {
 			return false;
@@ -1653,8 +1648,8 @@ static cJSON_bool print_object(const cJSON *const	item,
 	}
 
 	output_pointer =
-	        ensure(output_buffer,
-	               output_buffer->format ? (output_buffer->depth + 1) : 2);
+		ensure(output_buffer,
+		       output_buffer->format ? (output_buffer->depth + 1) : 2);
 	if(output_pointer == NULL) {
 		return false;
 	}
@@ -1742,7 +1737,7 @@ static cJSON *get_object_item(const cJSON *const	object,
 		while((current_element != NULL) &&
 		      (case_insensitive_strcmp((const unsigned char *) name,
 		                               (const unsigned char *) (
-		                                       current_element->string))
+						       current_element->string))
 		       != 0))
 		{
 			current_element = current_element->next;
@@ -1759,8 +1754,8 @@ CJSON_PUBLIC(cJSON *) cJSON_GetObjectItem(const cJSON * const object,
 }
 
 CJSON_PUBLIC(cJSON *) cJSON_GetObjectItemCaseSensitive(
-        const cJSON * const object,
-        const char *const string)
+	const cJSON * const object,
+	const char *const string)
 {
 	return get_object_item(object, string, true);
 }
@@ -1851,13 +1846,12 @@ static void *cast_away_const(const void *string) {
 #endif
 
 
-static cJSON_bool add_item_to_object(
-        cJSON *const			object,
-        const char *const		string,
-        cJSON *const			item,
-        const internal_hooks *const	hooks,
-        const cJSON_bool
-        constant_key) {
+static cJSON_bool add_item_to_object(cJSON *const			object,
+                                     const char *const			string,
+                                     cJSON *const			item,
+                                     const internal_hooks *const	hooks,
+                                     const cJSON_bool			constant_key)
+{
 	char *new_key = NULL;
 	int new_type = cJSON_Invalid;
 
@@ -1927,9 +1921,11 @@ CJSON_PUBLIC(void) cJSON_AddItemReferenceToObject(cJSON * object,
 		return;
 	}
 
-	add_item_to_object(object, string, create_reference(item,
-	                                                    &global_hooks),
-	                   &global_hooks, false);
+	add_item_to_object(object,
+	                   string,
+	                   create_reference(item, &global_hooks),
+	                   &global_hooks,
+	                   false);
 }
 
 CJSON_PUBLIC(cJSON *) cJSON_AddNullToObject(cJSON * const object,
@@ -1960,8 +1956,7 @@ CJSON_PUBLIC(cJSON *) cJSON_AddFalseToObject(cJSON * const object,
                                              const char *const name)
 {
 	cJSON *false_item = cJSON_CreateFalse();
-	if(add_item_to_object(object, name, false_item, &global_hooks,
-	                      false)) {
+	if(add_item_to_object(object, name, false_item, &global_hooks, false)) {
 		return false_item;
 	}
 
@@ -2084,7 +2079,8 @@ CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromArray(cJSON * array, int which)
 	}
 
 	return cJSON_DetachItemViaPointer(array,
-	                                  get_array_item(array, (size_t) which));
+	                                  get_array_item(array,
+	                                                 (size_t) which));
 }
 
 CJSON_PUBLIC(void) cJSON_DeleteItemFromArray(cJSON * array, int which)
@@ -2100,10 +2096,8 @@ CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromObject(cJSON * object,
 	return cJSON_DetachItemViaPointer(object, to_detach);
 }
 
-CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromObjectCaseSensitive(
-        cJSON * object,
-        const char *
-        string)
+CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromObjectCaseSensitive(cJSON * object,
+                                                              const char *string)
 {
 	cJSON *to_detach = cJSON_GetObjectItemCaseSensitive(object, string);
 
@@ -2192,8 +2186,8 @@ CJSON_PUBLIC(void) cJSON_ReplaceItemInArray(cJSON * array,
 		return;
 	}
 
-	cJSON_ReplaceItemViaPointer(array, get_array_item(array,
-	                                                  (size_t) which),
+	cJSON_ReplaceItemViaPointer(array,
+	                            get_array_item(array, (size_t) which),
 	                            newitem);
 }
 
@@ -2214,13 +2208,12 @@ static cJSON_bool replace_item_in_object(cJSON		*object,
 		cJSON_free(replacement->string);
 	}
 	replacement->string = (char *) cJSON_strdup(
-	        (const unsigned char *) string,
-	        &global_hooks);
+		(const unsigned char *) string,
+		&global_hooks);
 	replacement->type &= ~cJSON_StringIsConst;
 
 	cJSON_ReplaceItemViaPointer(object,
-	                            get_object_item(object,
-	                                            string,
+	                            get_object_item(object, string,
 	                                            case_sensitive),
 	                            replacement);
 
@@ -2307,9 +2300,9 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateString(const char *string)
 	cJSON *item = cJSON_New_Item(&global_hooks);
 	if(item) {
 		item->type = cJSON_String;
-		item->valuestring =
-		        (char *) cJSON_strdup((const unsigned char *) string,
-		                              &global_hooks);
+		item->valuestring = (char *) cJSON_strdup(
+			(const unsigned char *) string,
+			&global_hooks);
 		if(!item->valuestring) {
 			cJSON_Delete(item);
 			return NULL;
@@ -2356,9 +2349,9 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateRaw(const char *raw)
 	cJSON *item = cJSON_New_Item(&global_hooks);
 	if(item) {
 		item->type = cJSON_Raw;
-		item->valuestring =
-		        (char *) cJSON_strdup((const unsigned char *) raw,
-		                              &global_hooks);
+		item->valuestring = (char *) cJSON_strdup(
+			(const unsigned char *) raw,
+			&global_hooks);
 		if(!item->valuestring) {
 			cJSON_Delete(item);
 			return NULL;
@@ -2547,20 +2540,20 @@ CJSON_PUBLIC(cJSON *) cJSON_Duplicate(const cJSON * item, cJSON_bool recurse)
 	newitem->valuedouble = item->valuedouble;
 	if(item->valuestring) {
 		newitem->valuestring = (char *) cJSON_strdup(
-		        (unsigned char *) item->valuestring,
-		        &global_hooks);
+			(unsigned char *) item->valuestring,
+			&global_hooks);
 		if(!newitem->valuestring) {
 			goto fail;
 		}
 	}
 	if(item->string) {
 		newitem->string =
-		        (item->type &
-		         cJSON_StringIsConst) ? item->string : (char *)
-		        cJSON_strdup((
-		                             unsigned
-		                             char
-		                             *) item->string, &global_hooks);
+			(item->type &
+			 cJSON_StringIsConst) ? item->string : (char *)
+			cJSON_strdup((
+					     unsigned
+					     char *) item->string,
+			             &global_hooks);
 		if(!newitem->string) {
 			goto fail;
 		}

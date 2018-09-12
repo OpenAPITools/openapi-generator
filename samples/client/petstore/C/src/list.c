@@ -38,11 +38,12 @@ list_t *list_create() {
 	return createdList;
 }
 
-void list_iterateThroughListForward(list_t *list, void (*operationToPerform)(
-                                            listEntry_t *,
-                                            void *callbackFunctionUsedData),
-                                    void *
-                                    additionalDataNeededForCallbackFunction) {
+void list_iterateThroughListForward(list_t		*list,
+                                    void (		*operationToPerform)(
+					    listEntry_t *,
+					    void	*callbackFunctionUsedData),
+                                    void		*additionalDataNeededForCallbackFunction)
+{
 	listEntry_t *currentListEntry = list->firstEntry;
 	listEntry_t *nextListEntry;
 
@@ -64,11 +65,12 @@ void list_iterateThroughListForward(list_t *list, void (*operationToPerform)(
 	}
 }
 
-void list_iterateThroughListBackward(list_t *list, void (*operationToPerform)(
-                                             listEntry_t *,
-                                             void *callbackFunctionUsedData),
-                                     void *
-                                     additionalDataNeededForCallbackFunction) {
+void list_iterateThroughListBackward(list_t		*list,
+                                     void (		*operationToPerform)(
+					     listEntry_t *,
+					     void	*callbackFunctionUsedData),
+                                     void		*additionalDataNeededForCallbackFunction)
+{
 	listEntry_t *currentListEntry = list->lastEntry;
 	listEntry_t *nextListEntry = currentListEntry->prevListEntry;
 
@@ -121,20 +123,20 @@ void list_addElement(list_t *list, void *dataToAddInList) {
 
 void list_removeElement(list_t *list, listEntry_t *elementToRemove) {
 	listEntry_t *elementBeforeElementToRemove =
-	        elementToRemove->prevListEntry;
+		elementToRemove->prevListEntry;
 	listEntry_t *elementAfterElementToRemove =
-	        elementToRemove->nextListEntry;
+		elementToRemove->nextListEntry;
 
 	if(elementBeforeElementToRemove != NULL) {
 		elementBeforeElementToRemove->nextListEntry =
-		        elementAfterElementToRemove;
+			elementAfterElementToRemove;
 	} else {
 		list->firstEntry = elementAfterElementToRemove;
 	}
 
 	if(elementAfterElementToRemove != NULL) {
 		elementAfterElementToRemove->prevListEntry =
-		        elementBeforeElementToRemove;
+			elementBeforeElementToRemove;
 	} else {
 		list->lastEntry = elementBeforeElementToRemove;
 	}

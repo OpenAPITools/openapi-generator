@@ -176,8 +176,8 @@ CJSON_PUBLIC(cJSON *) cJSON_GetArrayItem(const cJSON * array, int index);
 CJSON_PUBLIC(cJSON *) cJSON_GetObjectItem(const cJSON * const object,
                                           const char *const string);
 CJSON_PUBLIC(cJSON *) cJSON_GetObjectItemCaseSensitive(
-        const cJSON * const object,
-        const char *const string);
+	const cJSON * const object,
+	const char *const string);
 CJSON_PUBLIC(cJSON_bool) cJSON_HasObjectItem(const cJSON * object,
                                              const char *string);
 /* For analysing failed parses. This returns a pointer to the parse error. You'll probably need to look a few chars back to make sense of it. Defined when cJSON_Parse() returns 0. 0 when cJSON_Parse() succeeds. */
@@ -248,10 +248,8 @@ CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromArray(cJSON * array, int which);
 CJSON_PUBLIC(void) cJSON_DeleteItemFromArray(cJSON * array, int which);
 CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromObject(cJSON * object,
                                                  const char *string);
-CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromObjectCaseSensitive(
-        cJSON * object,
-        const char *
-        string);
+CJSON_PUBLIC(cJSON *) cJSON_DetachItemFromObjectCaseSensitive(cJSON * object,
+                                                              const char *string);
 CJSON_PUBLIC(void) cJSON_DeleteItemFromObject(cJSON * object,
                                               const char *string);
 CJSON_PUBLIC(void) cJSON_DeleteItemFromObjectCaseSensitive(cJSON * object,
@@ -314,26 +312,27 @@ CJSON_PUBLIC(cJSON *) cJSON_AddArrayToObject(cJSON * const object,
                                              const char *const name);
 
 /* When assigning an integer value, it needs to be propagated to valuedouble too. */
-#define cJSON_SetIntValue(object, number) ((object) ? (object)->valueint = \
-                                                   (object)->valuedouble = \
-                                                           (number) : (number))
+#define cJSON_SetIntValue(object, \
+	                  number) ((object) ? (object)->valueint = \
+					   (object)->valuedouble = \
+						   (number) : (number))
 /* helper for the cJSON_SetNumberValue macro */
 CJSON_PUBLIC(double) cJSON_SetNumberHelper(cJSON * object, double number);
 #define cJSON_SetNumberValue(object, \
-                             number) ((object != \
-                                       NULL) ? cJSON_SetNumberHelper(object, \
-                                                                     ( \
-                                                                             double) \
-                                                                     number) : ( \
-                                              number))
+	                     number) ((object != \
+	                               NULL) ? cJSON_SetNumberHelper(object, \
+								     ( \
+									     double) \
+	                                                             number) : ( \
+					      number))
 
 /* Macro for iterating over an array or object */
 #define cJSON_ArrayForEach(element, array) for(element = \
-                                                       (array != \
-                                                        NULL) ? (array)->child \
-						       : NULL; \
-                                               element != NULL; \
-                                               element = element->next)
+						       (array != \
+						        NULL) ? (array)->child : \
+						       NULL; \
+	                                       element != NULL; \
+	                                       element = element->next)
 
 /* malloc/free objects using the malloc/free functions that have been set with cJSON_InitHooks */
 CJSON_PUBLIC(void *) cJSON_malloc(size_t size);

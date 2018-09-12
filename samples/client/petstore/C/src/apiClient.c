@@ -45,11 +45,11 @@ char *assembleTargetUrl(char	*basePath,
 		list_ForEach(listEntry, queryParameters) {
 			keyValuePair_t *pair = listEntry->data;
 			neededBufferSizeForQueryParameters +=
-			        strlen(pair->key) + strlen(pair->value);
+				strlen(pair->key) + strlen(pair->value);
 		}
 
 		neededBufferSizeForQueryParameters +=
-		        (queryParameters->count * 2); // each keyValuePair is separated by a = and a & except the last, but this makes up for the ? at the beginning
+			(queryParameters->count * 2); // each keyValuePair is separated by a = and a & except the last, but this makes up for the ? at the beginning
 	}
 
 	int operationParameterLength = 0;
@@ -65,11 +65,9 @@ char *assembleTargetUrl(char	*basePath,
 	}
 
 	char *targetUrl =
-	        malloc(strlen(
-	                       operationName) +
-	               neededBufferSizeForQueryParameters + basePathLength +
-	               operationParameterLength + 1
-	               );
+		malloc(strlen(
+			       operationName) + neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
+		       );
 	strcpy(targetUrl, basePath);
 	if(slashNeedsToBeAppendedToBasePath) {
 		strcat(targetUrl, "/");
@@ -132,7 +130,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		struct curl_slist *headers = NULL;
 
 		headers =
-		        curl_slist_append(headers, "accept: application/json");
+			curl_slist_append(headers, "accept: application/json");
 		headers = curl_slist_append(headers,
 		                            "Content-Type: application/json");
 		if(requestType != NULL) {
@@ -149,7 +147,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 				   (keyValuePair->value != NULL) )
 				{
 					curl_mimepart *part = curl_mime_addpart(
-					        mime);
+						mime);
 					curl_mime_data(part,
 					               keyValuePair->key,
 					               CURL_ZERO_TERMINATED);
@@ -167,9 +165,9 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			   (keyValuePair->value != NULL) )
 			{
 				char *headerValueToWrite =
-				        assembleHeaderField(
-				                keyValuePair->key,
-				                keyValuePair->value);
+					assembleHeaderField(
+						keyValuePair->key,
+						keyValuePair->value);
 				curl_slist_append(headers, headerValueToWrite);
 				free(headerValueToWrite);
 			}
@@ -182,9 +180,9 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			   (apiKey->value != NULL) )
 			{
 				char *headerValueToWrite =
-				        assembleHeaderField(
-				                apiKey->key,
-				                apiKey->value);
+					assembleHeaderField(
+						apiKey->key,
+						apiKey->value);
 				curl_slist_append(headers, headerValueToWrite);
 				free(headerValueToWrite);
 			}
@@ -192,10 +190,10 @@ void apiClient_invoke(apiClient_t	*apiClient,
       #endif // API_KEY
 
 		char *targetUrl =
-		        assembleTargetUrl(apiClient->basePath,
-		                          operationName,
-		                          operationParameter,
-		                          queryParameters);
+			assembleTargetUrl(apiClient->basePath,
+			                  operationName,
+			                  operationParameter,
+			                  queryParameters);
 
 		curl_easy_setopt(handle, CURLOPT_URL, targetUrl);
 		curl_easy_setopt(handle,
@@ -225,11 +223,9 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		   (apiClient->password != NULL) )
 		{
 			authenticationToken = malloc(strlen(
-			                                     apiClient->
-			                                     username) +
+							     apiClient->username) +
 			                             strlen(
-			                                     apiClient->
-			                                     password) +
+							     apiClient->password) +
 			                             2);
 			sprintf(authenticationToken,
 			        "%s:%s",
@@ -274,8 +270,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 	}
 }
 
-size_t writeDataCallback(void *buffer, size_t size, size_t nmemb,
-                         void *userp) {
+size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp) {
 	*(char **) userp = strdup(buffer);
 
 	return size * nmemb;
