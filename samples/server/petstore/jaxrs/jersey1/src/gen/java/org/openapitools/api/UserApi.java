@@ -7,9 +7,6 @@ import org.openapitools.api.factories.UserApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import com.sun.jersey.multipart.FormDataParam;
-import javax.validation.constraints.*;
-
 import java.util.List;
 import org.openapitools.model.User;
 
@@ -26,6 +23,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/user")
 

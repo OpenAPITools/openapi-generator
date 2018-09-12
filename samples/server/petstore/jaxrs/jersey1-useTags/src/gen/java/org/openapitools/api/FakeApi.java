@@ -7,9 +7,6 @@ import org.openapitools.api.factories.FakeApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import com.sun.jersey.multipart.FormDataParam;
-import javax.validation.constraints.*;
-
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
@@ -32,6 +29,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/Fake")
 

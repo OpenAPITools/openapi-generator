@@ -25,7 +25,7 @@ import javax.validation.Valid;
  * Describes the result of uploading an image resource
  */
 @ApiModel(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-11T15:41:15.984+09:00[Asia/Tokyo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
 public class ModelApiResponse   {
   @JsonProperty("code")
   private Integer code = null;
