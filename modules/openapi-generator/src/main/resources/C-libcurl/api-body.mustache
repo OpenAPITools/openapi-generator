@@ -72,8 +72,8 @@
     localVarBodyParameters = cJSON_Print({{{paramName}}}JSONObject);
 
     {{/bodyParam}}
-   apiClient_invoke(apiClient,
-                    "pet",
+    apiClient_invoke(apiClient,
+                    "TODO_UNKNOWN",
                     localVarPath,
                     localVarQueryParameters,
                     localVarHeaderParameters,
@@ -84,25 +84,25 @@
    free(apiClient->dataReceived);
    {{#allParams}}
    {{^bodyParam}}
-   free({{{paramName}}}String);
+   free({{{paramName}}});
    {{/bodyParam}}
    {{#bodyParam}}
-    free(localVarBodyParameters);
+   free(localVarBodyParameters);
    cJSON_Delete({{{paramName}}}JSONObject);
    {{/bodyParam}}
    {{/allParams}}
-    {{#returnType}}
-    localVar{{{returnType}}} = {{complexType}}_parseFromJSON(apiClient->dataReceived);
-    if(localVar{{{returnType}}} == NULL) {
-        return 0;
-    } else {
-        cJSON *jsonObject = {{complexType}}_convertToJSON({{complexType}});
-        cJSON_Delete(jsonObject);
-    }
+   {{#returnType}}
+   localVar{{{returnType}}} = {{complexType}}_parseFromJSON(apiClient->dataReceived);
+   if(localVar{{{returnType}}} == NULL) {
+       return 0;
+   } else {
+       cJSON *jsonObject = {{complexType}}_convertToJSON({{complexType}});
+       cJSON_Delete(jsonObject);
+   }
 
    return localVar{{{returnType}}};
    {{/returnType}}
-    {{^returnType}}
+   {{^returnType}}
    return;
    {{/returnType}}
 
