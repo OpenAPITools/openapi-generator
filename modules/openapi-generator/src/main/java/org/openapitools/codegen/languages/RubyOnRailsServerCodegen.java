@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import java.text.SimpleDateFormat;
 
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.CodegenConstants;
@@ -34,6 +33,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
@@ -221,28 +222,28 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("Model" + name);
+            String modelName = camelize("Model" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String filename = org.openapitools.codegen.utils.StringUtils.underscore("model_" + name);
+            String filename = underscore("model_" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
             return filename;
         }
 
         // underscore the model file name
         // PhoneNumber.rb => phone_number.rb
-        return org.openapitools.codegen.utils.StringUtils.underscore(name);
+        return underscore(name);
     }
 
     @Override
@@ -251,7 +252,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. DefaultController => defaults_controller.rb
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_controller";
+        return underscore(name) + "_controller";
     }
 
     @Override
@@ -261,7 +262,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
         }
 
         // e.g. PhoneNumber => phone_number
-        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(name));
+        return underscore(sanitizeName(name));
     }
 
     @Override
@@ -270,7 +271,7 @@ public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
             return "ApiController";
         }
         // e.g. phone_number_controller => PhoneNumberController
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Controller";
+        return camelize(name) + "Controller";
     }
 
     @Override

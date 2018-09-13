@@ -26,7 +26,6 @@ import java.io.Writer;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-
 /**
  * Converts text in a fragment to camelCase.
  *

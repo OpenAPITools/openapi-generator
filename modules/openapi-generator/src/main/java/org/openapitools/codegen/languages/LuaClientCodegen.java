@@ -43,6 +43,8 @@ import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
@@ -203,7 +205,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + '_';
+        return camelize(name) + '_';
     }
 
     @Override
@@ -226,7 +228,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // convert variable name to snake case
         // PetId => pet_id
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+        name = underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -273,7 +275,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(name);
+        return underscore(name);
     }
 
     @Override
@@ -282,7 +284,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.lua => pet_api.lua
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -339,7 +341,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiName(String name) {
-        return org.openapitools.codegen.utils.StringUtils.underscore(super.toApiName(name));
+        return underscore(super.toApiName(name));
     }
 
     @Override
@@ -391,11 +393,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizedOperationId);
+        return underscore(sanitizedOperationId);
     }
 
     @Override
@@ -530,7 +532,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -543,7 +545,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = org.openapitools.codegen.utils.StringUtils.underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

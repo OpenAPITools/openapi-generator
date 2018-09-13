@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
@@ -620,7 +621,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         }
                     }
                 }
-                authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
+                authMethod.name = camelize(sanitizeName(authMethod.name), true);
             }
         }
     }

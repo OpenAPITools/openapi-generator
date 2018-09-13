@@ -36,7 +36,6 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -72,6 +71,7 @@ import static org.openapitools.codegen.CodegenConstants.USE_COLLECTION_DESC;
 import static org.openapitools.codegen.CodegenConstants.USE_DATETIME_OFFSET;
 import static org.openapitools.codegen.CodegenConstants.USE_DATETIME_OFFSET_DESC;
 import static org.openapitools.codegen.CodegenType.SERVER;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpNancyFXServerCodegen.class);
@@ -333,7 +333,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
             return "Empty";
         }
 
-        final String enumName = org.openapitools.codegen.utils.StringUtils.camelize(
+        final String enumName = camelize(
                 sanitizeName(name)
                         .replaceFirst("^_", "")
                         .replaceFirst("_$", "")
@@ -400,7 +400,7 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumName(final CodegenProperty property) {
-        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
+        return sanitizeName(camelize(property.name)) + "Enum";
     }
 
     @Override

@@ -38,6 +38,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
@@ -277,7 +279,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
                 String pathTemplateName = matcher.group(1);
-                matcher.appendReplacement(buffer, "#{" + org.openapitools.codegen.utils.StringUtils.underscore(pathTemplateName) + "}" + "$2");
+                matcher.appendReplacement(buffer, "#{" + underscore(pathTemplateName) + "}" + "$2");
                 pathTemplateNames.add(pathTemplateName);
             }
             ExtendedCodegenOperation eco = new ExtendedCodegenOperation(o);
@@ -325,7 +327,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     String underscored(String words) {
         ArrayList<String> underscoredWords = new ArrayList<String>();
         for (String word : words.split(" ")) {
-            underscoredWords.add(org.openapitools.codegen.utils.StringUtils.underscore(word));
+            underscoredWords.add(underscore(word));
         }
         return join("_", underscoredWords);
     }
@@ -333,7 +335,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     String modulized(String words) {
         ArrayList<String> modulizedWords = new ArrayList<String>();
         for (String word : words.split(" ")) {
-            modulizedWords.add(org.openapitools.codegen.utils.StringUtils.camelize(word));
+            modulizedWords.add(camelize(word));
         }
         return join("", modulizedWords);
     }
@@ -352,7 +354,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     private String sourceFolder() {
         ArrayList<String> underscoredWords = new ArrayList<String>();
         for (String word : moduleName.split("\\.")) {
-            underscoredWords.add(org.openapitools.codegen.utils.StringUtils.underscore(word));
+            underscoredWords.add(underscore(word));
         }
         return ("lib/" + join("/", underscoredWords)).replace('/', File.separatorChar);
     }
@@ -379,7 +381,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "Default";
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
@@ -388,14 +390,14 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_");
 
         // e.g. PetApi.go => pet_api.go
-        return org.openapitools.codegen.utils.StringUtils.underscore(name);
+        return underscore(name);
     }
 
     @Override
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(toModelFilename(name));
+        return camelize(toModelFilename(name));
     }
 
     @Override
@@ -422,7 +424,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(name);
+        return underscore(name);
     }
 
     @Override
@@ -432,7 +434,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId));
+        return camelize(sanitizeName(operationId));
     }
 
     /**
@@ -585,7 +587,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
 
         public String typespec() {
             StringBuilder sb = new StringBuilder("@spec ");
-            sb.append(org.openapitools.codegen.utils.StringUtils.underscore(operationId));
+            sb.append(underscore(operationId));
             sb.append("(Tesla.Env.client, ");
 
             for (CodegenParameter param : allParams) {

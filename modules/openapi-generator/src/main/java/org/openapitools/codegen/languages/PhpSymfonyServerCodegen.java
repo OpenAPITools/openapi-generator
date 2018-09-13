@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -564,14 +565,14 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         if (name.isEmpty()) {
             return "DefaultApiInterface";
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "ApiInterface";
+        return camelize(name, false) + "ApiInterface";
     }
 
     protected String toControllerName(String name) {
         if (name.isEmpty()) {
             return "DefaultController";
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
+        return camelize(name, false) + "Controller";
     }
 
     protected String toSymfonyService(String name) {

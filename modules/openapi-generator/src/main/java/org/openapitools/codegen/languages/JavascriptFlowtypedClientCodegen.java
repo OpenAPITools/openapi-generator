@@ -29,6 +29,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
@@ -186,7 +187,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(npmName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                npmName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
+                npmName = sanitizeName(dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(npmVersion)) {
                 // when projectVersion is not specified, use info.version

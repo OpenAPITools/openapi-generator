@@ -42,6 +42,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
@@ -437,7 +439,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // underscore the variable name
         // petId => pet_id
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+        name = underscore(name);
 
         // remove leading underscore
         name = name.replaceAll("^_*", "");
@@ -469,13 +471,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -489,14 +491,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
         // underscore the model file name
         // PhoneNumber => phone_number
-        return org.openapitools.codegen.utils.StringUtils.underscore(dropDots(toModelName(name)));
+        return underscore(dropDots(toModelName(name)));
     }
 
     @Override
@@ -510,7 +512,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.py => phone_number_api.py
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -524,7 +526,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     @Override
@@ -532,7 +534,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "default_api";
         }
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -544,17 +546,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(operationId));
+        return underscore(sanitizeName(operationId));
     }
 
     public void setPackageName(String packageName) {
@@ -584,7 +586,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @SuppressWarnings("static-method")
     public String generatePackageName(String packageName) {
-        return org.openapitools.codegen.utils.StringUtils.underscore(packageName.replaceAll("[^\\w]+", ""));
+        return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
 
     /**

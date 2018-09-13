@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
 
@@ -302,7 +303,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                 Matcher match = pathVariableMatcher.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
-                    String replacement = ":" + org.openapitools.codegen.utils.StringUtils.camelize(match.group(1), true);
+                    String replacement = ":" + camelize(match.group(1), true);
                     operation.path = operation.path.replace(completeMatch, replacement);
                 }
 

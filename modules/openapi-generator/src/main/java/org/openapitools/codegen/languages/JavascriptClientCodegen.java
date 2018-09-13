@@ -48,6 +48,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
@@ -288,7 +292,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
+                projectName = sanitizeName(dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(projectVersion)) {
                 // when projectVersion is not specified, use info.version
@@ -311,7 +315,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             projectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(moduleName)) {
-            moduleName = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(projectName));
+            moduleName = camelize(underscore(projectName));
         }
         if (StringUtils.isBlank(projectVersion)) {
             projectVersion = "1.0.0";
@@ -506,9 +510,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     private String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
             case original:    return name;
-            case camelCase:   return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
-            case PascalCase:  return org.openapitools.codegen.utils.StringUtils.camelize(name);
-            case snake_case:  return org.openapitools.codegen.utils.StringUtils.underscore(name);
+            case camelCase:   return camelize(name, true);
+            case PascalCase:  return camelize(name);
+            case snake_case:  return underscore(name);
             default:          throw new IllegalArgumentException("Invalid model property naming '" +
                     name + "'. Must be 'original', 'camelCase', " +
                     "'PascalCase' or 'snake_case'");
@@ -561,7 +565,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        name = camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -830,18 +834,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
@@ -1123,7 +1127,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
+        return sanitizeName(camelize(property.name)) + "Enum";
     }
 
     @Override

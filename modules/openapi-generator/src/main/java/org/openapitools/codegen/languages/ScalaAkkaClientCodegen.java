@@ -35,6 +35,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "org.openapitools.client";
@@ -336,7 +337,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
         @Override
         public String formatFragment(String fragment) {
-            return org.openapitools.codegen.utils.StringUtils.camelize(fragment, !capitalizeFirst);
+            return camelize(fragment, !capitalizeFirst);
         }
     }
 

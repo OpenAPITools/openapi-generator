@@ -33,6 +33,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures {

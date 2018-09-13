@@ -31,6 +31,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.escape;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
@@ -401,16 +404,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
-                modified = org.openapitools.codegen.utils.StringUtils.camelize(modified, true);
+                modified = camelize(modified, true);
                 break;
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
-                String result = org.openapitools.codegen.utils.StringUtils.camelize(modified);
+                String result = camelize(modified);
                 modified = titleCase(result);
                 break;
             case snake_case:
                 // NOTE: Removes hyphens
-                modified = org.openapitools.codegen.utils.StringUtils.underscore(modified);
+                modified = underscore(modified);
                 break;
             case UPPERCASE:
                 modified = modified.toUpperCase(Locale.ROOT);
@@ -472,7 +475,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         modifiedName = sanitizeKotlinSpecificNames(modifiedName);
 
         // Camelize name of nested properties
-        modifiedName = org.openapitools.codegen.utils.StringUtils.camelize(modifiedName);
+        modifiedName = camelize(modifiedName);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modifiedName)) {
@@ -657,7 +660,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
-            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+            name = escape(name, specialCharReplacements, allowedCharacters, "_");
         }
 
         // camelize (lower first character) the variable name

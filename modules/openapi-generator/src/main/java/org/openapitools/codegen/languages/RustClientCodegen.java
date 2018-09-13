@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -209,7 +211,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
 
         // snake_case, e.g. PetId => pet_id
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+        name = underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -231,7 +233,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(toModelFilename(name));
+        return camelize(toModelFilename(name));
     }
 
     @Override
@@ -258,7 +260,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(name);
+        return underscore(name);
     }
 
     @Override
@@ -267,7 +269,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.rs => pet_api.rs
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -340,11 +342,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizedOperationId);
+        return underscore(sanitizedOperationId);
     }
 
     @Override
@@ -355,7 +357,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
-            operation.httpMethod = org.openapitools.codegen.utils.StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
             // update return type to conform to rust standard
             /*
             if (operation.returnType != null) {
@@ -471,7 +473,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -484,7 +486,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = org.openapitools.codegen.utils.StringUtils.underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
