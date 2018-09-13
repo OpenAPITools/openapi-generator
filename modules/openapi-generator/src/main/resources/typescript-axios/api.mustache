@@ -220,11 +220,11 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
     {{#hasFormParams}}
-            localVarRequestOptions.body = localVarFormParams.toString();
+            localVarRequestOptions.data = localVarFormParams.toString();
     {{/hasFormParams}}
     {{#bodyParam}}
             const needsSerialization = (<any>"{{dataType}}" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "");
     {{/bodyParam}}            
 
             return {
