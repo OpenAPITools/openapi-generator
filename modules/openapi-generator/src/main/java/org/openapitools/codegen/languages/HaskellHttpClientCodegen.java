@@ -136,10 +136,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public HaskellHttpClientCodegen() {
         super();
 
-        if (StringUtils.isEmpty(System.getenv("HFMT_PATH"))) {
-            LOGGER.info("Environment variable HFMT_PATH not defined so the Haskell code may not be properly formatted. To define it, try 'export HFMT_PATH=$HOME/.local/bin/hfmt' (Linux/Mac)");
-        }
-
         this.prependFormOrBodyParameters = true;
 
         // override the mapping to keep the original mapping in Haskell
@@ -365,6 +361,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("HFMT_PATH"))) {
+            LOGGER.info("Environment variable HFMT_PATH not defined so the Haskell code may not be properly formatted. To define it, try 'export HFMT_PATH=$HOME/.local/bin/hfmt' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(PROP_ALLOW_FROMJSON_NULLS)) {
             setAllowFromJsonNulls(convertPropertyToBoolean(PROP_ALLOW_FROMJSON_NULLS));
@@ -1356,7 +1356,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (file == null) {
             return;
         }
-         String hfmtPath = System.getenv("HFMT_PATH");
+        String hfmtPath = System.getenv("HFMT_PATH");
         if (StringUtils.isEmpty(hfmtPath)) {
             return; // skip if HFMT_PATH env variable is not defined
         }
@@ -1368,12 +1368,12 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
                 if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
                 }
+                LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
 }
