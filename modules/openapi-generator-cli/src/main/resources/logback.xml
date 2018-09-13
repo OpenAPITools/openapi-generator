@@ -24,7 +24,7 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="STDERR"/>
     </logger>
-    <logger name="org.openapitools" level="${log-level:-info}">
+    <logger name="org.openapitools" level="${log.level:-info}">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="STDERR"/>
     </logger>
