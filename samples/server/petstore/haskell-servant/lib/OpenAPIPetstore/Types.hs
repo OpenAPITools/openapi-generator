@@ -1,105 +1,111 @@
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveGeneric              #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module OpenAPIPetstore.Types (
-  ApiResponse (..),
-  Category (..),
-  Order (..),
-  Pet (..),
-  Tag (..),
-  User (..),
+module OpenAPIPetstore.Types
+  ( ApiResponse(..)
+  , Category(..)
+  , Order(..)
+  , Pet(..)
+  , Tag(..)
+  , User(..)
   ) where
 
-import Data.List (stripPrefix)
-import Data.Maybe (fromMaybe)
-import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
-import Data.Aeson.Types (Options(..), defaultOptions)
-import Data.Text (Text)
-import qualified Data.Text as T
-import qualified Data.Map as Map
-import GHC.Generics (Generic)
-import Data.Function ((&))
-
+import           Data.Aeson       (FromJSON (..), ToJSON (..), Value,
+                                   genericParseJSON, genericToJSON)
+import           Data.Aeson.Types (Options (..), defaultOptions)
+import           Data.Function    ((&))
+import           Data.List        (stripPrefix)
+import qualified Data.Map         as Map
+import           Data.Maybe       (fromMaybe)
+import           Data.Text        (Text)
+import qualified Data.Text        as T
+import           GHC.Generics     (Generic)
 
 -- | Describes the result of uploading an image resource
 data ApiResponse = ApiResponse
-  { apiResponseCode :: Int -- ^ 
-  , apiResponseType :: Text -- ^ 
-  , apiResponseMessage :: Text -- ^ 
+  { apiResponseCode    :: Int -- ^
+  , apiResponseType    :: Text -- ^
+  , apiResponseMessage :: Text -- ^
   } deriving (Show, Eq, Generic)
 
 instance FromJSON ApiResponse where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "apiResponse")
+
 instance ToJSON ApiResponse where
   toJSON = genericToJSON (removeFieldLabelPrefix False "apiResponse")
 
 -- | A category for a pet
 data Category = Category
-  { categoryId :: Integer -- ^ 
-  , categoryName :: Text -- ^ 
+  { categoryId   :: Integer -- ^
+  , categoryName :: Text -- ^
   } deriving (Show, Eq, Generic)
 
 instance FromJSON Category where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "category")
+
 instance ToJSON Category where
   toJSON = genericToJSON (removeFieldLabelPrefix False "category")
 
 -- | An order for a pets from the pet store
 data Order = Order
-  { orderId :: Integer -- ^ 
-  , orderPetId :: Integer -- ^ 
-  , orderQuantity :: Int -- ^ 
-  , orderShipDate :: Integer -- ^ 
-  , orderStatus :: Text -- ^ Order Status
-  , orderComplete :: Bool -- ^ 
+  { orderId       :: Integer -- ^
+  , orderPetId    :: Integer -- ^
+  , orderQuantity :: Int -- ^
+  , orderShipDate :: Integer -- ^
+  , orderStatus   :: Text -- ^ Order Status
+  , orderComplete :: Bool -- ^
   } deriving (Show, Eq, Generic)
 
 instance FromJSON Order where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "order")
+
 instance ToJSON Order where
   toJSON = genericToJSON (removeFieldLabelPrefix False "order")
 
 -- | A pet for sale in the pet store
 data Pet = Pet
-  { petId :: Integer -- ^ 
-  , petCategory :: Category -- ^ 
-  , petName :: Text -- ^ 
-  , petPhotoUrls :: [Text] -- ^ 
-  , petTags :: [Tag] -- ^ 
-  , petStatus :: Text -- ^ pet status in the store
+  { petId        :: Integer -- ^
+  , petCategory  :: Category -- ^
+  , petName      :: Text -- ^
+  , petPhotoUrls :: [Text] -- ^
+  , petTags      :: [Tag] -- ^
+  , petStatus    :: Text -- ^ pet status in the store
   } deriving (Show, Eq, Generic)
 
 instance FromJSON Pet where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "pet")
+
 instance ToJSON Pet where
   toJSON = genericToJSON (removeFieldLabelPrefix False "pet")
 
 -- | A tag for a pet
 data Tag = Tag
-  { tagId :: Integer -- ^ 
-  , tagName :: Text -- ^ 
+  { tagId   :: Integer -- ^
+  , tagName :: Text -- ^
   } deriving (Show, Eq, Generic)
 
 instance FromJSON Tag where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "tag")
+
 instance ToJSON Tag where
   toJSON = genericToJSON (removeFieldLabelPrefix False "tag")
 
 -- | A User who is purchasing from the pet store
 data User = User
-  { userId :: Integer -- ^ 
-  , userUsername :: Text -- ^ 
-  , userFirstName :: Text -- ^ 
-  , userLastName :: Text -- ^ 
-  , userEmail :: Text -- ^ 
-  , userPassword :: Text -- ^ 
-  , userPhone :: Text -- ^ 
+  { userId         :: Integer -- ^
+  , userUsername   :: Text -- ^
+  , userFirstName  :: Text -- ^
+  , userLastName   :: Text -- ^
+  , userEmail      :: Text -- ^
+  , userPassword   :: Text -- ^
+  , userPhone      :: Text -- ^
   , userUserStatus :: Int -- ^ User Status
   } deriving (Show, Eq, Generic)
 
 instance FromJSON User where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "user")
+
 instance ToJSON User where
   toJSON = genericToJSON (removeFieldLabelPrefix False "user")
 
@@ -108,9 +114,13 @@ instance ToJSON User where
 removeFieldLabelPrefix :: Bool -> String -> Options
 removeFieldLabelPrefix forParsing prefix =
   defaultOptions
-  {fieldLabelModifier = fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars}
+  { fieldLabelModifier =
+      fromMaybe (error ("did not find prefix " ++ prefix)) .
+      stripPrefix prefix . replaceSpecialChars
+  }
   where
-    replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
+    replaceSpecialChars field =
+      foldl (&) field (map mkCharReplacement specialChars)
     specialChars =
       [ ("@", "'At")
       , ("\\", "'Back_Slash")
@@ -147,7 +157,8 @@ removeFieldLabelPrefix forParsing prefix =
       , ("?", "'Question_Mark")
       , (">=", "'Greater_Than_Or_Equal_To")
       ]
-    mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
+    mkCharReplacement (replaceStr, searchStr) =
+      T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
     replacer =
       if forParsing
         then flip T.replace
