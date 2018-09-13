@@ -1,5 +1,5 @@
-{{vendorExtensions.x-decoder}} : Decoder {{vendorExtensions.x-union-type}}
-{{vendorExtensions.x-decoder}} =
+{{vendorExtensions.elmDecoder}} : Decoder {{vendorExtensions.elmUnionType}}
+{{vendorExtensions.elmDecoder}} =
     Decode.string
         |> Decode.andThen (\str ->
             case str of

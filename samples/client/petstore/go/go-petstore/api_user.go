@@ -11,11 +11,11 @@ package petstore
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
-	"fmt"
 )
 
 // Linger please
@@ -33,7 +33,7 @@ This can only be done by the logged in user.
 */
 func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Post")
+		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -84,7 +84,7 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		return localVarHttpResponse, newErr
@@ -100,7 +100,7 @@ UserApiService Creates list of users with given input array
 */
 func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Post")
+		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -151,7 +151,7 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		return localVarHttpResponse, newErr
@@ -167,7 +167,7 @@ UserApiService Creates list of users with given input array
 */
 func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Post")
+		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -218,7 +218,7 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []Us
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		return localVarHttpResponse, newErr
@@ -235,7 +235,7 @@ This can only be done by the logged in user.
 */
 func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Delete")
+		localVarHttpMethod   = strings.ToUpper("Delete")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -285,7 +285,7 @@ func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		return localVarHttpResponse, newErr
@@ -302,12 +302,12 @@ UserApiService Get user by user name
 */
 func (a *UserApiService) GetUserByName(ctx context.Context, username string) (User, *http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Get")
+		localVarHttpMethod   = strings.ToUpper("Get")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue User
+		localVarReturnValue  User
 	)
 
 	// create path and map variables
@@ -353,7 +353,7 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
@@ -361,18 +361,18 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
 			var v User
-			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-				if err != nil {
-					newErr.error = err.Error()
-					return localVarReturnValue, localVarHttpResponse, newErr
-				}
-				newErr.model = v
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
 				return localVarReturnValue, localVarHttpResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
@@ -389,12 +389,12 @@ UserApiService Logs user into the system
 */
 func (a *UserApiService) LoginUser(ctx context.Context, username string, password string) (string, *http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Get")
+		localVarHttpMethod   = strings.ToUpper("Get")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue string
+		localVarReturnValue  string
 	)
 
 	// create path and map variables
@@ -441,7 +441,7 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 
 	if localVarHttpResponse.StatusCode < 300 {
 		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 		if err == nil {
 			return localVarReturnValue, localVarHttpResponse, err
 		}
@@ -449,18 +449,18 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
 			var v string
-			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-				if err != nil {
-					newErr.error = err.Error()
-					return localVarReturnValue, localVarHttpResponse, newErr
-				}
-				newErr.model = v
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
 				return localVarReturnValue, localVarHttpResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
@@ -474,7 +474,7 @@ UserApiService Logs out current logged in user session
 */
 func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Get")
+		localVarHttpMethod   = strings.ToUpper("Get")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -523,7 +523,7 @@ func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error)
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		return localVarHttpResponse, newErr
@@ -541,7 +541,7 @@ This can only be done by the logged in user.
 */
 func (a *UserApiService) UpdateUser(ctx context.Context, username string, user User) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Put")
+		localVarHttpMethod   = strings.ToUpper("Put")
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -593,7 +593,7 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, user U
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		return localVarHttpResponse, newErr

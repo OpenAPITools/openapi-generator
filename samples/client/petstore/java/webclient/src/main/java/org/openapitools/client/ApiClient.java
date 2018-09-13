@@ -546,7 +546,7 @@ public class ApiClient {
             builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build().toUri());
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(true).toUri());
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }

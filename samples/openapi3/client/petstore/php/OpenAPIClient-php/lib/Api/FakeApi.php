@@ -150,9 +150,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('bool' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -168,9 +165,6 @@ class FakeApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -238,9 +232,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -416,9 +407,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('\OpenAPI\Client\Model\OuterComposite' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -434,9 +422,6 @@ class FakeApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -504,9 +489,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -682,9 +664,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('float' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -700,9 +679,6 @@ class FakeApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -770,9 +746,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -948,9 +921,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('string' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -966,9 +936,6 @@ class FakeApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -1036,9 +1003,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -1663,9 +1627,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('\OpenAPI\Client\Model\Client' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -1681,9 +1642,6 @@ class FakeApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -1751,9 +1709,6 @@ class FakeApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [

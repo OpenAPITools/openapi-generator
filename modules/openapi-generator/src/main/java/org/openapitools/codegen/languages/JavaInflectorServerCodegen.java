@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaInflectorServerCodegen.class);
@@ -226,6 +227,6 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             return "DefaultController";
         }
         name = name.replaceAll("[^a-zA-Z0-9]+", "_");
-        return camelize(name) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Controller";
     }
 }

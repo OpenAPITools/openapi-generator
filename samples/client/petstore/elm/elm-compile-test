@@ -4,7 +4,7 @@
 for ELM in `find src -name "*.elm"`
 do
     echo "Compiling $ELM"
-    elm make $ELM --output /dev/null --yes
+    elm make $ELM --output /dev/null
     rc=$?
     if [[ $rc != 0 ]]
     then

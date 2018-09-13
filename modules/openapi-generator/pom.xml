@@ -203,8 +203,8 @@
             <artifactId>swagger-core</artifactId>
             <version>${swagger-core-version}</version>
         </dependency>
-        <dependency> 
-            <groupId>org.openapitools.swagger.parser</groupId>
+        <dependency>
+            <groupId>io.swagger.parser.v3</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser-version}</version>
         </dependency> 

@@ -32,6 +32,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(Swift4Codegen.class);
 
@@ -472,7 +473,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = camelize(name);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -509,6 +510,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
+        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            if (p.getDefault() != null) {
+                return "." + escapeText((String) p.getDefault());
+            }
+        }
         if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -543,7 +549,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
 
         // Throw exception if method name is empty.
         // This should not happen but keep the check just in case
@@ -553,7 +559,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(("call_" + operationId), true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize(("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name."
                     + " Renamed to " + newOperationId);
             return newOperationId;
@@ -561,8 +567,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
-            operationId = camelize(sanitizeName("call_" + operationId), true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true));
+            operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true);
         }
 
 
@@ -581,7 +587,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -604,9 +610,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
 
-        // camelize(lower) the variable name
+        // org.openapitools.codegen.utils.StringUtils.camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -692,18 +698,18 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             String startingNumbers = startWithNumberMatcher.group(0);
             String nameWithoutStartingNumbers = name.substring(startingNumbers.length());
 
-            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, true);
+            return "_" + startingNumbers + org.openapitools.codegen.utils.StringUtils.camelize(nameWithoutStartingNumbers, true);
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+            return org.openapitools.codegen.utils.StringUtils.camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
         }
 
         // Camelize only when we have a structure defined below
         Boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-            name = camelize(name, true);
+            name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
             camelized = true;
         }
 
@@ -716,7 +722,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // Check for numerical conversions
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype)
                 || "Float".equals(datatype) || "Double".equals(datatype)) {
-            String varName = "number" + camelize(name);
+            String varName = "number" + org.openapitools.codegen.utils.StringUtils.camelize(name);
             varName = varName.replaceAll("-", "minus");
             varName = varName.replaceAll("\\+", "plus");
             varName = varName.replaceAll("\\.", "dot");
@@ -730,7 +736,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
+        return org.openapitools.codegen.utils.StringUtils.camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
                         .replaceAll("[-_ :\\(\\)]", ""),
                 true);
     }

@@ -40,7 +40,7 @@ using namespace org::openapitools::server::model;
 class  StoreApi {
 public:
     StoreApi(Pistache::Address addr);
-    virtual ~StoreApi() {};
+    virtual ~StoreApi() {}
     void init(size_t thr);
     void start();
     void shutdown();

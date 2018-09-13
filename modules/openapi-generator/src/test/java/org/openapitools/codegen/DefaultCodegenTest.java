@@ -38,32 +38,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
+
 public class DefaultCodegenTest {
-
-    @Test
-    public void testCamelize() throws Exception {
-        Assert.assertEquals(DefaultCodegen.camelize("abcd"), "Abcd");
-        Assert.assertEquals(DefaultCodegen.camelize("some-value"), "SomeValue");
-        Assert.assertEquals(DefaultCodegen.camelize("some_value"), "SomeValue");
-        Assert.assertEquals(DefaultCodegen.camelize("$type"), "$Type");
-
-        Assert.assertEquals(DefaultCodegen.camelize("abcd", true), "abcd");
-        Assert.assertEquals(DefaultCodegen.camelize("some-value", true), "someValue");
-        Assert.assertEquals(DefaultCodegen.camelize("some_value", true), "someValue");
-        Assert.assertEquals(DefaultCodegen.camelize("Abcd", true), "abcd");
-        Assert.assertEquals(DefaultCodegen.camelize("$type", true), "$type");
-
-        Assert.assertEquals(DefaultCodegen.camelize("123", true), "123");
-        Assert.assertEquals(DefaultCodegen.camelize("$123", true), "$123");
-    }
 
     @Test
     public void testHasBodyParameter() throws Exception {
@@ -312,6 +291,66 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void updateCodegenPropertyEnumWithExtention() {
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("dog", "cat"), Arrays.asList("DOGVAR", "CATVAR"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertNotNull(enumVars);
+            Assert.assertNotNull(enumVars.get(0));
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
+            Assert.assertNotNull(enumVars.get(1));
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+        }
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("1", "2"), Arrays.asList("ONE", "TWO"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "ONE");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"1\"");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "TWO");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"2\"");
+        }
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("a", "b", "c", "d"), Arrays.asList("FOO", "BAR"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "FOO");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "BAR");
+            Assert.assertEquals(enumVars.get(2).getOrDefault("name", ""), "C");
+            Assert.assertEquals(enumVars.get(3).getOrDefault("name", ""), "D");
+        }
+        {
+            CodegenProperty enumProperty = codegenPropertyWithXEnumVarName(Arrays.asList("a", "b"), Arrays.asList("FOO", "BAR", "BAZ"));
+            (new DefaultCodegen()).updateCodegenPropertyEnum(enumProperty);
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumProperty.getAllowableValues().get("enumVars");
+            Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "FOO");
+            Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "BAR");
+            Assert.assertEquals(enumVars.size(), 2);
+        }
+    }
+
+    @Test
+    public void postProcessModelsEnumWithExtention() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        Map<String, Object> objs = codegenModelWithXEnumVarName();
+        CodegenModel cm = (CodegenModel) ((Map<String, Object>) ((List<Object>) objs.get("models")).get(0)).get("model");
+
+        codegen.postProcessModelsEnum(objs);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+    }
+
+    @Test
     public void testExample1() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -407,6 +446,60 @@ public class DefaultCodegenTest {
         verifyPersonDiscriminator(personModel.discriminator);
     }
 
+    @Test
+    public void testCallbacks() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/callbacks.yaml", null, new ParseOptions()).getOpenAPI();
+        final CodegenConfig codegen = new DefaultCodegen();
+
+        final String path = "/streams";
+        Operation subscriptionOperation = openAPI.getPaths().get("/streams").getPost();
+        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation, openAPI.getComponents().getSchemas(), openAPI);
+
+        Assert.assertFalse(op.isCallbackRequest);
+        Assert.assertNotNull(op.operationId);
+        Assert.assertEquals(op.callbacks.size(), 2);
+
+        CodegenCallback cbB = op.callbacks.get(1);
+        Assert.assertEquals(cbB.name, "dummy");
+        Assert.assertFalse(cbB.hasMore);
+        Assert.assertEquals(cbB.urls.size(), 0);
+
+        CodegenCallback cbA = op.callbacks.get(0);
+        Assert.assertEquals(cbA.name, "onData");
+        Assert.assertTrue(cbA.hasMore);
+
+        Assert.assertEquals(cbA.urls.size(), 2);
+
+        CodegenCallback.Url urlB = cbA.urls.get(1);
+        Assert.assertEquals(urlB.expression, "{$request.query.callbackUrl}/test");
+        Assert.assertFalse(urlB.hasMore);
+        Assert.assertEquals(urlB.requests.size(), 0);
+
+        CodegenCallback.Url urlA = cbA.urls.get(0);
+        Assert.assertEquals(urlA.expression, "{$request.query.callbackUrl}/data");
+        Assert.assertTrue(urlA.hasMore);
+        Assert.assertEquals(urlA.requests.size(), 2);
+
+        urlA.requests.forEach(req -> {
+            Assert.assertTrue(req.isCallbackRequest);
+            Assert.assertNotNull(req.bodyParam);
+            Assert.assertEquals(req.responses.size(), 2);
+
+            switch (req.httpMethod.toLowerCase(Locale.getDefault())) {
+            case "post":
+                Assert.assertEquals(req.operationId, "onDataDataPost");
+                Assert.assertEquals(req.bodyParam.dataType, "NewNotificationData");
+                break;
+            case "delete":
+                Assert.assertEquals(req.operationId, "onDataDataDelete");
+                Assert.assertEquals(req.bodyParam.dataType, "DeleteNotificationData");
+                break;
+            default:
+                Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
+            }
+        });
+    }
+
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("$_type");
@@ -428,5 +521,31 @@ public class DefaultCodegenTest {
         array.setItems(items);
         array.dataType = "Array";
         return array;
+    }
+
+    private CodegenProperty codegenPropertyWithXEnumVarName(List<String> values, List<String> aliases) {
+        final CodegenProperty var = new CodegenProperty();
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", values);
+        var.setAllowableValues(allowableValues);
+        var.dataType = "String";
+        Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
+        var.setVendorExtensions(extentions);
+        return var;
+    }
+
+    private Map<String, Object> codegenModelWithXEnumVarName() {
+        final CodegenModel cm = new CodegenModel();
+        cm.isEnum = true;
+        final HashMap<String, Object> allowableValues = new HashMap<>();
+        allowableValues.put("values", Arrays.asList("dog", "cat"));
+        cm.setAllowableValues(allowableValues);
+        cm.dataType = "String";
+        final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
+        Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
+        cm.setVendorExtensions(extentions);
+        cm.setVars(Collections.emptyList());
+        Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));
+        return objs;
     }
 }

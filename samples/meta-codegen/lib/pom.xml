@@ -100,8 +100,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -116,7 +116,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <openapi-generator-version>3.0.0-SNAPSHOT</openapi-generator-version>
+        <openapi-generator-version>3.3.0-SNAPSHOT</openapi-generator-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>
     </properties>

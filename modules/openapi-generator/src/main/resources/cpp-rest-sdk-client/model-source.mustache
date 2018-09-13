@@ -140,7 +140,11 @@ void {{classname}}::fromJson(web::json::value& val)
     {{^required}}
     if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
     {
-        {{setter}}(ModelBase::{{baseType}}FromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
+        web::json::value& fieldValue = val[utility::conversions::to_string_t("{{baseName}}")];
+        if(!fieldValue.is_null())
+        {
+            {{setter}}(ModelBase::{{baseType}}FromJson(fieldValue));
+        }
     }
     {{/required}}
     {{#required}}
@@ -242,27 +246,28 @@ void {{classname}}::fromJson(web::json::value& val)
     {{^required}}
     if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
     {
-        {{#isString}}
-        {{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
-        {{/isString}}
-        {{#isByteArray}}
-        {{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
-        {{/isByteArray}}
-        {{^isString}}
-        {{#isDateTime}}
-        {{setter}}(ModelBase::dateFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
-        {{/isDateTime}}
-        {{^isDateTime}}
-        {{^isByteArray}}
-        if(!val[utility::conversions::to_string_t("{{baseName}}")].is_null())
+        web::json::value& fieldValue = val[utility::conversions::to_string_t("{{baseName}}")];
+        if(!fieldValue.is_null())
         {
+            {{#isString}}
+            {{setter}}(ModelBase::stringFromJson(fieldValue));
+            {{/isString}}
+            {{#isByteArray}}
+            {{setter}}(ModelBase::stringFromJson(fieldValue));
+            {{/isByteArray}}
+            {{^isString}}
+            {{#isDateTime}}
+            {{setter}}(ModelBase::dateFromJson(fieldValue));
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{^isByteArray}}
             {{{dataType}}} newItem({{{defaultValue}}});
-            newItem->fromJson(val[utility::conversions::to_string_t("{{baseName}}")]);
+            newItem->fromJson(fieldValue);
             {{setter}}( newItem );
+            {{/isByteArray}}
+            {{/isDateTime}}
+            {{/isString}}
         }
-        {{/isByteArray}}
-        {{/isDateTime}}
-        {{/isString}}
     }
     {{/required}}
     {{#required}}

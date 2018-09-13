@@ -36,55 +36,56 @@ use OpenAPIServer\Model\Category;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Category
  */
-class CategoryTest extends \PHPUnit_Framework_TestCase {
+class CategoryTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "Category"
      */
-    public function testCategory() {
+    public function testCategory()
+    {
         $testCategory = new Category();
     }
 
     /**
      * Test attribute "id"
      */
-    public function testPropertyId() {
-
+    public function testPropertyId()
+    {
     }
 
     /**
      * Test attribute "name"
      */
-    public function testPropertyName() {
-
+    public function testPropertyName()
+    {
     }
 }
-

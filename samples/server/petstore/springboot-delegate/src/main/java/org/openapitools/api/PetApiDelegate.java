@@ -20,46 +20,46 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#addPet
      */
-    ResponseEntity<Void> addPet( Pet  pet);
+    ResponseEntity<Void> addPet(Pet pet);
 
     /**
      * @see PetApi#deletePet
      */
-    ResponseEntity<Void> deletePet( Long  petId,
-         String  apiKey);
+    ResponseEntity<Void> deletePet(Long petId,
+        String apiKey);
 
     /**
      * @see PetApi#findPetsByStatus
      */
-    ResponseEntity<List<Pet>> findPetsByStatus( List<String>  status);
+    ResponseEntity<List<Pet>> findPetsByStatus(List<String> status);
 
     /**
      * @see PetApi#findPetsByTags
      */
-    ResponseEntity<List<Pet>> findPetsByTags( List<String>  tags);
+    ResponseEntity<List<Pet>> findPetsByTags(List<String> tags);
 
     /**
      * @see PetApi#getPetById
      */
-    ResponseEntity<Pet> getPetById( Long  petId);
+    ResponseEntity<Pet> getPetById(Long petId);
 
     /**
      * @see PetApi#updatePet
      */
-    ResponseEntity<Void> updatePet( Pet  pet);
+    ResponseEntity<Void> updatePet(Pet pet);
 
     /**
      * @see PetApi#updatePetWithForm
      */
-    ResponseEntity<Void> updatePetWithForm( Long  petId,
-         String  name,
-         String  status);
+    ResponseEntity<Void> updatePetWithForm(Long petId,
+        String name,
+        String status);
 
     /**
      * @see PetApi#uploadFile
      */
-    ResponseEntity<ModelApiResponse> uploadFile( Long  petId,
-         String  additionalMetadata,
+    ResponseEntity<ModelApiResponse> uploadFile(Long petId,
+        String additionalMetadata,
         MultipartFile file);
 
 }

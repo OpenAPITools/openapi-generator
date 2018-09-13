@@ -12,8 +12,8 @@
 
 module Request.Pet exposing (addPet, deletePet, findPetsByStatus, findPetsByTags, getPetById, updatePet, updatePetWithForm, uploadFile)
 
-import Data.Pet exposing (Pet, petDecoder, petEncoder)
 import Data.ApiResponse exposing (ApiResponse, apiResponseDecoder)
+import Data.Pet exposing (Pet, petDecoder, petEncoder)
 import Dict
 import Http
 import Json.Decode as Decode
@@ -40,7 +40,7 @@ addPet model =
 deletePet : Int -> Http.Request ()
 deletePet petId =
     { method = "DELETE"
-    , url = basePath ++ "/pet/" ++ toString petId
+    , url = basePath ++ "/pet/" ++ String.fromInt petId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectStringResponse (\_ -> Ok ())
@@ -85,7 +85,7 @@ findPetsByTags =
 getPetById : Int -> Http.Request Pet
 getPetById petId =
     { method = "GET"
-    , url = basePath ++ "/pet/" ++ toString petId
+    , url = basePath ++ "/pet/" ++ String.fromInt petId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectJson petDecoder
@@ -111,7 +111,7 @@ updatePet model =
 updatePetWithForm : Int -> Http.Request ()
 updatePetWithForm petId =
     { method = "POST"
-    , url = basePath ++ "/pet/" ++ toString petId
+    , url = basePath ++ "/pet/" ++ String.fromInt petId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectStringResponse (\_ -> Ok ())
@@ -124,7 +124,7 @@ updatePetWithForm petId =
 uploadFile : Int -> Http.Request ApiResponse
 uploadFile petId =
     { method = "POST"
-    , url = basePath ++ "/pet/" ++ toString petId ++ "/uploadImage"
+    , url = basePath ++ "/pet/" ++ String.fromInt petId ++ "/uploadImage"
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectJson apiResponseDecoder
