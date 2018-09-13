@@ -1,5 +1,5 @@
 
-CONFIG OPTIONS for dart
+CONFIG OPTIONS for dart-jaguar
 
 	sortParamsByRequiredFlag
 	    Sort method arguments to place required parameters before optional parameters. (Default: true)
