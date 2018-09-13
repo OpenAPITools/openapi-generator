@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "^8.0.9",
-    "typescript": "^2.4",    
+    "typescript": "^2.4" 
   },
   "publishConfig":{
     "registry":"https://skimdb.npmjs.com/registry"
