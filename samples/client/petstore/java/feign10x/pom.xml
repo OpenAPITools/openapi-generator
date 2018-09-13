@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>petstore-feign</artifactId>
+    <artifactId>petstore-feign-10x</artifactId>
     <packaging>jar</packaging>
-    <name>petstore-feign</name>
+    <name>petstore-feign-10x</name>
     <version>1.0.0</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <description>OpenAPI Java</description>
@@ -267,7 +267,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <feign-version>9.4.0</feign-version>
+        <feign-version>10.0.1</feign-version>
         <feign-form-version>2.1.0</feign-form-version>
         <jackson-version>2.8.9</jackson-version>
         <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
