@@ -17,6 +17,7 @@ org.openapitools.codegen.languages.CSharpClientCodegen
 org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
 org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
+org.openapitools.codegen.languages.DartJaguarClientCodegen
 org.openapitools.codegen.languages.EiffelClientCodegen
 org.openapitools.codegen.languages.ElixirClientCodegen
 org.openapitools.codegen.languages.ElmClientCodegen
