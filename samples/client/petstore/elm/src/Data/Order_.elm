@@ -14,7 +14,7 @@ module Data.Order_ exposing (Order_, Status(..), orderDecoder, orderEncoder)
 
 import DateTime exposing (DateTime, dateTimeDecoder, dateTimeEncoder)
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Maybe exposing (map, withDefault)
 
@@ -37,17 +37,15 @@ type Status
     | Delivered
 
 
-
 orderDecoder : Decoder Order_
 orderDecoder =
-    decode Order_
+    Decode.succeed Order_
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "petId" (Decode.nullable Decode.int) Nothing
         |> optional "quantity" (Decode.nullable Decode.int) Nothing
         |> optional "shipDate" (Decode.nullable dateTimeDecoder) Nothing
         |> optional "status" (Decode.nullable statusDecoder) Nothing
         |> optional "complete" (Decode.nullable Decode.bool) (Just False)
-
 
 
 orderEncoder : Order_ -> Encode.Value
@@ -62,24 +60,24 @@ orderEncoder model =
         ]
 
 
-
 statusDecoder : Decoder Status
 statusDecoder =
     Decode.string
-        |> Decode.andThen (\str ->
-            case str of
-                "placed" ->
-                    Decode.succeed Placed
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "placed" ->
+                        Decode.succeed Placed
 
-                "approved" ->
-                    Decode.succeed Approved
+                    "approved" ->
+                        Decode.succeed Approved
 
-                "delivered" ->
-                    Decode.succeed Delivered
+                    "delivered" ->
+                        Decode.succeed Delivered
 
-                other ->
-                    Decode.fail <| "Unknown type: " ++ other
-        )
+                    other ->
+                        Decode.fail <| "Unknown type: " ++ other
+            )
 
 
 statusEncoder : Status -> Encode.Value
@@ -93,6 +91,3 @@ statusEncoder model =
 
         Delivered ->
             Encode.string "delivered"
-
-
-

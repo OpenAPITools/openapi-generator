@@ -18,6 +18,7 @@
 #include <QSharedPointer>
 #include <QList>
 #include <QMultiMap>
+#include <QRegularExpression>
 
 #include <qhttpengine/socket.h>
 #include <qhttpengine/handler.h>
@@ -88,6 +89,14 @@ private :
                 return QStringLiteral("CONNECT");
         }
         return QStringLiteral("");
+    }
+    
+    inline QRegularExpressionMatch getRequestMatch(QString serverTemplatePath, QString requestPath){
+        QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+        serverTemplatePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+        serverTemplatePath.append("[\\/]?$");
+        QRegularExpression pathExpr( serverTemplatePath );
+        return pathExpr.match( requestPath );
     }
 
 };

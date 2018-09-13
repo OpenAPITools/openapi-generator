@@ -13,7 +13,7 @@
 module Data.ApiResponse exposing (ApiResponse, apiResponseDecoder, apiResponseEncoder)
 
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 import Maybe exposing (map, withDefault)
 
@@ -29,11 +29,10 @@ type alias ApiResponse =
 
 apiResponseDecoder : Decoder ApiResponse
 apiResponseDecoder =
-    decode ApiResponse
+    Decode.succeed ApiResponse
         |> optional "code" (Decode.nullable Decode.int) Nothing
         |> optional "type" (Decode.nullable Decode.string) Nothing
         |> optional "message" (Decode.nullable Decode.string) Nothing
-
 
 
 apiResponseEncoder : ApiResponse -> Encode.Value
@@ -43,5 +42,3 @@ apiResponseEncoder model =
         , ( "type", withDefault Encode.null (map Encode.string model.type_) )
         , ( "message", withDefault Encode.null (map Encode.string model.message) )
         ]
-
-

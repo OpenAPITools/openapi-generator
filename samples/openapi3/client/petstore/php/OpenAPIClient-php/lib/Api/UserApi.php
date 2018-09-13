@@ -1035,9 +1035,6 @@ class UserApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('\OpenAPI\Client\Model\User' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -1053,9 +1050,6 @@ class UserApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -1123,9 +1117,6 @@ class UserApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -1318,9 +1309,6 @@ class UserApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ('string' !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [
@@ -1336,9 +1324,6 @@ class UserApi
                 $content = $responseBody; //stream goes to serializer
             } else {
                 $content = $responseBody->getContents();
-                if ($returnType !== 'string') {
-                    $content = json_decode($content);
-                }
             }
 
             return [
@@ -1408,9 +1393,6 @@ class UserApi
                         $content = $responseBody; //stream goes to serializer
                     } else {
                         $content = $responseBody->getContents();
-                        if ($returnType !== 'string') {
-                            $content = json_decode($content);
-                        }
                     }
 
                     return [

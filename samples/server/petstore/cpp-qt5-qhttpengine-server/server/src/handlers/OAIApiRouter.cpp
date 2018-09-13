@@ -14,7 +14,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVariantMap>
-#include <QRegularExpression>
+
 
 #include "OAIApiRouter.h"
 #include "OAIPetApiRequest.h"
@@ -29,7 +29,7 @@ OAIApiRouter::OAIApiRouter() {
 }
 
 OAIApiRouter::~OAIApiRouter(){
-    qDebug() << "~ApiRouter()";
+    
     delete OAIPetApiApiHandler;
     delete OAIStoreApiApiHandler;
     delete OAIUserApiApiHandler;
@@ -117,11 +117,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("DELETE").arg("/v2/pet/{petId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
@@ -133,11 +129,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("GET").arg("/v2/pet/{petId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
@@ -149,11 +141,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("POST").arg("/v2/pet/{petId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
@@ -165,11 +153,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("POST").arg("/v2/pet/{petId}/uploadImage").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString petId = match.captured(QString("petId").toLower());
                 auto reqObj = new OAIPetApiRequest(socket, OAIPetApiApiHandler);
@@ -181,11 +165,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("DELETE").arg("/v2/store/order/{orderId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString orderId = match.captured(QString("orderId").toLower());
                 auto reqObj = new OAIStoreApiRequest(socket, OAIStoreApiApiHandler);
@@ -197,11 +177,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("GET").arg("/v2/store/order/{orderId}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString orderId = match.captured(QString("orderId").toLower());
                 auto reqObj = new OAIStoreApiRequest(socket, OAIStoreApiApiHandler);
@@ -213,11 +189,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("DELETE").arg("/v2/user/{username}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString username = match.captured(QString("username").toLower());
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
@@ -229,11 +201,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("GET").arg("/v2/user/{username}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString username = match.captured(QString("username").toLower());
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);
@@ -245,11 +213,7 @@ bool OAIApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *socket)
     {
         auto completePath = QString("%1 %2").arg("PUT").arg("/v2/user/{username}").toLower();
         if ( reqPath.startsWith(completePath.leftRef( completePath.indexOf(QString("/{")))) ) {
-            QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
-            completePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
-            completePath.append("[\\/]?$");
-            QRegularExpression pathExpr( completePath );
-            QRegularExpressionMatch match = pathExpr.match( reqPath );
+            QRegularExpressionMatch match = getRequestMatch( completePath, reqPath );
             if ( match.hasMatch() ){
                 QString username = match.captured(QString("username").toLower());
                 auto reqObj = new OAIUserApiRequest(socket, OAIUserApiApiHandler);

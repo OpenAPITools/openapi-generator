@@ -31,9 +31,9 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.*;
+
 
 public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
@@ -246,12 +246,12 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         if (name == null || name.length() == 0) {
             return "DefaultController";
         }
-        return camelize(name, false) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
     }
 
     @Override
     public String toApiFilename(String name) {
-        return underscore(toApiName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toApiName(name));
     }
 
     @Override
@@ -405,7 +405,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // underscore the variable name
         // petId => pet_id
-        name = underscore(name);
+        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
 
         // remove leading underscore
         name = name.replaceAll("^_*", "");
@@ -433,7 +433,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
     public String toModelFilename(String name) {
         // underscore the model file name
         // PhoneNumber => phone_number
-        return underscore(dropDots(toModelName(name)));
+        return org.openapitools.codegen.utils.StringUtils.underscore(dropDots(toModelName(name)));
     }
 
     @Override
@@ -444,13 +444,13 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -464,7 +464,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -476,11 +476,11 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return underscore(sanitizeName(operationId));
+        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(operationId));
     }
 
     /**

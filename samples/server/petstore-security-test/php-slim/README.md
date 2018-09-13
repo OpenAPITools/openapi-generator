@@ -5,7 +5,7 @@
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 5.5 or newer
+* PHP 5.5.9 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -30,15 +30,20 @@ $ php -S localhost:8888 -t php-slim-server
 
 ## Run tests
 
-This package uses PHPUnit 4.8 for unit testing.
+This package uses PHPUnit 4.8 for unit testing and PHP Codesniffer to check source code against user defined coding standard(`phpcsStandard` generator config option).
 [Test folder](test) contains templates which you can fill with real test assertions.
 How to write tests read at [PHPUnit Manual - Chapter 2. Writing Tests for PHPUnit](https://phpunit.de/manual/4.8/en/writing-tests-for-phpunit.html).
+How to configure PHP CodeSniffer read at [PHP CodeSniffer Documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki).
+There is [phplint](https://github.com/overtrue/phplint) tool to check php syntax automatically.
 
 Command | Tool | Target
 ---- | ---- | ----
 `$ composer test` | PHPUnit | All tests
 `$ composer run test-apis` | PHPUnit | Apis tests
 `$ composer run test-models` | PHPUnit | Models tests
+`$ composer run phpcs` | PHP CodeSniffer | All files
+`$ composer run phplint` | phplint | All files
+
 
 ## API Endpoints
 

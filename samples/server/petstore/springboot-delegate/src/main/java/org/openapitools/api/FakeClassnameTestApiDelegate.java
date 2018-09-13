@@ -18,6 +18,6 @@ public interface FakeClassnameTestApiDelegate {
     /**
      * @see FakeClassnameTestApi#testClassname
      */
-    ResponseEntity<Client> testClassname( Client  client);
+    ResponseEntity<Client> testClassname(Client client);
 
 }

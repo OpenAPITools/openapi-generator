@@ -23,7 +23,7 @@ RUN apk add --update \
         openssl
 
 WORKDIR /usr/server
-COPY --from=build /usr/server/build/src/cpp-qt5-server ./build/src/
+COPY --from=build /usr/server/build/src/cpp-qt5-qhttpengine-server ./build/src/
 COPY --from=build /usr/server/external/ ./external
 EXPOSE 8080/tcp
-ENTRYPOINT ["/usr/server/build/src/cpp-qt5-server"]
+ENTRYPOINT ["/usr/server/build/src/cpp-qt5-qhttpengine-server"]

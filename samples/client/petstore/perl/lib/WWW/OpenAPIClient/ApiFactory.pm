@@ -1,3 +1,4 @@
+
 =begin comment
 
 OpenAPI Petstore
@@ -58,9 +59,8 @@ use WWW::OpenAPIClient::ApiClient;
 =cut
 
 # Load all the API classes and construct a lookup table at startup time
-my %_apis = map { $_ =~ /^WWW::OpenAPIClient::(.*)$/; $1 => $_ } 
-			grep {$_ =~ /Api$/} 
-			usesub 'WWW::OpenAPIClient';
+my %_apis = map { $_ =~ /^WWW::OpenAPIClient::(.*)$/; $1 => $_ }
+  grep { $_ =~ /Api$/ } usesub 'WWW::OpenAPIClient';
 
 =head1 new($api_client)
 	
@@ -78,9 +78,10 @@ sub new {
     my ($class) = shift;
 
     my $api_client;
-    if ($_[0] && ref $_[0] && ref $_[0] eq 'WWW::OpenAPIClient::ApiClient' ) {
+    if ( $_[0] && ref $_[0] && ref $_[0] eq 'WWW::OpenAPIClient::ApiClient' ) {
         $api_client = $_[0];
-    } else {
+    }
+    else {
         $api_client = WWW::OpenAPIClient::ApiClient->new(@_);
     }
     bless { api_client => $api_client }, $class;
@@ -97,10 +98,10 @@ sub new {
 =cut
 
 sub get_api {
-	my ($self, $which) = @_;
-	croak "API not specified" unless $which;
-	my $api_class = $_apis{"${which}Api"} || croak "No known API for '$which'";
-	return $api_class->new($self->api_client); 
+    my ( $self, $which ) = @_;
+    croak "API not specified" unless $which;
+    my $api_class = $_apis{"${which}Api"} || croak "No known API for '$which'";
+    return $api_class->new( $self->api_client );
 }
 
 =head1 api_client()
@@ -114,15 +115,16 @@ sub api_client { $_[0]->{api_client} }
 =head1 apis_available()
 =cut 
 
-sub apis_available { return map { $_ =~ s/Api$//; $_ } sort keys %_apis }
+sub apis_available {
+    return map { $_ =~ s/Api$//; $_ } sort keys %_apis;
+}
 
 =head1 classname_for()
 =cut
 
 sub classname_for {
-	my ($self, $api_name) = @_;
-	return $_apis{"${api_name}Api"};
+    my ( $self, $api_name ) = @_;
+    return $_apis{"${api_name}Api"};
 }
-
 
 1;

@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JavaUndertowServerCodegen.class);
@@ -201,6 +202,6 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
             return "DefaultHandler";
         }
         name = name.replaceAll("[^a-zA-Z0-9]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        return camelize(name) + "Handler";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Handler";
     }
 }

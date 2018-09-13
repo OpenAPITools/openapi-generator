@@ -353,6 +353,8 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
+
+* Basic Authentication (http_basic_test): 
 ```python
 from __future__ import print_function
 import time

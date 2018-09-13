@@ -20,11 +20,14 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public abstract class AbstractGoCodegen extends DefaultCodegen implements CodegenConfig {
@@ -134,7 +137,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return camelize(name) + '_';
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + '_';
     }
 
     @Override
@@ -149,7 +152,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // camelize (lower first character) the variable name
         // pet_id => PetId
-        name = camelize(name);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
 
         // for reserved word append _
         if (isReservedWord(name)) {
@@ -174,7 +177,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // params should be lowerCamelCase. E.g. "person Person", instead of
         // "Person Person".
         //
-        name = camelize(toVarName(name), true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name), true);
 
         // REVISIT: Actually, for idiomatic go, the param name should
         // really should just be a letter, e.g. "p Person"), but we'll get
@@ -191,7 +194,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(toModel(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toModel(name));
     }
 
     @Override
@@ -228,7 +231,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     @Override
@@ -237,7 +240,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.go => pet_api.go
-        name = "api_" + underscore(name);
+        name = "api_" + org.openapitools.codegen.utils.StringUtils.underscore(name);
         if (name.endsWith("_test")) {
             LOGGER.warn(name + ".go with `_test.go` suffix (reserved word) cannot be used as filename. Renamed to " + name + "_.go");
             name += "_";
@@ -308,17 +311,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to "
-                    + camelize("call_" + sanitizedOperationId));
+                    + org.openapitools.codegen.utils.StringUtils.camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
         // operationId starts with a number
         if (sanitizedOperationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize("call_" + sanitizedOperationId));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("call_" + sanitizedOperationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return camelize(sanitizedOperationId);
+        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizedOperationId);
     }
 
     @Override
@@ -329,7 +332,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
-            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+            operation.httpMethod = org.openapitools.codegen.utils.StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
         }
 
         // remove model imports to avoid error
@@ -560,7 +563,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -575,7 +578,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = org.openapitools.codegen.utils.StringUtils.underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
@@ -601,6 +604,47 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return schema.getDefault().toString();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String goFmtPath = System.getenv("GO_FMT_PATH");
+        if (StringUtils.isEmpty(goFmtPath)) {
+            return; // skip if GO_FMT_PATH env variable is not defined
+        }
+
+        // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
+        Set<String> supportedFileType = new HashSet<String>(
+                Arrays.asList(
+                        "supporting-mustache",
+                        "model-test",
+                        "model",
+                        "api-test",
+                        "api"));
+        if (!supportedFileType.contains(fileType)) {
+            return;
+        }
+
+        // only process files with go extension
+        if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
+            // currently only support "gofmt -w yourcode.go"
+            // another way is "go fmt path/to/your/package"
+            String command = goFmtPath + " -w " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+            }
+            LOGGER.info("Successfully executed: " + command);
         }
     }
 }

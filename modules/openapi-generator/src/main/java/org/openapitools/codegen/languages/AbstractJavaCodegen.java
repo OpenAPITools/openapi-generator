@@ -53,6 +53,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.escape;
+
+
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaCodegen.class);
@@ -552,7 +555,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -587,12 +590,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
-            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+            name = escape(name, specialCharReplacements, allowedCharacters, "_");
         }
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -644,7 +647,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = camelize(nameWithPrefixSuffix);
+        final String camelizedName = org.openapitools.codegen.utils.StringUtils.camelize(nameWithPrefixSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
@@ -876,19 +879,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + camelize("call_" + operationId), true);
-            operationId = camelize("call_" + operationId, true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId), true);
+            operationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
         }
 
         return operationId;
@@ -1039,7 +1042,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
     }
 
     @Override
@@ -1335,7 +1338,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String sanitizeTag(String tag) {
-        tag = camelize(underscore(sanitizeName(tag)));
+        tag = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(tag)));
 
         // tag starts with numbers
         if (tag.matches("^\\d.*")) {
