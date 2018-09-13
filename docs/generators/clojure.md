@@ -17,7 +17,7 @@ CONFIG OPTIONS for clojure
 	    name of the project (Default: generated from info.title or "openapi-clj-client")
 
 	projectDescription
-	    description of the project (Default: using info.description or "Client library of <projectNname>")
+	    description of the project (Default: using info.description or "Client library of <projectName>")
 
 	projectVersion
 	    version of the project (Default: using info.version or "1.0.0")

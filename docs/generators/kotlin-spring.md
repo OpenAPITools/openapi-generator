@@ -23,7 +23,7 @@ CONFIG OPTIONS for kotlin-spring
 	    server title name or client service name (Default: OpenAPI Kotlin Spring)
 
 	basePackage
-	    base package for generated code (Default: org.openapitools)
+	    base package (invokerPackage) for generated code (Default: org.openapitools)
 
 	serverPort
 	    configuration the port in which the sever is to run on (Default: 8080)
