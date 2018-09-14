@@ -115,7 +115,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("SCALAFMT_PATH"))) {
-            LOGGER.info("Environment variable SCALAFMT_PATH not defined so the Haskell code may not be properly formatted. To define it, try 'export SCALAFMT_PATH=/usr/local/bin/scalafmt' (Linux/Mac)");
+            LOGGER.info("Environment variable SCALAFMT_PATH not defined so the Scala code may not be properly formatted. To define it, try 'export SCALAFMT_PATH=/usr/local/bin/scalafmt' (Linux/Mac)");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
