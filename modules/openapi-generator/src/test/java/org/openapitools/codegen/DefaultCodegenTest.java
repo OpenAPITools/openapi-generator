@@ -38,7 +38,14 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -224,8 +231,8 @@ public class DefaultCodegenTest {
             .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
 
         DefaultCodegen codegen = new DefaultCodegen();
-        CodegenOperation co = codegen.fromOperation("p/", "get", operation, Collections.emptyMap());
-        Assert.assertEquals(co.path, "p/");
+        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, Collections.emptyMap());
+        Assert.assertEquals(co.path, "/some/path");
         Assert.assertEquals(co.allParams.size(), 2);
         List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
         Assert.assertTrue(allParamsNames.contains("myparam"));
