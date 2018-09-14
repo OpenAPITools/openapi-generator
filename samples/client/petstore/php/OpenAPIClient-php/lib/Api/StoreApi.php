@@ -87,6 +87,33 @@ class StoreApi
         return $this->config;
     }
 
+
+    /**
+     * @param mixed $body Element to become the body of the Request
+     *
+     * @return mixed|string
+     */
+    private function formatBody($body)
+    {
+        // \stdClass and arrays have no __toString(), so we should encode them manually
+        if($body instanceof \stdClass) {
+            return \GuzzleHttp\json_encode($body);
+        }
+
+        // arrays must be encoded manually as well, otherwise the objects inside it don't get encoded
+        if(is_array($body)) {
+            $return = "[";
+
+            foreach($body as $item) {
+                $return .="\n".$this->formatBody($item).",";
+            }
+
+            return trim($return, ',')."\n]";
+        }
+
+        return $body;
+    }
+
     /**
      * Operation deleteOrder
      *
@@ -264,10 +291,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            $httpBody = $_tempBody;
-            // \stdClass has no __toString(), so we should encode it manually
-            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            if($headers['Content-Type'] !== 'application/json') {
+                $httpBody = $_tempBody;
+            } else {
+                $httpBody = $this->formatBody($_tempBody);
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -517,10 +544,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            $httpBody = $_tempBody;
-            // \stdClass has no __toString(), so we should encode it manually
-            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            if($headers['Content-Type'] !== 'application/json') {
+                $httpBody = $_tempBody;
+            } else {
+                $httpBody = $this->formatBody($_tempBody);
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -801,10 +828,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            $httpBody = $_tempBody;
-            // \stdClass has no __toString(), so we should encode it manually
-            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            if($headers['Content-Type'] !== 'application/json') {
+                $httpBody = $_tempBody;
+            } else {
+                $httpBody = $this->formatBody($_tempBody);
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -1068,10 +1095,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            $httpBody = $_tempBody;
-            // \stdClass has no __toString(), so we should encode it manually
-            if ($httpBody instanceof \stdClass && $headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode($httpBody);
+            if($headers['Content-Type'] !== 'application/json') {
+                $httpBody = $_tempBody;
+            } else {
+                $httpBody = $this->formatBody($_tempBody);
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
