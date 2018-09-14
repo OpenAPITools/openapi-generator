@@ -12,42 +12,42 @@
 Module : OpenAPIPetstore.Client
 -}
 
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RankNTypes #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE DeriveFoldable      #-}
+{-# LANGUAGE DeriveFunctor       #-}
+{-# LANGUAGE DeriveTraversable   #-}
+{-# LANGUAGE FlexibleContexts    #-}
+{-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE RankNTypes          #-}
+{-# LANGUAGE RecordWildCards     #-}
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE DeriveFoldable #-}
-{-# LANGUAGE DeriveTraversable #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.Client where
 
-import OpenAPIPetstore.Core
-import OpenAPIPetstore.Logging
-import OpenAPIPetstore.MimeTypes
+import           OpenAPIPetstore.Core
+import           OpenAPIPetstore.Logging
+import           OpenAPIPetstore.MimeTypes
 
-import qualified Control.Exception.Safe as E
-import qualified Control.Monad.IO.Class as P
-import qualified Control.Monad as P
-import qualified Data.Aeson.Types as A
-import qualified Data.ByteString.Char8 as BC
-import qualified Data.ByteString.Lazy as BL
-import qualified Data.ByteString.Lazy.Char8 as BCL
-import qualified Data.Proxy as P (Proxy(..))
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
-import qualified Network.HTTP.Client as NH
+import qualified Control.Exception.Safe                as E
+import qualified Control.Monad                         as P
+import qualified Control.Monad.IO.Class                as P
+import qualified Data.Aeson.Types                      as A
+import qualified Data.ByteString.Char8                 as BC
+import qualified Data.ByteString.Lazy                  as BL
+import qualified Data.ByteString.Lazy.Char8            as BCL
+import qualified Data.Proxy                            as P (Proxy (..))
+import qualified Data.Text                             as T
+import qualified Data.Text.Encoding                    as T
+import qualified Network.HTTP.Client                   as NH
 import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Types as NH
-import qualified Web.FormUrlEncoded as WH
-import qualified Web.HttpApiData as WH
+import qualified Network.HTTP.Types                    as NH
+import qualified Web.FormUrlEncoded                    as WH
+import qualified Web.HttpApiData                       as WH
 
-import Data.Function ((&))
-import Data.Monoid ((<>))
-import Data.Text (Text)
-import GHC.Exts (IsString(..))
+import           Data.Function                         ((&))
+import           Data.Monoid                           ((<>))
+import           Data.Text                             (Text)
+import           GHC.Exts                              (IsString (..))
 
 -- * Dispatch
 
@@ -68,16 +68,16 @@ dispatchLbs manager config request  = do
 
 -- | pair of decoded http body and http response
 data MimeResult res =
-  MimeResult { mimeResult :: Either MimeError res -- ^ decoded http body
-             , mimeResultResponse :: NH.Response BCL.ByteString -- ^ http response 
+  MimeResult { mimeResult         :: Either MimeError res -- ^ decoded http body
+             , mimeResultResponse :: NH.Response BCL.ByteString -- ^ http response
              }
   deriving (Show, Functor, Foldable, Traversable)
 
 -- | pair of unrender/parser error and http response
 data MimeError =
   MimeError {
-    mimeError :: String -- ^ unrender/parser error
-  , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response 
+    mimeError         :: String -- ^ unrender/parser error
+  , mimeErrorResponse :: NH.Response BCL.ByteString -- ^ http response
   } deriving (Eq, Show)
 
 -- | send a request returning the 'MimeResult'
@@ -153,7 +153,7 @@ dispatchInitUnsafe manager config (InitRequest req) = do
       "Headers=" <> (T.pack . show) (NH.requestHeaders req) <> " Body=" <>
       (case NH.requestBody req of
          NH.RequestBodyLBS xs -> T.decodeUtf8 (BL.toStrict xs)
-         _ -> "<RequestBody>")
+         _                    -> "<RequestBody>")
     responseStatusCode = (T.pack . show) . NH.statusCode . NH.responseStatus
     responseLogMsg res =
       "RES:statusCode=" <> responseStatusCode res <> " (" <> endpoint <> ")"
@@ -171,7 +171,7 @@ _toInitRequest
   => OpenAPIPetstoreConfig -- ^ config
   -> OpenAPIPetstoreRequest req contentType res accept -- ^ request
   -> IO (InitRequest req contentType res accept) -- ^ initialized request
-_toInitRequest config req0  = 
+_toInitRequest config req0  =
   runConfigLogWithExceptions "Client" config $ do
     parsedReq <- P.liftIO $ NH.parseRequest $ BCL.unpack $ BCL.append (configHost config) (BCL.concat (rUrlPath req0))
     req1 <- P.liftIO $ _applyAuthMethods req0 config
@@ -202,7 +202,7 @@ modifyInitRequest (InitRequest req) f = InitRequest (f req)
 modifyInitRequestM :: Monad m => InitRequest req contentType res accept -> (NH.Request -> m NH.Request) -> m (InitRequest req contentType res accept)
 modifyInitRequestM (InitRequest req) f = fmap InitRequest (f req)
 
--- ** Logging 
+-- ** Logging
 
 -- | Run a block using the configured logger instance
 runConfigLog

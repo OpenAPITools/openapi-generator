@@ -17,8 +17,7 @@ import           OpenAPIPetstore.Model
 
 main :: IO ()
 main =
-  hspec $
-  modifyMaxSize (const 5) $ do
+  hspec $ modifyMaxSize (const 5) $ do
     describe "JSON instances" $ do
       pure ()
       propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesClass)
@@ -42,9 +41,7 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy FormatTest)
       propMimeEq MimeJSON (Proxy :: Proxy HasOnlyReadOnly)
       propMimeEq MimeJSON (Proxy :: Proxy MapTest)
-      propMimeEq
-        MimeJSON
-        (Proxy :: Proxy MixedPropertiesAndAdditionalPropertiesClass)
+      propMimeEq MimeJSON (Proxy :: Proxy MixedPropertiesAndAdditionalPropertiesClass)
       propMimeEq MimeJSON (Proxy :: Proxy Model200Response)
       propMimeEq MimeJSON (Proxy :: Proxy ModelList)
       propMimeEq MimeJSON (Proxy :: Proxy ModelReturn)
@@ -59,3 +56,4 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy StringBooleanMap)
       propMimeEq MimeJSON (Proxy :: Proxy Tag)
       propMimeEq MimeJSON (Proxy :: Proxy User)
+

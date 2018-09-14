@@ -1363,7 +1363,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = hfmtPath + " -w " + file.toString();
+            String command = hfmtPath + " -i " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
