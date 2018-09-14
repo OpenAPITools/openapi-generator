@@ -302,7 +302,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
@@ -322,7 +322,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
@@ -342,7 +342,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
@@ -364,7 +364,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
@@ -386,7 +386,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
@@ -412,7 +412,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
@@ -431,7 +431,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
@@ -455,7 +455,7 @@ class UserApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extends
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {
-        case Family.SUCCESSFUL => process(reader.read(resp))
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
         case _ => throw new ApiException(resp.statusCode, resp.statusText)
       }
     }
