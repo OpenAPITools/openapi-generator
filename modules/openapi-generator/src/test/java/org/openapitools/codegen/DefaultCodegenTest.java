@@ -21,6 +21,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
@@ -37,7 +38,6 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -498,6 +498,21 @@ public class DefaultCodegenTest {
                 Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
             }
         });
+    }
+
+    @Test
+    public void testLeadingSlashIsAddedIfMissing() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation operation1 = new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
+        openAPI.path("/here", new PathItem().get(operation1));
+        Operation operation2 = new Operation().operationId("op2").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
+        openAPI.path("some/path", new PathItem().get(operation2));
+        final DefaultCodegen codegen = new DefaultCodegen();
+
+        CodegenOperation co1 = codegen.fromOperation("/here", "get", operation2, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertEquals(co1.path, "/here");
+        CodegenOperation co2 = codegen.fromOperation("some/path", "get", operation2, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertEquals(co2.path, "/some/path");
     }
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
