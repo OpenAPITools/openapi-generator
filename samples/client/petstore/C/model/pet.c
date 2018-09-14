@@ -90,7 +90,7 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
 	listEntry_t *tagsListEntry;
 	list_ForEach(tagsListEntry, pet->tags) {
-		cJSON *item = tags_convertToJSON(tagsListEntry->data);
+		cJSON *item = tag_convertToJSON(tagsListEntry->data);
 		if(item == NULL) {
 			goto fail;
 		}
@@ -181,9 +181,9 @@ pet_t *pet_parseFromJSON(cJSON *jsonString) {
 			goto end;
 		}
 
-		tags_t *tagsItem = tags_parseFromJSON(tags);
+		tag_t *tagsItem = tag_parseFromJSON(tags);
 
-		list_addEement(tagsList, tagsItem);
+		list_addElement(tagsList, tagsItem);
 	}
 
 	// pet->status

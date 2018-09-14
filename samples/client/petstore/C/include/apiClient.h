@@ -14,7 +14,7 @@ typedef struct apiClient_t {
     #ifdef BASIC_AUTH
 	char *username;
 	char *password;
-    #endif // BASIC_AUTH
+    #endif //BASIC_AUTH
 	// this would only be generated for OAUTH2 authentication
     #ifdef OAUTH2
 	char *accessToken;
@@ -36,4 +36,5 @@ void apiClient_invoke(apiClient_t	*apiClient,
                       char		*bodyParameters,
                       char		*requestType);
 
+char *strReplace(char *orig, char *rep, char *with);
 #endif // INCLUDE_API_CLIENT_H

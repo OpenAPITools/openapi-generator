@@ -10,9 +10,11 @@
 //
 void *PetAPI_addPet(apiClient_t *apiClient, pet_t *Pet);
 
+
 // Deletes a pet
 //
 void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char *ApiKey);
+
 
 // Finds Pets by status
 //
@@ -20,11 +22,13 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char *ApiKey);
 //
 list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *Status);
 
+
 // Finds Pets by tags
 //
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
 list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *Tags);
+
 
 // Find pet by ID
 //
@@ -32,9 +36,11 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *Tags);
 //
 pet_t *PetAPI_getPetById(apiClient_t *apiClient, long PetId);
 
+
 // Update an existing pet
 //
 void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *Pet);
+
 
 // Updates a pet in the store with form data
 //
@@ -42,6 +48,7 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
                                long		PetId,
                                char		*Name,
                                char		*Status);
+
 
 // uploads an image
 //

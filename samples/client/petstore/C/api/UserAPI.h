@@ -12,13 +12,16 @@
 //
 void *UserAPI_createUser(apiClient_t *apiClient, user_t *User);
 
+
 // Creates list of users with given input array
 //
 void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *User);
 
+
 // Creates list of users with given input array
 //
 void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *User);
+
 
 // Delete user
 //
@@ -26,18 +29,22 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *User);
 //
 void *UserAPI_deleteUser(apiClient_t *apiClient, char *Username);
 
+
 // Get user by user name
 //
 user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *Username);
+
 
 // Logs user into the system
 //
 char_t *UserAPI_loginUser(apiClient_t *apiClient, char *Username,
                           char *Password);
 
+
 // Logs out current logged in user session
 //
 void *UserAPI_logoutUser(apiClient_t *apiClient);
+
 
 // Updated user
 //
