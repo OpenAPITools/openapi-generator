@@ -22,29 +22,31 @@
 // {{{notes}}}
 //
 {{/notes}}
-{{#returnType}}{{{.}}}_t{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}}{{#isListContainer}}_t*{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}}{{/isListContainer}} {{paramName}}{{/allParams}}) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
+{{#returnType}}{{{.}}}_t{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}} {{baseName}}{{/allParams}}) {
+    list_t    *localVarQueryParameters = list_create();
+    list_t    *localVarHeaderParameters = list_create();
+    list_t    *localVarFormParameters = list_create();
+    char      *localVarBodyParameters;
 
     // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
+    char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+    snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
 
     {{#pathParams}}
     // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
     // TODO base path = {{{basePath}}}
-    char* baseNameMod = malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod, strlen(baseName)+3, "%s%s%s", "{", {{baseName}}, "}");
     {{#paramName}}
     {{#isLong}}
+    char* baseNameMod = malloc({{baseName}}+2); //baseNameMod free not yet implemented
+    snprintf(baseNameMod, {{baseName}}+3, "%s%li%s", "{", {{baseName}}, "}");
     char buff[64];
-    intToStr(buf, {{paramName}});
+    intToStr(buf, {{baseName}});
     localVarPath = strReplace(localVarPath, baseNameMod, buff);
     {{/isLong}}
     {{#isString}}
-    localVarPath = strReplace(localVarPath, baseNameMod, {{paramName}});
+    char* baseNameMod = malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
+    snprintf(baseNameMod, strlen({{baseName}})+3, "%s%s%s", "{", {{baseName}}, "}");
+    localVarPath = strReplace(localVarPath, baseNameMod, {{baseName}});
     {{/isString}}
     {{/paramName}}
     {{/pathParams}}
@@ -52,24 +54,73 @@
     {{#headerParams}}
     // TODO header parameters
     // header parameter {{paramName}} ({{baseName}}) not yet supported
+        if ({{baseName}})
+        {
+            list_addElement(localVarHeaderParameters,{{baseName}});
+         }
     {{/headerParams}}
 
     {{#queryParams}}
     // TODO query parameters
     // query parameter {{paramName}} ({{baseName}}) not yet supported
-    char *{{baseName}} = malloc(MAX_BUFFER_LENGTH);
-
+    //char *{{baseName}}Query = malloc(MAX_BUFFER_LENGTH);
+        {{#isListContainer}}
+            if ({{baseName}})
+        {{/isListContainer}}
+        {{^isListContainer}}
+            if ({{baseName}})
+        {{/isListContainer}}
+        {
+        {{#isListContainer}}
+           //notstring
+            {{{baseName}}}_t {{{baseName}}}Item;
+            list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
+            list_addElement(localVarQueryParameters,{{baseName}}Item);
+            }
+        {{/isListContainer}}
+        {{^isListContainer}}
+            //string
+            list_addElement(localVarQueryParameters,{{baseName}});
+        {{/isListContainer}}
+        }
     {{/queryParams}}
+
     {{#formParams}}
     // TODO form parameters
     // form parameter {{paramName}} ({{baseName}}) not yet supported
+    {{#isFile}}
+        if ({{baseName}} && *{{baseName}} != NULL)
+    {{/isFile}}
+    {{^isFile}}
+        if ({{baseName}})
+    {{/isFile}}
+    {
+
+        {{#isFile}}
+            list_addElement(localVarFormParameters,{{baseName}}); //notstring
+        {{/isFile}}
+        {{^isFile}}
+            list_addElement(localVarFormParameters,{{baseName}}); //String
+        {{/isFile}}
+    }
+
 
     {{/formParams}}
     {{#bodyParam}}
     // JSON HTTP Request - {{{baseName}}}
-    cJSON *{{{paramName}}}JSONObject;
-    {{{paramName}}}JSONObject = {{dataType}}_convertToJSON({{paramName}});
-    localVarBodyParameters = cJSON_Print({{{paramName}}}JSONObject);
+    {{#isListContainer}}
+        //notstring
+        {{{baseName}}}_t {{{baseName}}}Item;
+        list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
+        list_addElement(localVarQueryParameters,{{baseName}}Item);
+        }
+    {{/isListContainer}}
+    {{^isListContainer}}
+        //string
+        cJSON *{{{paramName}}}JSONObject;
+        {{{paramName}}}JSONObject = {{baseName}}_convertToJSON({{baseName}});
+        localVarBodyParameters = cJSON_Print({{{paramName}}}JSONObject);
+    {{/isListContainer}}
 
     {{/bodyParam}}
     apiClient_invoke(apiClient,
@@ -82,28 +133,33 @@
                     "{{{httpMethod}}}");
 
    free(apiClient->dataReceived);
+    free(localVarPath);
+
    {{#allParams}}
    {{^bodyParam}}
-   free({{{paramName}}});
+   {{#isString}}
+   free({{{baseName}}});
+   {{/isString}}
    {{/bodyParam}}
    {{#bodyParam}}
    free(localVarBodyParameters);
    cJSON_Delete({{{paramName}}}JSONObject);
    {{/bodyParam}}
    {{/allParams}}
-   {{#returnType}}
-   localVar{{{returnType}}} = {{complexType}}_parseFromJSON(apiClient->dataReceived);
-   if(localVar{{{returnType}}} == NULL) {
-       return 0;
-   } else {
-       cJSON *jsonObject = {{complexType}}_convertToJSON({{complexType}});
-       cJSON_Delete(jsonObject);
-   }
 
-   return localVar{{{returnType}}};
+   {{#returnType}}
+           {{{returnType}}}_t *localVar{{{returnType}}} = {{{baseName}}}_parseFromJSON(apiClient->dataReceived);
+           if(localVar{{{returnType}}} == NULL) {
+           return 0;
+           } else {
+           //cJSON *jsonObject = {{baseName}}_convertToJSON(localVar{{{returnType}}});
+           //cJSON_Delete(jsonObject);
+           }
+
+           return localVar{{{returnType}}};
    {{/returnType}}
    {{^returnType}}
-   return;
+   return NULL;
    {{/returnType}}
 
 }

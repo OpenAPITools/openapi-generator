@@ -29,4 +29,5 @@ apiClient_t* apiClient_create();
 void apiClient_free(apiClient_t *apiClient);
 void apiClient_invoke(apiClient_t *apiClient, char* operationName, char* operationParameter, list_t *queryParameters, list_t *headerParameters, list_t *formParameters, char *bodyParameters, char *requestType);
 
+char *strReplace(char *orig, char *rep, char *with);
 #endif // INCLUDE_API_CLIENT_H

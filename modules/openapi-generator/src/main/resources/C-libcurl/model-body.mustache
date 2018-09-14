@@ -154,7 +154,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
-	cJSON *{{{baseName}}} = {{{baseName}}}_convertToJSON({{{classname}}}->{{{baseName}}});
+	cJSON *{{{baseName}}} = {{complexType}}_convertToJSON({{{classname}}}->{{{baseName}}});
 	if({{{baseName}}} == NULL) {
 		goto fail; //nonprimitive
 	}
@@ -188,7 +188,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
 
 	listEntry_t *{{{baseName}}}ListEntry;
 	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{{baseName}}}) {
-		cJSON *item = {{baseName}}_convertToJSON({{{baseName}}}ListEntry->data);
+		cJSON *item = {{complexType}}_convertToJSON({{{baseName}}}ListEntry->data);
 		if(item == NULL) {
 			goto fail;
 		}
@@ -308,9 +308,9 @@ fail:
             goto end;
         }
 
-        {{{baseName}}}_t *{{{baseName}}}Item = {{{baseName}}}_parseFromJSON({{{baseName}}});
+        {{complexType}}_t *{{{baseName}}}Item = {{complexType}}_parseFromJSON({{{baseName}}});
 
-        list_addEement({{{baseName}}}List, {{{baseName}}}Item);
+        list_addElement({{{baseName}}}List, {{{baseName}}}Item);
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}
