@@ -73,7 +73,7 @@
         {
         {{#isListContainer}}
            //notstring
-            {{{baseName}}}_t {{{baseName}}}Item;
+            list_t {{{baseName}}}Item = list_create();
             list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
             list_addElement(localVarQueryParameters,{{baseName}}Item);
             }
@@ -110,7 +110,7 @@
     // JSON HTTP Request - {{{baseName}}}
     {{#isListContainer}}
         //notstring
-        {{{baseName}}}_t {{{baseName}}}Item;
+        list_t {{{baseName}}}Item = list_create();
         list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
         list_addElement(localVarQueryParameters,{{baseName}}Item);
         }
@@ -148,7 +148,12 @@
    {{/allParams}}
 
    {{#returnType}}
-           {{{returnType}}}_t *localVar{{{returnType}}} = {{{baseName}}}_parseFromJSON(apiClient->dataReceived);
+   {{#returnTypeIsPrimitive}}
+   //primitive reutrn type
+   {{/returnTypeIsPrimitive}}
+   {{^returnTypeIsPrimitive}}
+   //nonprimitive return type
+              {{{returnBaseType}}}_t *localVar{{{returnType}}} = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
            if(localVar{{{returnType}}} == NULL) {
            return 0;
            } else {
@@ -157,9 +162,11 @@
            }
 
            return localVar{{{returnType}}};
+   {{/returnTypeIsPrimitive}}
+
    {{/returnType}}
    {{^returnType}}
-   return NULL;
+  
    {{/returnType}}
 
 }
