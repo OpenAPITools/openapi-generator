@@ -754,7 +754,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return p.getDefault().toString();
                 }
             }
-            return "null";
+            return null;
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
@@ -763,12 +763,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return p.getDefault().toString() + "d";
                 }
             }
-            return "null";
+            return null;
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-            return "null";
+            return null;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String _default = (String) p.getDefault();
@@ -779,7 +779,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return _default;
                 }
             }
-            return "null";
+            return null;
         }
         return super.toDefaultValue(p);
     }
@@ -840,7 +840,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (example == null) {
             example = "null";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            example = "Arrays.asList(" + example + ")";
+
+            if (p.items.defaultValue != null) {
+                String innerExample;
+                if ("String".equals(p.items.dataType)) {
+                    innerExample = "\"" + p.items.defaultValue + "\"";
+                } else {
+                    innerExample = p.items.defaultValue;
+                }
+                example = "Arrays.asList(" + innerExample + ")";
+            } else {
+                example = "Arrays.asList()";
+            }
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
             example = "new HashMap()";
         }
@@ -853,7 +864,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (p.getExample() != null) {
             return escapeText(p.getExample().toString());
         } else {
-            return super.toExampleValue(p);
+            return null;
         }
     }
 
