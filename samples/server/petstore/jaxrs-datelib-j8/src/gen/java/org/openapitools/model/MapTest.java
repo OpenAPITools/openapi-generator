@@ -25,6 +25,7 @@ import java.util.Map;
 import org.openapitools.model.StringBooleanMap;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * MapTest
@@ -93,6 +94,7 @@ public class MapTest  implements Serializable {
    **/
   @JsonProperty("map_map_of_string")
   @ApiModelProperty(value = "")
+  @Valid
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -120,6 +122,7 @@ public class MapTest  implements Serializable {
    **/
   @JsonProperty("map_of_enum_string")
   @ApiModelProperty(value = "")
+  
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -147,6 +150,7 @@ public class MapTest  implements Serializable {
    **/
   @JsonProperty("direct_map")
   @ApiModelProperty(value = "")
+  
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -166,6 +170,7 @@ public class MapTest  implements Serializable {
    **/
   @JsonProperty("indirect_map")
   @ApiModelProperty(value = "")
+  @Valid
   public StringBooleanMap getIndirectMap() {
     return indirectMap;
   }

@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * FileSchemaTestClass
@@ -44,6 +45,7 @@ public class FileSchemaTestClass   {
    **/
   @JsonProperty("file")
   @ApiModelProperty(value = "")
+  @Valid
   public java.io.File getFile() {
     return file;
   }
@@ -71,6 +73,7 @@ public class FileSchemaTestClass   {
    **/
   @JsonProperty("files")
   @ApiModelProperty(value = "")
+  @Valid
   public List<java.io.File> getFiles() {
     return files;
   }

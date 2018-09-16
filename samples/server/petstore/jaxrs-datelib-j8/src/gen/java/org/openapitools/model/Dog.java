@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Dog
@@ -41,6 +42,7 @@ public class Dog extends Animal implements Serializable {
    **/
   @JsonProperty("breed")
   @ApiModelProperty(value = "")
+  
   public String getBreed() {
     return breed;
   }

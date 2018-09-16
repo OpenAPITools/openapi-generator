@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Order
@@ -89,6 +90,7 @@ public class Order   {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -108,6 +110,7 @@ public class Order   {
    **/
   @JsonProperty("petId")
   @ApiModelProperty(value = "")
+  
   public Long getPetId() {
     return petId;
   }
@@ -127,6 +130,7 @@ public class Order   {
    **/
   @JsonProperty("quantity")
   @ApiModelProperty(value = "")
+  
   public Integer getQuantity() {
     return quantity;
   }
@@ -146,6 +150,7 @@ public class Order   {
    **/
   @JsonProperty("shipDate")
   @ApiModelProperty(value = "")
+  
   public Date getShipDate() {
     return shipDate;
   }
@@ -165,6 +170,7 @@ public class Order   {
    **/
   @JsonProperty("status")
   @ApiModelProperty(value = "Order Status")
+  
   public StatusEnum getStatus() {
     return status;
   }
@@ -184,6 +190,7 @@ public class Order   {
    **/
   @JsonProperty("complete")
   @ApiModelProperty(value = "")
+  
   public Boolean getComplete() {
     return complete;
   }

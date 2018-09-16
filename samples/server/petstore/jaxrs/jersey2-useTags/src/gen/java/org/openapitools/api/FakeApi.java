@@ -31,6 +31,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/fake")
 
@@ -68,7 +69,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
-    public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" ) Boolean body
+    public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" ) @Valid Boolean body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterBooleanSerialize(body,securityContext);
@@ -80,7 +81,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" ) OuterComposite outerComposite
+    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" ) @Valid OuterComposite outerComposite
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterCompositeSerialize(outerComposite,securityContext);
@@ -92,7 +93,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
-    public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" ) BigDecimal body
+    public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" ) @Valid BigDecimal body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterNumberSerialize(body,securityContext);
@@ -104,7 +105,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class) })
-    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) String body
+    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) @Valid String body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body,securityContext);
@@ -116,7 +117,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
-    public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) FileSchemaTestClass fileSchemaTestClass
+    public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) @Valid FileSchemaTestClass fileSchemaTestClass
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(fileSchemaTestClass,securityContext);
@@ -129,7 +130,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
     public Response testBodyWithQueryParams(@ApiParam(value = "",required=true) @QueryParam("query") String query
-,@ApiParam(value = "" ,required=true) User user
+,@ApiParam(value = "" ,required=true) @Valid User user
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query,user,securityContext);
@@ -141,7 +142,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClientModel(@ApiParam(value = "client model" ,required=true) Client client
+    public Response testClientModel(@ApiParam(value = "client model" ,required=true) @Valid Client client
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClientModel(client,securityContext);
@@ -205,7 +206,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) Map<String, String> requestBody
+    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) @Valid Map<String, String> requestBody
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody,securityContext);
