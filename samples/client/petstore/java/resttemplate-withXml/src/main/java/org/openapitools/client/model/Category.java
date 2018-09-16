@@ -34,12 +34,12 @@ public class Category {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
-  private String name = null;
+  private String name;
 
   public Category id(Long id) {
     this.id = id;

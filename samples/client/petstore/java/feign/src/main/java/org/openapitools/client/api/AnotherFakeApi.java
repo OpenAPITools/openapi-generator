@@ -18,7 +18,7 @@ public interface AnotherFakeApi extends ApiClient.Api {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
-    * @param client client model (required)
+   * @param client client model (required)
    * @return Client
    */
   @RequestLine("PATCH /another-fake/dummy")
