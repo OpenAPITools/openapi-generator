@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class Animal   {
   @JsonProperty("className")
-  private String className = null;
+  private String className = ;
 
   @JsonProperty("color")
   private String color = "red";

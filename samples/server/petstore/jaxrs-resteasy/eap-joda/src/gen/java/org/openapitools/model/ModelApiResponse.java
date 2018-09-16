@@ -14,11 +14,11 @@ import io.swagger.annotations.*;
 public class ModelApiResponse   {
   
 
-  private Integer code = null;
+  private Integer code = ;
 
-  private String type = null;
+  private String type = ;
 
-  private String message = null;
+  private String message = ;
 
   /**
    **/

@@ -23,11 +23,11 @@ import javax.xml.bind.annotation.*;
 
 public class Pet   {
   
-  private Long id = null;
+  private Long id = ;
 
   private Category category = null;
 
-  private String name = null;
+  private String name = ;
 
   private List<String> photoUrls = new ArrayList<String>();
 
@@ -66,7 +66,7 @@ public enum StatusEnum {
     }
 }
 
-  private StatusEnum status = null;
+  private StatusEnum status = ;
 
 
   /**

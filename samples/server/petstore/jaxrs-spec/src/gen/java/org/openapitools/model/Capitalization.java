@@ -16,12 +16,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Capitalization  implements Serializable {
   
-  private @Valid String smallCamel = null;
-  private @Valid String capitalCamel = null;
-  private @Valid String smallSnake = null;
-  private @Valid String capitalSnake = null;
-  private @Valid String scAETHFlowPoints = null;
-  private @Valid String ATT_NAME = null;
+  private @Valid String smallCamel = ;
+  private @Valid String capitalCamel = ;
+  private @Valid String smallSnake = ;
+  private @Valid String capitalSnake = ;
+  private @Valid String scAETHFlowPoints = ;
+  private @Valid String ATT_NAME = ;
 
   /**
    **/

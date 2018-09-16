@@ -18,7 +18,7 @@ public class NumberOnly  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private BigDecimal justNumber = null;
+  private BigDecimal justNumber = ;
  /**
    * Get justNumber
    * @return justNumber

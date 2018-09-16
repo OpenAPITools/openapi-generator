@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class NumberOnly  implements Serializable {
   
-  private @Valid BigDecimal justNumber = null;
+  private @Valid BigDecimal justNumber = ;
 
   /**
    **/

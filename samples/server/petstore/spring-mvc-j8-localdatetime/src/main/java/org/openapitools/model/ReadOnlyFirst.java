@@ -14,10 +14,10 @@ import javax.validation.constraints.*;
 
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
-  private String bar = null;
+  private String bar = ;
 
   @JsonProperty("baz")
-  private String baz = null;
+  private String baz = ;
 
   public ReadOnlyFirst bar(String bar) {
     this.bar = bar;

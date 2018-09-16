@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Client  {
   
   @ApiModelProperty(value = "")
-  private String client = null;
+  private String client = ;
  /**
    * Get client
    * @return client

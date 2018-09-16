@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Cat extends Animal implements Serializable {
   
-  private @Valid Boolean declawed = null;
+  private @Valid Boolean declawed = ;
 
   /**
    **/
