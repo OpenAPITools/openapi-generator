@@ -2254,7 +2254,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
         operationId = removeNonNameElementToCamelCase(operationId);
 
-        op.path = path;
+        if(path.startsWith("/")) {
+            op.path = path;
+        } else {
+            op.path = "/" + path;
+        }
         op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
