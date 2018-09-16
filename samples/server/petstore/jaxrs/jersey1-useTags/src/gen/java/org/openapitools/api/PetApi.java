@@ -7,9 +7,6 @@ import org.openapitools.api.factories.PetApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import com.sun.jersey.multipart.FormDataParam;
-import javax.validation.constraints.*;
-
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
@@ -27,6 +24,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/Pet")
 
@@ -49,7 +48,7 @@ public class PetApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response addPet(
-        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet pet,
+        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @Valid Pet pet,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(pet,securityContext);
@@ -143,7 +142,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
     public Response updatePet(
-        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet pet,
+        @ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @Valid Pet pet,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(pet,securityContext);

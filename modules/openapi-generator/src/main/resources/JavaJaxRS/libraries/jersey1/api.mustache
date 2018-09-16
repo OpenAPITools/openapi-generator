@@ -7,11 +7,6 @@ import {{package}}.factories.{{classname}}ServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import com.sun.jersey.multipart.FormDataParam;
-{{#useBeanValidation}}
-import javax.validation.constraints.*;
-{{/useBeanValidation}}
-
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -28,6 +23,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+{{#useBeanValidation}}
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+{{/useBeanValidation}}
 
 @Path("/{{{baseName}}}")
 {{#hasConsumes}}@Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}

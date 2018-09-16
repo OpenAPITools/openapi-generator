@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * ReadOnlyFirst
@@ -38,6 +39,7 @@ public class ReadOnlyFirst  implements Serializable {
    **/
   @JsonProperty("bar")
   @ApiModelProperty(value = "")
+  
   public String getBar() {
     return bar;
   }
@@ -53,6 +55,7 @@ public class ReadOnlyFirst  implements Serializable {
    **/
   @JsonProperty("baz")
   @ApiModelProperty(value = "")
+  
   public String getBaz() {
     return baz;
   }
