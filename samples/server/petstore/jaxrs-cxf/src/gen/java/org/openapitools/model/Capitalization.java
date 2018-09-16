@@ -16,25 +16,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Capitalization  {
   
   @ApiModelProperty(value = "")
-  private String smallCamel = ;
+  private String smallCamel;
 
   @ApiModelProperty(value = "")
-  private String capitalCamel = ;
+  private String capitalCamel;
 
   @ApiModelProperty(value = "")
-  private String smallSnake = ;
+  private String smallSnake;
 
   @ApiModelProperty(value = "")
-  private String capitalSnake = ;
+  private String capitalSnake;
 
   @ApiModelProperty(value = "")
-  private String scAETHFlowPoints = ;
+  private String scAETHFlowPoints;
 
   @ApiModelProperty(value = "Name of the pet ")
  /**
    * Name of the pet 
   **/
-  private String ATT_NAME = ;
+  private String ATT_NAME;
  /**
    * Get smallCamel
    * @return smallCamel

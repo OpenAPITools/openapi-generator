@@ -32,10 +32,10 @@ import javax.validation.constraints.*;
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid = ;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
-  private Date dateTime = ;
+  private Date dateTime;
 
   @JsonProperty("map")
   private Map<String, Animal> map = null;

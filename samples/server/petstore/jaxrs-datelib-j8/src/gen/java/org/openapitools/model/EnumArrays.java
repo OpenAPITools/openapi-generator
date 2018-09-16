@@ -61,7 +61,7 @@ public class EnumArrays  implements Serializable {
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol = ;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum

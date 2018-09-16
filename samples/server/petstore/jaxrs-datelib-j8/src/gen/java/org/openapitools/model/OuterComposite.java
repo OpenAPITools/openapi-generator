@@ -28,13 +28,13 @@ import javax.validation.constraints.*;
 
 public class OuterComposite  implements Serializable {
   @JsonProperty("my_number")
-  private BigDecimal myNumber = ;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
-  private String myString = ;
+  private String myString;
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean = ;
+  private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;

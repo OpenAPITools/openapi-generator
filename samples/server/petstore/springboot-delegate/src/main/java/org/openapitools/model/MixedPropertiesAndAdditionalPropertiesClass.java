@@ -20,10 +20,10 @@ import javax.validation.constraints.*;
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid = ;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
-  private OffsetDateTime dateTime = ;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("map")
   @Valid

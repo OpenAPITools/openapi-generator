@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 
 public class ClassModel   {
   @JsonProperty("_class")
-  private String propertyClass = ;
+  private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

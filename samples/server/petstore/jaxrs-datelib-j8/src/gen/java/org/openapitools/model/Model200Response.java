@@ -28,10 +28,10 @@ import javax.validation.constraints.*;
 
 public class Model200Response  implements Serializable {
   @JsonProperty("name")
-  private Integer name = ;
+  private Integer name;
 
   @JsonProperty("class")
-  private String propertyClass = ;
+  private String propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;

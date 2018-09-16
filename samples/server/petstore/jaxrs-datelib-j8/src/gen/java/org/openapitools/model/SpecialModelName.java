@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 
 public class SpecialModelName  implements Serializable {
   @JsonProperty("$special[property.name]")
-  private Long $specialPropertyName = ;
+  private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

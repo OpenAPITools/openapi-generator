@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class Cat extends Animal implements Serializable {
   @JsonProperty("declawed")
-  private Boolean declawed = ;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;

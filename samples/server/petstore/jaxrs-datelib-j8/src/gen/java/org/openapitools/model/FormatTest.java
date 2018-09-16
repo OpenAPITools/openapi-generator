@@ -32,43 +32,43 @@ import javax.validation.constraints.*;
 
 public class FormatTest  implements Serializable {
   @JsonProperty("integer")
-  private Integer integer = ;
+  private Integer integer;
 
   @JsonProperty("int32")
-  private Integer int32 = ;
+  private Integer int32;
 
   @JsonProperty("int64")
-  private Long int64 = ;
+  private Long int64;
 
   @JsonProperty("number")
-  private BigDecimal number = ;
+  private BigDecimal number;
 
   @JsonProperty("float")
-  private Float _float = ;
+  private Float _float;
 
   @JsonProperty("double")
-  private Double _double = ;
+  private Double _double;
 
   @JsonProperty("string")
-  private String string = ;
+  private String string;
 
   @JsonProperty("byte")
-  private byte[] _byte = ;
+  private byte[] _byte;
 
   @JsonProperty("binary")
-  private File binary = ;
+  private File binary;
 
   @JsonProperty("date")
-  private LocalDate date = ;
+  private LocalDate date;
 
   @JsonProperty("dateTime")
-  private OffsetDateTime dateTime = ;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
-  private UUID uuid = ;
+  private UUID uuid;
 
   @JsonProperty("password")
-  private String password = ;
+  private String password;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;

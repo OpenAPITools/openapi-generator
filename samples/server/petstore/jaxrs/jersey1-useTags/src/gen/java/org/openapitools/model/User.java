@@ -26,28 +26,28 @@ import javax.validation.constraints.*;
 
 public class User   {
   @JsonProperty("id")
-  private Long id = ;
+  private Long id;
 
   @JsonProperty("username")
-  private String username = ;
+  private String username;
 
   @JsonProperty("firstName")
-  private String firstName = ;
+  private String firstName;
 
   @JsonProperty("lastName")
-  private String lastName = ;
+  private String lastName;
 
   @JsonProperty("email")
-  private String email = ;
+  private String email;
 
   @JsonProperty("password")
-  private String password = ;
+  private String password;
 
   @JsonProperty("phone")
-  private String phone = ;
+  private String phone;
 
   @JsonProperty("userStatus")
-  private Integer userStatus = ;
+  private Integer userStatus;
 
   public User id(Long id) {
     this.id = id;

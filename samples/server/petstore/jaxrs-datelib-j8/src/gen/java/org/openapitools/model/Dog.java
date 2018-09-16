@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class Dog extends Animal implements Serializable {
   @JsonProperty("breed")
-  private String breed = ;
+  private String breed;
 
   public Dog breed(String breed) {
     this.breed = breed;

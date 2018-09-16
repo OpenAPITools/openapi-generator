@@ -29,16 +29,16 @@ import javax.validation.constraints.*;
 
 public class Order  implements Serializable {
   @JsonProperty("id")
-  private Long id = ;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = ;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = ;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private OffsetDateTime shipDate = ;
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -74,7 +74,7 @@ public class Order  implements Serializable {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = ;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;

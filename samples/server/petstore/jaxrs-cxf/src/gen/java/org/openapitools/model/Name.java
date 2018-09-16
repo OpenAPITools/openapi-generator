@@ -21,16 +21,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Name  {
   
   @ApiModelProperty(required = true, value = "")
-  private Integer name = ;
+  private Integer name;
 
   @ApiModelProperty(value = "")
-  private Integer snakeCase = ;
+  private Integer snakeCase;
 
   @ApiModelProperty(value = "")
-  private String property = ;
+  private String property;
 
   @ApiModelProperty(value = "")
-  private Integer _123number = ;
+  private Integer _123number;
  /**
    * Get name
    * @return name

@@ -26,10 +26,10 @@ import javax.validation.constraints.*;
 
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
-  private String bar = ;
+  private String bar;
 
   @JsonProperty("baz")
-  private String baz = ;
+  private String baz;
 
   /**
    * Get bar

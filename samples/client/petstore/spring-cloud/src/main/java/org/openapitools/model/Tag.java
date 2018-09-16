@@ -15,10 +15,10 @@ import javax.validation.constraints.*;
 
 public class Tag   {
   @JsonProperty("id")
-  private Long id = ;
+  private Long id;
 
   @JsonProperty("name")
-  private String name = ;
+  private String name;
 
   public Tag id(Long id) {
     this.id = id;

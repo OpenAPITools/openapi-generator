@@ -18,13 +18,13 @@ public class OuterComposite  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private BigDecimal myNumber = ;
+  private BigDecimal myNumber;
 
   @ApiModelProperty(value = "")
-  private String myString = ;
+  private String myString;
 
   @ApiModelProperty(value = "")
-  private Boolean myBoolean = ;
+  private Boolean myBoolean;
  /**
    * Get myNumber
    * @return myNumber

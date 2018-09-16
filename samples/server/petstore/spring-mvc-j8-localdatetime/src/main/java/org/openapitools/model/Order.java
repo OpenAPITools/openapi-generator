@@ -16,16 +16,16 @@ import javax.validation.constraints.*;
 
 public class Order   {
   @JsonProperty("id")
-  private Long id = ;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = ;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = ;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private LocalDateTime shipDate = ;
+  private LocalDateTime shipDate;
 
   /**
    * Order Status
@@ -61,7 +61,7 @@ public class Order   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = ;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;

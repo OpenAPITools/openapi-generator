@@ -60,7 +60,7 @@ public class EnumArrays   {
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol = ;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum

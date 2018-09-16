@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Animal  {
   
   @ApiModelProperty(required = true, value = "")
-  private String className = ;
+  private String className;
 
   @ApiModelProperty(value = "")
   private String color = "red";

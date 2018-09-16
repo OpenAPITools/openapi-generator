@@ -19,11 +19,11 @@ import javax.xml.bind.annotation.*;
 
 public class ModelApiResponse   {
   
-  private Integer code = ;
+  private Integer code;
 
-  private String type = ;
+  private String type;
 
-  private String message = ;
+  private String message;
 
 
   /**

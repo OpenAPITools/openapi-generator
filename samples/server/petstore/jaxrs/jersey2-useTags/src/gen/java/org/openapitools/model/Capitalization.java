@@ -26,22 +26,22 @@ import javax.validation.constraints.*;
 
 public class Capitalization   {
   @JsonProperty("smallCamel")
-  private String smallCamel = ;
+  private String smallCamel;
 
   @JsonProperty("CapitalCamel")
-  private String capitalCamel = ;
+  private String capitalCamel;
 
   @JsonProperty("small_Snake")
-  private String smallSnake = ;
+  private String smallSnake;
 
   @JsonProperty("Capital_Snake")
-  private String capitalSnake = ;
+  private String capitalSnake;
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints = ;
+  private String scAETHFlowPoints;
 
   @JsonProperty("ATT_NAME")
-  private String ATT_NAME = ;
+  private String ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;

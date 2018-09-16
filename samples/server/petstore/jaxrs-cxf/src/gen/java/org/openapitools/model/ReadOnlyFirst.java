@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ReadOnlyFirst  {
   
   @ApiModelProperty(value = "")
-  private String bar = ;
+  private String bar;
 
   @ApiModelProperty(value = "")
-  private String baz = ;
+  private String baz;
  /**
    * Get bar
    * @return bar

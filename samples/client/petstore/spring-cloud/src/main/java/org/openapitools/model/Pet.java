@@ -20,13 +20,13 @@ import javax.validation.constraints.*;
 
 public class Pet   {
   @JsonProperty("id")
-  private Long id = ;
+  private Long id;
 
   @JsonProperty("category")
   private Category category = null;
 
   @JsonProperty("name")
-  private String name = ;
+  private String name;
 
   @JsonProperty("photoUrls")
   @Valid
@@ -70,7 +70,7 @@ public class Pet   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = ;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;

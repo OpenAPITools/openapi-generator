@@ -26,13 +26,13 @@ import javax.validation.constraints.*;
 
 public class ModelApiResponse   {
   @JsonProperty("code")
-  private Integer code = ;
+  private Integer code;
 
   @JsonProperty("type")
-  private String type = ;
+  private String type;
 
   @JsonProperty("message")
-  private String message = ;
+  private String message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;

@@ -49,7 +49,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString = ;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -85,7 +85,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired = ;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -119,7 +119,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger = ;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -153,7 +153,7 @@ public class EnumTest   {
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber = ;
+  private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
   private OuterEnum outerEnum = null;

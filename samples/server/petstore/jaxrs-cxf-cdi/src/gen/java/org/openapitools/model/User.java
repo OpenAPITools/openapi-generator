@@ -19,21 +19,21 @@ import javax.xml.bind.annotation.*;
 
 public class User   {
   
-  private Long id = ;
+  private Long id;
 
-  private String username = ;
+  private String username;
 
-  private String firstName = ;
+  private String firstName;
 
-  private String lastName = ;
+  private String lastName;
 
-  private String email = ;
+  private String email;
 
-  private String password = ;
+  private String password;
 
-  private String phone = ;
+  private String phone;
 
-  private Integer userStatus = ;
+  private Integer userStatus;
 
 
   /**

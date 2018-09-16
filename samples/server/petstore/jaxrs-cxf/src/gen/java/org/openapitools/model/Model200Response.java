@@ -21,10 +21,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Model200Response  {
   
   @ApiModelProperty(value = "")
-  private Integer name = ;
+  private Integer name;
 
   @ApiModelProperty(value = "")
-  private String propertyClass = ;
+  private String propertyClass;
  /**
    * Get name
    * @return name

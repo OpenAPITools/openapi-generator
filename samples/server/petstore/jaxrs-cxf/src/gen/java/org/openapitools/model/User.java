@@ -16,31 +16,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User  {
   
   @ApiModelProperty(value = "")
-  private Long id = ;
+  private Long id;
 
   @ApiModelProperty(value = "")
-  private String username = ;
+  private String username;
 
   @ApiModelProperty(value = "")
-  private String firstName = ;
+  private String firstName;
 
   @ApiModelProperty(value = "")
-  private String lastName = ;
+  private String lastName;
 
   @ApiModelProperty(value = "")
-  private String email = ;
+  private String email;
 
   @ApiModelProperty(value = "")
-  private String password = ;
+  private String password;
 
   @ApiModelProperty(value = "")
-  private String phone = ;
+  private String phone;
 
   @ApiModelProperty(value = "User Status")
  /**
    * User Status
   **/
-  private Integer userStatus = ;
+  private Integer userStatus;
  /**
    * Get id
    * @return id

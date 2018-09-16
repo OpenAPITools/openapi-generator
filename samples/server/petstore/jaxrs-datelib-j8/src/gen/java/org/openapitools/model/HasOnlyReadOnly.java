@@ -27,10 +27,10 @@ import javax.validation.constraints.*;
 
 public class HasOnlyReadOnly  implements Serializable {
   @JsonProperty("bar")
-  private String bar = ;
+  private String bar;
 
   @JsonProperty("foo")
-  private String foo = ;
+  private String foo;
 
   /**
    * Get bar

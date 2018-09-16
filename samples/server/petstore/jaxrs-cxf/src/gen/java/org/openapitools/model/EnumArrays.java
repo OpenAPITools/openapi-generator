@@ -50,7 +50,7 @@ public enum JustSymbolEnum {
 }
 
   @ApiModelProperty(value = "")
-  private JustSymbolEnum justSymbol = ;
+  private JustSymbolEnum justSymbol;
 
 @XmlType(name="ArrayEnumEnum")
 @XmlEnum(String.class)

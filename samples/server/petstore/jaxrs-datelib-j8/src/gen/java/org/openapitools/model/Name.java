@@ -28,16 +28,16 @@ import javax.validation.constraints.*;
 
 public class Name  implements Serializable {
   @JsonProperty("name")
-  private Integer name = ;
+  private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase = ;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private String property = ;
+  private String property;
 
   @JsonProperty("123Number")
-  private Integer _123number = ;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;

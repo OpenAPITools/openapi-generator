@@ -28,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class ClassModel  implements Serializable {
   @JsonProperty("_class")
-  private String propertyClass = ;
+  private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

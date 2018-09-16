@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 
 public class Client  implements Serializable {
   @JsonProperty("client")
-  private String client = ;
+  private String client;
 
   public Client client(String client) {
     this.client = client;
