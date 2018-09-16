@@ -22,7 +22,7 @@
 // {{{notes}}}
 //
 {{/notes}}
-{{#returnType}}{{{.}}}_t{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}} {{baseName}}{{/allParams}}) {
+{{#returnType}}{{#returnTypeIsPrimitive}}{{{.}}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}} {{baseName}}{{/allParams}}) {
     list_t    *localVarQueryParameters = list_create();
     list_t    *localVarHeaderParameters = list_create();
     list_t    *localVarFormParameters = list_create();
@@ -73,10 +73,11 @@
         {
         {{#isListContainer}}
            //notstring
-            list_t {{{baseName}}}Item = list_create();
-            list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
-            list_addElement(localVarQueryParameters,{{baseName}}Item);
-            }
+           localVarQueryParameters = {{{baseName}}};
+          //  list_t *{{{baseName}}}Item = list_create();
+          //  list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
+          //  list_addElement(localVarQueryParameters,{{baseName}}Item);
+          //  }
         {{/isListContainer}}
         {{^isListContainer}}
             //string
@@ -89,7 +90,7 @@
     // TODO form parameters
     // form parameter {{paramName}} ({{baseName}}) not yet supported
     {{#isFile}}
-        if ({{baseName}} && *{{baseName}} != NULL)
+      //  if ({{baseName}} && *{{baseName}} != NULL)
     {{/isFile}}
     {{^isFile}}
         if ({{baseName}})
@@ -97,7 +98,7 @@
     {
 
         {{#isFile}}
-            list_addElement(localVarFormParameters,{{baseName}}); //notstring
+          //  list_addElement(localVarFormParameters,{{baseName}}); //notstring
         {{/isFile}}
         {{^isFile}}
             list_addElement(localVarFormParameters,{{baseName}}); //String
@@ -110,10 +111,11 @@
     // JSON HTTP Request - {{{baseName}}}
     {{#isListContainer}}
         //notstring
-        list_t {{{baseName}}}Item = list_create();
-        list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
-        list_addElement(localVarQueryParameters,{{baseName}}Item);
-        }
+        localVarQueryParameters = {{{baseName}}};
+        //list_t *{{{baseName}}}Item = list_create();
+        //list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
+        //list_addElement(localVarQueryParameters,{{baseName}}Item);
+        //}
     {{/isListContainer}}
     {{^isListContainer}}
         //string
@@ -138,12 +140,12 @@
    {{#allParams}}
    {{^bodyParam}}
    {{#isString}}
-   free({{{baseName}}});
+   //free({{{baseName}}});
    {{/isString}}
    {{/bodyParam}}
    {{#bodyParam}}
-   free(localVarBodyParameters);
-   cJSON_Delete({{{paramName}}}JSONObject);
+   //free(localVarBodyParameters);
+   //cJSON_Delete({{{paramName}}}JSONObject);
    {{/bodyParam}}
    {{/allParams}}
 
@@ -152,16 +154,38 @@
    //primitive reutrn type
    {{/returnTypeIsPrimitive}}
    {{^returnTypeIsPrimitive}}
-   //nonprimitive return type
-              {{{returnBaseType}}}_t *localVar{{{returnType}}} = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
-           if(localVar{{{returnType}}} == NULL) {
-           return 0;
-           } else {
-           //cJSON *jsonObject = {{baseName}}_convertToJSON(localVar{{{returnType}}});
-           //cJSON_Delete(jsonObject);
-           }
+   {{#returnContainer}}
+    cJSON *{{{baseName}}};
+    cJSON *{{classname}}JSON = cJSON_Parse(apiClient->dataReceived);
+    cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if(!cJSON_IsArray({{{baseName}}}JSON)) {
+        return 0;;//primitive container
+    }
+    list_t *{{{baseName}}}List = list_create();
 
-           return localVar{{{returnType}}};
+    cJSON_ArrayForEach({{{baseName}}}, {{{baseName}}}JSON)
+    {
+        if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL))
+        {
+            return 0;;
+        }
+        list_addElement({{{baseName}}}List , strdup({{{baseName}}}->valuestring));
+    }
+    return {{{baseName}}}List;
+   {{/returnContainer}}
+   {{^returnContainer}}
+   //nonprimitive return type
+   {{{returnBaseType}}}_t *localVar{{{returnType}}} = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
+   if(localVar{{{returnType}}} == NULL) {
+   return 0;
+   } else {
+   //cJSON *jsonObject = {{baseName}}_convertToJSON(localVar{{{returnType}}});
+   //cJSON_Delete(jsonObject);
+   }
+
+   return localVar{{{returnType}}};
+   {{/returnContainer}}
+
    {{/returnTypeIsPrimitive}}
 
    {{/returnType}}
