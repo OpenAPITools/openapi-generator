@@ -92,10 +92,9 @@ fail:
 	return NULL;
 }
 
-user_t *user_parseFromJSON(cJSON *jsonString) {
+user_t *user_parseFromJSON(char *jsonString) {
 	user_t *user = NULL;
-	char *parsedString = cJSON_Print(jsonString);
-	cJSON *userJSON = cJSON_Parse(parsedString);
+	cJSON *userJSON = cJSON_Parse(jsonString);
 	if(userJSON == NULL) {
 		const char *error_ptr = cJSON_GetErrorPtr();
 		if(error_ptr != NULL) {

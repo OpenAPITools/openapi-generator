@@ -48,10 +48,9 @@ fail:
 	return NULL;
 }
 
-api_response_t *api_response_parseFromJSON(cJSON *jsonString) {
+api_response_t *api_response_parseFromJSON(char *jsonString) {
 	api_response_t *api_response = NULL;
-	char *parsedString = cJSON_Print(jsonString);
-	cJSON *api_responseJSON = cJSON_Parse(parsedString);
+	cJSON *api_responseJSON = cJSON_Parse(jsonString);
 	if(api_responseJSON == NULL) {
 		const char *error_ptr = cJSON_GetErrorPtr();
 		if(error_ptr != NULL) {

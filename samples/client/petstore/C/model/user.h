@@ -32,7 +32,7 @@ user_t *user_create(long	id,
 
 void user_free(user_t *user);
 
-user_t *user_parseFromJSON(cJSON *jsonString);
+user_t *user_parseFromJSON(char *jsonString);
 
 cJSON *user_convertToJSON(user_t *user);
 

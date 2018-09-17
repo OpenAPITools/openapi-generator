@@ -72,10 +72,9 @@ fail:
 	return NULL;
 }
 
-order_t *order_parseFromJSON(cJSON *jsonString) {
+order_t *order_parseFromJSON(char *jsonString) {
 	order_t *order = NULL;
-	char *parsedString = cJSON_Print(jsonString);
-	cJSON *orderJSON = cJSON_Parse(parsedString);
+	cJSON *orderJSON = cJSON_Parse(jsonString);
 	if(orderJSON == NULL) {
 		const char *error_ptr = cJSON_GetErrorPtr();
 		if(error_ptr != NULL) {

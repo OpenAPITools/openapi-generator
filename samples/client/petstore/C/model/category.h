@@ -19,7 +19,7 @@ category_t *category_create(long id, char *name);
 
 void category_free(category_t *category);
 
-category_t *category_parseFromJSON(cJSON *jsonString);
+category_t *category_parseFromJSON(char *jsonString);
 
 cJSON *category_convertToJSON(category_t *category);
 

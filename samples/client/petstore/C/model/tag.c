@@ -39,10 +39,9 @@ fail:
 	return NULL;
 }
 
-tag_t *tag_parseFromJSON(cJSON *jsonString) {
+tag_t *tag_parseFromJSON(char *jsonString) {
 	tag_t *tag = NULL;
-	char *parsedString = cJSON_Print(jsonString);
-	cJSON *tagJSON = cJSON_Parse(parsedString);
+	cJSON *tagJSON = cJSON_Parse(jsonString);
 	if(tagJSON == NULL) {
 		const char *error_ptr = cJSON_GetErrorPtr();
 		if(error_ptr != NULL) {

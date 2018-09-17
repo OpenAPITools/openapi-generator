@@ -31,7 +31,7 @@ pet_t *pet_create(long		id,
 
 void pet_free(pet_t *pet);
 
-pet_t *pet_parseFromJSON(cJSON *jsonString);
+pet_t *pet_parseFromJSON(char *jsonString);
 
 cJSON *pet_convertToJSON(pet_t *pet);
 

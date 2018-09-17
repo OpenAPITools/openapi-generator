@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include "apiClient.h"
 #include "cJSON.h"
 #include "api_response.h"
@@ -33,8 +34,11 @@ void *PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 	PetJSONObject = pet_convertToJSON(pet);
 	localVarBodyParameters = cJSON_Print(PetJSONObject);
 
+
+
+
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -42,13 +46,10 @@ void *PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 	                 localVarBodyParameters,
 	                 "POST");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
-
-	free(localVarBodyParameters);
-	cJSON_Delete(PetJSONObject);
-
-	return NULL;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	// free(localVarBodyParameters);
+	// cJSON_Delete(PetJSONObject);
 }
 
 // Deletes a pet
@@ -65,11 +66,22 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 
 	// TODO path parameter PetId (petId) not yet supported
 	// TODO base path = http://petstore.swagger.io/v2
-	char *baseNameMod = malloc(petId + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, petId + 3, "%s%li%s", "{", petId, "}");
+
+
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
 	char buff[64];
 	intToStr(buf, petId);
-	localVarPath = strReplace(localVarPath, baseNameMod, buff);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
+
 
 	// TODO header parameters
 	// header parameter ApiKey (api_key) not yet supported
@@ -78,8 +90,11 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	}
 
 
+
+
+
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -87,12 +102,9 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	                 localVarBodyParameters,
 	                 "DELETE");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
-
-	free(api_key);
-
-	return NULL;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	// free(api_key);
 }
 
 // Finds Pets by status
@@ -116,14 +128,18 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	// char *statusQuery = malloc(MAX_BUFFER_LENGTH);
 	if(status) {
 		// notstring
-		status_t statusItem;
-		list_ForEach(statusItem, status) {
-			list_addElement(localVarQueryParameters, statusItem);
-		}
+		localVarQueryParameters = status;
+		// list_t *statusItem = list_create();
+		// list_ForEach(statusItem, status) {
+		// list_addElement(localVarQueryParameters,statusItem);
+		// }
 	}
 
+
+
+
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -131,19 +147,26 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	                 localVarBodyParameters,
 	                 "GET");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
 
-
-	list_t *localVarlist = Pet_parseFromJSON(apiClient->dataReceived);
-	if(localVarlist == NULL) {
-		return 0;
-	} else {
-		// cJSON *jsonObject = Pet_convertToJSON(localVarlist);
-		// cJSON_Delete(jsonObject);
+	cJSON *Pet;
+	cJSON *PetAPIJSON = cJSON_Parse(apiClient->dataReceived);
+	// cJSON *PetJSON = cJSON_GetObjectItemCaseSensitive(PetAPIJSON, "Pet");
+	if(!cJSON_IsArray(PetAPIJSON)) {
+		return 0; // primitive container
 	}
+	list_t *PetList = list_create();
 
-	return localVarlist;
+	cJSON_ArrayForEach(Pet, PetAPIJSON)
+	{
+		if(!cJSON_IsObject(Pet)) {
+			return 0;
+		}
+		char *JSONToChar = cJSON_Print(Pet);
+		list_addElement(PetList, JSONToChar);
+	}
+	return PetList;
 }
 
 // Finds Pets by tags
@@ -167,14 +190,18 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	// char *tagsQuery = malloc(MAX_BUFFER_LENGTH);
 	if(tags) {
 		// notstring
-		tags_t tagsItem;
-		list_ForEach(tagsItem, tags) {
-			list_addElement(localVarQueryParameters, tagsItem);
-		}
+		localVarQueryParameters = tags;
+		// list_t *tagsItem = list_create();
+		// list_ForEach(tagsItem, tags) {
+		// list_addElement(localVarQueryParameters,tagsItem);
+		// }
 	}
 
+
+
+
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -182,19 +209,26 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	                 localVarBodyParameters,
 	                 "GET");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
 
-
-	list_t *localVarlist = Pet_parseFromJSON(apiClient->dataReceived);
-	if(localVarlist == NULL) {
-		return 0;
-	} else {
-		// cJSON *jsonObject = Pet_convertToJSON(localVarlist);
-		// cJSON_Delete(jsonObject);
+	cJSON *Pet;
+	cJSON *PetAPIJSON = cJSON_Parse(apiClient->dataReceived);
+	// cJSON *PetJSON = cJSON_GetObjectItemCaseSensitive(PetAPIJSON, "Pet");
+	if(!cJSON_IsArray(PetAPIJSON)) {
+		return 0; // primitive container
 	}
+	list_t *PetList = list_create();
 
-	return localVarlist;
+	cJSON_ArrayForEach(Pet, PetAPIJSON)
+	{
+		if(!cJSON_IsObject(Pet)) {
+			return 0;
+		}
+		char *JSONToChar = cJSON_Print(Pet);
+		list_addElement(PetList, JSONToChar);
+	}
+	return PetList;
 }
 
 // Find pet by ID
@@ -213,16 +247,30 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 
 	// TODO path parameter PetId (petId) not yet supported
 	// TODO base path = http://petstore.swagger.io/v2
-	char *baseNameMod = malloc(petId + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, petId + 3, "%s%li%s", "{", petId, "}");
+
+
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
 	char buff[64];
 	intToStr(buf, petId);
-	localVarPath = strReplace(localVarPath, baseNameMod, buff);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
+
+
+
+
 
 
 
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -230,11 +278,11 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	                 localVarBodyParameters,
 	                 "GET");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
 
-
-	pet_t *localVarpet = Pet_parseFromJSON(apiClient->dataReceived);
+	// nonprimitive return type
+	pet_t *localVarpet = pet_parseFromJSON(apiClient->dataReceived);
 	if(localVarpet == NULL) {
 		return 0;
 	} else {
@@ -266,8 +314,11 @@ void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 	PetJSONObject = pet_convertToJSON(pet);
 	localVarBodyParameters = cJSON_Print(PetJSONObject);
 
+
+
+
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -275,13 +326,10 @@ void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 	                 localVarBodyParameters,
 	                 "PUT");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
-
-	free(localVarBodyParameters);
-	cJSON_Delete(PetJSONObject);
-
-	return NULL;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	// free(localVarBodyParameters);
+	// cJSON_Delete(PetJSONObject);
 }
 
 // Updates a pet in the store with form data
@@ -301,11 +349,22 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
 
 	// TODO path parameter PetId (petId) not yet supported
 	// TODO base path = http://petstore.swagger.io/v2
-	char *baseNameMod = malloc(petId + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, petId + 3, "%s%li%s", "{", petId, "}");
+
+
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
 	char buff[64];
 	intToStr(buf, petId);
-	localVarPath = strReplace(localVarPath, baseNameMod, buff);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
+
 
 
 
@@ -323,8 +382,11 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
 	}
 
 
+
+
+
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -332,13 +394,10 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
 	                 localVarBodyParameters,
 	                 "POST");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
-
-	free(name);
-	free(status);
-
-	return NULL;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	// free(name);
+	// free(status);
 }
 
 // uploads an image
@@ -358,11 +417,22 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 
 	// TODO path parameter PetId (petId) not yet supported
 	// TODO base path = http://petstore.swagger.io/v2
-	char *baseNameMod = malloc(petId + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, petId + 3, "%s%li%s", "{", petId, "}");
+
+
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
 	char buff[64];
 	intToStr(buf, petId);
-	localVarPath = strReplace(localVarPath, baseNameMod, buff);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
+
 
 
 
@@ -375,15 +445,17 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 
 	// TODO form parameters
 	// form parameter File (file) not yet supported
-	if(file &&
-	   (*file != NULL) )
+	// if (file && *file != NULL)
 	{
-		list_addElement(localVarFormParameters, file); // notstring
+		// list_addElement(localVarFormParameters,file); //notstring
 	}
 
 
+
+
+
 	apiClient_invoke(apiClient,
-	                 "TODO_UNKNOWN",
+	                 "pet",
 	                 localVarPath,
 	                 localVarQueryParameters,
 	                 localVarHeaderParameters,
@@ -391,12 +463,12 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 	                 localVarBodyParameters,
 	                 "POST");
 
-	free(apiClient->dataReceived);
-	free(localVarPath);
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	// free(additionalMetadata);
 
-	free(additionalMetadata);
-
-	api_response_t *localVarapi_response = Pet_parseFromJSON(
+	// nonprimitive return type
+	api_response_t *localVarapi_response = api_response_parseFromJSON(
 		apiClient->dataReceived);
 	if(localVarapi_response == NULL) {
 		return 0;

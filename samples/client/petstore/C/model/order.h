@@ -28,7 +28,7 @@ order_t *order_create(long	id,
 
 void order_free(order_t *order);
 
-order_t *order_parseFromJSON(cJSON *jsonString);
+order_t *order_parseFromJSON(char *jsonString);
 
 cJSON *order_convertToJSON(order_t *order);
 

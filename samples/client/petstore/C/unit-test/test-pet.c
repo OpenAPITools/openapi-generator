@@ -5,3 +5,7 @@
 #include "category.h"
 #include "list.h"
 #include "tag.h"
+
+int main() {
+	printf("Hello world \n");
+}

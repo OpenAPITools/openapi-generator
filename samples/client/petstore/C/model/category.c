@@ -39,10 +39,9 @@ fail:
 	return NULL;
 }
 
-category_t *category_parseFromJSON(cJSON *jsonString) {
+category_t *category_parseFromJSON(char *jsonString) {
 	category_t *category = NULL;
-	char *parsedString = cJSON_Print(jsonString);
-	cJSON *categoryJSON = cJSON_Parse(parsedString);
+	cJSON *categoryJSON = cJSON_Parse(jsonString);
 	if(categoryJSON == NULL) {
 		const char *error_ptr = cJSON_GetErrorPtr();
 		if(error_ptr != NULL) {

@@ -108,10 +108,9 @@ fail:
 	return NULL;
 }
 
-pet_t *pet_parseFromJSON(cJSON *jsonString) {
+pet_t *pet_parseFromJSON(char *jsonString) {
 	pet_t *pet = NULL;
-	char *parsedString = cJSON_Print(jsonString);
-	cJSON *petJSON = cJSON_Parse(parsedString);
+	cJSON *petJSON = cJSON_Parse(jsonString);
 	if(petJSON == NULL) {
 		const char *error_ptr = cJSON_GetErrorPtr();
 		if(error_ptr != NULL) {
@@ -137,7 +136,8 @@ pet_t *pet_parseFromJSON(cJSON *jsonString) {
 		}
 		goto end; // nonprimitive
 	}
-	category = category_parseFromJSON(categoryJSON);
+	char *JSONData = cJSON_Print(categoryJSON);
+	category = category_parseFromJSON(JSONData);
 
 	// pet->name
 	cJSON *name = cJSON_GetObjectItemCaseSensitive(petJSON, "name");
@@ -180,8 +180,8 @@ pet_t *pet_parseFromJSON(cJSON *jsonString) {
 		if(!cJSON_IsObject(tags)) {
 			goto end;
 		}
-
-		tag_t *tagsItem = tag_parseFromJSON(tags);
+		char *JSONData = cJSON_Print(tags);
+		tag_t *tagsItem = tag_parseFromJSON(JSONData);
 
 		list_addElement(tagsList, tagsItem);
 	}

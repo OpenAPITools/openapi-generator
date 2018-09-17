@@ -20,7 +20,7 @@ api_response_t *api_response_create(int code, char *type, char *message);
 
 void api_response_free(api_response_t *api_response);
 
-api_response_t *api_response_parseFromJSON(cJSON *jsonString);
+api_response_t *api_response_parseFromJSON(char *jsonString);
 
 cJSON *api_response_convertToJSON(api_response_t *api_response);
 

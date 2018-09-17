@@ -19,7 +19,7 @@ tag_t *tag_create(long id, char *name);
 
 void tag_free(tag_t *tag);
 
-tag_t *tag_parseFromJSON(cJSON *jsonString);
+tag_t *tag_parseFromJSON(char *jsonString);
 
 cJSON *tag_convertToJSON(tag_t *tag);
 

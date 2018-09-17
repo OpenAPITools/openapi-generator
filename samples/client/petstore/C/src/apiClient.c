@@ -10,7 +10,7 @@ size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 apiClient_t *apiClient_create() {
 	curl_global_init(CURL_GLOBAL_ALL);
 	apiClient_t *apiClient = malloc(sizeof(apiClient_t));
-	apiClient->basePath = "http://petstore.swagger.io:80/v2/";
+	apiClient->basePath = "http://petstore.swagger.io:80/v2";
    #ifdef BASIC_AUTH
 	apiClient->username = NULL;
 	apiClient->password = NULL;
@@ -34,10 +34,9 @@ void replaceSpaceWithPlus(char *stringToProcess) {
 	}
 }
 
-char *assembleTargetUrl(char	*basePath,
-                        char	*operationName,
-                        char	*operationParameter,
-                        list_t	*queryParameters) {
+char *assembleTargetUrl(char *basePath,
+                        // char   *operationName,
+                        char *operationParameter, list_t *queryParameters) {
 	int neededBufferSizeForQueryParameters = 0;
 	listEntry_t *listEntry;
 
@@ -65,16 +64,17 @@ char *assembleTargetUrl(char	*basePath,
 	}
 
 	char *targetUrl =
-		malloc(strlen(
-			       operationName) + neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
-		       );
+		malloc(
+			// strlen(operationName) +
+			neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
+			);
 	strcpy(targetUrl, basePath);
-	if(slashNeedsToBeAppendedToBasePath) {
-		strcat(targetUrl, "/");
-	}
-	strcat(targetUrl, operationName);
+	// if(slashNeedsToBeAppendedToBasePath) {
+	// strcat(targetUrl, "/");
+	// }
+	// strcat(targetUrl, operationName);
 	if(operationParameter != NULL) {
-		strcat(targetUrl, "/");
+		// strcat(targetUrl, "/");
 		strcat(targetUrl, operationParameter);
 	}
 
@@ -191,7 +191,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,
-			                  operationName,
+			                  // operationName,
 			                  operationParameter,
 			                  queryParameters);
 
