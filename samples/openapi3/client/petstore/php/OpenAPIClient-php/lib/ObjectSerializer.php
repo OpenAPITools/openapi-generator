@@ -29,6 +29,8 @@
 
 namespace OpenAPI\Client;
 
+use OpenAPI\Client\Model\ModelInterface;
+
 /**
  * ObjectSerializer Class Doc Comment
  *
