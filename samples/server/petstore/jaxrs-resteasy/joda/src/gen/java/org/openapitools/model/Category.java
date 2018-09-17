@@ -12,8 +12,8 @@ import io.swagger.annotations.*;
 
 public class Category   {
   
-  private Long id = ;
-  private String name = ;
+  private Long id;
+  private String name;
 
   /**
    **/

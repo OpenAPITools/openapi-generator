@@ -14,10 +14,10 @@ import io.swagger.annotations.*;
 
 public class Order   {
   
-  private Long id = ;
-  private Long petId = ;
-  private Integer quantity = ;
-  private DateTime shipDate = ;
+  private Long id;
+  private Long petId;
+  private Integer quantity;
+  private DateTime shipDate;
 
   /**
    * Order Status
@@ -41,7 +41,7 @@ public class Order   {
     }
   }
 
-  private StatusEnum status = ;
+  private StatusEnum status;
   private Boolean complete = false;
 
   /**

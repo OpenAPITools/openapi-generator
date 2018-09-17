@@ -12,9 +12,9 @@ import io.swagger.annotations.*;
 
 public class ModelApiResponse   {
   
-  private Integer code = ;
-  private String type = ;
-  private String message = ;
+  private Integer code;
+  private String type;
+  private String message;
 
   /**
    **/
