@@ -28,14 +28,12 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -200,7 +198,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("modelDocPath", modelDocPath);
 
         final Object isSupportDart2 = additionalProperties.get(SUPPORT_DART2);
-        if (Boolean.FALSE.equals(isSupportDart2) || (isSupportDart2 instanceof String && !Boolean.parseBoolean((String)isSupportDart2))) {
+        if (Boolean.FALSE.equals(isSupportDart2) || (isSupportDart2 instanceof String && !Boolean.parseBoolean((String) isSupportDart2))) {
             // dart 1.x
             LOGGER.info("Dart version: 1.x");
             supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
@@ -531,7 +529,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-         // only process files with dart extension
+        // only process files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently only support "dartfmt -w yourcode.dart"
             String command = dartFmtPath + " -w " + file.toString();
