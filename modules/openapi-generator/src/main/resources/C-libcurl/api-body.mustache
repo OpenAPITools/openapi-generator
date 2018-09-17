@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include "apiClient.h"
 #include "cJSON.h"
 {{#imports}}{{{import}}}
@@ -35,20 +36,27 @@
     {{#pathParams}}
     // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
     // TODO base path = {{{basePath}}}
-    {{#paramName}}
+
+
     {{#isLong}}
-    char* baseNameMod = malloc({{baseName}}+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod, {{baseName}}+3, "%s%li%s", "{", {{baseName}}, "}");
+        char* baseNameModToReplace = malloc(sizeof({{baseName}})+3); //baseNameMod free not yet implemented
+        snprintf(baseNameModToReplace, strlen("{{baseName}}")+3, "%s%s%s", "{", "{{baseName}}", "}");
+    char* baseNameMod = malloc(sizeof({{baseName}})+2); //baseNameMod free not yet implemented
+    snprintf(baseNameMod, sizeof({{baseName}})+3, "%s%li%s", "{", {{baseName}}, "}");
     char buff[64];
     intToStr(buf, {{baseName}});
-    localVarPath = strReplace(localVarPath, baseNameMod, buff);
+    localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+      //  localVarPath = buff;
     {{/isLong}}
     {{#isString}}
+        char* baseNameModToReplace = malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
+        snprintf(baseNameModToReplace, strlen({{baseName}})+3, "%s%s%s", "{", "{{baseName}}", "}");
     char* baseNameMod = malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
     snprintf(baseNameMod, strlen({{baseName}})+3, "%s%s%s", "{", {{baseName}}, "}");
-    localVarPath = strReplace(localVarPath, baseNameMod, {{baseName}});
+    localVarPath = strReplace(localVarPath, baseNameModToReplace, {{baseName}});
+        //localVarPath = "{{baseName}}";
     {{/isString}}
-    {{/paramName}}
+
     {{/pathParams}}
 
     {{#headerParams}}
@@ -125,8 +133,13 @@
     {{/isListContainer}}
 
     {{/bodyParam}}
+
+
+
     apiClient_invoke(apiClient,
-                    "TODO_UNKNOWN",
+                    {{#tags}}
+                    "{{name}}",
+                    {{/tags}}
                     localVarPath,
                     localVarQueryParameters,
                     localVarHeaderParameters,
@@ -134,20 +147,19 @@
                     localVarBodyParameters,
                     "{{{httpMethod}}}");
 
-   free(apiClient->dataReceived);
-    free(localVarPath);
-
-   {{#allParams}}
-   {{^bodyParam}}
-   {{#isString}}
-   //free({{{baseName}}});
-   {{/isString}}
-   {{/bodyParam}}
-   {{#bodyParam}}
-   //free(localVarBodyParameters);
-   //cJSON_Delete({{{paramName}}}JSONObject);
-   {{/bodyParam}}
-   {{/allParams}}
+    //free(apiClient->dataReceived);
+   // free(localVarPath);
+    {{#allParams}}
+        {{^bodyParam}}
+            {{#isString}}
+                //free({{{baseName}}});
+            {{/isString}}
+        {{/bodyParam}}
+        {{#bodyParam}}
+            //free(localVarBodyParameters);
+            //cJSON_Delete({{{paramName}}}JSONObject);
+        {{/bodyParam}}
+    {{/allParams}}
 
    {{#returnType}}
    {{#returnTypeIsPrimitive}}
@@ -157,19 +169,20 @@
    {{#returnContainer}}
     cJSON *{{{baseName}}};
     cJSON *{{classname}}JSON = cJSON_Parse(apiClient->dataReceived);
-    cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
-    if(!cJSON_IsArray({{{baseName}}}JSON)) {
+    //cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if(!cJSON_IsArray({{{classname}}}JSON)) {
         return 0;;//primitive container
     }
     list_t *{{{baseName}}}List = list_create();
 
-    cJSON_ArrayForEach({{{baseName}}}, {{{baseName}}}JSON)
+    cJSON_ArrayForEach({{{baseName}}}, {{{classname}}}JSON)
     {
-        if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL))
+        if(!cJSON_IsObject({{{baseName}}}))
         {
             return 0;;
         }
-        list_addElement({{{baseName}}}List , strdup({{{baseName}}}->valuestring));
+       char *JSONToChar = cJSON_Print({{{baseName}}});
+        list_addElement({{{baseName}}}List , JSONToChar);
     }
     return {{{baseName}}}List;
    {{/returnContainer}}

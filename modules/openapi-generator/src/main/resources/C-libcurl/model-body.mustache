@@ -307,7 +307,7 @@ fail:
         if(!cJSON_IsObject({{{baseName}}})){
             goto end;
         }
-		char *JSONData = cJSON_Print({{{baseName}}}JSON);
+		char *JSONData = cJSON_Print({{{baseName}}});
         {{complexType}}_t *{{{baseName}}}Item = {{complexType}}_parseFromJSON(JSONData);
 
         list_addElement({{{baseName}}}List, {{{baseName}}}Item);
