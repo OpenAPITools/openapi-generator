@@ -18,10 +18,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @ApiModel(description = "Model for testing model name same as property name")
 public class Name  implements Serializable {
   
-  private @Valid Integer name = ;
-  private @Valid Integer snakeCase = ;
-  private @Valid String property = ;
-  private @Valid Integer _123number = ;
+  private @Valid Integer name;
+  private @Valid Integer snakeCase;
+  private @Valid String property;
+  private @Valid Integer _123number;
 
   /**
    **/

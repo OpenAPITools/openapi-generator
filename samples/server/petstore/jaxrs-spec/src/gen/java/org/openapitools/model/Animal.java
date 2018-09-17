@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Animal  implements Serializable {
   
-  private @Valid String className = ;
+  private @Valid String className;
   private @Valid String color = "red";
 
   /**

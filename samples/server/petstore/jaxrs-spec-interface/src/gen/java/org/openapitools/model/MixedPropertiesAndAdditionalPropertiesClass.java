@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
-  private @Valid UUID uuid = ;
-  private @Valid Date dateTime = ;
+  private @Valid UUID uuid;
+  private @Valid Date dateTime;
   private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
 
   /**

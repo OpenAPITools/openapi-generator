@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Client  implements Serializable {
   
-  private @Valid String client = ;
+  private @Valid String client;
 
   /**
    **/

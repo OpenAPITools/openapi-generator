@@ -51,7 +51,7 @@ public enum JustSymbolEnum {
     }
 }
 
-  private @Valid JustSymbolEnum justSymbol = null;
+  private @Valid JustSymbolEnum justSymbol;
  
 public enum ArrayEnumEnum {
 

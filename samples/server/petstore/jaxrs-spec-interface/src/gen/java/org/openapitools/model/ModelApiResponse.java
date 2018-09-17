@@ -16,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ModelApiResponse  implements Serializable {
   
-  private @Valid Integer code = ;
-  private @Valid String type = ;
-  private @Valid String message = ;
+  private @Valid Integer code;
+  private @Valid String type;
+  private @Valid String message;
 
   /**
    **/

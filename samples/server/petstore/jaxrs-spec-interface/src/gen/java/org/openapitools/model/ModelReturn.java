@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @ApiModel(description = "Model for testing reserved words")
 public class ModelReturn  implements Serializable {
   
-  private @Valid Integer _return = ;
+  private @Valid Integer _return;
 
   /**
    **/

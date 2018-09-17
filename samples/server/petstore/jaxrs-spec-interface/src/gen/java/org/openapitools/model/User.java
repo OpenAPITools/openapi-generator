@@ -16,14 +16,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class User  implements Serializable {
   
-  private @Valid Long id = ;
-  private @Valid String username = ;
-  private @Valid String firstName = ;
-  private @Valid String lastName = ;
-  private @Valid String email = ;
-  private @Valid String password = ;
-  private @Valid String phone = ;
-  private @Valid Integer userStatus = ;
+  private @Valid Long id;
+  private @Valid String username;
+  private @Valid String firstName;
+  private @Valid String lastName;
+  private @Valid String email;
+  private @Valid String password;
+  private @Valid String phone;
+  private @Valid Integer userStatus;
 
   /**
    **/

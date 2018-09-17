@@ -17,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Order  implements Serializable {
   
-  private @Valid Long id = ;
-  private @Valid Long petId = ;
-  private @Valid Integer quantity = ;
-  private @Valid Date shipDate = ;
+  private @Valid Long id;
+  private @Valid Long petId;
+  private @Valid Integer quantity;
+  private @Valid Date shipDate;
 
 public enum StatusEnum {
 
@@ -54,7 +54,7 @@ public enum StatusEnum {
     }
 }
 
-  private @Valid StatusEnum status = ;
+  private @Valid StatusEnum status;
   private @Valid Boolean complete = false;
 
   /**

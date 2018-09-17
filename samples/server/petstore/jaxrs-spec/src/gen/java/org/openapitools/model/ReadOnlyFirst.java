@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ReadOnlyFirst  implements Serializable {
   
-  private @Valid String bar = ;
-  private @Valid String baz = ;
+  private @Valid String bar;
+  private @Valid String baz;
 
   /**
    **/
