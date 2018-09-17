@@ -1,18 +1,11 @@
-#include <stdlib.h>
-    #include <stdio.h>
-    #include "apiClient.h"
-    #include "cJSON.h"
-    #include "api_response.h"
-    #include "pet.h"
+#include <stdio.h>
 
     #define MAX_BUFFER_LENGTH 9
 
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
-    #ifdef DEBUG
-    #include <stdio.h>
-    #endif // DEBUG
+
     #include "apiClient.h"
     #include "cJSON.h"
     #include "pet.h"
@@ -20,9 +13,9 @@
     #include "category.h"
     #include "tag.h"
 
-    #ifdef DEBUG
-    #include <stdio.h>
-    #endif // DEBUG
+    #include "keyValuePair.h"
+
+
 
     #define EXAMPLE_CATEGORY_NAME "Example Category"
     #define EXAMPLE_CATEGORY_ID 5
@@ -42,6 +35,7 @@
     Could fail if someone else makes changes to the added pet, before it can be fetched again.
     */
     int main() {
+    printf("Hello world1\n");
     apiClient_t *apiClient = apiClient_create();
 
     char *categoryName = malloc(strlen(EXAMPLE_CATEGORY_NAME) + 1);
@@ -77,8 +71,8 @@
     list_addElement(tags, exampleTag1);
     list_addElement(tags, exampleTag2);
 
-    char* status = "sold";
-
+    char *status = "available";
+    printf("Hello world2\n");
     pet_t *pet =
     pet_create(EXAMPLE_PET_ID,
     category,
@@ -88,10 +82,10 @@
     status);
 
     PetAPI_addPet(apiClient, pet);
-
+    printf("Hello world3\n");
 
     pet_t *mypet = PetAPI_getPetById(apiClient, 1);
-
+    printf("Hello world4\n");
     assert(strcmp(mypet->name, EXAMPLE_PET_NAME) == 0);
     assert(mypet->id == EXAMPLE_PET_ID);
     assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == 0);
@@ -109,20 +103,50 @@
     assert(strcmp(((tag_t *) list_getElementAt(mypet->tags, 1)->data)->name,
     EXAMPLE_TAG_2_NAME) == 0);
     printf("Cleared assert\n");
-    printf("Data is:\n%li,%s\n",mypet->id,mypet->name);
+
 
     cJSON *JSONR = pet_convertToJSON(mypet);
-    printf("Data is:\n%li,%s\n",mypet->id,mypet->name);
-    char* petJson = cJSON_Print(JSONR);
-    printf("Data is:%s\n",petJson);
 
-    pet_t *newpet = pet_parseFromJSON(JSONR);
-    cJSON *JSONRR = pet_convertToJSON(newpet);
-    char* petJsonnew = cJSON_Print(JSONRR);
-    printf("Data is:%s\n",petJsonnew);
+    char *petJson = cJSON_Print(JSONR);
+    printf("Data is:%s\n", petJson);
+
     free(JSONR);
     pet_free(mypet);
-    apiClient_free(apiClient);
 
-    printf("Hello world\n");
+
+    printf("-----------------------------------------------------------------------------\n");
+
+    list_t *status1 = list_create();
+    list_t *status2 = list_create();
+
+    #define EXAMPLE_KEYNAME_2 "status"
+    #define EXAMPLE_VALUENAME_2 "available"
+    char *keyTwo = malloc(strlen(EXAMPLE_KEYNAME_2) + 1);
+    char *valueTwo = malloc(strlen(EXAMPLE_VALUENAME_2) + 1);
+    strcpy(keyTwo, EXAMPLE_KEYNAME_2);
+    strcpy(valueTwo, EXAMPLE_VALUENAME_2);
+
+
+    keyValuePair_t *secondCustomField =
+    keyValuePair_create(keyTwo, valueTwo);
+
+
+    list_addElement(status1, secondCustomField);
+
+    printf("calling by status\n");
+    status2 = PetAPI_findPetsByStatus(apiClient,status1);
+    printf("calling by status after func\n");
+    listEntry_t *data1;
+
+    list_ForEach(data1,status2){
+   // char *petJson = cJSON_Print(data1->data);
+    printf("Data is:%s\n", petJson);
+    printf("-----------------------------------------------------------------------\n");
+
+
+    }
+
+    printf("calling by status ends\n");
+
+    apiClient_free(apiClient);
     }
