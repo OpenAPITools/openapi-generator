@@ -2,41 +2,41 @@
 package {{packageName}}
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type Route struct {
 	Name        string
 	Method      string
 	Pattern     string
-	HandlerFunc http.HandlerFunc
+	HandlerFunc gin.HandlerFunc
 }
 
 type Routes []Route
 
-func NewRouter() *mux.Router {
-	router := mux.NewRouter().StrictSlash(true)
+func NewRouter() *gin.Engine {
+	router := gin.Default()
 	for _, route := range routes {
-		var handler http.Handler
-		handler = route.HandlerFunc
-		handler = Logger(handler, route.Name)
-
-		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(handler)
+		switch route.Method {
+		case "GET":
+			router.GET(route.Pattern, route.HandlerFunc)
+		case "POST":
+			router.POST(route.Pattern, route.HandlerFunc)
+		case "PUT":
+			router.PUT(route.Pattern, route.HandlerFunc)
+		case "DELETE":
+			router.DELETE(route.Pattern, route.HandlerFunc)
+		}
 	}
 
 	return router
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello World!")
+func Index(c *gin.Context) {
+	c.String(http.StatusOK, "Hello World!")
 }
 
 var routes = Routes{

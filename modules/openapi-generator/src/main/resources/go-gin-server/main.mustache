@@ -3,7 +3,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	// WARNING!
 	// Change this to a fully-qualified import path
@@ -20,5 +19,5 @@ func main() {
 
 	router := sw.NewRouter()
 
-	log.Fatal(http.ListenAndServe(":{{serverPort}}", router))
+	log.Fatal(router.Run(":{{serverPort}}"))
 }

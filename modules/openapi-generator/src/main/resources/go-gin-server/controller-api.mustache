@@ -4,10 +4,11 @@ package {{packageName}}
 {{#operations}}
 import (
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 ){{#operation}}
 
 // {{nickname}} - {{{summary}}}
-func {{nickname}}(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
+func {{nickname}}(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{})
 }{{/operation}}{{/operations}}
