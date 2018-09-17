@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -26,6 +27,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.*;
@@ -295,6 +297,10 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("SWIFTFORMAT_PATH"))) {
+            LOGGER.info("Environment variable SWIFTFORMAT_PATH not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFTFORMAT_PATH=/usr/local/bin/swiftformat' (Linux/Mac)");
+        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -836,4 +842,30 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String swiftformatPath = System.getenv("SWIFTFORMAT_PATH");
+        if (StringUtils.isEmpty(swiftformatPath)) {
+            return; // skip if SWIFTFORMAT_PATH env variable is not defined
+        }
+         // only process files with hs extension
+        if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = swiftformatPath + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                    if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+    } 
 }
