@@ -63,7 +63,7 @@ class ObjectSerializer
             return $data;
         } elseif (is_object($data)) {
             $values = [];
-            if($data instanceof ModelInterface) {
+            if ($data instanceof ModelInterface) {
                 $formats = $data::openAPIFormats();
                 foreach ($data::openAPITypes() as $property => $openAPIType) {
                     $getter = $data::getters()[$property];

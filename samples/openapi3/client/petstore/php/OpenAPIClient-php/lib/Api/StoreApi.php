@@ -264,10 +264,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            if($headers['Content-Type'] !== 'application/json') {
-                $httpBody = $_tempBody;
-            } else {
+            if ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -517,10 +517,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            if($headers['Content-Type'] !== 'application/json') {
-                $httpBody = $_tempBody;
-            } else {
+            if ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -801,10 +801,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            if($headers['Content-Type'] !== 'application/json') {
-                $httpBody = $_tempBody;
-            } else {
+            if ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
@@ -1068,10 +1068,10 @@ class StoreApi
         // for model (json/xml)
         if (isset($_tempBody)) {
             // $_tempBody is the method argument, if present
-            if($headers['Content-Type'] !== 'application/json') {
-                $httpBody = $_tempBody;
-            } else {
+            if ($headers['Content-Type'] === 'application/json') {
                 $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
