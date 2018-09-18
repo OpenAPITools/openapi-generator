@@ -63,7 +63,6 @@ petEncoder model =
         ]
 
 
-
 statusDecoder : Decoder Status
 statusDecoder =
     Decode.string

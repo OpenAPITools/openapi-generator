@@ -3,7 +3,7 @@ import { StoreApi } from '@swagger/typescript-fetch-petstore';
 
 describe('StoreApi', function () {
 
-    function runSuite(description: string, requestOptions?: any): void {
+    function runSuite(description: string): void {
 
         describe(description, () => {
             let api: StoreApi;
@@ -13,7 +13,7 @@ describe('StoreApi', function () {
             });
 
             it('should get inventory', function () {
-                return api.getInventory(requestOptions).then((result: { [key: string]: number }) => {
+                return api.getInventory().then((result: { [key: string]: number }) => {
                     expect(Object.keys(result)).to.not.be.empty;
                 });
             });
@@ -22,10 +22,5 @@ describe('StoreApi', function () {
     }
 
     runSuite('without custom request options');
-
-    runSuite('with custom request options', {
-        credentials: 'include',
-        mode: 'cors'
-    });
 
 });

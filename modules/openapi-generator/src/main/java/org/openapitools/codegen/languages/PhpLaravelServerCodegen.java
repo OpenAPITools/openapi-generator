@@ -22,6 +22,7 @@ import org.openapitools.codegen.*;
 import java.io.File;
 import java.util.*;
 
+
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     protected String apiVersion = "1.0.0";
 
@@ -204,7 +205,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
 
         for (CodegenOperation op : operations) {
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
             // check to see if the path contains ".", which is not supported by PHP laravel
             // ref: https://github.com/swagger-api/swagger-codegen/issues/6897
             if (op.path != null && op.path.contains(".")) {
@@ -240,7 +241,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
     }
 
     protected String controllerFileFolder() {
@@ -262,6 +263,6 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return camelize(name, false) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
     }
 }

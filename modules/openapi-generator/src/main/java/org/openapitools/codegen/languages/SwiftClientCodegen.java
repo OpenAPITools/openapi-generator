@@ -34,6 +34,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
  * Swift (2.x) generator is no longer actively maintained. Please use
  * 'swift3' or 'swift4' generator instead.
@@ -270,7 +271,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -319,7 +320,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = camelize(name);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -359,7 +360,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "[String:" + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -436,7 +437,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toOperationId(String operationId) {
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
 
         // throw exception if method name is empty. This should not happen but keep the check just in case
         if (StringUtils.isEmpty(operationId)) {
@@ -445,9 +446,15 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(("call_" + operationId), true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize(("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true));
+            operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true);
         }
 
         return operationId;
@@ -465,7 +472,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // camelize the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -488,9 +495,9 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
             return name;
         }
 
-        // camelize(lower) the variable name
+        // org.openapitools.codegen.utils.StringUtils.camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -518,7 +525,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
             builder.append(stringBeforeMatch);
 
             String group = matcher.group().substring(1, matcher.group().length() - 1);
-            group = camelize(group, true);
+            group = org.openapitools.codegen.utils.StringUtils.camelize(group, true);
             builder
                     .append("{")
                     .append(group)
@@ -577,7 +584,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase());
+        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 

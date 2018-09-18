@@ -46,14 +46,19 @@ use {{invokerPackage}}\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class {{classname}} extends AbstractApiController {
-
+class {{classname}} extends AbstractApiController
+{
     {{#operations}}
     {{#operation}}
+    
     /**
      * {{httpMethod}} {{operationId}}
+     {{#summary}}
      * Summary: {{summary}}
+     {{/summary}}
+     {{#notes}}
      * Notes: {{notes}}
+     {{/notes}}
      {{#hasProduces}}
      * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]
      {{/hasProduces}}
@@ -62,7 +67,8 @@ class {{classname}} extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function {{operationId}}($request, $response, $args) {
+    public function {{operationId}}($request, $response, $args)
+    {
         {{#hasHeaderParams}}
         $headers = $request->getHeaders();
         {{#headerParams}}
@@ -96,7 +102,6 @@ class {{classname}} extends AbstractApiController {
         $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
         return $response;
     }
-    {{#hasMore}}{{/hasMore}}
     {{/operation}}
     {{/operations}}
 }

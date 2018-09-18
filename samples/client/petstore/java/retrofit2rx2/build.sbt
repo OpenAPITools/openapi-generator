@@ -14,7 +14,7 @@ lazy val root = (project in file(".")).
       "com.squareup.retrofit2" % "converter-gson" % "2.3.0" % "compile",
       "com.squareup.retrofit2" % "adapter-rxjava2" % "2.3.0" % "compile",
       "io.reactivex.rxjava2" % "rxjava" % "2.1.1" % "compile",
-      "io.swagger" % "swagger-annotations" % "1.5.17" % "compile",
+      "io.swagger" % "swagger-annotations" % "1.5.21" % "compile",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       "org.threeten" % "threetenbp" % "1.3.5" % "compile",
       "io.gsonfire" % "gson-fire" % "1.8.0" % "compile",

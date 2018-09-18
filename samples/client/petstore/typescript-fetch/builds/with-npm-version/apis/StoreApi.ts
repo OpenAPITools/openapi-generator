@@ -16,6 +16,7 @@ import * as runtime from '../runtime';
 import {
     Order,
     OrderFromJSON,
+    OrderToJSON,
 } from '../models';
 
 export interface DeleteOrderRequest {
@@ -108,7 +109,7 @@ export class StoreApi extends runtime.BaseAPI {
             path: `/store/order`,
             method: 'POST',
             headers: headerParameters,
-            body: requestParameters.order,
+            body: OrderToJSON(requestParameters.order),
         });
         return OrderFromJSON(await response.json());
     }

@@ -37,8 +37,9 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class AnotherFakeApi extends AbstractApiController {
-
+class AnotherFakeApi extends AbstractApiController
+{
+    
     /**
      * PATCH call123TestSpecialTags
      * Summary: To test special tags
@@ -49,10 +50,10 @@ class AnotherFakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function call123TestSpecialTags($request, $response, $args) {
+    public function call123TestSpecialTags($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing call123TestSpecialTags as a PATCH method ?');
         return $response;
     }
-    
 }

@@ -45,7 +45,10 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
     };
 }
 
-export function {{classname}}ToJSON(value: {{classname}}): any {
+export function {{classname}}ToJSON(value?: {{classname}}): any {
+    if (value === undefined) {
+        return undefined;
+    }
     return {
         {{#vars}}
         {{#isPrimitiveType}}

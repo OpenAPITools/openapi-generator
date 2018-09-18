@@ -14,8 +14,10 @@
 import {
     Category,
     CategoryFromJSON,
+    CategoryToJSON,
     Tag,
     TagFromJSON,
+    TagToJSON,
 } from './';
 
 /**
@@ -70,6 +72,17 @@ export function PetFromJSON(json: any): Pet {
         'photoUrls': json['photoUrls'],
         'tags': (json['tags'] as Array<any>).map(TagFromJSON),
         'status': json['status'],
+    };
+}
+
+export function PetToJSON(value: Pet): any {
+    return {
+        'id': value.id,
+        'category': CategoryToJSON(value.category),
+        'name': value.name,
+        'photoUrls': value.photoUrls,
+        'tags': (value.tags as Array<any>).map(TagToJSON),
+        'status': value.status,
     };
 }
 

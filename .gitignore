@@ -93,21 +93,6 @@ samples/client/petstore/java/jersey2-java6/project/
 samples/client/petstore/java/jersey2-java8/project/
 samples/client/petstore/java/jersey2/project/
 
-#PHP
-samples/client/petstore/php/OpenAPIToolsClient-php/composer.lock
-samples/client/petstore/php/OpenAPIToolsClient-php/vendor/
-samples/client/petstore/silex/SwaggerServer/composer.lock
-samples/client/petstore/silex/SwaggerServer/venodr/
-**/vendor/
-**/composer.lock
-
-#PHP-Symfony
-samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/cache/
-samples/server/petstore/php-symfony/SymfonyBundle-php/Tests/logs/
-
-#PHP-laravel
-samples/server/petstore/php-laravel/node_modules
-
 # Perl
 samples/client/petstore/perl/deep_module_test/
 
@@ -130,14 +115,14 @@ samples/client/petstore/swift/**/SwaggerClientTests/SwaggerClient.xcworkspace/xc
 samples/client/petstore/swift/**/SwaggerClientTests/Pods/
 #samples/client/petstore/swift/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
 #samples/client/petstore/swift/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
-samples/client/petstore/swift/**/SwaggerClientTests/Podfile.lock 
+samples/client/petstore/swift/**/SwaggerClientTests/Podfile.lock
 # Swift3
 samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcodeproj/xcuserdata
 samples/client/petstore/swift3/**/SwaggerClientTests/SwaggerClient.xcworkspace/xcuserdata
 #samples/client/petstore/swift3/**/SwaggerClientTests/Pods/
 #samples/client/petstore/swift3/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcuserdata
 #samples/client/petstore/swift3/**/SwaggerClientTests/Pods/Pods.xcodeproj/xcshareddata/xcschemes
-samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock 
+samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock
 
 # C#
 *.csproj.user

@@ -44,4 +44,3 @@ apiResponseEncoder model =
         , ( "message", withDefault Encode.null (map Encode.string model.message) )
         ]
 
-

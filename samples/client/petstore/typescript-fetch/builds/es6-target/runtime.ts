@@ -130,28 +130,42 @@ export interface ConfigurationParameters {
 }
 
 export class Configuration {
+    constructor(private configuration: ConfigurationParameters = {}) {}
 
-    basePath: string;
-    fetchApi: FetchAPI;
-    middleware: Middleware[];
-    username?: string;
-    password?: string;
-    apiKey?: (name: string) => string;
-    accessToken?: (name: string, scopes?: string[]) => string;
+    get basePath(): string {
+        return this.configuration.basePath || BASE_PATH;
+    }
 
-    constructor(conf: ConfigurationParameters = {}) {
-        this.basePath = conf.basePath !== undefined ? conf.basePath : BASE_PATH;
-        this.fetchApi = conf.fetchApi || window.fetch.bind(window);
-        this.middleware = conf.middleware || [];
-        this.username = conf.username;
-        this.password = conf.password;
-        const { apiKey, accessToken } = conf;
+    get fetchApi(): FetchAPI {
+        return this.configuration.fetchApi || window.fetch.bind(window);
+    }
+
+    get middleware(): Middleware[] {
+        return this.configuration.middleware || [];
+    }
+
+    get username(): string | undefined {
+        return this.configuration.username;
+    }
+
+    get password(): string | undefined {
+        return this.configuration.password;
+    }
+
+    get apiKey(): ((name: string) => string) | undefined {
+        const apiKey = this.configuration.apiKey;
         if (apiKey) {
-            this.apiKey = typeof apiKey === 'function' ? apiKey : () => apiKey;
+            return typeof apiKey === 'function' ? apiKey : () => apiKey;
         }
+        return undefined;
+    }
+
+    get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
+        const accessToken = this.configuration.accessToken;
         if (accessToken) {
-            this.accessToken = typeof accessToken === 'function' ? accessToken : () => accessToken;
+            return typeof accessToken === 'function' ? accessToken : () => accessToken;
         }
+        return undefined;
     }
 }
 

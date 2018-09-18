@@ -10,7 +10,7 @@ jobs:
     machine:
       docker_layer_caching: true
     working_directory: ~/OpenAPITools/openapi-generator
-    parallelism: 2
+    parallelism: 3
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts

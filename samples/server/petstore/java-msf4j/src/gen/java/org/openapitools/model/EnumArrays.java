@@ -41,7 +41,7 @@ public class EnumArrays   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
@@ -75,10 +75,10 @@ public class EnumArrays   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
-
+ 
   @JsonProperty("array_enum")
   private List<ArrayEnumEnum> arrayEnum = null;
 

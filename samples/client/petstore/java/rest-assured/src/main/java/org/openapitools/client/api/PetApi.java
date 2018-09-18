@@ -38,6 +38,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "Pet")
 public class PetApi {
 
     private RequestSpecBuilder reqSpec;
@@ -52,89 +53,98 @@ public class PetApi {
 
 
     @ApiOperation(value = "Add a new pet to the store",
-                  notes = "",
-                  tags={ "pet" })
+            notes = "",
+            nickname = "addPet",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 405, message = "Invalid input")  })
+            @ApiResponse(code = 405, message = "Invalid input")  })
     public AddPetOper addPet() {
         return new AddPetOper(reqSpec);
     }
 
     @ApiOperation(value = "Deletes a pet",
-                  notes = "",
-                  tags={ "pet" })
+            notes = "",
+            nickname = "deletePet",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid pet value")  })
+            @ApiResponse(code = 400, message = "Invalid pet value")  })
     public DeletePetOper deletePet() {
         return new DeletePetOper(reqSpec);
     }
 
     @ApiOperation(value = "Finds Pets by status",
-                  notes = "Multiple status values can be provided with comma separated strings",
-                  tags={ "pet" })
+            notes = "Multiple status values can be provided with comma separated strings",
+            nickname = "findPetsByStatus",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") ,
-        @ApiResponse(code = 400, message = "Invalid status value")  })
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid status value")  })
     public FindPetsByStatusOper findPetsByStatus() {
         return new FindPetsByStatusOper(reqSpec);
     }
 
     @ApiOperation(value = "Finds Pets by tags",
-                  notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-                  tags={ "pet" })
+            notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
+            nickname = "findPetsByTags",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") ,
-        @ApiResponse(code = 400, message = "Invalid tag value")  })
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid tag value")  })
     @Deprecated
     public FindPetsByTagsOper findPetsByTags() {
         return new FindPetsByTagsOper(reqSpec);
     }
 
     @ApiOperation(value = "Find pet by ID",
-                  notes = "Returns a single pet",
-                  tags={ "pet" })
+            notes = "Returns a single pet",
+            nickname = "getPetById",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation") ,
-        @ApiResponse(code = 400, message = "Invalid ID supplied") ,
-        @ApiResponse(code = 404, message = "Pet not found")  })
+            @ApiResponse(code = 200, message = "successful operation") ,
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Pet not found")  })
     public GetPetByIdOper getPetById() {
         return new GetPetByIdOper(reqSpec);
     }
 
     @ApiOperation(value = "Update an existing pet",
-                  notes = "",
-                  tags={ "pet" })
+            notes = "",
+            nickname = "updatePet",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 400, message = "Invalid ID supplied") ,
-        @ApiResponse(code = 404, message = "Pet not found") ,
-        @ApiResponse(code = 405, message = "Validation exception")  })
+            @ApiResponse(code = 400, message = "Invalid ID supplied") ,
+            @ApiResponse(code = 404, message = "Pet not found") ,
+            @ApiResponse(code = 405, message = "Validation exception")  })
     public UpdatePetOper updatePet() {
         return new UpdatePetOper(reqSpec);
     }
 
     @ApiOperation(value = "Updates a pet in the store with form data",
-                  notes = "",
-                  tags={ "pet" })
+            notes = "",
+            nickname = "updatePetWithForm",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 405, message = "Invalid input")  })
+            @ApiResponse(code = 405, message = "Invalid input")  })
     public UpdatePetWithFormOper updatePetWithForm() {
         return new UpdatePetWithFormOper(reqSpec);
     }
 
     @ApiOperation(value = "uploads an image",
-                  notes = "",
-                  tags={ "pet" })
+            notes = "",
+            nickname = "uploadFile",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation")  })
+            @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileOper uploadFile() {
         return new UploadFileOper(reqSpec);
     }
 
     @ApiOperation(value = "uploads an image (required)",
-                  notes = "",
-                  tags={ "pet" })
+            notes = "",
+            nickname = "uploadFileWithRequiredFile",
+            tags = { "pet" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation")  })
+            @ApiResponse(code = 200, message = "successful operation")  })
     public UploadFileWithRequiredFileOper uploadFileWithRequiredFile() {
         return new UploadFileWithRequiredFileOper(reqSpec);
     }
@@ -326,7 +336,7 @@ public class PetApi {
         public static final String STATUS_QUERY = "status";
 
         /**
-         * @param status (List<String>) Status values that need to be considered for filter (required)
+         * @param status (List&lt;String&gt;) Status values that need to be considered for filter (required)
          * @return operation
          */
         public FindPetsByStatusOper statusQuery(Object... status) {
@@ -400,7 +410,7 @@ public class PetApi {
         public static final String TAGS_QUERY = "tags";
 
         /**
-         * @param tags (List<String>) Tags to filter by (required)
+         * @param tags (List&lt;String&gt;) Tags to filter by (required)
          * @return operation
          */
         public FindPetsByTagsOper tagsQuery(Object... tags) {

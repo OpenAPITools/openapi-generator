@@ -38,4 +38,11 @@ export function CategoryFromJSON(json: any): Category {
     };
 }
 
+export function CategoryToJSON(value: Category): any {
+    return {
+        'id': value.id,
+        'name': value.name,
+    };
+}
+
 

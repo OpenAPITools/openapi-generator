@@ -80,4 +80,17 @@ export function UserFromJSON(json: any): User {
     };
 }
 
+export function UserToJSON(value: User): any {
+    return {
+        'id': value.id,
+        'username': value.username,
+        'firstName': value.firstName,
+        'lastName': value.lastName,
+        'email': value.email,
+        'password': value.password,
+        'phone': value.phone,
+        'userStatus': value.userStatus,
+    };
+}
+
 
