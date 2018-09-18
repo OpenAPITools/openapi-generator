@@ -76,8 +76,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         //modelTestTemplateFiles.put("model_test.mustache", ".php");
         // no doc files
-        //modelDocTemplateFiles.clear();
-        //apiDocTemplateFiles.clear();
+        // modelDocTemplateFiles.clear();
+        // apiDocTemplateFiles.clear();
 
         // https://dev.mysql.com/doc/refman/8.0/en/keywords.html
         setReservedWordsLowerCase(
@@ -251,10 +251,16 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 processJsonTypeProperty(model, property);
                 break;
             default:
-                processModelTypeProperty(model, property);
+                processUnknownTypeProperty(model, property);
         }
     }
 
+    /**
+     * Processes each model's property mapped to integer type and adds related vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
     public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
@@ -330,6 +336,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    /**
+     * Processes each model's property mapped to decimal type and adds related vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
     public void processDecimalTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
@@ -403,6 +415,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    /**
+     * Processes each model's property mapped to boolean type and adds related vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
     public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
@@ -443,6 +461,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    /**
+     * Processes each model's property mapped to string type and adds related vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
@@ -509,6 +533,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    /**
+     * Processes each model's property mapped to date type and adds related vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
@@ -547,6 +577,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
+    /**
+     * Processes each model's property mapped to JSON type and adds related vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
@@ -585,7 +621,14 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
     }
 
-    public void processModelTypeProperty(CodegenModel model, CodegenProperty property) {
+    /**
+     * Processes each model's property not mapped to any type and adds related vendor extensions
+     * Most of time it's related to referenced properties eg. \Model\User
+     *
+     * @param model    model
+     * @param property model's property
+     */
+    public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
         Map<String, Object> mysqlSchema = new HashMap<String, Object>();
         Map<String, Object> columnDefinition = new HashMap<String, Object>();
@@ -652,6 +695,79 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         arg.put("argumentValue", value);
         arg.put("hasMore", hasMore);
         return arg;
+    }
+
+    /**
+     * Generates default codegen property for MySQL column definition
+     * Ref: https://dev.mysql.com/doc/refman/5.7/en/data-type-defaults.html
+     *
+     * @param defaultValue  value
+     * @param mysqlDataType MySQL data type
+     * @return generated codegen property
+     */
+    public HashMap<String, Object> toCodegenMysqlDataTypeDefault(String defaultValue, String mysqlDataType) {
+        HashMap<String, Object> defaultMap = new HashMap<String, Object>();
+        if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
+            defaultMap.put("defaultValue", "NULL");
+            defaultMap.put("isString", false);
+            defaultMap.put("isNumeric", false);
+            defaultMap.put("isKeyword", true);
+            return defaultMap;
+        }
+
+        switch (mysqlDataType.toUpperCase(Locale.ROOT)) {
+            case "TINYINT":
+            case "SMALLINT":
+            case "MEDIUMINT":
+            case "INT":
+            case "BIGINT":
+                // SERIAL DEFAULT VALUE is a special case. In the definition of an integer column, it is an alias for NOT NULL AUTO_INCREMENT UNIQUE
+                if (defaultValue.equals("SERIAL DEFAULT VALUE")) {
+                    defaultMap.put("defaultValue", defaultValue);
+                    defaultMap.put("isString", false);
+                    defaultMap.put("isNumeric", false);
+                    defaultMap.put("isKeyword", true);
+                } else {
+                    defaultMap.put("defaultValue", defaultValue);
+                    defaultMap.put("isString", false);
+                    defaultMap.put("isNumeric", true);
+                    defaultMap.put("isKeyword", false);
+                }
+                return defaultMap;
+            case "TIMESTAMP":
+            case "DATETIME":
+                // The exception is that, for TIMESTAMP and DATETIME columns, you can specify CURRENT_TIMESTAMP as the default
+                if (defaultValue.equals("CURRENT_TIMESTAMP")) {
+                    defaultMap.put("defaultValue", defaultValue);
+                    defaultMap.put("isString", false);
+                    defaultMap.put("isNumeric", false);
+                    defaultMap.put("isKeyword", true);
+                } else {
+                    defaultMap.put("defaultValue", defaultValue);
+                    defaultMap.put("isString", true);
+                    defaultMap.put("isNumeric", false);
+                    defaultMap.put("isKeyword", false);
+                }
+                return defaultMap;
+            case "TINYBLOB":
+            case "BLOB":
+            case "MEDIUMBLOB":
+            case "LONGBLOB":
+            case "TINYTEXT":
+            case "TEXT":
+            case "MEDIUMTEXT":
+            case "LONGTEXT":
+            case "GEOMETRY":
+            case "JSON":
+                // The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default value.
+                throw new RuntimeException("The BLOB, TEXT, GEOMETRY, and JSON data types cannot be assigned a default value");
+            default:
+                defaultMap.put("defaultValue", defaultValue);
+                defaultMap.put("isString", true);
+                defaultMap.put("isNumeric", false);
+                defaultMap.put("isKeyword", false);
+                return defaultMap;
+        }
     }
 
     /**
@@ -737,7 +853,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * Ref: https://dev.mysql.com/doc/refman/8.0/en/data-type-overview.html
      *
      * @param dataType which needs to check
-     * @return
+     * @return true if value is correct MySQL data type, otherwise false
      */
     public Boolean isMysqlDataType(String dataType) {
         return (
@@ -864,6 +980,49 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    /**
+     * Sets default database name for all MySQL queries
+     * Provided value will be escaped when necessary
+     *
+     * @param databaseName source name
+     */
+    public void setDefaultDatabaseName(String databaseName) {
+        String escapedName = toDatabaseName(databaseName);
+        if (escapedName.equals(databaseName) == false) {
+            LOGGER.error("Invalid database name. '" + databaseName + "' cannot be used as MySQL identifier. Escaped value '" + escapedName + "' will be used instead.");
+        }
+        this.defaultDatabaseName = escapedName;
+    }
+
+    /**
+     * Returns default database name for all MySQL queries
+     * This value must be used with backticks only, eg. `database_name`
+     *
+     * @return default database name
+     */
+    public String getDefaultDatabaseName() {
+        return this.defaultDatabaseName;
+    }
+
+    /**
+     * Enables special JSON data type in all MySQL queries
+     * JSON data type requires MySQL version 5.7.8
+     *
+     * @param enabled true to enable, otherwise false
+     */
+    public void setJsonDataTypeEnabled(Boolean enabled) {
+        this.jsonDataTypeEnabled = enabled;
+    }
+
+    /**
+     * Whether JSON data type enabled or disabled in all MySQL queries
+     *
+     * @return true if enabled otherwise false
+     */
+    public Boolean getJsonDataTypeEnabled() {
+        return this.jsonDataTypeEnabled;
     }
 
 }

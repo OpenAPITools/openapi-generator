@@ -92,7 +92,7 @@ public class MysqlSchemaCodegenTest {
         Assert.assertFalse((Boolean) strProp.get("isFloat"));
         Assert.assertFalse((Boolean) strProp.get("isInteger"));
         Assert.assertFalse((Boolean) strProp.get("isNumeric"));
-        Assert.assertSame((String) strProp.get("value"), strArgument);
+        Assert.assertSame((String) strProp.get("argumentValue"), strArgument);
 
         Integer intArgument = 10;
         HashMap<String, Object> intProp = codegen.toCodegenMysqlDataTypeArgument(intArgument, true);
@@ -101,7 +101,7 @@ public class MysqlSchemaCodegenTest {
         Assert.assertFalse((Boolean) intProp.get("isFloat"));
         Assert.assertTrue((Boolean) intProp.get("isInteger"));
         Assert.assertTrue((Boolean) intProp.get("isNumeric"));
-        Assert.assertSame((Integer) intProp.get("value"), intArgument);
+        Assert.assertSame((Integer) intProp.get("argumentValue"), intArgument);
 
         Double floatArgument = 3.14;
         HashMap<String, Object> floatProp = codegen.toCodegenMysqlDataTypeArgument(floatArgument, false);
