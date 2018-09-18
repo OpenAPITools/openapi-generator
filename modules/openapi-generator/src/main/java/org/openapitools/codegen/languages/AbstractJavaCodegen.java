@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -204,6 +205,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("CLANG_FORMAT_PATH"))) {
+            LOGGER.info("Environment variable CLANG_FORMAT_PATH not defined so the Java code may not be properly formatted. To define it, try 'export CLANG_FORMAT_PATH=/usr/local/bin/clang-format' (Linux/Mac)");
+        }
+
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
             this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
         }
@@ -218,7 +223,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
-
         if (additionalProperties.containsKey(USE_NULL_FOR_UNKNOWN_ENUM_VALUE)) {
             this.setUseNullForUnknownEnumValue(Boolean.valueOf(additionalProperties.get(USE_NULL_FOR_UNKNOWN_ENUM_VALUE).toString()));
         }
@@ -1345,6 +1349,32 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             tag = "Class" + tag;
         }
         return tag;
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String clangformatPath = System.getenv("CLANG_FORMAT_PATH");
+        if (StringUtils.isEmpty(clangformatPath)) {
+            return; // skip if CLANG-FORMAT_PATH env variable is not defined
+        }
+         // only process files with hs extension
+        if ("java".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = clangformatPath + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 
 }
