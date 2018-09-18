@@ -294,8 +294,6 @@ class FormatTest(object):
         """
         if byte is None:
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
-        if byte is not None and not re.search('^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$', byte):  # noqa: E501
-            raise ValueError("Invalid value for `byte`, must be a follow pattern or equal to `/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/`")  # noqa: E501
 
         self._byte = byte
 

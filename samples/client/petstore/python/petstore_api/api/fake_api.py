@@ -105,6 +105,10 @@ class FakeApi(object):
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -196,6 +200,10 @@ class FakeApi(object):
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
@@ -289,6 +297,10 @@ class FakeApi(object):
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
 
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -380,6 +392,10 @@ class FakeApi(object):
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
+
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json'])  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
@@ -962,7 +978,7 @@ class FakeApi(object):
         query_params = []
         if 'enum_query_string_array' in local_var_params:
             query_params.append(('enum_query_string_array', local_var_params['enum_query_string_array']))  # noqa: E501
-            collection_formats['enum_query_string_array'] = 'csv'  # noqa: E501
+            collection_formats['enum_query_string_array'] = 'multi'  # noqa: E501
         if 'enum_query_string' in local_var_params:
             query_params.append(('enum_query_string', local_var_params['enum_query_string']))  # noqa: E501
         if 'enum_query_integer' in local_var_params:

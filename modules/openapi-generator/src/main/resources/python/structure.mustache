@@ -1,0 +1,66 @@
+supportingFiles:
+  tox.ini: tox.mustache
+  .travis.yml: travis.mustache
+  test-requirements.txt: test-requirements.mustache
+  requirements.txt: requirements.mustache
+  setup.py: setup.mustache
+  README{{ docExtension }}: README.mustache
+  .gitignore: gitignore.mustache
+  git_push.sh: git_push.sh.mustache
+
+  {{ packageName }}:
+    __init__.py: __init__package.mustache
+    {{# asyncio}}
+    rest.py: asyncio/rest.mustache
+    {{/ asyncio}}
+    {{^ asyncio}}
+      {{# tornado}}
+    rest.py: tornado/rest.mustache
+      {{/ tornado}}
+      {{^ tornado}}
+    rest.py: rest.mustache
+      {{/ tornado}}
+    {{/ asyncio}}
+    configuration.py: configuration.mustache
+    api_client.py: api_client.mustache
+    models:
+      __init__.py: __init__model.mustache
+    api:
+      __init__.py: __init__api.mustache
+  test:
+    __init__.py: __init__test.mustache
+
+apis:
+  {{ packageName }}:
+    api:
+      .py: api.mustache
+
+{{# generateApiDocs }}
+apiDocs:
+  docs:
+    {{docExtension}}: api_doc.mustache
+{{/ generateApiDocs }}
+
+{{# generateApiTests }}
+apiTests:
+  test:
+    .py: api_test.mustache
+{{/ generateApiTests }}
+
+
+models:
+  {{ packageName }}:
+    models:
+      .py: model.mustache
+
+{{# generateModelDocs }}
+modelDocs:
+  docs:
+    {{docExtension}}: model_doc.mustache
+{{/ generateModelDocs }}
+
+{{# generateModelTests }}
+modelTests:
+  test:
+    .py: model_test.mustache
+{{/ generateModelTests }}
