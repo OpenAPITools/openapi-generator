@@ -173,7 +173,12 @@ export class {{classname}} extends runtime.BaseAPI {
             {{/hasQueryParams}}
             {{#hasBodyParam}}
             {{#bodyParam}}
+            {{#required}}
             body: {{dataType}}ToJSON(requestParameters.{{paramName}}),
+            {{/required}}
+            {{^required}}
+            body: requestParameters.{{paramName}} !== undefined ? {{dataType}}ToJSON(requestParameters.{{paramName}}) : undefined,
+            {{/required}}
             {{/bodyParam}}
             {{/hasBodyParam}}
             {{#hasFormParams}}
