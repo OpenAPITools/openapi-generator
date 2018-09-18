@@ -28,6 +28,7 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 }
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
+    {{#hasVars}}
     return {
         {{#vars}}
         {{#isPrimitiveType}}
@@ -43,9 +44,14 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         {{/isPrimitiveType}}
         {{/vars}}
     };
+    {{/hasVars}}
+    {{^hasVars}}
+    return json;
+    {{/hasVars}}
 }
 
 export function {{classname}}ToJSON(value?: {{classname}}): any {
+    {{#hasVars}}
     if (value === undefined) {
         return undefined;
     }
@@ -64,6 +70,10 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         {{/isPrimitiveType}}
         {{/vars}}
     };
+    {{/hasVars}}
+    {{^hasVars}}
+    return value;
+    {{/hasVars}}
 }
 {{#hasEnums}}
 
