@@ -852,13 +852,13 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (StringUtils.isEmpty(swiftformatPath)) {
             return; // skip if SWIFTFORMAT_PATH env variable is not defined
         }
-         // only process files with hs extension
+        // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
             String command = swiftformatPath + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
-                    if (p.exitValue() != 0) {
+                if (p.exitValue() != 0) {
                     LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
                 } else {
                     LOGGER.info("Successfully executed: " + command);

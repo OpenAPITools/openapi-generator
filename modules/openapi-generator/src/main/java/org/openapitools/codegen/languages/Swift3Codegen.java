@@ -696,7 +696,8 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         if (StringUtils.isEmpty(swiftformatPath)) {
             return; // skip if SWIFTFORMAT_PATH env variable is not defined
         }
-         // only process files with hs extension
+
+        // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
             String command = swiftformatPath + " " + file.toString();
             try {
