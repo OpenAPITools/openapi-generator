@@ -193,8 +193,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         URL url = URLPathUtils.getServerURL(openAPI);
-        contextPath = config.escapeText(url.getPath());
-        basePathWithoutHost = contextPath.replaceAll("/$", ""); // for backward compatibility
+        contextPath = config.escapeText(url.getPath()).replaceAll("/$", ""); // for backward compatibility
+        basePathWithoutHost = contextPath;
         basePath = config.escapeText(URLPathUtils.getHost(openAPI)).replaceAll("/$", "");
     }
 
