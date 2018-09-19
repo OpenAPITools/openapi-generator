@@ -11,7 +11,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun deletePet(petId: kotlin.Long,apiKey: kotlin.String): Unit {
+    override fun deletePet(petId: kotlin.Long,apiKey: kotlin.String?): Unit {
         TODO("Implement me")
     }
 
@@ -31,11 +31,11 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun updatePetWithForm(petId: kotlin.Long,name: kotlin.String,status: kotlin.String): Unit {
+    override fun updatePetWithForm(petId: kotlin.Long,name: kotlin.String?,status: kotlin.String?): Unit {
         TODO("Implement me")
     }
 
-    override fun uploadFile(petId: kotlin.Long,additionalMetadata: kotlin.String,file: org.springframework.web.multipart.MultipartFile): ModelApiResponse {
+    override fun uploadFile(petId: kotlin.Long,additionalMetadata: kotlin.String?,file: org.springframework.web.multipart.MultipartFile): ModelApiResponse {
         TODO("Implement me")
     }
 }
