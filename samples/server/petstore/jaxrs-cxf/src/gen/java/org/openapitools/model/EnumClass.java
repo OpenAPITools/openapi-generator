@@ -38,6 +38,5 @@ public enum EnumClass {
     }
     throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
-  
 }
 

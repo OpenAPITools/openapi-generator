@@ -16,11 +16,14 @@ public enum {{datatypeWithEnum}} {
     }
 
     @Override
+    {{#jackson}}
     @JsonValue
+    {{/jackson}}
     public String toString() {
         return String.valueOf(value);
     }
 
+    {{#jackson}}
     @JsonCreator
     public static {{datatypeWithEnum}} fromValue(String v) {
         for ({{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
@@ -30,4 +33,5 @@ public enum {{datatypeWithEnum}} {
         }
         {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + v + "'");{{/useNullForUnknownEnumValue}}
     }
+    {{/jackson}}
 }

@@ -1,4 +1,5 @@
 {{#jackson}}
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 {{/jackson}}
 
@@ -24,11 +25,14 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
     this.value = value;
   }
 
+  {{#jackson}}
+  @JsonValue
+  {{/jackson}}
   @Override
   public String toString() {
     return String.valueOf(value);
   }
-{{#jackson}}
+  {{#jackson}}
 
   @JsonCreator
   public static {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue(String text) {
@@ -39,5 +43,5 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
     }
     {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/useNullForUnknownEnumValue}}
   }
-{{/jackson}}
+  {{/jackson}}
 }
