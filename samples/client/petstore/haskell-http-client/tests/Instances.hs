@@ -273,7 +273,7 @@ instance Arbitrary MapTest where
       <$> arbitrary -- mapTestMapMapOfString :: Maybe (Map.Map String (Map.Map String Text))
       <*> arbitrary -- mapTestMapOfEnumString :: Maybe (Map.Map String Text)
       <*> arbitrary -- mapTestDirectMap :: Maybe (Map.Map String Bool)
-      <*> arbitrary -- mapTestIndirectMap :: Maybe StringBooleanMap
+      <*> arbitrary -- mapTestIndirectMap :: Maybe (Map.Map String Bool)
     
 instance Arbitrary MixedPropertiesAndAdditionalPropertiesClass where
   arbitrary =
