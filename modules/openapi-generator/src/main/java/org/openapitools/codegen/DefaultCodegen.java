@@ -841,15 +841,14 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the name with escaped characters.
      *
-     * @param name the name to be escaped
-     * @param charactersToAllow characters that are not escaped
+     * @param name                   the name to be escaped
+     * @param charactersToAllow      characters that are not escaped
      * @param appdendixToReplacement String to append to replaced characters.
      * @return the escaped word
      * <p>
      * throws Runtime exception as word is not escaped properly.
-     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      * @see org.openapitools.codegen.utils.StringUtils#escape directly instead
-     *
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      */
     @Deprecated
     public String escapeSpecialCharacters(String name, List<String> charactersToAllow, String appdendixToReplacement) {
@@ -2249,7 +2248,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         operationId = removeNonNameElementToCamelCase(operationId);
 
-        if(path.startsWith("/")) {
+        if (path.startsWith("/")) {
             op.path = path;
         } else {
             op.path = "/" + path;
@@ -2290,7 +2289,10 @@ public class DefaultCodegen implements CodegenConfig {
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                final Schema responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(methodResponse));
+                Schema responseSchema = ModelUtils.getSchemaFromResponse(methodResponse);
+                if (openAPI != null && openAPI.getComponents() != null) { // has models/aliases defined
+                    responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), responseSchema);
+                }
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
 
@@ -2657,12 +2659,12 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             Stream.of(
-                    Pair.of("get",     pi.getGet()),
-                    Pair.of("head",    pi.getHead()),
-                    Pair.of("put",     pi.getPut()),
-                    Pair.of("post",    pi.getPost()),
-                    Pair.of("delete",  pi.getDelete()),
-                    Pair.of("patch",   pi.getPatch()),
+                    Pair.of("get", pi.getGet()),
+                    Pair.of("head", pi.getHead()),
+                    Pair.of("put", pi.getPut()),
+                    Pair.of("post", pi.getPost()),
+                    Pair.of("delete", pi.getDelete()),
+                    Pair.of("patch", pi.getPatch()),
                     Pair.of("options", pi.getOptions()))
                     .filter(p -> p.getValue() != null)
                     .forEach(p -> {
@@ -2671,7 +2673,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                         boolean genId = op.getOperationId() == null;
                         if (genId) {
-                            op.setOperationId(getOrGenerateOperationId(op, c.name+"_"+expression.replaceAll("\\{\\$.*}", ""), method));
+                            op.setOperationId(getOrGenerateOperationId(op, c.name + "_" + expression.replaceAll("\\{\\$.*}", ""), method));
                         }
 
                         if (op.getExtensions() == null) {
@@ -3260,8 +3262,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The underscored version of the word
-     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      * @see org.openapitools.codegen.utils.StringUtils#underscore
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      */
     @Deprecated
     public static String underscore(String word) {
@@ -3273,8 +3275,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word The word
      * @return The dashized version of the word, e.g. "my-name"
-     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      * @see org.openapitools.codegen.utils.StringUtils#dashize
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      */
     @SuppressWarnings("static-method")
     @Deprecated
@@ -3487,8 +3489,8 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param word string to be camelize
      * @return camelized string
-     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      * @see org.openapitools.codegen.utils.StringUtils#camelize(String)
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      */
     @Deprecated
     public static String camelize(String word) {
@@ -3501,8 +3503,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param word                 string to be camelize
      * @param lowercaseFirstLetter lower case for first letter if set to true
      * @return camelized string
-     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      * @see org.openapitools.codegen.utils.StringUtils#camelize(String, boolean)
+     * @deprecated since version 3.2.3, may be removed with the next major release (4.0)
      */
     @Deprecated
     public static String camelize(String word, boolean lowercaseFirstLetter) {
@@ -4692,10 +4694,10 @@ public class DefaultCodegen implements CodegenConfig {
      * Post-process the auto-generated file, e.g. using go-fmt to format the Go code. The file type can be "model-test",
      * "model-doc", "model", "api", "api-test", "api-doc", "supporting-mustache", "supporting-common",
      * "openapi-generator-ignore", "openapi-generator-version"
-     *
+     * <p>
      * TODO: store these values in enum instead
      *
-     * @param file file to be processed
+     * @param file     file to be processed
      * @param fileType file type
      */
     public void postProcessFile(File file, String fileType) {

@@ -662,14 +662,15 @@ public class ModelUtils {
                     return schema; // treat it as model
                 else {
                     // treat it as a typical map
+                    /* TODO unalias the map item if it's an alias
                     if (ref.getAdditionalProperties() != null) {
+
                         Schema innerSchema = (Schema) ref.getAdditionalProperties();
                         if (StringUtils.isNotEmpty(innerSchema.get$ref())) { // map item is a ref to something else
-                            // TODO unalias the map item if it's an alias
                             //Schema unaliasInnerSchema = unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(innerSchema.get$ref())));
                             //ref.setAdditionalProperties(unaliasInnerSchema);
                         }
-                    }
+                    }*/
                     return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (isObjectSchema(ref)) { // model
