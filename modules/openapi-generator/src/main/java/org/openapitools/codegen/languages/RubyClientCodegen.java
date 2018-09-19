@@ -583,5 +583,4 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         //
         //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
-
 }
