@@ -156,8 +156,8 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
      */
     @Override
     public String getHelp() {
-        return "Generates a Go server library using OpenAPI-Generator. By default, " +
-                "it will also generate service classes -- which you can disable with the `-Dnoservice` environment variable.";
+        return "Generates a Go server library with the gin framework using OpenAPI-Generator." +
+                "By default, it will also generate service classes.";
     }
 
     /**
