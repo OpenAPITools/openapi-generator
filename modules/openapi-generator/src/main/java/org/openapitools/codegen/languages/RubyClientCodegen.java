@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
@@ -141,10 +140,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (StringUtils.isEmpty(System.getenv("RUBY_POST_PROCESS_FILE"))) {
-            LOGGER.info("Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=/usr/local/bin/rubocop -a' (Linux/Mac)");
-        }
 
         if (additionalProperties.containsKey(GEM_NAME)) {
             setGemName((String) additionalProperties.get(GEM_NAME));
@@ -589,29 +584,4 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
 
-    @Override
-    public void postProcessFile(File file, String fileType) {
-        if (file == null) {
-            return;
-        }
-        String rubyPostProcessFile = System.getenv("RUBY_POST_PROCESS_FILE");
-        if (StringUtils.isEmpty(rubyPostProcessFile)) {
-            return; // skip if RUBY_POST_PROCESS_FILE env variable is not defined
-        }
-        // only process files with rb extension
-        if ("rb".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = rubyPostProcessFile + " " + file.toString();
-            try {
-                Process p = Runtime.getRuntime().exec(command);
-                int exitValue = p.waitFor();
-                if (exitValue != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                } else {
-                    LOGGER.info("Successfully executed: " + command);
-                }
-            } catch (Exception e) {
-                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-            }
-        }
-    }
 }
