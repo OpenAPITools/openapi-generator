@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -115,6 +116,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("TS_POST_PROCESS_FILE"))) {
+            LOGGER.info("Hint: Environment variable 'TS_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export TS_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
@@ -561,4 +566,30 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
+
+    @Override
+     public void postProcessFile(File file, String fileType) {
+         if (file == null) {
+             return;
+         }
+         String tsPostProcessFile = System.getenv("TS_POST_PROCESS_FILE");
+         if (StringUtils.isEmpty(tsPostProcessFile)) {
+             return; // skip if TS_POST_PROCESS_FILE env variable is not defined
+         }
+         // only process files with ts extension
+         if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
+             String command = tsPostProcessFile + " " + file.toString();
+             try {
+                 Process p = Runtime.getRuntime().exec(command);
+                 int exitValue = p.waitFor();
+                 if (exitValue != 0) {
+                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                 } else {
+                     LOGGER.info("Successfully executed: " + command);
+                 }
+             } catch (Exception e) {
+                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+             }
+         }
+     }
 }
