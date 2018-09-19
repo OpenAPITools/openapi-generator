@@ -114,7 +114,8 @@
     pet_free(mypet);
 
 
-    printf("-----------------------------------------------------------------------------\n");
+    printf(
+    "------------------------------ Part Ends ----------------------------------\n");
 
     list_t *status1 = list_create();
     list_t *status2 = list_create();
@@ -134,19 +135,23 @@
     list_addElement(status1, secondCustomField);
 
     printf("calling by status\n");
-    status2 = PetAPI_findPetsByStatus(apiClient,status1);
+    status2 = PetAPI_findPetsByStatus(apiClient, status1);
     printf("calling by status after func\n");
     listEntry_t *data1;
 
-    list_ForEach(data1,status2){
-   // char *petJson = cJSON_Print(data1->data);
-    printf("Data is:%s\n", petJson);
-    printf("-----------------------------------------------------------------------\n");
-
-
+    list_ForEach(data1, status2) {
+    // char *petJson = cJSON_Print(data1->data);
+    printf("Data is:%s\n", data1->data);
+    printf(
+    "-----------------------------Seperation between output-----------------------\n");
     }
 
     printf("calling by status ends\n");
 
     apiClient_free(apiClient);
+
+    printf(
+    "------------------------------ Part Ends ----------------------------------\n");
+    apiClient_t *apiClient1 = apiClient_create();
+    PetAPI_updatePetWithForm(apiClient1, 1, "Rocky Handsome", "Sold");
     }
