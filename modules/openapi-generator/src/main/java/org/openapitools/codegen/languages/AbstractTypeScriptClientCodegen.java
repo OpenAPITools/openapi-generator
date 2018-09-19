@@ -49,7 +49,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         importMapping.clear();
 
         supportsInheritance = true;
-        
+
         // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
         reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
@@ -333,10 +333,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isNumberSchema(p)) {
-           if (p.getDefault() != null) {
-             return p.getDefault().toString();
-           }
-           return UNDEFINED_VALUE;
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return UNDEFINED_VALUE;
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -352,7 +352,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
     }
-    
+
     @Override
     protected boolean isReservedWord(String word) {
         // NOTE: This differs from super's implementation in that TypeScript does _not_ want case insensitive matching.
@@ -568,28 +568,30 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-     public void postProcessFile(File file, String fileType) {
-         if (file == null) {
-             return;
-         }
-         String tsPostProcessFile = System.getenv("TS_POST_PROCESS_FILE");
-         if (StringUtils.isEmpty(tsPostProcessFile)) {
-             return; // skip if TS_POST_PROCESS_FILE env variable is not defined
-         }
-         // only process files with ts extension
-         if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
-             String command = tsPostProcessFile + " " + file.toString();
-             try {
-                 Process p = Runtime.getRuntime().exec(command);
-                 int exitValue = p.waitFor();
-                 if (exitValue != 0) {
-                     LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
-                 } else {
-                     LOGGER.info("Successfully executed: " + command);
-                 }
-             } catch (Exception e) {
-                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
-             }
-         }
-     }
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+
+        if (file == null) {
+            return;
+        }
+        String tsPostProcessFile = System.getenv("TS_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(tsPostProcessFile)) {
+            return; // skip if TS_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with ts extension
+        if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = tsPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+    }
 }
