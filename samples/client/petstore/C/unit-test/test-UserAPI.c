@@ -115,7 +115,7 @@ int main() {
 
 
 	printf(
-		"-----------------------------------------------------------------------------\n");
+		"------------------------------ Part Ends ----------------------------------\n");
 
 	list_t *status1 = list_create();
 	list_t *status2 = list_create();
@@ -141,12 +141,17 @@ int main() {
 
 	list_ForEach(data1, status2) {
 		// char *petJson = cJSON_Print(data1->data);
-		printf("Data is:%s\n", petJson);
+		printf("Data is:%s\n", data1->data);
 		printf(
-			"-----------------------------------------------------------------------\n");
+			"-----------------------------Seperation between output-----------------------\n");
 	}
 
 	printf("calling by status ends\n");
 
 	apiClient_free(apiClient);
+
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+	apiClient_t *apiClient1 = apiClient_create();
+	PetAPI_updatePetWithForm(apiClient1, 1, "Rocky Handsome", "Sold");
 }

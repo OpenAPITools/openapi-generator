@@ -114,11 +114,12 @@ void postData(CURL *handle, char *bodyParameters) {
 
 
 void apiClient_invoke(apiClient_t	*apiClient,
-                      char		*operationName,
                       char		*operationParameter,
                       list_t		*queryParameters,
                       list_t		*headerParameters,
                       list_t		*formParameters,
+                      list_t		*headerType,
+                      list_t		*contentType,
                       char		*bodyParameters,
                       char		*requestType) {
 	CURL *handle = curl_easy_init();
@@ -129,10 +130,30 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		curl_mime *mime = NULL;
 		struct curl_slist *headers = NULL;
 
-		headers =
-			curl_slist_append(headers, "accept: application/json");
-		headers = curl_slist_append(headers,
-		                            "Content-Type: application/json");
+
+		if(headerType != NULL) {
+			list_ForEach(listEntry, headerType) {
+				char buffHeader[256];
+				sprintf(buffHeader,
+				        "%s%s",
+				        "Accept: ",
+				        listEntry->data);
+				headers =
+					curl_slist_append(headers, buffHeader);
+			}
+		}
+		if(contentType != NULL) {
+			list_ForEach(listEntry, contentType) {
+				char buffContent[256];
+				sprintf(buffContent,
+				        "%s%s",
+				        "Content-Type: ",
+				        listEntry->data);
+				headers =
+					curl_slist_append(headers, buffContent);
+			}
+		}
+
 		if(requestType != NULL) {
 			curl_easy_setopt(handle,
 			                 CURLOPT_CUSTOMREQUEST,

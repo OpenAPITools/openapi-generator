@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "keyValuePair.h"
 
 keyValuePair_t *keyValuePair_create(char *key, char *value) {
