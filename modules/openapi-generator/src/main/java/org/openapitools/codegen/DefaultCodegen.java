@@ -1096,11 +1096,6 @@ public class DefaultCodegen implements CodegenConfig {
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
             Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
-            String type = additionalProperties.getType();
-            if (null == type) {
-                LOGGER.error("No Type defined for Additional Property " + additionalProperties + "\n" //
-                        + "\tIn Property: " + schema);
-            }
             String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
@@ -2295,7 +2290,7 @@ public class DefaultCodegen implements CodegenConfig {
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                final Schema responseSchema = ModelUtils.getSchemaFromResponse(methodResponse);
+                final Schema responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(methodResponse));
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
 

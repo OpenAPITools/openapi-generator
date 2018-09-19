@@ -308,7 +308,7 @@ public class ModelUtils {
         if (schema.getAdditionalProperties() instanceof Schema) {
             return true;
         }
-        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
             return true;
         }
         return false;
@@ -638,21 +638,41 @@ public class ModelUtils {
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
      * @param allSchemas all schemas
-     * @param schema schema (alias or direct reference)
+     * @param schema     schema (alias or direct reference)
      * @return actual schema
      */
     public static Schema unaliasSchema(Map<String, Schema> allSchemas, Schema schema) {
+        if (allSchemas == null || allSchemas.isEmpty()) {
+            LOGGER.warn("allSchemas cann't be null/empty in unaliasSchema. Returned 'schema'");
+            return schema;
+        }
+
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             Schema ref = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
             if (ref == null) {
                 LOGGER.warn("{} is not defined", schema.get$ref());
                 return schema;
-            } else if (isObjectSchema(ref)) { // model
-                return schema;
             } else if (isStringSchema(ref) && (ref.getEnum() != null && !ref.getEnum().isEmpty())) {
                 // top-level enum class
                 return schema;
-            } else if (isMapSchema(ref) || isArraySchema(ref) || isComposedSchema(ref)) { // map/array def should be created as models
+            } else if (isArraySchema(ref) || isComposedSchema(ref)) { // array def should be created as models
+                return schema;
+            } else if (isMapSchema(ref)) {
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has properties
+                    return schema; // treat it as model
+                else {
+                    // treat it as a typical map
+                    if (ref.getAdditionalProperties() != null) {
+                        Schema innerSchema = (Schema) ref.getAdditionalProperties();
+                        if (StringUtils.isNotEmpty(innerSchema.get$ref())) { // map item is a ref to something else
+                            // TODO unalias the map item if it's an alias
+                            //Schema unaliasInnerSchema = unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(innerSchema.get$ref())));
+                            //ref.setAdditionalProperties(unaliasInnerSchema);
+                        }
+                    }
+                    return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                }
+            } else if (isObjectSchema(ref)) { // model
                 return schema;
             } else {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
@@ -662,10 +682,10 @@ public class ModelUtils {
     }
 
     public static Schema getAdditionalProperties(Schema schema) {
-        if(schema.getAdditionalProperties() instanceof Schema) {
+        if (schema.getAdditionalProperties() instanceof Schema) {
             return (Schema) schema.getAdditionalProperties();
         }
-        if(schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
             return new ObjectSchema();
         }
         return null;
