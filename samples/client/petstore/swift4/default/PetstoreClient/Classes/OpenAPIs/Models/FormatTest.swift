@@ -7,10 +7,7 @@
 
 import Foundation
 
-
-
 public struct FormatTest: Codable {
-
     public var integer: Int?
     public var int32: Int?
     public var int64: Int64?
@@ -40,7 +37,4 @@ public struct FormatTest: Codable {
         self.uuid = uuid
         self.password = password
     }
-
-
 }
-
