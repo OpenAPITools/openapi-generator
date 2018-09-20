@@ -12,60 +12,54 @@
 Module : OpenAPIPetstore.Model
 -}
 
-{-# LANGUAGE DeriveDataTypeable         #-}
-{-# LANGUAGE DeriveFoldable             #-}
-{-# LANGUAGE DeriveGeneric              #-}
-{-# LANGUAGE DeriveTraversable          #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE DeriveFoldable #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE LambdaCase                 #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE NamedFieldPuns             #-}
-{-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE RecordWildCards            #-}
-{-# LANGUAGE TupleSections              #-}
-{-# LANGUAGE TypeFamilies               #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.Model where
 
-import           OpenAPIPetstore.Core
-import           OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.Core
+import OpenAPIPetstore.MimeTypes
 
-import           Data.Aeson                ((.:), (.:!), (.:?), (.=))
+import Data.Aeson ((.:),(.:!),(.:?),(.=))
 
-import qualified Control.Arrow             as P (left)
-import qualified Data.Aeson                as A
-import qualified Data.ByteString           as B
-import qualified Data.ByteString.Base64    as B64
-import qualified Data.ByteString.Char8     as BC
-import qualified Data.ByteString.Lazy      as BL
-import qualified Data.Data                 as P (TypeRep, Typeable, typeOf,
-                                                 typeRep)
-import qualified Data.Foldable             as P
-import qualified Data.HashMap.Lazy         as HM
-import qualified Data.Map                  as Map
-import qualified Data.Maybe                as P
-import qualified Data.Set                  as Set
-import qualified Data.Text                 as T
-import qualified Data.Text.Encoding        as T
-import qualified Data.Time                 as TI
-import qualified Lens.Micro                as L
-import qualified Web.FormUrlEncoded        as WH
-import qualified Web.HttpApiData           as WH
+import qualified Control.Arrow as P (left)
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Base64 as B64
+import qualified Data.ByteString.Char8 as BC
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
+import qualified Data.Foldable as P
+import qualified Data.HashMap.Lazy as HM
+import qualified Data.Map as Map
+import qualified Data.Maybe as P
+import qualified Data.Set as Set
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Time as TI
+import qualified Lens.Micro as L
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
 
-import           Control.Applicative       ((<|>))
-import           Control.Applicative       (Alternative)
-import           Data.Function             ((&))
-import           Data.Monoid               ((<>))
-import           Data.Text                 (Text)
-import           Prelude                   (Applicative, Bool (..), Char,
-                                            Double, FilePath, Float, Functor,
-                                            Int, Integer, Maybe (..), Monad,
-                                            String, fmap, maybe, mempty, pure,
-                                            undefined, ($), (.), (/=), (<$>),
-                                            (<*>), (=<<), (>>=))
+import Control.Applicative ((<|>))
+import Control.Applicative (Alternative)
+import Data.Function ((&))
+import Data.Monoid ((<>))
+import Data.Text (Text)
+import Prelude (($),(/=),(.),(<$>),(<*>),(>>=),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
 
-import qualified Prelude                   as P
+import qualified Prelude as P
 
 
 
@@ -237,7 +231,7 @@ mkAdditionalPropertiesClass =
 -- | Animal
 data Animal = Animal
   { animalClassName :: !(Text) -- ^ /Required/ "className"
-  , animalColor     :: !(Maybe Text) -- ^ "color"
+  , animalColor :: !(Maybe Text) -- ^ "color"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Animal
@@ -258,7 +252,7 @@ instance A.ToJSON Animal where
 
 -- | Construct a value of type 'Animal' (by applying it's required fields, if any)
 mkAnimal
-  :: Text -- ^ 'animalClassName'
+  :: Text -- ^ 'animalClassName' 
   -> Animal
 mkAnimal animalClassName =
   Animal
@@ -269,20 +263,20 @@ mkAnimal animalClassName =
 -- ** AnimalFarm
 -- | AnimalFarm
 data AnimalFarm = AnimalFarm
-  {
+  { 
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AnimalFarm
 instance A.FromJSON AnimalFarm where
   parseJSON = A.withObject "AnimalFarm" $ \o ->
     pure AnimalFarm
-
+      
 
 -- | ToJSON AnimalFarm
 instance A.ToJSON AnimalFarm where
   toJSON AnimalFarm  =
    _omitNulls
-      [
+      [ 
       ]
 
 
@@ -291,14 +285,14 @@ mkAnimalFarm
   :: AnimalFarm
 mkAnimalFarm =
   AnimalFarm
-  {
+  { 
   }
 
 -- ** ApiResponse
 -- | ApiResponse
 data ApiResponse = ApiResponse
-  { apiResponseCode    :: !(Maybe Int) -- ^ "code"
-  , apiResponseType    :: !(Maybe Text) -- ^ "type"
+  { apiResponseCode :: !(Maybe Int) -- ^ "code"
+  , apiResponseType :: !(Maybe Text) -- ^ "type"
   , apiResponseMessage :: !(Maybe Text) -- ^ "message"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -389,9 +383,9 @@ mkArrayOfNumberOnly =
 -- ** ArrayTest
 -- | ArrayTest
 data ArrayTest = ArrayTest
-  { arrayTestArrayOfString       :: !(Maybe [Text]) -- ^ "array_of_string"
+  { arrayTestArrayOfString :: !(Maybe [Text]) -- ^ "array_of_string"
   , arrayTestArrayArrayOfInteger :: !(Maybe [[Integer]]) -- ^ "array_array_of_integer"
-  , arrayTestArrayArrayOfModel   :: !(Maybe [[ReadOnlyFirst]]) -- ^ "array_array_of_model"
+  , arrayTestArrayArrayOfModel :: !(Maybe [[ReadOnlyFirst]]) -- ^ "array_array_of_model"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ArrayTest
@@ -425,12 +419,12 @@ mkArrayTest =
 -- ** Capitalization
 -- | Capitalization
 data Capitalization = Capitalization
-  { capitalizationSmallCamel       :: !(Maybe Text) -- ^ "smallCamel"
-  , capitalizationCapitalCamel     :: !(Maybe Text) -- ^ "CapitalCamel"
-  , capitalizationSmallSnake       :: !(Maybe Text) -- ^ "small_Snake"
-  , capitalizationCapitalSnake     :: !(Maybe Text) -- ^ "Capital_Snake"
+  { capitalizationSmallCamel :: !(Maybe Text) -- ^ "smallCamel"
+  , capitalizationCapitalCamel :: !(Maybe Text) -- ^ "CapitalCamel"
+  , capitalizationSmallSnake :: !(Maybe Text) -- ^ "small_Snake"
+  , capitalizationCapitalSnake :: !(Maybe Text) -- ^ "Capital_Snake"
   , capitalizationScaEthFlowPoints :: !(Maybe Text) -- ^ "SCA_ETH_Flow_Points"
-  , capitalizationAttName          :: !(Maybe Text) -- ^ "ATT_NAME" - Name of the pet
+  , capitalizationAttName :: !(Maybe Text) -- ^ "ATT_NAME" - Name of the pet 
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Capitalization
@@ -474,8 +468,8 @@ mkCapitalization =
 -- | Cat
 data Cat = Cat
   { catClassName :: !(Text) -- ^ /Required/ "className"
-  , catColor     :: !(Maybe Text) -- ^ "color"
-  , catDeclawed  :: !(Maybe Bool) -- ^ "declawed"
+  , catColor :: !(Maybe Text) -- ^ "color"
+  , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Cat
@@ -498,7 +492,7 @@ instance A.ToJSON Cat where
 
 -- | Construct a value of type 'Cat' (by applying it's required fields, if any)
 mkCat
-  :: Text -- ^ 'catClassName'
+  :: Text -- ^ 'catClassName' 
   -> Cat
 mkCat catClassName =
   Cat
@@ -510,7 +504,7 @@ mkCat catClassName =
 -- ** Category
 -- | Category
 data Category = Category
-  { categoryId   :: !(Maybe Integer) -- ^ "id"
+  { categoryId :: !(Maybe Integer) -- ^ "id"
   , categoryName :: !(Maybe Text) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -600,8 +594,8 @@ mkClient =
 -- | Dog
 data Dog = Dog
   { dogClassName :: !(Text) -- ^ /Required/ "className"
-  , dogColor     :: !(Maybe Text) -- ^ "color"
-  , dogBreed     :: !(Maybe Text) -- ^ "breed"
+  , dogColor :: !(Maybe Text) -- ^ "color"
+  , dogBreed :: !(Maybe Text) -- ^ "breed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Dog
@@ -624,7 +618,7 @@ instance A.ToJSON Dog where
 
 -- | Construct a value of type 'Dog' (by applying it's required fields, if any)
 mkDog
-  :: Text -- ^ 'dogClassName'
+  :: Text -- ^ 'dogClassName' 
   -> Dog
 mkDog dogClassName =
   Dog
@@ -637,7 +631,7 @@ mkDog dogClassName =
 -- | EnumArrays
 data EnumArrays = EnumArrays
   { enumArraysJustSymbol :: !(Maybe E'JustSymbol) -- ^ "just_symbol"
-  , enumArraysArrayEnum  :: !(Maybe [E'ArrayEnum]) -- ^ "array_enum"
+  , enumArraysArrayEnum :: !(Maybe [E'ArrayEnum]) -- ^ "array_enum"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON EnumArrays
@@ -668,11 +662,11 @@ mkEnumArrays =
 -- ** EnumTest
 -- | EnumTest
 data EnumTest = EnumTest
-  { enumTestEnumString         :: !(Maybe E'EnumString) -- ^ "enum_string"
+  { enumTestEnumString :: !(Maybe E'EnumString) -- ^ "enum_string"
   , enumTestEnumStringRequired :: !(E'EnumString) -- ^ /Required/ "enum_string_required"
-  , enumTestEnumInteger        :: !(Maybe E'EnumInteger) -- ^ "enum_integer"
-  , enumTestEnumNumber         :: !(Maybe E'EnumNumber) -- ^ "enum_number"
-  , enumTestOuterEnum          :: !(Maybe OuterEnum) -- ^ "outerEnum"
+  , enumTestEnumInteger :: !(Maybe E'EnumInteger) -- ^ "enum_integer"
+  , enumTestEnumNumber :: !(Maybe E'EnumNumber) -- ^ "enum_number"
+  , enumTestOuterEnum :: !(Maybe OuterEnum) -- ^ "outerEnum"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON EnumTest
@@ -699,7 +693,7 @@ instance A.ToJSON EnumTest where
 
 -- | Construct a value of type 'EnumTest' (by applying it's required fields, if any)
 mkEnumTest
-  :: E'EnumString -- ^ 'enumTestEnumStringRequired'
+  :: E'EnumString -- ^ 'enumTestEnumStringRequired' 
   -> EnumTest
 mkEnumTest enumTestEnumStringRequired =
   EnumTest
@@ -742,7 +736,7 @@ mkFile =
 -- ** FileSchemaTestClass
 -- | FileSchemaTestClass
 data FileSchemaTestClass = FileSchemaTestClass
-  { fileSchemaTestClassFile  :: !(Maybe File) -- ^ "file"
+  { fileSchemaTestClassFile :: !(Maybe File) -- ^ "file"
   , fileSchemaTestClassFiles :: !(Maybe [File]) -- ^ "files"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -774,18 +768,18 @@ mkFileSchemaTestClass =
 -- ** FormatTest
 -- | FormatTest
 data FormatTest = FormatTest
-  { formatTestInteger  :: !(Maybe Int) -- ^ "integer"
-  , formatTestInt32    :: !(Maybe Int) -- ^ "int32"
-  , formatTestInt64    :: !(Maybe Integer) -- ^ "int64"
-  , formatTestNumber   :: !(Double) -- ^ /Required/ "number"
-  , formatTestFloat    :: !(Maybe Float) -- ^ "float"
-  , formatTestDouble   :: !(Maybe Double) -- ^ "double"
-  , formatTestString   :: !(Maybe Text) -- ^ "string"
-  , formatTestByte     :: !(ByteArray) -- ^ /Required/ "byte"
-  , formatTestBinary   :: !(Maybe FilePath) -- ^ "binary"
-  , formatTestDate     :: !(Date) -- ^ /Required/ "date"
+  { formatTestInteger :: !(Maybe Int) -- ^ "integer"
+  , formatTestInt32 :: !(Maybe Int) -- ^ "int32"
+  , formatTestInt64 :: !(Maybe Integer) -- ^ "int64"
+  , formatTestNumber :: !(Double) -- ^ /Required/ "number"
+  , formatTestFloat :: !(Maybe Float) -- ^ "float"
+  , formatTestDouble :: !(Maybe Double) -- ^ "double"
+  , formatTestString :: !(Maybe Text) -- ^ "string"
+  , formatTestByte :: !(ByteArray) -- ^ /Required/ "byte"
+  , formatTestBinary :: !(Maybe FilePath) -- ^ "binary"
+  , formatTestDate :: !(Date) -- ^ /Required/ "date"
   , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
-  , formatTestUuid     :: !(Maybe Text) -- ^ "uuid"
+  , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
   , formatTestPassword :: !(Text) -- ^ /Required/ "password"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -829,10 +823,10 @@ instance A.ToJSON FormatTest where
 
 -- | Construct a value of type 'FormatTest' (by applying it's required fields, if any)
 mkFormatTest
-  :: Double -- ^ 'formatTestNumber'
-  -> ByteArray -- ^ 'formatTestByte'
-  -> Date -- ^ 'formatTestDate'
-  -> Text -- ^ 'formatTestPassword'
+  :: Double -- ^ 'formatTestNumber' 
+  -> ByteArray -- ^ 'formatTestByte' 
+  -> Date -- ^ 'formatTestDate' 
+  -> Text -- ^ 'formatTestPassword' 
   -> FormatTest
 mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
   FormatTest
@@ -886,10 +880,10 @@ mkHasOnlyReadOnly =
 -- ** MapTest
 -- | MapTest
 data MapTest = MapTest
-  { mapTestMapMapOfString  :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
+  { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
   , mapTestMapOfEnumString :: !(Maybe (Map.Map String E'Inner)) -- ^ "map_of_enum_string"
-  , mapTestDirectMap       :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
-  , mapTestIndirectMap     :: !(Maybe (Map.Map String Bool)) -- ^ "indirect_map"
+  , mapTestDirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
+  , mapTestIndirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "indirect_map"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON MapTest
@@ -963,7 +957,7 @@ mkMixedPropertiesAndAdditionalPropertiesClass =
 -- | Model200Response
 -- Model for testing model name starting with number
 data Model200Response = Model200Response
-  { model200ResponseName  :: !(Maybe Int) -- ^ "name"
+  { model200ResponseName :: !(Maybe Int) -- ^ "name"
   , model200ResponseClass :: !(Maybe Text) -- ^ "class"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1053,9 +1047,9 @@ mkModelReturn =
 -- | Name
 -- Model for testing model name same as property name
 data Name = Name
-  { nameName      :: !(Int) -- ^ /Required/ "name"
+  { nameName :: !(Int) -- ^ /Required/ "name"
   , nameSnakeCase :: !(Maybe Int) -- ^ "snake_case"
-  , nameProperty  :: !(Maybe Text) -- ^ "property"
+  , nameProperty :: !(Maybe Text) -- ^ "property"
   , name123number :: !(Maybe Int) -- ^ "123Number"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1081,7 +1075,7 @@ instance A.ToJSON Name where
 
 -- | Construct a value of type 'Name' (by applying it's required fields, if any)
 mkName
-  :: Int -- ^ 'nameName'
+  :: Int -- ^ 'nameName' 
   -> Name
 mkName nameName =
   Name
@@ -1122,11 +1116,11 @@ mkNumberOnly =
 -- ** Order
 -- | Order
 data Order = Order
-  { orderId       :: !(Maybe Integer) -- ^ "id"
-  , orderPetId    :: !(Maybe Integer) -- ^ "petId"
+  { orderId :: !(Maybe Integer) -- ^ "id"
+  , orderPetId :: !(Maybe Integer) -- ^ "petId"
   , orderQuantity :: !(Maybe Int) -- ^ "quantity"
   , orderShipDate :: !(Maybe DateTime) -- ^ "shipDate"
-  , orderStatus   :: !(Maybe E'Status) -- ^ "status" - Order Status
+  , orderStatus :: !(Maybe E'Status) -- ^ "status" - Order Status
   , orderComplete :: !(Maybe Bool) -- ^ "complete"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1170,8 +1164,8 @@ mkOrder =
 -- ** OuterComposite
 -- | OuterComposite
 data OuterComposite = OuterComposite
-  { outerCompositeMyNumber  :: !(Maybe Double) -- ^ "my_number"
-  , outerCompositeMyString  :: !(Maybe Text) -- ^ "my_string"
+  { outerCompositeMyNumber :: !(Maybe Double) -- ^ "my_number"
+  , outerCompositeMyString :: !(Maybe Text) -- ^ "my_string"
   , outerCompositeMyBoolean :: !(Maybe Bool) -- ^ "my_boolean"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1206,12 +1200,12 @@ mkOuterComposite =
 -- ** Pet
 -- | Pet
 data Pet = Pet
-  { petId        :: !(Maybe Integer) -- ^ "id"
-  , petCategory  :: !(Maybe Category) -- ^ "category"
-  , petName      :: !(Text) -- ^ /Required/ "name"
+  { petId :: !(Maybe Integer) -- ^ "id"
+  , petCategory :: !(Maybe Category) -- ^ "category"
+  , petName :: !(Text) -- ^ /Required/ "name"
   , petPhotoUrls :: !([Text]) -- ^ /Required/ "photoUrls"
-  , petTags      :: !(Maybe [Tag]) -- ^ "tags"
-  , petStatus    :: !(Maybe E'Status2) -- ^ "status" - pet status in the store
+  , petTags :: !(Maybe [Tag]) -- ^ "tags"
+  , petStatus :: !(Maybe E'Status2) -- ^ "status" - pet status in the store
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Pet
@@ -1240,8 +1234,8 @@ instance A.ToJSON Pet where
 
 -- | Construct a value of type 'Pet' (by applying it's required fields, if any)
 mkPet
-  :: Text -- ^ 'petName'
-  -> [Text] -- ^ 'petPhotoUrls'
+  :: Text -- ^ 'petName' 
+  -> [Text] -- ^ 'petPhotoUrls' 
   -> Pet
 mkPet petName petPhotoUrls =
   Pet
@@ -1316,20 +1310,20 @@ mkSpecialModelName =
 -- ** StringBooleanMap
 -- | StringBooleanMap
 data StringBooleanMap = StringBooleanMap
-  {
+  { 
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON StringBooleanMap
 instance A.FromJSON StringBooleanMap where
   parseJSON = A.withObject "StringBooleanMap" $ \o ->
     pure StringBooleanMap
-
+      
 
 -- | ToJSON StringBooleanMap
 instance A.ToJSON StringBooleanMap where
   toJSON StringBooleanMap  =
    _omitNulls
-      [
+      [ 
       ]
 
 
@@ -1338,13 +1332,13 @@ mkStringBooleanMap
   :: StringBooleanMap
 mkStringBooleanMap =
   StringBooleanMap
-  {
+  { 
   }
 
 -- ** Tag
 -- | Tag
 data Tag = Tag
-  { tagId   :: !(Maybe Integer) -- ^ "id"
+  { tagId :: !(Maybe Integer) -- ^ "id"
   , tagName :: !(Maybe Text) -- ^ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1376,13 +1370,13 @@ mkTag =
 -- ** User
 -- | User
 data User = User
-  { userId         :: !(Maybe Integer) -- ^ "id"
-  , userUsername   :: !(Maybe Text) -- ^ "username"
-  , userFirstName  :: !(Maybe Text) -- ^ "firstName"
-  , userLastName   :: !(Maybe Text) -- ^ "lastName"
-  , userEmail      :: !(Maybe Text) -- ^ "email"
-  , userPassword   :: !(Maybe Text) -- ^ "password"
-  , userPhone      :: !(Maybe Text) -- ^ "phone"
+  { userId :: !(Maybe Integer) -- ^ "id"
+  , userUsername :: !(Maybe Text) -- ^ "username"
+  , userFirstName :: !(Maybe Text) -- ^ "firstName"
+  , userLastName :: !(Maybe Text) -- ^ "lastName"
+  , userEmail :: !(Maybe Text) -- ^ "email"
+  , userPassword :: !(Maybe Text) -- ^ "password"
+  , userPhone :: !(Maybe Text) -- ^ "phone"
   , userUserStatus :: !(Maybe Int) -- ^ "userStatus" - User Status
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1463,7 +1457,7 @@ toE'ArrayEnum = \case
 
 -- ** E'EnumFormString
 
--- | Enum of 'Text' .
+-- | Enum of 'Text' . 
 -- Form parameter enum test (string)
 data E'EnumFormString
   = E'EnumFormString'_abc -- ^ @"_abc"@
@@ -1694,7 +1688,7 @@ toE'JustSymbol = \case
 
 -- ** E'Status
 
--- | Enum of 'Text' .
+-- | Enum of 'Text' . 
 -- Order Status
 data E'Status
   = E'Status'Placed -- ^ @"placed"@
@@ -1726,7 +1720,7 @@ toE'Status = \case
 
 -- ** E'Status2
 
--- | Enum of 'Text' .
+-- | Enum of 'Text' . 
 -- pet status in the store
 data E'Status2
   = E'Status2'Available -- ^ @"available"@
@@ -1869,7 +1863,7 @@ instance AuthMethod AuthOAuthPetstoreAuth where
   applyAuthMethod _ a@(AuthOAuthPetstoreAuth secret) req =
     P.pure $
     if (P.typeOf a `P.elem` rAuthTypes req)
-      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret)
+      then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
 

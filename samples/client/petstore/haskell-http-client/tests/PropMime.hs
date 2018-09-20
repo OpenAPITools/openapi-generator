@@ -1,23 +1,23 @@
-{-# LANGUAGE ConstraintKinds     #-}
-{-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE ConstraintKinds #-}
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 
 module PropMime where
 
-import           Data.Aeson
-import           Data.Aeson.Types           (parseEither)
+import Data.Aeson
+import Data.Aeson.Types (parseEither)
+import Data.Monoid ((<>))
+import Data.Typeable (Proxy(..), typeOf, Typeable)
 import qualified Data.ByteString.Lazy.Char8 as BL8
-import           Data.Monoid                ((<>))
-import           Data.Typeable              (Proxy (..), Typeable, typeOf)
-import           Test.Hspec
-import           Test.Hspec.QuickCheck      (prop)
-import           Test.QuickCheck
-import           Test.QuickCheck.Property
+import Test.Hspec
+import Test.QuickCheck
+import Test.QuickCheck.Property
+import Test.Hspec.QuickCheck (prop)
 
-import           OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.MimeTypes
 
-import           ApproxEq
+import ApproxEq
 
 -- * Type Aliases
 

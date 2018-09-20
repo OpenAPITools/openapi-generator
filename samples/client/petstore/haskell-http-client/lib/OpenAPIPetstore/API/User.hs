@@ -12,54 +12,45 @@
 Module : OpenAPIPetstore.API.User
 -}
 
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE MonoLocalBinds        #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.API.User where
 
-import           OpenAPIPetstore.Core
-import           OpenAPIPetstore.MimeTypes
-import           OpenAPIPetstore.Model                 as M
+import OpenAPIPetstore.Core
+import OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.Model as M
 
-import qualified Data.Aeson                            as A
-import qualified Data.ByteString                       as B
-import qualified Data.ByteString.Lazy                  as BL
-import qualified Data.Data                             as P (TypeRep, Typeable,
-                                                             typeOf, typeRep)
-import qualified Data.Foldable                         as P
-import qualified Data.Map                              as Map
-import qualified Data.Maybe                            as P
-import qualified Data.Proxy                            as P (Proxy (..))
-import qualified Data.Set                              as Set
-import qualified Data.String                           as P
-import qualified Data.Text                             as T
-import qualified Data.Text.Encoding                    as T
-import qualified Data.Text.Lazy                        as TL
-import qualified Data.Text.Lazy.Encoding               as TL
-import qualified Data.Time                             as TI
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
+import qualified Data.Foldable as P
+import qualified Data.Map as Map
+import qualified Data.Maybe as P
+import qualified Data.Proxy as P (Proxy(..))
+import qualified Data.Set as Set
+import qualified Data.String as P
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Text.Lazy as TL
+import qualified Data.Text.Lazy.Encoding as TL
+import qualified Data.Time as TI
 import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Media                    as ME
-import qualified Network.HTTP.Types                    as NH
-import qualified Web.FormUrlEncoded                    as WH
-import qualified Web.HttpApiData                       as WH
+import qualified Network.HTTP.Media as ME
+import qualified Network.HTTP.Types as NH
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
 
-import           Data.Text                             (Text)
-import           GHC.Base                              ((<|>))
+import Data.Text (Text)
+import GHC.Base ((<|>))
 
-import           Prelude                               (Applicative, Bool (..),
-                                                        Char, Double, FilePath,
-                                                        Float, Functor, Int,
-                                                        Integer, Maybe (..),
-                                                        Monad, String, fmap,
-                                                        maybe, mempty, pure,
-                                                        undefined, ($), (.),
-                                                        (/=), (<$>), (<*>),
-                                                        (==), (>>=))
-import qualified Prelude                               as P
+import Prelude ((==),(/=),($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import qualified Prelude as P
 
 -- * Operations
 
@@ -69,12 +60,12 @@ import qualified Prelude                               as P
 -- *** createUser
 
 -- | @POST \/user@
---
+-- 
 -- Create user
---
+-- 
 -- This can only be done by the logged in user.
---
-createUser
+-- 
+createUser 
   :: (Consumes CreateUser contentType, MimeRender contentType User)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> User -- ^ "user" -  Created user object
@@ -83,10 +74,10 @@ createUser _ user =
   _mkRequest "POST" ["/user"]
     `setBodyParam` user
 
-data CreateUser
+data CreateUser 
 
 -- | /Body Param/ "User" - Created user object
-instance HasBodyParam CreateUser User
+instance HasBodyParam CreateUser User 
 
 instance Produces CreateUser MimeNoContent
 
@@ -94,10 +85,10 @@ instance Produces CreateUser MimeNoContent
 -- *** createUsersWithArrayInput
 
 -- | @POST \/user\/createWithArray@
---
+-- 
 -- Creates list of users with given input array
---
-createUsersWithArrayInput
+-- 
+createUsersWithArrayInput 
   :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType User2)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> User2 -- ^ "user" -  List of user object
@@ -106,10 +97,10 @@ createUsersWithArrayInput _ user =
   _mkRequest "POST" ["/user/createWithArray"]
     `setBodyParam` user
 
-data CreateUsersWithArrayInput
+data CreateUsersWithArrayInput 
 
 -- | /Body Param/ "User" - List of user object
-instance HasBodyParam CreateUsersWithArrayInput User2
+instance HasBodyParam CreateUsersWithArrayInput User2 
 
 instance Produces CreateUsersWithArrayInput MimeNoContent
 
@@ -117,10 +108,10 @@ instance Produces CreateUsersWithArrayInput MimeNoContent
 -- *** createUsersWithListInput
 
 -- | @POST \/user\/createWithList@
---
+-- 
 -- Creates list of users with given input array
---
-createUsersWithListInput
+-- 
+createUsersWithListInput 
   :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType User2)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> User2 -- ^ "user" -  List of user object
@@ -129,10 +120,10 @@ createUsersWithListInput _ user =
   _mkRequest "POST" ["/user/createWithList"]
     `setBodyParam` user
 
-data CreateUsersWithListInput
+data CreateUsersWithListInput 
 
 -- | /Body Param/ "User" - List of user object
-instance HasBodyParam CreateUsersWithListInput User2
+instance HasBodyParam CreateUsersWithListInput User2 
 
 instance Produces CreateUsersWithListInput MimeNoContent
 
@@ -140,18 +131,18 @@ instance Produces CreateUsersWithListInput MimeNoContent
 -- *** deleteUser
 
 -- | @DELETE \/user\/{username}@
---
+-- 
 -- Delete user
---
+-- 
 -- This can only be done by the logged in user.
---
-deleteUser
+-- 
+deleteUser 
   :: Username -- ^ "username" -  The name that needs to be deleted
   -> OpenAPIPetstoreRequest DeleteUser MimeNoContent NoContent MimeNoContent
 deleteUser (Username username) =
   _mkRequest "DELETE" ["/user/",toPath username]
 
-data DeleteUser
+data DeleteUser  
 
 instance Produces DeleteUser MimeNoContent
 
@@ -159,17 +150,17 @@ instance Produces DeleteUser MimeNoContent
 -- *** getUserByName
 
 -- | @GET \/user\/{username}@
---
+-- 
 -- Get user by user name
---
-getUserByName
+-- 
+getUserByName 
   :: Accept accept -- ^ request accept ('MimeType')
   -> Username -- ^ "username" -  The name that needs to be fetched. Use user1 for testing.
   -> OpenAPIPetstoreRequest GetUserByName MimeNoContent User accept
 getUserByName  _ (Username username) =
   _mkRequest "GET" ["/user/",toPath username]
 
-data GetUserByName
+data GetUserByName  
 
 -- | @application/xml@
 instance Produces GetUserByName MimeXML
@@ -180,10 +171,10 @@ instance Produces GetUserByName MimeJSON
 -- *** loginUser
 
 -- | @GET \/user\/login@
---
+-- 
 -- Logs user into the system
---
-loginUser
+-- 
+loginUser 
   :: Accept accept -- ^ request accept ('MimeType')
   -> Username -- ^ "username" -  The user name for login
   -> Password -- ^ "password" -  The password for login in clear text
@@ -193,7 +184,7 @@ loginUser  _ (Username username) (Password password) =
     `setQuery` toQuery ("username", Just username)
     `setQuery` toQuery ("password", Just password)
 
-data LoginUser
+data LoginUser  
 
 -- | @application/xml@
 instance Produces LoginUser MimeXML
@@ -204,15 +195,15 @@ instance Produces LoginUser MimeJSON
 -- *** logoutUser
 
 -- | @GET \/user\/logout@
---
+-- 
 -- Logs out current logged in user session
---
-logoutUser
+-- 
+logoutUser 
   :: OpenAPIPetstoreRequest LogoutUser MimeNoContent NoContent MimeNoContent
 logoutUser =
   _mkRequest "GET" ["/user/logout"]
 
-data LogoutUser
+data LogoutUser  
 
 instance Produces LogoutUser MimeNoContent
 
@@ -220,12 +211,12 @@ instance Produces LogoutUser MimeNoContent
 -- *** updateUser
 
 -- | @PUT \/user\/{username}@
---
+-- 
 -- Updated user
---
+-- 
 -- This can only be done by the logged in user.
---
-updateUser
+-- 
+updateUser 
   :: (Consumes UpdateUser contentType, MimeRender contentType User)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> User -- ^ "user" -  Updated user object
@@ -235,10 +226,10 @@ updateUser _ user (Username username) =
   _mkRequest "PUT" ["/user/",toPath username]
     `setBodyParam` user
 
-data UpdateUser
+data UpdateUser 
 
 -- | /Body Param/ "User" - Updated user object
-instance HasBodyParam UpdateUser User
+instance HasBodyParam UpdateUser User 
 
 instance Produces UpdateUser MimeNoContent
 

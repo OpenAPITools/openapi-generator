@@ -12,76 +12,70 @@
 Module : OpenAPIPetstore.Core
 -}
 
-{-# LANGUAGE DeriveDataTypeable         #-}
-{-# LANGUAGE ExistentialQuantification  #-}
+{-# LANGUAGE DeriveDataTypeable #-}
+{-# LANGUAGE ExistentialQuantification #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE NamedFieldPuns             #-}
-{-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE RankNTypes                 #-}
-{-# LANGUAGE RecordWildCards            #-}
-{-# LANGUAGE ScopedTypeVariables        #-}
-{-# LANGUAGE TupleSections              #-}
-{-# LANGUAGE TypeFamilies               #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds #-}
 
 module OpenAPIPetstore.Core where
 
-import           OpenAPIPetstore.Logging
-import           OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.Logging
 
-import qualified Control.Arrow                         as P (left)
-import qualified Control.DeepSeq                       as NF
-import qualified Control.Exception.Safe                as E
-import qualified Data.Aeson                            as A
-import qualified Data.ByteString                       as B
-import qualified Data.ByteString.Base64.Lazy           as BL64
-import qualified Data.ByteString.Builder               as BB
-import qualified Data.ByteString.Char8                 as BC
-import qualified Data.ByteString.Lazy                  as BL
-import qualified Data.ByteString.Lazy.Char8            as BCL
-import qualified Data.CaseInsensitive                  as CI
-import qualified Data.Data                             as P (Data, TypeRep,
-                                                             Typeable, typeRep)
-import qualified Data.Foldable                         as P
-import qualified Data.Ix                               as P
-import qualified Data.Maybe                            as P
-import qualified Data.Proxy                            as P (Proxy (..))
-import qualified Data.Text                             as T
-import qualified Data.Text.Encoding                    as T
-import qualified Data.Time                             as TI
-import qualified Data.Time.ISO8601                     as TI
-import qualified GHC.Base                              as P (Alternative)
-import qualified Lens.Micro                            as L
+import qualified Control.Arrow as P (left)
+import qualified Control.DeepSeq as NF
+import qualified Control.Exception.Safe as E
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Base64.Lazy as BL64
+import qualified Data.ByteString.Builder as BB
+import qualified Data.ByteString.Char8 as BC
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Lazy.Char8 as BCL
+import qualified Data.CaseInsensitive as CI
+import qualified Data.Data as P (Data, Typeable, TypeRep, typeRep)
+import qualified Data.Foldable as P
+import qualified Data.Ix as P
+import qualified Data.Maybe as P
+import qualified Data.Proxy as P (Proxy(..))
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Time as TI
+import qualified Data.Time.ISO8601 as TI
+import qualified GHC.Base as P (Alternative)
+import qualified Lens.Micro as L
 import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Types                    as NH
-import qualified Prelude                               as P
-import qualified Text.Printf                           as T
-import qualified Web.FormUrlEncoded                    as WH
-import qualified Web.HttpApiData                       as WH
+import qualified Network.HTTP.Types as NH
+import qualified Prelude as P
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
+import qualified Text.Printf as T
 
-import           Control.Applicative                   ((<|>))
-import           Control.Applicative                   (Alternative)
-import           Data.Foldable                         (foldlM)
-import           Data.Function                         ((&))
-import           Data.Monoid                           ((<>))
-import           Data.Text                             (Text)
-import           Prelude                               (Bool (..), Char,
-                                                        Functor, IO, Maybe (..),
-                                                        Monad, String, fmap,
-                                                        mempty, pure, return,
-                                                        show, ($), (.), (<$>),
-                                                        (<*>))
+import Control.Applicative ((<|>))
+import Control.Applicative (Alternative)
+import Data.Function ((&))
+import Data.Foldable(foldlM)
+import Data.Monoid ((<>))
+import Data.Text (Text)
+import Prelude (($), (.), (<$>), (<*>), Maybe(..), Bool(..), Char, String, fmap, mempty, pure, return, show, IO, Monad, Functor)
 
 -- * OpenAPIPetstoreConfig
 
--- |
+-- | 
 data OpenAPIPetstoreConfig = OpenAPIPetstoreConfig
-  { configHost                :: BCL.ByteString -- ^ host supplied in the Request
-  , configUserAgent           :: Text -- ^ user-agent supplied in the Request
-  , configLogExecWithContext  :: LogExecWithContext -- ^ Run a block using a Logger instance
-  , configLogContext          :: LogContext -- ^ Configures the logger
-  , configAuthMethods         :: [AnyAuthMethod] -- ^ List of configured auth methods
+  { configHost  :: BCL.ByteString -- ^ host supplied in the Request
+  , configUserAgent :: Text -- ^ user-agent supplied in the Request
+  , configLogExecWithContext :: LogExecWithContext -- ^ Run a block using a Logger instance
+  , configLogContext :: LogContext -- ^ Configures the logger
+  , configAuthMethods :: [AnyAuthMethod] -- ^ List of configured auth methods
   , configValidateAuthMethods :: Bool -- ^ throw exceptions if auth methods are not configured
   }
 
@@ -113,7 +107,7 @@ newConfig = do
         , configLogContext = logCxt
         , configAuthMethods = []
         , configValidateAuthMethods = True
-        }
+        }  
 
 -- | updates config use AuthMethod on matching requests
 addAuthMethod :: AuthMethod auth => OpenAPIPetstoreConfig -> auth -> OpenAPIPetstoreConfig
@@ -135,7 +129,7 @@ withStderrLogging p = do
 -- | updates the config to disable logging
 withNoLogging :: OpenAPIPetstoreConfig -> OpenAPIPetstoreConfig
 withNoLogging p = p { configLogExecWithContext =  runNullLogExec}
-
+ 
 -- * OpenAPIPetstoreRequest
 
 -- | Represents a request.
@@ -147,9 +141,9 @@ withNoLogging p = p { configLogExecWithContext =  runNullLogExec}
 --   * res - response model
 --   * accept - 'MimeType' associated with response body
 data OpenAPIPetstoreRequest req contentType res accept = OpenAPIPetstoreRequest
-  { rMethod    :: NH.Method   -- ^ Method of OpenAPIPetstoreRequest
-  , rUrlPath   :: [BCL.ByteString] -- ^ Endpoint of OpenAPIPetstoreRequest
-  , rParams    :: Params -- ^ params of OpenAPIPetstoreRequest
+  { rMethod  :: NH.Method   -- ^ Method of OpenAPIPetstoreRequest
+  , rUrlPath :: [BCL.ByteString] -- ^ Endpoint of OpenAPIPetstoreRequest
+  , rParams   :: Params -- ^ params of OpenAPIPetstoreRequest
   , rAuthTypes :: [P.TypeRep] -- ^ types of auth methods
   }
   deriving (P.Show)
@@ -202,9 +196,9 @@ infixl 2 -&-
 
 -- | Request Params
 data Params = Params
-  { paramsQuery   :: NH.Query
+  { paramsQuery :: NH.Query
   , paramsHeaders :: NH.RequestHeaders
-  , paramsBody    :: ParamBody
+  , paramsBody :: ParamBody
   }
   deriving (P.Show)
 
@@ -234,7 +228,7 @@ data ParamBody
 
 -- ** OpenAPIPetstoreRequest Utils
 
-_mkRequest :: NH.Method -- ^ Method
+_mkRequest :: NH.Method -- ^ Method 
           -> [BCL.ByteString] -- ^ Endpoint
           -> OpenAPIPetstoreRequest req contentType res accept -- ^ req: Request Type, res: Response Type
 _mkRequest m u = OpenAPIPetstoreRequest m u _mkParams []
@@ -259,18 +253,18 @@ removeHeader req header =
 
 _setContentTypeHeader :: forall req contentType res accept. MimeType contentType => OpenAPIPetstoreRequest req contentType res accept -> OpenAPIPetstoreRequest req contentType res accept
 _setContentTypeHeader req =
-    case mimeType (P.Proxy :: P.Proxy contentType) of
-        Just m  -> req `setHeader` [("content-type", BC.pack $ P.show m)]
+    case mimeType (P.Proxy :: P.Proxy contentType) of 
+        Just m -> req `setHeader` [("content-type", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["content-type"]
 
 _setAcceptHeader :: forall req contentType res accept. MimeType accept => OpenAPIPetstoreRequest req contentType res accept -> OpenAPIPetstoreRequest req contentType res accept
 _setAcceptHeader req =
-    case mimeType (P.Proxy :: P.Proxy accept) of
-        Just m  -> req `setHeader` [("accept", BC.pack $ P.show m)]
+    case mimeType (P.Proxy :: P.Proxy accept) of 
+        Just m -> req `setHeader` [("accept", BC.pack $ P.show m)]
         Nothing -> req `removeHeader` ["accept"]
 
 setQuery :: OpenAPIPetstoreRequest req contentType res accept -> [NH.QueryItem] -> OpenAPIPetstoreRequest req contentType res accept
-setQuery req query =
+setQuery req query = 
   req &
   L.over
     (rParamsL . paramsQueryL)
@@ -279,25 +273,25 @@ setQuery req query =
     cifst = CI.mk . P.fst
 
 addForm :: OpenAPIPetstoreRequest req contentType res accept -> WH.Form -> OpenAPIPetstoreRequest req contentType res accept
-addForm req newform =
+addForm req newform = 
     let form = case paramsBody (rParams req) of
             ParamBodyFormUrlEncoded _form -> _form
-            _                             -> mempty
+            _ -> mempty
     in req & L.set (rParamsL . paramsBodyL) (ParamBodyFormUrlEncoded (newform <> form))
 
 _addMultiFormPart :: OpenAPIPetstoreRequest req contentType res accept -> NH.Part -> OpenAPIPetstoreRequest req contentType res accept
-_addMultiFormPart req newpart =
+_addMultiFormPart req newpart = 
     let parts = case paramsBody (rParams req) of
             ParamBodyMultipartFormData _parts -> _parts
-            _                                 -> []
+            _ -> []
     in req & L.set (rParamsL . paramsBodyL) (ParamBodyMultipartFormData (newpart : parts))
 
 _setBodyBS :: OpenAPIPetstoreRequest req contentType res accept -> B.ByteString -> OpenAPIPetstoreRequest req contentType res accept
-_setBodyBS req body =
+_setBodyBS req body = 
     req & L.set (rParamsL . paramsBodyL) (ParamBodyB body)
 
 _setBodyLBS :: OpenAPIPetstoreRequest req contentType res accept -> BL.ByteString -> OpenAPIPetstoreRequest req contentType res accept
-_setBodyLBS req body =
+_setBodyLBS req body = 
     req & L.set (rParamsL . paramsBodyL) (ParamBodyBL body)
 
 _hasAuthType :: AuthMethod authMethod => OpenAPIPetstoreRequest req contentType res accept -> P.Proxy authMethod -> OpenAPIPetstoreRequest req contentType res accept
@@ -353,10 +347,10 @@ _toCollA c encode xs = _toCollA' c encode BC.singleton xs
 
 _toCollA' :: (P.Monoid c, P.Traversable f, P.Traversable t, P.Alternative t) => CollectionFormat -> (f (t a) -> [(b, t c)]) -> (Char -> c) -> f (t [a]) -> [(b, t c)]
 _toCollA' c encode one xs = case c of
-  CommaSeparated  -> go (one ',')
-  SpaceSeparated  -> go (one ' ')
-  TabSeparated    -> go (one '\t')
-  PipeSeparated   -> go (one '|')
+  CommaSeparated -> go (one ',')
+  SpaceSeparated -> go (one ' ')
+  TabSeparated -> go (one '\t')
+  PipeSeparated -> go (one '|')
   MultiParamArray -> expandList
   where
     go sep =
@@ -366,7 +360,7 @@ _toCollA' c encode one xs = case c of
     {-# INLINE go #-}
     {-# INLINE expandList #-}
     {-# INLINE combine #-}
-
+  
 -- * AuthMethods
 
 -- | Provides a method to apply auth methods to requests
@@ -397,7 +391,7 @@ _applyAuthMethods req config@(OpenAPIPetstoreConfig {configAuthMethods = as}) =
   foldlM go req as
   where
     go r (AnyAuthMethod a) = applyAuthMethod config a r
-
+  
 -- * Utils
 
 -- | Removes Null fields.  (OpenAPI-Specification 2.0 does not allow Null in JSON)
@@ -405,7 +399,7 @@ _omitNulls :: [(Text, A.Value)] -> A.Value
 _omitNulls = A.object . P.filter notNull
   where
     notNull (_, A.Null) = False
-    notNull _           = True
+    notNull _ = True
 
 -- | Encodes fields using WH.toQueryParam
 _toFormItem :: (WH.ToHttpApiData a, Functor f) => t -> f a -> f (t, [Text])
@@ -414,13 +408,13 @@ _toFormItem name x = (name,) . (:[]) . WH.toQueryParam <$> x
 -- | Collapse (Just "") to Nothing
 _emptyToNothing :: Maybe String -> Maybe String
 _emptyToNothing (Just "") = Nothing
-_emptyToNothing x         = x
+_emptyToNothing x = x
 {-# INLINE _emptyToNothing #-}
 
 -- | Collapse (Just mempty) to Nothing
 _memptyToNothing :: (P.Monoid a, P.Eq a) => Maybe a -> Maybe a
 _memptyToNothing (Just x) | x P.== P.mempty = Nothing
-_memptyToNothing x        = x
+_memptyToNothing x = x
 {-# INLINE _memptyToNothing #-}
 
 -- * DateTime Formatting
@@ -491,7 +485,7 @@ _showDate =
 
 -- * Byte/Binary Formatting
 
-
+  
 -- | base64 encoded characters
 newtype ByteArray = ByteArray { unByteArray :: BL.ByteString }
   deriving (P.Eq,P.Data,P.Ord,P.Typeable,NF.NFData)

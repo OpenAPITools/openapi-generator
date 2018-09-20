@@ -13,23 +13,23 @@ Module : OpenAPIPetstore.Logging
 Katip Logging functions
 -}
 
-{-# LANGUAGE OverloadedStrings   #-}
-{-# LANGUAGE RankNTypes          #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module OpenAPIPetstore.Logging where
 
-import qualified Control.Exception.Safe     as E
-import qualified Control.Monad.IO.Class     as P
+import qualified Control.Exception.Safe as E
+import qualified Control.Monad.IO.Class as P
 import qualified Control.Monad.Trans.Reader as P
-import qualified Data.Text                  as T
-import qualified Lens.Micro                 as L
-import qualified System.IO                  as IO
+import qualified Data.Text as T
+import qualified Lens.Micro as L
+import qualified System.IO as IO
 
-import           Data.Text                  (Text)
-import           GHC.Exts                   (IsString (..))
+import Data.Text (Text)
+import GHC.Exts (IsString(..))
 
-import qualified Katip                      as LG
+import qualified Katip as LG
 
 -- * Type Aliases (for compatibility)
 
