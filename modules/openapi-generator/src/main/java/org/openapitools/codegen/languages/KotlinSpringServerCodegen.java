@@ -86,6 +86,38 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
+        // Use lists instead of arrays
+        typeMapping.put("array", "List");
+        typeMapping.put("string", "String");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("float", "Float");
+        typeMapping.put("long", "Long");
+        typeMapping.put("double", "Double");
+        typeMapping.put("ByteArray", "ByteArray");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Map");
+        typeMapping.put("object", "Any");
+        typeMapping.put("binary", "Array<kotlin.Byte>");
+
+        languageSpecificPrimitives.addAll(Arrays.asList(
+                "Any",
+                "Byte",
+                "ByteArray",
+                "Short",
+                "Int",
+                "Long",
+                "Float",
+                "Double",
+                "Boolean",
+                "Char",
+                "String",
+                "Array",
+                "List",
+                "Map",
+                "Set"
+        ));
+
         addOption(TITLE, "server title name or client service name", title);
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
@@ -483,10 +515,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
-        } else if (returnType.startsWith("kotlin.Array")) {
+        } else if (returnType.startsWith("kotlin.collections.List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.Array<".length(), end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
         } else if (returnType.startsWith("kotlin.collections.Map")) {

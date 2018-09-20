@@ -173,7 +173,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
         instantiationTypes.put("array", "kotlin.arrayOf");
-        instantiationTypes.put("list", "kotlin.arrayOf");
+        instantiationTypes.put("list", "kotlin.listOf");
         instantiationTypes.put("map", "kotlin.mapOf");
 
         importMapping = new HashMap<String, String>();
