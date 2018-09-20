@@ -160,13 +160,18 @@ void apiClient_invoke(apiClient_t  *apiClient,
             if((keyValuePair->key != NULL) &&
                (keyValuePair->value != NULL) )
             {
-               curl_mimepart *part = curl_mime_addpart(
-                  mime);
-               curl_mime_data(part,
-                              keyValuePair->key,
-                              CURL_ZERO_TERMINATED);
-               curl_mime_name(part,
-                              keyValuePair->value);
+            curl_mimepart *part = curl_mime_addpart(mime);
+
+            curl_mime_name(part,keyValuePair->key);
+
+            if(strcmp(keyValuePair->key,"file") == 0){
+                curl_mime_data(part,keyValuePair->value,strlen(keyValuePair->value));
+                curl_mime_filename(part, "image.png");
+                printf("Adding image name\n");
+            }else{
+                curl_mime_data(part,keyValuePair->value,CURL_ZERO_TERMINATED);
+            }
+                printf("Key is:%s, Value is: %s\n",keyValuePair->key,keyValuePair->value);
             }
          }
 
