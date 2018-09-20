@@ -109,23 +109,23 @@
     {{/isFile}}
     {
         {{#isFile}}
-        char* code;
-        int c;
-        size_t n = 0;
         fseek(file, 0, SEEK_END);
         long f_size = ftell(file);
         fseek(file, 0, SEEK_SET);
-        code = malloc(f_size);
 
-        while ((c = fgetc(file)) != EOF) {
-        code[n++] = (char)c;
-        }
-
-        code[n] = '\0';
         char *key = malloc(strlen("file") + 1);
         key = "file";
-        keyValuePair_t *keyPair = keyValuePair_create(key,code);
+        ImageContainer *imageFile = malloc(sizeof(ImageContainer));
+        imageFile->fileData = malloc((f_size)* sizeof(char*));
 
+        fread(imageFile->fileData, f_size, 1, file);
+        imageFile->fileData[f_size] = '\0';
+
+        imageFile->fileSize = f_size;
+        char* codex[sizeof(imageFile)];
+
+        memcpy(codex,&imageFile, sizeof(imageFile));
+        keyValuePair_t *keyPair = keyValuePair_create(key,codex);
         list_addElement(localVarFormParameters,keyPair); //file adding
         {{/isFile}}
         {{^isFile}}
