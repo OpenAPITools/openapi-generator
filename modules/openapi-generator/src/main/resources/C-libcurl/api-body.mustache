@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include "apiClient.h"
 #include "cJSON.h"
+#include "keyValuePair.h"
 {{#imports}}{{{import}}}
 {{/imports}}
 
@@ -22,88 +24,237 @@
 // {{{notes}}}
 //
 {{/notes}}
-{{#returnType}}{{{.}}}_t{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}}{{#isListContainer}}_t*{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}}{{/isListContainer}} {{paramName}}{{/allParams}}) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
+{{#returnType}}{{#returnTypeIsPrimitive}}{{{.}}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}} *{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{#isFile}}*{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}} {{baseName}}{{/allParams}}) {
+    list_t    *localVarQueryParameters = list_create();
+    list_t    *localVarHeaderParameters = list_create();
+    list_t    *localVarFormParameters = list_create();
+    list_t *localVarHeaderType = list_create();
+    list_t *localVarContentType = list_create();
+    char      *localVarBodyParameters = NULL;
+
 
     // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
+    char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+    snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
 
     {{#pathParams}}
     // TODO path parameter {{paramName}} ({{baseName}}) not yet supported
     // TODO base path = {{{basePath}}}
-    char* baseNameMod = malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod, strlen(baseName)+3, "%s%s%s", "{", {{baseName}}, "}");
-    {{#paramName}}
+
+
     {{#isLong}}
+    char* baseNameModToReplace = malloc(sizeof({{baseName}})+3); //baseNameMod free not yet implemented
+    snprintf(baseNameModToReplace, strlen("{{baseName}}")+3, "%s%s%s", "{", "{{baseName}}", "}");
+    char* baseNameMod = malloc(sizeof({{baseName}})+2); //baseNameMod free not yet implemented
+    snprintf(baseNameMod, sizeof({{baseName}})+3, "%s%li%s", "{", {{baseName}}, "}");
     char buff[64];
-    intToStr(buf, {{paramName}});
-    localVarPath = strReplace(localVarPath, baseNameMod, buff);
+    intToStr(buf, {{baseName}});
+    localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+      //  localVarPath = buff;
     {{/isLong}}
     {{#isString}}
-    localVarPath = strReplace(localVarPath, baseNameMod, {{paramName}});
+        char* baseNameModToReplace = malloc(sizeof({{baseName}})+2); //baseNameMod free not yet implemented
+        snprintf(baseNameModToReplace, strlen({{baseName}})+3, "%s%s%s", "{", "{{baseName}}", "}");
+    char* baseNameMod = malloc(strlen({{baseName}})+2); //baseNameMod free not yet implemented
+    snprintf(baseNameMod, strlen({{baseName}})+3, "%s%s%s", "{", {{baseName}}, "}" );
+    localVarPath = strReplace(localVarPath, baseNameModToReplace, {{baseName}});
+        //localVarPath = "{{baseName}}";
     {{/isString}}
-    {{/paramName}}
     {{/pathParams}}
 
     {{#headerParams}}
-    // TODO header parameters
-    // header parameter {{paramName}} ({{baseName}}) not yet supported
+    // header parameters (TODO free function to implement)
+    if ({{baseName}})
+    {
+    char *key = malloc(strlen("{{{baseName}}}") + 1);
+    char *value = malloc(sizeof({{{baseName}}}) + 1);
+    key="{{{baseName}}}";
+    value={{{baseName}}};
+    keyValuePair_t *keyPair = keyValuePair_create(key, value);
+    list_addElement(localVarHeaderParameters,keyPair);
+     }
     {{/headerParams}}
 
     {{#queryParams}}
-    // TODO query parameters
-    // query parameter {{paramName}} ({{baseName}}) not yet supported
-    char *{{baseName}} = malloc(MAX_BUFFER_LENGTH);
-
+    // query parameters (TODO free function to implement)
+    {{#isListContainer}}
+        if ({{baseName}})
+    {{/isListContainer}}
+    {{^isListContainer}}
+        if ({{baseName}})
+    {{/isListContainer}}
+    {
+    {{#isListContainer}}
+       //notstring
+       localVarQueryParameters = {{{baseName}}};
+    {{/isListContainer}}
+    {{^isListContainer}}
+        //string
+        char *key = malloc(strlen("{{{baseName}}}") + 1);
+        char *value = malloc(sizeof({{{baseName}}}) + 1);
+        key="{{{baseName}}}";
+        value={{{baseName}}};
+        keyValuePair_t *keyPair = keyValuePair_create(key, value);
+        list_addElement(localVarQueryParameters,key);
+    {{/isListContainer}}
+    }
     {{/queryParams}}
     {{#formParams}}
-    // TODO form parameters
-    // form parameter {{paramName}} ({{baseName}}) not yet supported
+    // form parameters (TODO free function to implement)
+    {{#isFile}}
+      if ({{baseName}} != NULL)
+    {{/isFile}}
+    {{^isFile}}
+       if ({{baseName}})
+    {{/isFile}}
+    {
+        {{#isFile}}
+        fseek(file, 0, SEEK_END);
+        long f_size = ftell(file);
+        fseek(file, 0, SEEK_SET);
 
+        char *key = malloc(strlen("file") + 1);
+        key = "file";
+        ImageContainer *imageFile = malloc(sizeof(ImageContainer));
+        imageFile->fileData = malloc((f_size)* sizeof(char*));
+
+        fread(imageFile->fileData, f_size, 1, file);
+        imageFile->fileData[f_size] = '\0';
+
+        imageFile->fileSize = f_size;
+        char value[sizeof(imageFile)];
+
+        memcpy(value,&imageFile, sizeof(imageFile));
+        keyValuePair_t *keyPair = keyValuePair_create(key,value);
+        list_addElement(localVarFormParameters,keyPair); //file adding
+        {{/isFile}}
+        {{^isFile}}
+            char *key = malloc(strlen("{{baseName}}") + 1);
+            char *value = malloc(sizeof({{baseName}}) + 1);
+        key = "{{baseName}}";
+        value = {{baseName}};
+            keyValuePair_t *keyPair = keyValuePair_create(key,value);
+            list_addElement(localVarFormParameters,keyPair); //String
+            //keyValuePair_free(key);
+        {{/isFile}}
+    }
     {{/formParams}}
     {{#bodyParam}}
     // JSON HTTP Request - {{{baseName}}}
-    cJSON *{{{paramName}}}JSONObject;
-    {{{paramName}}}JSONObject = {{dataType}}_convertToJSON({{paramName}});
-    localVarBodyParameters = cJSON_Print({{{paramName}}}JSONObject);
-
+    {{#isListContainer}}
+        //notstring
+        localVarQueryParameters = {{{baseName}}};
+        //list_t *{{{baseName}}}Item = list_create();
+        //list_ForEach({{{baseName}}}Item, {{{baseName}}}) {
+        //list_addElement(localVarQueryParameters,{{baseName}}Item);
+        //}
+    {{/isListContainer}}
+    {{^isListContainer}}
+        //string
+        cJSON *{{{paramName}}}JSONObject;
+        {{{paramName}}}JSONObject = {{baseName}}_convertToJSON({{baseName}});
+        localVarBodyParameters = cJSON_Print({{{paramName}}}JSONObject);
+    {{/isListContainer}}
     {{/bodyParam}}
-   apiClient_invoke(apiClient,
-                    "pet",
+
+    {{#produces}}
+        list_addElement(localVarHeaderType,"{{{mediaType}}}"); //produces
+    {{/produces}}
+    {{#consumes}}
+        list_addElement(localVarContentType,"{{{mediaType}}}"); //consumes
+    {{/consumes}}
+
+    apiClient_invoke(apiClient,
                     localVarPath,
                     localVarQueryParameters,
                     localVarHeaderParameters,
                     localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
                     localVarBodyParameters,
                     "{{{httpMethod}}}");
 
-   free(apiClient->dataReceived);
-   {{#allParams}}
-   {{^bodyParam}}
-   free({{{paramName}}}String);
-   {{/bodyParam}}
-   {{#bodyParam}}
-    free(localVarBodyParameters);
-   cJSON_Delete({{{paramName}}}JSONObject);
-   {{/bodyParam}}
-   {{/allParams}}
-    {{#returnType}}
-    localVar{{{returnType}}} = {{complexType}}_parseFromJSON(apiClient->dataReceived);
-    if(localVar{{{returnType}}} == NULL) {
-        return 0;
-    } else {
-        cJSON *jsonObject = {{complexType}}_convertToJSON({{complexType}});
-        cJSON_Delete(jsonObject);
-    }
+   {{#returnType}}
+   {{#returnTypeIsPrimitive}}
+   //primitive reutrn type
+   cJSON *{{{baseName}}};
+   cJSON *{{classname}}JSON = cJSON_Parse(apiClient->dataReceived);
+   if(!cJSON_IsString({{{classname}}}JSON)) {
+   return 0;//primitive return type
+   }
+   char *elementToReturn = cJSON_Print({{{baseName}}});
 
-   return localVar{{{returnType}}};
+   //return elementToReturn;
+   {{/returnTypeIsPrimitive}}
+   {{^returnTypeIsPrimitive}}
+   {{#returnContainer}}
+    cJSON *{{{baseName}}};
+    cJSON *{{classname}}JSON = cJSON_Parse(apiClient->dataReceived);
+    //cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if(!cJSON_IsArray({{{classname}}}JSON)) {
+        return 0;//nonprimitive container
+    }
+    list_t *elementToReturn = list_create();
+
+    cJSON_ArrayForEach({{{baseName}}}, {{{classname}}}JSON)
+    {
+        if(!cJSON_IsObject({{{baseName}}}))
+        {
+            return 0;;
+        }
+       char *JSONToChar = cJSON_Print({{{baseName}}});
+        list_addElement(elementToReturn , JSONToChar);
+    }
+    //return elementToReturn;
+   {{/returnContainer}}
+   {{^returnContainer}}
+   //nonprimitive not container
+   {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
+   if(elementToReturn == NULL) {
+   return 0;
+   } else {
+   //cJSON *jsonObject = {{baseName}}_convertToJSON(localVar{{{returnType}}});
+   //cJSON_Delete(jsonObject);
+   }
+
+   //return elementToReturn;
+   {{/returnContainer}}
+   {{/returnTypeIsPrimitive}}
+      // free(apiClient->dataReceived);
+     //  free(localVarPath);
+       {{#allParams}}
+{{#pathParam}}
+    free(baseNameModToReplace);
+    free(baseNameMod);
+{{/pathParam}}
+
+           {{^bodyParam}}
+               {{#isString}}
+                  // free({{{baseName}}});
+               {{/isString}}
+           {{/bodyParam}}
+           {{#bodyParam}}
+              // free(localVarBodyParameters);
+               //cJSON_Delete({{{paramName}}}JSONObject);
+           {{/bodyParam}}
+       {{/allParams}}
+
+   return elementToReturn;
    {{/returnType}}
-    {{^returnType}}
-   return;
+   {{^returnType}}
+      // free(apiClient->dataReceived);
+      // free(localVarPath);
+       {{#allParams}}
+           {{^bodyParam}}
+               {{#isString}}
+                 //  free({{{baseName}}});
+               {{/isString}}
+           {{/bodyParam}}
+           {{#bodyParam}}
+               free(localVarBodyParameters);
+               //cJSON_Delete({{{paramName}}}JSONObject);
+           {{/bodyParam}}
+       {{/allParams}}
    {{/returnType}}
 
 }

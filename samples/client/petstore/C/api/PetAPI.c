@@ -1,354 +1,530 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include "apiClient.h"
 #include "cJSON.h"
+#include "keyValuePair.h"
 #include "api_response.h"
-#include "file.h"
 #include "pet.h"
 
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
-    do {\
-    char dst[64];\
-    snprintf(dst, 64, "%ld", (long int)(src));\
-}while(0)
+	do { \
+		char dst[64]; \
+		snprintf(dst, 64, "%ld", (long int) (src)); \
+	} while(0)
 
 // Add a new pet to the store
 //
-void *PetAPI_addPet(apiClient_t *apiClient, pet_t* Pet) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
-
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
+void *PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
 
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
 
-    // JSON HTTP Request - pet
-    cJSON *PetJSONObject;
-    PetJSONObject = pet_convertToJSON(Pet);
-    localVarBodyParameters = cJSON_Print(PetJSONObject);
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "POST");
 
-   free(apiClient->dataReceived);
-    free(localVarBodyParameters);
-   cJSON_Delete(PetJSONObject);
-   return;
+	// JSON HTTP Request - pet
+	// string
+	cJSON *PetJSONObject;
+	PetJSONObject = pet_convertToJSON(pet);
+	localVarBodyParameters = cJSON_Print(PetJSONObject);
 
+	list_addElement(localVarContentType, "application/json"); // consumes
+	list_addElement(localVarContentType, "application/xml"); // consumes
+
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "POST");
+
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	free(localVarBodyParameters);
+	// cJSON_Delete(PetJSONObject);
 }
 
 // Deletes a pet
 //
-void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char* ApiKey) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
+void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
-    // TODO path parameter PetId (petId) not yet supported
-    // TODO base path = http://petstore.swagger.io/v2
-    char* baseNameMod = malloc(strlen(petId)+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod, strlen(baseName)+3, "%s%s%s", "{", petId, "}");
-    char buff[64];
-    intToStr(buf, PetId);
-    localVarPath = strReplace(localVarPath, baseNameMod, buff);
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
-    // TODO header parameters
-    // header parameter ApiKey (api_key) not yet supported
+	// TODO path parameter PetId (petId) not yet supported
+	// TODO base path = http://petstore.swagger.io/v2
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "DELETE");
 
-   free(apiClient->dataReceived);
-   free(PetIdString);
-   free(ApiKeyString);
-   return;
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
+	char buff[64];
+	intToStr(buf, petId);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
 
+	// header parameters (TODO free function to implement)
+	if(api_key) {
+		char *key = malloc(strlen("api_key") + 1);
+		char *value = malloc(sizeof(api_key) + 1);
+		key = "api_key";
+		value = api_key;
+		keyValuePair_t *keyPair = keyValuePair_create(key, value);
+		list_addElement(localVarHeaderParameters, keyPair);
+	}
+
+
+
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "DELETE");
+
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	// free(api_key);
 }
 
 // Finds Pets by status
 //
 // Multiple status values can be provided with comma separated strings
 //
-list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t* Status) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
-
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByStatus");
+list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
 
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByStatus");
 
-    // TODO query parameters
-    // query parameter Status (status) not yet supported
-    char *status = malloc(MAX_BUFFER_LENGTH);
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "GET");
 
-   free(apiClient->dataReceived);
-   free(StatusString);
-    localVarlist = _parseFromJSON(apiClient->dataReceived);
-    if(localVarlist == NULL) {
-        return 0;
-    } else {
-        cJSON *jsonObject = _convertToJSON();
-        cJSON_Delete(jsonObject);
-    }
+	// query parameters (TODO free function to implement)
+	if(status) {
+		// notstring
+		localVarQueryParameters = status;
+	}
 
-   return localVarlist;
+	list_addElement(localVarHeaderType, "application/xml"); // produces
+	list_addElement(localVarHeaderType, "application/json"); // produces
 
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "GET");
+
+	cJSON *Pet;
+	cJSON *PetAPIJSON = cJSON_Parse(apiClient->dataReceived);
+	// cJSON *PetJSON = cJSON_GetObjectItemCaseSensitive(PetAPIJSON, "Pet");
+	if(!cJSON_IsArray(PetAPIJSON)) {
+		return 0; // nonprimitive container
+	}
+	list_t *elementToReturn = list_create();
+
+	cJSON_ArrayForEach(Pet, PetAPIJSON)
+	{
+		if(!cJSON_IsObject(Pet)) {
+			return 0;
+		}
+		char *JSONToChar = cJSON_Print(Pet);
+		list_addElement(elementToReturn, JSONToChar);
+	}
+	// return elementToReturn;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+
+
+	return elementToReturn;
 }
 
 // Finds Pets by tags
 //
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
-list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t* Tags) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
-
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByTags");
+list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
 
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByTags");
 
-    // TODO query parameters
-    // query parameter Tags (tags) not yet supported
-    char *tags = malloc(MAX_BUFFER_LENGTH);
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "GET");
 
-   free(apiClient->dataReceived);
-   free(TagsString);
-    localVarlist = _parseFromJSON(apiClient->dataReceived);
-    if(localVarlist == NULL) {
-        return 0;
-    } else {
-        cJSON *jsonObject = _convertToJSON();
-        cJSON_Delete(jsonObject);
-    }
+	// query parameters (TODO free function to implement)
+	if(tags) {
+		// notstring
+		localVarQueryParameters = tags;
+	}
 
-   return localVarlist;
+	list_addElement(localVarHeaderType, "application/xml"); // produces
+	list_addElement(localVarHeaderType, "application/json"); // produces
 
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "GET");
+
+	cJSON *Pet;
+	cJSON *PetAPIJSON = cJSON_Parse(apiClient->dataReceived);
+	// cJSON *PetJSON = cJSON_GetObjectItemCaseSensitive(PetAPIJSON, "Pet");
+	if(!cJSON_IsArray(PetAPIJSON)) {
+		return 0; // nonprimitive container
+	}
+	list_t *elementToReturn = list_create();
+
+	cJSON_ArrayForEach(Pet, PetAPIJSON)
+	{
+		if(!cJSON_IsObject(Pet)) {
+			return 0;
+		}
+		char *JSONToChar = cJSON_Print(Pet);
+		list_addElement(elementToReturn, JSONToChar);
+	}
+	// return elementToReturn;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+
+
+	return elementToReturn;
 }
 
 // Find pet by ID
 //
 // Returns a single pet
 //
-pet_t *PetAPI_getPetById(apiClient_t *apiClient, long PetId) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
-
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
-
-    // TODO path parameter PetId (petId) not yet supported
-    // TODO base path = http://petstore.swagger.io/v2
-    char* baseNameMod = malloc(strlen(petId)+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod, strlen(baseName)+3, "%s%s%s", "{", petId, "}");
-    char buff[64];
-    intToStr(buf, PetId);
-    localVarPath = strReplace(localVarPath, baseNameMod, buff);
+pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "GET");
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
-   free(apiClient->dataReceived);
-   free(PetIdString);
-    localVarpet = _parseFromJSON(apiClient->dataReceived);
-    if(localVarpet == NULL) {
-        return 0;
-    } else {
-        cJSON *jsonObject = _convertToJSON();
-        cJSON_Delete(jsonObject);
-    }
+	// TODO path parameter PetId (petId) not yet supported
+	// TODO base path = http://petstore.swagger.io/v2
 
-   return localVarpet;
 
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
+	char buff[64];
+	intToStr(buf, petId);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
+
+
+
+	list_addElement(localVarHeaderType, "application/xml"); // produces
+	list_addElement(localVarHeaderType, "application/json"); // produces
+
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "GET");
+
+	// nonprimitive not container
+	pet_t *elementToReturn = pet_parseFromJSON(apiClient->dataReceived);
+	if(elementToReturn == NULL) {
+		return 0;
+	} else {
+		// cJSON *jsonObject = Pet_convertToJSON(localVarpet);
+		// cJSON_Delete(jsonObject);
+	}
+
+	// return elementToReturn;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+
+
+	return elementToReturn;
 }
 
 // Update an existing pet
 //
-void *PetAPI_updatePet(apiClient_t *apiClient, pet_t* Pet) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
-
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
+void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
 
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
 
-    // JSON HTTP Request - pet
-    cJSON *PetJSONObject;
-    PetJSONObject = pet_convertToJSON(Pet);
-    localVarBodyParameters = cJSON_Print(PetJSONObject);
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "PUT");
 
-   free(apiClient->dataReceived);
-    free(localVarBodyParameters);
-   cJSON_Delete(PetJSONObject);
-   return;
+	// JSON HTTP Request - pet
+	// string
+	cJSON *PetJSONObject;
+	PetJSONObject = pet_convertToJSON(pet);
+	localVarBodyParameters = cJSON_Print(PetJSONObject);
 
+	list_addElement(localVarContentType, "application/json"); // consumes
+	list_addElement(localVarContentType, "application/xml"); // consumes
+
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "PUT");
+
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	free(localVarBodyParameters);
+	// cJSON_Delete(PetJSONObject);
 }
 
 // Updates a pet in the store with form data
 //
-void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char* Name, char* Status) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
-
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
-
-    // TODO path parameter PetId (petId) not yet supported
-    // TODO base path = http://petstore.swagger.io/v2
-    char* baseNameMod = malloc(strlen(petId)+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod, strlen(baseName)+3, "%s%s%s", "{", petId, "}");
-    char buff[64];
-    intToStr(buf, PetId);
-    localVarPath = strReplace(localVarPath, baseNameMod, buff);
+void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
+                               long		petId,
+                               char		*name,
+                               char		*status) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
 
-    // TODO form parameters
-    // form parameter Name (name) not yet supported
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
-    // TODO form parameters
-    // form parameter Status (status) not yet supported
+	// TODO path parameter PetId (petId) not yet supported
+	// TODO base path = http://petstore.swagger.io/v2
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "POST");
 
-   free(apiClient->dataReceived);
-   free(PetIdString);
-   free(NameString);
-   free(StatusString);
-   return;
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
+	char buff[64];
+	intToStr(buf, petId);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
 
+
+	// form parameters (TODO free function to implement)
+	if(name) {
+		char *key = malloc(strlen("name") + 1);
+		char *value = malloc(sizeof(name) + 1);
+		key = "name";
+		value = name;
+		keyValuePair_t *keyPair = keyValuePair_create(key, value);
+		list_addElement(localVarFormParameters, keyPair); // String
+		// keyValuePair_free(key);
+	}
+	// form parameters (TODO free function to implement)
+	if(status) {
+		char *key = malloc(strlen("status") + 1);
+		char *value = malloc(sizeof(status) + 1);
+		key = "status";
+		value = status;
+		keyValuePair_t *keyPair = keyValuePair_create(key, value);
+		list_addElement(localVarFormParameters, keyPair); // String
+		// keyValuePair_free(key);
+	}
+
+	list_addElement(localVarContentType,
+	                "application/x-www-form-urlencoded");                     // consumes
+
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "POST");
+
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+	// free(name);
+	// free(status);
 }
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char* AdditionalMetadata, File File) {
-    list_t    *localVarQueryParameters,
-    list_t    *localVarHeaderParameters,
-    list_t    *localVarFormParameters,
-    char      *localVarBodyParameters,
-
-    // create the path
-   char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-   snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}/uploadImage");
-
-    // TODO path parameter PetId (petId) not yet supported
-    // TODO base path = http://petstore.swagger.io/v2
-    char* baseNameMod = malloc(strlen(petId)+2); //baseNameMod free not yet implemented
-    snprintf(baseNameMod, strlen(baseName)+3, "%s%s%s", "{", petId, "}");
-    char buff[64];
-    intToStr(buf, PetId);
-    localVarPath = strReplace(localVarPath, baseNameMod, buff);
+api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
+                                  long		petId,
+                                  char		*additionalMetadata,
+                                  FILE		*file) {
+	list_t *localVarQueryParameters = list_create();
+	list_t *localVarHeaderParameters = list_create();
+	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderType = list_create();
+	list_t *localVarContentType = list_create();
+	char *localVarBodyParameters = NULL;
 
 
-    // TODO form parameters
-    // form parameter AdditionalMetadata (additionalMetadata) not yet supported
+	// create the path
+	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
+	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}/uploadImage");
 
-    // TODO form parameters
-    // form parameter File (file) not yet supported
+	// TODO path parameter PetId (petId) not yet supported
+	// TODO base path = http://petstore.swagger.io/v2
 
-   apiClient_invoke(apiClient,
-                    "pet",
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarBodyParameters,
-                    "POST");
 
-   free(apiClient->dataReceived);
-   free(PetIdString);
-   free(AdditionalMetadataString);
-   free(FileString);
-    localVarapi_response = _parseFromJSON(apiClient->dataReceived);
-    if(localVarapi_response == NULL) {
-        return 0;
-    } else {
-        cJSON *jsonObject = _convertToJSON();
-        cJSON_Delete(jsonObject);
-    }
+	char *baseNameModToReplace = malloc(sizeof(petId) + 3); // baseNameMod free not yet implemented
+	snprintf(baseNameModToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
+	char *baseNameMod = malloc(sizeof(petId) + 2); // baseNameMod free not yet implemented
+	snprintf(baseNameMod, sizeof(petId) + 3, "%s%li%s", "{", petId, "}");
+	char buff[64];
+	intToStr(buf, petId);
+	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
+	// localVarPath = buff;
 
-   return localVarapi_response;
 
+	// form parameters (TODO free function to implement)
+	if(additionalMetadata) {
+		char *key = malloc(strlen("additionalMetadata") + 1);
+		char *value = malloc(sizeof(additionalMetadata) + 1);
+		key = "additionalMetadata";
+		value = additionalMetadata;
+		keyValuePair_t *keyPair = keyValuePair_create(key, value);
+		list_addElement(localVarFormParameters, keyPair); // String
+		// keyValuePair_free(key);
+	}
+	// form parameters (TODO free function to implement)
+	if(file != NULL) {
+		fseek(file, 0, SEEK_END);
+		long f_size = ftell(file);
+		fseek(file, 0, SEEK_SET);
+
+		char *key = malloc(strlen("file") + 1);
+		key = "file";
+		ImageContainer *imageFile = malloc(sizeof(ImageContainer));
+		imageFile->fileData = malloc((f_size) * sizeof(char *));
+
+		fread(imageFile->fileData, f_size, 1, file);
+		imageFile->fileData[f_size] = '\0';
+
+		imageFile->fileSize = f_size;
+		char value[sizeof(imageFile)];
+
+		memcpy(value, &imageFile, sizeof(imageFile));
+		keyValuePair_t *keyPair = keyValuePair_create(key, value);
+		list_addElement(localVarFormParameters, keyPair); // file adding
+	}
+
+	list_addElement(localVarHeaderType, "application/json"); // produces
+	list_addElement(localVarContentType, "multipart/form-data"); // consumes
+
+	apiClient_invoke(apiClient,
+	                 localVarPath,
+	                 localVarQueryParameters,
+	                 localVarHeaderParameters,
+	                 localVarFormParameters,
+	                 localVarHeaderType,
+	                 localVarContentType,
+	                 localVarBodyParameters,
+	                 "POST");
+
+	// nonprimitive not container
+	api_response_t *elementToReturn = api_response_parseFromJSON(
+		apiClient->dataReceived);
+	if(elementToReturn == NULL) {
+		return 0;
+	} else {
+		// cJSON *jsonObject = Pet_convertToJSON(localVarapi_response);
+		// cJSON_Delete(jsonObject);
+	}
+
+	// return elementToReturn;
+	// free(apiClient->dataReceived);
+	// free(localVarPath);
+
+
+	// free(additionalMetadata);
+
+
+	return elementToReturn;
 }
-
-
-

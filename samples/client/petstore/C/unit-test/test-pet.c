@@ -2,6 +2,10 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
-#include "{import=#include "category.h"}h"
-#include "{import=#include "list.h"}h"
-#include "{import=#include "tag.h"}h"
+#include "category.h"
+#include "list.h"
+#include "tag.h"
+
+int main() {
+	printf("Hello world \n");
+}

@@ -144,7 +144,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("date", "char");
         typeMapping.put("DateTime", "char");
         typeMapping.put("boolean", "int");
-        typeMapping.put("file", "File");
+        typeMapping.put("file", "FILE");
         typeMapping.put("binary", "char");
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
@@ -208,7 +208,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external" + File.separator + "include", "cJSON.h"));
 
         // test files should not be overwritten
-        writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
+       // writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
 
 
     }

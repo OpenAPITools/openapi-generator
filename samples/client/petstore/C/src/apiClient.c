@@ -10,7 +10,7 @@ size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 apiClient_t *apiClient_create() {
 	curl_global_init(CURL_GLOBAL_ALL);
 	apiClient_t *apiClient = malloc(sizeof(apiClient_t));
-	apiClient->basePath = "http://petstore.swagger.io:80/v2/";
+	apiClient->basePath = "http://petstore.swagger.io:80/v2";
    #ifdef BASIC_AUTH
 	apiClient->username = NULL;
 	apiClient->password = NULL;
@@ -34,10 +34,9 @@ void replaceSpaceWithPlus(char *stringToProcess) {
 	}
 }
 
-char *assembleTargetUrl(char	*basePath,
-                        char	*operationName,
-                        char	*operationParameter,
-                        list_t	*queryParameters) {
+char *assembleTargetUrl(char *basePath,
+                        // char   *operationName,
+                        char *operationParameter, list_t *queryParameters) {
 	int neededBufferSizeForQueryParameters = 0;
 	listEntry_t *listEntry;
 
@@ -65,16 +64,17 @@ char *assembleTargetUrl(char	*basePath,
 	}
 
 	char *targetUrl =
-		malloc(strlen(
-			       operationName) + neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
-		       );
+		malloc(
+			// strlen(operationName) +
+			neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
+			);
 	strcpy(targetUrl, basePath);
-	if(slashNeedsToBeAppendedToBasePath) {
-		strcat(targetUrl, "/");
-	}
-	strcat(targetUrl, operationName);
+	// if(slashNeedsToBeAppendedToBasePath) {
+	// strcat(targetUrl, "/");
+	// }
+	// strcat(targetUrl, operationName);
 	if(operationParameter != NULL) {
-		strcat(targetUrl, "/");
+		// strcat(targetUrl, "/");
 		strcat(targetUrl, operationParameter);
 	}
 
@@ -114,11 +114,12 @@ void postData(CURL *handle, char *bodyParameters) {
 
 
 void apiClient_invoke(apiClient_t	*apiClient,
-                      char		*operationName,
                       char		*operationParameter,
                       list_t		*queryParameters,
                       list_t		*headerParameters,
                       list_t		*formParameters,
+                      list_t		*headerType,
+                      list_t		*contentType,
                       char		*bodyParameters,
                       char		*requestType) {
 	CURL *handle = curl_easy_init();
@@ -129,10 +130,38 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		curl_mime *mime = NULL;
 		struct curl_slist *headers = NULL;
 
-		headers =
-			curl_slist_append(headers, "accept: application/json");
-		headers = curl_slist_append(headers,
-		                            "Content-Type: application/json");
+
+		if(headerType != NULL) {
+			list_ForEach(listEntry, headerType) {
+				if(strstr((char *) listEntry->data,
+				          "xml") == NULL)
+				{
+					char buffHeader[256];
+					sprintf(buffHeader,
+					        "%s%s",
+					        "Accept: ",
+					        (char *) listEntry->data);
+					headers = curl_slist_append(headers,
+					                            buffHeader);
+				}
+			}
+		}
+		if(contentType != NULL) {
+			list_ForEach(listEntry, contentType) {
+				if(strstr((char *) listEntry->data,
+				          "xml") == NULL)
+				{
+					char buffContent[256];
+					sprintf(buffContent,
+					        "%s%s",
+					        "Content-Type: ",
+					        (char *) listEntry->data);
+					headers = curl_slist_append(headers,
+					                            buffContent);
+				}
+			}
+		}
+
 		if(requestType != NULL) {
 			curl_easy_setopt(handle,
 			                 CURLOPT_CUSTOMREQUEST,
@@ -148,11 +177,28 @@ void apiClient_invoke(apiClient_t	*apiClient,
 				{
 					curl_mimepart *part = curl_mime_addpart(
 						mime);
-					curl_mime_data(part,
-					               keyValuePair->key,
-					               CURL_ZERO_TERMINATED);
-					curl_mime_name(part,
-					               keyValuePair->value);
+
+					curl_mime_name(part, keyValuePair->key);
+
+					if(strcmp(keyValuePair->key,
+					          "file") == 0)
+					{
+						ImageContainer *imageFile =
+							malloc(sizeof(
+								       ImageContainer));
+						memcpy(&imageFile,
+						       keyValuePair->value,
+						       sizeof(imageFile));
+						curl_mime_data(part,
+						               imageFile->fileData,
+						               imageFile->fileSize);
+						curl_mime_filename(part,
+						                   "image.png");
+					} else {
+						curl_mime_data(part,
+						               keyValuePair->value,
+						               CURL_ZERO_TERMINATED);
+					}
 				}
 			}
 
@@ -191,7 +237,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,
-			                  operationName,
+			                  // operationName,
 			                  operationParameter,
 			                  queryParameters);
 
@@ -203,7 +249,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		                 CURLOPT_WRITEDATA,
 		                 &apiClient->dataReceived);
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
-
+		curl_easy_setopt(handle, CURLOPT_VERBOSE, 1L); // to get curl debug msg
 		// this would only be generated for OAuth2 authentication
       #ifdef OAUTH2
 		if(apiClient->accessToken != NULL) {

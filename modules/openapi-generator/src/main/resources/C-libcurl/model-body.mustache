@@ -103,7 +103,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
 	{{^isPrimitiveType}}
     listEntry_t *{{{baseName}}}ListEntry;
 	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{baseName}}) {
-		{{baseName}}_free({{{baseName}}}ListEntry->data);
+		{{complexType}}_free({{{baseName}}}ListEntry->data);
 	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
@@ -154,7 +154,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
-	cJSON *{{{baseName}}} = {{{baseName}}}_convertToJSON({{{classname}}}->{{{baseName}}});
+	cJSON *{{{baseName}}} = {{complexType}}_convertToJSON({{{classname}}}->{{{baseName}}});
 	if({{{baseName}}} == NULL) {
 		goto fail; //nonprimitive
 	}
@@ -188,7 +188,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
 
 	listEntry_t *{{{baseName}}}ListEntry;
 	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{{baseName}}}) {
-		cJSON *item = {{baseName}}_convertToJSON({{{baseName}}}ListEntry->data);
+		cJSON *item = {{complexType}}_convertToJSON({{{baseName}}}ListEntry->data);
 		if(item == NULL) {
 			goto fail;
 		}
@@ -208,11 +208,10 @@ fail:
 	return NULL;
 }
 
-{{classname}}_t *{{classname}}_parseFromJSON(cJSON *jsonString){
+{{classname}}_t *{{classname}}_parseFromJSON(char *jsonString){
 
     {{classname}}_t *{{classname}} = NULL;
-    char *parsedString = cJSON_Print(jsonString);
-    cJSON *{{classname}}JSON = cJSON_Parse(parsedString);
+   cJSON *{{classname}}JSON = cJSON_Parse(jsonString);
     if({{classname}}JSON == NULL){
         const char *error_ptr = cJSON_GetErrorPtr();
         if (error_ptr != NULL) {
@@ -271,7 +270,8 @@ fail:
             fprintf(stderr, "Error Before: %s\n", error_ptr);
         goto end; //nonprimitive
     }
-    {{{baseName}}} = {{{baseName}}}_parseFromJSON({{{baseName}}}JSON);
+    char *JSONData = cJSON_Print({{{baseName}}}JSON);
+    {{{baseName}}} = {{{baseName}}}_parseFromJSON(JSONData);
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
@@ -307,10 +307,10 @@ fail:
         if(!cJSON_IsObject({{{baseName}}})){
             goto end;
         }
+		char *JSONData = cJSON_Print({{{baseName}}});
+        {{complexType}}_t *{{{baseName}}}Item = {{complexType}}_parseFromJSON(JSONData);
 
-        {{{baseName}}}_t *{{{baseName}}}Item = {{{baseName}}}_parseFromJSON({{{baseName}}});
-
-        list_addEement({{{baseName}}}List, {{{baseName}}}Item);
+        list_addElement({{{baseName}}}List, {{{baseName}}}Item);
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}

@@ -2,6 +2,10 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
-{{#imports}}
-#include "{{{.}}}h"
+{{#imports}}{{{import}}}
 {{/imports}}
+
+int main() {
+printf("Hello world \n");
+
+}

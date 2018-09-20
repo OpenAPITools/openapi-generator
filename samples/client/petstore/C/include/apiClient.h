@@ -25,15 +25,22 @@ typedef struct apiClient_t {
     #endif // API_KEY
 } apiClient_t;
 
+typedef struct ImageContainer {
+	char *fileData;
+	long fileSize;
+} ImageContainer;
+
 apiClient_t *apiClient_create();
 void apiClient_free(apiClient_t *apiClient);
 void apiClient_invoke(apiClient_t	*apiClient,
-                      char		*operationName,
                       char		*operationParameter,
                       list_t		*queryParameters,
                       list_t		*headerParameters,
                       list_t		*formParameters,
+                      list_t		*headerType,
+                      list_t		*contentType,
                       char		*bodyParameters,
                       char		*requestType);
 
+char *strReplace(char *orig, char *rep, char *with);
 #endif // INCLUDE_API_CLIENT_H
