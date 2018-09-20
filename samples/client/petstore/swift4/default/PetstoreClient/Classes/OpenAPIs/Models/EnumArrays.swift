@@ -7,18 +7,17 @@
 
 import Foundation
 
-
-
 public struct EnumArrays: Codable {
-
     public enum JustSymbol: String, Codable {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
+
     public enum ArrayEnum: String, Codable {
-        case fish = "fish"
-        case crab = "crab"
+        case fish
+        case crab
     }
+
     public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
 
@@ -27,11 +26,8 @@ public struct EnumArrays: Codable {
         self.arrayEnum = arrayEnum
     }
 
-    public enum CodingKeys: String, CodingKey { 
+    public enum CodingKeys: String, CodingKey {
         case justSymbol = "just_symbol"
         case arrayEnum = "array_enum"
     }
-
-
 }
-
