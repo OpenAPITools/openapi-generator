@@ -134,6 +134,9 @@ CONFIG OPTIONS for spring
 	responseWrapper
 	    wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)
 
+	virtualService
+	    Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki (Default: false)
+
 	useTags
 	    use tags for creating interface and controller classnames (Default: false)
 
