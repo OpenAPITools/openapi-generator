@@ -243,4 +243,19 @@ public class MysqlSchemaCodegenTest {
         }
     }
 
+    @Test
+    public void testSetDefaultDatabaseName() {
+        final MysqlSchemaServerCodegen codegen = new MysqlSchemaServerCodegen();
+        codegen.setDefaultDatabaseName("valid_db_name");
+        Assert.assertSame(codegen.getDefaultDatabaseName(), "valid_db_name");
+        codegen.setDefaultDatabaseName("12345");
+        Assert.assertNotSame(codegen.getDefaultDatabaseName(), "12345");
+    }
+
+    @Test
+    public void testGetDefaultDatabaseName() {
+        final MysqlSchemaServerCodegen codegen = new MysqlSchemaServerCodegen();
+        Assert.assertSame(codegen.getDefaultDatabaseName(), "");
+    }
+
 }

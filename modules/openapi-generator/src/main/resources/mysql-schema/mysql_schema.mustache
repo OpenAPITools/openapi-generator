@@ -2,10 +2,12 @@
 /* SET AUTOCOMMIT = 0; */
 /* START TRANSACTION; */
 /* SET time_zone = "+00:00"; */
-
+{{#defaultDatabaseName}}
 --
--- Database: `openapi_petstore_fakeapi`
+-- Database: `{{{defaultDatabaseName}}}`
 --
+CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+{{/defaultDatabaseName}}
 
 -- --------------------------------------------------------
 

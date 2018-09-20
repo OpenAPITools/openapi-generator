@@ -47,6 +47,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String DEFAULT_DATABASE_NAME = "defaultDatabaseName";
     public static final String JSON_DATA_TYPE_ENABLED = "jsonDataTypeEnabled";
     public static final Integer ENUM_MAX_ELEMENTS = 65535;
+    public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
     protected Vector<String> mysqlNumericTypes = new Vector<String>(Arrays.asList(
         "BIGINT", "BIT", "BOOL", "BOOLEAN", "DEC", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FIXED", "FLOAT", "INT", "INTEGER", "MEDIUMINT", "NUMERIC", "REAL", "SMALLINT", "TINYINT"
@@ -64,14 +65,14 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
     ));
 
+    protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
 
     public MysqlSchemaCodegen() {
         super();
 
-        // clear import mapping (from default generator) as slim does not use it
-        // at the moment
+        // clear import mapping (from default generator) as mysql does not use import directives
         importMapping.clear();
 
         //modelTestTemplateFiles.put("model_test.mustache", ".php");
@@ -190,6 +191,16 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(DEFAULT_DATABASE_NAME)) {
+            if (additionalProperties.get(DEFAULT_DATABASE_NAME).equals("")) {
+                additionalProperties.remove(DEFAULT_DATABASE_NAME);
+            } else {
+                this.setDefaultDatabaseName((String) additionalProperties.get(DEFAULT_DATABASE_NAME));
+                // default database name may be escaped, need to overwrite additional prop
+                additionalProperties.put(DEFAULT_DATABASE_NAME, getDefaultDatabaseName());
+            }
+        }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("mysql_schema.mustache", "", "mysql_schema.sql"));
@@ -866,6 +877,22 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     /**
+     * Converts name to valid MySQL database name
+     * Produced name must be used with backticks only, eg. `database_name`
+     *
+     * @param name source name
+     * @return database name
+     */
+    public String toDatabaseName(String name) {
+        String identifier = toMysqlIdentifier(name, databaseNamePrefix, databaseNameSuffix);
+        if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
+            LOGGER.warn("Database name cannot exceed 64 chars. Name '" + name + "' will be truncated");
+            identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
+        }
+        return identifier;
+    }
+
+    /**
      * Converts name to valid MySQL column name
      * Produced name must be used with backticks only, eg. `table_name`
      *
@@ -873,24 +900,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * @return table name
      */
     public String toTableName(String name) {
-        String escapedName = escapeMysqlQuotedIdentifier(name);
-        // Database, table, and column names cannot end with space characters.
-        if (escapedName.matches(".*\\s$")) {
-            LOGGER.warn("Table name cannot end with space characters. Related model name is '" + name + "'" );
-            escapedName = escapedName.replaceAll("\\s+$", "");
+        String identifier = toMysqlIdentifier(name, tableNamePrefix, tableNameSuffix);
+        if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
+            LOGGER.warn("Table name cannot exceed 64 chars. Name '" + name + "' will be truncated");
+            identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
         }
-
-         // Identifiers may begin with a digit but unless quoted may not consist solely of digits.
-        if (escapedName.matches("^\\d+$")) {
-            LOGGER.warn("Table name cannot consist solely of digits. Related model name is '" + name + "'");
-            escapedName = tableNamePrefix + escapedName + tableNameSuffix;
-        }
-
-        // table name cannot be empty
-        if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty table name for model '" + name.toString() + "' not allowed");
-        }
-        return escapedName;
+        return identifier;
     }
 
     /**
@@ -901,22 +916,40 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      * @return column name
      */
     public String toColumnName(String name) {
+        String identifier = toMysqlIdentifier(name, columnNamePrefix, columnNameSuffix);
+        if (identifier.length() > IDENTIFIER_MAX_LENGTH) {
+            LOGGER.warn("Column name cannot exceed 64 chars. Name '" + name + "' will be truncated");
+            identifier = identifier.substring(0, IDENTIFIER_MAX_LENGTH);
+        }
+        return identifier;
+    }
+
+    /**
+     * Converts name to valid MySQL identifier which can be used as database, table, column name
+     * Produced name must be used with backticks only, eg. `column_name`
+     *
+     * @param name   source name
+     * @param prefix when escaped name is digits only, prefix will be prepended
+     * @param suffix when escaped name is digits only, suffix will be appended
+     * @return identifier name
+     */
+    public String toMysqlIdentifier(String name, String prefix, String suffix) {
         String escapedName = escapeMysqlQuotedIdentifier(name);
         // Database, table, and column names cannot end with space characters.
         if (escapedName.matches(".*\\s$")) {
-            LOGGER.warn("Column name cannot end with space characters. Related property name is '" + name + "'" );
+            LOGGER.warn("Database, table, and column names cannot end with space characters. Check '" + name + "' name" );
             escapedName = escapedName.replaceAll("\\s+$", "");
         }
 
         // Identifiers may begin with a digit but unless quoted may not consist solely of digits.
         if (escapedName.matches("^\\d+$")) {
-            LOGGER.warn("Column name cannot consist solely of digits. Related property name is '" + name + "'");
-            escapedName = columnNamePrefix + escapedName + columnNameSuffix;
+            LOGGER.warn("Database, table, and column names cannot consist solely of digits. Check '" + name + "' name");
+            escapedName = prefix + escapedName + suffix;
         }
 
-        // column name cannot be empty
+        // identifier name cannot be empty
         if (escapedName.isEmpty()) {
-            throw new RuntimeException("Empty column name for property '" + name.toString() + "' not allowed");
+            throw new RuntimeException("Empty database/table/column name for property '" + name.toString() + "' not allowed");
         }
         return escapedName;
     }
