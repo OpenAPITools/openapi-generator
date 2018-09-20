@@ -7,12 +7,12 @@ namespace {{modelPackage}};
 /**
  * {{classname}}
  */
-class {{classname}} {
-
+class {{classname}}
+{
     {{#vars}}
+    
     /** @var {{dataType}} ${{name}} {{#description}}{{description}}{{/description}}*/
     private ${{name}};
-
     {{/vars}}
 }
 {{/model}}{{/models}}

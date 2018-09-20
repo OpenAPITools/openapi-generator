@@ -38,7 +38,7 @@ nlohmann::json {{classname}}::toJson() const
         nlohmann::json jsonArray;
         for( auto& item : m_{{name}} )
         {
-            jsonArray.push_back(ModelBase::toJson(item));
+            jsonArray.push_back({{prefix}}ModelBase::toJson(item));
         }
         {{#required}}val["{{baseName}}"] = jsonArray;
         {{/required}}{{^required}}
@@ -50,9 +50,9 @@ nlohmann::json {{classname}}::toJson() const
     }
     {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
     {
-        val["{{baseName}}"] = ModelBase::toJson(m_{{name}});
+        val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
     }
-    {{/required}}{{#required}}val["{{baseName}}"] = ModelBase::toJson(m_{{name}});
+    {{/required}}{{#required}}val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
     {{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
 
     return val;
@@ -95,15 +95,15 @@ void {{classname}}::fromJson(nlohmann::json& val)
     }
     {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(val.find("{{baseName}}") != val.end())
     {
-        {{#isString}}{{setter}}(val.at("{{baseName}}"));{{/isString}}{{#isByteArray}}{{setter}}(val.at("{{baseName}}"));
-        {{/isByteArray}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
-        {{/isDateTime}}{{^isDateTime}}{{^isByteArray}}if(!val["{{baseName}}"].is_null())
+        {{#isString}}{{setter}}(val.at("{{baseName}}"));{{/isString}}{{#isByteArray}}{{setter}}(val.at("{{baseName}}"));{{/isByteArray}}{{#isBinary}}{{setter}}(val.at("{{baseName}}"));
+        {{/isBinary}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
+        {{/isDateTime}}{{^isDateTime}}{{^isByteArray}}{{^isBinary}}if(!val["{{baseName}}"].is_null())
         {
             {{{dataType}}} newItem;
             newItem.fromJson(val["{{baseName}}"]);
             {{setter}}( newItem );
         }
-        {{/isByteArray}}{{/isDateTime}}{{/isString}}
+        {{/isBinary}}{{/isByteArray}}{{/isDateTime}}{{/isString}}
     }
     {{/required}}{{#required}}{{#isString}}{{setter}}(val.at("{{baseName}}"));
     {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));

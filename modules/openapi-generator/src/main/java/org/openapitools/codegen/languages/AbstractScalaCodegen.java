@@ -21,6 +21,7 @@ import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -34,6 +35,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 
 public abstract class AbstractScalaCodegen extends DefaultCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractScalaCodegen.class);
@@ -112,6 +114,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("SCALAFMT_PATH"))) {
+            LOGGER.info("Environment variable SCALAFMT_PATH not defined so the Scala code may not be properly formatted. To define it, try 'export SCALAFMT_PATH=/usr/local/bin/scalafmt' (Linux/Mac)");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
@@ -181,7 +187,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
@@ -206,7 +212,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return instantiationTypes.get("map") + "[String, " + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -235,7 +241,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "new HashMap[String, " + inner + "]() ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -273,7 +279,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     }
 
     protected String formatIdentifier(String name, boolean capitalized) {
-        String identifier = camelize(sanitizeName(name), true);
+        String identifier = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(name), true);
         if (capitalized) {
             identifier = StringUtils.capitalize(identifier);
         }
@@ -295,6 +301,33 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String scalafmtPath = System.getenv("SCALAFMT_PATH");
+        if (StringUtils.isEmpty(scalafmtPath)) {
+            return; // skip if SCALAFMT_PATH env variable is not defined
+        }
+
+        // only process files with scala extension
+        if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = scalafmtPath + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                if (p.exitValue() != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
+                }
+                LOGGER.info("Successfully executed: " + command);
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 
 }

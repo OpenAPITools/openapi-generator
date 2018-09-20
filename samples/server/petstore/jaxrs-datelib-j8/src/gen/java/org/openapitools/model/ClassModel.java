@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
@@ -41,6 +42,7 @@ public class ClassModel  implements Serializable {
    **/
   @JsonProperty("_class")
   @ApiModelProperty(value = "")
+  
   public String getPropertyClass() {
     return propertyClass;
   }

@@ -23,7 +23,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariable;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -113,6 +116,10 @@ public interface CodegenConfig {
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
+    List<CodegenServer> fromServers(List<Server> servers);
+  
+    List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables);
+    
     Set<String> defaultIncludes();
 
     Map<String, String> typeMapping();
@@ -247,5 +254,7 @@ public interface CodegenConfig {
     String toGetter(String name);
 
     String sanitizeName(String name);
+
+    void postProcessFile(File file, String fileType);
 
 }

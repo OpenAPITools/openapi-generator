@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * OuterComposite
@@ -46,6 +47,7 @@ public class OuterComposite   {
    **/
   @JsonProperty("my_number")
   @ApiModelProperty(value = "")
+  @Valid
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -65,6 +67,7 @@ public class OuterComposite   {
    **/
   @JsonProperty("my_string")
   @ApiModelProperty(value = "")
+  
   public String getMyString() {
     return myString;
   }
@@ -84,6 +87,7 @@ public class OuterComposite   {
    **/
   @JsonProperty("my_boolean")
   @ApiModelProperty(value = "")
+  
   public Boolean getMyBoolean() {
     return myBoolean;
   }

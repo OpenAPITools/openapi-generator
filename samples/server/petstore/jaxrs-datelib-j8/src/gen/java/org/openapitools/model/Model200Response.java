@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing model name starting with number
@@ -44,6 +45,7 @@ public class Model200Response  implements Serializable {
    **/
   @JsonProperty("name")
   @ApiModelProperty(value = "")
+  
   public Integer getName() {
     return name;
   }
@@ -63,6 +65,7 @@ public class Model200Response  implements Serializable {
    **/
   @JsonProperty("class")
   @ApiModelProperty(value = "")
+  
   public String getPropertyClass() {
     return propertyClass;
   }

@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.3.0-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -274,6 +274,33 @@
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>de.thetaphi</groupId>
+                <artifactId>forbiddenapis</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <bundledSignatures>
+                        <!--
+                          This will automatically choose the right
+                          signatures based on 'maven.compiler.target':
+                        -->
+                        <bundledSignature>jdk-unsafe</bundledSignature>
+                        <bundledSignature>jdk-deprecated</bundledSignature>
+                        <bundledSignature>jdk-internal</bundledSignature>
+                        <!-- disallow undocumented classes like sun.misc.Unsafe: -->
+                        <bundledSignature>jdk-non-portable</bundledSignature>
+                        <bundledSignature>jdk-reflection</bundledSignature>
+                    </bundledSignatures>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>testCheck</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -716,6 +743,55 @@
             </modules>
         </profile>
         <profile>
+            <!-- openapi v3's one -->
+            <id>jaxrs-jersey</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-jersey</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>jaxrs-spec-interface-response</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
@@ -872,6 +948,18 @@
             </modules>
         </profile>
         <profile>
+            <id>springboot-virtualan</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/server/petstore/springboot-virtualan</module>
+            </modules>
+        </profile>
+        <profile>
             <id>spring-cloud</id>
             <activation>
                 <property>
@@ -929,8 +1017,11 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/dart-jaguar/openapi</module>
+                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
+                <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/haskell-http-client</module>
-                <module>samples/client/petstore/elm</module>
+                <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
                 <!--<module>samples/client/petstore/perl</module>-->
@@ -947,7 +1038,8 @@
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
-                <module>samples/client/petstore/typescript-fetch/tests/default</module>
+                <module>samples/client/petstore/typescript-fetch/tests/default</module>                
+                <module>samples/client/petstore/typescript-axios/tests/default</module>                
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <!-- comment out due to github rate limit error
                 <module>samples/client/petstore/typescript-angularjs</module>-->
@@ -972,6 +1064,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/elm</module>
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <!-- servers -->
@@ -982,6 +1075,7 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/server/petstore/php-slim</module>
             </modules>
         </profile>
     </profiles>
@@ -1054,8 +1148,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>2.0.2-OpenAPITools.org-1</swagger-parser-version>
-        <swagger-core-version>2.0.1</swagger-core-version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <swagger-parser-version>2.0.4</swagger-parser-version>
+        <swagger-core-version>2.0.4</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.0</felix-version>
         <commons-io-version>2.4</commons-io-version>

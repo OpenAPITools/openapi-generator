@@ -36,6 +36,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+
 public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
     protected String groupId = "org.openapitools";
@@ -45,10 +46,10 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     public PhpSilexServerCodegen() {
         super();
 
-        invokerPackage = camelize("OpenAPIServer");
-        String packagePath = "OpenAPIServer";
-        modelPackage = packagePath + File.separator + "lib" + File.separator + "models";
-        apiPackage = packagePath + File.separator + "lib";
+        invokerPackage = org.openapitools.codegen.utils.StringUtils.camelize("OpenAPIServer");
+        String packageName = "OpenAPIServer";
+        modelPackage = "lib" + File.separator + "models";
+        apiPackage = "lib";
         outputFolder = "generated-code" + File.separator + "php-silex";
 
         // no model, api files
@@ -112,10 +113,13 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         // mapped to String as a workaround
         typeMapping.put("binary", "string");
 
-        supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
-        supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.json", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+
+        // remove this line when this class extends AbstractPhpCodegen
+        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
     }
 
     @Override
@@ -160,7 +164,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -196,7 +200,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = org.openapitools.codegen.utils.StringUtils.underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
@@ -222,7 +226,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -255,7 +259,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             for (int i = 0; i < items.length; ++i) {
                 if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                     // camelize path variable
-                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                    items[i] = "{" + org.openapitools.codegen.utils.StringUtils.camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
                 }
             }
 

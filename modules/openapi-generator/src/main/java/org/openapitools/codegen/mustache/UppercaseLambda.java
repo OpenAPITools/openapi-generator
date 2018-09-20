@@ -22,6 +22,7 @@ import com.samskivert.mustache.Template;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 /**
  * Converts text in a fragment to uppercase.
@@ -40,6 +41,6 @@ public class UppercaseLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String text = fragment.execute();
-        writer.write(text.toUpperCase());
+        writer.write(text.toUpperCase(Locale.ROOT));
     }
 }

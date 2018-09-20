@@ -11,6 +11,6 @@
 package petstore
 
 type FileSchemaTestClass struct {
-	File File `json:"file,omitempty" xml:"file"`
+	File  File   `json:"file,omitempty" xml:"file"`
 	Files []File `json:"files,omitempty" xml:"files"`
 }

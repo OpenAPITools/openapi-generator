@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -29,16 +33,18 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.media.*;
-
-import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
+
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
@@ -204,9 +210,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (word.length() == 0) {
             return word;
         } else if (word.length() == 1) {
-            return word.substring(0, 1).toUpperCase();
+            return word.substring(0, 1).toUpperCase(Locale.ROOT);
         } else {
-            return word.substring(0, 1).toUpperCase() + word.substring(1);
+            return word.substring(0, 1).toUpperCase(Locale.ROOT) + word.substring(1);
         }
     }
 
@@ -214,9 +220,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (word.length() == 0) {
             return word;
         } else if (word.length() == 1) {
-            return word.substring(0, 1).toLowerCase();
+            return word.substring(0, 1).toLowerCase(Locale.ROOT);
         } else {
-            return word.substring(0, 1).toLowerCase() + word.substring(1);
+            return word.substring(0, 1).toLowerCase(Locale.ROOT) + word.substring(1);
         }
     }
 
@@ -230,7 +236,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             title = "OpenAPI";
         } else {
             title = title.trim();
-            if (title.toUpperCase().endsWith("API")) {
+            if (title.toUpperCase(Locale.ROOT).endsWith("API")) {
                 title = title.substring(0, title.length() - 3);
             }
         }
@@ -240,7 +246,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // The package name is made by appending the lowercased words of the title interspersed with dashes
         List<String> wordsLower = new ArrayList<String>();
         for (String word : words) {
-            wordsLower.add(word.toLowerCase());
+            wordsLower.add(word.toLowerCase(Locale.ROOT));
         }
         String cabalName = joinStrings("-", wordsLower);
 
@@ -293,7 +299,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "Map.Map String " + getTypeDeclaration(inner);
         }
         return fixModelChars(super.getTypeDeclaration(p));
@@ -328,7 +334,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = (Schema) p.getAdditionalProperties();
+            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //
@@ -448,7 +454,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if(op.getHasFormParams()) {
             // Use the FormX data type, where X is the conglomerate of all things being passed
-            String formName = "Form" + camelize(op.operationId);
+            String formName = "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId);
             bodyType = formName;
             path.add("ReqBody '[FormUrlEncoded] " + formName);
         }
@@ -473,7 +479,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // store form parameter name in the vendor extensions
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formParamName", camelize(param.baseName));
+            param.vendorExtensions.put("x-formParamName", org.openapitools.codegen.utils.StringUtils.camelize(param.baseName));
         }
 
         // Add the HTTP method and return type
@@ -484,14 +490,14 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (returnType.indexOf(" ") >= 0) {
             returnType = "(" + returnType + ")";
         }
-        path.add("Verb '" + op.httpMethod.toUpperCase() + " 200 '[JSON] " + returnType);
+        path.add("Verb '" + op.httpMethod.toUpperCase(Locale.ROOT) + " 200 '[JSON] " + returnType);
         type.add("m " + returnType);
 
         op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path));
         op.vendorExtensions.put("x-clientType", joinStrings(" -> ", type));
-        op.vendorExtensions.put("x-formName", "Form" + camelize(op.operationId));
+        op.vendorExtensions.put("x-formName", "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId));
         for(CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formPrefix", camelize(op.operationId, true));
+            param.vendorExtensions.put("x-formPrefix", org.openapitools.codegen.utils.StringUtils.camelize(op.operationId, true));
         }
         return op;
     }
@@ -549,9 +555,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = camelize(model.classname, true);
+        String prefix = org.openapitools.codegen.utils.StringUtils.camelize(model.classname, true);
         for(CodegenProperty prop : model.vars) {
-            prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
+            prop.name = toVarName(prefix + org.openapitools.codegen.utils.StringUtils.camelize(fixOperatorChars(prop.name)));
         }
 
         // Create newtypes for things with non-object types

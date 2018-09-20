@@ -720,6 +720,9 @@ Query :: Text -> Query
 newtype RequestBody
 RequestBody :: (Map String Text) -> RequestBody
 [unRequestBody] :: RequestBody -> (Map String Text)
+newtype RequiredFile
+RequiredFile :: FilePath -> RequiredFile
+[unRequiredFile] :: RequiredFile -> FilePath
 newtype Status
 Status :: [E'Status2] -> Status
 [unStatus] :: Status -> [E'Status2]
@@ -1896,6 +1899,8 @@ instance GHC.Show.Show OpenAPIPetstore.Model.Tags
 instance GHC.Classes.Eq OpenAPIPetstore.Model.Tags
 instance GHC.Show.Show OpenAPIPetstore.Model.StatusText
 instance GHC.Classes.Eq OpenAPIPetstore.Model.StatusText
+instance GHC.Show.Show OpenAPIPetstore.Model.RequiredFile
+instance GHC.Classes.Eq OpenAPIPetstore.Model.RequiredFile
 instance Data.Aeson.Types.ToJSON.ToJSON OpenAPIPetstore.Model.RequestBody
 instance GHC.Show.Show OpenAPIPetstore.Model.RequestBody
 instance GHC.Classes.Eq OpenAPIPetstore.Model.RequestBody
@@ -2470,7 +2475,7 @@ data UploadFile
 --   uploads an image (required)
 --   
 --   AuthMethod: <a>AuthOAuthPetstoreAuth</a>
-uploadFileWithRequiredFile :: (Consumes UploadFileWithRequiredFile MimeMultipartFormData) => File2 -> PetId -> OpenAPIPetstoreRequest UploadFileWithRequiredFile MimeMultipartFormData ApiResponse MimeJSON
+uploadFileWithRequiredFile :: (Consumes UploadFileWithRequiredFile MimeMultipartFormData) => RequiredFile -> PetId -> OpenAPIPetstoreRequest UploadFileWithRequiredFile MimeMultipartFormData ApiResponse MimeJSON
 data UploadFileWithRequiredFile
 
 -- | <i>Optional Param</i> "additionalMetadata" - Additional data to pass
@@ -2814,9 +2819,9 @@ module OpenAPIPetstore.API.AnotherFake
 --   
 --   To test special tags
 --   
---   To test special tags
-testSpecialTags :: (Consumes TestSpecialTags MimeJSON, MimeRender MimeJSON Client) => Client -> OpenAPIPetstoreRequest TestSpecialTags MimeJSON Client MimeJSON
-data TestSpecialTags
+--   To test special tags and operation ID starting with number
+op123testSpecialTags :: (Consumes Op123testSpecialTags MimeJSON, MimeRender MimeJSON Client) => Client -> OpenAPIPetstoreRequest Op123testSpecialTags MimeJSON Client MimeJSON
+data Op123testSpecialTags
 
 -- | <i>Body Param</i> <a>Client</a> - client model
 
@@ -2827,9 +2832,9 @@ data TestSpecialTags
 -- | <pre>
 --   application/json
 --   </pre>
-instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.AnotherFake.TestSpecialTags OpenAPIPetstore.Model.Client
-instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.AnotherFake.TestSpecialTags OpenAPIPetstore.MimeTypes.MimeJSON
-instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.AnotherFake.TestSpecialTags OpenAPIPetstore.MimeTypes.MimeJSON
+instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.AnotherFake.Op123testSpecialTags OpenAPIPetstore.Model.Client
+instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.AnotherFake.Op123testSpecialTags OpenAPIPetstore.MimeTypes.MimeJSON
+instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.AnotherFake.Op123testSpecialTags OpenAPIPetstore.MimeTypes.MimeJSON
 
 
 module OpenAPIPetstore.API

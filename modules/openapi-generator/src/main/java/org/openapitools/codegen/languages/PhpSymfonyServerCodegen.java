@@ -17,22 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+
 
 public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -91,7 +86,6 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         srcBasePath = ".";
         setInvokerPackage("OpenAPI\\Server");
         setBundleName("OpenAPIServer");
-        packagePath = "SymfonyBundle-php";
         modelDirName = "Model";
         docsBasePath = "Resources" + File.separator + "docs";
         apiDocPath = docsBasePath + File.separator + apiDirName;
@@ -195,7 +189,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         this.bundleName = bundleName;
         this.bundleClassName = bundleName + "Bundle";
         this.bundleExtensionName = bundleName + "Extension";
-        this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase();
+        this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
     }
 
     public void setPhpLegacySupport(Boolean support) {
@@ -203,7 +197,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     public String controllerFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(controllerPackage, srcBasePath));
+        return (outputFolder + File.separator + toSrcPath(controllerPackage, srcBasePath));
     }
 
     @Override
@@ -295,39 +289,39 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         // make test path available in mustache template
         additionalProperties.put("testsDirName", testsDirName);
 
-        final String configDir = getPackagePath() + File.separator + "Resources" + File.separator + "config";
-        final String dependencyInjectionDir = getPackagePath() + File.separator + "DependencyInjection";
+        final String configDir = "Resources" + File.separator + "config";
+        final String dependencyInjectionDir = "DependencyInjection";
 
-        supportingFiles.add(new SupportingFile("Controller.mustache", toPackagePath(controllerPackage, srcBasePath), "Controller.php"));
-        supportingFiles.add(new SupportingFile("Bundle.mustache", getPackagePath(), bundleClassName + ".php"));
+        supportingFiles.add(new SupportingFile("Controller.mustache", toSrcPath(controllerPackage, srcBasePath), "Controller.php"));
+        supportingFiles.add(new SupportingFile("Bundle.mustache", "", bundleClassName + ".php"));
         supportingFiles.add(new SupportingFile("Extension.mustache", dependencyInjectionDir, bundleExtensionName + ".php"));
         supportingFiles.add(new SupportingFile("ApiPass.mustache", dependencyInjectionDir + File.separator + "Compiler", bundleName + "ApiPass.php"));
-        supportingFiles.add(new SupportingFile("ApiServer.mustache", toPackagePath(apiPackage, srcBasePath), "ApiServer.php"));
+        supportingFiles.add(new SupportingFile("ApiServer.mustache", toSrcPath(apiPackage, srcBasePath), "ApiServer.php"));
 
         // Serialization components
-        supportingFiles.add(new SupportingFile("serialization/SerializerInterface.mustache", toPackagePath(servicePackage, srcBasePath), "SerializerInterface.php"));
-        supportingFiles.add(new SupportingFile("serialization/JmsSerializer.mustache", toPackagePath(servicePackage, srcBasePath), "JmsSerializer.php"));
-        supportingFiles.add(new SupportingFile("serialization/StrictJsonDeserializationVisitor.mustache", toPackagePath(servicePackage, srcBasePath), "StrictJsonDeserializationVisitor.php"));
-        supportingFiles.add(new SupportingFile("serialization/TypeMismatchException.mustache", toPackagePath(servicePackage, srcBasePath), "TypeMismatchException.php"));
+        supportingFiles.add(new SupportingFile("serialization/SerializerInterface.mustache", toSrcPath(servicePackage, srcBasePath), "SerializerInterface.php"));
+        supportingFiles.add(new SupportingFile("serialization/JmsSerializer.mustache", toSrcPath(servicePackage, srcBasePath), "JmsSerializer.php"));
+        supportingFiles.add(new SupportingFile("serialization/StrictJsonDeserializationVisitor.mustache", toSrcPath(servicePackage, srcBasePath), "StrictJsonDeserializationVisitor.php"));
+        supportingFiles.add(new SupportingFile("serialization/TypeMismatchException.mustache", toSrcPath(servicePackage, srcBasePath), "TypeMismatchException.php"));
         // Validation components
-        supportingFiles.add(new SupportingFile("validation/ValidatorInterface.mustache", toPackagePath(servicePackage, srcBasePath), "ValidatorInterface.php"));
-        supportingFiles.add(new SupportingFile("validation/SymfonyValidator.mustache", toPackagePath(servicePackage, srcBasePath), "SymfonyValidator.php"));
+        supportingFiles.add(new SupportingFile("validation/ValidatorInterface.mustache", toSrcPath(servicePackage, srcBasePath), "ValidatorInterface.php"));
+        supportingFiles.add(new SupportingFile("validation/SymfonyValidator.mustache", toSrcPath(servicePackage, srcBasePath), "SymfonyValidator.php"));
 
         // Testing components
-        supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", getPackagePath(), "phpunit.xml.dist"));
-        supportingFiles.add(new SupportingFile("testing/pom.xml", getPackagePath(), "pom.xml"));
-        supportingFiles.add(new SupportingFile("testing/AppKernel.php", toPackagePath(testsPackage, srcBasePath), "AppKernel.php"));
-        supportingFiles.add(new SupportingFile("testing/test_config.yml", toPackagePath(testsPackage, srcBasePath), "test_config.yml"));
+        supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("testing/pom.xml", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("testing/AppKernel.php", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
+        supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yml"));
 
         supportingFiles.add(new SupportingFile("routing.mustache", configDir, "routing.yml"));
         supportingFiles.add(new SupportingFile("services.mustache", configDir, "services.yml"));
-        supportingFiles.add(new SupportingFile("composer.mustache", getPackagePath(), "composer.json"));
-        supportingFiles.add(new SupportingFile("autoload.mustache", getPackagePath(), "autoload.php"));
-        supportingFiles.add(new SupportingFile("README.mustache", getPackagePath(), "README.md"));
+        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("autoload.mustache", "", "autoload.php"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-        supportingFiles.add(new SupportingFile(".travis.yml", getPackagePath(), ".travis.yml"));
-        supportingFiles.add(new SupportingFile(".php_cs", getPackagePath(), ".php_cs"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", getPackagePath(), "git_push.sh"));
+        supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile(".php_cs", "", ".php_cs"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         // Type-hintable primitive types
         // ref: http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration
@@ -461,12 +455,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(apiTestsPackage, srcBasePath));
+        return (outputFolder + File.separator + toSrcPath(apiTestsPackage, srcBasePath));
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(modelTestsPackage, srcBasePath));
+        return (outputFolder + File.separator + toSrcPath(modelTestsPackage, srcBasePath));
     }
 
     public void setComposerVendorName(String composerVendorName) {
@@ -498,7 +492,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         }
 
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getTypeDeclaration(inner);
         }
 
@@ -570,14 +564,14 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         if (name.isEmpty()) {
             return "DefaultApiInterface";
         }
-        return camelize(name, false) + "ApiInterface";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "ApiInterface";
     }
 
     protected String toControllerName(String name) {
         if (name.isEmpty()) {
             return "DefaultController";
         }
-        return camelize(name, false) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
     }
 
     protected String toSymfonyService(String name) {

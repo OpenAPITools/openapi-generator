@@ -49,8 +49,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.StringUtils.escape;
+
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -551,7 +555,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -564,7 +568,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
-        if (name.toLowerCase().matches("^_*class$")) {
+        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
         }
 
@@ -578,7 +582,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (startsWithTwoUppercaseLetters(name)) {
-            name = name.substring(0, 2).toLowerCase() + name.substring(2);
+            name = name.substring(0, 2).toLowerCase(Locale.ROOT) + name.substring(2);
         }
 
         // If name contains special chars -> replace them.
@@ -586,12 +590,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
-            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+            name = escape(name, specialCharReplacements, allowedCharacters, "_");
         }
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -604,7 +608,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private boolean startsWithTwoUppercaseLetters(String name) {
         boolean startsWithTwoUppercaseLetters = false;
         if (name.length() > 1) {
-            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase());
+            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
         }
         return startsWithTwoUppercaseLetters;
     }
@@ -643,7 +647,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = camelize(nameWithPrefixSuffix);
+        final String camelizedName = org.openapitools.codegen.utils.StringUtils.camelize(nameWithPrefixSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
@@ -679,7 +683,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing array inner type to string");
@@ -720,7 +724,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
 
-            return String.format(pattern, typeDeclaration);
+            return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(p)) {
             final String pattern;
             if (fullJavaUtil) {
@@ -728,11 +732,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else {
                 pattern = "new HashMap<%s>()";
             }
-            if (p.getAdditionalProperties() == null) {
+            if (ModelUtils.getAdditionalProperties(p) == null) {
                 return null;
             }
 
-            String typeDeclaration = String.format("String, %s", getTypeDeclaration((Schema) p.getAdditionalProperties()));
+            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(p)));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -741,7 +745,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
 
-            return String.format(pattern, typeDeclaration);
+            return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
@@ -875,13 +879,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method sname. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId), true);
+            operationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
         }
 
         return operationId;
@@ -1032,7 +1042,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
     }
 
     @Override
@@ -1043,7 +1053,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return getSymbolName(value).toUpperCase();
+            return getSymbolName(value).toUpperCase(Locale.ROOT);
         }
 
         // number
@@ -1057,7 +1067,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // string
-        String var = value.replaceAll("\\W+", "_").toUpperCase();
+        String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {
@@ -1328,7 +1338,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String sanitizeTag(String tag) {
-        tag = camelize(underscore(sanitizeName(tag)));
+        tag = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(tag)));
 
         // tag starts with numbers
         if (tag.matches("^\\d.*")) {

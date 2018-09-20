@@ -26,12 +26,13 @@
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
-using namespace {{modelNamespace}};
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
 
 class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:
     {{classname}}Impl(Pistache::Address addr);
-    ~{{classname}}Impl() { };
+    ~{{classname}}Impl() {}
 
     {{#operation}}
     {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}

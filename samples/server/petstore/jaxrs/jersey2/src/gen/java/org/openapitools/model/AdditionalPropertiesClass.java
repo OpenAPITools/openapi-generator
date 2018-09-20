@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * AdditionalPropertiesClass
@@ -53,6 +54,7 @@ public class AdditionalPropertiesClass   {
    **/
   @JsonProperty("map_property")
   @ApiModelProperty(value = "")
+  
   public Map<String, String> getMapProperty() {
     return mapProperty;
   }
@@ -80,6 +82,7 @@ public class AdditionalPropertiesClass   {
    **/
   @JsonProperty("map_of_map_property")
   @ApiModelProperty(value = "")
+  @Valid
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

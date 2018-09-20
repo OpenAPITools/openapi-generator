@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.41'
+    ext.kotlin_version = '1.2.60'
     repositories {
         mavenCentral()
         maven {
@@ -14,7 +14,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "gradle.plugin.org.gradle.kotlin:gradle-kotlin-dsl-plugins:0.17.5"
+        classpath "gradle.plugin.org.gradle.kotlin:gradle-kotlin-dsl-plugins:1.0-rc-3"
     }
 }
 

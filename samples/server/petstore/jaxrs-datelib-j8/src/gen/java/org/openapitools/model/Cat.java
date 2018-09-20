@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Cat
@@ -41,6 +42,7 @@ public class Cat extends Animal implements Serializable {
    **/
   @JsonProperty("declawed")
   @ApiModelProperty(value = "")
+  
   public Boolean getDeclawed() {
     return declawed;
   }

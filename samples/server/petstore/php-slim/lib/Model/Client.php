@@ -7,9 +7,9 @@ namespace OpenAPIServer\Model;
 /**
  * Client
  */
-class Client {
-
+class Client
+{
+    
     /** @var string $client */
     private $client;
-
 }

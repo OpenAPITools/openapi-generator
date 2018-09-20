@@ -21,6 +21,8 @@ import ch.lambdaj.collection.LambdaIterable;
 import io.airlift.airline.Command;
 import org.openapitools.codegen.CodegenConfig;
 
+import java.util.Locale;
+
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.collection.LambdaCollections.with;
 import static java.util.ServiceLoader.load;
@@ -34,6 +36,6 @@ public class Langs implements Runnable {
     public void run() {
         LambdaIterable<String> langs =
                 with(load(CodegenConfig.class)).extract(on(CodegenConfig.class).getName());
-        System.out.printf("Available languages (generators): %s%n", langs);
+        System.out.printf(Locale.ROOT, "Available languages (generators): %s%n", langs);
     }
 }
