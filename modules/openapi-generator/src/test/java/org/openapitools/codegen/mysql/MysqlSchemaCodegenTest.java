@@ -245,7 +245,7 @@ public class MysqlSchemaCodegenTest {
 
     @Test
     public void testSetDefaultDatabaseName() {
-        final MysqlSchemaServerCodegen codegen = new MysqlSchemaServerCodegen();
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         codegen.setDefaultDatabaseName("valid_db_name");
         Assert.assertSame(codegen.getDefaultDatabaseName(), "valid_db_name");
         codegen.setDefaultDatabaseName("12345");
@@ -254,8 +254,25 @@ public class MysqlSchemaCodegenTest {
 
     @Test
     public void testGetDefaultDatabaseName() {
-        final MysqlSchemaServerCodegen codegen = new MysqlSchemaServerCodegen();
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
         Assert.assertSame(codegen.getDefaultDatabaseName(), "");
+    }
+
+    @Test
+    public void testSetJsonDataTypeEnabled() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        codegen.setJsonDataTypeEnabled(true);
+        Assert.assertTrue(codegen.getJsonDataTypeEnabled());
+        codegen.setJsonDataTypeEnabled(false);
+        Assert.assertFalse(codegen.getJsonDataTypeEnabled());
+    }
+
+    @Test
+    public void testGetJsonDataTypeEnabled() {
+        final MysqlSchemaCodegen codegen = new MysqlSchemaCodegen();
+        Assert.assertTrue(codegen.getJsonDataTypeEnabled());
+        codegen.setJsonDataTypeEnabled(false);
+        Assert.assertFalse(codegen.getJsonDataTypeEnabled());
     }
 
 }

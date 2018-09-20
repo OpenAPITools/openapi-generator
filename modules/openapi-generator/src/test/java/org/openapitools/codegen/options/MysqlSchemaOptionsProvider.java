@@ -24,6 +24,7 @@ import java.util.Map;
 
 public class MysqlSchemaOptionsProvider implements OptionsProvider {
     public static final String DEFAULT_DATABASE_NAME_VALUE = "database_name";
+    public static final String JSON_DATA_TYPE_ENABLED_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -33,7 +34,8 @@ public class MysqlSchemaOptionsProvider implements OptionsProvider {
     @Override
     public Map<String, String> createOptions() {
         ImmutableMap.Builder<String, String> builder = new ImmutableMap.Builder<String, String>();
-        return builder.put(MysqlSchemaServerCodegen.DEFAULT_DATABASE_NAME, DEFAULT_DATABASE_NAME_VALUE)
+        return builder.put(MysqlSchemaCodegen.DEFAULT_DATABASE_NAME, DEFAULT_DATABASE_NAME_VALUE)
+            .put(MysqlSchemaCodegen.JSON_DATA_TYPE_ENABLED, JSON_DATA_TYPE_ENABLED_VALUE)
             .build();
     }
 

@@ -68,6 +68,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
     protected String tableNamePrefix = "tbl_", tableNameSuffix = "";
     protected String columnNamePrefix = "col_", columnNameSuffix = "";
+    protected Boolean jsonDataTypeEnabled = true;
 
     public MysqlSchemaCodegen() {
         super();
@@ -200,6 +201,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 // default database name may be escaped, need to overwrite additional prop
                 additionalProperties.put(DEFAULT_DATABASE_NAME, getDefaultDatabaseName());
             }
+        }
+
+        if (additionalProperties.containsKey(JSON_DATA_TYPE_ENABLED)) {
+            this.setJsonDataTypeEnabled(Boolean.valueOf(additionalProperties.get(JSON_DATA_TYPE_ENABLED).toString()));
+        } else {
+            additionalProperties.put(JSON_DATA_TYPE_ENABLED, getJsonDataTypeEnabled());
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -614,6 +621,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         mysqlSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", toColumnName(baseName));
         columnDefinition.put("colDataType", dataType);
+        if (Boolean.FALSE.equals(getJsonDataTypeEnabled())) {
+            columnDefinition.put("colDataType", "TEXT");
+        }
 
         if (Boolean.TRUE.equals(required)) {
             columnDefinition.put("colNotNull", true);
