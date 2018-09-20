@@ -21,9 +21,9 @@ module OpenAPIPetstore.API
   , module OpenAPIPetstore.API.User
   ) where
 
-import OpenAPIPetstore.API.AnotherFake
-import OpenAPIPetstore.API.Fake
-import OpenAPIPetstore.API.FakeClassnameTags123
-import OpenAPIPetstore.API.Pet
-import OpenAPIPetstore.API.Store
-import OpenAPIPetstore.API.User
+import           OpenAPIPetstore.API.AnotherFake
+import           OpenAPIPetstore.API.Fake
+import           OpenAPIPetstore.API.FakeClassnameTags123
+import           OpenAPIPetstore.API.Pet
+import           OpenAPIPetstore.API.Store
+import           OpenAPIPetstore.API.User

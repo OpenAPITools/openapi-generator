@@ -12,28 +12,32 @@
 Module : OpenAPIPetstore.Lens
 -}
 
-{-# LANGUAGE KindSignatures #-}
-{-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE KindSignatures  #-}
+{-# LANGUAGE NamedFieldPuns  #-}
+{-# LANGUAGE RankNTypes      #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.ModelLens where
 
-import qualified Data.Aeson as A
-import qualified Data.ByteString.Lazy as BL
-import qualified Data.Data as P (Data, Typeable)
-import qualified Data.Map as Map
-import qualified Data.Set as Set
-import qualified Data.Time as TI
+import qualified Data.Aeson            as A
+import qualified Data.ByteString.Lazy  as BL
+import qualified Data.Data             as P (Data, Typeable)
+import qualified Data.Map              as Map
+import qualified Data.Set              as Set
+import qualified Data.Time             as TI
 
-import Data.Text (Text)
+import           Data.Text             (Text)
 
-import Prelude (($), (.),(<$>),(<*>),(=<<),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
-import qualified Prelude as P
+import           Prelude               (Applicative, Bool (..), Char, Double,
+                                        FilePath, Float, Functor, Int, Integer,
+                                        Maybe (..), Monad, String, fmap, maybe,
+                                        mempty, pure, undefined, ($), (.),
+                                        (<$>), (<*>), (=<<))
+import qualified Prelude               as P
 
-import OpenAPIPetstore.Model
-import OpenAPIPetstore.Core
+import           OpenAPIPetstore.Core
+import           OpenAPIPetstore.Model
 
 
 -- * AdditionalPropertiesClass

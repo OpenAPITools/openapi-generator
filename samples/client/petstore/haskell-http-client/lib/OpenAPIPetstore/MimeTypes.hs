@@ -12,35 +12,38 @@
 Module : OpenAPIPetstore.MimeTypes
 -}
 
-{-# LANGUAGE ConstraintKinds #-}
+{-# LANGUAGE ConstraintKinds           #-}
 {-# LANGUAGE ExistentialQuantification #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE FlexibleContexts          #-}
+{-# LANGUAGE FlexibleInstances         #-}
+{-# LANGUAGE MultiParamTypeClasses     #-}
+{-# LANGUAGE OverloadedStrings         #-}
+{-# LANGUAGE ScopedTypeVariables       #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.MimeTypes where
 
-import qualified Control.Arrow as P (left)
-import qualified Data.Aeson as A
-import qualified Data.ByteString as B
-import qualified Data.ByteString.Builder as BB
-import qualified Data.ByteString.Char8 as BC
-import qualified Data.ByteString.Lazy as BL
+import qualified Control.Arrow              as P (left)
+import qualified Data.Aeson                 as A
+import qualified Data.ByteString            as B
+import qualified Data.ByteString.Builder    as BB
+import qualified Data.ByteString.Char8      as BC
+import qualified Data.ByteString.Lazy       as BL
 import qualified Data.ByteString.Lazy.Char8 as BCL
-import qualified Data.Data as P (Typeable)
-import qualified Data.Proxy as P (Proxy(..))
-import qualified Data.String as P
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
-import qualified Network.HTTP.Media as ME
-import qualified Web.FormUrlEncoded as WH
-import qualified Web.HttpApiData as WH
+import qualified Data.Data                  as P (Typeable)
+import qualified Data.Proxy                 as P (Proxy (..))
+import qualified Data.String                as P
+import qualified Data.Text                  as T
+import qualified Data.Text.Encoding         as T
+import qualified Network.HTTP.Media         as ME
+import qualified Web.FormUrlEncoded         as WH
+import qualified Web.HttpApiData            as WH
 
-import Prelude (($), (.),(<$>),(<*>),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty)
-import qualified Prelude as P
+import           Prelude                    (Bool (..), Char, Double, FilePath,
+                                             Float, Int, Integer, Maybe (..),
+                                             String, fmap, mempty, undefined,
+                                             ($), (.), (<$>), (<*>))
+import qualified Prelude                    as P
 
 -- * ContentType MimeType
 
@@ -82,13 +85,13 @@ class P.Typeable mtype => MimeType mtype  where
   mimeTypes :: P.Proxy mtype -> [ME.MediaType]
   mimeTypes p =
     case mimeType p of
-      Just x -> [x]
+      Just x  -> [x]
       Nothing -> []
 
   mimeType :: P.Proxy mtype -> Maybe ME.MediaType
   mimeType p =
     case mimeTypes p of
-      [] -> Nothing
+      []    -> Nothing
       (x:_) -> Just x
 
   mimeType' :: mtype -> Maybe ME.MediaType
