@@ -133,24 +133,32 @@ void apiClient_invoke(apiClient_t	*apiClient,
 
 		if(headerType != NULL) {
 			list_ForEach(listEntry, headerType) {
-				char buffHeader[256];
-				sprintf(buffHeader,
-				        "%s%s",
-				        "Accept: ",
-				        listEntry->data);
-				headers =
-					curl_slist_append(headers, buffHeader);
+				if(strstr((char *) listEntry->data,
+				          "xml") == NULL)
+				{
+					char buffHeader[256];
+					sprintf(buffHeader,
+					        "%s%s",
+					        "Accept: ",
+					        (char *) listEntry->data);
+					headers = curl_slist_append(headers,
+					                            buffHeader);
+				}
 			}
 		}
 		if(contentType != NULL) {
 			list_ForEach(listEntry, contentType) {
-				char buffContent[256];
-				sprintf(buffContent,
-				        "%s%s",
-				        "Content-Type: ",
-				        listEntry->data);
-				headers =
-					curl_slist_append(headers, buffContent);
+				if(strstr((char *) listEntry->data,
+				          "xml") == NULL)
+				{
+					char buffContent[256];
+					sprintf(buffContent,
+					        "%s%s",
+					        "Content-Type: ",
+					        (char *) listEntry->data);
+					headers = curl_slist_append(headers,
+					                            buffContent);
+				}
 			}
 		}
 
@@ -169,11 +177,28 @@ void apiClient_invoke(apiClient_t	*apiClient,
 				{
 					curl_mimepart *part = curl_mime_addpart(
 						mime);
-					curl_mime_data(part,
-					               keyValuePair->key,
-					               CURL_ZERO_TERMINATED);
-					curl_mime_name(part,
-					               keyValuePair->value);
+
+					curl_mime_name(part, keyValuePair->key);
+
+					if(strcmp(keyValuePair->key,
+					          "file") == 0)
+					{
+						ImageContainer *imageFile =
+							malloc(sizeof(
+								       ImageContainer));
+						memcpy(&imageFile,
+						       keyValuePair->value,
+						       sizeof(imageFile));
+						curl_mime_data(part,
+						               imageFile->fileData,
+						               imageFile->fileSize);
+						curl_mime_filename(part,
+						                   "image.png");
+					} else {
+						curl_mime_data(part,
+						               keyValuePair->value,
+						               CURL_ZERO_TERMINATED);
+					}
 				}
 			}
 
@@ -224,7 +249,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		                 CURLOPT_WRITEDATA,
 		                 &apiClient->dataReceived);
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
-
+		curl_easy_setopt(handle, CURLOPT_VERBOSE, 1L); // to get curl debug msg
 		// this would only be generated for OAuth2 authentication
       #ifdef OAUTH2
 		if(apiClient->accessToken != NULL) {

@@ -8,6 +8,7 @@ file(GLOB MODEL_C model/*.c)
 file(GLOB API_C api/*.c)
 file(GLOB EXTERNAL_SRC_C external/src/*.c)
 set(ALL_SRC_LIST ${SRC_C} ${UNIT_TESTS_C} ${UNIT_TEST_C} ${MODEL_C} ${API_C})
+set(CMAKE_BUILD_TYPE Debug)
 
 include(CTest)
 include_directories(include)

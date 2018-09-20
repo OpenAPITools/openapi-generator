@@ -408,7 +408,7 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
 	}
 
 	list_addElement(localVarContentType,
-	                "application/x-www-form-urlencoded");                      // consumes
+	                "application/x-www-form-urlencoded");                     // consumes
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -475,7 +475,24 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 	}
 	// form parameters (TODO free function to implement)
 	if(file != NULL) {
-		// list_addElement(localVarFormParameters,file); //notstring
+		fseek(file, 0, SEEK_END);
+		long f_size = ftell(file);
+		fseek(file, 0, SEEK_SET);
+
+		char *key = malloc(strlen("file") + 1);
+		key = "file";
+		ImageContainer *imageFile = malloc(sizeof(ImageContainer));
+		imageFile->fileData = malloc((f_size) * sizeof(char *));
+
+		fread(imageFile->fileData, f_size, 1, file);
+		imageFile->fileData[f_size] = '\0';
+
+		imageFile->fileSize = f_size;
+		char value[sizeof(imageFile)];
+
+		memcpy(value, &imageFile, sizeof(imageFile));
+		keyValuePair_t *keyPair = keyValuePair_create(key, value);
+		list_addElement(localVarFormParameters, keyPair); // file adding
 	}
 
 	list_addElement(localVarHeaderType, "application/json"); // produces

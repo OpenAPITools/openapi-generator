@@ -55,4 +55,4 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
 api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
                                   long		PetId,
                                   char		*AdditionalMetadata,
-                                  FILE		File);
+                                  FILE		*File);
