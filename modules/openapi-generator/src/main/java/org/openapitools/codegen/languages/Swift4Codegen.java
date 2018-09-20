@@ -298,8 +298,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("SWIFTFORMAT_PATH"))) {
-            LOGGER.info("Environment variable SWIFTFORMAT_PATH not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFTFORMAT_PATH=/usr/local/bin/swiftformat' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
         }
 
         // Setup project name
@@ -848,18 +848,18 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         if (file == null) {
             return;
         }
-        String swiftformatPath = System.getenv("SWIFTFORMAT_PATH");
-        if (StringUtils.isEmpty(swiftformatPath)) {
-            return; // skip if SWIFTFORMAT_PATH env variable is not defined
+        String swiftPostProcessFile = System.getenv("SWIFT_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(swiftPostProcessFile)) {
+            return; // skip if SWIFT_POST_PROCESS_FILE env variable is not defined
         }
         // only process files with swift extension
         if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = swiftformatPath + " " + file.toString();
+            String command = swiftPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
@@ -867,5 +867,5 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
-    } 
+    }
 }
