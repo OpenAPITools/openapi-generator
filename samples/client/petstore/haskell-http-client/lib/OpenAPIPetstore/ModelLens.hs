@@ -543,7 +543,7 @@ mapTestDirectMapL f MapTest{..} = (\mapTestDirectMap -> MapTest { mapTestDirectM
 {-# INLINE mapTestDirectMapL #-}
 
 -- | 'mapTestIndirectMap' Lens
-mapTestIndirectMapL :: Lens_' MapTest (Maybe StringBooleanMap)
+mapTestIndirectMapL :: Lens_' MapTest (Maybe (Map.Map String Bool))
 mapTestIndirectMapL f MapTest{..} = (\mapTestIndirectMap -> MapTest { mapTestIndirectMap, ..} ) <$> f mapTestIndirectMap
 {-# INLINE mapTestIndirectMapL #-}
 

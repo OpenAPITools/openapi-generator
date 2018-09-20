@@ -31,4 +31,7 @@ CONFIG OPTIONS for dart
 	sourceFolder
 	    source folder for generated code
 
+	supportDart2
+	    support dart2 (Default: true)
+
 Back to the [generators list](README.md)
