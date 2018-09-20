@@ -122,10 +122,10 @@
         imageFile->fileData[f_size] = '\0';
 
         imageFile->fileSize = f_size;
-        char* codex[sizeof(imageFile)];
+        char value[sizeof(imageFile)];
 
-        memcpy(codex,&imageFile, sizeof(imageFile));
-        keyValuePair_t *keyPair = keyValuePair_create(key,codex);
+        memcpy(value,&imageFile, sizeof(imageFile));
+        keyValuePair_t *keyPair = keyValuePair_create(key,value);
         list_addElement(localVarFormParameters,keyPair); //file adding
         {{/isFile}}
         {{^isFile}}
@@ -158,10 +158,10 @@
     {{/bodyParam}}
 
     {{#produces}}
-        list_addElement(localVarHeaderType,"{{{mediaType}}}");{{#hasMore}} {{/hasMore}} //produces
+        list_addElement(localVarHeaderType,"{{{mediaType}}}"); //produces
     {{/produces}}
     {{#consumes}}
-        list_addElement(localVarContentType,"{{{mediaType}}}");{{#hasMore}} {{/hasMore}}  //consumes
+        list_addElement(localVarContentType,"{{{mediaType}}}"); //consumes
     {{/consumes}}
 
     apiClient_invoke(apiClient,

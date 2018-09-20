@@ -134,16 +134,20 @@ void apiClient_invoke(apiClient_t  *apiClient,
 
     if(headerType != NULL){
         list_ForEach(listEntry, headerType) {
-            char buffHeader[256];
-            sprintf(buffHeader,"%s%s","Accept: " ,(char*)listEntry->data);
-            headers = curl_slist_append(headers, buffHeader);
+            if(strstr((char *) listEntry->data, "xml") == NULL){
+                char buffHeader[256];
+                sprintf(buffHeader,"%s%s","Accept: ",(char *) listEntry->data);
+                headers = curl_slist_append(headers, buffHeader);
+            }
         }
     }
     if(contentType != NULL){
         list_ForEach(listEntry, contentType) {
-            char buffContent[256];
-            sprintf(buffContent,"%s%s","Content-Type: " ,(char*)listEntry->data);
-            headers = curl_slist_append(headers, buffContent);
+            if(strstr((char *) listEntry->data, "xml") == NULL){
+                char buffContent[256];
+                sprintf(buffContent, "%s%s", "Content-Type: ",(char *) listEntry->data);
+                headers = curl_slist_append(headers, buffContent);
+            }
         }
     }
 
