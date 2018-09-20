@@ -22,10 +22,10 @@ module OpenAPIPetstore
   , module OpenAPIPetstore.ModelLens
   ) where
 
-import           OpenAPIPetstore.API
-import           OpenAPIPetstore.Client
-import           OpenAPIPetstore.Core
-import           OpenAPIPetstore.Logging
-import           OpenAPIPetstore.MimeTypes
-import           OpenAPIPetstore.Model
-import           OpenAPIPetstore.ModelLens
+import OpenAPIPetstore.API
+import OpenAPIPetstore.Client
+import OpenAPIPetstore.Core
+import OpenAPIPetstore.Logging
+import OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.Model
+import OpenAPIPetstore.ModelLens

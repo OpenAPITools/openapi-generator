@@ -1,15 +1,15 @@
 {-# LANGUAGE DefaultSignatures #-}
-{-# LANGUAGE FlexibleContexts  #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TypeOperators     #-}
+{-# LANGUAGE TypeOperators #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module ApproxEq where
 
-import           Data.Text       (Text)
-import           Data.Time.Clock
-import           GHC.Generics    as G
-import           Test.QuickCheck
+import Data.Text (Text)
+import Data.Time.Clock
+import Test.QuickCheck
+import GHC.Generics as G
 
 (==~)
   :: (ApproxEq a, Show a)
@@ -26,7 +26,7 @@ instance (GApproxEq a, GApproxEq b) =>
          GApproxEq (a :+: b) where
   gApproxEq (L1 a) (L1 b) = gApproxEq a b
   gApproxEq (R1 a) (R1 b) = gApproxEq a b
-  gApproxEq _ _           = False
+  gApproxEq _ _ = False
 
 instance (GApproxEq a, GApproxEq b) =>
          GApproxEq (a :*: b) where

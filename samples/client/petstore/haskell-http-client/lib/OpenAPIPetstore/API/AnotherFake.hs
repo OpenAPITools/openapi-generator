@@ -12,54 +12,45 @@
 Module : OpenAPIPetstore.API.AnotherFake
 -}
 
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE MonoLocalBinds        #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.API.AnotherFake where
 
-import           OpenAPIPetstore.Core
-import           OpenAPIPetstore.MimeTypes
-import           OpenAPIPetstore.Model                 as M
+import OpenAPIPetstore.Core
+import OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.Model as M
 
-import qualified Data.Aeson                            as A
-import qualified Data.ByteString                       as B
-import qualified Data.ByteString.Lazy                  as BL
-import qualified Data.Data                             as P (TypeRep, Typeable,
-                                                             typeOf, typeRep)
-import qualified Data.Foldable                         as P
-import qualified Data.Map                              as Map
-import qualified Data.Maybe                            as P
-import qualified Data.Proxy                            as P (Proxy (..))
-import qualified Data.Set                              as Set
-import qualified Data.String                           as P
-import qualified Data.Text                             as T
-import qualified Data.Text.Encoding                    as T
-import qualified Data.Text.Lazy                        as TL
-import qualified Data.Text.Lazy.Encoding               as TL
-import qualified Data.Time                             as TI
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
+import qualified Data.Foldable as P
+import qualified Data.Map as Map
+import qualified Data.Maybe as P
+import qualified Data.Proxy as P (Proxy(..))
+import qualified Data.Set as Set
+import qualified Data.String as P
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Text.Lazy as TL
+import qualified Data.Text.Lazy.Encoding as TL
+import qualified Data.Time as TI
 import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Media                    as ME
-import qualified Network.HTTP.Types                    as NH
-import qualified Web.FormUrlEncoded                    as WH
-import qualified Web.HttpApiData                       as WH
+import qualified Network.HTTP.Media as ME
+import qualified Network.HTTP.Types as NH
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
 
-import           Data.Text                             (Text)
-import           GHC.Base                              ((<|>))
+import Data.Text (Text)
+import GHC.Base ((<|>))
 
-import           Prelude                               (Applicative, Bool (..),
-                                                        Char, Double, FilePath,
-                                                        Float, Functor, Int,
-                                                        Integer, Maybe (..),
-                                                        Monad, String, fmap,
-                                                        maybe, mempty, pure,
-                                                        undefined, ($), (.),
-                                                        (/=), (<$>), (<*>),
-                                                        (==), (>>=))
-import qualified Prelude                               as P
+import Prelude ((==),(/=),($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import qualified Prelude as P
 
 -- * Operations
 
@@ -69,12 +60,12 @@ import qualified Prelude                               as P
 -- *** op123testSpecialTags
 
 -- | @PATCH \/another-fake\/dummy@
---
+-- 
 -- To test special tags
---
+-- 
 -- To test special tags and operation ID starting with number
---
-op123testSpecialTags
+-- 
+op123testSpecialTags 
   :: (Consumes Op123testSpecialTags MimeJSON, MimeRender MimeJSON Client)
   => Client -- ^ "client" -  client model
   -> OpenAPIPetstoreRequest Op123testSpecialTags MimeJSON Client MimeJSON
@@ -82,10 +73,10 @@ op123testSpecialTags client =
   _mkRequest "PATCH" ["/another-fake/dummy"]
     `setBodyParam` client
 
-data Op123testSpecialTags
+data Op123testSpecialTags 
 
 -- | /Body Param/ "Client" - client model
-instance HasBodyParam Op123testSpecialTags Client
+instance HasBodyParam Op123testSpecialTags Client 
 
 -- | @application/json@
 instance Consumes Op123testSpecialTags MimeJSON

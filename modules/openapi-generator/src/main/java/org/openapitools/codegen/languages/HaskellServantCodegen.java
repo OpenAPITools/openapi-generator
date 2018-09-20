@@ -199,8 +199,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("HFMT_PATH"))) {
-            LOGGER.info("Environment variable HFMT_PATH not defined so the Haskell code may not be properly formatted. To define it, try 'export HFMT_PATH=$HOME/.local/bin/hfmt' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
+            LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
         }
     }
 
@@ -607,21 +607,22 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         if (file == null) {
             return;
         }
-        String hfmtPath = System.getenv("HFMT_PATH");
-        if (StringUtils.isEmpty(hfmtPath)) {
-            return; // skip if HFMT_PATH env variable is not defined
+        String haskellPostProcessFile = System.getenv("HASKELL_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(haskellPostProcessFile)) {
+            return; // skip if HASKELL_POST_PROCESS_FILE env variable is not defined
         }
 
         // only process files with hs extension
         if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = hfmtPath + " -w " + file.toString();
+            String command = haskellPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
                 }
-                LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }

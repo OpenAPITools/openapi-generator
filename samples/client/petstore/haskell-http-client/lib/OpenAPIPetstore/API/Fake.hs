@@ -12,54 +12,45 @@
 Module : OpenAPIPetstore.API.Fake
 -}
 
-{-# LANGUAGE FlexibleContexts      #-}
-{-# LANGUAGE FlexibleInstances     #-}
-{-# LANGUAGE MonoLocalBinds        #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MonoLocalBinds #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# OPTIONS_GHC -fno-warn-name-shadowing -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module OpenAPIPetstore.API.Fake where
 
-import           OpenAPIPetstore.Core
-import           OpenAPIPetstore.MimeTypes
-import           OpenAPIPetstore.Model                 as M
+import OpenAPIPetstore.Core
+import OpenAPIPetstore.MimeTypes
+import OpenAPIPetstore.Model as M
 
-import qualified Data.Aeson                            as A
-import qualified Data.ByteString                       as B
-import qualified Data.ByteString.Lazy                  as BL
-import qualified Data.Data                             as P (TypeRep, Typeable,
-                                                             typeOf, typeRep)
-import qualified Data.Foldable                         as P
-import qualified Data.Map                              as Map
-import qualified Data.Maybe                            as P
-import qualified Data.Proxy                            as P (Proxy (..))
-import qualified Data.Set                              as Set
-import qualified Data.String                           as P
-import qualified Data.Text                             as T
-import qualified Data.Text.Encoding                    as T
-import qualified Data.Text.Lazy                        as TL
-import qualified Data.Text.Lazy.Encoding               as TL
-import qualified Data.Time                             as TI
+import qualified Data.Aeson as A
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.Data as P (Typeable, TypeRep, typeOf, typeRep)
+import qualified Data.Foldable as P
+import qualified Data.Map as Map
+import qualified Data.Maybe as P
+import qualified Data.Proxy as P (Proxy(..))
+import qualified Data.Set as Set
+import qualified Data.String as P
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Text.Lazy as TL
+import qualified Data.Text.Lazy.Encoding as TL
+import qualified Data.Time as TI
 import qualified Network.HTTP.Client.MultipartFormData as NH
-import qualified Network.HTTP.Media                    as ME
-import qualified Network.HTTP.Types                    as NH
-import qualified Web.FormUrlEncoded                    as WH
-import qualified Web.HttpApiData                       as WH
+import qualified Network.HTTP.Media as ME
+import qualified Network.HTTP.Types as NH
+import qualified Web.FormUrlEncoded as WH
+import qualified Web.HttpApiData as WH
 
-import           Data.Text                             (Text)
-import           GHC.Base                              ((<|>))
+import Data.Text (Text)
+import GHC.Base ((<|>))
 
-import           Prelude                               (Applicative, Bool (..),
-                                                        Char, Double, FilePath,
-                                                        Float, Functor, Int,
-                                                        Integer, Maybe (..),
-                                                        Monad, String, fmap,
-                                                        maybe, mempty, pure,
-                                                        undefined, ($), (.),
-                                                        (/=), (<$>), (<*>),
-                                                        (==), (>>=))
-import qualified Prelude                               as P
+import Prelude ((==),(/=),($), (.),(<$>),(<*>),(>>=),Maybe(..),Bool(..),Char,Double,FilePath,Float,Int,Integer,String,fmap,undefined,mempty,maybe,pure,Monad,Applicative,Functor)
+import qualified Prelude as P
 
 -- * Operations
 
@@ -69,10 +60,10 @@ import qualified Prelude                               as P
 -- *** fakeOuterBooleanSerialize
 
 -- | @POST \/fake\/outer\/boolean@
---
+-- 
 -- Test serialization of outer boolean types
---
-fakeOuterBooleanSerialize
+-- 
+fakeOuterBooleanSerialize 
   :: (Consumes FakeOuterBooleanSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -80,10 +71,10 @@ fakeOuterBooleanSerialize
 fakeOuterBooleanSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/boolean"]
 
-data FakeOuterBooleanSerialize
+data FakeOuterBooleanSerialize 
 
 -- | /Body Param/ "body" - Input boolean as post body
-instance HasBodyParam FakeOuterBooleanSerialize BodyBool
+instance HasBodyParam FakeOuterBooleanSerialize BodyBool 
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterBooleanSerialize mtype
@@ -92,10 +83,10 @@ instance MimeType mtype => Produces FakeOuterBooleanSerialize mtype
 -- *** fakeOuterCompositeSerialize
 
 -- | @POST \/fake\/outer\/composite@
---
+-- 
 -- Test serialization of object with outer number type
---
-fakeOuterCompositeSerialize
+-- 
+fakeOuterCompositeSerialize 
   :: (Consumes FakeOuterCompositeSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -103,10 +94,10 @@ fakeOuterCompositeSerialize
 fakeOuterCompositeSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/composite"]
 
-data FakeOuterCompositeSerialize
+data FakeOuterCompositeSerialize 
 
 -- | /Body Param/ "OuterComposite" - Input composite as post body
-instance HasBodyParam FakeOuterCompositeSerialize OuterComposite
+instance HasBodyParam FakeOuterCompositeSerialize OuterComposite 
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterCompositeSerialize mtype
@@ -115,10 +106,10 @@ instance MimeType mtype => Produces FakeOuterCompositeSerialize mtype
 -- *** fakeOuterNumberSerialize
 
 -- | @POST \/fake\/outer\/number@
---
+-- 
 -- Test serialization of outer number types
---
-fakeOuterNumberSerialize
+-- 
+fakeOuterNumberSerialize 
   :: (Consumes FakeOuterNumberSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -126,10 +117,10 @@ fakeOuterNumberSerialize
 fakeOuterNumberSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/number"]
 
-data FakeOuterNumberSerialize
+data FakeOuterNumberSerialize 
 
 -- | /Body Param/ "body" - Input number as post body
-instance HasBodyParam FakeOuterNumberSerialize Body
+instance HasBodyParam FakeOuterNumberSerialize Body 
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterNumberSerialize mtype
@@ -138,10 +129,10 @@ instance MimeType mtype => Produces FakeOuterNumberSerialize mtype
 -- *** fakeOuterStringSerialize
 
 -- | @POST \/fake\/outer\/string@
---
+-- 
 -- Test serialization of outer string types
---
-fakeOuterStringSerialize
+-- 
+fakeOuterStringSerialize 
   :: (Consumes FakeOuterStringSerialize contentType)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
@@ -149,10 +140,10 @@ fakeOuterStringSerialize
 fakeOuterStringSerialize _  _ =
   _mkRequest "POST" ["/fake/outer/string"]
 
-data FakeOuterStringSerialize
+data FakeOuterStringSerialize 
 
 -- | /Body Param/ "body" - Input string as post body
-instance HasBodyParam FakeOuterStringSerialize BodyText
+instance HasBodyParam FakeOuterStringSerialize BodyText 
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterStringSerialize mtype
@@ -161,10 +152,10 @@ instance MimeType mtype => Produces FakeOuterStringSerialize mtype
 -- *** testBodyWithFileSchema
 
 -- | @PUT \/fake\/body-with-file-schema@
---
+-- 
 -- For this test, the body for this request much reference a schema named `File`.
---
-testBodyWithFileSchema
+-- 
+testBodyWithFileSchema 
   :: (Consumes TestBodyWithFileSchema MimeJSON, MimeRender MimeJSON FileSchemaTestClass)
   => FileSchemaTestClass -- ^ "fileSchemaTestClass"
   -> OpenAPIPetstoreRequest TestBodyWithFileSchema MimeJSON NoContent MimeNoContent
@@ -172,8 +163,8 @@ testBodyWithFileSchema fileSchemaTestClass =
   _mkRequest "PUT" ["/fake/body-with-file-schema"]
     `setBodyParam` fileSchemaTestClass
 
-data TestBodyWithFileSchema
-instance HasBodyParam TestBodyWithFileSchema FileSchemaTestClass
+data TestBodyWithFileSchema 
+instance HasBodyParam TestBodyWithFileSchema FileSchemaTestClass 
 
 -- | @application/json@
 instance Consumes TestBodyWithFileSchema MimeJSON
@@ -184,8 +175,8 @@ instance Produces TestBodyWithFileSchema MimeNoContent
 -- *** testBodyWithQueryParams
 
 -- | @PUT \/fake\/body-with-query-params@
---
-testBodyWithQueryParams
+-- 
+testBodyWithQueryParams 
   :: (Consumes TestBodyWithQueryParams MimeJSON, MimeRender MimeJSON User)
   => User -- ^ "user"
   -> Query -- ^ "query"
@@ -195,8 +186,8 @@ testBodyWithQueryParams user (Query query) =
     `setBodyParam` user
     `setQuery` toQuery ("query", Just query)
 
-data TestBodyWithQueryParams
-instance HasBodyParam TestBodyWithQueryParams User
+data TestBodyWithQueryParams 
+instance HasBodyParam TestBodyWithQueryParams User 
 
 -- | @application/json@
 instance Consumes TestBodyWithQueryParams MimeJSON
@@ -207,12 +198,12 @@ instance Produces TestBodyWithQueryParams MimeNoContent
 -- *** testClientModel
 
 -- | @PATCH \/fake@
---
+-- 
 -- To test \"client\" model
---
+-- 
 -- To test \"client\" model
---
-testClientModel
+-- 
+testClientModel 
   :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON Client)
   => Client -- ^ "client" -  client model
   -> OpenAPIPetstoreRequest TestClientModel MimeJSON Client MimeJSON
@@ -220,10 +211,10 @@ testClientModel client =
   _mkRequest "PATCH" ["/fake"]
     `setBodyParam` client
 
-data TestClientModel
+data TestClientModel 
 
 -- | /Body Param/ "Client" - client model
-instance HasBodyParam TestClientModel Client
+instance HasBodyParam TestClientModel Client 
 
 -- | @application/json@
 instance Consumes TestClientModel MimeJSON
@@ -235,14 +226,14 @@ instance Produces TestClientModel MimeJSON
 -- *** testEndpointParameters
 
 -- | @POST \/fake@
---
--- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
---
--- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
---
+-- 
+-- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+-- 
+-- Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+-- 
 -- AuthMethod: 'AuthBasicHttpBasicTest'
---
-testEndpointParameters
+-- 
+testEndpointParameters 
   :: (Consumes TestEndpointParameters MimeFormUrlEncoded)
   => Number -- ^ "number" -  None
   -> ParamDouble -- ^ "double" -  None
@@ -257,7 +248,7 @@ testEndpointParameters (Number number) (ParamDouble double) (PatternWithoutDelim
     `addForm` toForm ("pattern_without_delimiter", patternWithoutDelimiter)
     `addForm` toForm ("byte", byte)
 
-data TestEndpointParameters
+data TestEndpointParameters  
 
 -- | /Optional Param/ "integer" - None
 instance HasOptionalParam TestEndpointParameters ParamInteger where
@@ -318,18 +309,18 @@ instance Produces TestEndpointParameters MimeNoContent
 -- *** testEnumParameters
 
 -- | @GET \/fake@
---
+-- 
 -- To test enum parameters
---
+-- 
 -- To test enum parameters
---
-testEnumParameters
+-- 
+testEnumParameters 
   :: (Consumes TestEnumParameters MimeFormUrlEncoded)
   => OpenAPIPetstoreRequest TestEnumParameters MimeFormUrlEncoded NoContent MimeNoContent
 testEnumParameters =
   _mkRequest "GET" ["/fake"]
 
-data TestEnumParameters
+data TestEnumParameters  
 
 -- | /Optional Param/ "enum_form_string_array" - Form parameter enum test (string array)
 instance HasOptionalParam TestEnumParameters EnumFormStringArray where
@@ -380,10 +371,10 @@ instance Produces TestEnumParameters MimeNoContent
 -- *** testInlineAdditionalProperties
 
 -- | @POST \/fake\/inline-additionalProperties@
---
+-- 
 -- test inline additionalProperties
---
-testInlineAdditionalProperties
+-- 
+testInlineAdditionalProperties 
   :: (Consumes TestInlineAdditionalProperties MimeJSON, MimeRender MimeJSON RequestBody)
   => RequestBody -- ^ "requestBody" -  request body
   -> OpenAPIPetstoreRequest TestInlineAdditionalProperties MimeJSON NoContent MimeNoContent
@@ -391,10 +382,10 @@ testInlineAdditionalProperties requestBody =
   _mkRequest "POST" ["/fake/inline-additionalProperties"]
     `setBodyParam` requestBody
 
-data TestInlineAdditionalProperties
+data TestInlineAdditionalProperties 
 
 -- | /Body Param/ "request_body" - request body
-instance HasBodyParam TestInlineAdditionalProperties RequestBody
+instance HasBodyParam TestInlineAdditionalProperties RequestBody 
 
 -- | @application/json@
 instance Consumes TestInlineAdditionalProperties MimeJSON
@@ -405,10 +396,10 @@ instance Produces TestInlineAdditionalProperties MimeNoContent
 -- *** testJsonFormData
 
 -- | @GET \/fake\/jsonFormData@
---
+-- 
 -- test json serialization of form data
---
-testJsonFormData
+-- 
+testJsonFormData 
   :: (Consumes TestJsonFormData MimeFormUrlEncoded)
   => Param -- ^ "param" -  field1
   -> Param2 -- ^ "param2" -  field2
@@ -418,7 +409,7 @@ testJsonFormData (Param param) (Param2 param2) =
     `addForm` toForm ("param", param)
     `addForm` toForm ("param2", param2)
 
-data TestJsonFormData
+data TestJsonFormData  
 
 -- | @application/x-www-form-urlencoded@
 instance Consumes TestJsonFormData MimeFormUrlEncoded

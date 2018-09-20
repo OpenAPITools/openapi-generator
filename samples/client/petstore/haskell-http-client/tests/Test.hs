@@ -1,19 +1,19 @@
-{-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE PartialTypeSignatures #-}
-{-# LANGUAGE RecordWildCards       #-}
-{-# LANGUAGE ScopedTypeVariables   #-}
 
 module Main where
 
-import           Data.Typeable             (Proxy (..))
-import           Test.Hspec
-import           Test.Hspec.QuickCheck
+import Data.Typeable (Proxy(..))
+import Test.Hspec
+import Test.Hspec.QuickCheck
 
-import           Instances                 ()
-import           PropMime
+import PropMime
+import Instances ()
 
-import           OpenAPIPetstore.MimeTypes
-import           OpenAPIPetstore.Model
+import OpenAPIPetstore.Model
+import OpenAPIPetstore.MimeTypes
 
 main :: IO ()
 main =
@@ -56,4 +56,4 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy StringBooleanMap)
       propMimeEq MimeJSON (Proxy :: Proxy Tag)
       propMimeEq MimeJSON (Proxy :: Proxy User)
-
+      
