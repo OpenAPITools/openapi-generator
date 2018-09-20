@@ -24,6 +24,8 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -414,7 +416,36 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 }
             }
         }
+
+        // Add a vendor extension attribute that provides a map of auth methods and the scopes
+        // which are expected by the operation.  This map is then used by postProcessOperationsWithModels
+        // to build another vendor extension that provides a subset of the auth methods with only
+        // the scopes required by the operation.
+        final List<SecurityRequirement> securities = operation.getSecurity();
+        if (securities != null && securities.size() > 0) {
+            final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+            final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
+
+            Map<String, List<String>> scopes = getAuthScopes(securities, securitySchemes);
+            if (scopes.isEmpty() && globalSecurities != null) {
+                scopes = getAuthScopes(globalSecurities, securitySchemes);
+            }
+            op.vendorExtensions.put("x-scopes", scopes);
+        }
         return op;
+    }
+
+    private Map<String, List<String>> getAuthScopes(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+        final Map<String, List<String>> scopes = new HashMap<>();
+        for (SecurityRequirement requirement : securities) {
+            for (String key : requirement.keySet()) {
+                SecurityScheme securityScheme = securitySchemes.get(key);
+                if (securityScheme != null) {
+                    scopes.put(key, requirement.get(key));
+                }
+            }
+        }
+        return scopes;
     }
 
     @SuppressWarnings("unchecked")
@@ -449,7 +480,14 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     p.dataType = "Swagger.File_Part_Type";
                 }
             }
-            postProcessAuthMethod(op1.authMethods);
+
+            // Given the operation scopes and the auth methods, build a list of auth methods that only
+            // describe the auth methods and scopes required by the operation.
+            final Map<String, List<String>> scopes = (Map<String, List<String>>) op1.vendorExtensions.get("x-scopes");
+            List<CodegenSecurity> opScopes = postProcessAuthMethod(op1.authMethods, scopes);
+            if (opScopes != null) {
+                op1.vendorExtensions.put("x-auth-scopes", opScopes);
+            }
 
             /*
              * Scan the path parameter to construct a x-path-index that tells the index of
@@ -584,7 +622,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
          * Collect the scopes to generate unique identifiers for each of them.
          */
         List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
-        postProcessAuthMethod(authMethods);
+        postProcessAuthMethod(authMethods, null);
 
         return super.postProcessSupportingFileData(objs);
     }
@@ -593,8 +631,11 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * Collect the scopes to generate a unique identifier for each of them.
      *
      * @param authMethods the auth methods with their scopes.
+     * @param scopes the optional auth methods and scopes required by an operation
+     * @return the authMethods to be used by the operation with its required scopes.
      */
-    private void postProcessAuthMethod(List<CodegenSecurity> authMethods) {
+    private List<CodegenSecurity> postProcessAuthMethod(List<CodegenSecurity> authMethods, Map<String, List<String>> scopes) {
+        List<CodegenSecurity> result = (scopes == null) ? null : new ArrayList<CodegenSecurity>();
         if (authMethods != null) {
             for (CodegenSecurity authMethod : authMethods) {
                 if (authMethod.scopes != null) {
@@ -620,8 +661,39 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         }
                     }
                 }
+
+                // If we have operation scopes, filter the auth method to describe the operation auth
+                // method with only the scope that it requires.  We have to create a new auth method
+                // instance because the original object must not be modified.
+                List<String> opScopes = (scopes == null) ? null : scopes.get(authMethod.name);
                 authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
+                if (opScopes != null) {
+                    CodegenSecurity opSecurity = new CodegenSecurity();
+                    opSecurity.name = authMethod.name;
+                    opSecurity.type = authMethod.type;
+                    opSecurity.hasMore = false;
+                    opSecurity.isBasic = authMethod.isBasic;
+                    opSecurity.isApiKey = authMethod.isApiKey;
+                    opSecurity.isKeyInCookie = authMethod.isKeyInCookie;
+                    opSecurity.isKeyInHeader = authMethod.isKeyInHeader;
+                    opSecurity.isKeyInQuery = authMethod.isKeyInQuery;
+                    opSecurity.flow = authMethod.flow;
+                    opSecurity.tokenUrl = authMethod.tokenUrl;
+                    List<Map<String, Object>> opAuthScopes = new ArrayList<Map<String, Object>>();
+                    for (String opScopeName : opScopes) {
+                        for (Map<String, Object> scope : authMethod.scopes) {
+                            String name = (String) scope.get("scope");
+                            if (opScopeName.equals(name)) {
+                                opAuthScopes.add(scope);
+                                break;
+                            }
+                        }
+                    }
+                    opSecurity.scopes = opAuthScopes;
+                    result.add(opSecurity);
+                }
             }
         }
+        return result;
     }
 }

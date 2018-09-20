@@ -13,7 +13,7 @@ package body {{package}}.Skeletons is
       package API_{{operationId}} is
          new Swagger.Servers.Operation (Handler => {{operationId}},
                                         Method  => Swagger.Servers.{{httpMethod}},
-                                        URI     => "{{path}}");
+                                        URI     => URI_Prefix & "{{path}}");
 
       --  {{summary}}
       procedure {{operationId}}
@@ -32,7 +32,7 @@ package body {{package}}.Skeletons is
          Result : {{returnType}};
          {{/returnType}}
       begin
-         {{#authMethods}}
+         {{#vendorExtensions.x-auth-scopes}}
          if not Context.Is_Authenticated then
             Context.Set_Error (401, "Not authenticated");
             return;
@@ -43,7 +43,7 @@ package body {{package}}.Skeletons is
             return;
          end if;
          {{/scopes}}
-         {{/authMethods}}
+         {{/vendorExtensions.x-auth-scopes}}
          {{#queryParams}}
          Swagger.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
          {{/queryParams}}
@@ -128,7 +128,7 @@ package body {{package}}.Skeletons is
          Result : {{returnType}};
          {{/returnType}}
       begin
-         {{#authMethods}}
+         {{#vendorExtensions.x-auth-scopes}}
          if not Context.Is_Authenticated then
             Context.Set_Error (401, "Not authenticated");
             return;
@@ -139,7 +139,7 @@ package body {{package}}.Skeletons is
             return;
          end if;
          {{/scopes}}
-         {{/authMethods}}
+         {{/vendorExtensions.x-auth-scopes}}
          {{#queryParams}}
          Swagger.Servers.Get_Query_Parameter (Req, "{{baseName}}", {{paramName}});
          {{/queryParams}}
@@ -185,7 +185,7 @@ package body {{package}}.Skeletons is
       package API_{{operationId}} is
          new Swagger.Servers.Operation (Handler => {{operationId}},
                                         Method  => Swagger.Servers.{{httpMethod}},
-                                        URI     => "{{path}}");
+                                        URI     => URI_Prefix & "{{path}}");
 {{/operation}}
 {{/operations}}
 {{/apis}}
