@@ -883,7 +883,7 @@ data MapTest = MapTest
   { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
   , mapTestMapOfEnumString :: !(Maybe (Map.Map String E'Inner)) -- ^ "map_of_enum_string"
   , mapTestDirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
-  , mapTestIndirectMap :: !(Maybe StringBooleanMap) -- ^ "indirect_map"
+  , mapTestIndirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "indirect_map"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON MapTest

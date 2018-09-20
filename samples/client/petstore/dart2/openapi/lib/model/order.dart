@@ -48,12 +48,11 @@ class Order {
         : json.map((value) => new Order.fromJson(value)).toList();
   }
 
-  static Map<String, Order> mapFromJson(
-      Map<String, Map<String, dynamic>> json) {
+  static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Order>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) =>
-          map[key] = new Order.fromJson(value));
+      json.forEach(
+          (String key, dynamic value) => map[key] = new Order.fromJson(value));
     }
     return map;
   }

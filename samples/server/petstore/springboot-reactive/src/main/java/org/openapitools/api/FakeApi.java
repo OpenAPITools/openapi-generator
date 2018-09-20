@@ -16,8 +16,6 @@ import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,11 +34,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Validated
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
+
+    default FakeApiDelegate getDelegate() {
+        return new FakeApiDelegate() {};
+    }
 
     @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @ApiResponses(value = { 
@@ -49,16 +50,7 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body"  )  @Valid @RequestBody Mono<Boolean> body, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "null");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().fakeOuterBooleanSerialize(body, exchange);
     }
 
 
@@ -69,16 +61,7 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body"  )  @Valid @RequestBody Mono<OuterComposite> outerComposite, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().fakeOuterCompositeSerialize(outerComposite, exchange);
     }
 
 
@@ -89,16 +72,7 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body"  )  @Valid @RequestBody Mono<BigDecimal> body, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "null");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().fakeOuterNumberSerialize(body, exchange);
     }
 
 
@@ -109,16 +83,7 @@ public interface FakeApi {
         produces = { "*/*" }, 
         method = RequestMethod.POST)
     default Mono<ResponseEntity<String>> fakeOuterStringSerialize(@ApiParam(value = "Input string as post body"  )  @Valid @RequestBody Mono<String> body, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "null");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().fakeOuterStringSerialize(body, exchange);
     }
 
 
@@ -129,10 +94,7 @@ public interface FakeApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     default Mono<ResponseEntity<Void>> testBodyWithFileSchema(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Mono<FileSchemaTestClass> fileSchemaTestClass, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().testBodyWithFileSchema(fileSchemaTestClass, exchange);
     }
 
 
@@ -143,10 +105,7 @@ public interface FakeApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     default Mono<ResponseEntity<Void>> testBodyWithQueryParams(@NotNull @ApiParam(value = "", required = true) @Valid @RequestParam(value = "query", required = true) String query,@ApiParam(value = "" ,required=true )  @Valid @RequestBody Mono<User> user, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().testBodyWithQueryParams(query, user, exchange);
     }
 
 
@@ -158,16 +117,7 @@ public interface FakeApi {
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
     default Mono<ResponseEntity<Client>> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().testClientModel(client, exchange);
     }
 
 
@@ -181,10 +131,7 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
     default Mono<ResponseEntity<Void>> testEndpointParameters(@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="number", required=true)  BigDecimal number,@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="double", required=true)  Double _double,@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true, defaultValue="null") @RequestParam(value="byte", required=true)  byte[] _byte,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="integer", required=false)  Integer integer,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="int32", required=false)  Integer int32,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="int64", required=false)  Long int64,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="float", required=false)  Float _float,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="string", required=false)  String string,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile binary,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="date", required=false)  LocalDate date,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="dateTime", required=false)  OffsetDateTime dateTime,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="password", required=false)  String password,@ApiParam(value = "None", defaultValue="null") @RequestParam(value="callback", required=false)  String paramCallback, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, exchange);
     }
 
 
@@ -196,10 +143,7 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     default Mono<ResponseEntity<Void>> testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $") @RequestHeader(value="enum_header_string_array", required=false) List<String> enumHeaderStringArray,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestHeader(value="enum_header_string", required=false) String enumHeaderString,@ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $") @Valid @RequestParam(value = "enum_query_string_array", required = false) List<String> enumQueryStringArray,@ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") String enumQueryString,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Integer enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Double enumQueryDouble,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$") @RequestParam(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestParam(value="enum_form_string", required=false)  String enumFormString, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, exchange);
     }
 
 
@@ -210,10 +154,7 @@ public interface FakeApi {
         consumes = { "application/json" },
         method = RequestMethod.POST)
     default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true )  @Valid @RequestBody Mono<String> requestBody, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().testInlineAdditionalProperties(requestBody, exchange);
     }
 
 
@@ -224,10 +165,7 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     default Mono<ResponseEntity<Void>> testJsonFormData(@ApiParam(value = "field1", required=true, defaultValue="null") @RequestParam(value="param", required=true)  String param,@ApiParam(value = "field2", required=true, defaultValue="null") @RequestParam(value="param2", required=true)  String param2, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        return result.then(Mono.empty());
-
+        return getDelegate().testJsonFormData(param, param2, exchange);
     }
 
 
@@ -244,16 +182,7 @@ public interface FakeApi {
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
     default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile requiredFile,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata, ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
-        Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
-                break;
-            }
-        }
-        return result.then(Mono.empty());
-
+        return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, exchange);
     }
 
 }

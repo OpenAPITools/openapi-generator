@@ -42,7 +42,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                | Languages/Frameworks |
 |-|-|
-**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C#** (.net 2.0, 3.5 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 6.x), Aurelia, Fetch, Inversify, jQuery, Node)
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C#** (.net 2.0, 3.5 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 6.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node)
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed), **Erlang**, **Go**, **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples)), **Kotlin** (Spring Boot), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
@@ -519,6 +519,7 @@ Here is a list of template creators:
    * Dart: @yissachar
    * Dart (refactor): @joernahrens
    * Dart 2: @swipesight
+   * Dart (Jaguar): @jaumard
    * Elixir: @niku
    * Elm: @trenneman
    * Eiffel: @jvelilla
@@ -554,11 +555,12 @@ Here is a list of template creators:
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * Swift 4: @ehyche
-   * TypeScript (Node):  @mhardorf
    * TypeScript (Angular1):  @mhardorf
-   * TypeScript (Fetch): @leonyu
    * TypeScript (Angular2): @roni-frantchi
+   * TypeScript (Axios): @nicokoenig
+   * TypeScript (Fetch): @leonyu
    * TypeScript (jQuery): @bherila
+   * TypeScript (Node):  @mhardorf
  * Server Stubs
    * Ada: @stcarrez
    * C# ASP.NET5: @jimschubert
@@ -634,7 +636,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @fvarose (2017/11) @etherealjoy (2018/02) @martindelille (2018/03) |
 | C#        | @mandrean (2017/08) @jimschubert (2017/09) |
 | Clojure   |  |
-| Dart      | @ircecho (2017/07) @swipesight (2018/09) |
+| Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    |  |
 | Elm       | @trenneman (2018/09) |
@@ -656,7 +658,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Rust      | @frol (2017/07) @farcaller (2017/08) @bjgill (2017/12) |
 | Scala     | @clasnake (2017/07) @jimschubert (2017/09) @shijinkui  (2018/01) @ramzimaalej (2018/03) |
 | Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @d-date  (2018/03) |
-| TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) |
+| TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @nicokoenig (2018/09) |
 
 ### [6.3 - History of OpenAPI Generator](#table-of-contents)
 

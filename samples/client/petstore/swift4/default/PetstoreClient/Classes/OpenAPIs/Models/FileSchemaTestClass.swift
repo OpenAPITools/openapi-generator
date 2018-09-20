@@ -7,10 +7,7 @@
 
 import Foundation
 
-
-
 public struct FileSchemaTestClass: Codable {
-
     public var file: File?
     public var files: [File]?
 
@@ -18,7 +15,4 @@ public struct FileSchemaTestClass: Codable {
         self.file = file
         self.files = files
     }
-
-
 }
-

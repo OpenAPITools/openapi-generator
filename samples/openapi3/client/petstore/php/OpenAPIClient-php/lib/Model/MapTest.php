@@ -60,7 +60,7 @@ class MapTest implements ModelInterface, ArrayAccess
         'map_map_of_string' => 'map[string,map[string,string]]',
         'map_of_enum_string' => 'map[string,string]',
         'direct_map' => 'map[string,bool]',
-        'indirect_map' => '\OpenAPI\Client\Model\StringBooleanMap'
+        'indirect_map' => 'map[string,bool]'
     ];
 
     /**
@@ -321,7 +321,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Gets indirect_map
      *
-     * @return \OpenAPI\Client\Model\StringBooleanMap|null
+     * @return map[string,bool]|null
      */
     public function getIndirectMap()
     {
@@ -331,7 +331,7 @@ class MapTest implements ModelInterface, ArrayAccess
     /**
      * Sets indirect_map
      *
-     * @param \OpenAPI\Client\Model\StringBooleanMap|null $indirect_map indirect_map
+     * @param map[string,bool]|null $indirect_map indirect_map
      *
      * @return $this
      */

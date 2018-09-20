@@ -65,7 +65,7 @@ class ApiClient {
             }
           }
       }
-    } catch (e, stack) {
+    } on Exception catch (e, stack) {
       throw ApiException.withInner(
           500, 'Exception during deserialization.', e, stack);
     }

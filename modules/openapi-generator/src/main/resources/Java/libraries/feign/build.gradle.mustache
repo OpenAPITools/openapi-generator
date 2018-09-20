@@ -123,7 +123,7 @@ ext {
     {{#threetenbp}}
     threepane_version = "2.6.4"
     {{/threetenbp}}
-    feign_version = "9.4.0"
+    feign_version = "{{#useFeign10}}10.0.1{{/useFeign10}}{{^useFeign10}}9.4.0{{/useFeign10}}"
     feign_form_version = "2.1.0"
     junit_version = "4.12"
     oltu_version = "1.0.1"

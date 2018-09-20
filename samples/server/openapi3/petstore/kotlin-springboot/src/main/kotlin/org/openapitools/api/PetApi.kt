@@ -28,7 +28,7 @@ import kotlin.collections.Map
 @Controller
 @Validated
 @Api(value = "Pet", description = "The Pet API")
-@RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
+@RequestMapping("\${api.base-path:/v2}")
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
     @ApiOperation(
@@ -56,7 +56,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
             value = ["/pet/{petId}"],
             method = [RequestMethod.DELETE])
-    fun deletePet(@ApiParam(value = "Pet id to delete", required=true) @PathVariable("petId") petId: kotlin.Long,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) apiKey: kotlin.String): ResponseEntity<Unit> {
+    fun deletePet(@ApiParam(value = "Pet id to delete", required=true) @PathVariable("petId") petId: kotlin.Long,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) apiKey: kotlin.String?): ResponseEntity<Unit> {
         return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.OK)
     }
 

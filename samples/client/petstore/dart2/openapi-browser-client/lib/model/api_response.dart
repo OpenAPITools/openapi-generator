@@ -30,11 +30,10 @@ class ApiResponse {
         : json.map((value) => new ApiResponse.fromJson(value)).toList();
   }
 
-  static Map<String, ApiResponse> mapFromJson(
-      Map<String, Map<String, dynamic>> json) {
+  static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, ApiResponse>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) =>
+      json.forEach((String key, dynamic value) =>
           map[key] = new ApiResponse.fromJson(value));
     }
     return map;

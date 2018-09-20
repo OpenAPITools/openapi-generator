@@ -118,10 +118,6 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
 
         for (CodegenOperation op : operations) {
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-            // check to see if the path contains ".", which is not supported by Lumen
-            if (op.path != null && op.path.contains(".")) {
-                throw new IllegalArgumentException("'.' (dot) is not supported by PHP Lumen.");
-            }
         }
 
         // sort the endpoints in ascending to avoid the route priority issure. 

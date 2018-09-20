@@ -29,7 +29,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
-
 public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     public static final String GEM_NAME = "gemName";

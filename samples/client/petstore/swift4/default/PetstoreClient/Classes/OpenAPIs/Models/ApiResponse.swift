@@ -7,10 +7,7 @@
 
 import Foundation
 
-
-
 public struct ApiResponse: Codable {
-
     public var code: Int?
     public var type: String?
     public var message: String?
@@ -20,7 +17,4 @@ public struct ApiResponse: Codable {
         self.type = type
         self.message = message
     }
-
-
 }
-

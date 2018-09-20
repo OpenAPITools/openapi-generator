@@ -29,6 +29,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.API_PACKAGE), "org.openapitools.api");
         Assert.assertEquals(codegen.getBasePackage(), "org.openapitools");
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.BASE_PACKAGE), "org.openapitools");
+        Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools");
         Assert.assertEquals(codegen.getServerPort(), "8080");
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVER_PORT), "8080");
     }
@@ -111,5 +112,15 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
+    }
+
+    @Test
+    public void testSettingInvokerPackageToBasePackage() throws Exception {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.bbbb.invoker");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.bbbb.invoker");
+        Assert.assertEquals(codegen.getBasePackage(), "xyz.yyyyy.bbbb.invoker");
     }
 }
