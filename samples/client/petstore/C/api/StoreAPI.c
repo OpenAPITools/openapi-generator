@@ -10,8 +10,8 @@
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
 	do { \
-		char dst[64]; \
-		snprintf(dst, 64, "%ld", (long int) (src)); \
+		char dst[256]; \
+		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
 // Delete purchase order by ID
@@ -26,29 +26,20 @@ void *StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order/{orderId}");
 
-	// TODO path parameter OrderId (orderId) not yet supported
-	// TODO base path = http://petstore.swagger.io/v2
-
-
-	char *baseNameModToReplace = malloc(sizeof(orderId) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameModToReplace,
+	// Path Params
+	char *localVarToReplace = malloc(sizeof(orderId) + 2);
+	snprintf(localVarToReplace,
 	         strlen(orderId) + 3,
 	         "%s%s%s",
 	         "{",
 	         "orderId",
 	         "}");
-	char *baseNameMod = malloc(strlen(orderId) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, strlen(orderId) + 3, "%s%s%s", "{", orderId, "}");
-	localVarPath = strReplace(localVarPath, baseNameModToReplace, orderId);
-	// localVarPath = "orderId";
 
-
-
+	localVarPath = strReplace(localVarPath, localVarToReplace, orderId);
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -60,9 +51,15 @@ void *StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	                 localVarBodyParameters,
 	                 "DELETE");
 
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-	// free(orderId);
+	// No return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	free(localVarToReplace);
 }
 
 // Returns pet inventories by status
@@ -77,13 +74,9 @@ map *StoreAPI_getInventory(apiClient_t *apiClient) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/inventory");
-
-
-
 
 	list_addElement(localVarHeaderType, "application/json"); // produces
 
@@ -98,17 +91,20 @@ map *StoreAPI_getInventory(apiClient_t *apiClient) {
 	                 "GET");
 
 	// primitive reutrn type
-	cJSON *Store;
-	cJSON *StoreAPIJSON = cJSON_Parse(apiClient->dataReceived);
-	if(!cJSON_IsString(StoreAPIJSON)) {
+	cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+	if(!cJSON_IsString(StoreAPIlocalVarJSON)) {
 		return 0; // primitive return type
 	}
-	char *elementToReturn = cJSON_Print(Store);
+	char *elementToReturn = cJSON_Print(StoreAPIlocalVarJSON);
 
-	// return elementToReturn;
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-
+	cJSON_Delete(StoreAPIlocalVarJSON);
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
 	return elementToReturn;
 }
 
@@ -124,33 +120,28 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order/{orderId}");
 
-	// TODO path parameter OrderId (orderId) not yet supported
-	// TODO base path = http://petstore.swagger.io/v2
-
-
-	char *baseNameModToReplace = malloc(sizeof(orderId) + 3); // baseNameMod free not yet implemented
-	snprintf(baseNameModToReplace,
+	// Path Params
+	char *localVarToReplace = malloc(sizeof(orderId) + 3);
+	snprintf(localVarToReplace,
 	         strlen("orderId") + 3,
 	         "%s%s%s",
 	         "{",
 	         "orderId",
 	         "}");
-	char *baseNameMod = malloc(sizeof(orderId) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, sizeof(orderId) + 3, "%s%li%s", "{", orderId,
-	         "}");
-	char buff[64];
-	intToStr(buf, orderId);
-	localVarPath = strReplace(localVarPath, baseNameModToReplace, buff);
-	// localVarPath = buff;
 
+	char localVarBuff[256];
+	intToStr(localVarBuff, orderId);
+
+	localVarPath =
+		strReplace(localVarPath, localVarToReplace, localVarBuff);
 
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
+
 	list_addElement(localVarHeaderType, "application/json"); // produces
 
 	apiClient_invoke(apiClient,
@@ -167,16 +158,17 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
 		return 0;
-	} else {
-		// cJSON *jsonObject = Store_convertToJSON(localVarorder);
-		// cJSON_Delete(jsonObject);
 	}
 
-	// return elementToReturn;
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-
-
+	// return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	free(localVarToReplace);
 	return elementToReturn;
 }
 
@@ -190,20 +182,18 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order");
 
-
-
-	// JSON HTTP Request - order
+	// Body Param
 	// string
-	cJSON *OrderJSONObject;
-	OrderJSONObject = order_convertToJSON(order);
-	localVarBodyParameters = cJSON_Print(OrderJSONObject);
+	cJSON *localVarSingleItemJSON_order;
+	localVarSingleItemJSON_order = order_convertToJSON(order);
+	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_order);
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
+
 	list_addElement(localVarHeaderType, "application/json"); // produces
 
 	apiClient_invoke(apiClient,
@@ -220,17 +210,15 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
 		return 0;
-	} else {
-		// cJSON *jsonObject = Store_convertToJSON(localVarorder);
-		// cJSON_Delete(jsonObject);
 	}
 
-	// return elementToReturn;
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-
-	// free(localVarBodyParameters);
-	// cJSON_Delete(OrderJSONObject);
-
+	// return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
 	return elementToReturn;
 }
