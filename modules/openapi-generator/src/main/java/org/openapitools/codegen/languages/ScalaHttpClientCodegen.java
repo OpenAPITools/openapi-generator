@@ -114,6 +114,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("char", "Char");
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
+        typeMapping.put(null, "Any");
         typeMapping.put("file", "File");
         typeMapping.put("binary", "File");
         typeMapping.put("ByteArray", "Array[Byte]");
