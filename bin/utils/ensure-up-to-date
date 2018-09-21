@@ -33,7 +33,7 @@ sleep 5
 ./bin/openapi3/haskell-http-client-petstore.sh > /dev/null 2>&1
 ./bin/csharp-petstore.sh > /dev/null 2>&1
 ./bin/meta-codegen.sh > /dev/null 2>&1
-./bin/utils/export_docs_generators.sh > /dev/null 2>&1
+./bin/utils/export_docs_generators.sh
 
 # Check:
 if [ -n "$(git status --porcelain)" ]; then
