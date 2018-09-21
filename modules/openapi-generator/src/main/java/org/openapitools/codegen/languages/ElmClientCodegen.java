@@ -527,7 +527,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private String paramToString(final CodegenParameter param) {
         final String paramName = param.paramName;
-        if (param.isString) {
+        if (param.isString || param.isUuid) {
             return paramName;
         }
         if (ElmVersion.ELM_018.equals(elmVersion)) {
