@@ -20,11 +20,11 @@ import io.swagger.annotations.ApiModelProperty
  */
 data class Pet (
 
-    @get:NotNull 
+        @get:NotNull 
         @ApiModelProperty(example = "doggie", required = true, value = "")
         @JsonProperty("name") val name: String,
 
-    @get:NotNull 
+        @get:NotNull 
         @ApiModelProperty(required = true, value = "")
         @JsonProperty("photoUrls") val photoUrls: List<String>,
 
