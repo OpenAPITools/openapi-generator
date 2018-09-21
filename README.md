@@ -366,21 +366,23 @@ To get a list of PHP specified options (which can be passed to the generator wit
 You can build a client against the [Petstore API](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) as follows:
 
 ```sh
-./bin/java-petstore.sh
+./bin/java-petstore-okhttp-gson.sh
 ```
 
-(On Windows, run `.\bin\windows\java-petstore.bat` instead)
+(On Windows, run `.\bin\windows\java-petstore-okhttp-gson.bat` instead)
 
-This will run the generator with this command:
+This script uses the default library, which is `okhttp-gson`. It will run the generator with this command:
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -g java \
-  -o samples/client/petstore/java
+  -o samples/client/petstore/java/okhttp-gson
 ```
 
-with a number of options. You can get the options with the `help generate` command (below only shows partial results):
+with a number of options. [The java options are documented here.](docs/generators/java.md)
+
+You can also get the options with the `help generate` command (below only shows partial results):
 
 ```
 NAME
@@ -432,16 +434,19 @@ OPTIONS
 You can then compile and run the client, as well as unit tests against it:
 
 ```sh
-cd samples/client/petstore/java
+cd samples/client/petstore/java/okhttp-gson
 mvn package
 ```
 
 Other languages have petstore samples, too:
 ```sh
-./bin/android-petstore.sh
-./bin/java-petstore.sh
+./bin/android-petstore-all.sh
+./bin/java-petstore-all.sh
 ./bin/objc-petstore.sh
 ```
+
+... and others. [Here is a list of all scripts.](wiki/Samples-folder#scripts)
+
 ### [3.1 - Customization](#table-of-contents)
 
 Please refer to [customization.md](docs/customization.md) on how to customize the output (e.g. package name, version)
