@@ -52,6 +52,7 @@ org.openapitools.codegen.languages.JavascriptClientCodegen
 org.openapitools.codegen.languages.JavascriptFlowtypedClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
 org.openapitools.codegen.languages.JMeterClientCodegen
+org.openapitools.codegen.languages.JuliaClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
 org.openapitools.codegen.languages.NodeJSServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
