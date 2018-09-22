@@ -280,13 +280,13 @@ public class JuliaClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -300,7 +300,7 @@ public class JuliaClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     /**
@@ -411,6 +411,7 @@ public class JuliaClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
         CodegenParameter parameter = super.fromParameter(param, imports);
+        // TODO shall we keep the baseName and modfiy the parameter name instead?
         parameter.baseName = escapeBaseName(parameter.baseName);
         return parameter;
     }
@@ -418,6 +419,7 @@ public class JuliaClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty property = super.fromProperty(name, p);
+        // TODO shall we keep the baseName and modfiy the property name instead?
         property.baseName = escapeBaseName(property.baseName);
         return property;
     }
