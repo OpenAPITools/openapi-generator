@@ -53,6 +53,7 @@ Code change should conform to the programming style guide of the respective lang
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/
+- Julia: https://docs.julialang.org/en/v0.6.2/manual/style-guide/
 - Kotlin: https://kotlinlang.org/docs/reference/coding-conventions.html
 - Groovy: http://groovy-lang.org/style-guide.html
 - Go: https://github.com/golang/go/wiki/CodeReviewComments
