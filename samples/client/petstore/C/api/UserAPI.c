@@ -10,8 +10,8 @@
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
 	do { \
-		char dst[64]; \
-		snprintf(dst, 64, "%ld", (long int) (src)); \
+		char dst[256]; \
+		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
 // Create user
@@ -26,19 +26,15 @@ void *UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user");
 
-
-
-	// JSON HTTP Request - user
+	// Body Param
 	// string
-	cJSON *UserJSONObject;
-	UserJSONObject = user_convertToJSON(user);
-	localVarBodyParameters = cJSON_Print(UserJSONObject);
-
+	cJSON *localVarSingleItemJSON_user;
+	localVarSingleItemJSON_user = user_convertToJSON(user);
+	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_user);
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -50,10 +46,14 @@ void *UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	                 localVarBodyParameters,
 	                 "POST");
 
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-	free(localVarBodyParameters);
-	// cJSON_Delete(UserJSONObject);
+	// No return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
 }
 
 // Creates list of users with given input array
@@ -66,21 +66,31 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/createWithArray");
 
-
-
-	// JSON HTTP Request - user
+	// Body Param
 	// notstring
-	localVarQueryParameters = user;
-	// list_t *userItem = list_create();
-	// list_ForEach(userItem, user) {
-	// list_addElement(localVarQueryParameters,userItem);
-	// }
+	cJSON *localVarItemJSON_user = cJSON_CreateObject();
+	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
+		localVarItemJSON_user,
+		"user");
+	if(localVarSingleItemJSON_user == NULL) {
+		return 0; // nonprimitive container
+	}
+	listEntry_t *userBodyListEntry;
+	cJSON *localVar_user;
+	list_ForEach(userBodyListEntry, user) {
+		localVar_user = user_convertToJSON(userBodyListEntry->data);
+		if(localVar_user == NULL) {
+			return 0;
+		}
+		cJSON_AddItemToArray(localVarSingleItemJSON_user,
+		                     localVar_user);
+	}
 
+	localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -92,10 +102,18 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	                 localVarBodyParameters,
 	                 "POST");
 
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
+	// No return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	cJSON_Delete(localVarItemJSON_user);
+	cJSON_Delete(localVarSingleItemJSON_user);
+	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
-	// cJSON_Delete(UserJSONObject);
 }
 
 // Creates list of users with given input array
@@ -108,21 +126,31 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/createWithList");
 
-
-
-	// JSON HTTP Request - user
+	// Body Param
 	// notstring
-	localVarQueryParameters = user;
-	// list_t *userItem = list_create();
-	// list_ForEach(userItem, user) {
-	// list_addElement(localVarQueryParameters,userItem);
-	// }
+	cJSON *localVarItemJSON_user = cJSON_CreateObject();
+	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
+		localVarItemJSON_user,
+		"user");
+	if(localVarSingleItemJSON_user == NULL) {
+		return 0; // nonprimitive container
+	}
+	listEntry_t *userBodyListEntry;
+	cJSON *localVar_user;
+	list_ForEach(userBodyListEntry, user) {
+		localVar_user = user_convertToJSON(userBodyListEntry->data);
+		if(localVar_user == NULL) {
+			return 0;
+		}
+		cJSON_AddItemToArray(localVarSingleItemJSON_user,
+		                     localVar_user);
+	}
 
+	localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -134,10 +162,18 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	                 localVarBodyParameters,
 	                 "POST");
 
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
+	// No return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	cJSON_Delete(localVarItemJSON_user);
+	cJSON_Delete(localVarSingleItemJSON_user);
+	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
-	// cJSON_Delete(UserJSONObject);
 }
 
 // Delete user
@@ -152,30 +188,20 @@ void *UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
 
-	// TODO path parameter Username (username) not yet supported
-	// TODO base path = http://petstore.swagger.io/v2
-
-
-	char *baseNameModToReplace = malloc(sizeof(username) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameModToReplace,
+	// Path Params
+	char *localVarToReplace = malloc(sizeof(username) + 2);
+	snprintf(localVarToReplace,
 	         strlen(username) + 3,
 	         "%s%s%s",
 	         "{",
 	         "username",
 	         "}");
-	char *baseNameMod = malloc(strlen(username) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, strlen(username) + 3, "%s%s%s", "{", username,
-	         "}");
-	localVarPath = strReplace(localVarPath, baseNameModToReplace, username);
-	// localVarPath = "username";
 
-
-
+	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -187,9 +213,15 @@ void *UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	                 localVarBodyParameters,
 	                 "DELETE");
 
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-	// free(username);
+	// No return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	free(localVarToReplace);
 }
 
 // Get user by user name
@@ -202,31 +234,23 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
 
-	// TODO path parameter Username (username) not yet supported
-	// TODO base path = http://petstore.swagger.io/v2
-
-
-	char *baseNameModToReplace = malloc(sizeof(username) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameModToReplace,
+	// Path Params
+	char *localVarToReplace = malloc(sizeof(username) + 2);
+	snprintf(localVarToReplace,
 	         strlen(username) + 3,
 	         "%s%s%s",
 	         "{",
 	         "username",
 	         "}");
-	char *baseNameMod = malloc(strlen(username) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, strlen(username) + 3, "%s%s%s", "{", username,
-	         "}");
-	localVarPath = strReplace(localVarPath, baseNameModToReplace, username);
-	// localVarPath = "username";
 
-
+	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
+
 	list_addElement(localVarHeaderType, "application/json"); // produces
 
 	apiClient_invoke(apiClient,
@@ -243,17 +267,17 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	user_t *elementToReturn = user_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
 		return 0;
-	} else {
-		// cJSON *jsonObject = User_convertToJSON(localVaruser);
-		// cJSON_Delete(jsonObject);
 	}
 
-	// return elementToReturn;
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-
-	// free(username);
-
+	// return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	free(localVarToReplace);
 	return elementToReturn;
 }
 
@@ -268,35 +292,38 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/login");
 
-
-
-	// query parameters (TODO free function to implement)
+	// query parameters
+	char *keyQuery_username;
+	char *valueQuery_username;
+	keyValuePair_t *keyPairQuery_username = 0;
 	if(username) {
 		// string
-		char *key = malloc(strlen("username") + 1);
-		char *value = malloc(sizeof(username) + 1);
-		key = "username";
-		value = username;
-		keyValuePair_t *keyPair = keyValuePair_create(key, value);
-		list_addElement(localVarQueryParameters, key);
+		keyQuery_username = strdup("username");
+		valueQuery_username = strdup(username);
+		keyPairQuery_username = keyValuePair_create(keyQuery_username,
+		                                            valueQuery_username);
+		list_addElement(localVarQueryParameters, keyPairQuery_username);
 	}
-	// query parameters (TODO free function to implement)
+
+	// query parameters
+	char *keyQuery_password;
+	char *valueQuery_password;
+	keyValuePair_t *keyPairQuery_password = 0;
 	if(password) {
 		// string
-		char *key = malloc(strlen("password") + 1);
-		char *value = malloc(sizeof(password) + 1);
-		key = "password";
-		value = password;
-		keyValuePair_t *keyPair = keyValuePair_create(key, value);
-		list_addElement(localVarQueryParameters, key);
+		keyQuery_password = strdup("password");
+		valueQuery_password = strdup(password);
+		keyPairQuery_password = keyValuePair_create(keyQuery_password,
+		                                            valueQuery_password);
+		list_addElement(localVarQueryParameters, keyPairQuery_password);
 	}
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
+
 	list_addElement(localVarHeaderType, "application/json"); // produces
 
 	apiClient_invoke(apiClient,
@@ -310,21 +337,24 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	                 "GET");
 
 	// primitive reutrn type
-	cJSON *User;
-	cJSON *UserAPIJSON = cJSON_Parse(apiClient->dataReceived);
-	if(!cJSON_IsString(UserAPIJSON)) {
+	cJSON *UserAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+	if(!cJSON_IsString(UserAPIlocalVarJSON)) {
 		return 0; // primitive return type
 	}
-	char *elementToReturn = cJSON_Print(User);
+	char *elementToReturn = cJSON_Print(UserAPIlocalVarJSON);
 
-	// return elementToReturn;
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-
-	// free(username);
-
-	// free(password);
-
+	cJSON_Delete(UserAPIlocalVarJSON);
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	free(keyQuery_username);
+	free(valueQuery_username);
+	free(keyQuery_password);
+	free(valueQuery_password);
 	return elementToReturn;
 }
 
@@ -338,14 +368,9 @@ void *UserAPI_logoutUser(apiClient_t *apiClient) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/logout");
-
-
-
-
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -357,8 +382,14 @@ void *UserAPI_logoutUser(apiClient_t *apiClient) {
 	                 localVarBodyParameters,
 	                 "GET");
 
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
+	// No return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
 }
 
 // Updated user
@@ -373,35 +404,26 @@ void *UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
-
 	// create the path
 	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
 
-	// TODO path parameter Username (username) not yet supported
-	// TODO base path = http://petstore.swagger.io/v2
-
-
-	char *baseNameModToReplace = malloc(sizeof(username) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameModToReplace,
+	// Path Params
+	char *localVarToReplace = malloc(sizeof(username) + 2);
+	snprintf(localVarToReplace,
 	         strlen(username) + 3,
 	         "%s%s%s",
 	         "{",
 	         "username",
 	         "}");
-	char *baseNameMod = malloc(strlen(username) + 2); // baseNameMod free not yet implemented
-	snprintf(baseNameMod, strlen(username) + 3, "%s%s%s", "{", username,
-	         "}");
-	localVarPath = strReplace(localVarPath, baseNameModToReplace, username);
-	// localVarPath = "username";
 
+	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
-	// JSON HTTP Request - user
+	// Body Param
 	// string
-	cJSON *UserJSONObject;
-	UserJSONObject = user_convertToJSON(user);
-	localVarBodyParameters = cJSON_Print(UserJSONObject);
-
+	cJSON *localVarSingleItemJSON_user;
+	localVarSingleItemJSON_user = user_convertToJSON(user);
+	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_user);
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -413,10 +435,13 @@ void *UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	                 localVarBodyParameters,
 	                 "PUT");
 
-	// free(apiClient->dataReceived);
-	// free(localVarPath);
-	free(localVarBodyParameters);
-	// cJSON_Delete(UserJSONObject);
-	free(localVarBodyParameters);
-	// cJSON_Delete(UserJSONObject);
+	// No return type
+	apiClient_free(apiClient);
+	list_free(localVarQueryParameters);
+	list_free(localVarHeaderParameters);
+	list_free(localVarFormParameters);
+	list_free(localVarHeaderType);
+	list_free(localVarContentType);
+	free(localVarPath);
+	free(localVarToReplace);
 }

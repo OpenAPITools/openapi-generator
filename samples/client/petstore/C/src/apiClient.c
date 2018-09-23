@@ -34,13 +34,13 @@ void replaceSpaceWithPlus(char *stringToProcess) {
 	}
 }
 
-char *assembleTargetUrl(char *basePath,
-                        // char   *operationName,
-                        char *operationParameter, list_t *queryParameters) {
+char *assembleTargetUrl(char	*basePath,
+                        char	*operationParameter,
+                        list_t	*queryParameters) {
 	int neededBufferSizeForQueryParameters = 0;
 	listEntry_t *listEntry;
 
-	if(queryParameters != NULL) {
+	if(queryParameters->count != 0) {
 		list_ForEach(listEntry, queryParameters) {
 			keyValuePair_t *pair = listEntry->data;
 			neededBufferSizeForQueryParameters +=
@@ -65,20 +65,17 @@ char *assembleTargetUrl(char *basePath,
 
 	char *targetUrl =
 		malloc(
-			// strlen(operationName) +
-			neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1
-			);
+			neededBufferSizeForQueryParameters + basePathLength + operationParameterLength +
+			1);
+
 	strcpy(targetUrl, basePath);
-	// if(slashNeedsToBeAppendedToBasePath) {
-	// strcat(targetUrl, "/");
-	// }
-	// strcat(targetUrl, operationName);
+
 	if(operationParameter != NULL) {
-		// strcat(targetUrl, "/");
 		strcat(targetUrl, operationParameter);
 	}
 
-	if(queryParameters != NULL) {
+	if(queryParameters->count != 0) {
+		printf("Query Parameters is not null\n");
 		strcat(targetUrl, "?");
 		list_ForEach(listEntry, queryParameters) {
 			keyValuePair_t *pair = listEntry->data;
@@ -131,7 +128,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		struct curl_slist *headers = NULL;
 
 
-		if(headerType != NULL) {
+		if(headerType->count != 0) {
 			list_ForEach(listEntry, headerType) {
 				if(strstr((char *) listEntry->data,
 				          "xml") == NULL)
@@ -146,7 +143,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 				}
 			}
 		}
-		if(contentType != NULL) {
+		if(contentType->count != 0) {
 			list_ForEach(listEntry, contentType) {
 				if(strstr((char *) listEntry->data,
 				          "xml") == NULL)
@@ -167,11 +164,13 @@ void apiClient_invoke(apiClient_t	*apiClient,
 			                 CURLOPT_CUSTOMREQUEST,
 			                 requestType);
 		}
-		if(formParameters != NULL) {
+
+		if(formParameters->count != 0) {
 			mime = curl_mime_init(handle);
 
 			list_ForEach(listEntry, formParameters) {
 				keyValuePair_t *keyValuePair = listEntry->data;
+
 				if((keyValuePair->key != NULL) &&
 				   (keyValuePair->value != NULL) )
 				{
@@ -183,15 +182,14 @@ void apiClient_invoke(apiClient_t	*apiClient,
 					if(strcmp(keyValuePair->key,
 					          "file") == 0)
 					{
-						ImageContainer *imageFile =
-							malloc(sizeof(
-								       ImageContainer));
-						memcpy(&imageFile,
+						FileStruct *fileVar = malloc(
+							sizeof(FileStruct));
+						memcpy(&fileVar,
 						       keyValuePair->value,
-						       sizeof(imageFile));
+						       sizeof(fileVar));
 						curl_mime_data(part,
-						               imageFile->fileData,
-						               imageFile->fileSize);
+						               fileVar->fileData,
+						               fileVar->fileSize);
 						curl_mime_filename(part,
 						                   "image.png");
 					} else {
@@ -237,7 +235,6 @@ void apiClient_invoke(apiClient_t	*apiClient,
 
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,
-			                  // operationName,
 			                  operationParameter,
 			                  queryParameters);
 
@@ -310,7 +307,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		}
       #endif // BASIC_AUTH
 		curl_easy_cleanup(handle);
-		if(formParameters != NULL) {
+		if(formParameters->count != 0) {
 			curl_mime_free(mime);
 		}
 	}

@@ -37,8 +37,7 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *Username);
 
 // Logs user into the system
 //
-char_t *UserAPI_loginUser(apiClient_t *apiClient, char *Username,
-                          char *Password);
+char *UserAPI_loginUser(apiClient_t *apiClient, char *Username, char *Password);
 
 
 // Logs out current logged in user session

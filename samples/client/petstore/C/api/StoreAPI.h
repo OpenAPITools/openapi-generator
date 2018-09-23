@@ -17,7 +17,7 @@ void *StoreAPI_deleteOrder(apiClient_t *apiClient, char *OrderId);
 //
 // Returns a map of status codes to quantities
 //
-map_t *StoreAPI_getInventory(apiClient_t *apiClient);
+map *StoreAPI_getInventory(apiClient_t *apiClient);
 
 
 // Find purchase order by ID
