@@ -34,24 +34,24 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumStringEnum
         {
-            
             /// <summary>
             /// Enum UPPER for value: UPPER
             /// </summary>
             [EnumMember(Value = "UPPER")]
             UPPER = 1,
-            
+
             /// <summary>
             /// Enum Lower for value: lower
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2,
-            
+
             /// <summary>
             /// Enum Empty for value: 
             /// </summary>
             [EnumMember(Value = "")]
             Empty = 3
+
         }
 
         /// <summary>
@@ -65,24 +65,24 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumStringRequiredEnum
         {
-            
             /// <summary>
             /// Enum UPPER for value: UPPER
             /// </summary>
             [EnumMember(Value = "UPPER")]
             UPPER = 1,
-            
+
             /// <summary>
             /// Enum Lower for value: lower
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2,
-            
+
             /// <summary>
             /// Enum Empty for value: 
             /// </summary>
             [EnumMember(Value = "")]
             Empty = 3
+
         }
 
         /// <summary>
@@ -95,18 +95,16 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         public enum EnumIntegerEnum
         {
-            
             /// <summary>
             /// Enum NUMBER_1 for value: 1
             /// </summary>
-            
             NUMBER_1 = 1,
-            
+
             /// <summary>
             /// Enum NUMBER_MINUS_1 for value: -1
             /// </summary>
-            
             NUMBER_MINUS_1 = -1
+
         }
 
         /// <summary>
@@ -120,18 +118,18 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public enum EnumNumberEnum
         {
-            
             /// <summary>
             /// Enum NUMBER_1_DOT_1 for value: 1.1
             /// </summary>
             [EnumMember(Value = "1.1")]
             NUMBER_1_DOT_1 = 1,
-            
+
             /// <summary>
             /// Enum NUMBER_MINUS_1_DOT_2 for value: -1.2
             /// </summary>
             [EnumMember(Value = "-1.2")]
             NUMBER_MINUS_1_DOT_2 = 2
+
         }
 
         /// <summary>
