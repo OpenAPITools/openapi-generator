@@ -188,13 +188,7 @@
    {{#returnType}}
    {{#returnTypeIsPrimitive}}
    //primitive reutrn type
-   cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
-   if(!cJSON_IsString({{classname}}localVarJSON)) {
-   return 0;//primitive return type
-   }
-   char *elementToReturn = cJSON_Print({{classname}}localVarJSON);
-
-   cJSON_Delete({{classname}}localVarJSON);
+   char *elementToReturn = (char*)apiClient->dataReceived;
    {{/returnTypeIsPrimitive}}
    {{^returnTypeIsPrimitive}}
    {{#returnContainer}}
