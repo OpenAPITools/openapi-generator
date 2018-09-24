@@ -145,6 +145,8 @@ void apiClient_invoke(apiClient_t  *apiClient,
                 headers = curl_slist_append(headers, buffContent);
             }
         }
+    } else {
+        headers = curl_slist_append(headers, "Content-Type: application/json");
     }
 
     if(requestType != NULL) {
