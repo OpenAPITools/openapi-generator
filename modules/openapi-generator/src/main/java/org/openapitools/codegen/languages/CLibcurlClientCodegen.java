@@ -173,12 +173,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_PATH"))) {
-            LOGGER.info("Environment variable UNCRUSTIFY_PATH not defined so the C code may not be properly formatted by uncrustify (0.66 or later). To define it, try 'export UNCRUSTIFY_PATH=/usr/local/bin/uncrustify' (Linux/Mac)");
-        }
-
-        if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_CONFIG"))) {
-            LOGGER.info("Environment variable UNCRUSTIFY_CONFIG not defined so the C code may not be properly formatted by uncrustify (0.66 or later). To define it, try 'export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("C_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\"` (Linux/Mac)");
         }
 
         // make api and model doc path available in mustache template
@@ -595,13 +591,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return;
         }
 
-        String uncrustifyFmtPath = System.getenv("UNCRUSTIFY_PATH");
-        if (StringUtils.isEmpty(uncrustifyFmtPath)) {
-            return; // skip if UNCRUSTIFY_PATH env variable is not defined
-        }
-
-        if (StringUtils.isEmpty(System.getenv("UNCRUSTIFY_CONFIG"))) {
-            return; // skip if UNCRUSTIFY_CONFIG env variable is not defined
+        String cPostProcessFile = System.getenv("C_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(cPostProcessFile)) {
+            return; // skip if C_POST_PROCESS_FILE env variable is not defined
         }
 
         // only procees the following type (or we can simply rely on the file extension to check if it's a .c or .h file)
@@ -619,15 +611,15 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         // only process files with .c or .h extension
         if ("c".equals(FilenameUtils.getExtension(file.toString())) ||
                 "h".equals(FilenameUtils.getExtension(file.toString()))) {
-            // currently only support "uncrustify --no-backup  your_code.c"
-            String command = uncrustifyFmtPath + " --no-backup " + file.toString();
+            String command = cPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
                 }
-                LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
