@@ -80,7 +80,10 @@ export function UserFromJSON(json: any): User {
     };
 }
 
-export function UserToJSON(value: User): any {
+export function UserToJSON(value?: User): any {
+    if (value === undefined) {
+        return undefined;
+    }
     return {
         'id': value.id,
         'username': value.username,

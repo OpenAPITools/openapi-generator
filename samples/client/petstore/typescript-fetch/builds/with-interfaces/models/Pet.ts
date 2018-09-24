@@ -75,7 +75,10 @@ export function PetFromJSON(json: any): Pet {
     };
 }
 
-export function PetToJSON(value: Pet): any {
+export function PetToJSON(value?: Pet): any {
+    if (value === undefined) {
+        return undefined;
+    }
     return {
         'id': value.id,
         'category': CategoryToJSON(value.category),

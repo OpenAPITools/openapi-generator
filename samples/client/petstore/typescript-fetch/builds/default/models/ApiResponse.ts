@@ -45,7 +45,10 @@ export function ApiResponseFromJSON(json: any): ApiResponse {
     };
 }
 
-export function ApiResponseToJSON(value: ApiResponse): any {
+export function ApiResponseToJSON(value?: ApiResponse): any {
+    if (value === undefined) {
+        return undefined;
+    }
     return {
         'code': value.code,
         'type': value.type,

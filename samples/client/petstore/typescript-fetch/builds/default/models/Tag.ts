@@ -38,7 +38,10 @@ export function TagFromJSON(json: any): Tag {
     };
 }
 
-export function TagToJSON(value: Tag): any {
+export function TagToJSON(value?: Tag): any {
+    if (value === undefined) {
+        return undefined;
+    }
     return {
         'id': value.id,
         'name': value.name,

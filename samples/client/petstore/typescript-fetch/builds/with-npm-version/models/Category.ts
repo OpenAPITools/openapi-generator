@@ -38,7 +38,10 @@ export function CategoryFromJSON(json: any): Category {
     };
 }
 
-export function CategoryToJSON(value: Category): any {
+export function CategoryToJSON(value?: Category): any {
+    if (value === undefined) {
+        return undefined;
+    }
     return {
         'id': value.id,
         'name': value.name,

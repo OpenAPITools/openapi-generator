@@ -66,7 +66,10 @@ export function OrderFromJSON(json: any): Order {
     };
 }
 
-export function OrderToJSON(value: Order): any {
+export function OrderToJSON(value?: Order): any {
+    if (value === undefined) {
+        return undefined;
+    }
     return {
         'id': value.id,
         'petId': value.petId,
