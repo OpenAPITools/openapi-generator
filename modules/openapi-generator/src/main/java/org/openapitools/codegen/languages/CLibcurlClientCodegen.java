@@ -208,7 +208,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external" + File.separator + "include", "cJSON.h"));
 
         // test files should not be overwritten
-       // writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
+       writeOptional(outputFolder, new SupportingFile("api_store_test.mustache", "unit-tests", "StoreAPI.c"));
+       writeOptional(outputFolder, new SupportingFile("api_user_test.mustache", "unit-tests", "UserAPI.c"));
+       writeOptional(outputFolder, new SupportingFile("api_test.mustache", "unit-tests", "PetAPI.c"));
+       writeOptional(outputFolder, new SupportingFile("model_order_test.mustache", "unit-tests", "order.c"));
+       writeOptional(outputFolder, new SupportingFile("model_user_test.mustache", "unit-tests", "user.c"));
+       //writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
 
 
     }
