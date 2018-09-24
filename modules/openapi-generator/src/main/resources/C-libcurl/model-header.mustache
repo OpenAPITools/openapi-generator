@@ -13,6 +13,14 @@
 #include "{{{.}}}.h"
 {{/imports}}
 
+{{#vars}}
+{{#isBoolean}}
+typedef int bool;
+#define true 1
+#define false 0
+{{/isBoolean}}
+{{/vars}}
+
 typedef struct {{classname}}_t {
         {{#vars}}
         {{^isContainer}}
@@ -24,7 +32,7 @@ typedef struct {{classname}}_t {
         {{datatype}} {{baseName}}; //numeric
         {{/isNumeric}}
         {{#isBoolean}}
-        {{datatype}} {{baseName}}; //boolean
+        bool {{baseName}}; //boolean
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
@@ -70,7 +78,7 @@ typedef struct {{classname}}_t {
         {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
         {{/isNumeric}}
         {{#isBoolean}}
-        {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+        bool {{baseName}}{{#hasMore}},{{/hasMore}}
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
