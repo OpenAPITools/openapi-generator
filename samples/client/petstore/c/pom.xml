@@ -41,12 +41,22 @@
                     </execution>
                     <execution>
                         <id>make</id>
-                        <phase>integration-test</phase>
+                        <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <executable>make</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>pet-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>./unit-PetAPI</executable>
                         </configuration>
                     </execution>
                 </executions>
