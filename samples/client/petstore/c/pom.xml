@@ -41,7 +41,7 @@
                     </execution>
                     <execution>
                         <id>make</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
