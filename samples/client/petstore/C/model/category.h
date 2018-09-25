@@ -10,17 +10,14 @@
 #include <string.h>
 #include "cJSON.h"
 
-typedef struct category_t {
-        long id; //numeric
-        char *name; //no enum string
 
+typedef struct category_t {
+	long id; // numeric
+	char *name; // no enum string
 } category_t;
 
-category_t *category_create(
-        long id,
-        char *name
-);
-		
+category_t *category_create(long id, char *name);
+
 void category_free(category_t *category);
 
 category_t *category_parseFromJSON(char *jsonString);

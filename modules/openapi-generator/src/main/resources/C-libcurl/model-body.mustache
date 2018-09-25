@@ -21,7 +21,7 @@
     {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
     {{/isNumeric}}
     {{#isBoolean}}
-    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+    bool {{baseName}}{{#hasMore}},{{/hasMore}}
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
@@ -78,33 +78,25 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    free({{{classname}}}->{{{baseName}}});
+    //free({{{classname}}}->{{{baseName}}});
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    free({{{classname}}}->{{{baseName}}});
+    //free({{{classname}}}->{{{baseName}}});
     {{/isString}}
     {{/isEnum}}
     {{#isDateTime}}
-    free({{{classname}}}->{{{baseName}}});
+    //free({{{classname}}}->{{{baseName}}});
     {{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{/isContainer}}
 	{{#isContainer}}
 	{{#isListContainer}}
 	{{#isPrimitiveType}}
-	listEntry_t *{{{baseName}}}ListEntry;
-	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{baseName}}) {
-		free({{{baseName}}}ListEntry->data);
-	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
-    listEntry_t *{{{baseName}}}ListEntry;
-	list_ForEach({{{baseName}}}ListEntry, {{classname}}->{{baseName}}) {
-		{{complexType}}_free({{{baseName}}}ListEntry->data);
-	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
 	{{/isListContainer}}
@@ -129,7 +121,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     }
     {{/isNumeric}}
     {{#isBoolean}}
-    if(cJSON_AddNumberToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddBoolToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
     goto fail; //Numeric
     }
     {{/isBoolean}}
@@ -233,7 +225,7 @@ fail:
     {{/isNumeric}}
     {{#isBoolean}}
     cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
-    if(!cJSON_IsNumber({{{baseName}}}))
+    if(!cJSON_IsBool({{{baseName}}}))
     {
     goto end; //Numeric
     }
@@ -332,7 +324,7 @@ fail:
         {{{baseName}}}->valuedouble{{#hasMore}},{{/hasMore}}
         {{/isNumeric}}
         {{#isBoolean}}
-        {{{baseName}}}->valuedouble{{#hasMore}},{{/hasMore}}
+        {{{baseName}}}->valueint{{#hasMore}},{{/hasMore}}
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
