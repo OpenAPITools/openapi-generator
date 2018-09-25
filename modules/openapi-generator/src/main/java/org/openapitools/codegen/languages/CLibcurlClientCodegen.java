@@ -133,6 +133,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.add("char");
         languageSpecificPrimitives.add("FILE");
         languageSpecificPrimitives.add("Object");
+        languageSpecificPrimitives.add("list_t*");
 
         typeMapping.put("string", "char");
         typeMapping.put("char", "char");
@@ -149,6 +150,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
         typeMapping.put("array", "list");
+        typeMapping.put("map", "list_t*");
         typeMapping.put("date-time", "char");
         
         // remove modelPackage and apiPackage added by default

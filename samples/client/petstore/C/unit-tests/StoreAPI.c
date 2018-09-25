@@ -24,7 +24,11 @@ int main() {
 	printf("Hello world1\n");
 	apiClient_t *apiClient = apiClient_create();
 
-	order_t *neworder = order_create(ORDER_ID, PET_ID, QUANTITY, SHIP_DATE, STATUS,
+	order_t *neworder = order_create(ORDER_ID,
+	                                 PET_ID,
+	                                 QUANTITY,
+	                                 SHIP_DATE,
+	                                 STATUS,
 	                                 COMPLETE);
 
 	order_t *returnorder = StoreAPI_placeOrder(apiClient, neworder);
@@ -34,7 +38,7 @@ int main() {
 	char *dataToPrint = cJSON_Print(JSONNODE);
 
 	printf("Place order 1: \n%s\n", dataToPrint);
-	//apiClient_free(apiClient);
+	apiClient_free(apiClient);
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -48,7 +52,7 @@ int main() {
 	char *dataToPrint1 = cJSON_Print(JSONNODE);
 
 	printf("Place order 2: \n%s\n", dataToPrint1);
-	//apiClient_free(apiClient2);
+	apiClient_free(apiClient2);
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -58,7 +62,7 @@ int main() {
 	StoreAPI_deleteOrder(apiClient3, "1234");
 
 	printf("Order Deleted \n");
-	//apiClient_free(apiClient3);
+	apiClient_free(apiClient3);
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -70,5 +74,5 @@ int main() {
 	if(neworder == NULL) {
 		printf("Order Not present \n");
 	}
-	//apiClient_free(apiClient4);
+	apiClient_free(apiClient4);
 }

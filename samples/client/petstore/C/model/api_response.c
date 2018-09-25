@@ -36,7 +36,9 @@ cJSON *api_response_convertToJSON(api_response_t *api_response) {
 	}
 
 	// api_response->message
-	if(cJSON_AddStringToObject(item, "message", api_response->message) == NULL) {
+	if(cJSON_AddStringToObject(item, "message",
+	                           api_response->message) == NULL)
+	{
 		goto fail; // String
 	}
 
@@ -58,13 +60,15 @@ api_response_t *api_response_parseFromJSON(char *jsonString) {
 	}
 
 	// api_response->code
-	cJSON *code = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "code");
+	cJSON *code =
+		cJSON_GetObjectItemCaseSensitive(api_responseJSON, "code");
 	if(!cJSON_IsNumber(code)) {
 		goto end; // Numeric
 	}
 
 	// api_response->type
-	cJSON *type = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "type");
+	cJSON *type =
+		cJSON_GetObjectItemCaseSensitive(api_responseJSON, "type");
 	if(!cJSON_IsString(type) ||
 	   (type->valuestring == NULL))
 	{
@@ -72,7 +76,8 @@ api_response_t *api_response_parseFromJSON(char *jsonString) {
 	}
 
 	// api_response->message
-	cJSON *message = cJSON_GetObjectItemCaseSensitive(api_responseJSON, "message");
+	cJSON *message = cJSON_GetObjectItemCaseSensitive(api_responseJSON,
+	                                                  "message");
 	if(!cJSON_IsString(message) ||
 	   (message->valuestring == NULL))
 	{

@@ -34,7 +34,9 @@ void replaceSpaceWithPlus(char *stringToProcess) {
 	}
 }
 
-char *assembleTargetUrl(char *basePath, char *operationParameter, list_t *queryParameters) {
+char *assembleTargetUrl(char	*basePath,
+                        char	*operationParameter,
+                        list_t	*queryParameters) {
 	int neededBufferSizeForQueryParameters = 0;
 	listEntry_t *listEntry;
 
@@ -62,7 +64,9 @@ char *assembleTargetUrl(char *basePath, char *operationParameter, list_t *queryP
 	}
 
 	char *targetUrl =
-		malloc(neededBufferSizeForQueryParameters + basePathLength + operationParameterLength + 1);
+		malloc(
+			neededBufferSizeForQueryParameters + basePathLength + operationParameterLength +
+			1);
 
 	strcpy(targetUrl, basePath);
 
@@ -106,8 +110,15 @@ void postData(CURL *handle, char *bodyParameters) {
 }
 
 
-void apiClient_invoke(apiClient_t *apiClient, char *operationParameter, list_t *queryParameters, list_t *headerParameters, list_t *formParameters,
-                      list_t *headerType, list_t *contentType, char *bodyParameters, char *requestType) {
+void apiClient_invoke(apiClient_t	*apiClient,
+                      char		*operationParameter,
+                      list_t		*queryParameters,
+                      list_t		*headerParameters,
+                      list_t		*formParameters,
+                      list_t		*headerType,
+                      list_t		*contentType,
+                      char		*bodyParameters,
+                      char		*requestType) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
 
@@ -119,27 +130,42 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter, list_t *
 
 		if(headerType->count != 0) {
 			list_ForEach(listEntry, headerType) {
-				if(strstr((char *) listEntry->data, "xml") == NULL) {
+				if(strstr((char *) listEntry->data,
+				          "xml") == NULL)
+				{
 					char buffHeader[256];
-					sprintf(buffHeader, "%s%s", "Accept: ", (char *) listEntry->data);
-					headers = curl_slist_append(headers, buffHeader);
+					sprintf(buffHeader,
+					        "%s%s",
+					        "Accept: ",
+					        (char *) listEntry->data);
+					headers = curl_slist_append(headers,
+					                            buffHeader);
 				}
 			}
 		}
 		if(contentType->count != 0) {
 			list_ForEach(listEntry, contentType) {
-				if(strstr((char *) listEntry->data, "xml") == NULL) {
+				if(strstr((char *) listEntry->data,
+				          "xml") == NULL)
+				{
 					char buffContent[256];
-					sprintf(buffContent, "%s%s", "Content-Type: ", (char *) listEntry->data);
-					headers = curl_slist_append(headers, buffContent);
+					sprintf(buffContent,
+					        "%s%s",
+					        "Content-Type: ",
+					        (char *) listEntry->data);
+					headers = curl_slist_append(headers,
+					                            buffContent);
 				}
 			}
 		} else {
-			headers = curl_slist_append(headers, "Content-Type: application/json");
+			headers = curl_slist_append(headers,
+			                            "Content-Type: application/json");
 		}
 
 		if(requestType != NULL) {
-			curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, requestType);
+			curl_easy_setopt(handle,
+			                 CURLOPT_CUSTOMREQUEST,
+			                 requestType);
 		}
 
 		if(formParameters->count != 0) {
@@ -151,17 +177,28 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter, list_t *
 				if((keyValuePair->key != NULL) &&
 				   (keyValuePair->value != NULL) )
 				{
-					curl_mimepart *part = curl_mime_addpart(mime);
+					curl_mimepart *part = curl_mime_addpart(
+						mime);
 
 					curl_mime_name(part, keyValuePair->key);
 
-					if(strcmp(keyValuePair->key, "file") == 0) {
-						FileStruct *fileVar = malloc(sizeof(FileStruct));
-						memcpy(&fileVar, keyValuePair->value, sizeof(fileVar));
-						curl_mime_data(part, fileVar->fileData, fileVar->fileSize);
-						curl_mime_filename(part, "image.png");
+					if(strcmp(keyValuePair->key,
+					          "file") == 0)
+					{
+						FileStruct *fileVar = malloc(
+							sizeof(FileStruct));
+						memcpy(&fileVar,
+						       keyValuePair->value,
+						       sizeof(fileVar));
+						curl_mime_data(part,
+						               fileVar->fileData,
+						               fileVar->fileSize);
+						curl_mime_filename(part,
+						                   "image.png");
 					} else {
-						curl_mime_data(part, keyValuePair->value, CURL_ZERO_TERMINATED);
+						curl_mime_data(part,
+						               keyValuePair->value,
+						               CURL_ZERO_TERMINATED);
 					}
 				}
 			}

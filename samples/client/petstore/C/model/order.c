@@ -5,7 +5,12 @@
 #include "order.h"
 
 
-order_t *order_create(long id, long petId, int quantity, char *shipDate, char *status, bool complete) {
+order_t *order_create(long	id,
+                      long	petId,
+                      int	quantity,
+                      char	*shipDate,
+                      char	*status,
+                      bool	complete) {
 	order_t *order = malloc(sizeof(order_t));
 	order->id = id;
 	order->petId = petId;
@@ -91,13 +96,15 @@ order_t *order_parseFromJSON(char *jsonString) {
 	}
 
 	// order->quantity
-	cJSON *quantity = cJSON_GetObjectItemCaseSensitive(orderJSON, "quantity");
+	cJSON *quantity =
+		cJSON_GetObjectItemCaseSensitive(orderJSON, "quantity");
 	if(!cJSON_IsNumber(quantity)) {
 		goto end; // Numeric
 	}
 
 	// order->shipDate
-	cJSON *shipDate = cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
+	cJSON *shipDate =
+		cJSON_GetObjectItemCaseSensitive(orderJSON, "shipDate");
 	if(!cJSON_IsString(shipDate) ||
 	   (shipDate->valuestring == NULL))
 	{
@@ -113,7 +120,8 @@ order_t *order_parseFromJSON(char *jsonString) {
 	}
 
 	// order->complete
-	cJSON *complete = cJSON_GetObjectItemCaseSensitive(orderJSON, "complete");
+	cJSON *complete =
+		cJSON_GetObjectItemCaseSensitive(orderJSON, "complete");
 	if(!cJSON_IsBool(complete)) {
 		goto end; // Numeric
 	}
