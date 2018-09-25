@@ -8,7 +8,12 @@
 #include "tag.h"
 
 
-pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls, list_t *tags, char *status) {
+pet_t *pet_create(long		id,
+                  category_t	*category,
+                  char		*name,
+                  list_t	*photoUrls,
+                  list_t	*tags,
+                  char		*status) {
 	pet_t *pet = malloc(sizeof(pet_t));
 	pet->id = id;
 	pet->category = category;
@@ -62,7 +67,9 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 
 	listEntry_t *photoUrlsListEntry;
 	list_ForEach(photoUrlsListEntry, pet->photoUrls) {
-		if(cJSON_AddStringToObject(photoUrls, "", photoUrlsListEntry->data) == NULL) {
+		if(cJSON_AddStringToObject(photoUrls, "",
+		                           photoUrlsListEntry->data) == NULL)
+		{
 			goto fail;
 		}
 	}
@@ -112,7 +119,8 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 
 	// pet->category
 	category_t *category;
-	cJSON *categoryJSON = cJSON_GetObjectItemCaseSensitive(petJSON, "category");
+	cJSON *categoryJSON = cJSON_GetObjectItemCaseSensitive(petJSON,
+	                                                       "category");
 	if(petJSON == NULL) {
 		const char *error_ptr = cJSON_GetErrorPtr();
 		if(error_ptr != NULL) {
@@ -133,7 +141,8 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 
 	// pet->photoUrls
 	cJSON *photoUrls;
-	cJSON *photoUrlsJSON = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
+	cJSON *photoUrlsJSON = cJSON_GetObjectItemCaseSensitive(petJSON,
+	                                                        "photoUrls");
 	if(!cJSON_IsArray(photoUrlsJSON)) {
 		goto end; // primitive container
 	}

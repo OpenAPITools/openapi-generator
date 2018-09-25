@@ -74,12 +74,18 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen("petId") + 3, "%s%s%s", "{", "petId", "}");
+	snprintf(localVarToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath =
+		strReplace(localVarPath, localVarToReplace, localVarBuff);
 
 
 	// header parameters (TODO free function to implement)
@@ -89,8 +95,10 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	if(api_key) {
 		keyHeader_api_key = strdup("api_key");
 		valueHeader_api_key = strdup(api_key);
-		keyPairHeader_api_key = keyValuePair_create(keyHeader_api_key, valueHeader_api_key);
-		list_addElement(localVarHeaderParameters, keyPairHeader_api_key);
+		keyPairHeader_api_key = keyValuePair_create(keyHeader_api_key,
+		                                            valueHeader_api_key);
+		list_addElement(localVarHeaderParameters,
+		                keyPairHeader_api_key);
 	}
 
 	apiClient_invoke(apiClient,
@@ -263,12 +271,18 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen("petId") + 3, "%s%s%s", "{", "petId", "}");
+	snprintf(localVarToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath =
+		strReplace(localVarPath, localVarToReplace, localVarBuff);
 
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
@@ -349,7 +363,10 @@ void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 
 // Updates a pet in the store with form data
 //
-void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *status) {
+void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
+                               long		petId,
+                               char		*name,
+                               char		*status) {
 	list_t *localVarQueryParameters = list_create();
 	list_t *localVarHeaderParameters = list_create();
 	list_t *localVarFormParameters = list_create();
@@ -363,12 +380,18 @@ void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, c
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen("petId") + 3, "%s%s%s", "{", "petId", "}");
+	snprintf(localVarToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath =
+		strReplace(localVarPath, localVarToReplace, localVarBuff);
 
 
 	// form parameters
@@ -378,7 +401,8 @@ void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, c
 	if(name) {
 		keyForm_name = strdup("name");
 		valueForm_name = strdup(name);
-		keyPairForm_name = keyValuePair_create(keyForm_name, valueForm_name);
+		keyPairForm_name = keyValuePair_create(keyForm_name,
+		                                       valueForm_name);
 		list_addElement(localVarFormParameters, keyPairForm_name); // String
 	}
 
@@ -389,11 +413,13 @@ void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, c
 	if(status) {
 		keyForm_status = strdup("status");
 		valueForm_status = strdup(status);
-		keyPairForm_status = keyValuePair_create(keyForm_status, valueForm_status);
+		keyPairForm_status = keyValuePair_create(keyForm_status,
+		                                         valueForm_status);
 		list_addElement(localVarFormParameters, keyPairForm_status); // String
 	}
 
-	list_addElement(localVarContentType, "application/x-www-form-urlencoded"); // consumes
+	list_addElement(localVarContentType,
+	                "application/x-www-form-urlencoded");                     // consumes
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -422,7 +448,10 @@ void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, c
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, FILE *file) {
+api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
+                                  long		petId,
+                                  char		*additionalMetadata,
+                                  FILE		*file) {
 	list_t *localVarQueryParameters = list_create();
 	list_t *localVarHeaderParameters = list_create();
 	list_t *localVarFormParameters = list_create();
@@ -436,12 +465,18 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *addi
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen("petId") + 3, "%s%s%s", "{", "petId", "}");
+	snprintf(localVarToReplace,
+	         strlen("petId") + 3,
+	         "%s%s%s",
+	         "{",
+	         "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath =
+		strReplace(localVarPath, localVarToReplace, localVarBuff);
 
 
 	// form parameters
@@ -451,8 +486,11 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *addi
 	if(additionalMetadata) {
 		keyForm_additionalMetadata = strdup("additionalMetadata");
 		valueForm_additionalMetadata = strdup(additionalMetadata);
-		keyPairForm_additionalMetadata = keyValuePair_create(keyForm_additionalMetadata, valueForm_additionalMetadata);
-		list_addElement(localVarFormParameters, keyPairForm_additionalMetadata); // String
+		keyPairForm_additionalMetadata = keyValuePair_create(
+			keyForm_additionalMetadata,
+			valueForm_additionalMetadata);
+		list_addElement(localVarFormParameters,
+		                keyPairForm_additionalMetadata);                // String
 	}
 
 	// form parameters
@@ -493,7 +531,8 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *addi
 	                 "POST");
 
 	// nonprimitive not container
-	api_response_t *elementToReturn = api_response_parseFromJSON(apiClient->dataReceived);
+	api_response_t *elementToReturn = api_response_parseFromJSON(
+		apiClient->dataReceived);
 	if(elementToReturn == NULL) {
 		return 0;
 	}
