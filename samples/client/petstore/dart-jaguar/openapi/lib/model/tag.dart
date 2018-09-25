@@ -4,8 +4,10 @@ part 'tag.jser.dart';
 
 class Tag {
   
+  @Alias('id')
   final int id;
   
+  @Alias('name')
   final String name;
   
 

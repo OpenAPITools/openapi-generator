@@ -4,20 +4,28 @@ part 'user.jser.dart';
 
 class User {
   
+  @Alias('id')
   final int id;
   
+  @Alias('username')
   final String username;
   
+  @Alias('firstName')
   final String firstName;
   
+  @Alias('lastName')
   final String lastName;
   
+  @Alias('email')
   final String email;
   
+  @Alias('password')
   final String password;
   
+  @Alias('phone')
   final String phone;
    /* User Status */
+  @Alias('userStatus')
   final int userStatus;
   
 
