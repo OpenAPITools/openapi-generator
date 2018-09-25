@@ -5,12 +5,8 @@
 #include "order.h"
 
 
-order_t *order_create(long	id,
-                      long	petId,
-                      int	quantity,
-                      char	*shipDate,
-                      char	*status,
-                      bool	complete) {
+order_t *order_create(long id, long petId, int quantity, char *shipDate,
+                      char *status, bool complete) {
 	order_t *order = malloc(sizeof(order_t));
 	order->id = id;
 	order->petId = petId;

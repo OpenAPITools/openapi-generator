@@ -18,12 +18,12 @@
 //
 // This can only be done by the logged in user.
 //
-void *UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+void UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -47,23 +47,24 @@ void *UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	                 "POST");
 
 	// No return type
+end:
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
+
+
+
+
 	free(localVarPath);
 }
 
 // Creates list of users with given input array
 //
-void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -74,17 +75,26 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	// notstring
 	cJSON *localVarItemJSON_user = cJSON_CreateObject();
 	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
-		localVarItemJSON_user,
-		"user");
+		localVarItemJSON_user, "user");
 	if(localVarSingleItemJSON_user == NULL) {
-		return 0; // nonprimitive container
+		// nonprimitive container
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if(error_ptr != NULL) {
+			fprintf(stderr, "Error Before: %s\n", error_ptr);
+			goto end;
+		}
 	}
 	listEntry_t *userBodyListEntry;
 	cJSON *localVar_user;
 	list_ForEach(userBodyListEntry, user) {
 		localVar_user = user_convertToJSON(userBodyListEntry->data);
 		if(localVar_user == NULL) {
-			return 0;
+			const char *error_ptr = cJSON_GetErrorPtr();
+			if(error_ptr != NULL) {
+				fprintf(stderr, "Error Before: %s\n",
+				        error_ptr);
+				goto end;
+			}
 		}
 		cJSON_AddItemToArray(localVarSingleItemJSON_user,
 		                     localVar_user);
@@ -103,12 +113,13 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	                 "POST");
 
 	// No return type
+end:
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
+
+
+
+
 	free(localVarPath);
 	cJSON_Delete(localVarItemJSON_user);
 	cJSON_Delete(localVarSingleItemJSON_user);
@@ -118,12 +129,12 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 
 // Creates list of users with given input array
 //
-void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -134,17 +145,26 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	// notstring
 	cJSON *localVarItemJSON_user = cJSON_CreateObject();
 	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
-		localVarItemJSON_user,
-		"user");
+		localVarItemJSON_user, "user");
 	if(localVarSingleItemJSON_user == NULL) {
-		return 0; // nonprimitive container
+		// nonprimitive container
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if(error_ptr != NULL) {
+			fprintf(stderr, "Error Before: %s\n", error_ptr);
+			goto end;
+		}
 	}
 	listEntry_t *userBodyListEntry;
 	cJSON *localVar_user;
 	list_ForEach(userBodyListEntry, user) {
 		localVar_user = user_convertToJSON(userBodyListEntry->data);
 		if(localVar_user == NULL) {
-			return 0;
+			const char *error_ptr = cJSON_GetErrorPtr();
+			if(error_ptr != NULL) {
+				fprintf(stderr, "Error Before: %s\n",
+				        error_ptr);
+				goto end;
+			}
 		}
 		cJSON_AddItemToArray(localVarSingleItemJSON_user,
 		                     localVar_user);
@@ -163,12 +183,13 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	                 "POST");
 
 	// No return type
+end:
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
+
+
+
+
 	free(localVarPath);
 	cJSON_Delete(localVarItemJSON_user);
 	cJSON_Delete(localVarSingleItemJSON_user);
@@ -180,12 +201,12 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 //
 // This can only be done by the logged in user.
 //
-void *UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -194,12 +215,8 @@ void *UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace,
-	         strlen(username) + 3,
-	         "%s%s%s",
-	         "{",
-	         "username",
-	         "}");
+	snprintf(localVarToReplace, strlen(
+			 username) + 3, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
@@ -214,12 +231,13 @@ void *UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	                 "DELETE");
 
 	// No return type
+end:
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
+
+
+
+
 	free(localVarPath);
 	free(localVarToReplace);
 }
@@ -227,11 +245,11 @@ void *UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 // Get user by user name
 //
 user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
 	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -240,12 +258,8 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace,
-	         strlen(username) + 3,
-	         "%s%s%s",
-	         "{",
-	         "username",
-	         "}");
+	snprintf(localVarToReplace, strlen(
+			 username) + 3, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
@@ -270,12 +284,13 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	}
 
 	// return type
+end:
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
+
+
+
 	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
 	free(localVarPath);
 	free(localVarToReplace);
 	return elementToReturn;
@@ -286,10 +301,10 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
                         char *password) {
 	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
 	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -336,14 +351,15 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	                 localVarBodyParameters,
 	                 "GET");
 
-	// primitive reutrn type
+	// primitive reutrn type simple
 	char *elementToReturn = (char *) apiClient->dataReceived;
+end:
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
+
+
 	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
 	free(localVarPath);
 	free(keyQuery_username);
 	free(valueQuery_username);
@@ -354,12 +370,12 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 
 // Logs out current logged in user session
 //
-void *UserAPI_logoutUser(apiClient_t *apiClient) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+void UserAPI_logoutUser(apiClient_t *apiClient) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -377,12 +393,13 @@ void *UserAPI_logoutUser(apiClient_t *apiClient) {
 	                 "GET");
 
 	// No return type
+end:
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
+
+
+
+
 	free(localVarPath);
 }
 
@@ -390,12 +407,12 @@ void *UserAPI_logoutUser(apiClient_t *apiClient) {
 //
 // This can only be done by the logged in user.
 //
-void *UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -404,12 +421,8 @@ void *UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace,
-	         strlen(username) + 3,
-	         "%s%s%s",
-	         "{",
-	         "username",
-	         "}");
+	snprintf(localVarToReplace, strlen(
+			 username) + 3, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
@@ -430,12 +443,13 @@ void *UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	                 "PUT");
 
 	// No return type
+end:
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
+
+
+
+
 	free(localVarPath);
 	free(localVarToReplace);
 }

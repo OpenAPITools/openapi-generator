@@ -38,7 +38,7 @@ int main() {
 	char *dataToPrint = cJSON_Print(JSONNODE);
 
 	printf("Place order 1: \n%s\n", dataToPrint);
-	apiClient_free(apiClient);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -52,7 +52,7 @@ int main() {
 	char *dataToPrint1 = cJSON_Print(JSONNODE);
 
 	printf("Place order 2: \n%s\n", dataToPrint1);
-	apiClient_free(apiClient2);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -62,7 +62,7 @@ int main() {
 	StoreAPI_deleteOrder(apiClient3, "1234");
 
 	printf("Order Deleted \n");
-	apiClient_free(apiClient3);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -74,5 +74,17 @@ int main() {
 	if(neworder == NULL) {
 		printf("Order Not present \n");
 	}
-	apiClient_free(apiClient4);
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+
+	apiClient_t *apiClient5 = apiClient_create();
+	list_t *elementToReturn = list_create();
+	elementToReturn = StoreAPI_getInventory(apiClient5);
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+	listEntry_t *tagsListEntry;
+	list_ForEach(tagsListEntry, elementToReturn) {
+		keyValuePair_t *keyPair = tagsListEntry->data;
+		printf("\n%s:%s\n", keyPair->key, keyPair->value);
+	}
 }

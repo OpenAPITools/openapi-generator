@@ -156,13 +156,11 @@ CJSON_PUBLIC(char *) cJSON_Print(const cJSON * item);
 /* Render a cJSON entity to text for transfer/storage without any formatting. */
 CJSON_PUBLIC(char *) cJSON_PrintUnformatted(const cJSON * item);
 /* Render a cJSON entity to text using a buffered strategy. prebuffer is a guess at the final size. guessing well reduces reallocation. fmt=0 gives unformatted, =1 gives formatted */
-CJSON_PUBLIC(char *) cJSON_PrintBuffered(const cJSON * item,
-                                         int prebuffer,
+CJSON_PUBLIC(char *) cJSON_PrintBuffered(const cJSON * item, int prebuffer,
                                          cJSON_bool fmt);
 /* Render a cJSON entity to text using a buffer already allocated in memory with given length. Returns 1 on success and 0 on failure. */
 /* NOTE: cJSON is not always 100% accurate in estimating how much memory it will use, so to be safe allocate 5 bytes more than you actually need */
-CJSON_PUBLIC(cJSON_bool) cJSON_PrintPreallocated(cJSON * item,
-                                                 char *buffer,
+CJSON_PUBLIC(cJSON_bool) cJSON_PrintPreallocated(cJSON * item, char *buffer,
                                                  const int length,
                                                  const cJSON_bool format);
 /* Delete a cJSON entity and all subentities. */
@@ -176,8 +174,7 @@ CJSON_PUBLIC(cJSON *) cJSON_GetArrayItem(const cJSON * array, int index);
 CJSON_PUBLIC(cJSON *) cJSON_GetObjectItem(const cJSON * const object,
                                           const char *const string);
 CJSON_PUBLIC(cJSON *) cJSON_GetObjectItemCaseSensitive(
-	const cJSON * const object,
-	const char *const string);
+	const cJSON * const object, const char *const string);
 CJSON_PUBLIC(cJSON_bool) cJSON_HasObjectItem(const cJSON * object,
                                              const char *string);
 /* For analysing failed parses. This returns a pointer to the parse error. You'll probably need to look a few chars back to make sense of it. Defined when cJSON_Parse() returns 0. 0 when cJSON_Parse() succeeds. */
@@ -226,14 +223,12 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateStringArray(const char **strings, int count);
 
 /* Append item to the specified array/object. */
 CJSON_PUBLIC(void) cJSON_AddItemToArray(cJSON * array, cJSON * item);
-CJSON_PUBLIC(void) cJSON_AddItemToObject(cJSON * object,
-                                         const char *string,
+CJSON_PUBLIC(void) cJSON_AddItemToObject(cJSON * object, const char *string,
                                          cJSON * item);
 /* Use this when string is definitely const (i.e. a literal, or as good as), and will definitely survive the cJSON object.
  * WARNING: When this function was used, make sure to always check that (item->type & cJSON_StringIsConst) is zero before
  * writing to `item->string` */
-CJSON_PUBLIC(void) cJSON_AddItemToObjectCS(cJSON * object,
-                                           const char *string,
+CJSON_PUBLIC(void) cJSON_AddItemToObjectCS(cJSON * object, const char *string,
                                            cJSON * item);
 /* Append reference to item to the specified array/object. Use this when you want to add an existing cJSON to a new cJSON, but don't want to corrupt your existing cJSON. */
 CJSON_PUBLIC(void) cJSON_AddItemReferenceToArray(cJSON * array, cJSON * item);
@@ -256,17 +251,14 @@ CJSON_PUBLIC(void) cJSON_DeleteItemFromObjectCaseSensitive(cJSON * object,
                                                            const char *string);
 
 /* Update array items. */
-CJSON_PUBLIC(void) cJSON_InsertItemInArray(cJSON * array,
-                                           int which,
+CJSON_PUBLIC(void) cJSON_InsertItemInArray(cJSON * array, int which,
                                            cJSON * newitem);                         /* Shifts pre-existing items to the right. */
 CJSON_PUBLIC(cJSON_bool) cJSON_ReplaceItemViaPointer(cJSON * const parent,
                                                      cJSON * const item,
                                                      cJSON * replacement);
-CJSON_PUBLIC(void) cJSON_ReplaceItemInArray(cJSON * array,
-                                            int which,
+CJSON_PUBLIC(void) cJSON_ReplaceItemInArray(cJSON * array, int which,
                                             cJSON * newitem);
-CJSON_PUBLIC(void) cJSON_ReplaceItemInObject(cJSON * object,
-                                             const char *string,
+CJSON_PUBLIC(void) cJSON_ReplaceItemInObject(cJSON * object, const char *string,
                                              cJSON * newitem);
 CJSON_PUBLIC(void) cJSON_ReplaceItemInObjectCaseSensitive(cJSON * object,
                                                           const char *string,
