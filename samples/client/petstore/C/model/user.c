@@ -5,7 +5,14 @@
 #include "user.h"
 
 
-user_t *user_create(long id, char *username, char *firstName, char *lastName, char *email, char *password, char *phone, int userStatus) {
+user_t *user_create(long	id,
+                    char	*username,
+                    char	*firstName,
+                    char	*lastName,
+                    char	*email,
+                    char	*password,
+                    char	*phone,
+                    int		userStatus) {
 	user_t *user = malloc(sizeof(user_t));
 	user->id = id;
 	user->username = username;
@@ -46,7 +53,9 @@ cJSON *user_convertToJSON(user_t *user) {
 	}
 
 	// user->firstName
-	if(cJSON_AddStringToObject(item, "firstName", user->firstName) == NULL) {
+	if(cJSON_AddStringToObject(item, "firstName",
+	                           user->firstName) == NULL)
+	{
 		goto fail; // String
 	}
 
@@ -71,7 +80,9 @@ cJSON *user_convertToJSON(user_t *user) {
 	}
 
 	// user->userStatus
-	if(cJSON_AddNumberToObject(item, "userStatus", user->userStatus) == NULL) {
+	if(cJSON_AddNumberToObject(item, "userStatus",
+	                           user->userStatus) == NULL)
+	{
 		goto fail; // Numeric
 	}
 
@@ -99,7 +110,8 @@ user_t *user_parseFromJSON(char *jsonString) {
 	}
 
 	// user->username
-	cJSON *username = cJSON_GetObjectItemCaseSensitive(userJSON, "username");
+	cJSON *username =
+		cJSON_GetObjectItemCaseSensitive(userJSON, "username");
 	if(!cJSON_IsString(username) ||
 	   (username->valuestring == NULL))
 	{
@@ -107,7 +119,8 @@ user_t *user_parseFromJSON(char *jsonString) {
 	}
 
 	// user->firstName
-	cJSON *firstName = cJSON_GetObjectItemCaseSensitive(userJSON, "firstName");
+	cJSON *firstName = cJSON_GetObjectItemCaseSensitive(userJSON,
+	                                                    "firstName");
 	if(!cJSON_IsString(firstName) ||
 	   (firstName->valuestring == NULL))
 	{
@@ -115,7 +128,8 @@ user_t *user_parseFromJSON(char *jsonString) {
 	}
 
 	// user->lastName
-	cJSON *lastName = cJSON_GetObjectItemCaseSensitive(userJSON, "lastName");
+	cJSON *lastName =
+		cJSON_GetObjectItemCaseSensitive(userJSON, "lastName");
 	if(!cJSON_IsString(lastName) ||
 	   (lastName->valuestring == NULL))
 	{
@@ -131,7 +145,8 @@ user_t *user_parseFromJSON(char *jsonString) {
 	}
 
 	// user->password
-	cJSON *password = cJSON_GetObjectItemCaseSensitive(userJSON, "password");
+	cJSON *password =
+		cJSON_GetObjectItemCaseSensitive(userJSON, "password");
 	if(!cJSON_IsString(password) ||
 	   (password->valuestring == NULL))
 	{
@@ -147,7 +162,8 @@ user_t *user_parseFromJSON(char *jsonString) {
 	}
 
 	// user->userStatus
-	cJSON *userStatus = cJSON_GetObjectItemCaseSensitive(userJSON, "userStatus");
+	cJSON *userStatus = cJSON_GetObjectItemCaseSensitive(userJSON,
+	                                                     "userStatus");
 	if(!cJSON_IsNumber(userStatus)) {
 		goto end; // Numeric
 	}

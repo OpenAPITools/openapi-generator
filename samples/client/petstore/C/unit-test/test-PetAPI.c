@@ -96,7 +96,8 @@ int main() {
 	strcpy(petName2, "sold");
 
 	apiClient_t *apiClient1 = apiClient_create();
-	PetAPI_updatePetWithForm(apiClient1, EXAMPLE_PET_ID, petName1, petName2);
+	PetAPI_updatePetWithForm(apiClient1, EXAMPLE_PET_ID, petName1,
+	                         petName2);
 
 
 

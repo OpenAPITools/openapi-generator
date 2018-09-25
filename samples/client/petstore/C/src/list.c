@@ -38,9 +38,12 @@ list_t *list_create() {
 	return createdList;
 }
 
-void list_iterateThroughListForward(list_t *list, void (*operationToPerform)(
+void list_iterateThroughListForward(list_t		*list,
+                                    void (		*operationToPerform)(
 					    listEntry_t *,
-					    void *callbackFunctionUsedData), void *additionalDataNeededForCallbackFunction) {
+					    void	*callbackFunctionUsedData),
+                                    void		*additionalDataNeededForCallbackFunction)
+{
 	listEntry_t *currentListEntry = list->firstEntry;
 	listEntry_t *nextListEntry;
 
@@ -62,9 +65,12 @@ void list_iterateThroughListForward(list_t *list, void (*operationToPerform)(
 	}
 }
 
-void list_iterateThroughListBackward(list_t *list, void (*operationToPerform)(
+void list_iterateThroughListBackward(list_t		*list,
+                                     void (		*operationToPerform)(
 					     listEntry_t *,
-					     void *callbackFunctionUsedData), void *additionalDataNeededForCallbackFunction) {
+					     void	*callbackFunctionUsedData),
+                                     void		*additionalDataNeededForCallbackFunction)
+{
 	listEntry_t *currentListEntry = list->lastEntry;
 	listEntry_t *nextListEntry = currentListEntry->prevListEntry;
 

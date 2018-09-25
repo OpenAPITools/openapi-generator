@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "apiClient.h"
 #include "cJSON.h"
-//#include "map.h"
 #include "order.h"
 
 
@@ -17,7 +16,7 @@ void *StoreAPI_deleteOrder(apiClient_t *apiClient, char *OrderId);
 //
 // Returns a map of status codes to quantities
 //
-//map *StoreAPI_getInventory(apiClient_t *apiClient);
+list_t **StoreAPI_getInventory(apiClient_t *apiClient);
 
 
 // Find purchase order by ID

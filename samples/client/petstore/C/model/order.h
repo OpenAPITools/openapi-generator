@@ -23,7 +23,12 @@ typedef struct order_t {
 	bool complete; // boolean
 } order_t;
 
-order_t *order_create(long id, long petId, int quantity, char *shipDate, char *status, bool complete);
+order_t *order_create(long	id,
+                      long	petId,
+                      int	quantity,
+                      char	*shipDate,
+                      char	*status,
+                      bool	complete);
 
 void order_free(order_t *order);
 

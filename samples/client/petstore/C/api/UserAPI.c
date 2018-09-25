@@ -73,7 +73,9 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	// Body Param
 	// notstring
 	cJSON *localVarItemJSON_user = cJSON_CreateObject();
-	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(localVarItemJSON_user, "user");
+	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
+		localVarItemJSON_user,
+		"user");
 	if(localVarSingleItemJSON_user == NULL) {
 		return 0; // nonprimitive container
 	}
@@ -84,7 +86,8 @@ void *UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 		if(localVar_user == NULL) {
 			return 0;
 		}
-		cJSON_AddItemToArray(localVarSingleItemJSON_user, localVar_user);
+		cJSON_AddItemToArray(localVarSingleItemJSON_user,
+		                     localVar_user);
 	}
 
 	localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
@@ -130,7 +133,9 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	// Body Param
 	// notstring
 	cJSON *localVarItemJSON_user = cJSON_CreateObject();
-	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(localVarItemJSON_user, "user");
+	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
+		localVarItemJSON_user,
+		"user");
 	if(localVarSingleItemJSON_user == NULL) {
 		return 0; // nonprimitive container
 	}
@@ -141,7 +146,8 @@ void *UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 		if(localVar_user == NULL) {
 			return 0;
 		}
-		cJSON_AddItemToArray(localVarSingleItemJSON_user, localVar_user);
+		cJSON_AddItemToArray(localVarSingleItemJSON_user,
+		                     localVar_user);
 	}
 
 	localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
@@ -188,7 +194,12 @@ void *UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace, strlen(username) + 3, "%s%s%s", "{", "username", "}");
+	snprintf(localVarToReplace,
+	         strlen(username) + 3,
+	         "%s%s%s",
+	         "{",
+	         "username",
+	         "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
@@ -229,7 +240,12 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace, strlen(username) + 3, "%s%s%s", "{", "username", "}");
+	snprintf(localVarToReplace,
+	         strlen(username) + 3,
+	         "%s%s%s",
+	         "{",
+	         "username",
+	         "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
@@ -267,7 +283,8 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 
 // Logs user into the system
 //
-char *UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password) {
+char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
+                        char *password) {
 	list_t *localVarQueryParameters = list_create();
 	list_t *localVarHeaderParameters = list_create();
 	list_t *localVarFormParameters = list_create();
@@ -287,7 +304,8 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password) 
 		// string
 		keyQuery_username = strdup("username");
 		valueQuery_username = strdup(username);
-		keyPairQuery_username = keyValuePair_create(keyQuery_username, valueQuery_username);
+		keyPairQuery_username = keyValuePair_create(keyQuery_username,
+		                                            valueQuery_username);
 		list_addElement(localVarQueryParameters, keyPairQuery_username);
 	}
 
@@ -299,7 +317,8 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password) 
 		// string
 		keyQuery_password = strdup("password");
 		valueQuery_password = strdup(password);
-		keyPairQuery_password = keyValuePair_create(keyQuery_password, valueQuery_password);
+		keyPairQuery_password = keyValuePair_create(keyQuery_password,
+		                                            valueQuery_password);
 		list_addElement(localVarQueryParameters, keyPairQuery_password);
 	}
 
@@ -385,7 +404,12 @@ void *UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 
 	// Path Params
 	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace, strlen(username) + 3, "%s%s%s", "{", "username", "}");
+	snprintf(localVarToReplace,
+	         strlen(username) + 3,
+	         "%s%s%s",
+	         "{",
+	         "username",
+	         "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 

@@ -123,7 +123,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         importMapping.clear();
         languageSpecificPrimitives.clear();
 
-        // primitives in ruby lang
+        // primitives in C lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("short");
         languageSpecificPrimitives.add("int");
@@ -133,6 +133,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.add("char");
         languageSpecificPrimitives.add("FILE");
         languageSpecificPrimitives.add("Object");
+        languageSpecificPrimitives.add("list_t*");
 
         typeMapping.put("string", "char");
         typeMapping.put("char", "char");
@@ -149,6 +150,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("ByteArray", "char");
         typeMapping.put("UUID", "char");
         typeMapping.put("array", "list");
+        typeMapping.put("map", "list_t*");
         typeMapping.put("date-time", "char");
         
         // remove modelPackage and apiPackage added by default
@@ -160,9 +162,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 itr.remove();
             }
         }
-        //cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
-        //        defaultValue("openapi_client"));
-
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
@@ -210,8 +209,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
        writeOptional(outputFolder, new SupportingFile("model_order_test.mustache", "unit-tests", "order.c"));
        writeOptional(outputFolder, new SupportingFile("model_user_test.mustache", "unit-tests", "user.c"));
        //writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
-
-
     }
 
     @Override

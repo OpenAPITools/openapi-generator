@@ -13,7 +13,11 @@
 #define COMPLETE 1
 
 int main() {
-	order_t *neworder = order_create(ORDER_ID, PET_ID, QUANTITY, SHIP_DATE, STATUS,
+	order_t *neworder = order_create(ORDER_ID,
+	                                 PET_ID,
+	                                 QUANTITY,
+	                                 SHIP_DATE,
+	                                 STATUS,
 	                                 COMPLETE);
 
 	cJSON *JSONNODE = order_convertToJSON(neworder);

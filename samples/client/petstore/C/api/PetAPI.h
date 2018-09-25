@@ -44,9 +44,15 @@ void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *Pet);
 
 // Updates a pet in the store with form data
 //
-void *PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char *Name, char *Status);
+void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
+                               long		PetId,
+                               char		*Name,
+                               char		*Status);
 
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId, char *AdditionalMetadata, FILE *File);
+api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
+                                  long		PetId,
+                                  char		*AdditionalMetadata,
+                                  FILE		*File);
