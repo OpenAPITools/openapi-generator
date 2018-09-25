@@ -56,7 +56,7 @@ public class CodegenProperty implements Cloneable {
     public boolean hasMore, required, secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType, isContainer, isNotContainer;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid, isEmail;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public boolean isReadOnly;
@@ -472,6 +472,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isDate  ? 13:31));
         result = prime * result + ((isDateTime ? 13:31));
         result = prime * result + ((isUuid ? 13:31));
+        result = prime * result + ((isEmail ? 13:31));
         result = prime * result + ((isMapContainer ? 13:31));
         result = prime * result + ((isListContainer  ? 13:31));
         result = prime * result + Objects.hashCode(isInherited);
@@ -649,6 +650,9 @@ public class CodegenProperty implements Cloneable {
         if (this.isUuid != other.isUuid) {
             return false;
         }
+        if (this.isEmail != other.isEmail) {
+            return false;
+        }
         if (this.isBinary != other.isBinary) {
             return false;
         }
@@ -775,6 +779,7 @@ public class CodegenProperty implements Cloneable {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isEmail=" + isEmail +
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isEnum=" + isEnum +

@@ -34,6 +34,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
+import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,8 @@ import java.util.stream.Collectors;
 
 
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, OptionalFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures,
+        OptionalFeatures {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
@@ -88,6 +90,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String responseWrapper = "";
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
+    protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
     protected boolean openapiDocketConfig = false;
     protected boolean apiFirst = false;
@@ -120,6 +123,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers.", implicitHeaders));
         cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
         cliOptions.add(CliOption.newBoolean(API_FIRST, "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
@@ -242,6 +246,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
+            this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
+        }
+        writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
@@ -746,6 +755,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setPerformBeanValidation(boolean performBeanValidation) {
+        this.performBeanValidation = performBeanValidation;
     }
 
     @Override
