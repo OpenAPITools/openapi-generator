@@ -68,7 +68,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // at the moment
         importMapping.clear();
 
-        supportsInheritance = true;
+        // Commenting out fixes the model properties inheritance from a parent model
+        //supportsInheritance = true;
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separatorChar + "python";
