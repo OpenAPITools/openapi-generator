@@ -50,8 +50,8 @@
 
     {{/isLong}}
     {{#isString}}
-    char* localVarToReplace = malloc(sizeof({{baseName}})+2);
-    snprintf(localVarToReplace, strlen({{baseName}})+3, "%s%s%s", "{", "{{baseName}}", "}");
+    char* localVarToReplace = malloc(256);
+    sprintf(localVarToReplace, "%s%s%s", "{", "{{baseName}}", "}");
 
     localVarPath = strReplace(localVarPath, localVarToReplace, {{baseName}});
     {{/isString}}
