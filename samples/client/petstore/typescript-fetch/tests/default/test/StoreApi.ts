@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { StoreApi } from '@swagger/typescript-fetch-petstore';
+import { config } from '../configuration';
 
 describe('StoreApi', function () {
 
@@ -9,7 +10,7 @@ describe('StoreApi', function () {
             let api: StoreApi;
 
             beforeEach(function () {
-                api = new StoreApi();
+                api = new StoreApi(config);
             });
 
             it('should get inventory', function () {

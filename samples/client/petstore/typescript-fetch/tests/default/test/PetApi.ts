@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { PetApi, Pet, Category } from '@swagger/typescript-fetch-petstore';
+import { config } from '../configuration';
 
 describe('PetApi', () => {
 
@@ -11,7 +12,7 @@ describe('PetApi', () => {
             const fixture: Pet = createTestFixture();
 
             beforeEach(() => {
-                api = new PetApi();
+                api = new PetApi(config);
             });
 
             it('should add and delete Pet', () => {
