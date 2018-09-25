@@ -165,22 +165,31 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("ELM_FORMAT_PATH"))) {
-            LOGGER.info("Environment variable ELM_FORMAT_PATH not defined so the Elm code may not be properly formatted. To define it, try 'export ELM_FORMAT_PATH=/usr/local/bin/elm-format' (Linux/Mac)");
-        }
 
         if (additionalProperties.containsKey(ELM_VERSION)) {
             final String version = (String) additionalProperties.get(ELM_VERSION);
             if ("0.18".equals(version)) {
                 elmVersion = ElmVersion.ELM_018;
+            } else {
+                elmVersion = ElmVersion.ELM_019;
+            }
+        }
+
+        if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
+            if (elmVersion.equals(ElmVersion.ELM_018)) { // 0.18
+                LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.18");
+            } else { // 0.19
+                LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.19");
             }
         }
 
         switch (elmVersion) {
             case ELM_018:
+                LOGGER.info("Elm version = 0.18");
                 additionalProperties.put("isElm018", true);
                 break;
             case ELM_019:
+                LOGGER.info("Elm version = 0.19");
                 additionalProperties.put("isElm019", true);
                 break;
             default:
@@ -640,26 +649,24 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        String elmFmtPath = System.getenv("ELM_FORMAT_PATH");
-        if (StringUtils.isEmpty(elmFmtPath)) {
-            return; // skip if ELM_FORMAT_PATH env variable is not defined
+        String elmPostProcessFile = System.getenv("ELM_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(elmPostProcessFile)) {
+            return; // skip if ELM_POST_PROCESS_FILE env variable is not defined
         }
 
         // only process files with elm extension
         if ("elm".equals(FilenameUtils.getExtension(file.toString()))) {
-            // currently only support "elm-format -w yourcode.elm"
-            String command = elmFmtPath + " --yes " + file.toString();
-            if (ElmVersion.ELM_018.equals(elmVersion)) {
-                command += " --elm-version=0.18";
-            }
+            // e.g. elm-format -w yourcode.elm
+            String command = elmPostProcessFile + " " + file.toString();
 
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
                 }
-                LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
