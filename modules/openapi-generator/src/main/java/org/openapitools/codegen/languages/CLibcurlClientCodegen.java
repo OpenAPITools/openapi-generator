@@ -123,7 +123,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         importMapping.clear();
         languageSpecificPrimitives.clear();
 
-        // primitives in ruby lang
+        // primitives in C lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("short");
         languageSpecificPrimitives.add("int");
@@ -162,9 +162,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                 itr.remove();
             }
         }
-        //cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
-        //        defaultValue("openapi_client"));
-
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
@@ -212,8 +209,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
        writeOptional(outputFolder, new SupportingFile("model_order_test.mustache", "unit-tests", "order.c"));
        writeOptional(outputFolder, new SupportingFile("model_user_test.mustache", "unit-tests", "user.c"));
        //writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
-
-
     }
 
     @Override
