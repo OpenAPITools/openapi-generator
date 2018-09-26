@@ -165,13 +165,16 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 				char *formString = malloc(4096);
 				memset(formString, 0, 4096);
 				list_ForEach(listEntry, formParameters) {
-					keyValuePair_t *pair = listEntry->data;
-					strcat(formString, pair->key);
-					strcat(formString, "=");
-					strcat(formString, pair->value);
-					if(listEntry->nextListEntry != NULL) {
-						strcat(formString, "&");
-					}
+					keyValuePair_t *keyPair = listEntry->data;
+                    if((keyPair->key != NULL) &&
+                       (keyPair->value != NULL) ) {
+                        strcat(formString, keyPair->key);
+                        strcat(formString, "=");
+                        strcat(formString, keyPair->value);
+                        if (listEntry->nextListEntry != NULL) {
+                            strcat(formString, "&");
+                        }
+                    }
 				}
 				curl_easy_setopt(handle, CURLOPT_POSTFIELDS,
 				                 formString);
