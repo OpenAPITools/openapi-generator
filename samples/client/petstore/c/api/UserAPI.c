@@ -31,10 +31,13 @@ void UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user");
 
 	// Body Param
-	// string
 	cJSON *localVarSingleItemJSON_user;
-	localVarSingleItemJSON_user = user_convertToJSON(user);
-	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_user);
+	if(user != NULL) {
+		// string
+		localVarSingleItemJSON_user = user_convertToJSON(user);
+		localVarBodyParameters =
+			cJSON_Print(localVarSingleItemJSON_user);
+	}
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -47,13 +50,13 @@ void UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	                 "POST");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 
+end:
 	free(localVarPath);
 }
 
@@ -73,22 +76,15 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 
 	// Body Param
 	// notstring
-	cJSON *localVarItemJSON_user = cJSON_CreateObject();
-	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
-		localVarItemJSON_user, "user");
-	if(localVarSingleItemJSON_user == NULL) {
-		// nonprimitive container
-		const char *error_ptr = cJSON_GetErrorPtr();
-		if(error_ptr != NULL) {
-			fprintf(stderr, "Error Before: %s\n", error_ptr);
-			goto end;
-		}
-	}
-	listEntry_t *userBodyListEntry;
 	cJSON *localVar_user;
-	list_ForEach(userBodyListEntry, user) {
-		localVar_user = user_convertToJSON(userBodyListEntry->data);
-		if(localVar_user == NULL) {
+	cJSON *localVarItemJSON_user;
+	cJSON *localVarSingleItemJSON_user;
+	if(user != NULL) {
+		localVarItemJSON_user = cJSON_CreateObject();
+		localVarSingleItemJSON_user = cJSON_AddArrayToObject(
+			localVarItemJSON_user, "user");
+		if(localVarSingleItemJSON_user == NULL) {
+			// nonprimitive container
 			const char *error_ptr = cJSON_GetErrorPtr();
 			if(error_ptr != NULL) {
 				fprintf(stderr, "Error Before: %s\n",
@@ -96,11 +92,25 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 				goto end;
 			}
 		}
-		cJSON_AddItemToArray(localVarSingleItemJSON_user,
-		                     localVar_user);
-	}
+		listEntry_t *userBodyListEntry;
 
-	localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
+		list_ForEach(userBodyListEntry, user) {
+			localVar_user = user_convertToJSON(
+				userBodyListEntry->data);
+			if(localVar_user == NULL) {
+				const char *error_ptr = cJSON_GetErrorPtr();
+				if(error_ptr != NULL) {
+					fprintf(stderr, "Error Before: %s\n",
+					        error_ptr);
+					goto end;
+				}
+			}
+			cJSON_AddItemToArray(localVarSingleItemJSON_user,
+			                     localVar_user);
+		}
+
+		localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
+	}
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -113,18 +123,18 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	                 "POST");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 
-	free(localVarPath);
 	cJSON_Delete(localVarItemJSON_user);
 	cJSON_Delete(localVarSingleItemJSON_user);
 	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
+end:
+	free(localVarPath);
 }
 
 // Creates list of users with given input array
@@ -143,22 +153,15 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 
 	// Body Param
 	// notstring
-	cJSON *localVarItemJSON_user = cJSON_CreateObject();
-	cJSON *localVarSingleItemJSON_user = cJSON_AddArrayToObject(
-		localVarItemJSON_user, "user");
-	if(localVarSingleItemJSON_user == NULL) {
-		// nonprimitive container
-		const char *error_ptr = cJSON_GetErrorPtr();
-		if(error_ptr != NULL) {
-			fprintf(stderr, "Error Before: %s\n", error_ptr);
-			goto end;
-		}
-	}
-	listEntry_t *userBodyListEntry;
 	cJSON *localVar_user;
-	list_ForEach(userBodyListEntry, user) {
-		localVar_user = user_convertToJSON(userBodyListEntry->data);
-		if(localVar_user == NULL) {
+	cJSON *localVarItemJSON_user;
+	cJSON *localVarSingleItemJSON_user;
+	if(user != NULL) {
+		localVarItemJSON_user = cJSON_CreateObject();
+		localVarSingleItemJSON_user = cJSON_AddArrayToObject(
+			localVarItemJSON_user, "user");
+		if(localVarSingleItemJSON_user == NULL) {
+			// nonprimitive container
 			const char *error_ptr = cJSON_GetErrorPtr();
 			if(error_ptr != NULL) {
 				fprintf(stderr, "Error Before: %s\n",
@@ -166,11 +169,25 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 				goto end;
 			}
 		}
-		cJSON_AddItemToArray(localVarSingleItemJSON_user,
-		                     localVar_user);
-	}
+		listEntry_t *userBodyListEntry;
 
-	localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
+		list_ForEach(userBodyListEntry, user) {
+			localVar_user = user_convertToJSON(
+				userBodyListEntry->data);
+			if(localVar_user == NULL) {
+				const char *error_ptr = cJSON_GetErrorPtr();
+				if(error_ptr != NULL) {
+					fprintf(stderr, "Error Before: %s\n",
+					        error_ptr);
+					goto end;
+				}
+			}
+			cJSON_AddItemToArray(localVarSingleItemJSON_user,
+			                     localVar_user);
+		}
+
+		localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
+	}
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -183,18 +200,18 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	                 "POST");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 
-	free(localVarPath);
 	cJSON_Delete(localVarItemJSON_user);
 	cJSON_Delete(localVarSingleItemJSON_user);
 	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
+end:
+	free(localVarPath);
 }
 
 // Delete user
@@ -214,9 +231,11 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
 
 	// Path Params
-	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace, strlen(
-			 username) + 3, "%s%s%s", "{", "username", "}");
+	if(username == NULL) {
+		goto end;
+	}
+	char *localVarToReplace = malloc(256);
+	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
@@ -231,15 +250,15 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	                 "DELETE");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 
-	free(localVarPath);
 	free(localVarToReplace);
+end:
+	free(localVarPath);
 }
 
 // Get user by user name
@@ -257,9 +276,11 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
 
 	// Path Params
-	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace, strlen(
-			 username) + 3, "%s%s%s", "{", "username", "}");
+	if(username == NULL) {
+		goto end;
+	}
+	char *localVarToReplace = malloc(256);
+	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
@@ -284,7 +305,6 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	}
 
 	// return type
-end:
 	apiClient_free(apiClient);
 
 
@@ -294,6 +314,8 @@ end:
 	free(localVarPath);
 	free(localVarToReplace);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Logs user into the system
@@ -315,7 +337,7 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	char *keyQuery_username;
 	char *valueQuery_username;
 	keyValuePair_t *keyPairQuery_username = 0;
-	if(username) {
+	if(username != NULL) {
 		// string
 		keyQuery_username = strdup("username");
 		valueQuery_username = strdup(username);
@@ -328,7 +350,7 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	char *keyQuery_password;
 	char *valueQuery_password;
 	keyValuePair_t *keyPairQuery_password = 0;
-	if(password) {
+	if(password != NULL) {
 		// string
 		keyQuery_password = strdup("password");
 		valueQuery_password = strdup(password);
@@ -353,7 +375,6 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 
 	// primitive reutrn type simple
 	char *elementToReturn = (char *) apiClient->dataReceived;
-end:
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
 
@@ -366,6 +387,8 @@ end:
 	free(keyQuery_password);
 	free(valueQuery_password);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Logs out current logged in user session
@@ -393,13 +416,13 @@ void UserAPI_logoutUser(apiClient_t *apiClient) {
 	                 "GET");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 
+end:
 	free(localVarPath);
 }
 
@@ -420,17 +443,22 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
 
 	// Path Params
-	char *localVarToReplace = malloc(sizeof(username) + 2);
-	snprintf(localVarToReplace, strlen(
-			 username) + 3, "%s%s%s", "{", "username", "}");
+	if(username == NULL) {
+		goto end;
+	}
+	char *localVarToReplace = malloc(256);
+	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
 
 	// Body Param
-	// string
 	cJSON *localVarSingleItemJSON_user;
-	localVarSingleItemJSON_user = user_convertToJSON(user);
-	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_user);
+	if(user != NULL) {
+		// string
+		localVarSingleItemJSON_user = user_convertToJSON(user);
+		localVarBodyParameters =
+			cJSON_Print(localVarSingleItemJSON_user);
+	}
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -443,13 +471,13 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	                 "PUT");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 
-	free(localVarPath);
 	free(localVarToReplace);
+end:
+	free(localVarPath);
 }

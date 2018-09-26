@@ -30,9 +30,11 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order/{orderId}");
 
 	// Path Params
-	char *localVarToReplace = malloc(sizeof(orderId) + 2);
-	snprintf(localVarToReplace, strlen(
-			 orderId) + 3, "%s%s%s", "{", "orderId", "}");
+	if(orderId == NULL) {
+		goto end;
+	}
+	char *localVarToReplace = malloc(256);
+	sprintf(localVarToReplace, "%s%s%s", "{", "orderId", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, orderId);
 
@@ -47,15 +49,15 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	                 "DELETE");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 
-	free(localVarPath);
 	free(localVarToReplace);
+end:
+	free(localVarPath);
 }
 
 // Returns pet inventories by status
@@ -95,7 +97,6 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 			StoreVarJSON->string, cJSON_Print(StoreVarJSON));
 		list_addElement(elementToReturn, keyPair);
 	}
-end:
 	apiClient_free(apiClient);
 
 
@@ -104,6 +105,8 @@ end:
 
 	free(localVarPath);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Find purchase order by ID
@@ -123,6 +126,9 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order/{orderId}");
 
 	// Path Params
+	if(orderId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(orderId) + 3);
 	snprintf(localVarToReplace, strlen(
 			 "orderId") + 3, "%s%s%s", "{", "orderId", "}");
@@ -155,7 +161,6 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	}
 
 	// return type
-end:
 	apiClient_free(apiClient);
 
 
@@ -165,6 +170,8 @@ end:
 	free(localVarPath);
 	free(localVarToReplace);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Place an order for a pet
@@ -182,10 +189,13 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order");
 
 	// Body Param
-	// string
 	cJSON *localVarSingleItemJSON_order;
-	localVarSingleItemJSON_order = order_convertToJSON(order);
-	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_order);
+	if(order != NULL) {
+		// string
+		localVarSingleItemJSON_order = order_convertToJSON(order);
+		localVarBodyParameters = cJSON_Print(
+			localVarSingleItemJSON_order);
+	}
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
 
@@ -208,7 +218,6 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	}
 
 	// return type
-end:
 	apiClient_free(apiClient);
 
 
@@ -217,4 +226,6 @@ end:
 
 	free(localVarPath);
 	return elementToReturn;
+end:
+	return NULL;
 }

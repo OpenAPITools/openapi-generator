@@ -29,10 +29,13 @@ void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
 
 	// Body Param
-	// string
 	cJSON *localVarSingleItemJSON_pet;
-	localVarSingleItemJSON_pet = pet_convertToJSON(pet);
-	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_pet);
+	if(pet != NULL) {
+		// string
+		localVarSingleItemJSON_pet = pet_convertToJSON(pet);
+		localVarBodyParameters =
+			cJSON_Print(localVarSingleItemJSON_pet);
+	}
 
 	list_addElement(localVarContentType, "application/json"); // consumes
 
@@ -49,13 +52,13 @@ void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 	                 "POST");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 	list_free(localVarContentType);
+end:
 	free(localVarPath);
 }
 
@@ -74,6 +77,9 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
 	snprintf(localVarToReplace, strlen(
 			 "petId") + 3, "%s%s%s", "{", "petId", "}");
@@ -109,18 +115,18 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	                 "DELETE");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 	list_free(localVarHeaderParameters);
 
 
 
-	free(localVarPath);
 	free(localVarToReplace);
 	free(keyPairHeader_api_key);
 	free(keyHeader_api_key);
 	free(valueHeader_api_key);
+end:
+	free(localVarPath);
 }
 
 // Finds Pets by status
@@ -140,7 +146,7 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByStatus");
 
 	// query parameters
-	if(status) {
+	if(status != NULL) {
 		// listContainer
 		localVarQueryParameters = status;
 	}
@@ -177,7 +183,6 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	cJSON_Delete(PetAPIlocalVarJSON);
 	cJSON_Delete(PetVarJSON);
 	// return type
-end:
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
 
@@ -186,6 +191,8 @@ end:
 
 	free(localVarPath);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Finds Pets by tags
@@ -205,7 +212,7 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByTags");
 
 	// query parameters
-	if(tags) {
+	if(tags != NULL) {
 		// listContainer
 		localVarQueryParameters = tags;
 	}
@@ -242,7 +249,6 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	cJSON_Delete(PetAPIlocalVarJSON);
 	cJSON_Delete(PetVarJSON);
 	// return type
-end:
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
 
@@ -251,6 +257,8 @@ end:
 
 	free(localVarPath);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Find pet by ID
@@ -270,6 +278,9 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
 	snprintf(localVarToReplace, strlen(
 			 "petId") + 3, "%s%s%s", "{", "petId", "}");
@@ -302,7 +313,6 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	}
 
 	// return type
-end:
 	apiClient_free(apiClient);
 
 
@@ -312,6 +322,8 @@ end:
 	free(localVarPath);
 	free(localVarToReplace);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Update an existing pet
@@ -329,10 +341,13 @@ void PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
 
 	// Body Param
-	// string
 	cJSON *localVarSingleItemJSON_pet;
-	localVarSingleItemJSON_pet = pet_convertToJSON(pet);
-	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_pet);
+	if(pet != NULL) {
+		// string
+		localVarSingleItemJSON_pet = pet_convertToJSON(pet);
+		localVarBodyParameters =
+			cJSON_Print(localVarSingleItemJSON_pet);
+	}
 
 	list_addElement(localVarContentType, "application/json"); // consumes
 
@@ -349,13 +364,13 @@ void PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 	                 "PUT");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 
 
 	list_free(localVarContentType);
+end:
 	free(localVarPath);
 }
 
@@ -375,6 +390,9 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
 	snprintf(localVarToReplace, strlen(
 			 "petId") + 3, "%s%s%s", "{", "petId", "}");
@@ -424,19 +442,19 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
 	                 "POST");
 
 	// No return type
-end:
 	apiClient_free(apiClient);
 
 
 	list_free(localVarFormParameters);
 
 	list_free(localVarContentType);
-	free(localVarPath);
 	free(localVarToReplace);
 	free(keyForm_name);
 	free(valueForm_name);
 	free(keyForm_status);
 	free(valueForm_status);
+end:
+	free(localVarPath);
 }
 
 // uploads an image
@@ -455,6 +473,9 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}/uploadImage");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
 	snprintf(localVarToReplace, strlen(
 			 "petId") + 3, "%s%s%s", "{", "petId", "}");
@@ -481,13 +502,15 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	}
 
 	// form parameters
-	fseek(file, 0, SEEK_END);
-	long f_size = ftell(file);
-	fseek(file, 0, SEEK_SET);
+
 	char *keyForm_file;
-	FileStruct *fileVar_file = malloc(sizeof(FileStruct));
+	FileStruct *fileVar_file;
 	keyValuePair_t *keyPairForm_file = 0;
 	if(file != NULL) {
+		fseek(file, 0, SEEK_END);
+		long f_size = ftell(file);
+		fseek(file, 0, SEEK_SET);
+		fileVar_file = malloc(sizeof(FileStruct));
 		keyForm_file = strdup("file");
 		fileVar_file->fileData = malloc((f_size) * sizeof(char *));
 
@@ -525,7 +548,6 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	}
 
 	// return type
-end:
 	apiClient_free(apiClient);
 
 
@@ -542,4 +564,6 @@ end:
 	free(fileVar_file);
 	free(keyPairForm_file);
 	return elementToReturn;
+end:
+	return NULL;
 }
