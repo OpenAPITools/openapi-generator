@@ -5,14 +5,8 @@
 #include "user.h"
 
 
-user_t *user_create(long	id,
-                    char	*username,
-                    char	*firstName,
-                    char	*lastName,
-                    char	*email,
-                    char	*password,
-                    char	*phone,
-                    int		userStatus) {
+user_t *user_create(long id, char *username, char *firstName, char *lastName,
+                    char *email, char *password, char *phone, int userStatus) {
 	user_t *user = malloc(sizeof(user_t));
 	user->id = id;
 	user->username = username;

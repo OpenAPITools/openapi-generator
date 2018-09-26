@@ -8,12 +8,8 @@
 #include "tag.h"
 
 
-pet_t *pet_create(long		id,
-                  category_t	*category,
-                  char		*name,
-                  list_t	*photoUrls,
-                  list_t	*tags,
-                  char		*status) {
+pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls,
+                  list_t *tags, char *status) {
 	pet_t *pet = malloc(sizeof(pet_t));
 	pet->id = id;
 	pet->category = category;

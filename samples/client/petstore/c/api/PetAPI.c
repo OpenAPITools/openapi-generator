@@ -16,11 +16,11 @@
 
 // Add a new pet to the store
 //
-void *PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
+void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
@@ -29,10 +29,13 @@ void *PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
 
 	// Body Param
-	// string
 	cJSON *localVarSingleItemJSON_pet;
-	localVarSingleItemJSON_pet = pet_convertToJSON(pet);
-	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_pet);
+	if(pet != NULL) {
+		// string
+		localVarSingleItemJSON_pet = pet_convertToJSON(pet);
+		localVarBodyParameters =
+			cJSON_Print(localVarSingleItemJSON_pet);
+	}
 
 	list_addElement(localVarContentType, "application/json"); // consumes
 
@@ -50,22 +53,23 @@ void *PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 
 	// No return type
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
+
+
+
+
 	list_free(localVarContentType);
+end:
 	free(localVarPath);
 }
 
 // Deletes a pet
 //
-void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
-	list_t *localVarQueryParameters = list_create();
+void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
+	list_t *localVarQueryParameters = NULL;
 	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -73,13 +77,12 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace,
-	         strlen("petId") + 3,
-	         "%s%s%s",
-	         "{",
-	         "petId",
-	         "}");
+	snprintf(localVarToReplace, strlen(
+			 "petId") + 3, "%s%s%s", "{", "petId", "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
@@ -113,16 +116,17 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 
 	// No return type
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
+
 	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
-	list_free(localVarContentType);
-	free(localVarPath);
+
+
+
 	free(localVarToReplace);
 	free(keyPairHeader_api_key);
 	free(keyHeader_api_key);
 	free(valueHeader_api_key);
+end:
+	free(localVarPath);
 }
 
 // Finds Pets by status
@@ -131,10 +135,10 @@ void *PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 //
 list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
 	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -142,7 +146,7 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByStatus");
 
 	// query parameters
-	if(status) {
+	if(status != NULL) {
 		// listContainer
 		localVarQueryParameters = status;
 	}
@@ -181,12 +185,14 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	// return type
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
+
+
 	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
 	free(localVarPath);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Finds Pets by tags
@@ -195,10 +201,10 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 //
 list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
 	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -206,7 +212,7 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByTags");
 
 	// query parameters
-	if(tags) {
+	if(tags != NULL) {
 		// listContainer
 		localVarQueryParameters = tags;
 	}
@@ -245,12 +251,14 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	// return type
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
+
+
 	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
 	free(localVarPath);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Find pet by ID
@@ -258,11 +266,11 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 // Returns a single pet
 //
 pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
 	list_t *localVarHeaderType = list_create();
-	list_t *localVarContentType = list_create();
+	list_t *localVarContentType = NULL;
 	char *localVarBodyParameters = NULL;
 
 	// create the path
@@ -270,13 +278,12 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace,
-	         strlen("petId") + 3,
-	         "%s%s%s",
-	         "{",
-	         "petId",
-	         "}");
+	snprintf(localVarToReplace, strlen(
+			 "petId") + 3, "%s%s%s", "{", "petId", "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
@@ -307,23 +314,25 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 
 	// return type
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
+
+
+
 	list_free(localVarHeaderType);
-	list_free(localVarContentType);
+
 	free(localVarPath);
 	free(localVarToReplace);
 	return elementToReturn;
+end:
+	return NULL;
 }
 
 // Update an existing pet
 //
-void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
-	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
+void PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
+	list_t *localVarFormParameters = NULL;
+	list_t *localVarHeaderType = NULL;
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
@@ -332,10 +341,13 @@ void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
 
 	// Body Param
-	// string
 	cJSON *localVarSingleItemJSON_pet;
-	localVarSingleItemJSON_pet = pet_convertToJSON(pet);
-	localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_pet);
+	if(pet != NULL) {
+		// string
+		localVarSingleItemJSON_pet = pet_convertToJSON(pet);
+		localVarBodyParameters =
+			cJSON_Print(localVarSingleItemJSON_pet);
+	}
 
 	list_addElement(localVarContentType, "application/json"); // consumes
 
@@ -353,24 +365,23 @@ void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 
 	// No return type
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
-	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
+
+
+
+
 	list_free(localVarContentType);
+end:
 	free(localVarPath);
 }
 
 // Updates a pet in the store with form data
 //
-void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
-                               long		petId,
-                               char		*name,
-                               char		*status) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
+void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
+                              char *status) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
 	list_t *localVarFormParameters = list_create();
-	list_t *localVarHeaderType = list_create();
+	list_t *localVarHeaderType = NULL;
 	list_t *localVarContentType = list_create();
 	char *localVarBodyParameters = NULL;
 
@@ -379,13 +390,12 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace,
-	         strlen("petId") + 3,
-	         "%s%s%s",
-	         "{",
-	         "petId",
-	         "}");
+	snprintf(localVarToReplace, strlen(
+			 "petId") + 3, "%s%s%s", "{", "petId", "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
@@ -433,27 +443,26 @@ void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
 
 	// No return type
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
+
+
 	list_free(localVarFormParameters);
-	list_free(localVarHeaderType);
+
 	list_free(localVarContentType);
-	free(localVarPath);
 	free(localVarToReplace);
 	free(keyForm_name);
 	free(valueForm_name);
 	free(keyForm_status);
 	free(valueForm_status);
+end:
+	free(localVarPath);
 }
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
-                                  long		petId,
-                                  char		*additionalMetadata,
-                                  FILE		*file) {
-	list_t *localVarQueryParameters = list_create();
-	list_t *localVarHeaderParameters = list_create();
+api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
+                                  char *additionalMetadata, FILE *file) {
+	list_t *localVarQueryParameters = NULL;
+	list_t *localVarHeaderParameters = NULL;
 	list_t *localVarFormParameters = list_create();
 	list_t *localVarHeaderType = list_create();
 	list_t *localVarContentType = list_create();
@@ -464,13 +473,12 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}/uploadImage");
 
 	// Path Params
+	if(petId == 0) {
+		goto end;
+	}
 	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace,
-	         strlen("petId") + 3,
-	         "%s%s%s",
-	         "{",
-	         "petId",
-	         "}");
+	snprintf(localVarToReplace, strlen(
+			 "petId") + 3, "%s%s%s", "{", "petId", "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
@@ -494,13 +502,15 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 	}
 
 	// form parameters
-	fseek(file, 0, SEEK_END);
-	long f_size = ftell(file);
-	fseek(file, 0, SEEK_SET);
+
 	char *keyForm_file;
-	FileStruct *fileVar_file = malloc(sizeof(FileStruct));
+	FileStruct *fileVar_file;
 	keyValuePair_t *keyPairForm_file = 0;
 	if(file != NULL) {
+		fseek(file, 0, SEEK_END);
+		long f_size = ftell(file);
+		fseek(file, 0, SEEK_SET);
+		fileVar_file = malloc(sizeof(FileStruct));
 		keyForm_file = strdup("file");
 		fileVar_file->fileData = malloc((f_size) * sizeof(char *));
 
@@ -539,8 +549,8 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 
 	// return type
 	apiClient_free(apiClient);
-	list_free(localVarQueryParameters);
-	list_free(localVarHeaderParameters);
+
+
 	list_free(localVarFormParameters);
 	list_free(localVarHeaderType);
 	list_free(localVarContentType);
@@ -554,4 +564,6 @@ api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
 	free(fileVar_file);
 	free(keyPairForm_file);
 	return elementToReturn;
+end:
+	return NULL;
 }
