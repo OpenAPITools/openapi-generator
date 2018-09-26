@@ -1030,6 +1030,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/elm</module>
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
