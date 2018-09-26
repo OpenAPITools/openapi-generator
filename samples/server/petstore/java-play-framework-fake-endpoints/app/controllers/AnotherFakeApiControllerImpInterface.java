@@ -11,6 +11,6 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface AnotherFakeApiControllerImpInterface {
-    Client testSpecialTags(Client client) throws Exception;
+    Client call123testSpecialTags(Client client) throws Exception;
 
 }

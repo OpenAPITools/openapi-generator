@@ -77,6 +77,7 @@ public interface StoreApi  {
      */
     @POST
     @Path("/store/order")
+    @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Place an order for a pet", tags={  })
     @ApiResponses(value = { 

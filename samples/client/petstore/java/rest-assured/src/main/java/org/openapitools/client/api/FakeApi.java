@@ -196,7 +196,7 @@ public class FakeApi {
 
         public FakeOuterBooleanSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
@@ -267,7 +267,7 @@ public class FakeApi {
 
         public FakeOuterCompositeSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
@@ -338,7 +338,7 @@ public class FakeApi {
 
         public FakeOuterNumberSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }
@@ -409,7 +409,7 @@ public class FakeApi {
 
         public FakeOuterStringSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("*/*");
             this.respSpec = new ResponseSpecBuilder();
         }

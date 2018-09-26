@@ -161,7 +161,7 @@ public class UserApi {
 
         public CreateUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
@@ -221,7 +221,7 @@ public class UserApi {
 
         public CreateUsersWithArrayInputOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
@@ -281,7 +281,7 @@ public class UserApi {
 
         public CreateUsersWithListInputOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }
@@ -608,7 +608,7 @@ public class UserApi {
 
         public UpdateUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }

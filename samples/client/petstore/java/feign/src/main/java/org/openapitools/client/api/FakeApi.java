@@ -30,7 +30,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake/outer/boolean")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
   Boolean fakeOuterBooleanSerialize(Boolean body);
@@ -43,7 +43,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake/outer/composite")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
   OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite);
@@ -56,7 +56,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake/outer/number")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
   BigDecimal fakeOuterNumberSerialize(BigDecimal body);
@@ -69,7 +69,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   @RequestLine("POST /fake/outer/string")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: */*",
   })
   String fakeOuterStringSerialize(String body);
@@ -229,7 +229,7 @@ public interface FakeApi extends ApiClient.Api {
    */
   public static class TestEnumParametersQueryParams extends HashMap<String, Object> {
     public TestEnumParametersQueryParams enumQueryStringArray(final List<String> value) {
-      put("enum_query_string_array", EncodingUtils.encodeCollection(value, "csv"));
+      put("enum_query_string_array", EncodingUtils.encodeCollection(value, "multi"));
       return this;
     }
     public TestEnumParametersQueryParams enumQueryString(final String value) {

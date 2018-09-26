@@ -30,6 +30,9 @@ public interface FakeApi {
    * @param body Input boolean as post body (optional)
    * @return Call&lt;Boolean&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("fake/outer/boolean")
   Call<Boolean> fakeOuterBooleanSerialize(
     @retrofit2.http.Body Boolean body
@@ -41,6 +44,9 @@ public interface FakeApi {
    * @param outerComposite Input composite as post body (optional)
    * @return Call&lt;OuterComposite&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("fake/outer/composite")
   Call<OuterComposite> fakeOuterCompositeSerialize(
     @retrofit2.http.Body OuterComposite outerComposite
@@ -52,6 +58,9 @@ public interface FakeApi {
    * @param body Input number as post body (optional)
    * @return Call&lt;BigDecimal&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("fake/outer/number")
   Call<BigDecimal> fakeOuterNumberSerialize(
     @retrofit2.http.Body BigDecimal body
@@ -63,6 +72,9 @@ public interface FakeApi {
    * @param body Input string as post body (optional)
    * @return Call&lt;String&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("fake/outer/string")
   Call<String> fakeOuterStringSerialize(
     @retrofit2.http.Body String body
@@ -152,7 +164,7 @@ public interface FakeApi {
   @retrofit2.http.FormUrlEncoded
   @GET("fake")
   Call<Void> testEnumParameters(
-    @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit2.http.Query("enum_query_double") Double enumQueryDouble, @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString
+    @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") List<String> enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit2.http.Query("enum_query_double") Double enumQueryDouble, @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString
   );
 
   /**

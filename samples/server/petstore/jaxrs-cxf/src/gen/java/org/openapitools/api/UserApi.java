@@ -38,6 +38,7 @@ public interface UserApi  {
      */
     @POST
     @Path("/user")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Create user", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -49,6 +50,7 @@ public interface UserApi  {
      */
     @POST
     @Path("/user/createWithArray")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -60,6 +62,7 @@ public interface UserApi  {
      */
     @POST
     @Path("/user/createWithList")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
@@ -125,6 +128,7 @@ public interface UserApi  {
      */
     @PUT
     @Path("/user/{username}")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Updated user", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied"),

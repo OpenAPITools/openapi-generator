@@ -55,6 +55,9 @@ public interface StoreApi {
    * @param order order placed for purchasing the pet (required)
    * @return Observable&lt;Order&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("store/order")
   Observable<Order> placeOrder(
     @retrofit2.http.Body Order order

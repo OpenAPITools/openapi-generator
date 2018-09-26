@@ -40,8 +40,8 @@ public class SpecialModelName   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelName specialModelName = (SpecialModelName) o;
+    return Objects.equals($specialPropertyName, specialModelName.$specialPropertyName);
   }
 
   @Override

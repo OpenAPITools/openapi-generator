@@ -50,7 +50,7 @@ public enum EnumClass {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    return null;
   }
 }
 

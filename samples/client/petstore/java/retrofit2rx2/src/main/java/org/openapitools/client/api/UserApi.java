@@ -24,6 +24,9 @@ public interface UserApi {
    * @param user Created user object (required)
    * @return Completable
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("user")
   Completable createUser(
     @retrofit2.http.Body User user
@@ -35,6 +38,9 @@ public interface UserApi {
    * @param user List of user object (required)
    * @return Completable
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("user/createWithArray")
   Completable createUsersWithArrayInput(
     @retrofit2.http.Body List<User> user
@@ -46,6 +52,9 @@ public interface UserApi {
    * @param user List of user object (required)
    * @return Completable
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("user/createWithList")
   Completable createUsersWithListInput(
     @retrofit2.http.Body List<User> user
@@ -101,6 +110,9 @@ public interface UserApi {
    * @param user Updated user object (required)
    * @return Completable
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @PUT("user/{username}")
   Completable updateUser(
     @retrofit2.http.Path("username") String username, @retrofit2.http.Body User user

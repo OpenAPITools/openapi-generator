@@ -80,7 +80,7 @@ public class Order implements Parcelable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {

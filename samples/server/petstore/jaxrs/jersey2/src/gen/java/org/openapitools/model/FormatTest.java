@@ -232,7 +232,7 @@ public class FormatTest   {
   @JsonProperty("byte")
   @ApiModelProperty(required = true, value = "")
     @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+
   public byte[] getByte() {
     return _byte;
   }

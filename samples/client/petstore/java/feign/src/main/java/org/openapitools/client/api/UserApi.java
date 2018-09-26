@@ -22,7 +22,7 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("POST /user")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   void createUser(User user);
@@ -34,7 +34,7 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("POST /user/createWithArray")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   void createUsersWithArrayInput(List<User> user);
@@ -46,7 +46,7 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("POST /user/createWithList")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   void createUsersWithListInput(List<User> user);
@@ -142,7 +142,7 @@ public interface UserApi extends ApiClient.Api {
    */
   @RequestLine("PUT /user/{username}")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   void updateUser(@Param("username") String username, User user);

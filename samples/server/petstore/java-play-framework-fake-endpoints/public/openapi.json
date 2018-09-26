@@ -1,5 +1,5 @@
 {
-  "openapi" : "3.0.1",
+  "openapi" : "3.0.0",
   "info" : {
     "title" : "OpenAPI Petstore",
     "description" : "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\",
@@ -29,72 +29,42 @@
         "summary" : "Update an existing pet",
         "operationId" : "updatePet",
         "requestBody" : {
-          "description" : "Pet object that needs to be added to the store",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            }
-          },
-          "required" : true
+          "$ref" : "#/components/requestBodies/Pet"
         },
         "responses" : {
           "400" : {
-            "description" : "Invalid ID supplied",
-            "content" : { }
+            "description" : "Invalid ID supplied"
           },
           "404" : {
-            "description" : "Pet not found",
-            "content" : { }
+            "description" : "Pet not found"
           },
           "405" : {
-            "description" : "Validation exception",
-            "content" : { }
+            "description" : "Validation exception"
           }
         },
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       },
       "post" : {
         "tags" : [ "pet" ],
         "summary" : "Add a new pet to the store",
         "operationId" : "addPet",
         "requestBody" : {
-          "description" : "Pet object that needs to be added to the store",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            }
-          },
-          "required" : true
+          "$ref" : "#/components/requestBodies/Pet"
         },
         "responses" : {
           "405" : {
-            "description" : "Invalid input",
-            "content" : { }
+            "description" : "Invalid input"
           }
         },
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/pet/findByStatus" : {
@@ -114,8 +84,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ "available", "pending", "sold" ],
-              "default" : "available"
+              "default" : "available",
+              "enum" : [ "available", "pending", "sold" ]
             }
           }
         } ],
@@ -142,8 +112,7 @@
             }
           },
           "400" : {
-            "description" : "Invalid status value",
-            "content" : { }
+            "description" : "Invalid status value"
           }
         },
         "security" : [ {
@@ -195,8 +164,7 @@
             }
           },
           "400" : {
-            "description" : "Invalid tag value",
-            "content" : { }
+            "description" : "Invalid tag value"
           }
         },
         "deprecated" : true,
@@ -217,6 +185,8 @@
           "in" : "path",
           "description" : "ID of pet to return",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "integer",
             "format" : "int64"
@@ -239,12 +209,10 @@
             }
           },
           "400" : {
-            "description" : "Invalid ID supplied",
-            "content" : { }
+            "description" : "Invalid ID supplied"
           },
           "404" : {
-            "description" : "Pet not found",
-            "content" : { }
+            "description" : "Pet not found"
           }
         },
         "security" : [ {
@@ -261,6 +229,8 @@
           "in" : "path",
           "description" : "ID of pet that needs to be updated",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "integer",
             "format" : "int64"
@@ -270,31 +240,21 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "name" : {
-                    "type" : "string",
-                    "description" : "Updated name of the pet"
-                  },
-                  "status" : {
-                    "type" : "string",
-                    "description" : "Updated status of the pet"
-                  }
-                }
+                "$ref" : "#/components/schemas/body"
               }
             }
           }
         },
         "responses" : {
           "405" : {
-            "description" : "Invalid input",
-            "content" : { }
+            "description" : "Invalid input"
           }
         },
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-contentType" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/x-www-form-urlencoded"
       },
       "delete" : {
         "tags" : [ "pet" ],
@@ -303,6 +263,9 @@
         "parameters" : [ {
           "name" : "api_key",
           "in" : "header",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "string"
           }
@@ -311,6 +274,8 @@
           "in" : "path",
           "description" : "Pet id to delete",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "integer",
             "format" : "int64"
@@ -318,8 +283,7 @@
         } ],
         "responses" : {
           "400" : {
-            "description" : "Invalid pet value",
-            "content" : { }
+            "description" : "Invalid pet value"
           }
         },
         "security" : [ {
@@ -338,6 +302,8 @@
           "in" : "path",
           "description" : "ID of pet to update",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "integer",
             "format" : "int64"
@@ -347,17 +313,7 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "properties" : {
-                  "additionalMetadata" : {
-                    "type" : "string",
-                    "description" : "Additional data to pass to server"
-                  },
-                  "file" : {
-                    "type" : "string",
-                    "description" : "file to upload",
-                    "format" : "binary"
-                  }
-                }
+                "$ref" : "#/components/schemas/body_1"
               }
             }
           }
@@ -377,8 +333,8 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-contentType" : "multipart/form-data",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "multipart/form-data"
       }
     },
     "/store/inventory" : {
@@ -417,7 +373,7 @@
         "requestBody" : {
           "description" : "order placed for purchasing the pet",
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Order"
               }
@@ -442,12 +398,11 @@
             }
           },
           "400" : {
-            "description" : "Invalid Order",
-            "content" : { }
+            "description" : "Invalid Order"
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/store/order/{order_id}" : {
@@ -461,6 +416,8 @@
           "in" : "path",
           "description" : "ID of pet that needs to be fetched",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "maximum" : 5,
             "minimum" : 1,
@@ -485,12 +442,10 @@
             }
           },
           "400" : {
-            "description" : "Invalid ID supplied",
-            "content" : { }
+            "description" : "Invalid ID supplied"
           },
           "404" : {
-            "description" : "Order not found",
-            "content" : { }
+            "description" : "Order not found"
           }
         },
         "x-accepts" : "application/json"
@@ -505,18 +460,18 @@
           "in" : "path",
           "description" : "ID of the order that needs to be deleted",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "string"
           }
         } ],
         "responses" : {
           "400" : {
-            "description" : "Invalid ID supplied",
-            "content" : { }
+            "description" : "Invalid ID supplied"
           },
           "404" : {
-            "description" : "Order not found",
-            "content" : { }
+            "description" : "Order not found"
           }
         },
         "x-accepts" : "application/json"
@@ -531,7 +486,7 @@
         "requestBody" : {
           "description" : "Created user object",
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/User"
               }
@@ -541,12 +496,11 @@
         },
         "responses" : {
           "default" : {
-            "description" : "successful operation",
-            "content" : { }
+            "description" : "successful operation"
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/user/createWithArray" : {
@@ -555,27 +509,15 @@
         "summary" : "Creates list of users with given input array",
         "operationId" : "createUsersWithArrayInput",
         "requestBody" : {
-          "description" : "List of user object",
-          "content" : {
-            "*/*" : {
-              "schema" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "required" : true
+          "$ref" : "#/components/requestBodies/UserArray"
         },
         "responses" : {
           "default" : {
-            "description" : "successful operation",
-            "content" : { }
+            "description" : "successful operation"
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/user/createWithList" : {
@@ -584,27 +526,15 @@
         "summary" : "Creates list of users with given input array",
         "operationId" : "createUsersWithListInput",
         "requestBody" : {
-          "description" : "List of user object",
-          "content" : {
-            "*/*" : {
-              "schema" : {
-                "type" : "array",
-                "items" : {
-                  "$ref" : "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "required" : true
+          "$ref" : "#/components/requestBodies/UserArray"
         },
         "responses" : {
           "default" : {
-            "description" : "successful operation",
-            "content" : { }
+            "description" : "successful operation"
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/user/login" : {
@@ -617,6 +547,8 @@
           "in" : "query",
           "description" : "The user name for login",
           "required" : true,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "string"
           }
@@ -625,6 +557,8 @@
           "in" : "query",
           "description" : "The password for login in clear text",
           "required" : true,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "string"
           }
@@ -635,6 +569,8 @@
             "headers" : {
               "X-Rate-Limit" : {
                 "description" : "calls per hour allowed by the user",
+                "style" : "simple",
+                "explode" : false,
                 "schema" : {
                   "type" : "integer",
                   "format" : "int32"
@@ -642,6 +578,8 @@
               },
               "X-Expires-After" : {
                 "description" : "date in UTC when token expires",
+                "style" : "simple",
+                "explode" : false,
                 "schema" : {
                   "type" : "string",
                   "format" : "date-time"
@@ -662,8 +600,7 @@
             }
           },
           "400" : {
-            "description" : "Invalid username/password supplied",
-            "content" : { }
+            "description" : "Invalid username/password supplied"
           }
         },
         "x-accepts" : "application/json"
@@ -676,8 +613,7 @@
         "operationId" : "logoutUser",
         "responses" : {
           "default" : {
-            "description" : "successful operation",
-            "content" : { }
+            "description" : "successful operation"
           }
         },
         "x-accepts" : "application/json"
@@ -693,6 +629,8 @@
           "in" : "path",
           "description" : "The name that needs to be fetched. Use user1 for testing.",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "string"
           }
@@ -714,12 +652,10 @@
             }
           },
           "400" : {
-            "description" : "Invalid username supplied",
-            "content" : { }
+            "description" : "Invalid username supplied"
           },
           "404" : {
-            "description" : "User not found",
-            "content" : { }
+            "description" : "User not found"
           }
         },
         "x-accepts" : "application/json"
@@ -734,6 +670,8 @@
           "in" : "path",
           "description" : "name that need to be deleted",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "string"
           }
@@ -741,7 +679,7 @@
         "requestBody" : {
           "description" : "Updated user object",
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/User"
               }
@@ -751,16 +689,14 @@
         },
         "responses" : {
           "400" : {
-            "description" : "Invalid user supplied",
-            "content" : { }
+            "description" : "Invalid user supplied"
           },
           "404" : {
-            "description" : "User not found",
-            "content" : { }
+            "description" : "User not found"
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       },
       "delete" : {
         "tags" : [ "user" ],
@@ -772,18 +708,18 @@
           "in" : "path",
           "description" : "The name that needs to be deleted",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "string"
           }
         } ],
         "responses" : {
           "400" : {
-            "description" : "Invalid username supplied",
-            "content" : { }
+            "description" : "Invalid username supplied"
           },
           "404" : {
-            "description" : "User not found",
-            "content" : { }
+            "description" : "User not found"
           }
         },
         "x-accepts" : "application/json"
@@ -796,15 +732,7 @@
         "description" : "To test class name in snake case",
         "operationId" : "testClassname",
         "requestBody" : {
-          "description" : "client model",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Client"
-              }
-            }
-          },
-          "required" : true
+          "$ref" : "#/components/requestBodies/Client"
         },
         "responses" : {
           "200" : {
@@ -821,8 +749,8 @@
         "security" : [ {
           "api_key_query" : [ ]
         } ],
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/fake" : {
@@ -835,52 +763,63 @@
           "name" : "enum_header_string_array",
           "in" : "header",
           "description" : "Header parameter enum test (string array)",
+          "required" : false,
           "style" : "simple",
           "explode" : false,
           "schema" : {
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ ">", "$" ],
-              "default" : "$"
+              "default" : "$",
+              "enum" : [ ">", "$" ]
             }
           }
         }, {
           "name" : "enum_header_string",
           "in" : "header",
           "description" : "Header parameter enum test (string)",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "string",
-            "enum" : [ "_abc", "-efg", "(xyz)" ],
-            "default" : "-efg"
+            "default" : "-efg",
+            "enum" : [ "_abc", "-efg", "(xyz)" ]
           }
         }, {
           "name" : "enum_query_string_array",
           "in" : "query",
           "description" : "Query parameter enum test (string array)",
+          "required" : false,
           "style" : "form",
-          "explode" : false,
+          "explode" : true,
           "schema" : {
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ ">", "$" ],
-              "default" : "$"
+              "default" : "$",
+              "enum" : [ ">", "$" ]
             }
           }
         }, {
           "name" : "enum_query_string",
           "in" : "query",
           "description" : "Query parameter enum test (string)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "string",
-            "enum" : [ "_abc", "-efg", "(xyz)" ],
-            "default" : "-efg"
+            "default" : "-efg",
+            "enum" : [ "_abc", "-efg", "(xyz)" ]
           }
         }, {
           "name" : "enum_query_integer",
           "in" : "query",
           "description" : "Query parameter enum test (double)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "integer",
             "format" : "int32",
@@ -890,6 +829,9 @@
           "name" : "enum_query_double",
           "in" : "query",
           "description" : "Query parameter enum test (double)",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "number",
             "format" : "double",
@@ -900,39 +842,21 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "properties" : {
-                  "enum_form_string_array" : {
-                    "type" : "array",
-                    "description" : "Form parameter enum test (string array)",
-                    "items" : {
-                      "type" : "string",
-                      "enum" : [ ">", "$" ],
-                      "default" : "$"
-                    }
-                  },
-                  "enum_form_string" : {
-                    "type" : "string",
-                    "description" : "Form parameter enum test (string)",
-                    "enum" : [ "_abc", "-efg", "(xyz)" ],
-                    "default" : "-efg"
-                  }
-                }
+                "$ref" : "#/components/schemas/body_2"
               }
             }
           }
         },
         "responses" : {
           "400" : {
-            "description" : "Invalid request",
-            "content" : { }
+            "description" : "Invalid request"
           },
           "404" : {
-            "description" : "Not found",
-            "content" : { }
+            "description" : "Not found"
           }
         },
-        "x-contentType" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/x-www-form-urlencoded"
       },
       "post" : {
         "tags" : [ "fake" ],
@@ -943,107 +867,24 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "required" : [ "byte", "double", "number", "pattern_without_delimiter" ],
-                "properties" : {
-                  "integer" : {
-                    "maximum" : 100,
-                    "minimum" : 10,
-                    "type" : "integer",
-                    "description" : "None"
-                  },
-                  "int32" : {
-                    "maximum" : 200,
-                    "minimum" : 20,
-                    "type" : "integer",
-                    "description" : "None",
-                    "format" : "int32"
-                  },
-                  "int64" : {
-                    "type" : "integer",
-                    "description" : "None",
-                    "format" : "int64"
-                  },
-                  "number" : {
-                    "maximum" : 543.2,
-                    "minimum" : 32.1,
-                    "type" : "number",
-                    "description" : "None"
-                  },
-                  "float" : {
-                    "maximum" : 987.6,
-                    "type" : "number",
-                    "description" : "None",
-                    "format" : "float"
-                  },
-                  "double" : {
-                    "maximum" : 123.4,
-                    "minimum" : 67.8,
-                    "type" : "number",
-                    "description" : "None",
-                    "format" : "double"
-                  },
-                  "string" : {
-                    "pattern" : "/[a-z]/i",
-                    "type" : "string",
-                    "description" : "None"
-                  },
-                  "pattern_without_delimiter" : {
-                    "pattern" : "^[A-Z].*",
-                    "type" : "string",
-                    "description" : "None"
-                  },
-                  "byte" : {
-                    "type" : "string",
-                    "description" : "None",
-                    "format" : "byte"
-                  },
-                  "binary" : {
-                    "type" : "string",
-                    "description" : "None",
-                    "format" : "binary"
-                  },
-                  "date" : {
-                    "type" : "string",
-                    "description" : "None",
-                    "format" : "date"
-                  },
-                  "dateTime" : {
-                    "type" : "string",
-                    "description" : "None",
-                    "format" : "date-time"
-                  },
-                  "password" : {
-                    "maxLength" : 64,
-                    "minLength" : 10,
-                    "type" : "string",
-                    "description" : "None",
-                    "format" : "password"
-                  },
-                  "callback" : {
-                    "type" : "string",
-                    "description" : "None"
-                  }
-                }
+                "$ref" : "#/components/schemas/body_3"
               }
             }
-          },
-          "required" : true
+          }
         },
         "responses" : {
           "400" : {
-            "description" : "Invalid username supplied",
-            "content" : { }
+            "description" : "Invalid username supplied"
           },
           "404" : {
-            "description" : "User not found",
-            "content" : { }
+            "description" : "User not found"
           }
         },
         "security" : [ {
           "http_basic_test" : [ ]
         } ],
-        "x-contentType" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/x-www-form-urlencoded"
       },
       "patch" : {
         "tags" : [ "fake" ],
@@ -1051,15 +892,7 @@
         "description" : "To test \"client\" model",
         "operationId" : "testClientModel",
         "requestBody" : {
-          "description" : "client model",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Client"
-              }
-            }
-          },
-          "required" : true
+          "$ref" : "#/components/requestBodies/Client"
         },
         "responses" : {
           "200" : {
@@ -1073,8 +906,8 @@
             }
           }
         },
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/outer/number" : {
@@ -1085,13 +918,12 @@
         "requestBody" : {
           "description" : "Input number as post body",
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/OuterNumber"
               }
             }
-          },
-          "required" : false
+          }
         },
         "responses" : {
           "200" : {
@@ -1105,8 +937,8 @@
             }
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : "*/*",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/outer/string" : {
@@ -1117,13 +949,12 @@
         "requestBody" : {
           "description" : "Input string as post body",
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/OuterString"
               }
             }
-          },
-          "required" : false
+          }
         },
         "responses" : {
           "200" : {
@@ -1137,8 +968,8 @@
             }
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : "*/*",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/outer/boolean" : {
@@ -1149,13 +980,12 @@
         "requestBody" : {
           "description" : "Input boolean as post body",
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/OuterBoolean"
               }
             }
-          },
-          "required" : false
+          }
         },
         "responses" : {
           "200" : {
@@ -1169,8 +999,8 @@
             }
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : "*/*",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/outer/composite" : {
@@ -1181,13 +1011,12 @@
         "requestBody" : {
           "description" : "Input composite as post body",
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/OuterComposite"
               }
             }
-          },
-          "required" : false
+          }
         },
         "responses" : {
           "200" : {
@@ -1201,8 +1030,8 @@
             }
           }
         },
-        "x-contentType" : "*/*",
-        "x-accepts" : "*/*"
+        "x-accepts" : "*/*",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/jsonFormData" : {
@@ -1214,30 +1043,18 @@
           "content" : {
             "application/x-www-form-urlencoded" : {
               "schema" : {
-                "required" : [ "param", "param2" ],
-                "properties" : {
-                  "param" : {
-                    "type" : "string",
-                    "description" : "field1"
-                  },
-                  "param2" : {
-                    "type" : "string",
-                    "description" : "field2"
-                  }
-                }
+                "$ref" : "#/components/schemas/body_4"
               }
             }
-          },
-          "required" : true
+          }
         },
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "content" : { }
+            "description" : "successful operation"
           }
         },
-        "x-contentType" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/x-www-form-urlencoded"
       }
     },
     "/fake/inline-additionalProperties" : {
@@ -1261,12 +1078,11 @@
         },
         "responses" : {
           "200" : {
-            "description" : "successful operation",
-            "content" : { }
+            "description" : "successful operation"
           }
         },
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/body-with-query-params" : {
@@ -1277,6 +1093,8 @@
           "name" : "query",
           "in" : "query",
           "required" : true,
+          "style" : "form",
+          "explode" : true,
           "schema" : {
             "type" : "string"
           }
@@ -1293,30 +1111,21 @@
         },
         "responses" : {
           "200" : {
-            "description" : "Success",
-            "content" : { }
+            "description" : "Success"
           }
         },
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/another-fake/dummy" : {
       "patch" : {
         "tags" : [ "$another-fake?" ],
         "summary" : "To test special tags",
-        "description" : "To test special tags",
-        "operationId" : "test_special_tags",
+        "description" : "To test special tags and operation ID starting with number",
+        "operationId" : "123_test_@#$%_special_tags",
         "requestBody" : {
-          "description" : "client model",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Client"
-              }
-            }
-          },
-          "required" : true
+          "$ref" : "#/components/requestBodies/Client"
         },
         "responses" : {
           "200" : {
@@ -1330,8 +1139,8 @@
             }
           }
         },
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/body-with-file-schema" : {
@@ -1351,12 +1160,11 @@
         },
         "responses" : {
           "200" : {
-            "description" : "Success",
-            "content" : { }
+            "description" : "Success"
           }
         },
-        "x-contentType" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "application/json"
       }
     },
     "/fake/{petId}/uploadImageWithRequiredFile" : {
@@ -1369,6 +1177,8 @@
           "in" : "path",
           "description" : "ID of pet to update",
           "required" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "integer",
             "format" : "int64"
@@ -1378,22 +1188,10 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "required" : [ "file" ],
-                "properties" : {
-                  "additionalMetadata" : {
-                    "type" : "string",
-                    "description" : "Additional data to pass to server"
-                  },
-                  "file" : {
-                    "type" : "string",
-                    "description" : "file to upload",
-                    "format" : "binary"
-                  }
-                }
+                "$ref" : "#/components/schemas/body_5"
               }
             }
-          },
-          "required" : true
+          }
         },
         "responses" : {
           "200" : {
@@ -1410,13 +1208,55 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-contentType" : "multipart/form-data",
-        "x-accepts" : "application/json"
+        "x-accepts" : "application/json",
+        "x-contentType" : "multipart/form-data"
       }
     }
   },
   "components" : {
     "schemas" : {
+      "Order" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "petId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "quantity" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "shipDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Order Status",
+            "nullable" : true,
+            "enum" : [ "placed", "approved", "delivered" ]
+          },
+          "complete" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        },
+        "example" : {
+          "petId" : 6,
+          "quantity" : 1,
+          "id" : 0,
+          "shipDate" : "2000-01-23T04:56:07.000+00:00",
+          "complete" : false,
+          "status" : "placed"
+        },
+        "xml" : {
+          "name" : "Order"
+        }
+      },
       "Category" : {
         "type" : "object",
         "properties" : {
@@ -1482,554 +1322,6 @@
           "name" : "User"
         }
       },
-      "OuterNumber" : {
-        "type" : "number"
-      },
-      "ArrayOfNumberOnly" : {
-        "type" : "object",
-        "properties" : {
-          "ArrayNumber" : {
-            "type" : "array",
-            "items" : {
-              "type" : "number"
-            }
-          }
-        }
-      },
-      "Capitalization" : {
-        "type" : "object",
-        "properties" : {
-          "smallCamel" : {
-            "type" : "string"
-          },
-          "CapitalCamel" : {
-            "type" : "string"
-          },
-          "small_Snake" : {
-            "type" : "string"
-          },
-          "Capital_Snake" : {
-            "type" : "string"
-          },
-          "SCA_ETH_Flow_Points" : {
-            "type" : "string"
-          },
-          "ATT_NAME" : {
-            "type" : "string",
-            "description" : "Name of the pet\n"
-          }
-        }
-      },
-      "MixedPropertiesAndAdditionalPropertiesClass" : {
-        "type" : "object",
-        "properties" : {
-          "uuid" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "dateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "map" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "$ref" : "#/components/schemas/Animal"
-            }
-          }
-        }
-      },
-      "ApiResponse" : {
-        "type" : "object",
-        "properties" : {
-          "code" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "type" : {
-            "type" : "string"
-          },
-          "message" : {
-            "type" : "string"
-          }
-        },
-        "example" : {
-          "code" : 0,
-          "type" : "type",
-          "message" : "message"
-        }
-      },
-      "Name" : {
-        "required" : [ "name" ],
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "snake_case" : {
-            "type" : "integer",
-            "format" : "int32",
-            "readOnly" : true
-          },
-          "property" : {
-            "type" : "string"
-          },
-          "123Number" : {
-            "type" : "integer",
-            "readOnly" : true
-          }
-        },
-        "description" : "Model for testing model name same as property name",
-        "xml" : {
-          "name" : "Name"
-        }
-      },
-      "EnumClass" : {
-        "type" : "string",
-        "enum" : [ "_abc", "-efg", "(xyz)" ],
-        "default" : "-efg"
-      },
-      "List" : {
-        "type" : "object",
-        "properties" : {
-          "123-list" : {
-            "type" : "string"
-          }
-        },
-        "example" : {
-          "123-list" : "123-list"
-        }
-      },
-      "NumberOnly" : {
-        "type" : "object",
-        "properties" : {
-          "JustNumber" : {
-            "type" : "number"
-          }
-        }
-      },
-      "200_response" : {
-        "type" : "object",
-        "properties" : {
-          "name" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "class" : {
-            "type" : "string"
-          }
-        },
-        "description" : "Model for testing model name starting with number",
-        "xml" : {
-          "name" : "Name"
-        }
-      },
-      "Client" : {
-        "type" : "object",
-        "properties" : {
-          "client" : {
-            "type" : "string"
-          }
-        },
-        "example" : {
-          "client" : "client"
-        }
-      },
-      "Dog" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/Animal"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "breed" : {
-              "type" : "string"
-            }
-          }
-        } ]
-      },
-      "Enum_Test" : {
-        "required" : [ "enum_string_required" ],
-        "type" : "object",
-        "properties" : {
-          "enum_string" : {
-            "type" : "string",
-            "enum" : [ "UPPER", "lower", "" ]
-          },
-          "enum_string_required" : {
-            "type" : "string",
-            "enum" : [ "UPPER", "lower", "" ]
-          },
-          "enum_integer" : {
-            "type" : "integer",
-            "format" : "int32",
-            "enum" : [ 1, -1 ]
-          },
-          "enum_number" : {
-            "type" : "number",
-            "format" : "double",
-            "enum" : [ 1.1, -1.2 ]
-          },
-          "outerEnum" : {
-            "$ref" : "#/components/schemas/OuterEnum"
-          }
-        }
-      },
-      "Order" : {
-        "type" : "object",
-        "properties" : {
-          "id" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "petId" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "quantity" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "shipDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "status" : {
-            "type" : "string",
-            "description" : "Order Status",
-            "enum" : [ "placed", "approved", "delivered" ]
-          },
-          "complete" : {
-            "type" : "boolean",
-            "default" : false
-          }
-        },
-        "example" : {
-          "petId" : 6,
-          "quantity" : 1,
-          "id" : 0,
-          "shipDate" : "2000-01-23T04:56:07.000+00:00",
-          "complete" : false,
-          "status" : "placed"
-        },
-        "xml" : {
-          "name" : "Order"
-        }
-      },
-      "AdditionalPropertiesClass" : {
-        "type" : "object",
-        "properties" : {
-          "map_property" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "string"
-            }
-          },
-          "map_of_map_property" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "type" : "string"
-              }
-            }
-          }
-        }
-      },
-      "$special[model.name]" : {
-        "type" : "object",
-        "properties" : {
-          "$special[property.name]" : {
-            "type" : "integer",
-            "format" : "int64"
-          }
-        },
-        "xml" : {
-          "name" : "$special[model.name]"
-        }
-      },
-      "Return" : {
-        "type" : "object",
-        "properties" : {
-          "return" : {
-            "type" : "integer",
-            "format" : "int32"
-          }
-        },
-        "description" : "Model for testing reserved words",
-        "xml" : {
-          "name" : "Return"
-        }
-      },
-      "ReadOnlyFirst" : {
-        "type" : "object",
-        "properties" : {
-          "bar" : {
-            "type" : "string",
-            "readOnly" : true
-          },
-          "baz" : {
-            "type" : "string"
-          }
-        }
-      },
-      "ArrayOfArrayOfNumberOnly" : {
-        "type" : "object",
-        "properties" : {
-          "ArrayArrayNumber" : {
-            "type" : "array",
-            "items" : {
-              "type" : "array",
-              "items" : {
-                "type" : "number"
-              }
-            }
-          }
-        }
-      },
-      "OuterEnum" : {
-        "type" : "string",
-        "enum" : [ "placed", "approved", "delivered" ]
-      },
-      "ArrayTest" : {
-        "type" : "object",
-        "properties" : {
-          "array_of_string" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
-          },
-          "array_array_of_integer" : {
-            "type" : "array",
-            "items" : {
-              "type" : "array",
-              "items" : {
-                "type" : "integer",
-                "format" : "int64"
-              }
-            }
-          },
-          "array_array_of_model" : {
-            "type" : "array",
-            "items" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/components/schemas/ReadOnlyFirst"
-              }
-            }
-          }
-        }
-      },
-      "OuterComposite" : {
-        "type" : "object",
-        "properties" : {
-          "my_number" : {
-            "type" : "number"
-          },
-          "my_string" : {
-            "type" : "string"
-          },
-          "my_boolean" : {
-            "type" : "boolean",
-            "x-codegen-body-parameter-name" : "boolean_post_body"
-          }
-        },
-        "example" : {
-          "my_string" : "my_string",
-          "my_number" : 0.80082819046101150206595775671303272247314453125,
-          "my_boolean" : true
-        }
-      },
-      "format_test" : {
-        "required" : [ "byte", "date", "number", "password" ],
-        "type" : "object",
-        "properties" : {
-          "integer" : {
-            "maximum" : 1E+2,
-            "minimum" : 1E+1,
-            "type" : "integer"
-          },
-          "int32" : {
-            "maximum" : 2E+2,
-            "minimum" : 2E+1,
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "int64" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "number" : {
-            "maximum" : 543.2,
-            "minimum" : 32.1,
-            "type" : "number"
-          },
-          "float" : {
-            "maximum" : 987.6,
-            "minimum" : 54.3,
-            "type" : "number",
-            "format" : "float"
-          },
-          "double" : {
-            "maximum" : 123.4,
-            "minimum" : 67.8,
-            "type" : "number",
-            "format" : "double"
-          },
-          "string" : {
-            "pattern" : "/[a-z]/i",
-            "type" : "string"
-          },
-          "byte" : {
-            "pattern" : "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
-            "type" : "string",
-            "format" : "byte"
-          },
-          "binary" : {
-            "type" : "string",
-            "format" : "binary"
-          },
-          "date" : {
-            "type" : "string",
-            "format" : "date"
-          },
-          "dateTime" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "uuid" : {
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "password" : {
-            "maxLength" : 64,
-            "minLength" : 10,
-            "type" : "string",
-            "format" : "password"
-          }
-        }
-      },
-      "EnumArrays" : {
-        "type" : "object",
-        "properties" : {
-          "just_symbol" : {
-            "type" : "string",
-            "enum" : [ ">=", "$" ]
-          },
-          "array_enum" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "enum" : [ "fish", "crab" ]
-            }
-          }
-        }
-      },
-      "OuterString" : {
-        "type" : "string"
-      },
-      "ClassModel" : {
-        "type" : "object",
-        "properties" : {
-          "_class" : {
-            "type" : "string"
-          }
-        },
-        "description" : "Model for testing model with \"_class\" property"
-      },
-      "OuterBoolean" : {
-        "type" : "boolean",
-        "x-codegen-body-parameter-name" : "boolean_post_body"
-      },
-      "FileSchemaTestClass" : {
-        "type" : "object",
-        "properties" : {
-          "file" : {
-            "$ref" : "#/components/schemas/File"
-          },
-          "files" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/File"
-            }
-          }
-        },
-        "example" : {
-          "file" : {
-            "sourceURI" : "sourceURI"
-          },
-          "files" : [ {
-            "sourceURI" : "sourceURI"
-          }, {
-            "sourceURI" : "sourceURI"
-          } ]
-        }
-      },
-      "Animal" : {
-        "required" : [ "className" ],
-        "type" : "object",
-        "properties" : {
-          "className" : {
-            "type" : "string"
-          },
-          "color" : {
-            "type" : "string",
-            "default" : "red"
-          }
-        },
-        "discriminator" : {
-          "propertyName" : "className"
-        }
-      },
-      "StringBooleanMap" : {
-        "type" : "object",
-        "additionalProperties" : {
-          "type" : "boolean"
-        }
-      },
-      "Cat" : {
-        "allOf" : [ {
-          "$ref" : "#/components/schemas/Animal"
-        }, {
-          "type" : "object",
-          "properties" : {
-            "declawed" : {
-              "type" : "boolean"
-            }
-          }
-        } ]
-      },
-      "MapTest" : {
-        "type" : "object",
-        "properties" : {
-          "map_map_of_string" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "type" : "string"
-              }
-            }
-          },
-          "map_of_enum_string" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "string",
-              "enum" : [ "UPPER", "lower" ]
-            }
-          },
-          "direct_map" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "boolean"
-            }
-          },
-          "indirect_map" : {
-            "$ref" : "#/components/schemas/StringBooleanMap"
-          }
-        }
-      },
       "Tag" : {
         "type" : "object",
         "properties" : {
@@ -2047,24 +1339,6 @@
         },
         "xml" : {
           "name" : "Tag"
-        }
-      },
-      "AnimalFarm" : {
-        "type" : "array",
-        "items" : {
-          "$ref" : "#/components/schemas/Animal"
-        }
-      },
-      "File" : {
-        "type" : "object",
-        "properties" : {
-          "sourceURI" : {
-            "type" : "string",
-            "description" : "Test capitalization"
-          }
-        },
-        "example" : {
-          "sourceURI" : "sourceURI"
         }
       },
       "Pet" : {
@@ -2106,6 +1380,7 @@
           "status" : {
             "type" : "string",
             "description" : "pet status in the store",
+            "nullable" : true,
             "enum" : [ "available", "pending", "sold" ]
           }
         },
@@ -2130,6 +1405,312 @@
           "name" : "Pet"
         }
       },
+      "ApiResponse" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "example" : {
+          "code" : 0,
+          "type" : "type",
+          "message" : "message"
+        }
+      },
+      "Return" : {
+        "properties" : {
+          "return" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        },
+        "description" : "Model for testing reserved words",
+        "xml" : {
+          "name" : "Return"
+        }
+      },
+      "Name" : {
+        "required" : [ "name" ],
+        "properties" : {
+          "name" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "snake_case" : {
+            "type" : "integer",
+            "format" : "int32",
+            "readOnly" : true
+          },
+          "property" : {
+            "type" : "string"
+          },
+          "123Number" : {
+            "type" : "integer",
+            "format" : "int32",
+            "readOnly" : true
+          }
+        },
+        "description" : "Model for testing model name same as property name",
+        "xml" : {
+          "name" : "Name"
+        }
+      },
+      "200_response" : {
+        "properties" : {
+          "name" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "class" : {
+            "type" : "string"
+          }
+        },
+        "description" : "Model for testing model name starting with number",
+        "xml" : {
+          "name" : "Name"
+        }
+      },
+      "ClassModel" : {
+        "properties" : {
+          "_class" : {
+            "type" : "string"
+          }
+        },
+        "description" : "Model for testing model with \"_class\" property"
+      },
+      "Dog" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Animal"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "breed" : {
+              "type" : "string"
+            }
+          }
+        } ]
+      },
+      "Cat" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Animal"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "declawed" : {
+              "type" : "boolean"
+            }
+          }
+        } ]
+      },
+      "Animal" : {
+        "required" : [ "className" ],
+        "type" : "object",
+        "properties" : {
+          "className" : {
+            "type" : "string"
+          },
+          "color" : {
+            "type" : "string",
+            "default" : "red"
+          }
+        },
+        "discriminator" : {
+          "propertyName" : "className"
+        }
+      },
+      "AnimalFarm" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Animal"
+        }
+      },
+      "format_test" : {
+        "required" : [ "byte", "date", "number", "password" ],
+        "type" : "object",
+        "properties" : {
+          "integer" : {
+            "maximum" : 100,
+            "minimum" : 10,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "int32" : {
+            "maximum" : 200,
+            "minimum" : 20,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "int64" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "number" : {
+            "maximum" : 543.2,
+            "minimum" : 32.1,
+            "type" : "number"
+          },
+          "float" : {
+            "maximum" : 987.6,
+            "minimum" : 54.3,
+            "type" : "number",
+            "format" : "float"
+          },
+          "double" : {
+            "maximum" : 123.4,
+            "minimum" : 67.8,
+            "type" : "number",
+            "format" : "double"
+          },
+          "string" : {
+            "pattern" : "/[a-z]/i",
+            "type" : "string"
+          },
+          "byte" : {
+            "type" : "string",
+            "format" : "byte"
+          },
+          "binary" : {
+            "type" : "string",
+            "format" : "binary"
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "password" : {
+            "maxLength" : 64,
+            "minLength" : 10,
+            "type" : "string",
+            "format" : "password"
+          }
+        }
+      },
+      "EnumClass" : {
+        "type" : "string",
+        "nullable" : true,
+        "default" : "-efg",
+        "enum" : [ "_abc", "-efg", "(xyz)" ]
+      },
+      "Enum_Test" : {
+        "required" : [ "enum_string_required" ],
+        "type" : "object",
+        "properties" : {
+          "enum_string" : {
+            "type" : "string",
+            "nullable" : true,
+            "enum" : [ "UPPER", "lower", "" ]
+          },
+          "enum_string_required" : {
+            "type" : "string",
+            "nullable" : true,
+            "enum" : [ "UPPER", "lower", "" ]
+          },
+          "enum_integer" : {
+            "type" : "integer",
+            "format" : "int32",
+            "nullable" : true,
+            "enum" : [ 1, -1 ]
+          },
+          "enum_number" : {
+            "type" : "number",
+            "format" : "double",
+            "nullable" : true,
+            "enum" : [ 1.1, -1.2 ]
+          },
+          "outerEnum" : {
+            "$ref" : "#/components/schemas/OuterEnum"
+          }
+        }
+      },
+      "AdditionalPropertiesClass" : {
+        "type" : "object",
+        "properties" : {
+          "map_property" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "map_of_map_property" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "string"
+              }
+            }
+          }
+        }
+      },
+      "MixedPropertiesAndAdditionalPropertiesClass" : {
+        "type" : "object",
+        "properties" : {
+          "uuid" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "map" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/Animal"
+            }
+          }
+        }
+      },
+      "List" : {
+        "type" : "object",
+        "properties" : {
+          "123-list" : {
+            "type" : "string"
+          }
+        },
+        "example" : {
+          "123-list" : "123-list"
+        }
+      },
+      "Client" : {
+        "type" : "object",
+        "properties" : {
+          "client" : {
+            "type" : "string"
+          }
+        },
+        "example" : {
+          "client" : "client"
+        }
+      },
+      "ReadOnlyFirst" : {
+        "type" : "object",
+        "properties" : {
+          "bar" : {
+            "type" : "string",
+            "readOnly" : true
+          },
+          "baz" : {
+            "type" : "string"
+          }
+        }
+      },
       "hasOnlyReadOnly" : {
         "type" : "object",
         "properties" : {
@@ -2142,6 +1723,436 @@
             "readOnly" : true
           }
         }
+      },
+      "Capitalization" : {
+        "type" : "object",
+        "properties" : {
+          "smallCamel" : {
+            "type" : "string"
+          },
+          "CapitalCamel" : {
+            "type" : "string"
+          },
+          "small_Snake" : {
+            "type" : "string"
+          },
+          "Capital_Snake" : {
+            "type" : "string"
+          },
+          "SCA_ETH_Flow_Points" : {
+            "type" : "string"
+          },
+          "ATT_NAME" : {
+            "type" : "string",
+            "description" : "Name of the pet\n"
+          }
+        }
+      },
+      "MapTest" : {
+        "type" : "object",
+        "properties" : {
+          "map_map_of_string" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "string"
+              }
+            }
+          },
+          "map_of_enum_string" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string",
+              "nullable" : true,
+              "enum" : [ "UPPER", "lower" ]
+            }
+          },
+          "direct_map" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
+          },
+          "indirect_map" : {
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
+          }
+        }
+      },
+      "ArrayTest" : {
+        "type" : "object",
+        "properties" : {
+          "array_of_string" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "array_array_of_integer" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "type" : "integer",
+                "format" : "int64"
+              }
+            }
+          },
+          "array_array_of_model" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/ReadOnlyFirst"
+              }
+            }
+          }
+        }
+      },
+      "NumberOnly" : {
+        "type" : "object",
+        "properties" : {
+          "JustNumber" : {
+            "type" : "number"
+          }
+        }
+      },
+      "ArrayOfNumberOnly" : {
+        "type" : "object",
+        "properties" : {
+          "ArrayNumber" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          }
+        }
+      },
+      "ArrayOfArrayOfNumberOnly" : {
+        "type" : "object",
+        "properties" : {
+          "ArrayArrayNumber" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "type" : "number"
+              }
+            }
+          }
+        }
+      },
+      "EnumArrays" : {
+        "type" : "object",
+        "properties" : {
+          "just_symbol" : {
+            "type" : "string",
+            "nullable" : true,
+            "enum" : [ ">=", "$" ]
+          },
+          "array_enum" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "nullable" : true,
+              "enum" : [ "fish", "crab" ]
+            }
+          }
+        }
+      },
+      "OuterEnum" : {
+        "type" : "string",
+        "nullable" : true,
+        "enum" : [ "placed", "approved", "delivered" ]
+      },
+      "OuterComposite" : {
+        "type" : "object",
+        "properties" : {
+          "my_number" : {
+            "type" : "number"
+          },
+          "my_string" : {
+            "type" : "string"
+          },
+          "my_boolean" : {
+            "type" : "boolean",
+            "x-codegen-body-parameter-name" : "boolean_post_body"
+          }
+        },
+        "example" : {
+          "my_string" : "my_string",
+          "my_number" : 0.80082819046101150206595775671303272247314453125,
+          "my_boolean" : true
+        }
+      },
+      "OuterNumber" : {
+        "type" : "number"
+      },
+      "OuterString" : {
+        "type" : "string"
+      },
+      "OuterBoolean" : {
+        "type" : "boolean",
+        "x-codegen-body-parameter-name" : "boolean_post_body"
+      },
+      "StringBooleanMap" : {
+        "additionalProperties" : {
+          "type" : "boolean"
+        }
+      },
+      "FileSchemaTestClass" : {
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "$ref" : "#/components/schemas/File"
+          },
+          "files" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/File"
+            }
+          }
+        },
+        "example" : {
+          "file" : {
+            "sourceURI" : "sourceURI"
+          },
+          "files" : [ {
+            "sourceURI" : "sourceURI"
+          }, {
+            "sourceURI" : "sourceURI"
+          } ]
+        }
+      },
+      "File" : {
+        "type" : "object",
+        "properties" : {
+          "sourceURI" : {
+            "type" : "string",
+            "description" : "Test capitalization"
+          }
+        },
+        "description" : "Must be named `File` for test.",
+        "example" : {
+          "sourceURI" : "sourceURI"
+        }
+      },
+      "_special_model.name_" : {
+        "properties" : {
+          "$special[property.name]" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "xml" : {
+          "name" : "$special[model.name]"
+        }
+      },
+      "body" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Updated name of the pet"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "Updated status of the pet"
+          }
+        }
+      },
+      "body_1" : {
+        "type" : "object",
+        "properties" : {
+          "additionalMetadata" : {
+            "type" : "string",
+            "description" : "Additional data to pass to server"
+          },
+          "file" : {
+            "type" : "string",
+            "description" : "file to upload",
+            "format" : "binary"
+          }
+        }
+      },
+      "body_2" : {
+        "type" : "object",
+        "properties" : {
+          "enum_form_string_array" : {
+            "type" : "array",
+            "description" : "Form parameter enum test (string array)",
+            "items" : {
+              "type" : "string",
+              "default" : "$",
+              "enum" : [ ">", "$" ]
+            }
+          },
+          "enum_form_string" : {
+            "type" : "string",
+            "description" : "Form parameter enum test (string)",
+            "default" : "-efg",
+            "enum" : [ "_abc", "-efg", "(xyz)" ]
+          }
+        }
+      },
+      "body_3" : {
+        "required" : [ "byte", "double", "number", "pattern_without_delimiter" ],
+        "type" : "object",
+        "properties" : {
+          "integer" : {
+            "maximum" : 100,
+            "minimum" : 10,
+            "type" : "integer",
+            "description" : "None",
+            "format" : "int32"
+          },
+          "int32" : {
+            "maximum" : 200,
+            "minimum" : 20,
+            "type" : "integer",
+            "description" : "None",
+            "format" : "int32"
+          },
+          "int64" : {
+            "type" : "integer",
+            "description" : "None",
+            "format" : "int64"
+          },
+          "number" : {
+            "maximum" : 543.2,
+            "minimum" : 32.1,
+            "type" : "number",
+            "description" : "None"
+          },
+          "float" : {
+            "maximum" : 987.6,
+            "type" : "number",
+            "description" : "None",
+            "format" : "float"
+          },
+          "double" : {
+            "maximum" : 123.4,
+            "minimum" : 67.8,
+            "type" : "number",
+            "description" : "None",
+            "format" : "double"
+          },
+          "string" : {
+            "pattern" : "/[a-z]/i",
+            "type" : "string",
+            "description" : "None"
+          },
+          "pattern_without_delimiter" : {
+            "pattern" : "^[A-Z].*",
+            "type" : "string",
+            "description" : "None"
+          },
+          "byte" : {
+            "type" : "string",
+            "description" : "None",
+            "format" : "byte"
+          },
+          "binary" : {
+            "type" : "string",
+            "description" : "None",
+            "format" : "binary"
+          },
+          "date" : {
+            "type" : "string",
+            "description" : "None",
+            "format" : "date"
+          },
+          "dateTime" : {
+            "type" : "string",
+            "description" : "None",
+            "format" : "date-time"
+          },
+          "password" : {
+            "maxLength" : 64,
+            "minLength" : 10,
+            "type" : "string",
+            "description" : "None",
+            "format" : "password"
+          },
+          "callback" : {
+            "type" : "string",
+            "description" : "None"
+          }
+        }
+      },
+      "body_4" : {
+        "required" : [ "param", "param2" ],
+        "type" : "object",
+        "properties" : {
+          "param" : {
+            "type" : "string",
+            "description" : "field1"
+          },
+          "param2" : {
+            "type" : "string",
+            "description" : "field2"
+          }
+        }
+      },
+      "body_5" : {
+        "required" : [ "requiredFile" ],
+        "type" : "object",
+        "properties" : {
+          "additionalMetadata" : {
+            "type" : "string",
+            "description" : "Additional data to pass to server"
+          },
+          "requiredFile" : {
+            "type" : "string",
+            "description" : "file to upload",
+            "format" : "binary"
+          }
+        }
+      }
+    },
+    "requestBodies" : {
+      "UserArray" : {
+        "description" : "List of user object",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "required" : true
+      },
+      "Client" : {
+        "description" : "client model",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Client"
+            }
+          }
+        },
+        "required" : true
+      },
+      "Pet" : {
+        "description" : "Pet object that needs to be added to the store",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Pet"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Pet"
+            }
+          }
+        },
+        "required" : true
       }
     },
     "securitySchemes" : {
@@ -2157,10 +2168,6 @@
           }
         }
       },
-      "http_basic_test" : {
-        "type" : "http",
-        "scheme" : "basic"
-      },
       "api_key" : {
         "type" : "apiKey",
         "name" : "api_key",
@@ -2170,6 +2177,10 @@
         "type" : "apiKey",
         "name" : "api_key_query",
         "in" : "query"
+      },
+      "http_basic_test" : {
+        "type" : "http",
+        "scheme" : "basic"
       }
     }
   }

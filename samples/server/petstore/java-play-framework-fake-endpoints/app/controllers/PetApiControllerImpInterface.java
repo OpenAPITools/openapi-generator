@@ -29,6 +29,6 @@ public interface PetApiControllerImpInterface {
 
     ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception;
 
-    ModelApiResponse uploadFileWithRequiredFile(Long petId, Http.MultipartFormData.FilePart file, String additionalMetadata) throws Exception;
+    ModelApiResponse uploadFileWithRequiredFile(Long petId, Http.MultipartFormData.FilePart requiredFile, String additionalMetadata) throws Exception;
 
 }

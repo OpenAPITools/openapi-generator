@@ -62,7 +62,7 @@ public enum StatusEnum {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        return null;
     }
 }
 

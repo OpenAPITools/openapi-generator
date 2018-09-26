@@ -66,7 +66,7 @@ public class FakeApi  {
 
     @POST
     @Path("/outer/boolean")
-    
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -78,7 +78,7 @@ public class FakeApi  {
     }
     @POST
     @Path("/outer/composite")
-    
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -90,7 +90,7 @@ public class FakeApi  {
     }
     @POST
     @Path("/outer/number")
-    
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -102,7 +102,7 @@ public class FakeApi  {
     }
     @POST
     @Path("/outer/string")
-    
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 

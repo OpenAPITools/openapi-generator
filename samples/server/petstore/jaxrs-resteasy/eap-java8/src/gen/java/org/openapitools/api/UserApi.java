@@ -28,7 +28,7 @@ public interface UserApi  {
    
     @POST
     
-    
+    @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -36,7 +36,7 @@ public interface UserApi  {
     public Response createUser(@ApiParam(value = "Created user object" ,required=true) User user,@Context SecurityContext securityContext);
     @POST
     @Path("/createWithArray")
-    
+    @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -44,7 +44,7 @@ public interface UserApi  {
     public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<User> user,@Context SecurityContext securityContext);
     @POST
     @Path("/createWithList")
-    
+    @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -92,7 +92,7 @@ public interface UserApi  {
     public Response logoutUser(@Context SecurityContext securityContext);
     @PUT
     @Path("/{username}")
-    
+    @Consumes({ "application/json" })
     
     @io.swagger.annotations.ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 

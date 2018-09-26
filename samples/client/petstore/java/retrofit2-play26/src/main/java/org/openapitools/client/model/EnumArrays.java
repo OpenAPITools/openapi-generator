@@ -61,7 +61,7 @@ public class EnumArrays {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
@@ -99,7 +99,7 @@ public class EnumArrays {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 

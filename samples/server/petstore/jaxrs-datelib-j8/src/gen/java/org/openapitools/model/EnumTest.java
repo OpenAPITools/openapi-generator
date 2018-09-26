@@ -58,7 +58,7 @@ public class EnumTest  implements Serializable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
@@ -94,7 +94,7 @@ public class EnumTest  implements Serializable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
@@ -128,7 +128,7 @@ public class EnumTest  implements Serializable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
@@ -162,7 +162,7 @@ public class EnumTest  implements Serializable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 

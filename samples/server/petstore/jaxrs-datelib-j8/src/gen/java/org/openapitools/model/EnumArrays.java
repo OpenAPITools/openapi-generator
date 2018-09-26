@@ -57,7 +57,7 @@ public class EnumArrays  implements Serializable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 
@@ -91,7 +91,7 @@ public class EnumArrays  implements Serializable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
  

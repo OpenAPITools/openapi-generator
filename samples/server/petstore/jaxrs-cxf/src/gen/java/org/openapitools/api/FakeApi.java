@@ -39,6 +39,7 @@ public interface FakeApi  {
 
     @POST
     @Path("/fake/outer/boolean")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -47,6 +48,7 @@ public interface FakeApi  {
 
     @POST
     @Path("/fake/outer/composite")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -55,6 +57,7 @@ public interface FakeApi  {
 
     @POST
     @Path("/fake/outer/number")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -63,6 +66,7 @@ public interface FakeApi  {
 
     @POST
     @Path("/fake/outer/string")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 

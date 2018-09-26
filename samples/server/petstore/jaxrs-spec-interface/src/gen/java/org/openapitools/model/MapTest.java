@@ -49,7 +49,7 @@ public enum InnerEnum {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        return null;
     }
 }
 

@@ -54,6 +54,9 @@ public interface StoreApi {
    * @param order order placed for purchasing the pet (required)
    * @return Call&lt;Order&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("store/order")
   Call<Order> placeOrder(
     @retrofit2.http.Body Order order

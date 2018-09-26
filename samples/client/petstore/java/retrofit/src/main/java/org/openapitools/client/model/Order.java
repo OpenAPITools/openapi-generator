@@ -78,7 +78,7 @@ public class Order {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {

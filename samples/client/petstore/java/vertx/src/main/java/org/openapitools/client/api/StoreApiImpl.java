@@ -161,7 +161,7 @@ public class StoreApiImpl implements StoreApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "application/xml", "application/json" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);

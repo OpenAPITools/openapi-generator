@@ -67,7 +67,7 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Boolean> localVarReturnType = new TypeReference<Boolean>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
@@ -95,7 +95,7 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<OuterComposite> localVarReturnType = new TypeReference<OuterComposite>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
@@ -123,7 +123,7 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
@@ -151,7 +151,7 @@ public class FakeApiImpl implements FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = { "*/*" };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
@@ -366,7 +366,7 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
-        localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "enum_query_string_array", enumQueryStringArray));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_string", enumQueryString));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_integer", enumQueryInteger));
         localVarQueryParams.addAll(apiClient.parameterToPairs("", "enum_query_double", enumQueryDouble));

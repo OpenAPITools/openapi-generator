@@ -47,7 +47,7 @@ public enum JustSymbolEnum {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        return null;
     }
 }
 
@@ -81,7 +81,7 @@ public enum ArrayEnumEnum {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        return null;
     }
 }
 

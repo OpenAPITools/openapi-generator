@@ -314,7 +314,7 @@ public class StoreApi {
 
         public PlaceOrderOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setContentType("*/*");
+            reqSpec.setContentType("application/json");
             reqSpec.setAccept("application/json");
             this.respSpec = new ResponseSpecBuilder();
         }

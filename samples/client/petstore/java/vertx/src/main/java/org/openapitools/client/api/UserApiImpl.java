@@ -66,7 +66,7 @@ public class UserApiImpl implements UserApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = {  };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
@@ -100,7 +100,7 @@ public class UserApiImpl implements UserApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = {  };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
@@ -134,7 +134,7 @@ public class UserApiImpl implements UserApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = {  };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
@@ -313,7 +313,7 @@ public class UserApiImpl implements UserApi {
         Map<String, Object> localVarFormParams = new HashMap<>();
         
         String[] localVarAccepts = {  };
-        String[] localVarContentTypes = {  };
+        String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);

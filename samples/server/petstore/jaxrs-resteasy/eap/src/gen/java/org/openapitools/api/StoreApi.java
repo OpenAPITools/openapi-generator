@@ -60,7 +60,7 @@ public interface StoreApi  {
     public Response getOrderById( @Min(1) @Max(5) @PathParam("orderId") Long orderId,@Context SecurityContext securityContext);
     @POST
     @Path("/order")
-    
+    @Consumes({ "application/json" })
     @Produces({ "application/xml", "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Place an order for a pet", notes = "", response = Order.class, tags={ "store", })
     @io.swagger.annotations.ApiResponses(value = { 

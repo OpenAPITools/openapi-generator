@@ -202,7 +202,7 @@ public class FakeApiController extends Controller {
         String valuenumber = (request().body().asMultipartFormData().asFormUrlEncoded().get("number"))[0];
         BigDecimal number;
         if (valuenumber != null) {
-            number = new BigDecimal(valuenumber);
+            number = Double.parseDouble(valuenumber);
         } else {
             throw new IllegalArgumentException("'number' parameter is required");
         }
@@ -277,7 +277,7 @@ public class FakeApiController extends Controller {
     @ApiAction
     public Result testEnumParameters() throws Exception {
         String[] enumQueryStringArrayArray = request().queryString().get("enum_query_string_array");
-        List<String> enumQueryStringArrayList = OpenAPIUtils.parametersToList("csv", enumQueryStringArrayArray);
+        List<String> enumQueryStringArrayList = OpenAPIUtils.parametersToList("multi", enumQueryStringArrayArray);
         List<String> enumQueryStringArray = new ArrayList<String>();
         for (String curParam : enumQueryStringArrayList) {
             if (!curParam.isEmpty()) {

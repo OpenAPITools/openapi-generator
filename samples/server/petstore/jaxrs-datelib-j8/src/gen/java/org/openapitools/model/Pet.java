@@ -76,7 +76,7 @@ public class Pet  implements Serializable {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      return null;
     }
   }
 

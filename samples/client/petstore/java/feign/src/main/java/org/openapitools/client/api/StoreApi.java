@@ -57,7 +57,7 @@ public interface StoreApi extends ApiClient.Api {
    */
   @RequestLine("POST /store/order")
   @Headers({
-    "Content-Type: */*",
+    "Content-Type: application/json",
     "Accept: application/json",
   })
   Order placeOrder(Order order);

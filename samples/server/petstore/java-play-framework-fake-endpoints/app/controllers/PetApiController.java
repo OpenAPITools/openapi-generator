@@ -187,11 +187,11 @@ public class PetApiController extends Controller {
         } else {
             additionalMetadata = "null";
         }
-        Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
-        if ((file == null || ((File) file.getFile()).length() == 0)) {
-            throw new IllegalArgumentException("'file' file cannot be empty");
+        Http.MultipartFormData.FilePart requiredFile = request().body().asMultipartFormData().getFile("requiredFile");
+        if ((requiredFile == null || ((File) requiredFile.getFile()).length() == 0)) {
+            throw new IllegalArgumentException("'requiredFile' file cannot be empty");
         }
-        ModelApiResponse obj = imp.uploadFileWithRequiredFile(petId, file, additionalMetadata);
+        ModelApiResponse obj = imp.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

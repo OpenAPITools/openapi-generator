@@ -175,7 +175,9 @@ public class StoreApi {
             "application/xml", "application/json"
         };
         final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { };
+        final String[] contentTypes = { 
+            "application/json"
+        };
         final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
 
         String[] authNames = new String[] {  };

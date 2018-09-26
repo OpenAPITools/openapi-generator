@@ -19,6 +19,7 @@ import javax.validation.Valid;
 public interface UserApi {
 
     @POST
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -26,6 +27,7 @@ public interface UserApi {
 
     @POST
     @Path("/createWithArray")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -33,6 +35,7 @@ public interface UserApi {
 
     @POST
     @Path("/createWithList")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Creates list of users with given input array", notes = "", tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
@@ -74,6 +77,7 @@ public interface UserApi {
 
     @PUT
     @Path("/{username}")
+    @Consumes({ "application/json" })
     @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),

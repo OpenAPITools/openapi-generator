@@ -28,6 +28,9 @@ public interface UserApi {
    * @param user Created user object (required)
    * @return Call&lt;Void&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("user")
   F.Promise<Response<Void>> createUser(
     @retrofit2.http.Body User user
@@ -39,6 +42,9 @@ public interface UserApi {
    * @param user List of user object (required)
    * @return Call&lt;Void&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("user/createWithArray")
   F.Promise<Response<Void>> createUsersWithArrayInput(
     @retrofit2.http.Body List<User> user
@@ -50,6 +56,9 @@ public interface UserApi {
    * @param user List of user object (required)
    * @return Call&lt;Void&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @POST("user/createWithList")
   F.Promise<Response<Void>> createUsersWithListInput(
     @retrofit2.http.Body List<User> user
@@ -105,6 +114,9 @@ public interface UserApi {
    * @param user Updated user object (required)
    * @return Call&lt;Void&gt;
    */
+  @Headers({
+    "Content-Type:application/json"
+  })
   @PUT("user/{username}")
   F.Promise<Response<Void>> updateUser(
     @retrofit2.http.Path("username") String username, @retrofit2.http.Body User user

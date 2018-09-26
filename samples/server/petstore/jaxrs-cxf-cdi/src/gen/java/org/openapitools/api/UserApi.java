@@ -37,7 +37,7 @@ public class UserApi  {
 
     @POST
     
-    
+    @Consumes({ "application/json" })
     
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user",  })
     @ApiResponses(value = { 
@@ -48,7 +48,7 @@ public class UserApi  {
 
     @POST
     @Path("/createWithArray")
-    
+    @Consumes({ "application/json" })
     
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user",  })
     @ApiResponses(value = { 
@@ -59,7 +59,7 @@ public class UserApi  {
 
     @POST
     @Path("/createWithList")
-    
+    @Consumes({ "application/json" })
     
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user",  })
     @ApiResponses(value = { 
@@ -118,7 +118,7 @@ public class UserApi  {
 
     @PUT
     @Path("/{username}")
-    
+    @Consumes({ "application/json" })
     
     @ApiOperation(value = "Updated user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user" })
     @ApiResponses(value = { 

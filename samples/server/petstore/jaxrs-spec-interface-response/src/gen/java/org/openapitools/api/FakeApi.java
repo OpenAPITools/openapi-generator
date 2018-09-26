@@ -28,6 +28,7 @@ public interface FakeApi {
 
     @POST
     @Path("/outer/boolean")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer boolean types", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -36,6 +37,7 @@ public interface FakeApi {
 
     @POST
     @Path("/outer/composite")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -44,6 +46,7 @@ public interface FakeApi {
 
     @POST
     @Path("/outer/number")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer number types", tags={ "fake",  })
     @ApiResponses(value = { 
@@ -52,6 +55,7 @@ public interface FakeApi {
 
     @POST
     @Path("/outer/string")
+    @Consumes({ "application/json" })
     @Produces({ "*/*" })
     @ApiOperation(value = "", notes = "Test serialization of outer string types", tags={ "fake",  })
     @ApiResponses(value = { 
