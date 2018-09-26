@@ -198,6 +198,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)"));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix (default value '" + BOOLEAN_GETTER_PREFIX_DEFAULT + "')"));
+        cliOptions.add(CliOption.newBoolean(USE_NULL_FOR_UNKNOWN_ENUM_VALUE, "Use null for unknown enum value"));
     }
 
     @Override
