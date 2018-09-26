@@ -476,6 +476,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Boxever](https://www.boxever.com/)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [JustStar](https://www.juststarinfo.com)
+- [Myworkout](https://myworkout.com)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
 - [REST United](https://restunited.com)
