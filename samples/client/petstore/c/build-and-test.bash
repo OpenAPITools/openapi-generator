@@ -1,7 +1,25 @@
 #!/bin/bash
 
-cmake .
+set -e
 
-make 
+#install latest curl
 
-./unit-PetAPI
+wget https://curl.haxx.se/download/curl-7.61.1.zip
+
+unzip curl-7.61.1.zip
+
+cd curl-7.61.1
+
+./configure
+
+make
+
+sudo make install
+
+cd ..
+
+#cmake .
+
+#make 
+
+#./unit-PetAPI
