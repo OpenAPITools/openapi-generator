@@ -18,8 +18,8 @@ sudo make install
 
 cd ..
 
-#cmake .
+cmake .
 
-#make 
+make 
 
-#./unit-PetAPI
+./unit-PetAPI
