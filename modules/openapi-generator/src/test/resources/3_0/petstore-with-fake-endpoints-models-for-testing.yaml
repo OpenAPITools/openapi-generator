@@ -1040,6 +1040,7 @@ components:
             - placed
             - approved
             - delivered
+          nullable: true
         complete:
           type: boolean
           default: false
@@ -1126,6 +1127,7 @@ components:
             - available
             - pending
             - sold
+          nullable: true
       xml:
         name: Pet
     ApiResponse:
@@ -1274,6 +1276,7 @@ components:
         - _abc
         - '-efg'
         - (xyz)
+      nullable: true
     Enum_Test:
       type: object
       required:
@@ -1285,24 +1288,28 @@ components:
             - UPPER
             - lower
             - ''
+          nullable: true
         enum_string_required:
           type: string
           enum:
             - UPPER
             - lower
             - ''
+          nullable: true
         enum_integer:
           type: integer
           format: int32
           enum:
             - 1
             - -1
+          nullable: true
         enum_number:
           type: number
           format: double
           enum:
             - 1.1
             - -1.2
+          nullable: true
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
     AdditionalPropertiesClass:
@@ -1391,6 +1398,7 @@ components:
             enum:
               - UPPER
               - lower
+            nullable: true
         direct_map:
           type: object
           additionalProperties:
@@ -1446,6 +1454,7 @@ components:
           enum:
             - '>='
             - $
+          nullable: true
         array_enum:
           type: array
           items:
@@ -1453,12 +1462,14 @@ components:
             enum:
               - fish
               - crab
+            nullable: true
     OuterEnum:
       type: string
       enum:
         - placed
         - approved
         - delivered
+      nullable: true
     OuterComposite:
       type: object
       properties:

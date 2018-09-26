@@ -75,6 +75,7 @@ paths:
                 - available
                 - pending
                 - sold
+              nullable: true
               default: available
       responses:
         '200':
@@ -591,6 +592,7 @@ components:
             - placed
             - approved
             - delivered
+          nullable: true
         complete:
           type: boolean
           default: false
@@ -683,6 +685,7 @@ components:
             - available
             - pending
             - sold
+          nullable: true
       xml:
         name: Pet
     ApiResponse:

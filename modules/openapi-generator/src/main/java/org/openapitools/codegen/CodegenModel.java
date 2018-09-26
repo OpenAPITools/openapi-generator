@@ -62,7 +62,7 @@ public class CodegenModel {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -200,6 +200,7 @@ public class CodegenModel {
         result = 31 * result + (hasMoreModels ? 13:31);
         result = 31 * result + (hasEnums ? 13:31);
         result = 31 * result + (isEnum ? 13:31);
+        result = 31 * result + (isNullable ? 13:31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);

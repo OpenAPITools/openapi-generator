@@ -1663,6 +1663,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
             }
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                m.isNullable = Boolean.TRUE;
+            }
 
             addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired());
         }

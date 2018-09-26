@@ -94,7 +94,8 @@
                   "available",
                   "pending",
                   "sold"
-                ]
+                ],
+                "nullable": true
               },
               "default": "available"
             }
@@ -940,7 +941,8 @@
               "available",
               "pending",
               "sold"
-            ]
+            ],
+            "nullable": true
           }
         },
         "xml": {
@@ -986,7 +988,8 @@
               "placed",
               "approved",
               "delivered"
-            ]
+            ],
+            "nullable": true
           },
           "complete": {
             "type": "boolean"
