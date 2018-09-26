@@ -34,7 +34,7 @@ int main() {
 	                              USER_STATUS);
 
 	UserAPI_createUser(apiClient, newuser);
-	apiClient_free(apiClient);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -47,7 +47,7 @@ int main() {
 	char *dataToPrint = cJSON_Print(JSONNODE);
 
 	printf("User is: \n%s\n", dataToPrint);
-	apiClient_free(apiClient1);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -64,7 +64,7 @@ int main() {
 	                               USER_STATUS);
 
 	UserAPI_updateUser(apiClient2, "example123", newuser1);
-	apiClient_free(apiClient2);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -76,7 +76,7 @@ int main() {
 	                                          "thisisexample!123");
 
 	printf("Login User: %s\n", loginuserreturn);
-	apiClient_free(apiClient3);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -84,7 +84,7 @@ int main() {
 	apiClient_t *apiClient4 = apiClient_create();
 
 	UserAPI_logoutUser(apiClient4);
-	apiClient_free(apiClient4);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
@@ -92,5 +92,4 @@ int main() {
 	apiClient_t *apiClient5 = apiClient_create();
 
 	UserAPI_deleteUser(apiClient5, "example123");
-	apiClient_free(apiClient5);
 }

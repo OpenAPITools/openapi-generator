@@ -26,7 +26,7 @@
     #define EXAMPLE_TAG_2_NAME "at least I tried"
     #define EXAMPLE_TAG_1_ID 1
     #define EXAMPLE_TAG_2_ID 542353
-    #define EXAMPLE_PET_ID 1234 // Set to 0 to generate a new pet
+    #define EXAMPLE_PET_ID 7867 // Set to 0 to generate a new pet
 
     #define EXAMPLE_OPERATION_PARAMETER 4
 
@@ -90,14 +90,14 @@ int main() {
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
 
-	char *petName1 = malloc(strlen("Rocky Handsome") + 1);
-	strcpy(petName1, "Rocky Handsome");
+	char *petName1 = malloc(strlen("bradshaw") + 1);
+	strcpy(petName1, "bradshaw");
 	char *petName2 = malloc(strlen("sold") + 1);
 	strcpy(petName2, "sold");
 
 	apiClient_t *apiClient1 = apiClient_create();
 	PetAPI_updatePetWithForm(apiClient1, EXAMPLE_PET_ID, petName1,
-	                         petName2);
+	                         "");
 
 
 
@@ -115,7 +115,7 @@ int main() {
 
 
 	printf("Hello world4\n");
-	assert(strcmp(mypet->name, EXAMPLE_PET_NAME) == 0);
+	assert(strcmp(mypet->name, "bradshaw") == 0);
 	assert(mypet->id == EXAMPLE_PET_ID);
 	assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == 0);
 	assert(mypet->category->id == EXAMPLE_CATEGORY_ID);
@@ -145,5 +145,5 @@ int main() {
 	apiClient_t *apiClient3 = apiClient_create();
 	FILE *file = fopen("/opt/image.png", "r");
 	api_response_t *respo =
-		PetAPI_uploadFile(apiClient3, EXAMPLE_PET_ID, "dec", file);
+		PetAPI_uploadFile(apiClient3, EXAMPLE_PET_ID, "december", file);
 }

@@ -22,14 +22,8 @@ typedef struct user_t {
 	int userStatus; // numeric
 } user_t;
 
-user_t *user_create(long	id,
-                    char	*username,
-                    char	*firstName,
-                    char	*lastName,
-                    char	*email,
-                    char	*password,
-                    char	*phone,
-                    int		userStatus);
+user_t *user_create(long id, char *username, char *firstName, char *lastName,
+                    char *email, char *password, char *phone, int userStatus);
 
 void user_free(user_t *user);
 

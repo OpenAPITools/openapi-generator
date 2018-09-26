@@ -8,12 +8,12 @@
 
 // Add a new pet to the store
 //
-void *PetAPI_addPet(apiClient_t *apiClient, pet_t *Pet);
+void PetAPI_addPet(apiClient_t *apiClient, pet_t *Pet);
 
 
 // Deletes a pet
 //
-void *PetAPI_deletePet(apiClient_t *apiClient, long PetId, char *ApiKey);
+void PetAPI_deletePet(apiClient_t *apiClient, long PetId, char *ApiKey);
 
 
 // Finds Pets by status
@@ -39,20 +39,16 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long PetId);
 
 // Update an existing pet
 //
-void *PetAPI_updatePet(apiClient_t *apiClient, pet_t *Pet);
+void PetAPI_updatePet(apiClient_t *apiClient, pet_t *Pet);
 
 
 // Updates a pet in the store with form data
 //
-void *PetAPI_updatePetWithForm(apiClient_t	*apiClient,
-                               long		PetId,
-                               char		*Name,
-                               char		*Status);
+void PetAPI_updatePetWithForm(apiClient_t *apiClient, long PetId, char *Name,
+                              char *Status);
 
 
 // uploads an image
 //
-api_response_t *PetAPI_uploadFile(apiClient_t	*apiClient,
-                                  long		PetId,
-                                  char		*AdditionalMetadata,
-                                  FILE		*File);
+api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long PetId,
+                                  char *AdditionalMetadata, FILE *File);
