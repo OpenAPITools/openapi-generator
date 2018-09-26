@@ -26,7 +26,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <executions>
-                    <!--<execution>
+                    <execution>
                         <id>cmake</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -48,7 +48,7 @@
                         <configuration>
                             <executable>make</executable>
                         </configuration>
-                    </execution>-->
+                    </execution>
                     <execution>
                         <id>pet-test</id>
                         <phase>integration-test</phase>
@@ -56,7 +56,8 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>./build-and-test.bash</executable>
+                            <!--<executable>./build-and-test.bash</executable>-->
+                            <executable>./unit-PetAPI</executable>
                         </configuration>
                     </execution>
                 </executions>
