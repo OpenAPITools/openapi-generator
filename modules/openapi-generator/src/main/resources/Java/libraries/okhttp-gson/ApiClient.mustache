@@ -19,6 +19,9 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 {{/threetenbp}}
 
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
+
 import javax.net.ssl.*;
 import java.io.File;
 import java.io.IOException;
@@ -50,6 +53,7 @@ import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 import {{invokerPackage}}.auth.OAuth;
+import {{invokerPackage}}.auth.RetryingOAuth;
 
 public class ApiClient {
 
@@ -78,6 +82,38 @@ public class ApiClient {
      * Constructor for ApiClient
      */
     public ApiClient() {
+        init();
+
+        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+    {{#authMethods}}{{#isOAuth}}
+    /*
+     * Constructor for ApiClient to support access token retry on 401/403
+     */
+    public ApiClient(
+            String clientId,
+            String clientSecret,
+            Map<String, String> parameters
+    ) {
+        init();
+
+        RetryingOAuth retryingOAuth = new RetryingOAuth("{{tokenUrl}}", clientId, GrantType.valueOf("{{flow}}"), clientSecret, parameters);
+        authentications.put(
+                "{{name}}",
+                retryingOAuth
+        );
+        httpClient.interceptors().add(retryingOAuth);
+
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+    {{/isOAuth}}{{/authMethods}}
+    private void init() {
         httpClient = new OkHttpClient();
 
         {{#useGzipFeature}}
@@ -92,13 +128,7 @@ public class ApiClient {
         // Set default User-Agent.
         setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
-        // Setup authentications (key: authentication name, value: authentication).
-        authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
-        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
-        // Prevent the authentications from being modified.
-        authentications = Collections.unmodifiableMap(authentications);
+        authentications = new HashMap<String, Authentication>();
     }
 
     /**
@@ -500,6 +530,20 @@ public class ApiClient {
     public ApiClient setWriteTimeout(int writeTimeout) {
         httpClient.setWriteTimeout(writeTimeout, TimeUnit.MILLISECONDS);
         return this;
+    }
+
+    /**
+     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Token request builder
+     */
+    public TokenRequestBuilder getTokenEndPoint() {
+        for (Authentication apiAuth : authentications.values()) {
+            if (apiAuth instanceof RetryingOAuth) {
+                RetryingOAuth retryingOAuth = (RetryingOAuth) apiAuth;
+                return retryingOAuth.getTokenRequestBuilder();
+            }
+        }
+        return null;
     }
 
     /**

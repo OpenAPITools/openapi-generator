@@ -4,16 +4,22 @@ part 'order.jser.dart';
 
 class Order {
   
+  @Alias('id')
   final int id;
   
+  @Alias('petId')
   final int petId;
   
+  @Alias('quantity')
   final int quantity;
   
+  @Alias('shipDate')
   final DateTime shipDate;
    /* Order Status */
+  @Alias('status')
   final String status;
   //enum statusEnum {  placed,  approved,  delivered,  };
+  @Alias('complete')
   final bool complete;
   
 

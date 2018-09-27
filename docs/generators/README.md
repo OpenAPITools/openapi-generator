@@ -61,6 +61,7 @@ The following generators are available:
     - [csharp-nancyfx](csharp-nancyfx.md)
     - [erlang-server](erlang-server.md)
     - [go-server](go-server.md)
+    - [go-gin-server](go-gin-server.md)
     - [haskell](haskell.md)
     - [java-inflector](java-inflector.md)
     - [java-msf4j](java-msf4j.md)

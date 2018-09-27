@@ -6,16 +6,22 @@ part 'pet.jser.dart';
 
 class Pet {
   
+  @Alias('id')
   final int id;
   
+  @Alias('category')
   final Category category;
   
+  @Alias('name')
   final String name;
   
+  @Alias('photoUrls')
   final List<String> photoUrls;
   
+  @Alias('tags')
   final List<Tag> tags;
    /* pet status in the store */
+  @Alias('status')
   final String status;
   //enum statusEnum {  available,  pending,  sold,  };
 

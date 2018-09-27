@@ -366,21 +366,23 @@ To get a list of PHP specified options (which can be passed to the generator wit
 You can build a client against the [Petstore API](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) as follows:
 
 ```sh
-./bin/java-petstore.sh
+./bin/java-petstore-okhttp-gson.sh
 ```
 
-(On Windows, run `.\bin\windows\java-petstore.bat` instead)
+(On Windows, run `.\bin\windows\java-petstore-okhttp-gson.bat` instead)
 
-This will run the generator with this command:
+This script uses the default library, which is `okhttp-gson`. It will run the generator with this command:
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -g java \
-  -o samples/client/petstore/java
+  -o samples/client/petstore/java/okhttp-gson
 ```
 
-with a number of options. You can get the options with the `help generate` command (below only shows partial results):
+with a number of options. [The java options are documented here.](docs/generators/java.md)
+
+You can also get the options with the `help generate` command (below only shows partial results):
 
 ```
 NAME
@@ -432,16 +434,19 @@ OPTIONS
 You can then compile and run the client, as well as unit tests against it:
 
 ```sh
-cd samples/client/petstore/java
+cd samples/client/petstore/java/okhttp-gson
 mvn package
 ```
 
 Other languages have petstore samples, too:
 ```sh
-./bin/android-petstore.sh
-./bin/java-petstore.sh
+./bin/android-petstore-all.sh
+./bin/java-petstore-all.sh
 ./bin/objc-petstore.sh
 ```
+
+... and others. [Here is a list of all scripts.](wiki/Samples-folder#scripts)
+
 ### [3.1 - Customization](#table-of-contents)
 
 Please refer to [customization.md](docs/customization.md) on how to customize the output (e.g. package name, version)
@@ -471,6 +476,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Boxever](https://www.boxever.com/)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [JustStar](https://www.juststarinfo.com)
+- [Myworkout](https://myworkout.com)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
 - [REST United](https://restunited.com)
@@ -488,6 +494,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2018/06/21 - [Connect your JHipster apps to the world of APIs with OpenAPI and gRPC](https://fr.slideshare.net/chbornet/jhipster-conf-2018-connect-your-jhipster-apps-to-the-world-of-apis-with-openapi-and-grpc) by [Christophe Bornet](https://github.com/cbornet) at [JHipster Conf 2018](https://jhipster-conf.github.io/)
 - 2018/06/27 - [Lessons Learned from Leading an Open-Source Project Supporting 30+ Programming Languages](https://speakerdeck.com/wing328/lessons-learned-from-leading-an-open-source-project-supporting-30-plus-programming-languages) - [William Cheng](https://github.com/wing328) at [LinuxCon + ContainerCon + CloudOpen China 2018](http://bit.ly/2waDKKX)
 - 2018/07/19 - [OpenAPI Generator Contribution Quickstart - RingCentral Go SDK](https://medium.com/ringcentral-developers/openapi-generator-for-go-contribution-quickstart-8cc72bf37b53) by [John Wang](https://github.com/grokify)
+- 2018/08/22 - [OpenAPI Generatorのプロジェクト構成などのメモ](https://yinm.info/20180822/) by [Yusuke Iinuma](https://github.com/yinm)
 
 ## [6 - About Us](#table-of-contents)
 
