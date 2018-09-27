@@ -1,5 +1,7 @@
 -module(petstore_statem).
 
+-behaviour(proper_statem).
+
 -include("petstore.hrl").
 -include_lib("proper/include/proper_common.hrl").
 -include_lib("stdlib/include/assert.hrl").
