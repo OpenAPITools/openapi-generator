@@ -13,7 +13,14 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
-
+    {{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+    {{/parentOverridden}}
+    
     <licenses>
         <license>
             <name>{{licenseName}}</name>
