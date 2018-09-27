@@ -74,6 +74,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
+    public static final String HATEOAS = "hateoas";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -93,6 +94,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
     protected boolean virtualService = false;
+    protected boolean hateoas = false;
 
     public SpringCodegen() {
         super();
@@ -124,6 +126,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
         cliOptions.add(CliOption.newBoolean(API_FIRST, "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
+        cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -257,6 +260,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(API_FIRST)) {
             this.setApiFirst(Boolean.valueOf(additionalProperties.get(API_FIRST).toString()));
+        }
+        
+        if (additionalProperties.containsKey(HATEOAS)) {
+            this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
         }
 
         typeMapping.put("file", "Resource");
@@ -697,6 +704,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setApiFirst(boolean apiFirst) {
         this.apiFirst = apiFirst;
+    }
+    
+    public void setHateoas(boolean hateoas) {
+        this.hateoas = hateoas;
     }
 
     @Override
