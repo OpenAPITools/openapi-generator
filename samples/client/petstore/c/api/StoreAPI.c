@@ -13,6 +13,8 @@
 		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
+
+
 // Delete purchase order by ID
 //
 // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -26,14 +28,18 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order/{orderId}");
+	long sizeOfPath = strlen("/store/order/{orderId}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/store/order/{orderId}");
+
 
 	// Path Params
+	long sizeOfPathParams = strlen(orderId) + 3;
+
 	if(orderId == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(256);
+	char *localVarToReplace = malloc(sizeOfPathParams);
 	sprintf(localVarToReplace, "%s%s%s", "{", "orderId", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, orderId);
@@ -73,8 +79,10 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/inventory");
+	long sizeOfPath = strlen("/store/inventory") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/store/inventory");
+
 
 	list_addElement(localVarHeaderType, "application/json"); // produces
 
@@ -122,16 +130,20 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order/{orderId}");
+	long sizeOfPath = strlen("/store/order/{orderId}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/store/order/{orderId}");
+
 
 	// Path Params
+	long sizeOfPathParams = sizeof(orderId) + 3;
+
 	if(orderId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeof(orderId) + 3);
-	snprintf(localVarToReplace, strlen(
-			 "orderId") + 3, "%s%s%s", "{", "orderId", "}");
+	char *localVarToReplace = malloc(sizeOfPathParams);
+	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "orderId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, orderId);
@@ -185,8 +197,10 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/store/order");
+	long sizeOfPath = strlen("/store/order") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/store/order");
+
 
 	// Body Param
 	cJSON *localVarSingleItemJSON_order;

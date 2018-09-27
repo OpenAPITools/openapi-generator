@@ -111,8 +111,7 @@ static int case_insensitive_strcmp(const unsigned char	*string1,
 		return 0;
 	}
 
-	for( ;
-	     tolower(*string1) == tolower(*string2);
+	for( ; tolower(*string1) == tolower(*string2);
 	     (void) string1++, string2++)
 	{
 		if(*string1 == '\0') {
@@ -633,8 +632,8 @@ static unsigned char utf16_literal_to_utf8(
 	}
 
 	/* encode as utf8 */
-	for(utf8_position = (unsigned char) (utf8_length - 1);
-	    utf8_position > 0;
+	for(utf8_position =
+		    (unsigned char) (utf8_length - 1); utf8_position > 0;
 	    utf8_position--) {
 		/* 10xxxxxx */
 		(*output_pointer)[utf8_position] =
@@ -858,8 +857,7 @@ static cJSON_bool print_string_ptr(const unsigned char *const	input,
 	output[0] = '\"';
 	output_pointer = output + 1;
 	/* copy the string */
-	for(input_pointer = input;
-	    *input_pointer != '\0';
+	for(input_pointer = input; *input_pointer != '\0';
 	    (void) input_pointer++, output_pointer++) {
 		if((*input_pointer > 31) &&
 		   (*input_pointer != '\"') &&

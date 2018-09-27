@@ -14,6 +14,8 @@
 		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
+
+
 // Create user
 //
 // This can only be done by the logged in user.
@@ -27,8 +29,10 @@ void UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user");
+	long sizeOfPath = strlen("/user") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user");
+
 
 	// Body Param
 	cJSON *localVarSingleItemJSON_user;
@@ -71,8 +75,10 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/createWithArray");
+	long sizeOfPath = strlen("/user/createWithArray") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user/createWithArray");
+
 
 	// Body Param
 	// notstring
@@ -148,8 +154,10 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/createWithList");
+	long sizeOfPath = strlen("/user/createWithList") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user/createWithList");
+
 
 	// Body Param
 	// notstring
@@ -227,14 +235,18 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
+	long sizeOfPath = strlen("/user/{username}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user/{username}");
+
 
 	// Path Params
+	long sizeOfPathParams = strlen(username) + 3;
+
 	if(username == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(256);
+	char *localVarToReplace = malloc(sizeOfPathParams);
 	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
@@ -272,14 +284,18 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
+	long sizeOfPath = strlen("/user/{username}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user/{username}");
+
 
 	// Path Params
+	long sizeOfPathParams = strlen(username) + 3;
+
 	if(username == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(256);
+	char *localVarToReplace = malloc(sizeOfPathParams);
 	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
@@ -330,8 +346,10 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/login");
+	long sizeOfPath = strlen("/user/login") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user/login");
+
 
 	// query parameters
 	char *keyQuery_username;
@@ -402,8 +420,10 @@ void UserAPI_logoutUser(apiClient_t *apiClient) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/logout");
+	long sizeOfPath = strlen("/user/logout") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user/logout");
+
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -439,14 +459,18 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/user/{username}");
+	long sizeOfPath = strlen("/user/{username}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/user/{username}");
+
 
 	// Path Params
+	long sizeOfPathParams = strlen(username) + 3;
+
 	if(username == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(256);
+	char *localVarToReplace = malloc(sizeOfPathParams);
 	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
