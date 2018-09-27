@@ -26,17 +26,25 @@
         , elements/1
         ]).
 
+-define(CHARS, [$a, $b, $c]).
+
 %%==============================================================================
 %% Generators
 %%==============================================================================
 
 binary() -> binary(10).
 
-binary(Min, Max) -> binary(trunc((Min + Max) / 2)).
+binary(Min, Max) ->
+  ?LET( {X, N}
+      , { proper_types:elements(?CHARS)
+        , proper_types:choose(Min, Max)
+        }
+      , iolist_to_binary(lists:duplicate(N, X))
+      ).
 
 binary(N) ->
   ?LET( X
-      , proper_types:elements(["a", "b", "c"])
+      , proper_types:elements(?CHARS)
       , iolist_to_binary(lists:duplicate(N, X))
       ).
 
