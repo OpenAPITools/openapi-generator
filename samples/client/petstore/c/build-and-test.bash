@@ -22,4 +22,4 @@ cmake .
 
 make 
 
-ctest
+ctest -j <threads>
