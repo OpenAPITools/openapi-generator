@@ -418,7 +418,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return  escapeText(value) ;
         }
     }
 
@@ -586,6 +586,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String escapeUnsafeCharacters(String input) {
         return input.replace("=end", "=_end").replace("=begin", "=_begin");
     }
+
 
     @Override
     public void postProcessFile(File file, String fileType) {
