@@ -652,7 +652,7 @@ public class ModelUtils {
             if (ref == null) {
                 LOGGER.warn("{} is not defined", schema.get$ref());
                 return schema;
-            } else if (isStringSchema(ref) && (ref.getEnum() != null && !ref.getEnum().isEmpty())) {
+            } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref) || isComposedSchema(ref)) { // array def should be created as models
