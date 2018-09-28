@@ -25,7 +25,7 @@ import javax.validation.Valid;
  * A User who is purchasing from the pet store
  */
 @ApiModel(description = "A User who is purchasing from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-28T11:11:41.612+08:00[Asia/Taipei]")
 public class User   {
   @JsonProperty("id")
   private Long id = null;

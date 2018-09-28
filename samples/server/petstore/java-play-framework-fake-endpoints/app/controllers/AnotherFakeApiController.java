@@ -36,7 +36,7 @@ public class AnotherFakeApiController extends Controller {
 
 
     @ApiAction
-    public Result testSpecialTags() throws Exception {
+    public Result call123testSpecialTags() throws Exception {
         JsonNode nodeclient = request().body().asJson();
         Client client;
         if (nodeclient != null) {
@@ -47,7 +47,7 @@ public class AnotherFakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'Client' parameter is required");
         }
-        Client obj = imp.testSpecialTags(client);
+        Client obj = imp.call123testSpecialTags(client);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

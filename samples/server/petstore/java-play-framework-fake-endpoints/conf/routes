@@ -6,7 +6,7 @@ GET     /api                        controllers.ApiDocController.api
 
 
 #Functions for AnotherFake API
-PATCH     /v2/another-fake/dummy                     controllers.AnotherFakeApiController.testSpecialTags()
+PATCH     /v2/another-fake/dummy                     controllers.AnotherFakeApiController.call123testSpecialTags()
 
 #Functions for Fake API
 POST     /v2/fake/outer/boolean                     controllers.FakeApiController.fakeOuterBooleanSerialize()

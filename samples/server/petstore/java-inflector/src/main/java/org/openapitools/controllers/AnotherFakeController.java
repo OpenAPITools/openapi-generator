@@ -21,7 +21,7 @@ public class AnotherFakeController  {
    **/
 
   /*
-    public ResponseContext testSpecialTags(RequestContext request , Client client) {
+    public ResponseContext call123testSpecialTags(RequestContext request , Client client) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

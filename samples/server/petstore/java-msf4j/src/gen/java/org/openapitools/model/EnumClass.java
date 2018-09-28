@@ -29,9 +29,9 @@ public enum EnumClass {
   }
 
   @JsonCreator
-  public static EnumClass fromValue(String text) {
+  public static EnumClass fromValue(String value) {
     for (EnumClass b : EnumClass.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (String.valueOf(b.value).equals(String.valueOf(value))) {
         return b;
       }
     }

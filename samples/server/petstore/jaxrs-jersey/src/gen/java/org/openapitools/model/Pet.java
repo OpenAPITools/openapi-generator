@@ -30,7 +30,7 @@ import javax.validation.Valid;
  * A pet for sale in the pet store
  */
 @ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-28T11:11:41.612+08:00[Asia/Taipei]")
 public class Pet   {
   @JsonProperty("id")
   private Long id = null;
@@ -70,9 +70,9 @@ public class Pet   {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String text) {
+  public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (String.valueOf(b.value).equals(String.valueOf(value))) {
           return b;
         }
       }

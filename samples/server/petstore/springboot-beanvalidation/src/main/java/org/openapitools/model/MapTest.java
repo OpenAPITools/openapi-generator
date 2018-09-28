@@ -42,13 +42,13 @@ public class MapTest   {
     }
 
     @JsonCreator
-    public static InnerEnum fromValue(String text) {
+    public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (String.valueOf(b.value).equals(String.valueOf(value))) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 

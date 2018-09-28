@@ -114,8 +114,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ "available", "pending", "sold" ],
-              "default" : "available"
+              "default" : "available",
+              "enum" : [ "available", "pending", "sold" ]
             }
           }
         } ],
@@ -841,8 +841,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ ">", "$" ],
-              "default" : "$"
+              "default" : "$",
+              "enum" : [ ">", "$" ]
             }
           }
         }, {
@@ -851,8 +851,8 @@
           "description" : "Header parameter enum test (string)",
           "schema" : {
             "type" : "string",
-            "enum" : [ "_abc", "-efg", "(xyz)" ],
-            "default" : "-efg"
+            "default" : "-efg",
+            "enum" : [ "_abc", "-efg", "(xyz)" ]
           }
         }, {
           "name" : "enum_query_string_array",
@@ -864,8 +864,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "enum" : [ ">", "$" ],
-              "default" : "$"
+              "default" : "$",
+              "enum" : [ ">", "$" ]
             }
           }
         }, {
@@ -874,8 +874,8 @@
           "description" : "Query parameter enum test (string)",
           "schema" : {
             "type" : "string",
-            "enum" : [ "_abc", "-efg", "(xyz)" ],
-            "default" : "-efg"
+            "default" : "-efg",
+            "enum" : [ "_abc", "-efg", "(xyz)" ]
           }
         }, {
           "name" : "enum_query_integer",
@@ -906,15 +906,15 @@
                     "description" : "Form parameter enum test (string array)",
                     "items" : {
                       "type" : "string",
-                      "enum" : [ ">", "$" ],
-                      "default" : "$"
+                      "default" : "$",
+                      "enum" : [ ">", "$" ]
                     }
                   },
                   "enum_form_string" : {
                     "type" : "string",
                     "description" : "Form parameter enum test (string)",
-                    "enum" : [ "_abc", "-efg", "(xyz)" ],
-                    "default" : "-efg"
+                    "default" : "-efg",
+                    "enum" : [ "_abc", "-efg", "(xyz)" ]
                   }
                 }
               }
@@ -1305,8 +1305,8 @@
       "patch" : {
         "tags" : [ "$another-fake?" ],
         "summary" : "To test special tags",
-        "description" : "To test special tags",
-        "operationId" : "test_special_tags",
+        "description" : "To test special tags and operation ID starting with number",
+        "operationId" : "123_test_@#$%_special_tags",
         "requestBody" : {
           "description" : "client model",
           "content" : {
@@ -1378,13 +1378,13 @@
           "content" : {
             "multipart/form-data" : {
               "schema" : {
-                "required" : [ "file" ],
+                "required" : [ "requiredFile" ],
                 "properties" : {
                   "additionalMetadata" : {
                     "type" : "string",
                     "description" : "Additional data to pass to server"
                   },
-                  "file" : {
+                  "requiredFile" : {
                     "type" : "string",
                     "description" : "file to upload",
                     "format" : "binary"
@@ -1587,8 +1587,8 @@
       },
       "EnumClass" : {
         "type" : "string",
-        "enum" : [ "_abc", "-efg", "(xyz)" ],
-        "default" : "-efg"
+        "default" : "-efg",
+        "enum" : [ "_abc", "-efg", "(xyz)" ]
       },
       "List" : {
         "type" : "object",
@@ -2026,7 +2026,10 @@
             }
           },
           "indirect_map" : {
-            "$ref" : "#/components/schemas/StringBooleanMap"
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
           }
         }
       },
@@ -2063,6 +2066,7 @@
             "description" : "Test capitalization"
           }
         },
+        "description" : "Must be named `File` for test.",
         "example" : {
           "sourceURI" : "sourceURI"
         }

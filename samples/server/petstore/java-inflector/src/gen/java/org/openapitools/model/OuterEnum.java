@@ -31,13 +31,13 @@ public enum OuterEnum {
   }
 
   @JsonCreator
-  public static OuterEnum fromValue(String text) {
+  public static OuterEnum fromValue(String value) {
     for (OuterEnum b : OuterEnum.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (String.valueOf(b.value).equals(String.valueOf(value))) {
         return b;
       }
     }
-    return null;
+    throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
 }
 
