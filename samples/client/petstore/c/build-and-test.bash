@@ -16,4 +16,4 @@ cmake .
 
 make 
 
-ctest
+./unit-PetAPI
