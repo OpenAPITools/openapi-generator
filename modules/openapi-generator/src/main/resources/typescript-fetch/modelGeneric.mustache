@@ -1,3 +1,4 @@
+import { exists } from '../runtime';
 {{#hasImports}}
 import {
     {{#imports}}
@@ -32,14 +33,24 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
     return {
         {{#vars}}
         {{#isPrimitiveType}}
-        '{{name}}': {{#isDate}}{{^required}}json['{{baseName}}'] === undefined ? undefined : {{/required}}new Date(json['{{baseName}}']){{/isDate}}{{#isDateTime}}{{^required}}json['{{baseName}}'] === undefined ? undefined : {{/required}}new Date(json['{{baseName}}']){{/isDateTime}}{{^isDate}}{{^isDateTime}}json['{{baseName}}']{{/isDateTime}}{{/isDate}},
+        {{#isDate}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
+        {{/isDate}}
+        {{#isDateTime}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
+        {{/isDateTime}}
+        {{^isDate}}
+        {{^isDateTime}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
+        {{/isDateTime}}
+        {{/isDate}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isContainer}}
-        '{{name}}': (json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
         {{/isContainer}}
         {{^isContainer}}
-        '{{name}}': {{datatype}}FromJSON(json['{{baseName}}']),
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
         {{/isContainer}}
         {{/isPrimitiveType}}
         {{/vars}}
