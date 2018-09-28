@@ -16,10 +16,15 @@ make
 
 sudo make install
 
+# install valgrind
+sudo apt-get install valgrind
+
+valgrind --version
+
 cd ..
 
 cmake .
 
 make 
 
-ctest -j <threads>
+ctest
