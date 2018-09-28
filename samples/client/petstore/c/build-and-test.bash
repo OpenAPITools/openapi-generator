@@ -22,4 +22,4 @@ cmake .
 
 make 
 
-./unit-PetAPI
+ctest
