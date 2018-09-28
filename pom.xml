@@ -1017,6 +1017,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/haskell-http-client</module>
                 <module>samples/client/petstore/elm-0.18</module>
