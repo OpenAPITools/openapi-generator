@@ -11,6 +11,7 @@
  * Do not edit the class manually.
  */
 
+import { exists } from '../runtime';
 /**
  * Describes the result of uploading an image resource
  * @export
@@ -39,9 +40,9 @@ export interface ApiResponse {
 
 export function ApiResponseFromJSON(json: any): ApiResponse {
     return {
-        'code': json['code'],
-        'type': json['type'],
-        'message': json['message'],
+        'code': !exists(json, 'code') ? undefined : json['code'],
+        'type': !exists(json, 'type') ? undefined : json['type'],
+        'message': !exists(json, 'message') ? undefined : json['message'],
     };
 }
 

@@ -11,6 +11,7 @@
  * Do not edit the class manually.
  */
 
+import { exists } from '../runtime';
 /**
  * An order for a pets from the pet store
  * @export
@@ -57,12 +58,12 @@ export interface Order {
 
 export function OrderFromJSON(json: any): Order {
     return {
-        'id': json['id'],
-        'petId': json['petId'],
-        'quantity': json['quantity'],
-        'shipDate': json['shipDate'] === undefined ? undefined : new Date(json['shipDate']),
-        'status': json['status'],
-        'complete': json['complete'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'petId': !exists(json, 'petId') ? undefined : json['petId'],
+        'quantity': !exists(json, 'quantity') ? undefined : json['quantity'],
+        'shipDate': !exists(json, 'shipDate') ? undefined : new Date(json['shipDate']),
+        'status': !exists(json, 'status') ? undefined : json['status'],
+        'complete': !exists(json, 'complete') ? undefined : json['complete'],
     };
 }
 

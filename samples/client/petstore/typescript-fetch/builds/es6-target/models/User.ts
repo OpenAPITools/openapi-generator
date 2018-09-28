@@ -11,6 +11,7 @@
  * Do not edit the class manually.
  */
 
+import { exists } from '../runtime';
 /**
  * A User who is purchasing from the pet store
  * @export
@@ -69,14 +70,14 @@ export interface User {
 
 export function UserFromJSON(json: any): User {
     return {
-        'id': json['id'],
-        'username': json['username'],
-        'firstName': json['firstName'],
-        'lastName': json['lastName'],
-        'email': json['email'],
-        'password': json['password'],
-        'phone': json['phone'],
-        'userStatus': json['userStatus'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'username': !exists(json, 'username') ? undefined : json['username'],
+        'firstName': !exists(json, 'firstName') ? undefined : json['firstName'],
+        'lastName': !exists(json, 'lastName') ? undefined : json['lastName'],
+        'email': !exists(json, 'email') ? undefined : json['email'],
+        'password': !exists(json, 'password') ? undefined : json['password'],
+        'phone': !exists(json, 'phone') ? undefined : json['phone'],
+        'userStatus': !exists(json, 'userStatus') ? undefined : json['userStatus'],
     };
 }
 

@@ -189,6 +189,11 @@ export interface RequestOpts {
     body?: HTTPBody;
 }
 
+export function exists(json: any, key: string) {
+    const value = json['key'];
+    return value !== null && value !== undefined;
+}
+
 function querystring(params: HTTPQuery) {
     return Object.keys(params)
         .map((key) => {

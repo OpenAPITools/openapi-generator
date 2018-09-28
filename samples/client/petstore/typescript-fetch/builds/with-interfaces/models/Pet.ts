@@ -11,6 +11,7 @@
  * Do not edit the class manually.
  */
 
+import { exists } from '../runtime';
 import {
     Category,
     CategoryFromJSON,
@@ -66,12 +67,12 @@ export interface Pet {
 
 export function PetFromJSON(json: any): Pet {
     return {
-        'id': json['id'],
-        'category': CategoryFromJSON(json['category']),
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'category': !exists(json, 'category') ? undefined : CategoryFromJSON(json['category']),
         'name': json['name'],
         'photoUrls': json['photoUrls'],
-        'tags': (json['tags'] as Array<any>).map(TagFromJSON),
-        'status': json['status'],
+        'tags': !exists(json, 'tags') ? undefined : (json['tags'] as Array<any>).map(TagFromJSON),
+        'status': !exists(json, 'status') ? undefined : json['status'],
     };
 }
 

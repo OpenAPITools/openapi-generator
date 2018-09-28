@@ -11,6 +11,7 @@
  * Do not edit the class manually.
  */
 
+import { exists } from '../runtime';
 /**
  * A tag for a pet
  * @export
@@ -33,8 +34,8 @@ export interface Tag {
 
 export function TagFromJSON(json: any): Tag {
     return {
-        'id': json['id'],
-        'name': json['name'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
     };
 }
 
