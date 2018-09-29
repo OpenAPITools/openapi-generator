@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
@@ -83,6 +86,20 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
                         "continue", "for", "import", "return", "var", "error", "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            if (op.path != null) {
+                op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
+            }
+        }
+        return objs;
     }
 
     @Override
