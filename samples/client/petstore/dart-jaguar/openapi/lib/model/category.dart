@@ -4,8 +4,10 @@ part 'category.jser.dart';
 
 class Category {
   
+  @Alias('id')
   final int id;
   
+  @Alias('name')
   final String name;
   
 

@@ -4,10 +4,13 @@ part 'api_response.jser.dart';
 
 class ApiResponse {
   
+  @Alias('code')
   final int code;
   
+  @Alias('type')
   final String type;
   
+  @Alias('message')
   final String message;
   
 

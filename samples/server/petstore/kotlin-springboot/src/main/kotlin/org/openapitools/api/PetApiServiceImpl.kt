@@ -31,11 +31,11 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun updatePetWithForm(petId: Long,name: String?,status: String?): Unit {
+    override fun updatePetWithForm(petId: Long,name: String,status: String): Unit {
         TODO("Implement me")
     }
 
-    override fun uploadFile(petId: Long,additionalMetadata: String?,file: org.springframework.web.multipart.MultipartFile): ModelApiResponse {
+    override fun uploadFile(petId: Long,additionalMetadata: String,file: org.springframework.web.multipart.MultipartFile): ModelApiResponse {
         TODO("Implement me")
     }
 }
