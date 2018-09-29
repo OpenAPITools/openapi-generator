@@ -1,4 +1,4 @@
-module DateOnly exposing (DateOnly, dateOnlyDecoder, dateOnlyEncoder)
+module DateOnly exposing (DateOnly, decoder, encoder)
 
 import Iso8601
 import Json.Decode as Decode exposing (Decoder)
@@ -11,14 +11,14 @@ type alias DateOnly =
     Time.Posix
 
 
-dateOnlyDecoder : Decoder DateOnly
-dateOnlyDecoder =
+decoder : Decoder DateOnly
+decoder =
     Decode.string
         |> Decode.andThen decodeIsoString
 
 
-dateOnlyEncoder : DateOnly -> Encode.Value
-dateOnlyEncoder model =
+encoder : DateOnly -> Encode.Value
+encoder model =
     Iso8601.fromTime model
         |> String.left 10
         |> Encode.string
