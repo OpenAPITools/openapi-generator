@@ -374,8 +374,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
-                // import "optionals" package if the parameter is primitive and optional
-                if (!param.required && param.isPrimitiveType) {
+                // import "optionals" package if the parameter is optional
+                if (!param.required) {
                     if (!addedOptionalImport) {
                         imports.add(createMapping("import", "github.com/antihax/optional"));
                         addedOptionalImport = true;
