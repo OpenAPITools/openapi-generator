@@ -14,6 +14,8 @@
 		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
+
+
 // Add a new pet to the store
 //
 void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
@@ -25,8 +27,10 @@ void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
+	long sizeOfPath = strlen("/pet") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet");
+
 
 	// Body Param
 	cJSON *localVarSingleItemJSON_pet;
@@ -73,16 +77,20 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
+	long sizeOfPath = strlen("/pet/{petId}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet/{petId}");
+
 
 	// Path Params
+	long sizeOfPathParams = sizeof(petId) + 3;
+
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen(
-			 "petId") + 3, "%s%s%s", "{", "petId", "}");
+	char *localVarToReplace = malloc(sizeOfPathParams);
+	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
@@ -142,8 +150,10 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByStatus");
+	long sizeOfPath = strlen("/pet/findByStatus") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet/findByStatus");
+
 
 	// query parameters
 	if(status != NULL) {
@@ -208,8 +218,10 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/findByTags");
+	long sizeOfPath = strlen("/pet/findByTags") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet/findByTags");
+
 
 	// query parameters
 	if(tags != NULL) {
@@ -274,16 +286,20 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
+	long sizeOfPath = strlen("/pet/{petId}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet/{petId}");
+
 
 	// Path Params
+	long sizeOfPathParams = sizeof(petId) + 3;
+
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen(
-			 "petId") + 3, "%s%s%s", "{", "petId", "}");
+	char *localVarToReplace = malloc(sizeOfPathParams);
+	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
@@ -337,8 +353,10 @@ void PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet");
+	long sizeOfPath = strlen("/pet") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet");
+
 
 	// Body Param
 	cJSON *localVarSingleItemJSON_pet;
@@ -386,16 +404,20 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}");
+	long sizeOfPath = strlen("/pet/{petId}") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet/{petId}");
+
 
 	// Path Params
+	long sizeOfPathParams = sizeof(petId) + 3;
+
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen(
-			 "petId") + 3, "%s%s%s", "{", "petId", "}");
+	char *localVarToReplace = malloc(sizeOfPathParams);
+	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);
@@ -469,16 +491,20 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	char *localVarBodyParameters = NULL;
 
 	// create the path
-	char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-	snprintf(localVarPath, MAX_BUFFER_LENGTH, "/pet/{petId}/uploadImage");
+	long sizeOfPath = strlen("/pet/{petId}/uploadImage") + 1;
+	char *localVarPath = malloc(sizeOfPath);
+	snprintf(localVarPath, sizeOfPath, "/pet/{petId}/uploadImage");
+
 
 	// Path Params
+	long sizeOfPathParams = sizeof(petId) + 3;
+
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeof(petId) + 3);
-	snprintf(localVarToReplace, strlen(
-			 "petId") + 3, "%s%s%s", "{", "petId", "}");
+	char *localVarToReplace = malloc(sizeOfPathParams);
+	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
+	         "}");
 
 	char localVarBuff[256];
 	intToStr(localVarBuff, petId);

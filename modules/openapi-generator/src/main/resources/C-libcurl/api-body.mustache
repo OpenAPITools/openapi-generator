@@ -14,6 +14,8 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
+
+
 {{#operations}}
 {{#operation}}
 {{#summary}}
@@ -34,17 +36,21 @@
     char      *localVarBodyParameters = NULL;
 
     // create the path
-    char *localVarPath = malloc(MAX_BUFFER_LENGTH);
-    snprintf(localVarPath, MAX_BUFFER_LENGTH, "{{{path}}}");
+   long sizeOfPath = strlen("{{{path}}}")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "{{{path}}}");
+
     {{#pathParams}}
 
     // Path Params
+    long sizeOfPathParams = {{#pathParams}}{{#isLong}}sizeof({{baseName}})+3{{/isLong}}{{#isString}}strlen({{baseName}})+3{{/isString}}{{/pathParams}};
+
     {{#isLong}}
     if({{baseName}} == 0){
       goto end;
     }
-    char* localVarToReplace = malloc(sizeof({{baseName}})+3);
-    snprintf(localVarToReplace, strlen("{{baseName}}")+3, "%s%s%s", "{", "{{baseName}}", "}");
+    char* localVarToReplace = malloc(sizeOfPathParams);
+    snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "{{baseName}}", "}");
 
     char localVarBuff[256];
     intToStr(localVarBuff, {{baseName}});
@@ -56,7 +62,7 @@
     if({{baseName}} == NULL) {
         goto end;
     }
-    char* localVarToReplace = malloc(256);
+    char* localVarToReplace = malloc(sizeOfPathParams);
     sprintf(localVarToReplace, "%s%s%s", "{", "{{baseName}}", "}");
 
     localVarPath = strReplace(localVarPath, localVarToReplace, {{baseName}});

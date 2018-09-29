@@ -3,7 +3,6 @@
 #include <string.h>
 #include "apiClient.h"
 #include "keyValuePair.h"
-#include "pet.h" // TODO: Manual Path check if its ok
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
@@ -74,7 +73,6 @@ char *assembleTargetUrl(char *basePath, char *operationParameter,
 	}
 
 	if(queryParameters != NULL) {
-		printf("Query Parameters is not null\n");
 		strcat(targetUrl, "?");
 		list_ForEach(listEntry, queryParameters) {
 			keyValuePair_t *pair = listEntry->data;
@@ -108,6 +106,17 @@ void postData(CURL *handle, char *bodyParameters) {
 	                 strlen(bodyParameters));
 }
 
+int lengthOfKeyPair(keyValuePair_t *keyPair) {
+	long length = 0;
+	if((keyPair->key != NULL) &&
+	   (keyPair->value != NULL) )
+	{
+		length = strlen(keyPair->key) + strlen(keyPair->value);
+		return length;
+	}
+	return 0;
+}
+
 
 void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
                       list_t *queryParameters, list_t *headerParameters,
@@ -116,23 +125,30 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
                       char *requestType) {
 	CURL *handle = curl_easy_init();
 	CURLcode res;
-	char buffContent[256];
+
 	if(handle) {
 		listEntry_t *listEntry;
 		curl_mime *mime = NULL;
 		struct curl_slist *headers = NULL;
-
+		char *buffContent;
+		char *buffHeader;
+		FileStruct *fileVar;
 
 		if(headerType != NULL) {
 			list_ForEach(listEntry, headerType) {
 				if(strstr((char *) listEntry->data,
 				          "xml") == NULL)
 				{
-					char buffHeader[256];
+					buffHeader = malloc(strlen(
+								    "Accept: ") +
+					                    strlen((char *)
+					                           listEntry->
+					                           data) + 1);
 					sprintf(buffHeader, "%s%s", "Accept: ",
 					        (char *) listEntry->data);
 					headers = curl_slist_append(headers,
 					                            buffHeader);
+					free(buffHeader);
 				}
 			}
 		}
@@ -141,6 +157,12 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 				if(strstr((char *) listEntry->data,
 				          "xml") == NULL)
 				{
+					buffContent =
+						malloc(strlen(
+							       "Content-Type: ") + strlen(
+							       (char *)
+							       listEntry->data) +
+						       1);
 					sprintf(buffContent, "%s%s",
 					        "Content-Type: ",
 					        (char *) listEntry->data);
@@ -162,19 +184,42 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 			if(strstr(buffContent,
 			          "application/x-www-form-urlencoded") != NULL)
 			{
-				char *formString = malloc(4096);
-				memset(formString, 0, 4096);
+				long parameterLength = 0;
+				long keyPairLength = 0;
 				list_ForEach(listEntry, formParameters) {
-					keyValuePair_t *keyPair = listEntry->data;
-                    if((keyPair->key != NULL) &&
-                       (keyPair->value != NULL) ) {
-                        strcat(formString, keyPair->key);
-                        strcat(formString, "=");
-                        strcat(formString, keyPair->value);
-                        if (listEntry->nextListEntry != NULL) {
-                            strcat(formString, "&");
-                        }
-                    }
+					keyValuePair_t *keyPair =
+						listEntry->data;
+
+					keyPairLength =
+						lengthOfKeyPair(keyPair) + 1;
+
+					if(listEntry->nextListEntry != NULL) {
+						parameterLength++;
+					}
+					parameterLength = parameterLength +
+					                  keyPairLength;
+				}
+
+				char *formString = malloc(parameterLength + 1);
+				memset(formString, 0, parameterLength + 1);
+
+				list_ForEach(listEntry, formParameters) {
+					keyValuePair_t *keyPair =
+						listEntry->data;
+					if((keyPair->key != NULL) &&
+					   (keyPair->value != NULL) )
+					{
+						strcat(formString,
+						       keyPair->key);
+						strcat(formString, "=");
+						strcat(formString,
+						       keyPair->value);
+						if(listEntry->nextListEntry !=
+						   NULL)
+						{
+							strcat(formString, "&");
+						}
+					}
 				}
 				curl_easy_setopt(handle, CURLOPT_POSTFIELDS,
 				                 formString);
@@ -194,16 +239,18 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 						curl_mime_name(part,
 						               keyValuePair->key);
 
+
 						if(strcmp(keyValuePair->key,
 						          "file") == 0)
 						{
-							FileStruct *fileVar =
+							fileVar =
 								malloc(
 									sizeof(
 										FileStruct));
 							memcpy(&fileVar,
 							       keyValuePair->value,
 							       sizeof(fileVar));
+
 							curl_mime_data(part,
 							               fileVar->fileData,
 							               fileVar->fileSize);
@@ -308,6 +355,10 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 		curl_slist_free_all(headers);
 
 		free(targetUrl);
+
+		if(contentType != NULL) {
+			free(buffContent);
+		}
 
 		if(res != CURLE_OK) {
 			fprintf(stderr, "curl_easy_perform() failed: %s\n",
