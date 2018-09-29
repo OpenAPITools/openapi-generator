@@ -1,4 +1,4 @@
-module DateTime exposing (DateTime, dateTimeDecoder, dateTimeEncoder)
+module DateTime exposing (DateTime, decoder, encoder)
 
 import Date
 import Date.Extra exposing (fromIsoString, toIsoString)
@@ -11,14 +11,14 @@ type alias DateTime =
     Date.Date
 
 
-dateTimeDecoder : Decoder DateTime
-dateTimeDecoder =
+decoder : Decoder DateTime
+decoder =
     Decode.string
         |> Decode.andThen decodeIsoString
 
 
-dateTimeEncoder : DateTime -> Encode.Value
-dateTimeEncoder model =
+encoder : DateTime -> Encode.Value
+encoder model =
     Encode.string <| toIsoString model
 
 
