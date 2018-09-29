@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * NumberOnly
@@ -41,6 +42,7 @@ public class NumberOnly  implements Serializable {
    **/
   @JsonProperty("JustNumber")
   @ApiModelProperty(value = "")
+  @Valid
   public BigDecimal getJustNumber() {
     return justNumber;
   }

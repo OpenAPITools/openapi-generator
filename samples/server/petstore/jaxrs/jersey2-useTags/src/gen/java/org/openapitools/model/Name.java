@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing model name same as property name
@@ -49,7 +50,8 @@ public class Name   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+    @NotNull
+
   public Integer getName() {
     return name;
   }
@@ -64,6 +66,7 @@ public class Name   {
    **/
   @JsonProperty("snake_case")
   @ApiModelProperty(value = "")
+  
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -79,6 +82,7 @@ public class Name   {
    **/
   @JsonProperty("property")
   @ApiModelProperty(value = "")
+  
   public String getProperty() {
     return property;
   }
@@ -93,6 +97,7 @@ public class Name   {
    **/
   @JsonProperty("123Number")
   @ApiModelProperty(value = "")
+  
   public Integer get123number() {
     return _123number;
   }

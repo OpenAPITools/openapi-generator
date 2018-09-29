@@ -32,6 +32,7 @@ package {{package}}.Skeletons is
 
    generic
       type Implementation_Type is limited new Server_Type with private;
+      URI_Prefix : String := "";
    package Skeleton is
 
       procedure Register (Server : in out Swagger.Servers.Application_Type'Class);
@@ -56,6 +57,7 @@ package {{package}}.Skeletons is
 
    generic
       type Implementation_Type is limited new Server_Type with private;
+      URI_Prefix : String := "";
    package Shared_Instance is
 
       procedure Register (Server : in out Swagger.Servers.Application_Type'Class);

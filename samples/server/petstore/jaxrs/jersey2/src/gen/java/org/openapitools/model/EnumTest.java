@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * EnumTest
@@ -181,6 +182,7 @@ public class EnumTest   {
    **/
   @JsonProperty("enum_string")
   @ApiModelProperty(value = "")
+  
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -200,7 +202,8 @@ public class EnumTest   {
    **/
   @JsonProperty("enum_string_required")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+    @NotNull
+
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -220,6 +223,7 @@ public class EnumTest   {
    **/
   @JsonProperty("enum_integer")
   @ApiModelProperty(value = "")
+  
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -239,6 +243,7 @@ public class EnumTest   {
    **/
   @JsonProperty("enum_number")
   @ApiModelProperty(value = "")
+  
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -258,6 +263,7 @@ public class EnumTest   {
    **/
   @JsonProperty("outerEnum")
   @ApiModelProperty(value = "")
+  @Valid
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

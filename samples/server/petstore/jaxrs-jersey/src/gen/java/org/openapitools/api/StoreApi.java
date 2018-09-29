@@ -25,12 +25,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/store")
 
 
 @io.swagger.annotations.Api(description = "the store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-29T07:47:48.785+02:00[Europe/Zurich]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
 public class StoreApi  {
    private final StoreApiService delegate;
 
@@ -107,7 +108,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order order
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) @Valid Order order
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.placeOrder(order,securityContext);

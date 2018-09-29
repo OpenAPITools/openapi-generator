@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * EnumArrays
@@ -107,6 +108,7 @@ public class EnumArrays   {
    **/
   @JsonProperty("just_symbol")
   @ApiModelProperty(value = "")
+  
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -134,6 +136,7 @@ public class EnumArrays   {
    **/
   @JsonProperty("array_enum")
   @ApiModelProperty(value = "")
+  
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

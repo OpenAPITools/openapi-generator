@@ -39,7 +39,7 @@ import kotlin.collections.Map
 @Api(value = "{{{baseName}}}", description = "The {{{baseName}}} API")
 {{/swaggerAnnotations}}
 {{=<% %>=}}
-@RequestMapping("\${openapi.<%title%>.base-path:<%contextPath%>}")
+@RequestMapping("\${api.base-path:<%contextPath%>}")
 <%={{ }}=%>
 {{#operations}}
 class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) val service: {{classname}}Service{{/serviceInterface}}) {

@@ -48,17 +48,19 @@ void
     if(json["{{baseName}}"].isArray()){
         auto arr = json["{{baseName}}"].toArray();
         for (const QJsonValue & jval : arr) {
-            {{items.baseType}} item;
-            {{name}}.push_back(::{{cppNamespace}}::fromJsonValue(item, jval));
+            {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
+            ::{{cppNamespace}}::fromJsonValue(item, jval)
+            {{name}}.push_back(item);
         }
     }{{/isListContainer}}{{#isMapContainer}}
     if(json["{{baseName}}"].isObject()){
         auto varmap = json["{{baseName}}"].toObject().toVariantMap();
         if(varmap.count() > 0){
             for(auto val : varmap.keys()){
-                {{items.baseType}} item;
+                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
     		    auto jval = QJsonValue::fromVariant(varmap.value(val));
-                {{name}}.insert({{name}}.end(), val, ::{{cppNamespace}}::fromJsonValue(item, jval));
+                ::{{cppNamespace}}::fromJsonValue(item, jval);
+                {{name}}.insert({{name}}.end(), val, item);
             }
         }
     }{{/isMapContainer}}{{/items.isContainer}}{{/isContainer}}

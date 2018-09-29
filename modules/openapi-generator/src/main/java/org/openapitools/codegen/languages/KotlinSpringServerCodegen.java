@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -32,6 +33,7 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
@@ -59,6 +61,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
 
     private String basePackage;
+    private String invokerPackage;
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private String resourceFolder = "src/main/resources";
@@ -79,12 +82,44 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         embeddedTemplateDir = templateDir = "kotlin-spring";
 
         artifactId = "openapi-spring";
-        basePackage = "org.openapitools";
+        basePackage = invokerPackage = "org.openapitools";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
+        // Use lists instead of arrays
+        typeMapping.put("array", "List");
+        typeMapping.put("string", "String");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("float", "Float");
+        typeMapping.put("long", "Long");
+        typeMapping.put("double", "Double");
+        typeMapping.put("ByteArray", "ByteArray");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Map");
+        typeMapping.put("object", "Any");
+        typeMapping.put("binary", "Array<kotlin.Byte>");
+
+        languageSpecificPrimitives.addAll(Arrays.asList(
+                "Any",
+                "Byte",
+                "ByteArray",
+                "Short",
+                "Int",
+                "Long",
+                "Float",
+                "Double",
+                "Boolean",
+                "Char",
+                "String",
+                "Array",
+                "List",
+                "Map",
+                "Set"
+        ));
+
         addOption(TITLE, "server title name or client service name", title);
-        addOption(BASE_PACKAGE, "base package for generated code", basePackage);
+        addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
@@ -121,6 +156,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setBasePackage(String basePackage) {
         this.basePackage = basePackage;
+    }
+
+    public String getInvokerPackage() {
+        return this.invokerPackage;
+    }
+
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
     }
 
     public String getServerPort() {
@@ -225,11 +268,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // used later in recursive import in postProcessingModels
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
-        // TODO when adding invokerPackage
-        //importMapping.put("StringUtil", invokerPackage + ".StringUtil");
-
         if (!additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
             additionalProperties.put(CodegenConstants.LIBRARY, library);
+        }
+
+        // Set basePackage from invokerPackage
+        if (!additionalProperties.containsKey(BASE_PACKAGE)
+                && additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setBasePackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+            additionalProperties.put(BASE_PACKAGE, basePackage);
+            LOGGER.info("Set base package to invoker package (" + basePackage + ")");
         }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
@@ -371,7 +420,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             if (Boolean.TRUE.equals(model.hasEnums)) {
                 model.imports.add("JsonValue");
             }
-
         } else {
             //Needed imports for Jackson's JsonCreator
             if (additionalProperties.containsKey("jackson")) {
@@ -379,6 +427,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        if (model.discriminator != null && additionalProperties.containsKey("jackson")) {
+            model.imports.addAll(Arrays.asList("JsonSubTypes", "JsonTypeInfo"));
+        }
     }
 
     @Override
@@ -464,16 +515,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
         if (returnType == null) {
             dataTypeAssigner.setReturnType("Unit");
-        } else if (returnType.startsWith("kotlin.Array")) {
+        } else if (returnType.startsWith("List")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.Array<".length(), end).trim());
+                dataTypeAssigner.setReturnType(returnType.substring("List<".length(), end).trim());
                 dataTypeAssigner.setReturnContainer("List");
             }
-        } else if (returnType.startsWith("kotlin.collections.Map")) {
+        } else if (returnType.startsWith("Map")) {
             int end = returnType.lastIndexOf(">");
             if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnType(returnType.substring("Map<".length(), end).split(",")[1].trim());
                 dataTypeAssigner.setReturnContainer("Map");
             }
         }
@@ -497,5 +548,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             writer.write(fragment.execute().replaceAll(from, to));
         }
+    }
+
+    // Can't figure out the logic in DefaultCodegen but optional vars are getting duplicated when there's
+    // inheritance involved. Also, isInherited doesn't seem to be getting set properly ¯\_(ツ)_/¯
+    @Override
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
+        CodegenModel m = super.fromModel(name, schema, allDefinitions);
+
+        m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
+        m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
+
+        return m;
     }
 }

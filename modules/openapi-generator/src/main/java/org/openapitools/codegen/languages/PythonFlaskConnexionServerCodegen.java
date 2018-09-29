@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -153,6 +154,11 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
+        }
+
         //apiTemplateFiles.clear();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
@@ -312,7 +318,8 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        // need vendor extensions for x-openapi-router-controller
+        // need vendor extensions for x-swagger-router-controller
+        // can be changed to x-openapi-router-controller when https://github.com/zalando/connexion/issues/683 is done
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
             for (String pathname : paths.keySet()) {
@@ -330,9 +337,9 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
                             operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         }
                         operation.setOperationId(toOperationId(operationId));
-                        if (operation.getExtensions() == null || operation.getExtensions().get("x-openapi-router-controller") == null) {
+                        if (operation.getExtensions() == null || operation.getExtensions().get("x-swagger-router-controller") == null) {
                             operation.addExtension(
-                                    "x-openapi-router-controller",
+                                    "x-swagger-router-controller",
                                     controllerPackage + "." + toApiFilename(tag)
                             );
                         }
@@ -688,6 +695,33 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
             vendorExtensions.put("x-regex", regex);
             vendorExtensions.put("x-modifiers", modifiers);
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String pythonPostProcessFile = System.getenv("PYTHON_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(pythonPostProcessFile)) {
+            return; // skip if PYTHON_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with py extension
+        if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = pythonPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
         }
     }
 
