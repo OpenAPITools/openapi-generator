@@ -150,7 +150,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("password", "String");
         typeMapping.put("ByteArray", "Byte");
         typeMapping.put("file", "String");
-        typeMapping.put("binary", "String"); // binary is the `file` in OAS3
+        typeMapping.put("binary", "String");
 
         importMapping.clear();
 
@@ -404,13 +404,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
-        Map<String, Set<String>> dependencies = new HashMap<>();
+        boolean hasDateTime = false;
+        boolean hasDate = false;
+        final Map<String, Set<String>> dependencies = new HashMap<>();
 
         for (CodegenOperation op : ops) {
             String path = op.path;
             for (CodegenParameter param : op.pathParams) {
                 final String var = paramToString(param);
                 path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
+                hasDateTime = hasDateTime || param.isDateTime;
+                hasDate = hasDate || param.isDate;
             }
             op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
 
@@ -435,7 +439,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        List<ElmImport> elmImports = new ArrayList<>();
+        final List<ElmImport> elmImports = new ArrayList<>();
         for (Map.Entry<String, Set<String>> entry : dependencies.entrySet()) {
             final ElmImport elmImport = new ElmImport();
             final String key = entry.getKey();
@@ -443,6 +447,22 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.as = key;
             elmImport.exposures = entry.getValue();
             elmImport.exposures.add(key);
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        if (hasDate) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "DateOnly";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("DateOnly");
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        if (hasDateTime) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "DateTime";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("DateTime");
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
@@ -493,22 +513,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private String paramToString(final CodegenParameter param) {
         final String paramName = param.paramName;
 
-        if (param.isString || param.isUuid) { // string
+        if (param.isString || param.isUuid || param.isBinary || param.isByteArray) {
             return paramName;
-        } else if (ElmVersion.ELM_018.equals(elmVersion)) { // Elm 0.18
+        } else if (param.isBoolean) {
+            return "if " + paramName + " then \"true\" else \"false\"";
+        } else if (param.isDateTime) {
+            return "DateTime.toString " + paramName;
+        } else if (param.isDate) {
+            return "DateOnly.toString " + paramName;
+        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
             return "toString " + paramName;
-        } else if (param.isInteger || param.isLong) { // int/long
+        } else if (param.isInteger || param.isLong) {
             return "String.fromInt " + paramName;
-        } else if (param.isFloat || param.isDouble) { // float/double
+        } else if (param.isFloat || param.isDouble) {
             return "String.fromFloat " + paramName;
-        } else if (param.isBoolean) { // boolean
-            return "String.fromBool " + paramName;
-        } else if (param.isDateTime || param.isDate) { // datetime
-            return paramName;
-        } else if (param.isBinary) { // binary
-            return paramName;
-        } else if (param.isByteArray) { // byte array
-            return paramName;
         }
 
         throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string. Please report the issue.");

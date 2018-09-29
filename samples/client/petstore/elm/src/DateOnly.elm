@@ -1,4 +1,4 @@
-module DateOnly exposing (DateOnly, decoder, encoder)
+module DateOnly exposing (DateOnly, decoder, encoder, toString)
 
 import Iso8601
 import Json.Decode as Decode exposing (Decoder)
@@ -18,10 +18,8 @@ decoder =
 
 
 encoder : DateOnly -> Encode.Value
-encoder model =
-    Iso8601.fromTime model
-        |> String.left 10
-        |> Encode.string
+encoder =
+    Encode.string << toString
 
 
 decodeIsoString : String -> Decoder DateOnly
@@ -32,3 +30,8 @@ decodeIsoString str =
 
         Result.Err _ ->
             Decode.fail <| "Invalid date: " ++ str
+
+
+toString : DateOnly -> String
+toString =
+    String.left 10 << Iso8601.fromTime
