@@ -58,6 +58,7 @@ import java.util.stream.Collectors;
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
     private Set<String> customPrimitives = new HashSet<String>();
+    private Map<String, String> reservedCharacters = new HashMap<>();
     private ElmVersion elmVersion = ElmVersion.ELM_019;
 
     private static final String ELM_VERSION = "elmVersion";
@@ -146,11 +147,36 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "DateOnly");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("password", "String");
+        typeMapping.put("UUID", "String");
         typeMapping.put("file", "String");
         typeMapping.put("ByteArray", "Byte");
         typeMapping.put("binary", "String");
 
+        reservedCharacters.clear();
+        reservedCharacters.put(";", "Semicolon");
+        reservedCharacters.put("/", "Slash");
+        reservedCharacters.put("?", "QuestionMark");
+        reservedCharacters.put(":", "Colon");
+        reservedCharacters.put("@", "At");
+        reservedCharacters.put("&", "Ampersand");
+        reservedCharacters.put("=;", "Equal");
+        reservedCharacters.put("+", "Plus");
+        reservedCharacters.put("$", "Dollar");
+        reservedCharacters.put(",", "Comma");
+        reservedCharacters.put("_", "_");
+        reservedCharacters.put(".", "Dot");
+        reservedCharacters.put("!", "ExclamationMark");
+        reservedCharacters.put("~", "Tilde");
+        reservedCharacters.put("*", "Asterisk");
+        reservedCharacters.put("(", "");
+        reservedCharacters.put(")", "");
+        reservedCharacters.put("[", "");
+        reservedCharacters.put("]", "");
+        reservedCharacters.put("<", "LessThan");
+        reservedCharacters.put(">", "GreaterThan");
+
         importMapping.clear();
+           // TODO DateTime, DateOnly, Byte ???
 
         cliOptions.clear();
 
@@ -221,6 +247,20 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String removeNonNameElementToCamelCase(final String name) {
+        if (StringUtils.isEmpty(name)) {
+            return "";
+        }
+        String prefixed;
+        if (Character.isLetter(name.charAt(0))) {
+            prefixed = name;
+        } else {
+            prefixed = "N" + name;
+        }
+        return removeNonNameElementToCamelCase(prefixed.replace('.', '_').replace('-', '_').replace('[', '_').replace(']', '_'), "[:;&#$@%(){}<>=-]");
+    }
+
+    @Override
     public String toApiName(String name) {
         if (name.length() == 0) {
             return "Default";
@@ -231,6 +271,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelName(String name) {
         final String modelName = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        if (!Character.isUpperCase(modelName.charAt(0))) {
+            return "N" + modelName;
+        }
         return defaultIncludes.contains(modelName) ? modelName + "_" : modelName;
     }
 
@@ -246,17 +289,25 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
-        return isReservedWord(varName) ? escapeReservedWord(name) : varName;
+        final String escaped = name == null ? "" : removeNonNameElementToCamelCase(name);
+        if ("".equals(escaped)) {
+            return "";
+        }
+        final String varName = escaped.substring(0, 1).toLowerCase(Locale.ROOT) + (escaped.length() > 1 ? escaped.substring(1) : "");
+        return isReservedWord(varName) ? escapeReservedWord(varName) : varName;
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        final String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
-        if (!Character.isUpperCase(camelized.charAt(0))) {
-            return "N" + camelized;
+        String name = value;
+        for (Map.Entry<String, String> entry : reservedCharacters.entrySet()) {
+            name = name.replace(entry.getKey(), entry.getValue());
         }
-        return camelized;
+        final String varName = toVarName(name);
+        if ("".equals(varName)) {
+            return "Empty";
+        }
+        return varName.substring(0, 1).toUpperCase(Locale.ROOT) + (varName.length() > 1 ? varName.substring(1) : "");
     }
 
     @Override
