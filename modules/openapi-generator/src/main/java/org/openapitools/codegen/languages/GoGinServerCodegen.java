@@ -106,10 +106,6 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("GO_FMT_PATH"))) {
-            LOGGER.info("Environment variable GO_FMT_PATH not defined so Go code may not be properly formatted. To define it, try 'export GO_FMT_PATH=/usr/local/bin/gofmt' (Linux/Mac)");
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
