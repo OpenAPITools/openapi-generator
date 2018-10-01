@@ -192,6 +192,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         
         // if the proprty name has any illegal characters such as :, ;, . etc.
         // then wrap the name within single quotes.
+        // my:interface:property: string; => 'my:interface:property': string;
         if (hasIllegalCharacters(name)) {
             name = "\'" + name + "\'";
         }
