@@ -12,7 +12,7 @@ elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test ensure-up-to-date"
   #export GO_POST_PROCESS_FILE="/usr/local/bin/gofmt -w"
   # not formatting the code as different go versions may format the code a bit different
-  ./bin/utils/ensure-up-to-date
+  #./bin/utils/ensure-up-to-date
 else
   echo "Running node $NODE_INDEX to test CI/pom.xml.circleci.java7 ..."
   sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
