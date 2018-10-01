@@ -20,64 +20,113 @@
     #define USER_STATUS 4
 
 
-    int main() {
-    printf("Hello world1\n");
-    apiClient_t *apiClient = apiClient_create();
+int main() {
+	printf("Hello world1\n");
+	apiClient_t *apiClient = apiClient_create();
 
-    user_t *newuser = user_create(USER_ID, USER_NAME, FIRST_NAME, LAST_NAME, EMAIL,
-    PASSWORD, PHONE, USER_STATUS );
+	char *username = malloc(strlen(USER_NAME) + 1);
+	strcpy(username, USER_NAME);
+	char *firstname = malloc(strlen(FIRST_NAME) + 1);
+	strcpy(firstname, FIRST_NAME);
+	char *lastname = malloc(strlen(LAST_NAME) + 1);
+	strcpy(lastname, LAST_NAME);
+	char *email = malloc(strlen(EMAIL) + 1);
+	strcpy(email, EMAIL);
+	char *password = malloc(strlen(PASSWORD) + 1);
+	strcpy(password, PASSWORD);
+	char *phone = malloc(strlen(PHONE) + 1);
+	strcpy(phone, PHONE);
 
-    UserAPI_createUser(apiClient,newuser);
+	user_t *newuser = user_create(USER_ID,
+	                              username,
+	                              firstname,
+	                              lastname,
+	                              email,
+	                              password,
+	                              phone,
+	                              USER_STATUS);
 
+	UserAPI_createUser(apiClient, newuser);
 
-    printf(
-    "------------------------------ Part Ends ----------------------------------\n");
-
-    apiClient_t *apiClient1 = apiClient_create();
-    user_t *returnUser = UserAPI_getUserByName(apiClient1,USER_NAME);
-
-    cJSON *JSONNODE = user_convertToJSON(newuser);
-
-    char *dataToPrint = cJSON_Print(JSONNODE);
-
-    printf("User is: \n%s\n",dataToPrint);
-
-
-    printf(
-    "------------------------------ Part Ends ----------------------------------\n");
-
-    apiClient_t *apiClient2 = apiClient_create();
-
-    user_t *newuser1 = user_create(USER_ID, USER_NAME, FIRST_NAME, LAST_NAME1, EMAIL,
-    PASSWORD, PHONE, USER_STATUS );
-
-    UserAPI_updateUser(apiClient2,"example123",newuser1);
+	user_free(newuser);
 
 
-    printf(
-    "------------------------------ Part Ends ----------------------------------\n");
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
 
-    apiClient_t *apiClient3 = apiClient_create();
+	apiClient_t *apiClient1 = apiClient_create();
+	user_t *returnUser = UserAPI_getUserByName(apiClient1, USER_NAME);
 
-    char* loginuserreturn = UserAPI_loginUser(apiClient3,"example123","thisisexample!123");
+	cJSON *JSONNODE = user_convertToJSON(returnUser);
 
-    printf("Login User: %s\n", loginuserreturn);
+	char *dataToPrint = cJSON_Print(JSONNODE);
+
+	printf("User is: \n%s\n", dataToPrint);
+	user_free(returnUser);
+	cJSON_Delete(JSONNODE);
+	free(dataToPrint);
+
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+	{
+		apiClient_t *apiClient2 = apiClient_create();
+		char *username1 = malloc(strlen(USER_NAME) + 1);
+		strcpy(username1, USER_NAME);
+		char *firstname = malloc(strlen(FIRST_NAME) + 1);
+		strcpy(firstname, FIRST_NAME);
+		char *lastname = malloc(strlen(LAST_NAME) + 1);
+		strcpy(lastname, LAST_NAME);
+		char *email = malloc(strlen(EMAIL) + 1);
+		strcpy(email, EMAIL);
+		char *password = malloc(strlen(PASSWORD) + 1);
+		strcpy(password, PASSWORD);
+		char *phone = malloc(strlen(PHONE) + 1);
+		strcpy(phone, PHONE);
+
+		user_t *newuser1 = user_create(USER_ID,
+		                               username1,
+		                               firstname,
+		                               lastname,
+		                               email,
+		                               password,
+		                               phone,
+		                               USER_STATUS);
+
+		UserAPI_updateUser(apiClient2, username1, newuser1);
+		user_free(newuser1);
+	}
+
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+	{
+		char *username1 = malloc(strlen(USER_NAME) + 1);
+		strcpy(username1, USER_NAME);
+		char *password = malloc(strlen(PASSWORD) + 1);
+		strcpy(password, PASSWORD);
+		apiClient_t *apiClient3 = apiClient_create();
+
+		char *loginuserreturn = UserAPI_loginUser(apiClient3,
+		                                          username1,
+		                                          password);
+
+		printf("Login User: %s\n", loginuserreturn);
+		free(loginuserreturn);
+		free(username1);
+		free(password);
+	}
+
+ printf(
+ "------------------------------ Part Ends ----------------------------------\n");
+
+ apiClient_t *apiClient4 = apiClient_create();
+
+ UserAPI_logoutUser(apiClient4);
 
 
-    printf(
-    "------------------------------ Part Ends ----------------------------------\n");
+ printf(
+ "------------------------------ Part Ends ----------------------------------\n");
 
-    apiClient_t *apiClient4 = apiClient_create();
+ apiClient_t *apiClient5 = apiClient_create();
 
-    UserAPI_logoutUser(apiClient4);
-
-
-    printf(
-    "------------------------------ Part Ends ----------------------------------\n");
-
-    apiClient_t *apiClient5 = apiClient_create();
-
-    UserAPI_deleteUser(apiClient5,"example123");
-
-
-    }
+ UserAPI_deleteUser(apiClient5, "example123");
+}
