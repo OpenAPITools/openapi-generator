@@ -10,11 +10,11 @@
 package petstore
 
 type Pet struct {
-	Id        int64    `json:"id,omitempty"`
-	Category  Category `json:"category,omitempty"`
-	Name      string   `json:"name"`
+	Id int64 `json:"id,omitempty"`
+	Category Category `json:"category,omitempty"`
+	Name string `json:"name"`
 	PhotoUrls []string `json:"photoUrls"`
-	Tags      []Tag    `json:"tags,omitempty"`
+	Tags []Tag `json:"tags,omitempty"`
 	// pet status in the store
 	Status string `json:"status,omitempty"`
 }
