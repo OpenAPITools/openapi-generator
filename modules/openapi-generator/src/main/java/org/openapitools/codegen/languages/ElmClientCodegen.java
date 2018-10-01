@@ -133,6 +133,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "List");
+        instantiationTypes.put("map", "Dict");
 
         typeMapping.clear();
         typeMapping.put("integer", "Int");
@@ -143,11 +144,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "Bool");
         typeMapping.put("string", "String");
         typeMapping.put("array", "List");
+        typeMapping.put("map", "Dict");
         typeMapping.put("date", "DateOnly");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("password", "String");
-        typeMapping.put("file", "String");
         typeMapping.put("ByteArray", "Byte");
+        typeMapping.put("file", "String");
         typeMapping.put("binary", "String");
 
         importMapping.clear();
@@ -402,13 +404,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
-        Map<String, Set<String>> dependencies = new HashMap<>();
+        boolean hasDateTime = false;
+        boolean hasDate = false;
+        final Map<String, Set<String>> dependencies = new HashMap<>();
 
         for (CodegenOperation op : ops) {
             String path = op.path;
             for (CodegenParameter param : op.pathParams) {
                 final String var = paramToString(param);
                 path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
+                hasDateTime = hasDateTime || param.isDateTime;
+                hasDate = hasDate || param.isDate;
             }
             op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
 
@@ -433,7 +439,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        List<ElmImport> elmImports = new ArrayList<>();
+        final List<ElmImport> elmImports = new ArrayList<>();
         for (Map.Entry<String, Set<String>> entry : dependencies.entrySet()) {
             final ElmImport elmImport = new ElmImport();
             final String key = entry.getKey();
@@ -441,6 +447,22 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.as = key;
             elmImport.exposures = entry.getValue();
             elmImport.exposures.add(key);
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        if (hasDate) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "DateOnly";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("DateOnly");
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        if (hasDateTime) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "DateTime";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("DateTime");
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
@@ -490,19 +512,24 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private String paramToString(final CodegenParameter param) {
         final String paramName = param.paramName;
-        if (param.isString || param.isUuid) {
+
+        if (param.isString || param.isUuid || param.isBinary || param.isByteArray) {
             return paramName;
-        }
-        if (ElmVersion.ELM_018.equals(elmVersion)) {
+        } else if (param.isBoolean) {
+            return "if " + paramName + " then \"true\" else \"false\"";
+        } else if (param.isDateTime) {
+            return "DateTime.toString " + paramName;
+        } else if (param.isDate) {
+            return "DateOnly.toString " + paramName;
+        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
             return "toString " + paramName;
-        }
-        if (param.isInteger || param.isLong) {
+        } else if (param.isInteger || param.isLong) {
             return "String.fromInt " + paramName;
-        }
-        if (param.isFloat || param.isDouble) {
+        } else if (param.isFloat || param.isDouble) {
             return "String.fromFloat " + paramName;
         }
-        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string");
+
+        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string. Please report the issue.");
     }
 
     @Override
