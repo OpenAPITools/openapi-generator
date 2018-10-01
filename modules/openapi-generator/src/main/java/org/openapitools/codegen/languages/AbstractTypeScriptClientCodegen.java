@@ -197,8 +197,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return name;
     }
 
-	private boolean hasIllegalCharacters(String name) {
-		final String regex = "^.*[+*:;,.()]+.*$";
+    private boolean hasIllegalCharacters(String name) {
+        final String regex = "^.*[+*:;,.()]+.*$";
         final Pattern pattern = Pattern.compile(regex);
         final Matcher matcher = pattern.matcher(name);
         boolean matches = matcher.matches();
