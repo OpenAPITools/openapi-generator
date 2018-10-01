@@ -20,8 +20,8 @@ To see how to make this your own, look here:
 For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 {{/infoUrl}}
 
-
 ### Running the server
+
 To run the server, follow these simple steps:
 
 ```
@@ -33,58 +33,14 @@ To run the server in a docker container
 docker build --network=host -t {{{packageName}}} .
 ```
 
-Once image is built use
+Once the image is built, just run
 ```
 docker run --rm -it {{{packageName}}} 
 ```
 
 ### Known Issue
 
-The endpoint `/v2/pet/findByTags` and `/v2/pet/:petId` are conflict with gin.
-This is a known issue of gin. Please refer [gin-gonic/gin#388](https://github.com/gin-gonic/gin/issues/388)
+Endpoints sharing a common path may result in issues. For example, `/v2/pet/findByTags` and `/v2/pet/:petId` will result in an issue with the Gin framework. For more information about this known limitation, please refer to [gin-gonic/gin#388](https://github.com/gin-gonic/gin/issues/388) for more information.
 
-You can manually fix it by updating the path and handler. Please refer [gin-gonic/gin/issues/205#issuecomment-296155497](https://github.com/gin-gonic/gin/issues/205#issuecomment-296155497) and an example below.
+A workaround is to manually update the path and handler. Please refer to [gin-gonic/gin/issues/205#issuecomment-296155497](https://github.com/gin-gonic/gin/issues/205#issuecomment-296155497) for more information.
 
-
-`routers.go`
-
-```diff
-var routes = Routes{
-	{
-		"Index",
-		"GET",
-		"/v2/",
-		Index,
-	},
-
--	{
--		"FindPetsByTags",
--		strings.ToUpper("Get"),
--		"/v2/pet/findByTags",
--		FindPetsByTags,
--	},
-
-	{
-		"GetPetById",
-		strings.ToUpper("Get"),
-		"/v2/pet/:petId",
-		GetPetById,
-	},
-}
-```
-
-`api_pet.go`
-
-```diff
-// GetPetById - Find pet by ID
-func GetPetById(c *gin.Context) {
--       c.JSON(http.StatusOK, gin.H{})
-+       petId := c.Param("petId")
-+
-+       if petId == "findByTags" {
-+               FindPetsByTags(c)
-+       } else {
-+               c.JSON(http.StatusOK, gin.H{})
-+       }
-}
-```
