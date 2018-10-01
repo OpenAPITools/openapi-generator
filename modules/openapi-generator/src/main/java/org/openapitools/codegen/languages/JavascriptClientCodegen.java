@@ -1179,12 +1179,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
                 if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, p.exitValue());
                 }
+                LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
 

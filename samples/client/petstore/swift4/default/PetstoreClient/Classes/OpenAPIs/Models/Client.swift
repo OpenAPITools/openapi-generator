@@ -7,16 +7,10 @@
 
 import Foundation
 
-
-
 public struct Client: Codable {
-
     public var client: String?
 
     public init(client: String?) {
         self.client = client
     }
-
-
 }
-

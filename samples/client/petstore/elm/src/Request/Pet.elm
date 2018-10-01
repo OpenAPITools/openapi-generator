@@ -12,8 +12,8 @@
 
 module Request.Pet exposing (addPet, deletePet, findPetsByStatus, findPetsByTags, getPetById, updatePet, updatePetWithForm, uploadFile)
 
-import Data.ApiResponse exposing (ApiResponse, apiResponseDecoder)
-import Data.Pet exposing (Pet, petDecoder, petEncoder)
+import Data.ApiResponse as ApiResponse exposing (ApiResponse)
+import Data.Pet as Pet exposing (Pet)
 import Dict
 import Http
 import Json.Decode as Decode
@@ -29,7 +29,7 @@ addPet model =
     { method = "POST"
     , url = basePath ++ "/pet"
     , headers = []
-    , body = Http.jsonBody <| petEncoder model
+    , body = Http.jsonBody <| Pet.encoder model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False
@@ -58,7 +58,7 @@ findPetsByStatus =
     , url = basePath ++ "/pet/findByStatus"
     , headers = []
     , body = Http.emptyBody
-    , expect = Http.expectJson (Decode.list petDecoder)
+    , expect = Http.expectJson (Decode.list Pet.decoder)
     , timeout = Just 30000
     , withCredentials = False
     }
@@ -73,7 +73,7 @@ findPetsByTags =
     , url = basePath ++ "/pet/findByTags"
     , headers = []
     , body = Http.emptyBody
-    , expect = Http.expectJson (Decode.list petDecoder)
+    , expect = Http.expectJson (Decode.list Pet.decoder)
     , timeout = Just 30000
     , withCredentials = False
     }
@@ -88,7 +88,7 @@ getPetById petId =
     , url = basePath ++ "/pet/" ++ String.fromInt petId
     , headers = []
     , body = Http.emptyBody
-    , expect = Http.expectJson petDecoder
+    , expect = Http.expectJson Pet.decoder
     , timeout = Just 30000
     , withCredentials = False
     }
@@ -100,7 +100,7 @@ updatePet model =
     { method = "PUT"
     , url = basePath ++ "/pet"
     , headers = []
-    , body = Http.jsonBody <| petEncoder model
+    , body = Http.jsonBody <| Pet.encoder model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False
@@ -127,7 +127,7 @@ uploadFile petId =
     , url = basePath ++ "/pet/" ++ String.fromInt petId ++ "/uploadImage"
     , headers = []
     , body = Http.emptyBody
-    , expect = Http.expectJson apiResponseDecoder
+    , expect = Http.expectJson ApiResponse.decoder
     , timeout = Just 30000
     , withCredentials = False
     }

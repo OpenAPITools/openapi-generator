@@ -27,11 +27,11 @@ class Tag {
         : json.map((value) => new Tag.fromJson(value)).toList();
   }
 
-  static Map<String, Tag> mapFromJson(Map<String, Map<String, dynamic>> json) {
+  static Map<String, Tag> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Tag>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) =>
-          map[key] = new Tag.fromJson(value));
+      json.forEach(
+          (String key, dynamic value) => map[key] = new Tag.fromJson(value));
     }
     return map;
   }

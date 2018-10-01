@@ -53,6 +53,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
@@ -62,7 +63,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ELM_VERSION = "elmVersion";
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
-    private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
+    private static final String DISCRIMINATOR_NAME = "discriminatorName";
     private static final String UNION_TYPE = "elmUnionType";
 
     protected String packageName = "openapi";
@@ -132,6 +133,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "List");
+        instantiationTypes.put("map", "Dict");
 
         typeMapping.clear();
         typeMapping.put("integer", "Int");
@@ -142,11 +144,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "Bool");
         typeMapping.put("string", "String");
         typeMapping.put("array", "List");
+        typeMapping.put("map", "Dict");
         typeMapping.put("date", "DateOnly");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("password", "String");
-        typeMapping.put("file", "String");
         typeMapping.put("ByteArray", "Byte");
+        typeMapping.put("file", "String");
         typeMapping.put("binary", "String");
 
         importMapping.clear();
@@ -165,23 +168,40 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("ELM_FORMAT_PATH"))) {
-            LOGGER.info("Environment variable ELM_FORMAT_PATH not defined so the Elm code may not be properly formatted. To define it, try 'export ELM_FORMAT_PATH=/usr/local/bin/elm-format' (Linux/Mac)");
-        }
 
         if (additionalProperties.containsKey(ELM_VERSION)) {
             final String version = (String) additionalProperties.get(ELM_VERSION);
             if ("0.18".equals(version)) {
                 elmVersion = ElmVersion.ELM_018;
+            } else {
+                elmVersion = ElmVersion.ELM_019;
+            }
+        }
+
+        if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
+            if (elmVersion.equals(ElmVersion.ELM_018)) { // 0.18
+                LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.18");
+            } else { // 0.19
+                LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.19");
             }
         }
 
         switch (elmVersion) {
             case ELM_018:
+                LOGGER.info("Elm version = 0.18");
                 additionalProperties.put("isElm018", true);
+                supportingFiles.add(new SupportingFile("DateOnly018.mustache", "src", "DateOnly.elm"));
+                supportingFiles.add(new SupportingFile("DateTime018.mustache", "src", "DateTime.elm"));
+                supportingFiles.add(new SupportingFile("elm-package018.mustache", "", "elm-package.json"));
+                supportingFiles.add(new SupportingFile("Main018.mustache", "src", "Main.elm"));
                 break;
             case ELM_019:
+                LOGGER.info("Elm version = 0.19");
                 additionalProperties.put("isElm019", true);
+                supportingFiles.add(new SupportingFile("DateOnly.mustache", "src", "DateOnly.elm"));
+                supportingFiles.add(new SupportingFile("DateTime.mustache", "src", "DateTime.elm"));
+                supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
+                supportingFiles.add(new SupportingFile("Main.mustache", "src", "Main.elm"));
                 break;
             default:
                 throw new RuntimeException("Undefined Elm version");
@@ -190,19 +210,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("Byte.mustache", "src", "Byte.elm"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-
-        if (ElmVersion.ELM_018.equals(elmVersion)) {
-            supportingFiles.add(new SupportingFile("DateOnly018.mustache", "src", "DateOnly.elm"));
-            supportingFiles.add(new SupportingFile("DateTime018.mustache", "src", "DateTime.elm"));
-            supportingFiles.add(new SupportingFile("elm-package.mustache", "", "elm-package.json"));
-            supportingFiles.add(new SupportingFile("Main018.mustache", "src", "Main.elm"));
-        }
-        if (ElmVersion.ELM_019.equals(elmVersion)) {
-            supportingFiles.add(new SupportingFile("DateOnly019.mustache", "src", "DateOnly.elm"));
-            supportingFiles.add(new SupportingFile("DateTime019.mustache", "src", "DateTime.elm"));
-            supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
-            supportingFiles.add(new SupportingFile("Main019.mustache", "src", "Main.elm"));
-        }
     }
 
     @Override
@@ -330,55 +337,40 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.isEnum) {
-                    this.addEncoderAndDecoder(cm.vendorExtensions, cm.classname, false, false);
+                    addEncoderAndDecoder(cm.vendorExtensions, cm.classname, DataTypeExposure.EXPOSED);
                     cm.vendorExtensions.put(UNION_TYPE, cm.classname);
                 } else if (cm.isAlias) {
-                    this.addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, false, true);
+                    addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, DataTypeExposure.EXPOSED);
                 }
 
                 List<ElmImport> elmImports = new ArrayList<>();
                 for (CodegenProperty property : cm.allVars) {
                     if (property.complexType != null) {
-                        elmImports.add(createPropertyImport(property));
+                        final ElmImport elmImport = createImport(property.complexType);
+                        elmImports.add(elmImport);
                     }
                 }
                 if (cm.isArrayModel) {
                     if (cm.arrayModelType != null) {
                         // add type imports
-                        final ElmImport elmImport = new ElmImport();
-                        final String modulePrefix = customPrimitives.contains(cm.arrayModelType) ? "" : "Data.";
-                        elmImport.moduleName = modulePrefix + cm.arrayModelType;
-                        elmImport.exposures = new TreeSet<>();
-                        elmImport.exposures.add(cm.arrayModelType);
-                        elmImport.exposures.add(org.openapitools.codegen.utils.StringUtils.camelize(cm.arrayModelType, true) + "Decoder");
-                        elmImport.exposures.add(org.openapitools.codegen.utils.StringUtils.camelize(cm.arrayModelType, true) + "Encoder");
-                        elmImport.hasExposures = true;
+                        final ElmImport elmImport = createImport(cm.arrayModelType);
                         elmImports.add(elmImport);
                     }
                 }
                 if (cm.discriminator != null) {
                     for (CodegenModel child : cm.children) {
                         // add child imports
-                        final ElmImport elmImport = new ElmImport();
-                        final String modulePrefix = customPrimitives.contains(child.classname) ? "" : "Data.";
-                        elmImport.moduleName = modulePrefix + child.classname;
-                        elmImport.exposures = new TreeSet<>();
-                        elmImport.exposures.add(child.classname);
-                        elmImport.exposures.add(child.classVarName + "Decoder");
-                        elmImport.exposures.add(child.classVarName + "Encoder");
-                        elmImport.hasExposures = true;
+                        final ElmImport elmImport = createImport(child.classname);
                         elmImports.add(elmImport);
 
-                        // set discriminator value to all children (recursively)
-                        this.setDiscriminatorValue(child, cm.getDiscriminatorName(), this.getDiscriminatorValue(child));
+                        final String propertyName = cm.discriminator.getPropertyName();
+                        final List<CodegenProperty> allVars = child.allVars.stream()
+                            .filter(var -> !var.baseName.equals(propertyName))
+                            .collect(Collectors.toList());
+                        child.allVars.clear();
+                        child.allVars.addAll(allVars);
 
-                        // add all non-discriminator vars
-                        int index = 0;
-                        for (CodegenProperty property : cm.vars) {
-                            if (!cm.discriminator.equals(property.baseName)) {
-                                child.vars.add(index++, property);
-                            }
-                        }
+                        child.vendorExtensions.put(DISCRIMINATOR_NAME, propertyName);
                     }
                 }
                 inner.put("elmImports", elmImports);
@@ -387,42 +379,16 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
-    private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
-        for (CodegenProperty prop : model.vars) {
-            if (prop.baseName.equals(baseName)) {
-                prop.discriminatorValue = value;
-            }
-        }
-        for (CodegenProperty prop : model.allVars) {
-            if (prop.baseName.equals(baseName)) {
-                prop.discriminatorValue = value;
-            }
-        }
-        if (model.children != null) {
-            final boolean newDiscriminator = model.discriminator != null;
-            for (CodegenModel child : model.children) {
-                this.setDiscriminatorValue(child, baseName, newDiscriminator ? value : this.getDiscriminatorValue(child));
-            }
-        }
-    }
-
-    private String getDiscriminatorValue(CodegenModel model) {
-        return model.vendorExtensions.containsKey(X_DISCRIMINATOR_TYPE) ?
-                (String) model.vendorExtensions.get(X_DISCRIMINATOR_TYPE) : model.classname;
-    }
-
-    private ElmImport createPropertyImport(final CodegenProperty property) {
+    private ElmImport createImport(final String name) {
         final ElmImport elmImport = new ElmImport();
-        final String modulePrefix = customPrimitives.contains(property.complexType) ? "" : "Data.";
-        elmImport.moduleName = modulePrefix + property.complexType;
+        final boolean isData = !customPrimitives.contains(name);
+        final String modulePrefix = isData ? "Data." : "";
+        elmImport.moduleName = modulePrefix + name;
+        if (isData) {
+            elmImport.as = name;
+        }
         elmImport.exposures = new TreeSet<>();
-        elmImport.exposures.add(property.complexType);
-        if (property.vendorExtensions.containsKey(DECODER)) {
-            elmImport.exposures.add((String) property.vendorExtensions.get(DECODER));
-        }
-        if (property.vendorExtensions.containsKey(ENCODER)) {
-            elmImport.exposures.add((String) property.vendorExtensions.get(ENCODER));
-        }
+        elmImport.exposures.add(name);
         elmImport.hasExposures = true;
         return elmImport;
     }
@@ -438,13 +404,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
-        Map<String, Set<String>> dependencies = new HashMap<>();
+        boolean hasDateTime = false;
+        boolean hasDate = false;
+        final Map<String, Set<String>> dependencies = new HashMap<>();
 
         for (CodegenOperation op : ops) {
             String path = op.path;
             for (CodegenParameter param : op.pathParams) {
                 final String var = paramToString(param);
                 path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
+                hasDateTime = hasDateTime || param.isDateTime;
+                hasDate = hasDate || param.isDate;
             }
             op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
 
@@ -454,7 +424,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                     if (!dependencies.containsKey(op.bodyParam.dataType)) {
                         dependencies.put(op.bodyParam.dataType, new TreeSet<String>());
                     }
-                    dependencies.get(op.bodyParam.dataType).add(encoder);
                 }
             }
             for (CodegenResponse resp : op.responses) {
@@ -466,18 +435,34 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                     if (!dependencies.containsKey(resp.dataType)) {
                         dependencies.put(resp.dataType, new TreeSet<String>());
                     }
-                    dependencies.get(resp.dataType).add(decoder);
                 }
             }
         }
 
-        List<ElmImport> elmImports = new ArrayList<>();
+        final List<ElmImport> elmImports = new ArrayList<>();
         for (Map.Entry<String, Set<String>> entry : dependencies.entrySet()) {
             final ElmImport elmImport = new ElmImport();
             final String key = entry.getKey();
             elmImport.moduleName = "Data." + key;
+            elmImport.as = key;
             elmImport.exposures = entry.getValue();
             elmImport.exposures.add(key);
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        if (hasDate) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "DateOnly";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("DateOnly");
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        if (hasDateTime) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "DateTime";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("DateTime");
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
@@ -527,19 +512,24 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private String paramToString(final CodegenParameter param) {
         final String paramName = param.paramName;
-        if (param.isString) {
+
+        if (param.isString || param.isUuid || param.isBinary || param.isByteArray) {
             return paramName;
-        }
-        if (ElmVersion.ELM_018.equals(elmVersion)) {
+        } else if (param.isBoolean) {
+            return "if " + paramName + " then \"true\" else \"false\"";
+        } else if (param.isDateTime) {
+            return "DateTime.toString " + paramName;
+        } else if (param.isDate) {
+            return "DateOnly.toString " + paramName;
+        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
             return "toString " + paramName;
-        }
-        if (param.isInteger || param.isLong) {
+        } else if (param.isInteger || param.isLong) {
             return "String.fromInt " + paramName;
-        }
-        if (param.isFloat || param.isDouble) {
+        } else if (param.isFloat || param.isDouble) {
             return "String.fromFloat " + paramName;
         }
-        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string");
+
+        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string. Please report the issue.");
     }
 
     @Override
@@ -573,10 +563,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public CodegenProperty fromProperty(String name, Schema p) {
         final CodegenProperty property = super.fromProperty(name, p);
 
-        final String dataType = property.isEnum ? property.baseName : property.dataType;
-        addEncoderAndDecoder(property.vendorExtensions, dataType, property.isMapContainer, property.isPrimitiveType && !property.isEnum);
         if (property.isEnum) {
+            addEncoderAndDecoder(property.vendorExtensions, property.baseName, DataTypeExposure.INTERNAL);
             property.vendorExtensions.put(UNION_TYPE, property.datatypeWithEnum);
+        } else {
+            final boolean isPrimitiveType = property.isMapContainer ? isPrimitiveDataType(property.dataType) : property.isPrimitiveType;
+            addEncoderAndDecoder(property.vendorExtensions, property.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
         }
 
         return property;
@@ -586,33 +578,46 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public CodegenResponse fromResponse(OpenAPI openAPI, String responseCode, ApiResponse resp) {
         final CodegenResponse response = super.fromResponse(openAPI, responseCode, resp);
         if (response.dataType != null) {
-            addEncoderAndDecoder(response.vendorExtensions, response.dataType, response.isMapContainer, response.primitiveType);
+            final boolean isPrimitiveType = response.isMapContainer ? isPrimitiveDataType(response.dataType) : response.primitiveType;
+            addEncoderAndDecoder(response.vendorExtensions, response.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
         }
         return response;
     }
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        addEncoderAndDecoder(parameter.vendorExtensions, parameter.dataType, parameter.isMapContainer, parameter.isPrimitiveType);
+        final boolean isPrimitiveType = parameter.isMapContainer ? isPrimitiveDataType(parameter.dataType) : parameter.isPrimitiveType;
+        addEncoderAndDecoder(parameter.vendorExtensions, parameter.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
     }
 
     private boolean isPrimitiveDataType(String dataType) {
         return languageSpecificPrimitives.contains(dataType);
     }
 
-    private void addEncoderAndDecoder(Map<String, Object> vendorExtensions, String dataType, Boolean isMapContainer, Boolean isPrimitiveType) {
-        if (isMapContainer) {
-            isPrimitiveType = isPrimitiveDataType(dataType);
-        }
+    private void addEncoderAndDecoder(final Map<String, Object> vendorExtensions, final String dataType, final DataTypeExposure dataTypeExposure) {
         final String baseName = org.openapitools.codegen.utils.StringUtils.camelize(dataType, true);
         String encoderName;
         String decoderName;
-        if (isPrimitiveType) {
-            encoderName = "Encode." + baseName;
-            decoderName = "Decode." + baseName;
-        } else {
-            encoderName = baseName + "Encoder";
-            decoderName = baseName + "Decoder";
+        switch (dataTypeExposure) {
+            case EXPOSED:
+                decoderName = "decoder";
+                encoderName = "encoder";
+                break;
+            case INTERNAL:
+                encoderName = baseName + "Encoder";
+                decoderName = baseName + "Decoder";
+                break;
+            case EXTERNAL:
+                encoderName = dataType + ".encoder";
+                decoderName = dataType + ".decoder";
+                break;
+            case PRIMITIVE:
+                encoderName = "Encode." + baseName;
+                decoderName = "Decode." + baseName;
+                break;
+            default:
+                encoderName = "";
+                decoderName = "";
         }
         if (!vendorExtensions.containsKey(ENCODER)) {
             vendorExtensions.put(ENCODER, encoderName);
@@ -620,6 +625,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (!vendorExtensions.containsKey(DECODER)) {
             vendorExtensions.put(DECODER, decoderName);
         }
+    }
+
+    private enum DataTypeExposure {
+      EXPOSED,
+      INTERNAL,
+      EXTERNAL,
+      PRIMITIVE
     }
 
     private static class ElmImport {
@@ -640,29 +652,27 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        String elmFmtPath = System.getenv("ELM_FORMAT_PATH");
-        if (StringUtils.isEmpty(elmFmtPath)) {
-            return; // skip if ELM_FORMAT_PATH env variable is not defined
+        String elmPostProcessFile = System.getenv("ELM_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(elmPostProcessFile)) {
+            return; // skip if ELM_POST_PROCESS_FILE env variable is not defined
         }
 
         // only process files with elm extension
         if ("elm".equals(FilenameUtils.getExtension(file.toString()))) {
-            // currently only support "elm-format -w yourcode.elm"
-            String command = elmFmtPath + " --yes " + file.toString();
-            if (ElmVersion.ELM_018.equals(elmVersion)) {
-                command += " --elm-version=0.18";
-            }
+            // e.g. elm-format -w yourcode.elm
+            String command = elmPostProcessFile + " " + file.toString();
 
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
                 }
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
 }
