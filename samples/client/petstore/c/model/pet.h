@@ -14,17 +14,23 @@
 #include "tag.h"
 
 
+typedef enum  {  available, pending, sold } status_e;
+
+char *status_ToString(status_e status);
+
+status_e statusFromString(char *status);
+
 typedef struct pet_t {
 	long id; // numeric
 	category_t *category; // nonprimitive
 	char *name; // no enum string
 	list_t *photoUrls; // primitive container
 	list_t *tags; // nonprimitive container
-	char *status; // enum string
+	status_e status; // enum string
 } pet_t;
 
 pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls,
-                  list_t *tags, char *status);
+                  list_t *tags, status_e status);
 
 void pet_free(pet_t *pet);
 

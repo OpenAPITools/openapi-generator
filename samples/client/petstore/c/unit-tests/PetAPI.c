@@ -26,7 +26,7 @@
     #define EXAMPLE_TAG_2_NAME "at least I tried"
     #define EXAMPLE_TAG_1_ID 1
     #define EXAMPLE_TAG_2_ID 542353
-    #define EXAMPLE_PET_ID 7867 // Set to 0 to generate a new pet
+    #define EXAMPLE_PET_ID 1234 // Set to 0 to generate a new pet
 
     #define EXAMPLE_OPERATION_PARAMETER 4
 
@@ -71,7 +71,8 @@ int main() {
 	list_addElement(tags, exampleTag1);
 	list_addElement(tags, exampleTag2);
 
-	char *status = "available";
+
+	status_e status = available;
 	printf("Hello world2\n");
 	pet_t *pet =
 		pet_create(EXAMPLE_PET_ID,
@@ -83,6 +84,75 @@ int main() {
 
 	PetAPI_addPet(apiClient, pet);
 	printf("Hello world3\n");
+	pet_free(pet);
+// tag_free(exampleTag1);
+// tag_free(exampleTag2);
+// list_free(photoUrls);
+// list_free(tags);
 
 
+
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+
+	char *petName1 = "Rocky Handsome";
+
+	char *petName2 = "sold";
+
+	apiClient_t *apiClient1 = apiClient_create();
+	PetAPI_updatePetWithForm(apiClient1, EXAMPLE_PET_ID, petName1,
+	                         petName2);
+
+
+
+
+
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+
+	apiClient_t *apiClient2 = apiClient_create();
+	pet_t *mypet = PetAPI_getPetById(apiClient2, EXAMPLE_PET_ID);
+
+	cJSON *JSONR = pet_convertToJSON(mypet);
+	char *petJson = cJSON_Print(JSONR);
+	printf("Data is:%s\n", petJson);
+
+
+	printf("Hello world4\n");
+	assert(strcmp(mypet->name, "Rocky Handsome") == 0);
+	assert(mypet->id == EXAMPLE_PET_ID);
+	assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == 0);
+	assert(mypet->category->id == EXAMPLE_CATEGORY_ID);
+	assert(strcmp(list_getElementAt(mypet->photoUrls,
+	                                0)->data, EXAMPLE_URL_1) == 0);
+	assert(strcmp(list_getElementAt(mypet->photoUrls,
+	                                1)->data, EXAMPLE_URL_2) == 0);
+	assert(((tag_t *) list_getElementAt(mypet->tags,
+	                                    0)->data)->id == EXAMPLE_TAG_1_ID);
+	assert(((tag_t *) list_getElementAt(mypet->tags,
+	                                    1)->data)->id == EXAMPLE_TAG_2_ID);
+	assert(strcmp(((tag_t *) list_getElementAt(mypet->tags, 0)->data)->name,
+	              EXAMPLE_TAG_1_NAME) == 0);
+	assert(strcmp(((tag_t *) list_getElementAt(mypet->tags, 1)->data)->name,
+	              EXAMPLE_TAG_2_NAME) == 0);
+	printf("Cleared assert\n");
+
+
+
+	free(petJson);
+	cJSON_Delete(JSONR);
+	pet_free(mypet);
+
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
+
+	apiClient_t *apiClient3 = apiClient_create();
+	FILE *file = fopen("/opt/image.png", "r");
+	api_response_t *respo = PetAPI_uploadFile(apiClient3,
+	                                          EXAMPLE_PET_ID,
+	                                          "dec",
+	                                          file);
+
+	api_response_free(respo);
+	fclose(file);
 }

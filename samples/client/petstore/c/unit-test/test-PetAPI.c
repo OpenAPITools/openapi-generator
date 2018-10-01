@@ -71,7 +71,8 @@ int main() {
 	list_addElement(tags, exampleTag1);
 	list_addElement(tags, exampleTag2);
 
-	char *status = "available";
+
+	status_e status = available;
 	printf("Hello world2\n");
 	pet_t *pet =
 		pet_create(EXAMPLE_PET_ID,
@@ -83,17 +84,20 @@ int main() {
 
 	PetAPI_addPet(apiClient, pet);
 	printf("Hello world3\n");
-
+	pet_free(pet);
+// tag_free(exampleTag1);
+// tag_free(exampleTag2);
+// list_free(photoUrls);
+// list_free(tags);
 
 
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
 
-	char *petName1 = malloc(strlen("Rocky Handsome") + 1);
-	strcpy(petName1, "Rocky Handsome");
-	char *petName2 = malloc(strlen("sold") + 1);
-	strcpy(petName2, "sold");
+	char *petName1 = "Rocky Handsome";
+
+	char *petName2 = "sold";
 
 	apiClient_t *apiClient1 = apiClient_create();
 	PetAPI_updatePetWithForm(apiClient1, EXAMPLE_PET_ID, petName1,
@@ -115,7 +119,7 @@ int main() {
 
 
 	printf("Hello world4\n");
-	assert(strcmp(mypet->name, EXAMPLE_PET_NAME) == 0);
+	assert(strcmp(mypet->name, "Rocky Handsome") == 0);
 	assert(mypet->id == EXAMPLE_PET_ID);
 	assert(strcmp(mypet->category->name, EXAMPLE_CATEGORY_NAME) == 0);
 	assert(mypet->category->id == EXAMPLE_CATEGORY_ID);
@@ -135,8 +139,8 @@ int main() {
 
 
 
-
-	free(JSONR);
+	free(petJson);
+	cJSON_Delete(JSONR);
 	pet_free(mypet);
 
 	printf(
@@ -144,6 +148,10 @@ int main() {
 
 	apiClient_t *apiClient3 = apiClient_create();
 	FILE *file = fopen("/opt/image.png", "r");
-	api_response_t *respo =
-		PetAPI_uploadFile(apiClient3, EXAMPLE_PET_ID, "dec", file);
+	api_response_t *respo = PetAPI_uploadFile(apiClient3,
+	                                          EXAMPLE_PET_ID,
+	                                          "dec",
+	                                          file);
+
+	api_response_free(respo);
 }

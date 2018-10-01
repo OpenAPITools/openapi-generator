@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "list.h"
 #include "category.h"
 
 
@@ -15,8 +16,8 @@ category_t *category_create(long id, char *name) {
 
 
 void category_free(category_t *category) {
-	// free(category->id);
-	// free(category->name);
+	listEntry_t *listEntry;
+	free(category->name);
 
 	free(category);
 }
@@ -69,7 +70,9 @@ category_t *category_parseFromJSON(char *jsonString) {
 		id->valuedouble,
 		strdup(name->valuestring)
 		);
-
+	// cJSON_Delete(id);
+	// cJSON_Delete(name);
+	cJSON_Delete(categoryJSON);
 	return category;
 end:
 	cJSON_Delete(categoryJSON);

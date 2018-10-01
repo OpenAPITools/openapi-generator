@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "list.h"
 #include "user.h"
 
 
@@ -22,14 +23,13 @@ user_t *user_create(long id, char *username, char *firstName, char *lastName,
 
 
 void user_free(user_t *user) {
-	// free(user->id);
-	// free(user->username);
-	// free(user->firstName);
-	// free(user->lastName);
-	// free(user->email);
-	// free(user->password);
-	// free(user->phone);
-	// free(user->userStatus);
+	listEntry_t *listEntry;
+	free(user->username);
+	free(user->firstName);
+	free(user->lastName);
+	free(user->email);
+	free(user->password);
+	free(user->phone);
 
 	free(user);
 }
@@ -173,7 +173,15 @@ user_t *user_parseFromJSON(char *jsonString) {
 		strdup(phone->valuestring),
 		userStatus->valuedouble
 		);
-
+	// cJSON_Delete(id);
+	// cJSON_Delete(username);
+	// cJSON_Delete(firstName);
+	// cJSON_Delete(lastName);
+	// cJSON_Delete(email);
+	// cJSON_Delete(password);
+	// cJSON_Delete(phone);
+	// cJSON_Delete(userStatus);
+	cJSON_Delete(userJSON);
 	return user;
 end:
 	cJSON_Delete(userJSON);

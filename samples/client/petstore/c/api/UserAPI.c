@@ -54,13 +54,14 @@ void UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	                 "POST");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
 
 
-end:
+	cJSON_Delete(localVarSingleItemJSON_user);
+	free(localVarBodyParameters);
 	free(localVarPath);
 }
 
@@ -129,7 +130,7 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	                 "POST");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
@@ -139,7 +140,6 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	cJSON_Delete(localVarSingleItemJSON_user);
 	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
-end:
 	free(localVarPath);
 }
 
@@ -208,7 +208,7 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	                 "POST");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
@@ -218,7 +218,6 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	cJSON_Delete(localVarSingleItemJSON_user);
 	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
-end:
 	free(localVarPath);
 }
 
@@ -241,7 +240,7 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(username) + 3;
+	long sizeOfPathParams = strlen(username) + 3 + strlen("{ username }");
 
 	if(username == NULL) {
 		goto end;
@@ -262,14 +261,14 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	                 "DELETE");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
 
 
+	// free(localVarPathFinal);
 	free(localVarToReplace);
-end:
 	free(localVarPath);
 }
 
@@ -290,7 +289,7 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(username) + 3;
+	long sizeOfPathParams = strlen(username) + 3 + strlen("{ username }");
 
 	if(username == NULL) {
 		goto end;
@@ -317,7 +316,7 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	// nonprimitive not container
 	user_t *elementToReturn = user_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
-		return 0;
+		// return 0;
 	}
 
 	// return type
@@ -328,6 +327,7 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
+	// free(localVarPathFinal);
 	free(localVarToReplace);
 	return elementToReturn;
 end:
@@ -392,7 +392,8 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	                 "GET");
 
 	// primitive reutrn type simple
-	char *elementToReturn = (char *) apiClient->dataReceived;
+	char *elementToReturn = strdup((char *) apiClient->dataReceived);
+
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
 
@@ -402,8 +403,10 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	free(localVarPath);
 	free(keyQuery_username);
 	free(valueQuery_username);
+	keyValuePair_free(keyPairQuery_username);
 	free(keyQuery_password);
 	free(valueQuery_password);
+	keyValuePair_free(keyPairQuery_password);
 	return elementToReturn;
 end:
 	return NULL;
@@ -436,13 +439,12 @@ void UserAPI_logoutUser(apiClient_t *apiClient) {
 	                 "GET");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
 
 
-end:
 	free(localVarPath);
 }
 
@@ -465,7 +467,7 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(username) + 3;
+	long sizeOfPathParams = strlen(username) + 3 + strlen("{ username }");
 
 	if(username == NULL) {
 		goto end;
@@ -495,13 +497,15 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	                 "PUT");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
 
 
+	// free(localVarPathFinal);
 	free(localVarToReplace);
-end:
+	cJSON_Delete(localVarSingleItemJSON_user);
+	free(localVarBodyParameters);
 	free(localVarPath);
 }

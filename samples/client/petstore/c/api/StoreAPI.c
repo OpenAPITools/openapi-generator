@@ -34,7 +34,7 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(orderId) + 3;
+	long sizeOfPathParams = strlen(orderId) + 3 + strlen("{ orderId }");
 
 	if(orderId == NULL) {
 		goto end;
@@ -55,14 +55,14 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	                 "DELETE");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
 
 
+	// free(localVarPathFinal);
 	free(localVarToReplace);
-end:
 	free(localVarPath);
 }
 
@@ -104,7 +104,10 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 		keyValuePair_t *keyPair = keyValuePair_create(
 			StoreVarJSON->string, cJSON_Print(StoreVarJSON));
 		list_addElement(elementToReturn, keyPair);
+		free(keyPair->value);
 	}
+	cJSON_Delete(StorelocalVarJSON);
+
 	apiClient_free(apiClient);
 
 
@@ -136,7 +139,7 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(orderId) + 3;
+	long sizeOfPathParams = sizeof(orderId) + 3 + strlen("{ orderId }");
 
 	if(orderId == 0) {
 		goto end;
@@ -169,7 +172,7 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	// nonprimitive not container
 	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
-		return 0;
+		// return 0;
 	}
 
 	// return type
@@ -180,6 +183,7 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
+	// free(localVarPathFinal);
 	free(localVarToReplace);
 	return elementToReturn;
 end:
@@ -228,7 +232,7 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	// nonprimitive not container
 	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
-		return 0;
+		// return 0;
 	}
 
 	// return type
@@ -239,6 +243,8 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
+	cJSON_Delete(localVarSingleItemJSON_order);
+	free(localVarBodyParameters);
 	return elementToReturn;
 end:
 	return NULL;

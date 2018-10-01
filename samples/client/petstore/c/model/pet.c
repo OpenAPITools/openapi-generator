@@ -2,14 +2,32 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "list.h"
 #include "pet.h"
 #include "category.h"
 #include "list.h"
 #include "tag.h"
 
+char *statuspet_ToString(status_e status) {
+	char *statusArray[] = { "available", "pending", "sold" };
+	return statusArray[status];
+}
+
+
+status_e statuspet_FromString(char *status) {
+	int stringToReturn = 0;
+	char *statusArray[] = { "available", "pending", "sold" };
+	size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
+	while(stringToReturn < sizeofArray) {
+		if(strcmp(status, statusArray[stringToReturn]) == 0) {
+			return stringToReturn;
+		}
+		stringToReturn++;
+	}
+}
 
 pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls,
-                  list_t *tags, char *status) {
+                  list_t *tags, status_e status) {
 	pet_t *pet = malloc(sizeof(pet_t));
 	pet->id = id;
 	pet->category = category;
@@ -23,10 +41,16 @@ pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls,
 
 
 void pet_free(pet_t *pet) {
-	// free(pet->id);
+	listEntry_t *listEntry;
 	category_free(pet->category);
-	// free(pet->name);
+	free(pet->name);
+	list_ForEach(listEntry, pet->photoUrls) {
+		free(listEntry->data);
+	}
 	list_free(pet->photoUrls);
+	list_ForEach(listEntry, pet->tags) {
+		tag_free(listEntry->data);
+	}
 	list_free(pet->tags);
 	// free(pet->status);
 
@@ -86,7 +110,9 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 	}
 
 	// pet->status
-	if(cJSON_AddStringToObject(item, "status", pet->status) == NULL) {
+	if(cJSON_AddStringToObject(item, "status",
+	                           statuspet_ToString(pet->status)) == NULL)
+	{
 		goto fail; // String
 	}
 
@@ -124,8 +150,8 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 		}
 		goto end; // nonprimitive
 	}
-	char *JSONData = cJSON_Print(categoryJSON);
-	category = category_parseFromJSON(JSONData);
+	char *categoryJSONData = cJSON_Print(categoryJSON);
+	category = category_parseFromJSON(categoryJSONData);
 
 	// pet->name
 	cJSON *name = cJSON_GetObjectItemCaseSensitive(petJSON, "name");
@@ -172,15 +198,19 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 		tag_t *tagsItem = tag_parseFromJSON(JSONData);
 
 		list_addElement(tagsList, tagsItem);
+		free(JSONData);
 	}
 
 	// pet->status
+	status_e statusVariable;
 	cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
 	if(!cJSON_IsString(status) ||
 	   (status->valuestring == NULL))
 	{
 		goto end; // String
 	}
+
+	statusVariable = statuspet_FromString(status->valuestring);
 
 
 	pet = pet_create(
@@ -189,9 +219,21 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 		strdup(name->valuestring),
 		photoUrlsList,
 		tagsList,
-		strdup(status->valuestring)
+		statusVariable
 		);
-
+	// cJSON_Delete(id);
+	// cJSON_Delete(categoryJSON);
+	free(categoryJSONData);
+	// category_free(category);
+	// cJSON_Delete(name);
+	// cJSON_Delete(photoUrls);
+	// cJSON_Delete(photoUrlsJSON);
+	// list_free(photoUrlsList);
+	// cJSON_Delete(tags);
+	// cJSON_Delete(tagsJSON);
+	// list_free(tagsList);
+	// cJSON_Delete(status);
+	cJSON_Delete(petJSON);
 	return pet;
 end:
 	cJSON_Delete(petJSON);
