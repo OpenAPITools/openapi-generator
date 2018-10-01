@@ -148,11 +148,14 @@ int main() {
 
 	apiClient_t *apiClient3 = apiClient_create();
 	FILE *file = fopen("/opt/image.png", "r");
-	api_response_t *respo = PetAPI_uploadFile(apiClient3,
-	                                          EXAMPLE_PET_ID,
-	                                          "dec",
-	                                          file);
+	if(file != NULL){
+		api_response_t *respo = PetAPI_uploadFile(apiClient3,
+		                                          EXAMPLE_PET_ID,
+		                                          "dec",
+		                                          file);
 
-	api_response_free(respo);
-	fclose(file);
+		api_response_free(respo);
+		fclose(file);
+	}
+
 }
