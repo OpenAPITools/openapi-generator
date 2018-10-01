@@ -21,6 +21,22 @@ typedef int bool;
 {{/isBoolean}}
 {{/vars}}
 
+{{#vars}}
+{{#isEnum}}
+{{#allowableValues}}
+typedef enum  { {{#enumVars}} {{{value}}}{{^-last}},{{/-last}}{{/enumVars}} } {{baseName}}_e;
+{{/allowableValues}}
+{{/isEnum}}
+{{/vars}}
+
+{{#vars}}
+{{#isEnum}}
+char* {{baseName}}_ToString({{baseName}}_e {{baseName}});
+
+{{baseName}}_e {{baseName}}FromString(char* {{baseName}});
+{{/isEnum}}
+{{/vars}}
+
 typedef struct {{classname}}_t {
         {{#vars}}
         {{^isContainer}}
@@ -36,7 +52,7 @@ typedef struct {{classname}}_t {
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        {{datatype}} *{{baseName}}; //enum string
+        {{baseName}}_e {{baseName}}; //enum string
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}
@@ -82,7 +98,7 @@ typedef struct {{classname}}_t {
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+        {{baseName}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}
