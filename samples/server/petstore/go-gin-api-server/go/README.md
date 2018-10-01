@@ -10,7 +10,7 @@ By using the [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) from a
 
 To see how to make this your own, look here:
 
-[README]((https://openapi-generator.tech))
+[README](https://openapi-generator.tech)
 
 - API version: 1.0.0
 
@@ -32,4 +32,53 @@ Once image is built use
 docker run --rm -it petstoreserver 
 ```
 
+### Known Issue
 
+The endpoint `/v2/pet/findByTags` and `/v2/pet/:petId` are conflict with gin.
+This is a known issue of gin. Please refer [gin-gonic/gin#388](https://github.com/gin-gonic/gin/issues/388)
+
+You can manually fix it by updating the path and handler. Please refer [gin-gonic/gin/issues/205#issuecomment-296155497](https://github.com/gin-gonic/gin/issues/205#issuecomment-296155497) and an example below.
+
+
+`routers.go`
+
+```diff
+var routes = Routes{
+	{
+		"Index",
+		"GET",
+		"/v2/",
+		Index,
+	},
+
+-	{
+-		"FindPetsByTags",
+-		strings.ToUpper("Get"),
+-		"/v2/pet/findByTags",
+-		FindPetsByTags,
+-	},
+
+	{
+		"GetPetById",
+		strings.ToUpper("Get"),
+		"/v2/pet/:petId",
+		GetPetById,
+	},
+}
+```
+
+`api_pet.go`
+
+```diff
+// GetPetById - Find pet by ID
+func GetPetById(c *gin.Context) {
+-       c.JSON(http.StatusOK, gin.H{})
++       petId := c.Param("petId")
++
++       if petId == "findByTags" {
++               FindPetsByTags(c)
++       } else {
++               c.JSON(http.StatusOK, gin.H{})
++       }
+}
+```
