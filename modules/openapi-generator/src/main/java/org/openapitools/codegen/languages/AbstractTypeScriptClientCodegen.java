@@ -190,10 +190,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String toPropertyName(String name) {
         name = toVarName(name);
         
-        // if the proprty name has any illegal characters such as :, ;, . etc.
+        // if the proprty name has any breaking characters such as :, ;, . etc.
         // then wrap the name within single quotes.
         // my:interface:property: string; => 'my:interface:property': string;
-        if (hasIllegalCharacters(name)) {
+        if (propertyHasBreakingCharacters(name)) {
             name = "\'" + name + "\'";
         }
 
@@ -201,12 +201,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     /**
-     * Checks whether illegal characters are present in the given param
-     * @param str string to check for illegal characters
-     * @return <code>true</code> if illegal characters are present and <code>false</code> if not
+     * Checks whether property names have breaking characters like ':', '-'.
+     * @param str string to check for breaking characters
+     * @return <code>true</code> if breaking characters are present and <code>false</code> if not
      */
-    private boolean hasIllegalCharacters(String str) {
-        final String regex = "^.*[+*:;,.()]+.*$";
+    private boolean propertyHasBreakingCharacters(String str) {
+        final String regex = "^.*[+*:;,.()-]+.*$";
         final Pattern pattern = Pattern.compile(regex);
         final Matcher matcher = pattern.matcher(str);
         boolean matches = matcher.matches();
