@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -182,6 +184,25 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         return name;
+    }
+
+    @Override()
+    public String toPropertyName(String name) {
+        name = toVarName(name);
+        
+        if (hasIllegalCharacters(name)) {
+            name = "\'" + name + "\'";
+        }
+
+        return name;
+    }
+
+	private boolean hasIllegalCharacters(String name) {
+		final String regex = "^.*[+*:;,.()]+.*$";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(name);
+        boolean matches = matcher.matches();
+        return matches;
     }
 
     @Override
