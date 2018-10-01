@@ -50,19 +50,19 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     public static final Integer IDENTIFIER_MAX_LENGTH = 64;
 
     protected Vector<String> mysqlNumericTypes = new Vector<String>(Arrays.asList(
-        "BIGINT", "BIT", "BOOL", "BOOLEAN", "DEC", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FIXED", "FLOAT", "INT", "INTEGER", "MEDIUMINT", "NUMERIC", "REAL", "SMALLINT", "TINYINT"
+            "BIGINT", "BIT", "BOOL", "BOOLEAN", "DEC", "DECIMAL", "DOUBLE", "DOUBLE PRECISION", "FIXED", "FLOAT", "INT", "INTEGER", "MEDIUMINT", "NUMERIC", "REAL", "SMALLINT", "TINYINT"
     ));
 
     protected Vector<String> mysqlDateAndTimeTypes = new Vector<String>(Arrays.asList(
-        "DATE", "DATETIME", "TIME", "TIMESTAMP", "YEAR"
+            "DATE", "DATETIME", "TIME", "TIMESTAMP", "YEAR"
     ));
 
     protected Vector<String> mysqlStringTypes = new Vector<String>(Arrays.asList(
-        "BINARY", "BLOB", "CHAR", "CHAR BYTE", "CHARACTER", "ENUM", "LONGBLOB", "LONGTEXT", "MEDIUMBLOB", "MEDIUMTEXT", "SET", "TEXT", "TINYBLOB", "TINYTEXT", "VARBINARY", "VARCHAR"
+            "BINARY", "BLOB", "CHAR", "CHAR BYTE", "CHARACTER", "ENUM", "LONGBLOB", "LONGTEXT", "MEDIUMBLOB", "MEDIUMTEXT", "SET", "TEXT", "TINYBLOB", "TINYTEXT", "VARBINARY", "VARCHAR"
     ));
 
     protected Vector<String> mysqlSpatialTypes = new Vector<String>(Arrays.asList(
-        "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
+            "GEOMETRY", "GEOMETRYCOLLECTION", "LINESTRING", "MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON", "POINT", "POLYGON"
     ));
 
     protected String defaultDatabaseName = "", databaseNamePrefix = "", databaseNameSuffix = "_db";
@@ -83,62 +83,62 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
 
         // https://dev.mysql.com/doc/refman/8.0/en/keywords.html
         setReservedWordsLowerCase(
-            Arrays.asList(
-                // SQL reserved words
-                "ACCESSIBLE", "ADD", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ASENSITIVE",
-                "BEFORE", "BETWEEN", "BIGINT", "BINARY", "BLOB", "BOTH", "BY",
-                "CALL", "CASCADE", "CASE", "CHANGE", "CHAR", "CHARACTER", "CHECK", "COLLATE", "COLUMN", "CONDITION", "CONSTRAINT", "CONTINUE", "CONVERT", "CREATE", "CROSS", "CUBE", "CUME_DIST", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "CURSOR",
-                "DATABASE", "DATABASES", "DAY_HOUR", "DAY_MICROSECOND", "DAY_MINUTE", "DAY_SECOND", "DEC", "DECIMAL", "DECLARE", "DEFAULT", "DELAYED", "DELETE", "DENSE_RANK", "DESC", "DESCRIBE", "DETERMINISTIC", "DISTINCT", "DISTINCTROW", "DIV", "DOUBLE", "DROP", "DUAL",
-                "EACH", "ELSE", "ELSEIF", "EMPTY", "ENCLOSED", "ESCAPED", "EXCEPT", "EXISTS", "EXIT", "EXPLAIN",
-                "FALSE", "FETCH", "FIRST_VALUE", "FLOAT", "FLOAT4", "FLOAT8", "FOR", "FORCE", "FOREIGN", "FROM", "FULLTEXT", "FUNCTION",
-                "GENERATED", "GET", "GRANT", "GROUP", "GROUPING", "GROUPS",
-                "HAVING", "HIGH_PRIORITY", "HOUR_MICROSECOND", "HOUR_MINUTE", "HOUR_SECOND",
-                "IF", "IGNORE", "IN", "INDEX", "INFILE", "INNER", "INOUT", "INSENSITIVE", "INSERT", "INT", "INT1", "INT2", "INT3", "INT4", "INT8", "INTEGER", "INTERVAL", "INTO", "IO_AFTER_GTIDS", "IO_BEFORE_GTIDS", "IS", "ITERATE",
-                "JOIN", "JSON_TABLE",
-                "KEY", "KEYS", "KILL",
-                "LAG", "LAST_VALUE", "LEAD", "LEADING", "LEAVE", "LEFT", "LIKE", "LIMIT", "LINEAR", "LINES", "LOAD", "LOCALTIME", "LOCALTIMESTAMP", "LOCK", "LONG", "LONGBLOB", "LONGTEXT", "LOOP", "LOW_PRIORITY",
-                "MASTER_BIND", "MASTER_SSL_VERIFY_SERVER_CERT", "MATCH", "MAXVALUE", "MEDIUMBLOB", "MEDIUMINT", "MEDIUMTEXT", "MIDDLEINT", "MINUTE_MICROSECOND", "MINUTE_SECOND", "MOD", "MODIFIES",
-                "NATURAL", "NOT", "NO_WRITE_TO_BINLOG", "NTH_VALUE", "NTILE", "NULL", "NUMERIC",
-                "OF", "ON", "OPTIMIZE", "OPTIMIZER_COSTS", "OPTION", "OPTIONALLY", "OR", "ORDER", "OUT", "OUTER", "OUTFILE", "OVER",
-                "PARTITION", "PERCENT_RANK", "PERSIST", "PERSIST_ONLY", "PRECISION", "PRIMARY", "PROCEDURE", "PURGE",
-                "RANGE", "RANK", "READ", "READS", "READ_WRITE", "REAL", "RECURSIVE", "REFERENCES", "REGEXP", "RELEASE", "RENAME", "REPEAT", "REPLACE", "REQUIRE", "RESIGNAL", "RESTRICT", "RETURN", "REVOKE", "RIGHT", "RLIKE", "ROLE", "ROW", "ROWS", "ROW_NUMBER",
-                "SCHEMA", "SCHEMAS", "SECOND_MICROSECOND", "SELECT", "SENSITIVE", "SEPARATOR", "SET", "SHOW", "SIGNAL", "SMALLINT", "SPATIAL", "SPECIFIC", "SQL", "SQLEXCEPTION", "SQLSTATE", "SQLWARNING", "SQL_BIG_RESULT", "SQL_CALC_FOUND_ROWS", "SQL_SMALL_RESULT", "SSL", "STARTING", "STORED", "STRAIGHT_JOIN", "SYSTEM",
-                "TABLE", "TERMINATED", "THEN", "TINYBLOB", "TINYINT", "TINYTEXT", "TO", "TRAILING", "TRIGGER", "TRUE",
-                "UNDO", "UNION", "UNIQUE", "UNLOCK", "UNSIGNED", "UPDATE", "USAGE", "USE", "USING", "UTC_DATE", "UTC_TIME", "UTC_TIMESTAMP",
-                "VALUES", "VARBINARY", "VARCHAR", "VARCHARACTER", "VARYING", "VIRTUAL",
-                "WHEN", "WHERE", "WHILE", "WINDOW", "WITH", "WRITE",
-                "XOR",
-                "YEAR_MONTH",
-                "ZEROFILL"
-            )
+                Arrays.asList(
+                        // SQL reserved words
+                        "ACCESSIBLE", "ADD", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ASENSITIVE",
+                        "BEFORE", "BETWEEN", "BIGINT", "BINARY", "BLOB", "BOTH", "BY",
+                        "CALL", "CASCADE", "CASE", "CHANGE", "CHAR", "CHARACTER", "CHECK", "COLLATE", "COLUMN", "CONDITION", "CONSTRAINT", "CONTINUE", "CONVERT", "CREATE", "CROSS", "CUBE", "CUME_DIST", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "CURSOR",
+                        "DATABASE", "DATABASES", "DAY_HOUR", "DAY_MICROSECOND", "DAY_MINUTE", "DAY_SECOND", "DEC", "DECIMAL", "DECLARE", "DEFAULT", "DELAYED", "DELETE", "DENSE_RANK", "DESC", "DESCRIBE", "DETERMINISTIC", "DISTINCT", "DISTINCTROW", "DIV", "DOUBLE", "DROP", "DUAL",
+                        "EACH", "ELSE", "ELSEIF", "EMPTY", "ENCLOSED", "ESCAPED", "EXCEPT", "EXISTS", "EXIT", "EXPLAIN",
+                        "FALSE", "FETCH", "FIRST_VALUE", "FLOAT", "FLOAT4", "FLOAT8", "FOR", "FORCE", "FOREIGN", "FROM", "FULLTEXT", "FUNCTION",
+                        "GENERATED", "GET", "GRANT", "GROUP", "GROUPING", "GROUPS",
+                        "HAVING", "HIGH_PRIORITY", "HOUR_MICROSECOND", "HOUR_MINUTE", "HOUR_SECOND",
+                        "IF", "IGNORE", "IN", "INDEX", "INFILE", "INNER", "INOUT", "INSENSITIVE", "INSERT", "INT", "INT1", "INT2", "INT3", "INT4", "INT8", "INTEGER", "INTERVAL", "INTO", "IO_AFTER_GTIDS", "IO_BEFORE_GTIDS", "IS", "ITERATE",
+                        "JOIN", "JSON_TABLE",
+                        "KEY", "KEYS", "KILL",
+                        "LAG", "LAST_VALUE", "LEAD", "LEADING", "LEAVE", "LEFT", "LIKE", "LIMIT", "LINEAR", "LINES", "LOAD", "LOCALTIME", "LOCALTIMESTAMP", "LOCK", "LONG", "LONGBLOB", "LONGTEXT", "LOOP", "LOW_PRIORITY",
+                        "MASTER_BIND", "MASTER_SSL_VERIFY_SERVER_CERT", "MATCH", "MAXVALUE", "MEDIUMBLOB", "MEDIUMINT", "MEDIUMTEXT", "MIDDLEINT", "MINUTE_MICROSECOND", "MINUTE_SECOND", "MOD", "MODIFIES",
+                        "NATURAL", "NOT", "NO_WRITE_TO_BINLOG", "NTH_VALUE", "NTILE", "NULL", "NUMERIC",
+                        "OF", "ON", "OPTIMIZE", "OPTIMIZER_COSTS", "OPTION", "OPTIONALLY", "OR", "ORDER", "OUT", "OUTER", "OUTFILE", "OVER",
+                        "PARTITION", "PERCENT_RANK", "PERSIST", "PERSIST_ONLY", "PRECISION", "PRIMARY", "PROCEDURE", "PURGE",
+                        "RANGE", "RANK", "READ", "READS", "READ_WRITE", "REAL", "RECURSIVE", "REFERENCES", "REGEXP", "RELEASE", "RENAME", "REPEAT", "REPLACE", "REQUIRE", "RESIGNAL", "RESTRICT", "RETURN", "REVOKE", "RIGHT", "RLIKE", "ROLE", "ROW", "ROWS", "ROW_NUMBER",
+                        "SCHEMA", "SCHEMAS", "SECOND_MICROSECOND", "SELECT", "SENSITIVE", "SEPARATOR", "SET", "SHOW", "SIGNAL", "SMALLINT", "SPATIAL", "SPECIFIC", "SQL", "SQLEXCEPTION", "SQLSTATE", "SQLWARNING", "SQL_BIG_RESULT", "SQL_CALC_FOUND_ROWS", "SQL_SMALL_RESULT", "SSL", "STARTING", "STORED", "STRAIGHT_JOIN", "SYSTEM",
+                        "TABLE", "TERMINATED", "THEN", "TINYBLOB", "TINYINT", "TINYTEXT", "TO", "TRAILING", "TRIGGER", "TRUE",
+                        "UNDO", "UNION", "UNIQUE", "UNLOCK", "UNSIGNED", "UPDATE", "USAGE", "USE", "USING", "UTC_DATE", "UTC_TIME", "UTC_TIMESTAMP",
+                        "VALUES", "VARBINARY", "VARCHAR", "VARCHARACTER", "VARYING", "VIRTUAL",
+                        "WHEN", "WHERE", "WHILE", "WINDOW", "WITH", "WRITE",
+                        "XOR",
+                        "YEAR_MONTH",
+                        "ZEROFILL"
+                )
         );
 
         // all types can be threaded as primitives except array, object and refs
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList(
-                "bool",
-                "boolean",
-                "int",
-                "integer",
-                "double",
-                "float",
-                "string",
-                "date",
-                "Date",
-                "DateTime",
-                "long",
-                "short",
-                "char",
-                "ByteArray",
-                "binary",
-                "file",
-                "UUID",
-                "BigDecimal",
-                "mixed",
-                "number",
-                "void",
-                "byte"
-            )
+                Arrays.asList(
+                        "bool",
+                        "boolean",
+                        "int",
+                        "integer",
+                        "double",
+                        "float",
+                        "string",
+                        "date",
+                        "Date",
+                        "DateTime",
+                        "long",
+                        "short",
+                        "char",
+                        "ByteArray",
+                        "binary",
+                        "file",
+                        "UUID",
+                        "BigDecimal",
+                        "mixed",
+                        "number",
+                        "void",
+                        "byte"
+                )
         );
 
         // https://dev.mysql.com/doc/refman/8.0/en/data-types.html
@@ -311,7 +311,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            for (Integer i = 0; i< enumValues.size(); i++) {
+            for (Integer i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
                     break;
@@ -322,7 +322,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
         } else {
-            if (dataFormat == "int64") {
+            if ("int64".equals(dataFormat)) {
                 columnDefinition.put("colDataType", "BIGINT");
             } else {
                 Long min = (minimum != null) ? Long.parseLong(minimum) : null;
@@ -391,7 +391,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         if (Boolean.TRUE.equals(isEnum)) {
             Map<String, Object> allowableValues = property.getAllowableValues();
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
-            for (Integer i = 0; i< enumValues.size(); i++) {
+            for (Integer i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
                     break;
@@ -515,7 +515,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             List<Object> enumValues = (List<Object>) allowableValues.get("values");
             columnDefinition.put("colDataType", "ENUM");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
-            for (Integer i = 0; i< enumValues.size(); i++) {
+            for (Integer i = 0; i < enumValues.size(); i++) {
                 if (i > ENUM_MAX_ELEMENTS - 1) {
                     LOGGER.warn("ENUM column can have maximum of " + ENUM_MAX_ELEMENTS.toString() + " distinct elements, following value will be skipped: " + (String) enumValues.get(i));
                     break;
@@ -523,7 +523,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 String value = String.valueOf(enumValues.get(i));
                 columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(value, (Boolean) (i + 1 < enumValues.size())));
             }
-        } else if (dataType.equals("MEDIUMBLOB")){
+        } else if (dataType.equals("MEDIUMBLOB")) {
             columnDefinition.put("colDataType", "MEDIUMBLOB");
         } else {
             String matchedStringType = getMysqlMatchedStringDataType(minLength, maxLength);
@@ -826,7 +826,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                 return "TINYINT";
             } else if (actualMin >= -32768 && actualMax <= 32767) {
                 return "SMALLINT";
-            } else if (actualMin >= -8388608  && actualMax <= 8388607) {
+            } else if (actualMin >= -8388608 && actualMax <= 8388607) {
                 return "MEDIUMINT";
             } else if (actualMin >= -2147483648 && actualMax <= 2147483647) {
                 return "INT";
@@ -855,7 +855,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         if (minLength != null && maxLength != null && minLength > maxLength) {
             LOGGER.warn("Codegen property 'minLength' cannot be greater than 'maxLength'");
         }
-        if (actualMax.equals(actualMin) && actualMax <= 255 ) {
+        if (actualMax.equals(actualMin) && actualMax <= 255) {
             return "CHAR";
         } else if (actualMax <= 255) {
             return "VARCHAR";
@@ -878,11 +878,11 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
      */
     public Boolean isMysqlDataType(String dataType) {
         return (
-            mysqlNumericTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-            mysqlDateAndTimeTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-            mysqlStringTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-            mysqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
-            dataType.toUpperCase(Locale.ROOT).equals("JSON")
+                mysqlNumericTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
+                        mysqlDateAndTimeTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
+                        mysqlStringTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
+                        mysqlSpatialTypes.contains(dataType.toUpperCase(Locale.ROOT)) ||
+                        dataType.toUpperCase(Locale.ROOT).equals("JSON")
         );
     }
 
@@ -947,7 +947,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String escapedName = escapeMysqlQuotedIdentifier(name);
         // Database, table, and column names cannot end with space characters.
         if (escapedName.matches(".*\\s$")) {
-            LOGGER.warn("Database, table, and column names cannot end with space characters. Check '" + name + "' name" );
+            LOGGER.warn("Database, table, and column names cannot end with space characters. Check '" + name + "' name");
             escapedName = escapedName.replaceAll("\\s+$", "");
         }
 
