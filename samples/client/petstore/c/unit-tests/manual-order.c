@@ -15,10 +15,7 @@
 int main() {
 	status_e STATUS = placed;
 
-	order_t *neworder = order_create(ORDER_ID,
-	                                 PET_ID,
-	                                 QUANTITY,
-	                                 SHIP_DATE,
+	order_t *neworder = order_create(ORDER_ID, PET_ID, QUANTITY, SHIP_DATE,
 	                                 STATUS,
 	                                 COMPLETE);
 

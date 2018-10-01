@@ -24,8 +24,8 @@ int main() {
 	printf("Hello world1\n");
 	apiClient_t *apiClient = apiClient_create();
 
-    char *shipdate = malloc(strlen(SHIP_DATE) + 1);
-    strcpy(shipdate, SHIP_DATE);
+	char *shipdate = malloc(strlen(SHIP_DATE) + 1);
+	strcpy(shipdate, SHIP_DATE);
 
 	order_t *neworder = order_create(ORDER_ID,
 	                                 PET_ID,
@@ -72,7 +72,7 @@ int main() {
 	apiClient_t *apiClient3 = apiClient_create();
 
 	char *orderid = malloc(strlen("1234") + 1);
-    strcpy(orderid, "1234");
+	strcpy(orderid, "1234");
 
 	StoreAPI_deleteOrder(apiClient3, orderid);
 
@@ -101,5 +101,4 @@ int main() {
 		keyValuePair_free(listEntry->data);
 	}
 	list_free(elementToReturn);
-
 }

@@ -15,14 +15,9 @@
 #define USER_STATUS 4
 
 int main() {
-	user_t *newuser = user_create(USER_ID,
-	                              USER_NAME,
-	                              FIRST_NAME,
-	                              LAST_NAME,
+	user_t *newuser = user_create(USER_ID, USER_NAME, FIRST_NAME, LAST_NAME,
 	                              EMAIL,
-	                              PASSWORD,
-	                              PHONE,
-	                              USER_STATUS);
+	                              PASSWORD, PHONE, USER_STATUS);
 
 	cJSON *JSONNODE = user_convertToJSON(newuser);
 
