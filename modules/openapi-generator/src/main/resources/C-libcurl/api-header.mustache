@@ -16,7 +16,9 @@
 // {{{notes}}}
 //
 {{/notes}}
-{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{{.}}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}} {{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}},{{{dataType}}}{{#isListContainer}}_t*{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{#isFile}}*{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}}{{/isListContainer}} {{paramName}}{{/allParams}});
+{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{{.}}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}},{{#isListContainer}}{{{dataType}}}_t*{{/isListContainer}}{{^isListContainer}}{{#isPrimitiveType}}{{#isString}}{{{dataType}}}*{{/isString}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isNumerid}}{{{dataType}}}{{/isNumerid}}{{#isFile}}{{{dataType}}}*{{/isFile}}{{#isEnum}}{{baseName}}_e{{/isEnum}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{{dataType}}}_t*{{/isPrimitiveType}}{{/isListContainer}} {{baseName}}{{/allParams}});
+
 
 
 {{/operation}}
