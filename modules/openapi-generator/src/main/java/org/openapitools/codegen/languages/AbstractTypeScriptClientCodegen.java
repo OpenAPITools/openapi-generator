@@ -190,6 +190,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String toPropertyName(String name) {
         name = toVarName(name);
         
+        // if the proprty name has any illegal characters such as :, ;, . etc.
+        // then wrap the name within single quotes.
         if (hasIllegalCharacters(name)) {
             name = "\'" + name + "\'";
         }
@@ -197,10 +199,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return name;
     }
 
-    private boolean hasIllegalCharacters(String name) {
+    /**
+     * Checks whether illegal characters are present in the given param
+     * @param str string to check for illegal characters
+     * @return <code>true</code> if illegal characters are present and <code>false</code> if not
+     */
+    private boolean hasIllegalCharacters(String str) {
         final String regex = "^.*[+*:;,.()]+.*$";
         final Pattern pattern = Pattern.compile(regex);
-        final Matcher matcher = pattern.matcher(name);
+        final Matcher matcher = pattern.matcher(str);
         boolean matches = matcher.matches();
         return matches;
     }
