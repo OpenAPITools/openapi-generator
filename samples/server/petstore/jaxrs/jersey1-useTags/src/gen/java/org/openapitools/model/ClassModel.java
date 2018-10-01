@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing model with \&quot;_class\&quot; property
@@ -40,6 +41,7 @@ public class ClassModel   {
    **/
   @JsonProperty("_class")
   @ApiModelProperty(value = "")
+  
   public String getPropertyClass() {
     return propertyClass;
   }

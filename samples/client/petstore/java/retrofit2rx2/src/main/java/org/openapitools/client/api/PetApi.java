@@ -120,7 +120,7 @@ public interface PetApi {
   @retrofit2.http.Multipart
   @POST("pet/{petId}/uploadImage")
   Observable<ModelApiResponse> uploadFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part("file") MultipartBody.Part file
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part file
   );
 
   /**
@@ -134,7 +134,7 @@ public interface PetApi {
   @retrofit2.http.Multipart
   @POST("fake/{petId}/uploadImageWithRequiredFile")
   Observable<ModelApiResponse> uploadFileWithRequiredFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("requiredFile") MultipartBody.Part requiredFile, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part MultipartBody.Part requiredFile, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
   );
 
 }

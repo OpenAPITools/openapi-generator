@@ -10,10 +10,9 @@ import Foundation
 public typealias EncodeResult = (data: Data?, error: Error?)
 
 open class CodableHelper {
-
     open static var dateformatter: DateFormatter?
 
-    open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
+    open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T: Decodable {
         var returnedDecodable: T? = nil
         var returnedError: Error? = nil
 
@@ -39,21 +38,25 @@ open class CodableHelper {
         return (returnedDecodable, returnedError)
     }
 
-    open class func encode<T>(_ value: T, prettyPrint: Bool = false) -> EncodeResult where T : Encodable {
+    open class func encode<T>(_ value: T, prettyPrint: Bool = false) -> EncodeResult where T: Encodable {
         var returnedData: Data?
-        var returnedError: Error? = nil
+        var returnedError: Error?
 
         let encoder = JSONEncoder()
         if prettyPrint {
             encoder.outputFormatting = .prettyPrinted
         }
-        encoder.dataEncodingStrategy = .base64
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-        encoder.dateEncodingStrategy = .formatted(formatter)
+        if let df = self.dateformatter {
+            encoder.dateEncodingStrategy = .formatted(df)
+        } else {
+            encoder.dataEncodingStrategy = .base64
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar(identifier: .iso8601)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+            encoder.dateEncodingStrategy = .formatted(formatter)
+        }
 
         do {
             returnedData = try encoder.encode(value)
@@ -63,5 +66,4 @@ open class CodableHelper {
 
         return (returnedData, returnedError)
     }
-
 }

@@ -374,8 +374,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
-                // import "optionals" package if the parameter is primitive and optional
-                if (!param.required && param.isPrimitiveType) {
+                // import "optionals" package if the parameter is optional
+                if (!param.required) {
                     if (!addedOptionalImport) {
                         imports.add(createMapping("import", "github.com/antihax/optional"));
                         addedOptionalImport = true;
@@ -639,12 +639,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
                 if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, p.exitValue());
                 }
+                LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
 }

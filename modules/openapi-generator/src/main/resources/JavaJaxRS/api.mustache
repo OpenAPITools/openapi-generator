@@ -26,6 +26,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
 
 {{#commonPath}}@Path("/{{{commonPath}}}"){{/commonPath}}{{^commonPath}}@Path(""){{/commonPath}}

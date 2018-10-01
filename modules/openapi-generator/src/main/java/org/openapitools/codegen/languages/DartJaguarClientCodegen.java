@@ -16,17 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
-import io.swagger.models.Model;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
@@ -35,9 +27,6 @@ import io.swagger.v3.oas.models.media.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -46,12 +35,14 @@ import java.util.Set;
 
 public class DartJaguarClientCodegen extends DartClientCodegen {
     private static Set<String> modelToIgnore = new HashSet<>();
+
     static {
         modelToIgnore.add("datetime");
-        modelToIgnore.add("list");
         modelToIgnore.add("map");
+        modelToIgnore.add("list");
         modelToIgnore.add("file");
     }
+
     public DartJaguarClientCodegen() {
         super();
         browserClient = false;
@@ -133,7 +124,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
     }
 
-
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
@@ -143,14 +133,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             Set<String> modelImports = new HashSet<>();
             CodegenModel cm = (CodegenModel) mo.get("model");
             for (String modelImport : cm.imports) {
-                if(!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
+                if (!modelToIgnore.contains(modelImport.toLowerCase(Locale.ROOT))) {
                     modelImports.add(underscore(modelImport));
                 }
             }
             cm.imports = modelImports;
             cm.vendorExtensions.put("hasVars", cm.vars.size() > 0);
         }
-        //objs.put("modelImports", modelImports);
         return objs;
     }
 
@@ -167,7 +156,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             boolean isJson = true; //default to JSON
             boolean isForm = false;
             boolean isMultipart = false;
-            if(op.consumes != null) {
+            if (op.consumes != null) {
                 for (Map<String, String> consume : op.consumes) {
                     if (consume.containsKey("mediaType")) {
                         String type = consume.get("mediaType");
@@ -185,7 +174,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {
-                if(!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
+                if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
                     imports.add(underscore(item));
                 }
             }
@@ -202,7 +191,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                     jaguarPath = jaguarPath + items[i];
                 }
 
-                if (i != items.length -1) {
+                if (i != items.length - 1) {
                     jaguarPath = jaguarPath + "/";
                 }
             }

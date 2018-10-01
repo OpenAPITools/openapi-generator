@@ -249,7 +249,7 @@ impl<F, C> Api<C> for Client<F> where
 
 
         let uri = format!(
-            "{}//dummy",
+            "{}/dummy",
             self.base_path
         );
 

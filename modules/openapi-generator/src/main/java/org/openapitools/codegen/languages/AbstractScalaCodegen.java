@@ -21,6 +21,7 @@ import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -112,6 +113,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("SCALA_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable SCALA_POST_PROCESS_FILE not defined so the Scala code may not be properly formatted. To define it, try 'export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
@@ -296,6 +301,34 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String scalaPostProcessFile = System.getenv("SCALA_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(scalaPostProcessFile)) {
+            return; // skip if SCALA_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with scala extension
+        if ("scala".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = scalaPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 
 }

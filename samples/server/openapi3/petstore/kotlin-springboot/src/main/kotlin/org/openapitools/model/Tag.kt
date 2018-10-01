@@ -14,10 +14,10 @@ import io.swagger.annotations.ApiModelProperty
 data class Tag (
 
         @ApiModelProperty(value = "")
-        @JsonProperty("id") val id: kotlin.Long? = null,
+        @JsonProperty("id") val id: Long? = null,
 
         @ApiModelProperty(value = "")
-        @JsonProperty("name") val name: kotlin.String? = null
+        @JsonProperty("name") val name: String? = null
 ) {
 
 }

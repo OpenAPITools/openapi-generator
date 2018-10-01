@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * FormatTest
@@ -81,7 +82,8 @@ public class FormatTest   {
    **/
   @JsonProperty("integer")
   @ApiModelProperty(value = "")
- @Min(10) @Max(100)  public Integer getInteger() {
+   @Min(10) @Max(100)
+  public Integer getInteger() {
     return integer;
   }
 
@@ -102,7 +104,8 @@ public class FormatTest   {
    **/
   @JsonProperty("int32")
   @ApiModelProperty(value = "")
- @Min(20) @Max(200)  public Integer getInt32() {
+   @Min(20) @Max(200)
+  public Integer getInt32() {
     return int32;
   }
 
@@ -121,6 +124,7 @@ public class FormatTest   {
    **/
   @JsonProperty("int64")
   @ApiModelProperty(value = "")
+  
   public Long getInt64() {
     return int64;
   }
@@ -142,8 +146,9 @@ public class FormatTest   {
    **/
   @JsonProperty("number")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
- @DecimalMin("32.1") @DecimalMax("543.2")  public BigDecimal getNumber() {
+    @NotNull
+ @DecimalMin("32.1") @DecimalMax("543.2")@Valid
+  public BigDecimal getNumber() {
     return number;
   }
 
@@ -164,7 +169,8 @@ public class FormatTest   {
    **/
   @JsonProperty("float")
   @ApiModelProperty(value = "")
- @DecimalMin("54.3") @DecimalMax("987.6")  public Float getFloat() {
+   @DecimalMin("54.3") @DecimalMax("987.6")
+  public Float getFloat() {
     return _float;
   }
 
@@ -185,7 +191,8 @@ public class FormatTest   {
    **/
   @JsonProperty("double")
   @ApiModelProperty(value = "")
- @DecimalMin("67.8") @DecimalMax("123.4")  public Double getDouble() {
+   @DecimalMin("67.8") @DecimalMax("123.4")
+  public Double getDouble() {
     return _double;
   }
 
@@ -204,7 +211,8 @@ public class FormatTest   {
    **/
   @JsonProperty("string")
   @ApiModelProperty(value = "")
- @Pattern(regexp="/[a-z]/i")  public String getString() {
+   @Pattern(regexp="/[a-z]/i")
+  public String getString() {
     return string;
   }
 
@@ -223,8 +231,9 @@ public class FormatTest   {
    **/
   @JsonProperty("byte")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
- @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")  public byte[] getByte() {
+    @NotNull
+ @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+  public byte[] getByte() {
     return _byte;
   }
 
@@ -243,6 +252,7 @@ public class FormatTest   {
    **/
   @JsonProperty("binary")
   @ApiModelProperty(value = "")
+  
   public File getBinary() {
     return binary;
   }
@@ -262,7 +272,8 @@ public class FormatTest   {
    **/
   @JsonProperty("date")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+    @NotNull
+
   public Date getDate() {
     return date;
   }
@@ -282,6 +293,7 @@ public class FormatTest   {
    **/
   @JsonProperty("dateTime")
   @ApiModelProperty(value = "")
+  
   public Date getDateTime() {
     return dateTime;
   }
@@ -301,6 +313,7 @@ public class FormatTest   {
    **/
   @JsonProperty("uuid")
   @ApiModelProperty(value = "")
+  
   public UUID getUuid() {
     return uuid;
   }
@@ -320,8 +333,9 @@ public class FormatTest   {
    **/
   @JsonProperty("password")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
- @Size(min=10,max=64)  public String getPassword() {
+    @NotNull
+ @Size(min=10,max=64)
+  public String getPassword() {
     return password;
   }
 

@@ -47,13 +47,17 @@ open class CodableHelper {
         if prettyPrint {
             encoder.outputFormatting = .prettyPrinted
         }
-        encoder.dataEncodingStrategy = .base64
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-        encoder.dateEncodingStrategy = .formatted(formatter)
+        if let df = self.dateformatter {
+            encoder.dateEncodingStrategy = .formatted(df)
+        } else {
+            encoder.dataEncodingStrategy = .base64
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar(identifier: .iso8601)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+            encoder.dateEncodingStrategy = .formatted(formatter)
+        }
 
         do {
             returnedData = try encoder.encode(value)
