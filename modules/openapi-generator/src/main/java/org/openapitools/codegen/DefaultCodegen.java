@@ -789,7 +789,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the property name by removing invalid characters and proper escaping if
-     * it's a reserved word or a name with breaking characters.
+     * it's a reserved word.
      *
      * @param name the property name
      * @return the sanitized property name
