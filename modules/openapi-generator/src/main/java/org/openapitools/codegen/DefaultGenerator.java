@@ -298,7 +298,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelTemplateFiles().keySet()) {
             String suffix = config.modelTemplateFiles().get(templateName);
-            String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
+            String cleanedModelFileName = this.cleanModelFilename(config.toModelFilename(modelName));
+            String filename = config.modelFileFolder() + File.separator + cleanedModelFileName + suffix;
             if (!config.shouldOverwrite(filename)) {
                 LOGGER.info("Skipped overwriting " + filename);
                 continue;
@@ -309,6 +310,17 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 config.postProcessFile(written, "model");
             }
         }
+    }
+
+    /**
+     * Cleans the given filename by removing all {LEFT-POINTING | RIGH-POINTING} DOUBLE ANGLE QUOTATION MARKs
+     * for model names marked with generics.
+     * myModel«MyGeneric» => myModelMyGeneric
+     * @param filename
+     * @return cleaned filename
+     */
+    private String cleanModelFilename(String filename) {
+        return filename.replaceAll("[\\u00AB\\u00BB]", "");
     }
 
     private void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
