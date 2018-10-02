@@ -158,12 +158,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
-    public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]");
 
@@ -186,9 +180,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return name;
     }
 
-    @Override()
-    public String toPropertyName(String name) {
-        name = toVarName(name);
+    @Override
+    public String toVarName(String name) {
+        name = this.toParamName(name);
         
         // if the proprty name has any breaking characters such as :, ;, . etc.
         // then wrap the name within single quotes.

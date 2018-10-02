@@ -788,17 +788,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return the property name by removing invalid characters and proper escaping if
-     * it's a reserved word.
-     *
-     * @param name the property name
-     * @return the sanitized property name
-     */
-    public String toPropertyName(String name) {
-        return toVarName(name);
-    }
-
-    /**
      * Return the parameter name by removing invalid characters and proper escaping if
      * it's a reserved word.
      *
@@ -1773,7 +1762,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
-        property.name = toPropertyName(name);
+        property.name = toVarName(name);
         property.baseName = name;
         property.nameInCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
