@@ -3,6 +3,17 @@
  */{{#description}}
 @ApiModel(description = "{{{description}}}"){{/description}}
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
+{{^parent}}
+{{#hateoas}}
+@JsonPropertyOrder({
+  {{#vars}}
+    {{#jackson}}
+    "{{baseName}}",
+    {{/jackson}}
+   {{/vars}}
+})
+{{/hateoas}}
+{{/parent}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
 {{#serializableModel}}
   private static final long serialVersionUID = 1L;
