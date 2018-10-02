@@ -731,7 +731,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelFilename(String name) {
-        return this.cleanModelName(initialCaps(name));
+        return this.cleanModelFilename(initialCaps(name));
     }
 
     /**
@@ -741,7 +741,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelTestFilename(String name) {
-        return this.cleanModelName(initialCaps(name) + "Test");
+        return this.cleanModelFilename(initialCaps(name) + "Test");
     }
 
     /**
@@ -4705,13 +4705,13 @@ public class DefaultCodegen implements CodegenConfig {
     } 
 
     /**
-     * Cleans the given name by removing all {LEFT-POINTING | RIGH-POINTING} DOUBLE ANGLE QUOTATION MARKs
+     * Cleans the given filename by removing all {LEFT-POINTING | RIGH-POINTING} DOUBLE ANGLE QUOTATION MARKs
      * for model names marked with generics.
      * myModel«MyGeneric» => myModelMyGeneric
      * @param name
-     * @return cleaned name
+     * @return cleaned filename
      */
-    protected String cleanModelName(String name) {
+    protected String cleanModelFilename(String name) {
         return name.replaceAll("[\\u00AB\\u00BB]", "");
     }
 }
