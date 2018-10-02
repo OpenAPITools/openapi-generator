@@ -4707,7 +4707,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Cleans the given filename by removing all {LEFT-POINTING | RIGH-POINTING} DOUBLE ANGLE QUOTATION MARKs
      * for model names marked with generics.
-     * myModel«MyGeneric» => myModelMyGeneric
+     * "myModel«MyGeneric»" to "myModelMyGeneric"
      * 
      * @param name given filename string to clean
      * @return cleaned filename
