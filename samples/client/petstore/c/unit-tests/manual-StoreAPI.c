@@ -13,7 +13,7 @@
     #define PET_ID 12345
     #define QUANTITY 50
     #define SHIP_DATE "2018-09-24T10:19:09.592Z"
-    #define STATUS "placed"
+    #define STATUS placed
     #define COMPLETE true
 
 /*
@@ -24,10 +24,13 @@ int main() {
 	printf("Hello world1\n");
 	apiClient_t *apiClient = apiClient_create();
 
+	char *shipdate = malloc(strlen(SHIP_DATE) + 1);
+	strcpy(shipdate, SHIP_DATE);
+
 	order_t *neworder = order_create(ORDER_ID,
 	                                 PET_ID,
 	                                 QUANTITY,
-	                                 SHIP_DATE,
+	                                 shipdate,
 	                                 STATUS,
 	                                 COMPLETE);
 
@@ -38,6 +41,11 @@ int main() {
 	char *dataToPrint = cJSON_Print(JSONNODE);
 
 	printf("Place order 1: \n%s\n", dataToPrint);
+	order_free(neworder);
+	order_free(returnorder);
+	cJSON_Delete(JSONNODE);
+	free(dataToPrint);
+
 
 
 	printf(
@@ -53,15 +61,23 @@ int main() {
 
 	printf("Place order 2: \n%s\n", dataToPrint1);
 
+	order_free(neworder);
+	cJSON_Delete(JSONNODE);
+	free(dataToPrint1);
+
 
 	printf(
 		"------------------------------ Part Ends ----------------------------------\n");
 
 	apiClient_t *apiClient3 = apiClient_create();
 
-	StoreAPI_deleteOrder(apiClient3, "1234");
+	char *orderid = malloc(strlen("1234") + 1);
+	strcpy(orderid, "1234");
+
+	StoreAPI_deleteOrder(apiClient3, orderid);
 
 	printf("Order Deleted \n");
+	free(orderid);
 
 
 	printf(
@@ -78,13 +94,11 @@ int main() {
 		"------------------------------ Part Ends ----------------------------------\n");
 
 	apiClient_t *apiClient5 = apiClient_create();
-	list_t *elementToReturn = list_create();
+	list_t *elementToReturn;
 	elementToReturn = StoreAPI_getInventory(apiClient5);
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
-	listEntry_t *tagsListEntry;
-	list_ForEach(tagsListEntry, elementToReturn) {
-		keyValuePair_t *keyPair = tagsListEntry->data;
-		printf("\n%s:%s\n", keyPair->key, keyPair->value);
+	listEntry_t *listEntry;
+	list_ForEach(listEntry, elementToReturn) {
+		keyValuePair_free(listEntry->data);
 	}
+	list_free(elementToReturn);
 }

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "list.h"
 #include "tag.h"
 
 
@@ -15,8 +16,8 @@ tag_t *tag_create(long id, char *name) {
 
 
 void tag_free(tag_t *tag) {
-	// free(tag->id);
-	// free(tag->name);
+	listEntry_t *listEntry;
+	free(tag->name);
 
 	free(tag);
 }
@@ -69,7 +70,9 @@ tag_t *tag_parseFromJSON(char *jsonString) {
 		id->valuedouble,
 		strdup(name->valuestring)
 		);
-
+	// cJSON_Delete(id);
+	// cJSON_Delete(name);
+	cJSON_Delete(tagJSON);
 	return tag;
 end:
 	cJSON_Delete(tagJSON);

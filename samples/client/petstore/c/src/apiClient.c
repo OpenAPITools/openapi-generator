@@ -1,6 +1,7 @@
 #include <curl/curl.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "apiClient.h"
 #include "keyValuePair.h"
 
@@ -10,6 +11,7 @@ apiClient_t *apiClient_create() {
 	curl_global_init(CURL_GLOBAL_ALL);
 	apiClient_t *apiClient = malloc(sizeof(apiClient_t));
 	apiClient->basePath = "http://petstore.swagger.io:80/v2";
+	apiClient->dataReceived = NULL;
    #ifdef BASIC_AUTH
 	apiClient->username = NULL;
 	apiClient->password = NULL;
@@ -21,6 +23,9 @@ apiClient_t *apiClient_create() {
 }
 
 void apiClient_free(apiClient_t *apiClient) {
+	if(apiClient->dataReceived) {
+		free(apiClient->dataReceived);
+	}
 	free(apiClient);
 	curl_global_cleanup();
 }
@@ -130,9 +135,10 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 		listEntry_t *listEntry;
 		curl_mime *mime = NULL;
 		struct curl_slist *headers = NULL;
-		char *buffContent;
-		char *buffHeader;
-		FileStruct *fileVar;
+		char *buffContent = NULL;
+		char *buffHeader = NULL;
+		FileStruct *fileVar = NULL;
+		char *formString = NULL;
 
 		if(headerType != NULL) {
 			list_ForEach(listEntry, headerType) {
@@ -200,7 +206,7 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 					                  keyPairLength;
 				}
 
-				char *formString = malloc(parameterLength + 1);
+				formString = malloc(parameterLength + 1);
 				memset(formString, 0, parameterLength + 1);
 
 				list_ForEach(listEntry, formParameters) {
@@ -243,14 +249,15 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 						if(strcmp(keyValuePair->key,
 						          "file") == 0)
 						{
-							fileVar =
-								malloc(
-									sizeof(
-										FileStruct));
+							printf(
+								"Size of fileVar - %p\n",
+								fileVar);
 							memcpy(&fileVar,
 							       keyValuePair->value,
 							       sizeof(fileVar));
-
+							printf(
+								"Size of fileVar1 - %p\n",
+								fileVar);
 							curl_mime_data(part,
 							               fileVar->fileData,
 							               fileVar->fileSize);
@@ -280,7 +287,7 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 			}
 		}
 		// this would only be generated for apiKey authentication
-      #ifdef API_KEY
+	#ifdef API_KEY
 		list_ForEach(listEntry, apiClient->apiKeys) {
 			keyValuePair_t *apiKey = listEntry->data;
 			if((apiKey->key != NULL) &&
@@ -292,7 +299,7 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 				free(headerValueToWrite);
 			}
 		}
-      #endif // API_KEY
+	#endif // API_KEY
 
 		char *targetUrl =
 			assembleTargetUrl(apiClient->basePath,
@@ -309,18 +316,18 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(handle, CURLOPT_VERBOSE, 1L); // to get curl debug msg
 		// this would only be generated for OAuth2 authentication
-      #ifdef OAUTH2
+	#ifdef OAUTH2
 		if(apiClient->accessToken != NULL) {
 			// curl_easy_setopt(handle, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
 			curl_easy_setopt(handle,
 			                 CURLOPT_XOAUTH2_BEARER,
 			                 apiClient->accessToken);
 		}
-      #endif
+	#endif
 
 
 		// this would only be generated for basic authentication:
-      #ifdef BASIC_AUTH
+	#ifdef BASIC_AUTH
 		char *authenticationToken;
 
 		if((apiClient->username != NULL) &&
@@ -344,7 +351,7 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 			                 authenticationToken);
 		}
 
-      #endif // BASIC_AUTH
+	#endif // BASIC_AUTH
 
 		if(bodyParameters != NULL) {
 			postData(handle, bodyParameters);
@@ -364,15 +371,16 @@ void apiClient_invoke(apiClient_t *apiClient, char *operationParameter,
 			fprintf(stderr, "curl_easy_perform() failed: %s\n",
 			        curl_easy_strerror(res));
 		}
-      #ifdef BASIC_AUTH
+	#ifdef BASIC_AUTH
 		if((apiClient->username != NULL) &&
 		   (apiClient->password != NULL) )
 		{
 			free(authenticationToken);
 		}
-      #endif // BASIC_AUTH
+	#endif // BASIC_AUTH
 		curl_easy_cleanup(handle);
 		if(formParameters != NULL) {
+			free(formString);
 			curl_mime_free(mime);
 		}
 	}
@@ -419,7 +427,7 @@ char *strReplace(char *orig, char *rep, char *with) {
 	if(!result) {
 		return NULL;
 	}
-
+	char *originalPointer = orig; // copying original pointer to free the memory
 	// first time through the loop, all the variable are set correctly
 	// from here on,
 	// tmp points to the end of the result string
@@ -433,5 +441,6 @@ char *strReplace(char *orig, char *rep, char *with) {
 		orig += lenFront + lenRep; // move to next "end of rep"
 	}
 	strcpy(tmp, orig);
+	free(originalPointer);
 	return result;
 }

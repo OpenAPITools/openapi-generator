@@ -4,11 +4,34 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "list.h"
 #include "{{classname}}.h"
 {{#imports}}
 #include "{{{.}}}.h"
 {{/imports}}
 
+{{#vars}}
+    {{#isEnum}}
+         char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
+            char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+            return {{baseName}}Array[{{baseName}}];
+
+            }
+
+
+        {{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
+            int stringToReturn = 0;
+            char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+            size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
+            while(stringToReturn < sizeofArray) {
+                if(strcmp({{baseName}}, {{baseName}}Array[stringToReturn]) == 0) {
+                    return stringToReturn;
+                }
+            stringToReturn++;
+            }
+        }
+    {{/isEnum}}
+{{/vars}}
 
 {{classname}}_t *{{classname}}_create(
     {{#vars}}
@@ -25,7 +48,7 @@
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{baseName}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
@@ -64,15 +87,13 @@
 
 
 void {{classname}}_free({{classname}}_t *{{classname}}) {
+    listEntry_t *listEntry;
 	{{#vars}}
 	{{^isContainer}}
 	{{^isPrimitiveType}}
-	{{{name}}}_free({{{classname}}}->{{{baseName}}});
+	{{{baseName}}}_free({{{classname}}}->{{{baseName}}});
 	{{/isPrimitiveType}}
 	{{#isPrimitiveType}}
-    {{#isNumeric}}
-    //free({{{classname}}}->{{{baseName}}});
-    {{/isNumeric}}
     {{#isBoolean}}
     //free({{{classname}}}->{{{baseName}}});
     {{/isBoolean}}
@@ -83,20 +104,26 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
-    //free({{{classname}}}->{{{baseName}}});
+    free({{{classname}}}->{{{baseName}}});
     {{/isString}}
     {{/isEnum}}
     {{#isDateTime}}
-    //free({{{classname}}}->{{{baseName}}});
+    free({{{classname}}}->{{{baseName}}});
     {{/isDateTime}}
 	{{/isPrimitiveType}}
 	{{/isContainer}}
 	{{#isContainer}}
 	{{#isListContainer}}
 	{{#isPrimitiveType}}
+	list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+		free(listEntry->data);
+	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
+		list_ForEach(listEntry, {{classname}}->{{baseName}}) {
+		{{complexType}}_free(listEntry->data);
+	}
 	list_free({{classname}}->{{baseName}});
 	{{/isPrimitiveType}}
 	{{/isListContainer}}
@@ -127,7 +154,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{classname}}}->{{{baseName}}}) == NULL) {
+    if(cJSON_AddStringToObject(item, "{{{baseName}}}", {{{baseName}}}{{classname}}_ToString({{{classname}}}->{{{baseName}}})) == NULL) {
     goto fail; //String
     }
     {{/isString}}
@@ -232,10 +259,13 @@ fail:
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
+    {{{baseName}}}_e {{baseName}}Variable;
     cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL)){
     goto end; //String
     }
+
+    {{baseName}}Variable = {{baseName}}{{classname}}_FromString({{{baseName}}}->valuestring);
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
@@ -262,8 +292,8 @@ fail:
             fprintf(stderr, "Error Before: %s\n", error_ptr);
         goto end; //nonprimitive
     }
-    char *JSONData = cJSON_Print({{{baseName}}}JSON);
-    {{{baseName}}} = {{{baseName}}}_parseFromJSON(JSONData);
+    char *{{{baseName}}}JSONData = cJSON_Print({{{baseName}}}JSON);
+    {{{baseName}}} = {{{baseName}}}_parseFromJSON({{{baseName}}}JSONData);
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
@@ -303,6 +333,7 @@ fail:
         {{complexType}}_t *{{{baseName}}}Item = {{complexType}}_parseFromJSON(JSONData);
 
         list_addElement({{{baseName}}}List, {{{baseName}}}Item);
+        free(JSONData);
     }
     {{/isPrimitiveType}}
     {{/isListContainer}}
@@ -328,7 +359,7 @@ fail:
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        strdup({{{baseName}}}->valuestring){{#hasMore}},{{/hasMore}}
+        {{baseName}}Variable{{#hasMore}},{{/hasMore}}
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}
@@ -356,7 +387,54 @@ fail:
         {{/isContainer}}
         {{/vars}}
         );
-
+{{#vars}}
+        {{^isContainer}}
+        {{^isPrimitiveType}}
+        //cJSON_Delete({{baseName}}JSON);
+        free({{{baseName}}}JSONData);
+        //{{baseName}}_free({{baseName}});
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        {{#isNumeric}}
+        //cJSON_Delete({{baseName}});
+        {{/isNumeric}}
+        {{#isBoolean}}
+        //cJSON_Delete({{baseName}});
+        {{/isBoolean}}
+        {{#isEnum}}
+        {{#isString}}
+       // cJSON_Delete({{baseName}});
+        {{/isString}}
+        {{/isEnum}}
+        {{^isEnum}}
+        {{#isString}}
+        //cJSON_Delete({{baseName}});
+        {{/isString}}
+        {{/isEnum}}
+        {{#isDateTime}}
+        //cJSON_Delete({{baseName}});
+        {{/isDateTime}}
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#isListContainer}}
+        {{#isPrimitiveType}}
+        //cJSON_Delete({{baseName}});
+        //cJSON_Delete({{baseName}}JSON);
+        //list_free({{baseName}}List);
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        //cJSON_Delete({{baseName}});
+        //cJSON_Delete({{baseName}}JSON);
+        //list_free({{baseName}}List);
+        {{/isPrimitiveType}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        // TODO map/hash not supported at the moment
+        {{/isMapContainer}}
+        {{/isContainer}}
+{{/vars}}
+ cJSON_Delete({{classname}}JSON);
     return {{classname}};
 end:
     cJSON_Delete({{classname}}JSON);

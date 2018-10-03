@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "cJSON.h"
+#include "list.h"
 #include "api_response.h"
 
 
@@ -16,9 +17,9 @@ api_response_t *api_response_create(int code, char *type, char *message) {
 
 
 void api_response_free(api_response_t *api_response) {
-	// free(api_response->code);
-	// free(api_response->type);
-	// free(api_response->message);
+	listEntry_t *listEntry;
+	free(api_response->type);
+	free(api_response->message);
 
 	free(api_response);
 }
@@ -90,7 +91,10 @@ api_response_t *api_response_parseFromJSON(char *jsonString) {
 		strdup(type->valuestring),
 		strdup(message->valuestring)
 		);
-
+	// cJSON_Delete(code);
+	// cJSON_Delete(type);
+	// cJSON_Delete(message);
+	cJSON_Delete(api_responseJSON);
 	return api_response;
 end:
 	cJSON_Delete(api_responseJSON);

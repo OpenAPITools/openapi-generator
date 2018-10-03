@@ -43,7 +43,7 @@
     {{#pathParams}}
 
     // Path Params
-    long sizeOfPathParams = {{#pathParams}}{{#isLong}}sizeof({{baseName}})+3{{/isLong}}{{#isString}}strlen({{baseName}})+3{{/isString}}{{/pathParams}};
+    long sizeOfPathParams = {{#pathParams}}{{#isLong}}sizeof({{baseName}})+3{{/isLong}}{{#isString}}strlen({{baseName}})+3{{/isString}}{{/pathParams}} + strlen("{ {{baseName}} }");
 
     {{#isLong}}
     if({{baseName}} == 0){
@@ -220,7 +220,8 @@
    {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
     //primitive reutrn type simple
-    {{returnType}}* elementToReturn = ({{returnType}}*)apiClient->dataReceived;
+    {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
+
     {{/returnSimpleType}}
     {{^returnSimpleType}}
     //primitive reutrn type not simple
@@ -230,11 +231,14 @@
     cJSON_ArrayForEach({{{baseName}}}VarJSON, {{baseName}}localVarJSON){
     keyValuePair_t *keyPair = keyValuePair_create({{{baseName}}}VarJSON->string, cJSON_Print({{{baseName}}}VarJSON));
     list_addElement(elementToReturn, keyPair);
+    free(keyPair->value);
     }
+    cJSON_Delete({{baseName}}localVarJSON);
+
     {{/returnSimpleType}}
-   {{/returnTypeIsPrimitive}}
-   {{^returnTypeIsPrimitive}}
-   {{#returnContainer}}
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}
+    {{#returnContainer}}
     cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
     if(!cJSON_IsArray({{classname}}localVarJSON)) {
         return 0;//nonprimitive container
@@ -245,7 +249,7 @@
     {
     if(!cJSON_IsObject({{{baseName}}}VarJSON))
     {
-        return 0;;
+       // return 0;;
     }
     char *localVarJSONToChar = cJSON_Print({{{baseName}}}VarJSON);
     list_addElement(elementToReturn , localVarJSONToChar);
@@ -258,7 +262,7 @@
     //nonprimitive not container
     {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
     if(elementToReturn == NULL) {
-        return 0;
+      //  return 0;
     }
 
     {{/returnContainer}}
@@ -272,6 +276,7 @@
     {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
     free(localVarPath);
     {{#pathParams}}
+    //free(localVarPathFinal);
     free(localVarToReplace);
     {{/pathParams}}
     {{#headerParams}}
@@ -289,10 +294,8 @@
     free(localVarBodyParameters);
     {{/isListContainer}}
     {{^isListContainer}}
-    {{#isString}}
     cJSON_Delete(localVarSingleItemJSON_{{baseName}});
     free(localVarBodyParameters);
-    {{/isString}}
     {{/isListContainer}}
     {{/bodyParams}}
     {{#queryParams}}
@@ -300,6 +303,7 @@
     {{#isString}}
     free(keyQuery_{{{baseName}}});
     free(valueQuery_{{{baseName}}});
+    keyValuePair_free(keyPairQuery_{{{baseName}}});
     {{/isString}}
     {{/isListContainer}}
     {{/queryParams}}
@@ -324,13 +328,14 @@ end:
     {{/returnType}}
     {{^returnType}}
     //No return type
-    apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
     {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
     {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
     {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
     {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
     {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
      {{#pathParams}}
+    // free(localVarPathFinal);
     free(localVarToReplace);
     {{/pathParams}}
     {{#headerParams}}
@@ -348,10 +353,8 @@ end:
     free(localVarBodyParameters);
     {{/isListContainer}}
     {{^isListContainer}}
-    {{#isString}}
     cJSON_Delete(localVarSingleItemJSON_{{baseName}});
     free(localVarBodyParameters);
-    {{/isString}}
     {{/isListContainer}}
     {{/bodyParams}}
     {{#queryParams}}
@@ -372,10 +375,10 @@ end:
     {{#isString}}
     free(keyForm_{{{baseName}}});
     free(valueForm_{{{baseName}}});
+    keyValuePair_free(keyPairForm_{{{baseName}}});
     {{/isString}}
     {{/isFile}}
     {{/formParams}}
-end:
     free(localVarPath);
     {{/returnType}}
 

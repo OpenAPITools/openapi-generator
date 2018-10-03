@@ -115,18 +115,18 @@ int main() {
 		free(password);
 	}
 
- printf(
- "------------------------------ Part Ends ----------------------------------\n");
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
 
- apiClient_t *apiClient4 = apiClient_create();
+	apiClient_t *apiClient4 = apiClient_create();
 
- UserAPI_logoutUser(apiClient4);
+	UserAPI_logoutUser(apiClient4);
 
 
- printf(
- "------------------------------ Part Ends ----------------------------------\n");
+	printf(
+		"------------------------------ Part Ends ----------------------------------\n");
 
- apiClient_t *apiClient5 = apiClient_create();
+	apiClient_t *apiClient5 = apiClient_create();
 
- UserAPI_deleteUser(apiClient5, "example123");
+	UserAPI_deleteUser(apiClient5, "example123");
 }

@@ -16,4 +16,6 @@ cmake .
 
 make 
 
-./unit-PetAPI
+./unit-manual-PetAPI
+./unit-manual-UserAPI
+./unit-manual-StoreAPI

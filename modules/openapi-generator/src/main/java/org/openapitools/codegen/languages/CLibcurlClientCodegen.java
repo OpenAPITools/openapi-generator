@@ -203,11 +203,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external" + File.separator + "include", "cJSON.h"));
 
         // test files should not be overwritten
-       writeOptional(outputFolder, new SupportingFile("api_store_test.mustache", "unit-tests", "StoreAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("api_user_test.mustache", "unit-tests", "UserAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("api_test.mustache", "unit-tests", "PetAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("model_order_test.mustache", "unit-tests", "order.c"));
-       writeOptional(outputFolder, new SupportingFile("model_user_test.mustache", "unit-tests", "user.c"));
+       writeOptional(outputFolder, new SupportingFile("api_store_test.mustache", "unit-tests", "manual-StoreAPI.c"));
+       writeOptional(outputFolder, new SupportingFile("api_user_test.mustache", "unit-tests", "manual-UserAPI.c"));
+       writeOptional(outputFolder, new SupportingFile("api_pet_test.mustache", "unit-tests", "manual-PetAPI.c"));
+       writeOptional(outputFolder, new SupportingFile("model_order_test.mustache", "unit-tests", "manual-order.c"));
+       writeOptional(outputFolder, new SupportingFile("model_user_test.mustache", "unit-tests", "manual-user.c"));
        //writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
     }
 
@@ -418,7 +418,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return  escapeText(value) ;
         }
     }
 
@@ -586,6 +586,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String escapeUnsafeCharacters(String input) {
         return input.replace("=end", "=_end").replace("=begin", "=_begin");
     }
+
 
     @Override
     public void postProcessFile(File file, String fileType) {

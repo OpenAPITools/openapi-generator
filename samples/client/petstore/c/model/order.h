@@ -14,17 +14,23 @@ typedef int bool;
 #define true 1
 #define false 0
 
+typedef enum  {  placed, approved, delivered } status_e;
+
+char *status_ToString(status_e status);
+
+status_e statusFromString(char *status);
+
 typedef struct order_t {
 	long id; // numeric
 	long petId; // numeric
 	int quantity; // numeric
 	char *shipDate; // date time string
-	char *status; // enum string
+	status_e status; // enum string
 	bool complete; // boolean
 } order_t;
 
 order_t *order_create(long id, long petId, int quantity, char *shipDate,
-                      char *status, bool complete);
+                      status_e status, bool complete);
 
 void order_free(order_t *order);
 

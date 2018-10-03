@@ -56,13 +56,14 @@ void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 	                 "POST");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
 
 	list_free(localVarContentType);
-end:
+	cJSON_Delete(localVarSingleItemJSON_pet);
+	free(localVarBodyParameters);
 	free(localVarPath);
 }
 
@@ -83,7 +84,7 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3;
+	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
@@ -123,17 +124,17 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 	                 "DELETE");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 	list_free(localVarHeaderParameters);
 
 
 
+	// free(localVarPathFinal);
 	free(localVarToReplace);
 	free(keyPairHeader_api_key);
 	free(keyHeader_api_key);
 	free(valueHeader_api_key);
-end:
 	free(localVarPath);
 }
 
@@ -184,7 +185,7 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 	cJSON_ArrayForEach(PetVarJSON, PetAPIlocalVarJSON)
 	{
 		if(!cJSON_IsObject(PetVarJSON)) {
-			return 0;
+			// return 0;;
 		}
 		char *localVarJSONToChar = cJSON_Print(PetVarJSON);
 		list_addElement(elementToReturn, localVarJSONToChar);
@@ -252,7 +253,7 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 	cJSON_ArrayForEach(PetVarJSON, PetAPIlocalVarJSON)
 	{
 		if(!cJSON_IsObject(PetVarJSON)) {
-			return 0;
+			// return 0;;
 		}
 		char *localVarJSONToChar = cJSON_Print(PetVarJSON);
 		list_addElement(elementToReturn, localVarJSONToChar);
@@ -292,7 +293,7 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3;
+	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
@@ -325,7 +326,7 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	// nonprimitive not container
 	pet_t *elementToReturn = pet_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
-		return 0;
+		// return 0;
 	}
 
 	// return type
@@ -336,6 +337,7 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
+	// free(localVarPathFinal);
 	free(localVarToReplace);
 	return elementToReturn;
 end:
@@ -382,13 +384,14 @@ void PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 	                 "PUT");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 
 
 	list_free(localVarContentType);
-end:
+	cJSON_Delete(localVarSingleItemJSON_pet);
+	free(localVarBodyParameters);
 	free(localVarPath);
 }
 
@@ -410,7 +413,7 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3;
+	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
@@ -464,18 +467,20 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
 	                 "POST");
 
 	// No return type
-	apiClient_free(apiClient);
+end:    apiClient_free(apiClient);
 
 
 	list_free(localVarFormParameters);
 
 	list_free(localVarContentType);
+	// free(localVarPathFinal);
 	free(localVarToReplace);
 	free(keyForm_name);
 	free(valueForm_name);
+	keyValuePair_free(keyPairForm_name);
 	free(keyForm_status);
 	free(valueForm_status);
-end:
+	keyValuePair_free(keyPairForm_status);
 	free(localVarPath);
 }
 
@@ -497,7 +502,7 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3;
+	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
@@ -570,7 +575,7 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	api_response_t *elementToReturn = api_response_parseFromJSON(
 		apiClient->dataReceived);
 	if(elementToReturn == NULL) {
-		return 0;
+		// return 0;
 	}
 
 	// return type
@@ -581,6 +586,7 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	list_free(localVarHeaderType);
 	list_free(localVarContentType);
 	free(localVarPath);
+	// free(localVarPathFinal);
 	free(localVarToReplace);
 	free(keyForm_additionalMetadata);
 	free(valueForm_additionalMetadata);
