@@ -1,40 +1,33 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "pet.h"
 #include "cJSON.h"
-#include "tag.h"
+#include "list.h"
+#include "pet.h"
 #include "category.h"
+#include "list.h"
+#include "tag.h"
 
-char *status_ToString(status_t status) {
-	switch(status) {
-	case 0:
-		return "available";
+char *statuspet_ToString(status_e status) {
+	char *statusArray[] = { "available", "pending", "sold" };
+	return statusArray[status];
+}
 
-	case 1:
-		return "pending";
 
-	default:
-		return "sold";
+status_e statuspet_FromString(char *status) {
+	int stringToReturn = 0;
+	char *statusArray[] = { "available", "pending", "sold" };
+	size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
+	while(stringToReturn < sizeofArray) {
+		if(strcmp(status, statusArray[stringToReturn]) == 0) {
+			return stringToReturn;
+		}
+		stringToReturn++;
 	}
 }
 
-status_t status_FromString(char *status) {
-	if(strcmp(status, "available") == 0) {
-		return 0;
-	} else if(strcmp(status, "pending") == 0) {
-		return 1;
-	} else {
-		return 2;
-	}
-}
-
-pet_t *pet_create(long		id,
-                  category_t	*category,
-                  char		*name,
-                  list_t	*photoUrls,
-                  list_t	*tags,
-                  status_t	status) {
+pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls,
+                  list_t *tags, status_e status) {
 	pet_t *pet = malloc(sizeof(pet_t));
 	pet->id = id;
 	pet->category = category;
@@ -46,229 +39,203 @@ pet_t *pet_create(long		id,
 	return pet;
 }
 
+
 void pet_free(pet_t *pet) {
 	listEntry_t *listEntry;
-
 	category_free(pet->category);
 	free(pet->name);
-
 	list_ForEach(listEntry, pet->photoUrls) {
 		free(listEntry->data);
 	}
 	list_free(pet->photoUrls);
-
 	list_ForEach(listEntry, pet->tags) {
 		tag_free(listEntry->data);
 	}
 	list_free(pet->tags);
+	// free(pet->status);
 
 	free(pet);
 }
 
-pet_t *pet_parseFromJSON(char *jsonString) {
-	pet_t *pet = NULL;
-	cJSON *petId;
-	cJSON *categoryJSON;
-	cJSON *categoryId;
-	cJSON *categoryName;
-	cJSON *petName;
-	cJSON *petPhotoUrls;
-	cJSON *petPhotoUrl;
-	cJSON *tags;
-	cJSON *tag;
-	cJSON *tagId;
-	cJSON *tagName;
-	cJSON *petStatus;
-
-	// Pet
-	cJSON *petJSON = cJSON_Parse(jsonString);
-	if(petJSON == NULL) {
-		const char *error_ptr = cJSON_GetErrorPtr();
-		if(error_ptr != NULL) {
-			fprintf(stderr, "Error before: %s\n", error_ptr);
-		}
-		goto end;
-	}
-
-	// Pet->id
-	petId = cJSON_GetObjectItemCaseSensitive(petJSON, "id");
-	if(!cJSON_IsNumber(petId)) {
-		goto end;
-	}
-
-	// Pet->category
-	category_t *category;
-	categoryJSON = cJSON_GetObjectItemCaseSensitive(petJSON, "category");
-	if(categoryJSON == NULL) {
-		const char *error_ptr = cJSON_GetErrorPtr();
-		if(error_ptr != NULL) {
-			fprintf(stderr, "Error before: %s\n", error_ptr);
-		}
-		goto end;
-	}
-
-	// Category->id
-	categoryId = cJSON_GetObjectItemCaseSensitive(categoryJSON, "id");
-	if(!cJSON_IsNumber(categoryId)) {
-		goto end;
-	}
-
-	// Category->name
-	categoryName = cJSON_GetObjectItemCaseSensitive(categoryJSON, "name");
-	if(!cJSON_IsString(categoryName) ||
-	   (categoryName->valuestring == NULL) )
-	{
-		goto end;
-	}
-
-	category = category_create(categoryId->valuedouble,
-	                           strdup(categoryName->valuestring));
-
-	// Pet->name
-	petName = cJSON_GetObjectItemCaseSensitive(petJSON, "name");
-	if(!cJSON_IsString(petName) ||
-	   (petName->valuestring == NULL) )
-	{
-		goto end;
-	}
-
-	// Pet->photoUrls
-	petPhotoUrls = cJSON_GetObjectItemCaseSensitive(petJSON, "photoUrls");
-	if(!cJSON_IsArray(petPhotoUrls)) {
-		goto end;
-	}
-
-	list_t *photoUrlList = list_create();
-
-	cJSON_ArrayForEach(petPhotoUrl, petPhotoUrls)
-	{
-		if(!cJSON_IsString(petPhotoUrl) ||
-		   (petPhotoUrl->valuestring == NULL) )
-		{
-			goto end;
-		}
-
-		list_addElement(photoUrlList, strdup(petPhotoUrl->valuestring));
-	}
-
-	// Pet->tags
-	tags = cJSON_GetObjectItemCaseSensitive(petJSON, "tags");
-	if(!cJSON_IsArray(tags)) {
-		goto end;
-	}
-
-	list_t *tagList = list_create();
-
-	cJSON_ArrayForEach(tag, tags)
-	{
-		if(!cJSON_IsObject(tag)) {
-			goto end;
-		}
-
-		tagId = cJSON_GetObjectItemCaseSensitive(tag, "id");
-		if(!cJSON_IsNumber(tagId)) {
-			goto end;
-		}
-		tagName = cJSON_GetObjectItemCaseSensitive(tag, "name");
-		if(!cJSON_IsString(tagName) ||
-		   (tagName->valuestring == NULL) )
-		{
-			goto end;
-		}
-		tag_t *tag =
-			tag_create(tagId->valuedouble,
-			           strdup(tagName->valuestring));
-		list_addElement(tagList, tag);
-	}
-
-	// Pet->status
-	status_t status;
-	petStatus = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
-	if(!cJSON_IsString(petStatus) ||
-	   (petStatus->valuestring == NULL) )
-	{
-		goto end;
-	}
-
-	status = status_FromString(petStatus->valuestring);
-
-	pet = pet_create(petId->valuedouble,
-	                 category,
-	                 strdup(petName->valuestring),
-	                 photoUrlList,
-	                 tagList,
-	                 status);
-
-end:
-	cJSON_Delete(petJSON);
-	return pet;
-}
-
 cJSON *pet_convertToJSON(pet_t *pet) {
-	listEntry_t *listEntry;
-
-	cJSON *petJSONObject = cJSON_CreateObject();
-
-	// Pet->id
-	if(cJSON_AddNumberToObject(petJSONObject, "id", pet->id) == NULL) {
-		goto fail;
+	cJSON *item = cJSON_CreateObject();
+	// pet->id
+	if(cJSON_AddNumberToObject(item, "id", pet->id) == NULL) {
+		goto fail; // Numeric
 	}
 
+	// pet->category
 	cJSON *category = category_convertToJSON(pet->category);
-
 	if(category == NULL) {
+		goto fail; // nonprimitive
+	}
+	cJSON_AddItemToObject(item, "category", category);
+	if(item->child == NULL) {
 		goto fail;
 	}
 
-	// Pet->category
-	cJSON_AddItemToObject(petJSONObject, "category", category);
-	if(petJSONObject->child == NULL) {
-		goto fail;
+	// pet->name
+	if(cJSON_AddStringToObject(item, "name", pet->name) == NULL) {
+		goto fail; // String
 	}
 
-	// Pet->name
-	if(cJSON_AddStringToObject(petJSONObject, "name", pet->name) == NULL) {
-		goto fail;
-	}
-
-	// Pet->photoUrls
-	cJSON *photoUrls = cJSON_AddArrayToObject(petJSONObject, "photoUrls");
-
+	// pet->photoUrls
+	cJSON *photoUrls = cJSON_AddArrayToObject(item, "photoUrls");
 	if(photoUrls == NULL) {
-		goto fail;
+		goto fail; // primitive container
 	}
 
-	list_ForEach(listEntry, pet->photoUrls) {
+	listEntry_t *photoUrlsListEntry;
+	list_ForEach(photoUrlsListEntry, pet->photoUrls) {
 		if(cJSON_AddStringToObject(photoUrls, "",
-		                           listEntry->data) == NULL)
+		                           photoUrlsListEntry->data) == NULL)
 		{
 			goto fail;
 		}
 	}
 
-	// Pet->tags
-	cJSON *tags = cJSON_AddArrayToObject(petJSONObject, "tags");
-
+	// pet->tags
+	cJSON *tags = cJSON_AddArrayToObject(item, "tags");
 	if(tags == NULL) {
-		goto fail;
+		goto fail; // nonprimitive container
 	}
 
-	list_ForEach(listEntry, pet->tags) {
-		cJSON *item = tag_convertToJSON(listEntry->data);
+	listEntry_t *tagsListEntry;
+	list_ForEach(tagsListEntry, pet->tags) {
+		cJSON *item = tag_convertToJSON(tagsListEntry->data);
 		if(item == NULL) {
 			goto fail;
 		}
 		cJSON_AddItemToArray(tags, item);
 	}
 
-	// Pet->status
-	cJSON_AddStringToObject(petJSONObject, "status",
-	                        status_ToString(pet->status));
+	// pet->status
+	if(cJSON_AddStringToObject(item, "status",
+	                           statuspet_ToString(pet->status)) == NULL)
+	{
+		goto fail; // String
+	}
 
-	return petJSONObject;
-
+	return item;
 fail:
-	// frees memory
-	cJSON_Delete(petJSONObject);
+	cJSON_Delete(item);
+	return NULL;
+}
+
+pet_t *pet_parseFromJSON(char *jsonString) {
+	pet_t *pet = NULL;
+	cJSON *petJSON = cJSON_Parse(jsonString);
+	if(petJSON == NULL) {
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if(error_ptr != NULL) {
+			fprintf(stderr, "Error Before: %s\n", error_ptr);
+			goto end;
+		}
+	}
+
+	// pet->id
+	cJSON *id = cJSON_GetObjectItemCaseSensitive(petJSON, "id");
+	if(!cJSON_IsNumber(id)) {
+		goto end; // Numeric
+	}
+
+	// pet->category
+	category_t *category;
+	cJSON *categoryJSON = cJSON_GetObjectItemCaseSensitive(petJSON,
+	                                                       "category");
+	if(petJSON == NULL) {
+		const char *error_ptr = cJSON_GetErrorPtr();
+		if(error_ptr != NULL) {
+			fprintf(stderr, "Error Before: %s\n", error_ptr);
+		}
+		goto end; // nonprimitive
+	}
+	char *categoryJSONData = cJSON_Print(categoryJSON);
+	category = category_parseFromJSON(categoryJSONData);
+
+	// pet->name
+	cJSON *name = cJSON_GetObjectItemCaseSensitive(petJSON, "name");
+	if(!cJSON_IsString(name) ||
+	   (name->valuestring == NULL))
+	{
+		goto end; // String
+	}
+
+	// pet->photoUrls
+	cJSON *photoUrls;
+	cJSON *photoUrlsJSON = cJSON_GetObjectItemCaseSensitive(petJSON,
+	                                                        "photoUrls");
+	if(!cJSON_IsArray(photoUrlsJSON)) {
+		goto end; // primitive container
+	}
+	list_t *photoUrlsList = list_create();
+
+	cJSON_ArrayForEach(photoUrls, photoUrlsJSON)
+	{
+		if(!cJSON_IsString(photoUrls) ||
+		   (photoUrls->valuestring == NULL))
+		{
+			goto end;
+		}
+		list_addElement(photoUrlsList, strdup(photoUrls->valuestring));
+	}
+
+	// pet->tags
+	cJSON *tags;
+	cJSON *tagsJSON = cJSON_GetObjectItemCaseSensitive(petJSON, "tags");
+	if(!cJSON_IsArray(tagsJSON)) {
+		goto end; // nonprimitive container
+	}
+
+	list_t *tagsList = list_create();
+
+	cJSON_ArrayForEach(tags, tagsJSON)
+	{
+		if(!cJSON_IsObject(tags)) {
+			goto end;
+		}
+		char *JSONData = cJSON_Print(tags);
+		tag_t *tagsItem = tag_parseFromJSON(JSONData);
+
+		list_addElement(tagsList, tagsItem);
+		free(JSONData);
+	}
+
+	// pet->status
+	status_e statusVariable;
+	cJSON *status = cJSON_GetObjectItemCaseSensitive(petJSON, "status");
+	if(!cJSON_IsString(status) ||
+	   (status->valuestring == NULL))
+	{
+		goto end; // String
+	}
+
+	statusVariable = statuspet_FromString(status->valuestring);
+
+
+	pet = pet_create(
+		id->valuedouble,
+		category,
+		strdup(name->valuestring),
+		photoUrlsList,
+		tagsList,
+		statusVariable
+		);
+	// cJSON_Delete(id);
+	// cJSON_Delete(categoryJSON);
+	free(categoryJSONData);
+	// category_free(category);
+	// cJSON_Delete(name);
+	// cJSON_Delete(photoUrls);
+	// cJSON_Delete(photoUrlsJSON);
+	// list_free(photoUrlsList);
+	// cJSON_Delete(tags);
+	// cJSON_Delete(tagsJSON);
+	// list_free(tagsList);
+	// cJSON_Delete(status);
+	cJSON_Delete(petJSON);
+	return pet;
+end:
+	cJSON_Delete(petJSON);
 	return NULL;
 }
