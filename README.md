@@ -11,7 +11,6 @@
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/3.4.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
 [![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=3.4.x)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=3.4.x&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
-</div>
 
 [`4.0.x`](https://github.com/OpenAPITools/openapi-generator/tree/4.0.x) branch: [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/4.0.x.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
 [![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator/tree/4.0.x.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
