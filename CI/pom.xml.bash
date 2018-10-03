@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.3.1-SNAPSHOT</version>
+    <version>3.4.0-SNAPSHOT</version>
     <url>https://github.com/openapi-tools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapi-tools/openapi-generator.git</connection>
@@ -923,7 +923,7 @@
         <swagger-parser-version>2.0.4</swagger-parser-version>
         <swagger-core-version>2.0.4</swagger-core-version>
         <scala-version>2.11.1</scala-version>
-        <felix-version>3.3.1-SNAPSHOT</felix-version>
+        <felix-version>3.4.0-SNAPSHOT</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
