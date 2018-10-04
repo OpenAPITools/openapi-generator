@@ -73,6 +73,5 @@ module Petstore
       end
       return data, status_code, headers
     end
-
   end
 end
