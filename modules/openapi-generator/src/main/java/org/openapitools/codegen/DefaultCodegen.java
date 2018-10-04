@@ -731,7 +731,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelFilename(String name) {
-        return this.sanitizeName(initialCaps(name));
+        return initialCaps(name);
     }
 
     /**
@@ -741,7 +741,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelTestFilename(String name) {
-        return this.sanitizeName(initialCaps(name) + "Test");
+        return initialCaps(name) + "Test";
     }
 
     /**
