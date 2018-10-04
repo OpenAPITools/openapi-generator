@@ -1109,41 +1109,27 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         return authMethods;
     }
-    
-  //new method related to issue 1164
-    public void adjustToBoolean(String propertyName)
-    {
-    	Object object = this.config.additionalProperties().get(propertyName);
-    	Boolean val=Boolean.FALSE;
-    	if(object!=null)
-    	{
-    		if(object instanceof String)
-    		{
-    			String string=(String) object;
-    			if(string.equalsIgnoreCase("true"))
-    			{
-    				val=true;
-    			}
-    			else
-    			{
-    				val=Boolean.FALSE;
-    			}
-    		}
-    		else if(object instanceof Boolean)
-    		{
-    			val=(Boolean) object;
-    		}
-    		else
-    		{
-    			val=Boolean.TRUE;
-    		}
-    	}
-    	else
-    	{
-    		val=Boolean.FALSE;
-    	}
-    	this.config.additionalProperties().put(propertyName, val);
-    	
-    }
+ // new method related to issue 1164
+    public void adjustToBoolean(String propertyName) {
+        Object object = this.config.additionalProperties().get(propertyName);
+        Boolean val = Boolean.FALSE;
+        if (object != null) {
+            if (object instanceof String) {
+                String string = (String) object;
+                if (string.equalsIgnoreCase("true")) {
+                    val = true;
+                } else {
+                    val = Boolean.FALSE;
+                }
+            } else if (object instanceof Boolean) {
+                val = (Boolean) object;
+            } else {
+                val = Boolean.TRUE;
+            }
+        } else {
+            val = Boolean.FALSE;
+        }
+        this.config.additionalProperties().put(propertyName, val);
 
+    }
 }
