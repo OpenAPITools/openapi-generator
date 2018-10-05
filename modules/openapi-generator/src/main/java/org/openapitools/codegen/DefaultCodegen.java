@@ -4215,12 +4215,12 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            Schema schema = composedSchema.getAllOf().get(0);
-            String ref = schema.get$ref();
-            if (StringUtils.isBlank(ref)) {
-                return null;
+            for (Schema schema : composedSchema.getAllOf()) {
+                String ref = schema.get$ref();
+                if (!StringUtils.isBlank(ref)) {
+                    return ModelUtils.getSimpleRef(ref);
+                }
             }
-            return ModelUtils.getSimpleRef(ref);
         }
         return null;
     }
