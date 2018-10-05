@@ -16,9 +16,9 @@
 
 typedef enum  {  available, pending, sold } status_e;
 
-char *status_ToString(status_e status);
+char *statuspet_ToString(status_e status);
 
-status_e statusFromString(char *status);
+status_e statuspet_FromString(char *status);
 
 typedef struct pet_t {
 	long id; // numeric
