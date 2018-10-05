@@ -31,9 +31,9 @@ typedef enum  { {{#enumVars}} {{{value}}}{{^-last}},{{/-last}}{{/enumVars}} } {{
 
 {{#vars}}
 {{#isEnum}}
-char* {{baseName}}_ToString({{baseName}}_e {{baseName}});
+char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}});
 
-{{baseName}}_e {{baseName}}FromString(char* {{baseName}});
+{{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}});
 {{/isEnum}}
 {{/vars}}
 
@@ -127,7 +127,7 @@ typedef struct {{classname}}_t {
         {{/isContainer}}
         {{/vars}}
 );
-		
+
 void {{classname}}_free({{classname}}_t *{{classname}});
 
 {{classname}}_t *{{classname}}_parseFromJSON(char *jsonString);
