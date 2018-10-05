@@ -49,16 +49,16 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
 
     }
 
-    @Bean
+   /* @Bean
     public Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer webConfigurer() {
         return new Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer{{^java8}}Adapter{{/java8}}() {
-            /*@Override
+            @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("*")
                         .allowedMethods("*")
                         .allowedHeaders("Content-Type");
-            }*/
+            }
 {{^useSpringfox}}
 
             @Override
@@ -68,5 +68,5 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
 {{/useSpringfox}}
         };
     }
-
+*/
 }
