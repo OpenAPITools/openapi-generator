@@ -16,9 +16,9 @@ typedef int bool;
 
 typedef enum  {  placed, approved, delivered } status_e;
 
-char *status_ToString(status_e status);
+char *statusorder_ToString(status_e status);
 
-status_e statusFromString(char *status);
+status_e statusorder_FromString(char *status);
 
 typedef struct order_t {
 	long id; // numeric
