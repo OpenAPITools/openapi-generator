@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ClassModel  {
   
   @ApiModelProperty(value = "")
-  private String propertyClass = null;
+  private String propertyClass;
  /**
    * Get propertyClass
    * @return propertyClass

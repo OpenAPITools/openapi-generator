@@ -27,10 +27,10 @@ import javax.validation.Valid;
 
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
-  private String bar = null;
+  private String bar;
 
   @JsonProperty("baz")
-  private String baz = null;
+  private String baz;
 
   /**
    * Get bar

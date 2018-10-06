@@ -18,7 +18,7 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Create user
    * This can only be done by the logged in user.
-    * @param user Created user object (required)
+   * @param user Created user object (required)
    */
   @RequestLine("POST /user")
   @Headers({
@@ -30,7 +30,7 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Creates list of users with given input array
    * 
-    * @param user List of user object (required)
+   * @param user List of user object (required)
    */
   @RequestLine("POST /user/createWithArray")
   @Headers({
@@ -42,7 +42,7 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Creates list of users with given input array
    * 
-    * @param user List of user object (required)
+   * @param user List of user object (required)
    */
   @RequestLine("POST /user/createWithList")
   @Headers({
@@ -54,7 +54,7 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Delete user
    * This can only be done by the logged in user.
-    * @param username The name that needs to be deleted (required)
+   * @param username The name that needs to be deleted (required)
    */
   @RequestLine("DELETE /user/{username}")
   @Headers({
@@ -65,7 +65,7 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Get user by user name
    * 
-    * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
    * @return User
    */
   @RequestLine("GET /user/{username}")
@@ -77,8 +77,8 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Logs user into the system
    * 
-    * @param username The user name for login (required)
-    * @param password The password for login in clear text (required)
+   * @param username The user name for login (required)
+   * @param password The password for login in clear text (required)
    * @return String
    */
   @RequestLine("GET /user/login?username={username}&password={password}")
@@ -137,8 +137,8 @@ public interface UserApi extends ApiClient.Api {
   /**
    * Updated user
    * This can only be done by the logged in user.
-    * @param username name that need to be deleted (required)
-    * @param user Updated user object (required)
+   * @param username name that need to be deleted (required)
+   * @param user Updated user object (required)
    */
   @RequestLine("PUT /user/{username}")
   @Headers({

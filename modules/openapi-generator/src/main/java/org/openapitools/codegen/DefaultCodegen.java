@@ -1771,10 +1771,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.title = p.getTitle();
         property.getter = toGetter(name);
         property.setter = toSetter(name);
-        String example = toExampleValue(p);
-        if (!"null".equals(example)) {
-            property.example = example;
-        }
+        property.example = toExampleValue(p);
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
@@ -2743,9 +2740,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // set default value
-            if (parameterSchema.getDefault() != null) {
-                codegenParameter.defaultValue = toDefaultValue(parameterSchema);
-            }
+            codegenParameter.defaultValue = toDefaultValue(parameterSchema);
+
             // TDOO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
