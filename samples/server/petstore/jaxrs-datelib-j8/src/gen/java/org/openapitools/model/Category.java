@@ -28,10 +28,10 @@ import javax.validation.Valid;
 
 public class Category  implements Serializable {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   public Category id(Long id) {
     this.id = id;

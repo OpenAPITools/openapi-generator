@@ -12,7 +12,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
 
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
+  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
   /**

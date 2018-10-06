@@ -98,8 +98,8 @@ public interface PetApi {
    * Updates a pet in the store with form data
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
@@ -112,8 +112,8 @@ public interface PetApi {
    * uploads an image
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
@@ -127,7 +127,7 @@ public interface PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return Call&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart

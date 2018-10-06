@@ -30,16 +30,16 @@ import javax.validation.Valid;
 
 public class Order {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private OffsetDateTime shipDate = null;
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -79,7 +79,7 @@ public class Order {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;

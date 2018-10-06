@@ -357,18 +357,18 @@ http_basic_test.setPassword("YOUR PASSWORD");
 FakeApi apiInstance = new FakeApi();
 BigDecimal number = new BigDecimal(); // BigDecimal | None
 Double _double = 3.4D; // Double | None
-String patternWithoutDelimiter = "null"; // String | None
+String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 byte[] _byte = null; // byte[] | None
-Integer integer = null; // Integer | None
-Integer int32 = null; // Integer | None
-Long int64 = nullL; // Long | None
-Float _float = nullF; // Float | None
-String string = "null"; // String | None
-File binary = new File("null"); // File | None
+Integer integer = 56; // Integer | None
+Integer int32 = 56; // Integer | None
+Long int64 = 56L; // Long | None
+Float _float = 3.4F; // Float | None
+String string = "string_example"; // String | None
+File binary = new File("/path/to/file"); // File | None
 LocalDate date = new LocalDate(); // LocalDate | None
 OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
-String password = "null"; // String | None
-String paramCallback = "null"; // String | None
+String password = "password_example"; // String | None
+String paramCallback = "paramCallback_example"; // String | None
 try {
     apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 } catch (ApiException e) {
@@ -381,20 +381,20 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None | [default to null]
- **_double** | **Double**| None | [default to null]
- **patternWithoutDelimiter** | **String**| None | [default to null]
- **_byte** | **byte[]**| None | [default to null]
- **integer** | **Integer**| None | [optional] [default to null]
- **int32** | **Integer**| None | [optional] [default to null]
- **int64** | **Long**| None | [optional] [default to null]
- **_float** | **Float**| None | [optional] [default to null]
- **string** | **String**| None | [optional] [default to null]
- **binary** | **File**| None | [optional] [default to null]
- **date** | **LocalDate**| None | [optional] [default to null]
- **dateTime** | **OffsetDateTime**| None | [optional] [default to null]
- **password** | **String**| None | [optional] [default to null]
- **paramCallback** | **String**| None | [optional] [default to null]
+ **number** | **BigDecimal**| None |
+ **_double** | **Double**| None |
+ **patternWithoutDelimiter** | **String**| None |
+ **_byte** | **byte[]**| None |
+ **integer** | **Integer**| None | [optional]
+ **int32** | **Integer**| None | [optional]
+ **int64** | **Long**| None | [optional]
+ **_float** | **Float**| None | [optional]
+ **string** | **String**| None | [optional]
+ **binary** | **File**| None | [optional]
+ **date** | **LocalDate**| None | [optional]
+ **dateTime** | **OffsetDateTime**| None | [optional]
+ **password** | **String**| None | [optional]
+ **paramCallback** | **String**| None | [optional]
 
 ### Return type
 
@@ -425,9 +425,9 @@ To test enum parameters
 
 
 FakeApi apiInstance = new FakeApi();
-List<String> enumHeaderStringArray = Arrays.asList("enumHeaderStringArray_example"); // List<String> | Header parameter enum test (string array)
+List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
 String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
-List<String> enumQueryStringArray = Arrays.asList("enumQueryStringArray_example"); // List<String> | Query parameter enum test (string array)
+List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
 String enumQueryString = "-efg"; // String | Query parameter enum test (string)
 Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
 Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
@@ -451,7 +451,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to $] [enum: >, $]
+ **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
 
 ### Return type
@@ -523,8 +523,8 @@ test json serialization of form data
 
 
 FakeApi apiInstance = new FakeApi();
-String param = "null"; // String | field1
-String param2 = "null"; // String | field2
+String param = "param_example"; // String | field1
+String param2 = "param2_example"; // String | field2
 try {
     apiInstance.testJsonFormData(param, param2);
 } catch (ApiException e) {
@@ -537,8 +537,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | [default to null]
- **param2** | **String**| field2 | [default to null]
+ **param** | **String**| field1 |
+ **param2** | **String**| field2 |
 
 ### Return type
 
