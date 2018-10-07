@@ -40,7 +40,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
     put:
       operationId: update_pet
       requestBody:
@@ -70,7 +70,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -115,7 +115,7 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/findByTags:
     get:
       deprecated: true
@@ -156,7 +156,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/{petId}:
     delete:
       operationId: delete_pet
@@ -183,7 +183,7 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
     get:
       description: Returns a single pet
       operationId: get_pet_by_id
@@ -216,7 +216,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
     post:
       operationId: update_pet_with_form
       parameters:
@@ -249,7 +249,7 @@ paths:
       summary: Updates a pet in the store with form data
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/{petId}/uploadImage:
     post:
       operationId: upload_file
@@ -287,7 +287,7 @@ paths:
       summary: uploads an image
       tags:
       - pet
-      x-swagger-router-controller: openapi_server.controllers.pet_controller
+      x-openapi-router-controller: openapi_server.controllers.pet_controller
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -307,7 +307,7 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-swagger-router-controller: openapi_server.controllers.store_controller
+      x-openapi-router-controller: openapi_server.controllers.store_controller
   /store/order:
     post:
       operationId: place_order
@@ -334,7 +334,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
-      x-swagger-router-controller: openapi_server.controllers.store_controller
+      x-openapi-router-controller: openapi_server.controllers.store_controller
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -356,7 +356,7 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-swagger-router-controller: openapi_server.controllers.store_controller
+      x-openapi-router-controller: openapi_server.controllers.store_controller
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
       operationId: get_order_by_id
@@ -389,7 +389,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-swagger-router-controller: openapi_server.controllers.store_controller
+      x-openapi-router-controller: openapi_server.controllers.store_controller
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -408,7 +408,7 @@ paths:
       summary: Create user
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithArray:
     post:
       operationId: create_users_with_array_input
@@ -428,7 +428,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithList:
     post:
       operationId: create_users_with_list_input
@@ -448,7 +448,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/login:
     get:
       operationId: login_user
@@ -492,7 +492,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/logout:
     get:
       operationId: logout_user
@@ -503,7 +503,7 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -525,7 +525,7 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
     get:
       operationId: get_user_by_name
       parameters:
@@ -554,7 +554,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
     put:
       description: This can only be done by the logged in user.
       operationId: update_user
@@ -582,7 +582,7 @@ paths:
       summary: Updated user
       tags:
       - user
-      x-swagger-router-controller: openapi_server.controllers.user_controller
+      x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
   schemas:
     Order:
