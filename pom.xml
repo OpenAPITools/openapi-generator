@@ -1080,6 +1080,41 @@
                 <module>samples/server/petstore/php-slim</module>
             </modules>
         </profile>
+        <profile>
+            <id>samples.ios</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.ios</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/swift4/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift4/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift4/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift3/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift3/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift3/rxswift/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/promisekit/SwaggerClientTests</module>
+                <module>samples/client/petstore/swift/rxswift/SwaggerClientTests</module>
+                <!-- comment out objc tests as it's timing out
+                <module>samples/client/petstore/objc/default/SwaggerClientTests</module>
+                <module>samples/client/petstore/objc/core-data/SwaggerClientTests</module>-->
+            </modules>
+        </profile>
+        <profile>
+            <id>samples.bash</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.bash</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/bash</module>
+            </modules>
+        </profile>
     </profiles>
     <modules>
         <module>modules/openapi-generator</module>
