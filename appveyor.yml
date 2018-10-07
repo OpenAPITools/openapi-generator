@@ -2,9 +2,6 @@
 # Ref: http://www.yegor256.com/2015/01/10/windows-appveyor-maven.html
 version: '{branch}-{build}'
 os: Windows Server 2012
-# environment variables
-environment:
-  JAVA_HOME: C:\Program Files\Java\jdk9
 hosts:
   petstore.swagger.io: 127.0.0.1
 install:
