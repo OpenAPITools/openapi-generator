@@ -11,9 +11,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   java -version
   mvn --quiet verify -Psamples
 elif [ "$NODE_INDEX" = "2" ]; then
-  echo "Running node $NODE_INDEX to test ensure-up-to-date with JDK 9"
-  ls -l /usr/lib/jvm/
-  sudo update-java-alternatives -s java-1.9.0-openjdk-amd64
+  echo "Running node $NODE_INDEX to test ensure-up-to-date"
   java -version
   #export GO_POST_PROCESS_FILE="/usr/local/bin/gofmt -w"
   # not formatting the code as different go versions may format the code a bit different
