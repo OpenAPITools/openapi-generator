@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.3.0-SNAPSHOT</version>
+    <version>3.3.1-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -189,7 +189,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -198,7 +198,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -213,7 +213,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.7.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -260,7 +260,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>3.0.0-M2</version>
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -280,7 +280,7 @@
             <plugin>
                 <groupId>de.thetaphi</groupId>
                 <artifactId>forbiddenapis</artifactId>
-                <version>2.5</version>
+                <version>2.6</version>
                 <configuration>
                     <bundledSignatures>
                         <!--
@@ -1017,6 +1017,8 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/dart-jaguar/openapi</module>
+                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/haskell-http-client</module>
                 <module>samples/client/petstore/elm-0.18</module>
@@ -1037,7 +1039,9 @@
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
-                <module>samples/client/petstore/typescript-node/npm</module>
+                <module>samples/client/petstore/typescript-axios/tests/default</module>
+                <!-- comment out due to newer version of TS installed
+                <module>samples/client/petstore/typescript-node/npm</module>-->
                 <!-- comment out due to github rate limit error
                 <module>samples/client/petstore/typescript-angularjs</module>-->
                 <!-- comment out due to error `npm run build`
@@ -1094,7 +1098,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.0.0</version>
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
@@ -1102,7 +1106,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
+                <version>3.0.0</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -1150,7 +1154,7 @@
         <swagger-parser-version>2.0.4</swagger-parser-version>
         <swagger-core-version>2.0.4</swagger-core-version>
         <scala-version>2.11.1</scala-version>
-        <felix-version>3.3.0</felix-version>
+        <felix-version>3.3.1-SNAPSHOT</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
@@ -1161,7 +1165,7 @@
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
         <testng-version>6.9.6</testng-version>
-        <surefire-version>2.19.1</surefire-version>
+        <surefire-version>2.22.0</surefire-version>
         <jmockit-version>1.25</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
         <spring-boot-version>2.0.2.RELEASE</spring-boot-version>

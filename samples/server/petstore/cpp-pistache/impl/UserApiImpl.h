@@ -43,7 +43,7 @@ using namespace org::openapitools::server::model;
 class UserApiImpl : public org::openapitools::server::api::UserApi {
 public:
     UserApiImpl(Pistache::Address addr);
-    ~UserApiImpl() { };
+    ~UserApiImpl() {}
 
     void create_user(const User &user, Pistache::Http::ResponseWriter &response);
     void create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response);

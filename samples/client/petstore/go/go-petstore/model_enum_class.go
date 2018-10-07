@@ -8,7 +8,6 @@
  */
 
 package petstore
-
 type EnumClass string
 
 // List of EnumClass

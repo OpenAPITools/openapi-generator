@@ -199,16 +199,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional, default to null)
-   * @param int32 None (optional, default to null)
-   * @param int64 None (optional, default to null)
-   * @param _float None (optional, default to null)
-   * @param string None (optional, default to null)
-   * @param binary None (optional, default to null)
-   * @param date None (optional, default to null)
-   * @param dateTime None (optional, default to null)
-   * @param password None (optional, default to null)
-   * @param paramCallback None (optional, default to null)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    * @return Void
    */
   
@@ -225,16 +225,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional, default to null)
-   * @param int32 None (optional, default to null)
-   * @param int64 None (optional, default to null)
-   * @param _float None (optional, default to null)
-   * @param string None (optional, default to null)
-   * @param binary None (optional, default to null)
-   * @param date None (optional, default to null)
-   * @param dateTime None (optional, default to null)
-   * @param password None (optional, default to null)
-   * @param paramCallback None (optional, default to null)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    * @param cb callback method
    */
   
@@ -247,9 +247,9 @@ public interface FakeApi {
    * To test enum parameters
    * Sync method
    * To test enum parameters
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -267,9 +267,9 @@ public interface FakeApi {
   /**
    * To test enum parameters
    * Async method
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)

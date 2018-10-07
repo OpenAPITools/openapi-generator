@@ -42,12 +42,6 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "null");
-                break;
-            }
-        }
         return result.then(Mono.empty());
 
     }
@@ -76,12 +70,6 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "null");
-                break;
-            }
-        }
         return result.then(Mono.empty());
 
     }
@@ -93,12 +81,6 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         Mono<Void> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                result = ApiUtil.getExampleResponse(exchange, "null");
-                break;
-            }
-        }
         return result.then(Mono.empty());
 
     }

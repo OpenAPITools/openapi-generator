@@ -133,8 +133,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("PERLTIDY_PATH"))) {
-            LOGGER.info("Environment variable PERLTIDY_PATH not defined so the Perl code may not be properly formatted. To define it, try 'export PERLTIDY_PATH=/usr/local/bin/perltidy' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("PERL_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable PERL_POST_PROCESS_FILE not defined so the Perl code may not be properly formatted. To define it, try 'export PERL_POST_PROCESS_FILE=/usr/local/bin/perltidy -b -bext=\"/\"' (Linux/Mac)");
         }
 
         if (additionalProperties.containsKey(MODULE_VERSION)) {
@@ -571,9 +571,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        String perlTidyPath = System.getenv("PERLTIDY_PATH");
+        String perlTidyPath = System.getenv("PERL_POST_PROCESS_FILE");
         if (StringUtils.isEmpty(perlTidyPath)) {
-            return; // skip if PERLTIDY_PATH env variable is not defined
+            return; // skip if PERL_POST_PROCESS_FILE env variable is not defined
         }
 
         // only process files with .t, .pm extension
@@ -583,14 +583,15 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             String command = perlTidyPath + " -b -bext='/' " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
                 }
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
 }

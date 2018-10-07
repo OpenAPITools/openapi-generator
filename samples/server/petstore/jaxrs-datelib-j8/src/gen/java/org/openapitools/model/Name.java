@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing model name same as property name
@@ -28,16 +29,16 @@ import javax.validation.constraints.*;
 
 public class Name  implements Serializable {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private String property = null;
+  private String property;
 
   @JsonProperty("123Number")
-  private Integer _123number = null;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -50,7 +51,8 @@ public class Name  implements Serializable {
    **/
   @JsonProperty("name")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+    @NotNull
+
   public Integer getName() {
     return name;
   }
@@ -65,6 +67,7 @@ public class Name  implements Serializable {
    **/
   @JsonProperty("snake_case")
   @ApiModelProperty(value = "")
+  
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -80,6 +83,7 @@ public class Name  implements Serializable {
    **/
   @JsonProperty("property")
   @ApiModelProperty(value = "")
+  
   public String getProperty() {
     return property;
   }
@@ -94,6 +98,7 @@ public class Name  implements Serializable {
    **/
   @JsonProperty("123Number")
   @ApiModelProperty(value = "")
+  
   public Integer get123number() {
     return _123number;
   }

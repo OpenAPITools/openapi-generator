@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Cat
@@ -27,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class Cat extends Animal  {
   @JsonProperty("declawed")
-  private Boolean declawed = null;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -40,6 +41,7 @@ public class Cat extends Animal  {
    **/
   @JsonProperty("declawed")
   @ApiModelProperty(value = "")
+  
   public Boolean getDeclawed() {
     return declawed;
   }

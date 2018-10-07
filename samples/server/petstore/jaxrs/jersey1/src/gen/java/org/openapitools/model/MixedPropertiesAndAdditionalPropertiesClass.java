@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.model.Animal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -32,10 +33,10 @@ import javax.validation.constraints.*;
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
-  private Date dateTime = null;
+  private Date dateTime;
 
   @JsonProperty("map")
   private Map<String, Animal> map = null;
@@ -51,6 +52,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    **/
   @JsonProperty("uuid")
   @ApiModelProperty(value = "")
+  
   public UUID getUuid() {
     return uuid;
   }
@@ -70,6 +72,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    **/
   @JsonProperty("dateTime")
   @ApiModelProperty(value = "")
+  
   public Date getDateTime() {
     return dateTime;
   }
@@ -97,6 +100,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
    **/
   @JsonProperty("map")
   @ApiModelProperty(value = "")
+  @Valid
   public Map<String, Animal> getMap() {
     return map;
   }

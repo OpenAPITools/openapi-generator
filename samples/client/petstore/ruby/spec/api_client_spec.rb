@@ -65,13 +65,13 @@ describe Petstore::ApiClient do
       header_params = {}
       query_params = {}
       api_client.update_params_for_auth! header_params, query_params, auth_names
-      expect(header_params).to eq({'api_key' => 'PREFIX special-key'})
+      expect(header_params).to eq('api_key' => 'PREFIX special-key')
       expect(query_params).to eq({})
 
       header_params = {}
       query_params = {}
       api_client2.update_params_for_auth! header_params, query_params, auth_names
-      expect(header_params).to eq({'api_key' => 'PREFIX2 special-key2'})
+      expect(header_params).to eq('api_key' => 'PREFIX2 special-key2')
       expect(query_params).to eq({})
     end
 
@@ -87,7 +87,7 @@ describe Petstore::ApiClient do
       query_params = {}
       auth_names = ['api_key', 'unknown']
       api_client.update_params_for_auth! header_params, query_params, auth_names
-      expect(header_params).to eq({'api_key' => 'special-key'})
+      expect(header_params).to eq('api_key' => 'special-key')
       expect(query_params).to eq({})
     end
   end
@@ -114,7 +114,7 @@ describe Petstore::ApiClient do
   describe "#deserialize" do
     it "handles Array<Integer>" do
       api_client = Petstore::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '[12, 34]')
       data = api_client.deserialize(response, 'Array<Integer>')
       expect(data).to be_a(Array)
@@ -123,7 +123,7 @@ describe Petstore::ApiClient do
 
     it "handles Array<Array<Integer>>" do
       api_client = Petstore::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '[[12, 34], [56]]')
       data = api_client.deserialize(response, 'Array<Array<Integer>>')
       expect(data).to be_a(Array)
@@ -132,16 +132,16 @@ describe Petstore::ApiClient do
 
     it "handles Hash<String, String>" do
       api_client = Petstore::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '{"message": "Hello"}')
       data = api_client.deserialize(response, 'Hash<String, String>')
       expect(data).to be_a(Hash)
-      expect(data).to eq({:message => 'Hello'})
+      expect(data).to eq(:message => 'Hello')
     end
 
     it "handles Hash<String, Pet>" do
       api_client = Petstore::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '{"pet": {"id": 1}}')
       data = api_client.deserialize(response, 'Hash<String, Pet>')
       expect(data).to be_a(Hash)
@@ -153,7 +153,7 @@ describe Petstore::ApiClient do
 
     it "handles Hash<String, Hash<String, Pet>>" do
       api_client = Petstore::ApiClient.new
-      headers = {'Content-Type' => 'application/json'}
+      headers = { 'Content-Type' => 'application/json' }
       response = double('response', headers: headers, body: '{"data": {"pet": {"id": 1}}}')
       result = api_client.deserialize(response, 'Hash<String, Hash<String, Pet>>')
       expect(result).to be_a(Hash)
@@ -176,7 +176,7 @@ describe Petstore::ApiClient do
       pet.status = nil
       pet.photo_urls = nil
       pet.tags = []
-      expected = {id: 1, name: '', tags: []}
+      expected = { id: 1, name: '', tags: [] }
       expect(api_client.object_to_hash(pet)).to eq(expected)
     end
   end

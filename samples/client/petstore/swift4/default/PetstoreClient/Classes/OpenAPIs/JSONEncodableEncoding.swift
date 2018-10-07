@@ -5,11 +5,10 @@
 // https://openapi-generator.tech
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
 public struct JSONDataEncoding: ParameterEncoding {
-
     // MARK: Properties
 
     private static let jsonDataKey = "jsonData"
@@ -42,7 +41,7 @@ public struct JSONDataEncoding: ParameterEncoding {
     }
 
     public static func encodingParameters(jsonData: Data?) -> Parameters? {
-        var returnedParams: Parameters? = nil
+        var returnedParams: Parameters?
         if let jsonData = jsonData, !jsonData.isEmpty {
             var params = Parameters()
             params[jsonDataKey] = jsonData
@@ -50,5 +49,4 @@ public struct JSONDataEncoding: ParameterEncoding {
         }
         return returnedParams
     }
-
 }

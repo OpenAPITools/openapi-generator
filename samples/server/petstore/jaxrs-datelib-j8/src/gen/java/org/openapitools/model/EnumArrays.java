@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * EnumArrays
@@ -61,7 +62,7 @@ public class EnumArrays  implements Serializable {
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -108,6 +109,7 @@ public class EnumArrays  implements Serializable {
    **/
   @JsonProperty("just_symbol")
   @ApiModelProperty(value = "")
+  
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -135,6 +137,7 @@ public class EnumArrays  implements Serializable {
    **/
   @JsonProperty("array_enum")
   @ApiModelProperty(value = "")
+  
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

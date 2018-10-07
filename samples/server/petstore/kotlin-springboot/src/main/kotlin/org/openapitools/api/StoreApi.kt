@@ -27,7 +27,7 @@ import kotlin.collections.Map
 @Controller
 @Validated
 @Api(value = "Store", description = "The Store API")
-@RequestMapping("\${openapi.openAPIPetstore.base-path:/v2}")
+@RequestMapping("\${api.base-path:/v2}")
 class StoreApiController(@Autowired(required = true) val service: StoreApiService) {
 
     @ApiOperation(
@@ -39,7 +39,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     @RequestMapping(
             value = ["/store/order/{orderId}"],
             method = [RequestMethod.DELETE])
-    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: kotlin.String): ResponseEntity<Unit> {
+    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: String): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteOrder(orderId), HttpStatus.OK)
     }
 
@@ -47,16 +47,16 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = "Returns pet inventories by status",
             nickname = "getInventory",
             notes = "Returns a map of status codes to quantities",
-            response = kotlin.Int::class,
+            response = Int::class,
             responseContainer = "Map",
             authorizations = [Authorization(value = "api_key")])
     @ApiResponses(
-            value = [ApiResponse(code = 200, message = "successful operation", response = kotlin.collections.Map::class, responseContainer = "Map")])
+            value = [ApiResponse(code = 200, message = "successful operation", response = Map::class, responseContainer = "Map")])
     @RequestMapping(
             value = ["/store/inventory"],
             produces = ["application/json"], 
             method = [RequestMethod.GET])
-    fun getInventory(): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(service.getInventory(), HttpStatus.OK)
     }
 
@@ -71,7 +71,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: kotlin.Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: Long): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.OK)
     }
 
