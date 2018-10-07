@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-- oraclejdk8 
+- oraclejdk9 
 
 build:
   cache: true
@@ -10,6 +10,7 @@ build:
     - $HOME/.stack
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
+    - java -version
     - mvn --quiet clean install
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
