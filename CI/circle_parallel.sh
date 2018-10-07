@@ -1,7 +1,9 @@
 #!/bin/bash
+#
+# A bash script to run CircleCI node/test in parallel
+#
 
 NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
-
 
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test CI/pom.xml.circleci ..."
@@ -9,7 +11,8 @@ if [ "$NODE_INDEX" = "1" ]; then
   java -version
   mvn --quiet verify -Psamples
 elif [ "$NODE_INDEX" = "2" ]; then
-  echo "Running node $NODE_INDEX to test ensure-up-to-date"
+  echo "Running node $NODE_INDEX to test ensure-up-to-date with JDK 9"
+  sudo update-java-alternatives -s java-1.9.0-openjdk-amd64
   #export GO_POST_PROCESS_FILE="/usr/local/bin/gofmt -w"
   # not formatting the code as different go versions may format the code a bit different
   ./bin/utils/ensure-up-to-date

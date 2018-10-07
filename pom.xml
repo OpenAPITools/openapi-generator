@@ -158,6 +158,7 @@
                 <configuration>
                     <testNGArtifactName>none:none</testNGArtifactName>
                     <argLine>-XX:+StartAttachListener</argLine>
+                    <argLine>-javaagent:${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar</argLine>
                 </configuration>
                 <executions>
                     <execution>
@@ -1166,7 +1167,7 @@
         <jmustache-version>1.14</jmustache-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.22.0</surefire-version>
-        <jmockit-version>1.25</jmockit-version>
+        <jmockit-version>1.43</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
         <spring-boot-version>2.0.2.RELEASE</spring-boot-version>
     </properties>
