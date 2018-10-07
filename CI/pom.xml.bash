@@ -179,7 +179,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -188,7 +188,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.0</version>
                 <configuration>
                     <archive>
                         <manifestEntries>
@@ -203,7 +203,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.7.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -250,7 +250,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>3.0.0-M2</version>
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -260,7 +260,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.2.5</version>
+                                    <version>3.3.3</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
@@ -869,7 +869,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.0.0</version>
                 <configuration>
                     <aggregate>true</aggregate>
                 </configuration>
@@ -877,7 +877,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.9</version>
+                <version>3.0.0</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -934,7 +934,7 @@
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
         <testng-version>6.9.6</testng-version>
-        <surefire-version>2.19.1</surefire-version>
+        <surefire-version>2.22.0</surefire-version>
         <jmockit-version>1.25</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
         <spring-boot-version>2.0.2.RELEASE</spring-boot-version>

@@ -11,9 +11,6 @@
     <name>openapi-generator (maven-plugin)</name>
     <packaging>maven-plugin</packaging>
     <description>maven plugin to build modules from OpenAPI Generator</description>
-    <prerequisites>
-        <maven>3.2.5</maven>
-    </prerequisites>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -62,7 +59,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.5.1</version>
+                    <version>3.5.2</version>
                     <configuration>
                         <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
                     </configuration>
