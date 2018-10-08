@@ -35,19 +35,37 @@ public class RetryingOAuth extends OAuth implements Interceptor {
     public RetryingOAuth(
             String tokenUrl,
             String clientId,
-            GrantType grantType,
+            OAuthFlow flow,
             String clientSecret,
             Map<String, String> parameters
     ) {
         this(OAuthClientRequest.tokenLocation(tokenUrl)
                 .setClientId(clientId)
-                .setGrantType(grantType)
                 .setClientSecret(clientSecret));
-
+        setFlow(flow);
         if (parameters != null) {
             for (String paramName : parameters.keySet()) {
                 tokenRequestBuilder.setParameter(paramName, parameters.get(paramName));
             }
+        }
+    }
+
+    public void setFlow(OAuthFlow flow) {
+        switch(flow) {
+            case accessCode:
+                tokenRequestBuilder.setGrantType(GrantType.AUTHORIZATION_CODE);
+                break;
+            case implicit:
+                tokenRequestBuilder.setGrantType(GrantType.IMPLICIT);
+                break;
+            case password:
+                tokenRequestBuilder.setGrantType(GrantType.PASSWORD);
+                break;
+            case application:
+                tokenRequestBuilder.setGrantType(GrantType.CLIENT_CREDENTIALS);
+                break;
+            default:
+                break;
         }
     }
 
