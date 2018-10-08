@@ -1,32 +1,34 @@
 {{^reactive}}
 int statusCode = {{#responses}}{{#-first}}{{{code}}}{{/-first}}{{/responses}};
 {{#examples}}
-    {{#-first}}
-        {{#jdk8}}
-            {{#async}}
-return CompletableFuture.supplyAsync(()-> {
-            {{/async}}getRequest().ifPresent(request -> {
-{{#async}}    {{/async}}            {{/jdk8}}for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-    {{/-first}}
-{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
-{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}");
-{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}                break;
-{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}            }
-    {{#-last}}
-{{#async}}        {{/async}}{{^async}}{{#jdk8}}    {{/jdk8}}{{/async}}        }
-        {{#jdk8}}
-{{#async}}    {{/async}}        });
-        {{/jdk8}}
-{{#async}}    {{/async}}        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
-        {{#jdk8}}
-            {{#async}}
+{{#-first}}
+{{#jdk8}}
+{{#async}}
+        return CompletableFuture.supplyAsync(()-> {
+{{/async}}
+        getRequest().ifPresent(request -> {
+{{/jdk8}}
+        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+{{/-first}}
+            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}");
+                break;
+            }
+{{#-last}}
+        }
+{{#jdk8}}
+        });
+{{/jdk8}}
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+{{#jdk8}}
+{{#async}}
         }, Runnable::run);
-            {{/async}}
-        {{/jdk8}}
-    {{/-last}}
+{{/async}}
+{{/jdk8}}
+{{/-last}}
 {{/examples}}
 {{^examples}}
-return {{#jdk8}}{{#async}}CompletableFuture.completedFuture({{/async}}{{/jdk8}}new ResponseEntity<>(HttpStatus.valueOf(statusCode)){{#jdk8}}{{#async}}){{/async}}{{/jdk8}};
+        return {{#jdk8}}{{#async}}CompletableFuture.completedFuture({{/async}}{{/jdk8}}new ResponseEntity<>(HttpStatus.valueOf(statusCode)){{#jdk8}}{{#async}}){{/async}}{{/jdk8}};
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
