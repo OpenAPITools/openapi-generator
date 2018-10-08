@@ -216,6 +216,14 @@
             <scope>provided</scope>
         </dependency>
 {{/useBeanValidation}}
+{{#hateoas}}
+        <!-- Spring HATEOAS -->
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
+            <version>0.25.0.RELEASE</version>
+        </dependency>
+{{/hateoas}}
     </dependencies>
     <properties>
         <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>

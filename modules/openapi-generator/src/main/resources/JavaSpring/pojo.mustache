@@ -5,13 +5,13 @@
 {{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 {{^parent}}
 {{#hateoas}}
+{{#jackson}}
 @JsonPropertyOrder({
   {{#vars}}
-    {{#jackson}}
     "{{baseName}}",
-    {{/jackson}}
    {{/vars}}
 })
+{{/jackson}}
 {{/hateoas}}
 {{/parent}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}{{#hateoas}}extends ResourceSupport {{/hateoas}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
