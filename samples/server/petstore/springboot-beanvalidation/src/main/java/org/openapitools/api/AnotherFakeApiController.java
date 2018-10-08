@@ -32,13 +32,14 @@ public class AnotherFakeApiController implements AnotherFakeApi {
     }
 
     public ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
+        int statusCode = 200;
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 

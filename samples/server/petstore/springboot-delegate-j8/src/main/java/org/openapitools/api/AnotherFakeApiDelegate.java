@@ -27,15 +27,16 @@ public interface AnotherFakeApiDelegate {
      * @see AnotherFakeApi#call123testSpecialTags
      */
     default ResponseEntity<Client> call123testSpecialTags(Client client) {
+        int statusCode = 200;
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
-                    break;
-                }
+        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                break;
             }
+        }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 

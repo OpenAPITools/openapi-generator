@@ -36,7 +36,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterBooleanSerialize
      */
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -44,15 +45,16 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterCompositeSerialize
      */
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) {
+        int statusCode = 200;
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
-                    break;
-                }
+        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
+                break;
             }
+        }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -60,7 +62,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterNumberSerialize
      */
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -68,7 +71,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterStringSerialize
      */
     default ResponseEntity<String> fakeOuterStringSerialize(String body) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -76,7 +80,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#testBodyWithFileSchema
      */
     default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -85,7 +90,8 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testBodyWithQueryParams(String query,
         User user) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -93,15 +99,16 @@ public interface FakeApiDelegate {
      * @see FakeApi#testClientModel
      */
     default ResponseEntity<Client> testClientModel(Client client) {
+        int statusCode = 200;
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
-                    break;
-                }
+        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                break;
             }
+        }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -122,7 +129,8 @@ public interface FakeApiDelegate {
         OffsetDateTime dateTime,
         String password,
         String paramCallback) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 400;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -137,7 +145,8 @@ public interface FakeApiDelegate {
         Double enumQueryDouble,
         List<String> enumFormStringArray,
         String enumFormString) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 400;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -145,7 +154,8 @@ public interface FakeApiDelegate {
      * @see FakeApi#testInlineAdditionalProperties
      */
     default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -154,7 +164,8 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testJsonFormData(String param,
         String param2) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -164,15 +175,16 @@ public interface FakeApiDelegate {
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
         String additionalMetadata) {
+        int statusCode = 200;
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
-                    break;
-                }
+        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
+                break;
             }
+        }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 

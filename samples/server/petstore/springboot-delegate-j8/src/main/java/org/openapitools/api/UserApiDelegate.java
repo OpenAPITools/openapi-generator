@@ -28,7 +28,8 @@ public interface UserApiDelegate {
      * @see UserApi#createUser
      */
     default ResponseEntity<Void> createUser(User user) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -36,7 +37,8 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithArrayInput
      */
     default ResponseEntity<Void> createUsersWithArrayInput(List<User> user) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -44,7 +46,8 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithListInput
      */
     default ResponseEntity<Void> createUsersWithListInput(List<User> user) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -52,7 +55,8 @@ public interface UserApiDelegate {
      * @see UserApi#deleteUser
      */
     default ResponseEntity<Void> deleteUser(String username) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 400;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -60,19 +64,20 @@ public interface UserApiDelegate {
      * @see UserApi#getUserByName
      */
     default ResponseEntity<User> getUserByName(String username) {
+        int statusCode = 200;
         getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"password\" : \"password\",  \"userStatus\" : 6,  \"phone\" : \"phone\",  \"id\" : 0,  \"email\" : \"email\",  \"username\" : \"username\"}");
-                    break;
-                }
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    ApiUtil.setExampleResponse(request, "application/xml", "<User>  <id>123456789</id>  <username>aeiou</username>  <firstName>aeiou</firstName>  <lastName>aeiou</lastName>  <email>aeiou</email>  <password>aeiou</password>  <phone>aeiou</phone>  <userStatus>123</userStatus></User>");
-                    break;
-                }
+        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                ApiUtil.setExampleResponse(request, "application/json", "{  \"firstName\" : \"firstName\",  \"lastName\" : \"lastName\",  \"password\" : \"password\",  \"userStatus\" : 6,  \"phone\" : \"phone\",  \"id\" : 0,  \"email\" : \"email\",  \"username\" : \"username\"}");
+                break;
             }
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                ApiUtil.setExampleResponse(request, "application/xml", "<User>  <id>123456789</id>  <username>aeiou</username>  <firstName>aeiou</firstName>  <lastName>aeiou</lastName>  <email>aeiou</email>  <password>aeiou</password>  <phone>aeiou</phone>  <userStatus>123</userStatus></User>");
+                break;
+            }
+        }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -81,7 +86,8 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<String> loginUser(String username,
         String password) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -89,7 +95,8 @@ public interface UserApiDelegate {
      * @see UserApi#logoutUser
      */
     default ResponseEntity<Void> logoutUser() {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 200;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
@@ -98,7 +105,8 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> updateUser(String username,
         User user) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        int statusCode = 400;
+        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
     }
 
