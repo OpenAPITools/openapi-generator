@@ -1,4 +1,5 @@
 {{^reactive}}
+int statusCode = {{#responses}}{{#-first}}{{{code}}}{{/-first}}{{/responses}};
 {{#examples}}
     {{#-first}}
         {{#jdk8}}
@@ -16,7 +17,7 @@ return CompletableFuture.supplyAsync(()-> {
         {{#jdk8}}
 {{#async}}    {{/async}}        });
         {{/jdk8}}
-{{#async}}    {{/async}}        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+{{#async}}    {{/async}}        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
         {{#jdk8}}
             {{#async}}
         }, Runnable::run);
@@ -25,11 +26,11 @@ return CompletableFuture.supplyAsync(()-> {
     {{/-last}}
 {{/examples}}
 {{^examples}}
-return {{#jdk8}}{{#async}}CompletableFuture.completedFuture({{/async}}{{/jdk8}}new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED){{#jdk8}}{{#async}}){{/async}}{{/jdk8}};
+return {{#jdk8}}{{#async}}CompletableFuture.completedFuture({{/async}}{{/jdk8}}new ResponseEntity<>(HttpStatus.valueOf(statusCode)){{#jdk8}}{{#async}}){{/async}}{{/jdk8}};
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
-exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
     {{#examples}}
         {{#-first}}
