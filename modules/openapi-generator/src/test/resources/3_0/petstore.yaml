@@ -600,6 +600,8 @@ components:
       title: Pet category
       description: A category for a pet
       type: object
+      required:
+        - id
       properties:
         id:
           type: integer
