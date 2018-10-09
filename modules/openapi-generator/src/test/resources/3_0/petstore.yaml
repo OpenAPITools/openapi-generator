@@ -601,7 +601,7 @@ components:
       description: A category for a pet
       type: object
       required:
-        - id
+        - name
       properties:
         id:
           type: integer
