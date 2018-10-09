@@ -1,5 +1,4 @@
 #include <stdio.h>
-    #define MAX_BUFFER_LENGTH 9
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
@@ -21,7 +20,7 @@
 
 
 int main() {
-	printf("Hello world1\n");
+// create user test
 	apiClient_t *apiClient = apiClient_create();
 
 	char *username = malloc(strlen(USER_NAME) + 1);
@@ -47,13 +46,9 @@ int main() {
 	                              USER_STATUS);
 
 	UserAPI_createUser(apiClient, newuser);
-
 	user_free(newuser);
 
-
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
-
+// get user by name test
 	apiClient_t *apiClient1 = apiClient_create();
 	user_t *returnUser = UserAPI_getUserByName(apiClient1, USER_NAME);
 
@@ -66,8 +61,7 @@ int main() {
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint);
 
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
+// update user test
 	{
 		apiClient_t *apiClient2 = apiClient_create();
 		char *username1 = malloc(strlen(USER_NAME) + 1);
@@ -96,8 +90,7 @@ int main() {
 		user_free(newuser1);
 	}
 
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
+// login user test
 	{
 		char *username1 = malloc(strlen(USER_NAME) + 1);
 		strcpy(username1, USER_NAME);
@@ -115,17 +108,13 @@ int main() {
 		free(password);
 	}
 
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
-
+// logout user test
 	apiClient_t *apiClient4 = apiClient_create();
 
 	UserAPI_logoutUser(apiClient4);
 
 
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
-
+// delete user test
 	apiClient_t *apiClient5 = apiClient_create();
 
 	UserAPI_deleteUser(apiClient5, "example123");

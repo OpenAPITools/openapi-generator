@@ -54,6 +54,12 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	                 localVarBodyParameters,
 	                 "DELETE");
 
+	if(apiClient->response_code == 400) {
+		printf("%s\n", "Invalid ID supplied");
+	}
+	if(apiClient->response_code == 404) {
+		printf("%s\n", "Order not found");
+	}
 	// No return type
 end:    apiClient_free(apiClient);
 
@@ -61,7 +67,6 @@ end:    apiClient_free(apiClient);
 
 
 
-	// free(localVarPathFinal);
 	free(localVarToReplace);
 	free(localVarPath);
 }
@@ -96,6 +101,9 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 	                 localVarBodyParameters,
 	                 "GET");
 
+	if(apiClient->response_code == 200) {
+		printf("%s\n", "successful operation");
+	}
 	// primitive reutrn type not simple
 	cJSON *StorelocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	cJSON *StoreVarJSON;
@@ -169,6 +177,15 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	                 localVarBodyParameters,
 	                 "GET");
 
+	if(apiClient->response_code == 200) {
+		printf("%s\n", "successful operation");
+	}
+	if(apiClient->response_code == 400) {
+		printf("%s\n", "Invalid ID supplied");
+	}
+	if(apiClient->response_code == 404) {
+		printf("%s\n", "Order not found");
+	}
 	// nonprimitive not container
 	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
@@ -183,7 +200,6 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
-	// free(localVarPathFinal);
 	free(localVarToReplace);
 	return elementToReturn;
 end:
@@ -229,6 +245,12 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	                 localVarBodyParameters,
 	                 "POST");
 
+	if(apiClient->response_code == 200) {
+		printf("%s\n", "successful operation");
+	}
+	if(apiClient->response_code == 400) {
+		printf("%s\n", "Invalid Order");
+	}
 	// nonprimitive not container
 	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {

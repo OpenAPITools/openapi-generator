@@ -53,6 +53,9 @@ void UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 	                 localVarBodyParameters,
 	                 "POST");
 
+	if(apiClient->response_code == 0) {
+		printf("%s\n", "successful operation");
+	}
 	// No return type
 end:    apiClient_free(apiClient);
 
@@ -129,6 +132,9 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 	                 localVarBodyParameters,
 	                 "POST");
 
+	if(apiClient->response_code == 0) {
+		printf("%s\n", "successful operation");
+	}
 	// No return type
 end:    apiClient_free(apiClient);
 
@@ -207,6 +213,9 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 	                 localVarBodyParameters,
 	                 "POST");
 
+	if(apiClient->response_code == 0) {
+		printf("%s\n", "successful operation");
+	}
 	// No return type
 end:    apiClient_free(apiClient);
 
@@ -260,6 +269,12 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	                 localVarBodyParameters,
 	                 "DELETE");
 
+	if(apiClient->response_code == 400) {
+		printf("%s\n", "Invalid username supplied");
+	}
+	if(apiClient->response_code == 404) {
+		printf("%s\n", "User not found");
+	}
 	// No return type
 end:    apiClient_free(apiClient);
 
@@ -267,7 +282,6 @@ end:    apiClient_free(apiClient);
 
 
 
-	// free(localVarPathFinal);
 	free(localVarToReplace);
 	free(localVarPath);
 }
@@ -313,6 +327,15 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	                 localVarBodyParameters,
 	                 "GET");
 
+	if(apiClient->response_code == 200) {
+		printf("%s\n", "successful operation");
+	}
+	if(apiClient->response_code == 400) {
+		printf("%s\n", "Invalid username supplied");
+	}
+	if(apiClient->response_code == 404) {
+		printf("%s\n", "User not found");
+	}
 	// nonprimitive not container
 	user_t *elementToReturn = user_parseFromJSON(apiClient->dataReceived);
 	if(elementToReturn == NULL) {
@@ -327,7 +350,6 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
-	// free(localVarPathFinal);
 	free(localVarToReplace);
 	return elementToReturn;
 end:
@@ -391,6 +413,12 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	                 localVarBodyParameters,
 	                 "GET");
 
+	if(apiClient->response_code == 200) {
+		printf("%s\n", "successful operation");
+	}
+	if(apiClient->response_code == 400) {
+		printf("%s\n", "Invalid username/password supplied");
+	}
 	// primitive reutrn type simple
 	char *elementToReturn = strdup((char *) apiClient->dataReceived);
 
@@ -438,6 +466,9 @@ void UserAPI_logoutUser(apiClient_t *apiClient) {
 	                 localVarBodyParameters,
 	                 "GET");
 
+	if(apiClient->response_code == 0) {
+		printf("%s\n", "successful operation");
+	}
 	// No return type
 end:    apiClient_free(apiClient);
 
@@ -496,6 +527,12 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 	                 localVarBodyParameters,
 	                 "PUT");
 
+	if(apiClient->response_code == 400) {
+		printf("%s\n", "Invalid user supplied");
+	}
+	if(apiClient->response_code == 404) {
+		printf("%s\n", "User not found");
+	}
 	// No return type
 end:    apiClient_free(apiClient);
 
@@ -503,7 +540,6 @@ end:    apiClient_free(apiClient);
 
 
 
-	// free(localVarPathFinal);
 	free(localVarToReplace);
 	cJSON_Delete(localVarSingleItemJSON_user);
 	free(localVarBodyParameters);

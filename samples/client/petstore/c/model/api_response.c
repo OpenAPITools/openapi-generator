@@ -91,9 +91,6 @@ api_response_t *api_response_parseFromJSON(char *jsonString) {
 		strdup(type->valuestring),
 		strdup(message->valuestring)
 		);
-	// cJSON_Delete(code);
-	// cJSON_Delete(type);
-	// cJSON_Delete(message);
 	cJSON_Delete(api_responseJSON);
 	return api_response;
 end:

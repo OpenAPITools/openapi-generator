@@ -173,14 +173,6 @@ user_t *user_parseFromJSON(char *jsonString) {
 		strdup(phone->valuestring),
 		userStatus->valuedouble
 		);
-	// cJSON_Delete(id);
-	// cJSON_Delete(username);
-	// cJSON_Delete(firstName);
-	// cJSON_Delete(lastName);
-	// cJSON_Delete(email);
-	// cJSON_Delete(password);
-	// cJSON_Delete(phone);
-	// cJSON_Delete(userStatus);
 	cJSON_Delete(userJSON);
 	return user;
 end:
