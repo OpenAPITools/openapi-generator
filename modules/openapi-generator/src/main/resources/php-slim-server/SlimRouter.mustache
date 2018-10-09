@@ -33,17 +33,13 @@
  */
 namespace {{invokerPackage}};
 
-{{#hasAuthMethods}}
-use {{authPackage}}\BasicAuthenticator;
-use {{authPackage}}\ApiKeyAuthenticator;
-use {{authPackage}}\OAuthAuthenticator;
-{{/hasAuthMethods}}
 use Slim\App;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
 use Tuupola\Middleware\HttpBasicAuthentication;
-use Slim\Middleware\TokenAuthentication;
-use Slim\Middleware\TokenAuthentication\UnauthorizedExceptionInterface;
+use Dyorg\TokenAuthentication;
+use Dyorg\TokenAuthentication\TokenSearch;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * SlimRouter Class Doc Comment
@@ -133,9 +129,19 @@ class SlimRouter
         $this->slimApp = new App($container);
 
         {{#hasAuthMethods}}
-        $basicAuthenticator = new BasicAuthenticator($container);
-        $apiKeyAuthenticator = new ApiKeyAuthenticator($container);
-        $oAuthAuthenticator = new OAuthAuthenticator($container);
+        $authPackage = '{{authPackage}}';
+        $basicAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
+            $message = "How about extending {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}} class by {$authPackage}\BasicAuthenticator?";
+            throw new \Exception($message);
+        };
+        $apiKeyAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
+            $message = "How about extending {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}} class by {$authPackage}\ApiKeyAuthenticator?";
+            throw new \Exception($message);
+        };
+        $oAuthAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
+            $message = "How about extending {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}} class by {$authPackage}\OAuthAuthenticator?";
+            throw new \Exception($message);
+        };
         {{/hasAuthMethods}}
 
         foreach ($this->operations as $operation) {
@@ -154,41 +160,52 @@ class SlimRouter
             foreach ($operation['authMethods'] as $authMethod) {
                 switch ($authMethod['type']) {
                     case 'http':
-                        $middlewares[] = new TokenAuthentication([
+                        $authenticatorClassname = "\\{$authPackage}\\BasicAuthenticator";
+                        if (class_exists($authenticatorClassname)) {
+                            $basicAuthenticator = new $authenticatorClassname($container);
+                        }
+
+                        $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
                             'authenticator' => $basicAuthenticator,
                             'regex' => '/Basic\s+(.*)$/i',
-                            'secure' => false,
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                        ]);
+                        ]));
                         break;
                     case 'apiKey':
-                        $middlewares[] = new TokenAuthentication([
+                        $authenticatorClassname = "\\{$authPackage}\\ApiKeyAuthenticator";
+                        if (class_exists($authenticatorClassname)) {
+                            $apiKeyAuthenticator = new $authenticatorClassname($container);
+                        }
+
+                        $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
                             'authenticator' => $apiKeyAuthenticator,
                             'regex' => '/^(.*)$/i',
-                            'secure' => false,
                             'header' => $authMethod['isKeyInHeader'] ? $authMethod['keyParamName'] : null,
                             'parameter' => $authMethod['isKeyInQuery'] ? $authMethod['keyParamName'] : null,
                             'cookie' => $authMethod['isKeyInCookie'] ? $authMethod['keyParamName'] : null,
                             'argument' => null,
-                        ]);
+                        ]));
                         break;
                     case 'oauth2':
-                        $middlewares[] = new TokenAuthentication([
+                        $authenticatorClassname = "\\{$authPackage}\\OAuthAuthenticator";
+                        if (class_exists($authenticatorClassname)) {
+                            $oAuthAuthenticator = new $authenticatorClassname($container, $authMethod['scopes']);
+                        }
+
+                        $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
                             'authenticator' => $oAuthAuthenticator,
                             'regex' => '/Bearer\s+(.*)$/i',
-                            'secure' => false,
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                            'requiredScope' => $authMethod['scopes'],
-                        ]);
+                        ]));
                         break;
                     default:
-                        throw new \Exception('Unknown authorization type, cannot execute');
+                        throw new \Exception('Unknown authorization schema type');
                 }
             }
             {{/hasAuthMethods}}
@@ -200,6 +217,22 @@ class SlimRouter
                 $middlewares
             )->setName($operation['operationId']);
         }
+    }
+
+    /**
+     * Merges user defined options with dynamic params.
+     *
+     * @param array $optionsOverride Params which need to merge into user options
+     *
+     * @return array Merged array
+     */
+    private function getTokenAuthenticationOptions($options)
+    {
+        if (is_array($this->slimApp->getContainer()['tokenAuthenticationOptions']) === false) {
+            return $options;
+        }
+
+        return array_merge($this->slimApp->getContainer()['tokenAuthenticationOptions'], $options);
     }
 
     /**

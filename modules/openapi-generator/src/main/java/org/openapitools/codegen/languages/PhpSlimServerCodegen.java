@@ -22,8 +22,10 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.CodegenSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.io.File;
 import java.util.Collections;
@@ -39,6 +41,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
+    protected String authDirName = "Auth";
+    protected String authPackage = "";
 
     public PhpSlimServerCodegen() {
         super();
@@ -52,6 +56,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         setInvokerPackage("OpenAPIServer");
         apiPackage = invokerPackage + "\\" + apiDirName;
         modelPackage = invokerPackage + "\\" + modelDirName;
+        authPackage = invokerPackage + "\\" + authDirName;
         outputFolder = "generated-code" + File.separator + "slim";
 
         modelTestTemplateFiles.put("model_test.mustache", ".php");
@@ -111,6 +116,13 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+
+            // Update the invokerPackage for the default authPackage
+            authPackage = invokerPackage + "\\" + authDirName;
+        }
+        additionalProperties.put("authPackage", authPackage);
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
@@ -149,6 +161,15 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
             });
         }
         return objs;
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
+        if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
+            supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
+        }
+        return codegenSecurities;
     }
 
     @Override
