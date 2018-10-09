@@ -94,14 +94,6 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
 	{{{baseName}}}_free({{{classname}}}->{{{baseName}}});
 	{{/isPrimitiveType}}
 	{{#isPrimitiveType}}
-    {{#isBoolean}}
-    //free({{{classname}}}->{{{baseName}}});
-    {{/isBoolean}}
-    {{#isEnum}}
-    {{#isString}}
-    //free({{{classname}}}->{{{baseName}}});
-    {{/isString}}
-    {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
     free({{{classname}}}->{{{baseName}}});
@@ -179,7 +171,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
 	}
 	cJSON_AddItemToObject(item, "{{{baseName}}}", {{{baseName}}});
 	if(item->child == NULL) {
-		goto fail; 
+		goto fail;
 	}
 	{{/isPrimitiveType}}
 	{{/isContainer}}
@@ -390,48 +382,8 @@ fail:
 {{#vars}}
         {{^isContainer}}
         {{^isPrimitiveType}}
-        //cJSON_Delete({{baseName}}JSON);
         free({{{baseName}}}JSONData);
-        //{{baseName}}_free({{baseName}});
         {{/isPrimitiveType}}
-        {{#isPrimitiveType}}
-        {{#isNumeric}}
-        //cJSON_Delete({{baseName}});
-        {{/isNumeric}}
-        {{#isBoolean}}
-        //cJSON_Delete({{baseName}});
-        {{/isBoolean}}
-        {{#isEnum}}
-        {{#isString}}
-       // cJSON_Delete({{baseName}});
-        {{/isString}}
-        {{/isEnum}}
-        {{^isEnum}}
-        {{#isString}}
-        //cJSON_Delete({{baseName}});
-        {{/isString}}
-        {{/isEnum}}
-        {{#isDateTime}}
-        //cJSON_Delete({{baseName}});
-        {{/isDateTime}}
-        {{/isPrimitiveType}}
-        {{/isContainer}}
-        {{#isContainer}}
-        {{#isListContainer}}
-        {{#isPrimitiveType}}
-        //cJSON_Delete({{baseName}});
-        //cJSON_Delete({{baseName}}JSON);
-        //list_free({{baseName}}List);
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        //cJSON_Delete({{baseName}});
-        //cJSON_Delete({{baseName}}JSON);
-        //list_free({{baseName}}List);
-        {{/isPrimitiveType}}
-        {{/isListContainer}}
-        {{#isMapContainer}}
-        // TODO map/hash not supported at the moment
-        {{/isMapContainer}}
         {{/isContainer}}
 {{/vars}}
  cJSON_Delete({{classname}}JSON);
