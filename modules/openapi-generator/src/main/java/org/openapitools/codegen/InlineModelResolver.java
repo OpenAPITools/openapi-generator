@@ -500,6 +500,7 @@ public class InlineModelResolver {
         model.setExample(example);
         model.setName(object.getName());
         model.setXml(xml);
+        model.setRequired(object.getRequired());
         if (properties != null) {
             flattenProperties(properties, path);
             model.setProperties(properties);
