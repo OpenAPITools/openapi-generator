@@ -10,6 +10,7 @@ typedef int bool;
 typedef struct apiClient_t {
     char *basePath;
     void *dataReceived;
+	long response_code;
     // this would only be generated for basic authentication
     #ifdef BASIC_AUTH
     char *username;
