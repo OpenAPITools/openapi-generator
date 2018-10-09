@@ -105,6 +105,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = BOOLEAN_GETTER_PREFIX_DEFAULT;
     protected boolean useNullForUnknownEnumValue = false;
+    protected String parentGroupId = "";
+    protected String parentArtifactId = "";
+    protected String parentVersion = "";
+    protected boolean parentOverridden = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -198,6 +202,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)"));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix (default value '" + BOOLEAN_GETTER_PREFIX_DEFAULT + "')"));
+        
+        cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
     }
 
     @Override
@@ -375,6 +383,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
         }
         additionalProperties.put(WITH_XML, withXml);
+        
+        if (additionalProperties.containsKey(CodegenConstants.PARENT_GROUP_ID)) {
+            this.setParentGroupId((String) additionalProperties.get(CodegenConstants.PARENT_GROUP_ID));
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.PARENT_ARTIFACT_ID)) {
+            this.setParentArtifactId((String) additionalProperties.get(CodegenConstants.PARENT_ARTIFACT_ID));
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.PARENT_VERSION)) {
+            this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
+        }
+        
+        if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
+            additionalProperties.put("parentOverridden", true);
+        }
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -1358,4 +1382,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return tag;
     }
 
+    public void setParentGroupId(final String parentGroupId) {
+        this.parentGroupId = parentGroupId;
+    }
+
+    public void setParentArtifactId(final String parentArtifactId) {
+        this.parentArtifactId = parentArtifactId;
+    }
+
+    public void setParentVersion(final String parentVersion) {
+        this.parentVersion = parentVersion;
+    }
+
+    public void setParentOverridden(final boolean parentOverridden) {
+        this.parentOverridden = parentOverridden;
+    }
 }
