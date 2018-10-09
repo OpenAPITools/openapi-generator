@@ -19,6 +19,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 {{#withXml}}
 import javax.xml.bind.annotation.*;
 {{/withXml}}
+{{^parent}}
+{{#hateoas}}
+import org.springframework.hateoas.ResourceSupport;
+{{/hateoas}}
+{{/parent}}
 
 {{#models}}
 {{#model}}
