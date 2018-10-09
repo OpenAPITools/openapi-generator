@@ -54,7 +54,7 @@
                 <artifactId>gradle-maven-plugin</artifactId>
                 <version>1.0.8</version>
                 <configuration>
-                    <gradleVersion>4.10-rc-1</gradleVersion>
+                    <gradleVersion>4.10.2</gradleVersion>
                     <args>
                         <arg>-P openApiGeneratorVersion=${project.version}</arg>
                     </args>
