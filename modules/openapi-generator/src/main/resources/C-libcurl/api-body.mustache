@@ -216,6 +216,11 @@
                     localVarBodyParameters,
                     "{{{httpMethod}}}");
 
+    {{#responses}}
+	if (apiClient->response_code == {{code}}) {
+		printf("%s\n","{{message}}");
+	}
+    {{/responses}}
    {{#returnType}}
    {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
@@ -249,7 +254,7 @@
     {
     if(!cJSON_IsObject({{{baseName}}}VarJSON))
     {
-       // return 0;;
+       // return 0;
     }
     char *localVarJSONToChar = cJSON_Print({{{baseName}}}VarJSON);
     list_addElement(elementToReturn , localVarJSONToChar);
@@ -276,7 +281,6 @@
     {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
     free(localVarPath);
     {{#pathParams}}
-    //free(localVarPathFinal);
     free(localVarToReplace);
     {{/pathParams}}
     {{#headerParams}}
@@ -335,7 +339,6 @@ end:    apiClient_free(apiClient);
     {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
     {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
      {{#pathParams}}
-    // free(localVarPathFinal);
     free(localVarToReplace);
     {{/pathParams}}
     {{#headerParams}}
@@ -386,5 +389,3 @@ end:    apiClient_free(apiClient);
 
 {{/operation}}
 {{/operations}}
-
-
