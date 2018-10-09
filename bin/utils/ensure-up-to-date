@@ -13,6 +13,7 @@ sleep 5
 ./bin/ruby-client-petstore.sh > /dev/null 2>&1
 ./bin/java-petstore-all.sh > /dev/null 2>&1
 ./bin/java-jaxrs-petstore-server-all.sh > /dev/null 2>&1
+./bin/openapi3/jaxrs-jersey-petstore.sh > /dev/null 2>&1
 ./bin/spring-all-pestore.sh > /dev/null 2>&1
 ./bin/kotlin-client-petstore.sh > /dev/null 2>&1
 ./bin/kotlin-client-string.sh > /dev/null 2>&1
