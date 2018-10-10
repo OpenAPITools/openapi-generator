@@ -217,9 +217,9 @@
                     "{{{httpMethod}}}");
 
     {{#responses}}
-	if (apiClient->response_code == {{code}}) {
-		printf("%s\n","{{message}}");
-	}
+    if (apiClient->response_code == {{code}}) {
+        printf("%s\n","{{message}}");
+    }
     {{/responses}}
    {{#returnType}}
    {{#returnTypeIsPrimitive}}

@@ -370,11 +370,11 @@ void apiClient_invoke(apiClient_t	*apiClient,
         }
 
         if(res == CURLE_OK) {
-			curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &apiClient->response_code);
+            curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &apiClient->response_code);
         } else {
-	        fprintf(stderr, "curl_easy_perform() failed: %s\n",
-	        curl_easy_strerror(res));
-		}
+            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+            curl_easy_strerror(res));
+        }
         #ifdef BASIC_AUTH
         if((apiClient->username != NULL) &&
         (apiClient->password != NULL) )
