@@ -18,7 +18,7 @@ public typealias {{classname}} = [{{arrayModelType}}]
 {{^isArrayModel}}
 {{#isEnum}}
 public enum {{classname}}: {{dataType}} {
-{{#allowableValues}}{{#enumVars}}    case {{name}} = "{{{value}}}"
+{{#allowableValues}}{{#enumVars}}    case {{name}} = {{{value}}}
 {{/enumVars}}{{/allowableValues}}
     func encodeToJSON() -> Any { return self.rawValue }
 }
@@ -28,8 +28,12 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}JSONEncod
 
 {{#vars}}
 {{#isEnum}}
-    public enum {{enumName}}: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} { {{#allowableValues}}{{#enumVars}}
-        case {{name}} = {{#isContainer}}"{{/isContainer}}{{#isString}}"{{/isString}}{{{value}}}{{#isString}}"{{/isString}}{{#isContainer}}"{{/isContainer}}{{/enumVars}}{{/allowableValues}}
+    public enum {{enumName}}: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} {
+        {{#allowableValues}}
+        {{#enumVars}}
+        case {{name}} = {{{value}}}
+        {{/enumVars}}
+        {{/allowableValues}}
     }
 {{/isEnum}}
 {{/vars}}

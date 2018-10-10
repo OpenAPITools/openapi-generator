@@ -24,8 +24,12 @@ open class {{classname}}: APIBase {
     /**
      * enum for parameter {{paramName}}
      */
-    public enum {{enumName}}_{{operationId}}: {{^isContainer}}{{{dataType}}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} { {{#allowableValues}}{{#enumVars}}
-        case {{name}} = {{#isContainer}}"{{/isContainer}}{{#isString}}"{{/isString}}{{{value}}}{{#isString}}"{{/isString}}{{#isContainer}}"{{/isContainer}}{{/enumVars}}{{/allowableValues}}
+    public enum {{enumName}}_{{operationId}}: {{^isContainer}}{{{dataType}}}{{/isContainer}}{{#isContainer}}String{{/isContainer}} {
+        {{#allowableValues}}
+        {{#enumVars}}
+        case {{name}} = {{{value}}}
+        {{/enumVars}}
+        {{/allowableValues}}
     }
 
     {{/isEnum}}

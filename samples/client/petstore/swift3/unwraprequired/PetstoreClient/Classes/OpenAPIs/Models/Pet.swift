@@ -10,7 +10,7 @@ import Foundation
 
 open class Pet: JSONEncodable {
 
-    public enum Status: String { 
+    public enum Status: String {
         case available = "available"
         case pending = "pending"
         case sold = "sold"

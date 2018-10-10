@@ -565,7 +565,12 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        return String.valueOf(value);
+        // for string, array of string
+        if ("String".equals(datatype) || "[String]".equals(datatype) || "[String:String]".equals(datatype)) {
+            return "\"" + String.valueOf(value) + "\"";
+        } else {
+            return String.valueOf(value);
+        }
     }
 
     @Override

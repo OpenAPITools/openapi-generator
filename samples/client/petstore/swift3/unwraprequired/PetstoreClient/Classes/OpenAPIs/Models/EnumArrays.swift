@@ -10,13 +10,13 @@ import Foundation
 
 open class EnumArrays: JSONEncodable {
 
-    public enum JustSymbol: String { 
+    public enum JustSymbol: String {
         case greaterThanOrEqualTo = ">="
         case dollar = "$"
     }
-    public enum ArrayEnum: String { 
-        case fish = ""fish""
-        case crab = ""crab""
+    public enum ArrayEnum: String {
+        case fish = "fish"
+        case crab = "crab"
     }
     public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?
