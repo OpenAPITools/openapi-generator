@@ -46,10 +46,10 @@ before_install:
   - mkdir -p ~/.local/bin
   - export PATH=$HOME/.local/bin:$PATH
   # start local petstore server
-  - git clone -b docker --single-branch https://github.com/wing328/swagger-samples
-  - cd swagger-samples/java/java-jersey-jaxrs
-  - sudo mvn jetty:run &
-  - cd $SW
+  #- git clone -b docker --single-branch https://github.com/wing328/swagger-samples
+  #- cd swagger-samples/java/java-jersey-jaxrs
+  #- sudo mvn jetty:run &
+  #- cd $SW
 
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
