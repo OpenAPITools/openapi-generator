@@ -1,6 +1,6 @@
 sudo: required
 language: objective-c
-osx_image: xcode8.1
+osx_image: xcode9.4
 cache:
   directories:
   - $HOME/.m2
@@ -34,7 +34,7 @@ addons:
 before_install:
   - export SW=`pwd`
   - rvm list
-  - rvm use 2.3.3
+  #- rvm use 2.3.3
   - gem environment
   - gem install bundler -N --no-ri --no-rdoc
   - gem install cocoapods -v 1.2.1 -N --no-ri --no-rdoc
