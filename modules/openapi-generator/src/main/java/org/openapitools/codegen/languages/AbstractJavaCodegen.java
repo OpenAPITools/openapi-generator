@@ -206,7 +206,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i -style='{Language: Java}'\"' (Linux/Mac)");
+            LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
         }
 
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
