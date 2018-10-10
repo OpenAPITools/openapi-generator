@@ -88,7 +88,7 @@ func TestUpdatePetWithForm(t *testing.T) {
 		t.Log(r)
 	}
 
-    // get the pet id from server to verify the update
+    // get the pet with id 12830 from server to verify the update
     isPetCorrect(t, 12830, "golang", "available")
 }
 
@@ -304,3 +304,4 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 		t.Log(r)
 	}
 }
+
