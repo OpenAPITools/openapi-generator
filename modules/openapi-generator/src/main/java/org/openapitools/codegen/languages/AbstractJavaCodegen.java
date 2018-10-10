@@ -205,8 +205,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("CLANG_FORMAT_PATH"))) {
-            LOGGER.info("Environment variable CLANG_FORMAT_PATH not defined so the Java code may not be properly formatted. To define it, try 'export CLANG_FORMAT_PATH=/usr/local/bin/clang-format' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i -style='{Language: Java}'\"' (Linux/Mac)");
         }
 
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
@@ -1356,18 +1356,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (file == null) {
             return;
         }
-        String clangformatPath = System.getenv("CLANG_FORMAT_PATH");
-        if (StringUtils.isEmpty(clangformatPath)) {
-            return; // skip if CLANG-FORMAT_PATH env variable is not defined
+
+        String javaPostProcessFile = System.getenv("JAVA_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(javaPostProcessFile)) {
+            return; // skip if JAVA_POST_PROCESS_FILE env variable is not defined
         }
-         // only process files with hs extension
+
+        // only process files with hs extension
         if ("java".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = clangformatPath + " " + file.toString();
+            String command = javaPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}). Exit value: {}", command, p.exitValue());
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
                 } else {
                     LOGGER.info("Successfully executed: " + command);
                 }
