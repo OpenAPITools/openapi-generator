@@ -2174,7 +2174,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Override with any special handling of response codes
      *
      * @param responses OAS Operation's responses
-     * @return default method response or <tt>null</tt> if not found
+     * @return default method response or null if not found
      */
     protected ApiResponse findMethodResponse(ApiResponses responses) {
         String code = null;
