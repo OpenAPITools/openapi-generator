@@ -35,7 +35,7 @@ public class Cat extends Animal {
   @JsonProperty("declawed")
   @JacksonXmlProperty(localName = "declawed")
   @XmlElement(name = "declawed")
-  private Boolean declawed = null;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;

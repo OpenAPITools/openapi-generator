@@ -29,7 +29,7 @@ import javax.validation.Valid;
 
 public class Cat extends Animal implements Serializable {
   @JsonProperty("declawed")
-  private Boolean declawed = null;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;

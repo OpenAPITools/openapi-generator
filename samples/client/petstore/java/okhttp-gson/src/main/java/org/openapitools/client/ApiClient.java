@@ -23,6 +23,9 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
+
 import javax.net.ssl.*;
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +52,8 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
+import org.openapitools.client.auth.RetryingOAuth;
+import org.openapitools.client.auth.OAuthFlow;
 
 public class ApiClient {
 
@@ -77,6 +82,39 @@ public class ApiClient {
      * Constructor for ApiClient
      */
     public ApiClient() {
+        init();
+
+        // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("petstore_auth", new OAuth());
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+    
+    /*
+     * Constructor for ApiClient to support access token retry on 401/403
+     */
+    public ApiClient(
+            String clientId,
+            String clientSecret,
+            Map<String, String> parameters
+    ) {
+        init();
+
+        RetryingOAuth retryingOAuth = new RetryingOAuth("", clientId, OAuthFlow.implicit, clientSecret, parameters);
+        authentications.put(
+                "petstore_auth",
+                retryingOAuth
+        );
+        httpClient.interceptors().add(retryingOAuth);
+
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+    
+    private void init() {
         httpClient = new OkHttpClient();
 
 
@@ -87,14 +125,7 @@ public class ApiClient {
         // Set default User-Agent.
         setUserAgent("OpenAPI-Generator/1.0.0/java");
 
-        // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
-        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-        authentications.put("http_basic_test", new HttpBasicAuth());
-        authentications.put("petstore_auth", new OAuth());
-        // Prevent the authentications from being modified.
-        authentications = Collections.unmodifiableMap(authentications);
     }
 
     /**
@@ -482,6 +513,20 @@ public class ApiClient {
     public ApiClient setWriteTimeout(int writeTimeout) {
         httpClient.setWriteTimeout(writeTimeout, TimeUnit.MILLISECONDS);
         return this;
+    }
+
+    /**
+     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+     * @return Token request builder
+     */
+    public TokenRequestBuilder getTokenEndPoint() {
+        for (Authentication apiAuth : authentications.values()) {
+            if (apiAuth instanceof RetryingOAuth) {
+                RetryingOAuth retryingOAuth = (RetryingOAuth) apiAuth;
+                return retryingOAuth.getTokenRequestBuilder();
+            }
+        }
+        return null;
     }
 
     /**

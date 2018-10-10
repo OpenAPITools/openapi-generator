@@ -11,7 +11,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>3.2.3</version>
+    <version>3.3.0</version>
     <executions>
         <execution>
             <goals>

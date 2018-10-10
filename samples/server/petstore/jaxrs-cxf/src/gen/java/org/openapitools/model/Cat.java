@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Cat extends Animal {
   
   @ApiModelProperty(value = "")
-  private Boolean declawed = null;
+  private Boolean declawed;
  /**
    * Get declawed
    * @return declawed

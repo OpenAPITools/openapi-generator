@@ -104,6 +104,15 @@ CONFIG OPTIONS for java
 	booleanGetterPrefix
 	    Set booleanGetterPrefix (default value 'get')
 
+	parentGroupId
+	    parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentArtifactId
+	    parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentVersion
+	    parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
 	useRxJava
 	    Whether to use the RxJava adapter with the retrofit2 library. (Default: false)
 
@@ -117,7 +126,7 @@ CONFIG OPTIONS for java
 	    Use Play! Async HTTP client (Play WS API) (Default: false)
 
 	playVersion
-	    Version of Play! Framework (possible values "play24", "play25")
+	    Version of Play! Framework (possible values "play24", "play25" (default), "play26")
 
 	supportJava6
 	    Whether to support Java6 with the Jersey1 library. (Default: false)
@@ -134,10 +143,13 @@ CONFIG OPTIONS for java
 	useRuntimeException
 	    Use RuntimeException instead of Exception (Default: false)
 
+	feignVersion
+	    Version of OpenFeign: '10.x', '9.x' (default) (Default: false)
+
 	library
 	    library template (sub-template) to use (Default: okhttp-gson)
 	        jersey1 - HTTP client: Jersey client 1.19.4. JSON processing: Jackson 2.8.9. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.
-	        feign - HTTP client: OpenFeign 9.4.0. JSON processing: Jackson 2.8.9. Enable OpenFeign 10.0.1 using '-DuseFeign10=true'.
+	        feign - HTTP client: OpenFeign 9.4.0. JSON processing: Jackson 2.8.9. To enable OpenFeign 10.x, set the 'feignVersion' option to '10.x'
 	        jersey2 - HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.8.9
 	        okhttp-gson - HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.
 	        retrofit - HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.

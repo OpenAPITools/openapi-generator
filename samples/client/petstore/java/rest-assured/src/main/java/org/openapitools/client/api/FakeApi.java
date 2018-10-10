@@ -674,16 +674,16 @@ public class FakeApi {
      * @see #_doubleForm None (required)
      * @see #patternWithoutDelimiterForm None (required)
      * @see #_byteForm None (required)
-     * @see #integerForm None (optional, default to null)
-     * @see #int32Form None (optional, default to null)
-     * @see #int64Form None (optional, default to null)
-     * @see #_floatForm None (optional, default to null)
-     * @see #stringForm None (optional, default to null)
-     * @see #binaryMultiPart None (optional, default to null)
-     * @see #dateForm None (optional, default to null)
-     * @see #dateTimeForm None (optional, default to null)
-     * @see #passwordForm None (optional, default to null)
-     * @see #paramCallbackForm None (optional, default to null)
+     * @see #integerForm None (optional)
+     * @see #int32Form None (optional)
+     * @see #int64Form None (optional)
+     * @see #_floatForm None (optional)
+     * @see #stringForm None (optional)
+     * @see #binaryMultiPart None (optional)
+     * @see #dateForm None (optional)
+     * @see #dateTimeForm None (optional)
+     * @see #passwordForm None (optional)
+     * @see #paramCallbackForm None (optional)
      */
     public static class TestEndpointParametersOper {
 
@@ -713,7 +713,7 @@ public class FakeApi {
          public static final String INTEGER_FORM = "integer";
 
          /**
-         * @param integer (Integer) None (optional, default to null)
+         * @param integer (Integer) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper integerForm(Object... integer) {
@@ -724,7 +724,7 @@ public class FakeApi {
          public static final String INT32_FORM = "int32";
 
          /**
-         * @param int32 (Integer) None (optional, default to null)
+         * @param int32 (Integer) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper int32Form(Object... int32) {
@@ -735,7 +735,7 @@ public class FakeApi {
          public static final String INT64_FORM = "int64";
 
          /**
-         * @param int64 (Long) None (optional, default to null)
+         * @param int64 (Long) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper int64Form(Object... int64) {
@@ -757,7 +757,7 @@ public class FakeApi {
          public static final String _FLOAT_FORM = "float";
 
          /**
-         * @param _float (Float) None (optional, default to null)
+         * @param _float (Float) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper _floatForm(Object... _float) {
@@ -779,7 +779,7 @@ public class FakeApi {
          public static final String STRING_FORM = "string";
 
          /**
-         * @param string (String) None (optional, default to null)
+         * @param string (String) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper stringForm(Object... string) {
@@ -812,7 +812,7 @@ public class FakeApi {
          public static final String DATE_FORM = "date";
 
          /**
-         * @param date (LocalDate) None (optional, default to null)
+         * @param date (LocalDate) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper dateForm(Object... date) {
@@ -823,7 +823,7 @@ public class FakeApi {
          public static final String DATE_TIME_FORM = "dateTime";
 
          /**
-         * @param dateTime (OffsetDateTime) None (optional, default to null)
+         * @param dateTime (OffsetDateTime) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper dateTimeForm(Object... dateTime) {
@@ -834,7 +834,7 @@ public class FakeApi {
          public static final String PASSWORD_FORM = "password";
 
          /**
-         * @param password (String) None (optional, default to null)
+         * @param password (String) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper passwordForm(Object... password) {
@@ -845,7 +845,7 @@ public class FakeApi {
          public static final String PARAM_CALLBACK_FORM = "callback";
 
          /**
-         * @param paramCallback (String) None (optional, default to null)
+         * @param paramCallback (String) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper paramCallbackForm(Object... paramCallback) {
@@ -856,7 +856,7 @@ public class FakeApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param binary (File) None (optional, default to null)
+         * @param binary (File) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper binaryMultiPart(File binary) {
@@ -888,9 +888,9 @@ public class FakeApi {
      * To test enum parameters
      * To test enum parameters
      *
-     * @see #enumHeaderStringArrayHeader Header parameter enum test (string array) (optional)
+     * @see #enumHeaderStringArrayHeader Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
      * @see #enumHeaderStringHeader Header parameter enum test (string) (optional, default to -efg)
-     * @see #enumQueryStringArrayQuery Query parameter enum test (string array) (optional)
+     * @see #enumQueryStringArrayQuery Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
      * @see #enumQueryStringQuery Query parameter enum test (string) (optional, default to -efg)
      * @see #enumQueryIntegerQuery Query parameter enum test (double) (optional)
      * @see #enumQueryDoubleQuery Query parameter enum test (double) (optional)
@@ -925,7 +925,7 @@ public class FakeApi {
         public static final String ENUM_HEADER_STRING_ARRAY_HEADER = "enum_header_string_array";
 
         /**
-         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional)
+         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
@@ -947,7 +947,7 @@ public class FakeApi {
         public static final String ENUM_QUERY_STRING_ARRAY_QUERY = "enum_query_string_array";
 
         /**
-         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional)
+         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {

@@ -32,13 +32,13 @@ import javax.validation.Valid;
 
 public class Pet   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("category")
   private Category category = null;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
@@ -80,7 +80,7 @@ public class Pet   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;

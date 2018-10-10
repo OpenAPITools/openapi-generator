@@ -32,7 +32,7 @@ end
 
 describe 'BaseObject' do
   describe 'boolean values' do
-    let(:obj) { Petstore::Cat.new({declawed: false}) }
+    let(:obj) { Petstore::Cat.new(declawed: false) }
 
     it 'should have values set' do
       expect(obj.declawed).not_to be_nil
@@ -44,12 +44,12 @@ describe 'BaseObject' do
     let(:obj) { ArrayMapObject.new }
 
     let(:data) do
-      {int_arr: [123, 456],
-       pet_arr: [{name: 'Kitty'}],
-       int_map: {'int' => 123},
-       pet_map: {'pet' => {name: 'Kitty'}},
-       int_arr_map: {'int_arr' => [123, 456]},
-       pet_arr_map: {'pet_arr' => [{name: 'Kitty'}]},
+      { int_arr: [123, 456],
+       pet_arr: [{ name: 'Kitty' }],
+       int_map: { 'int' => 123 },
+       pet_map: { 'pet' => { name: 'Kitty' } },
+       int_arr_map: { 'int_arr' => [123, 456] },
+       pet_arr_map: { 'pet_arr' => [{ name: 'Kitty' }] },
        boolean_true_arr:  [true, "true", "TruE", 1, "y", "yes", "1", "t", "T"],
        boolean_false_arr: [false, "", 0, "0", "f", nil, "null", "\ntrue\n"],
       }
@@ -68,7 +68,7 @@ describe 'BaseObject' do
       expect(pet.name).to eq('Kitty')
 
       expect(obj.int_map).to be_instance_of(Hash)
-      expect(obj.int_map).to eq({'int' => 123})
+      expect(obj.int_map).to eq('int' => 123)
 
       expect(obj.pet_map).to be_instance_of(Hash)
       pet = obj.pet_map['pet']
@@ -101,8 +101,8 @@ describe 'BaseObject' do
     it 'works for #to_hash' do
       obj.build_from_hash(data)
       expect_data = data.dup
-      expect_data[:boolean_true_arr].map! {true}
-      expect_data[:boolean_false_arr].map! {false}
+      expect_data[:boolean_true_arr].map! { true }
+      expect_data[:boolean_false_arr].map! { false }
       expect(obj.to_hash).to eq(expect_data)
     end
   end

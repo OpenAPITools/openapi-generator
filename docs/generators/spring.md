@@ -104,6 +104,15 @@ CONFIG OPTIONS for spring
 	booleanGetterPrefix
 	    Set booleanGetterPrefix (default value 'get')
 
+	parentGroupId
+	    parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentArtifactId
+	    parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentVersion
+	    parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
 	title
 	    server title name or client service name
 
@@ -133,6 +142,9 @@ CONFIG OPTIONS for spring
 
 	responseWrapper
 	    wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)
+
+	virtualService
+	    Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki (Default: false)
 
 	useTags
 	    use tags for creating interface and controller classnames (Default: false)
