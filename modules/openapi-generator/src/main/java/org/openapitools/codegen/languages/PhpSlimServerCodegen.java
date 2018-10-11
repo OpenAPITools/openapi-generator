@@ -117,11 +117,13 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
-
             // Update the invokerPackage for the default authPackage
             authPackage = invokerPackage + "\\" + authDirName;
         }
+
+        // make auth src path available in mustache template
         additionalProperties.put("authPackage", authPackage);
+        additionalProperties.put("authSrcPath", "./" + toSrcPath(authPackage, srcBasePath));
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
