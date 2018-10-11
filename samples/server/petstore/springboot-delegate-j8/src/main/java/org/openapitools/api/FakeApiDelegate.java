@@ -47,12 +47,12 @@ public interface FakeApiDelegate {
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) {
         int statusCode = 200;
         getRequest().ifPresent(request -> {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
-                break;
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
+                    ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
+                    break;
+                }
             }
-        }
         });
         return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
@@ -101,12 +101,12 @@ public interface FakeApiDelegate {
     default ResponseEntity<Client> testClientModel(Client client) {
         int statusCode = 200;
         getRequest().ifPresent(request -> {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
-                break;
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                    break;
+                }
             }
-        }
         });
         return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
@@ -177,12 +177,12 @@ public interface FakeApiDelegate {
         String additionalMetadata) {
         int statusCode = 200;
         getRequest().ifPresent(request -> {
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
-                break;
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");
+                    break;
+                }
             }
-        }
         });
         return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 
