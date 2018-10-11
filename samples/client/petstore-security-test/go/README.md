@@ -26,7 +26,7 @@ import "./openapi"
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *http://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

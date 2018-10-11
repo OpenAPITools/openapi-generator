@@ -19,11 +19,11 @@ import (
 // Route is the information for every URI.
 type Route struct {
 	// Name is the name of this Route.
-	Name string
+	Name        string
 	// Method is the string for the HTTP method. ex) GET, POST etc..
-	Method string
+	Method      string
 	// Pattern is the pattern of the URI.
-	Pattern string
+	Pattern     string
 	// HandlerFunc is the handler function of this route.
 	HandlerFunc gin.HandlerFunc
 }
@@ -73,7 +73,7 @@ var routes = Routes{
 	{
 		"DeletePet",
 		strings.ToUpper("Delete"),
-		"/v2/pet/{petId}",
+		"/v2/pet/:petId",
 		DeletePet,
 	},
 
@@ -94,7 +94,7 @@ var routes = Routes{
 	{
 		"GetPetById",
 		strings.ToUpper("Get"),
-		"/v2/pet/{petId}",
+		"/v2/pet/:petId",
 		GetPetById,
 	},
 
@@ -108,21 +108,21 @@ var routes = Routes{
 	{
 		"UpdatePetWithForm",
 		strings.ToUpper("Post"),
-		"/v2/pet/{petId}",
+		"/v2/pet/:petId",
 		UpdatePetWithForm,
 	},
 
 	{
 		"UploadFile",
 		strings.ToUpper("Post"),
-		"/v2/pet/{petId}/uploadImage",
+		"/v2/pet/:petId/uploadImage",
 		UploadFile,
 	},
 
 	{
 		"DeleteOrder",
 		strings.ToUpper("Delete"),
-		"/v2/store/order/{orderId}",
+		"/v2/store/order/:orderId",
 		DeleteOrder,
 	},
 
@@ -136,7 +136,7 @@ var routes = Routes{
 	{
 		"GetOrderById",
 		strings.ToUpper("Get"),
-		"/v2/store/order/{orderId}",
+		"/v2/store/order/:orderId",
 		GetOrderById,
 	},
 
@@ -171,14 +171,14 @@ var routes = Routes{
 	{
 		"DeleteUser",
 		strings.ToUpper("Delete"),
-		"/v2/user/{username}",
+		"/v2/user/:username",
 		DeleteUser,
 	},
 
 	{
 		"GetUserByName",
 		strings.ToUpper("Get"),
-		"/v2/user/{username}",
+		"/v2/user/:username",
 		GetUserByName,
 	},
 
@@ -199,7 +199,7 @@ var routes = Routes{
 	{
 		"UpdateUser",
 		strings.ToUpper("Put"),
-		"/v2/user/{username}",
+		"/v2/user/:username",
 		UpdateUser,
 	},
 }

@@ -152,7 +152,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("array", "list");
         typeMapping.put("map", "list_t*");
         typeMapping.put("date-time", "char");
-        
+
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
         while (itr.hasNext()) {
@@ -173,7 +173,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("C_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\"` (Linux/Mac)");
+            LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
         }
 
         // make api and model doc path available in mustache template
@@ -202,13 +202,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("cJSON.c.mustache", "external" + File.separator + "src", "cJSON.c"));
         supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external" + File.separator + "include", "cJSON.h"));
 
-        // test files should not be overwritten
-       writeOptional(outputFolder, new SupportingFile("api_store_test.mustache", "unit-tests", "manual-StoreAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("api_user_test.mustache", "unit-tests", "manual-UserAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("api_pet_test.mustache", "unit-tests", "manual-PetAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("model_order_test.mustache", "unit-tests", "manual-order.c"));
-       writeOptional(outputFolder, new SupportingFile("model_user_test.mustache", "unit-tests", "manual-user.c"));
-       //writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
     }
 
     @Override
@@ -324,7 +317,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             name = name.toLowerCase(Locale.ROOT);
         }
 
-        name = underscore(name);
+        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -337,7 +330,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        return camelize(toVarName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name));
     }
 
     @Override
@@ -367,12 +360,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return underscore(toModelName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toModelName(name));
     }
 
     @Override
@@ -386,7 +379,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return camelize(name) + "API";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "API";
     }
 
     @Override
@@ -410,7 +403,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "API";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "API";
     }
 
     @Override
@@ -418,7 +411,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return  escapeText(value) ;
+            return escapeText(value);
         }
     }
 
@@ -438,7 +431,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // string
-        String enumName = sanitizeName(camelize(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -451,7 +444,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = org.openapitools.codegen.utils.StringUtils.camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -472,33 +465,33 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toOperationId(String operationId) {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            operationId = camelize("empty_method_name_" + emptyMethodNameCounter++);
+            operationId = org.openapitools.codegen.utils.StringUtils.camelize("empty_method_name_" + emptyMethodNameCounter++);
             LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true);
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
     }
 
     @Override
     public String toApiImport(String name) {
         return apiPackage() + "/" + toApiFilename(name);
     }
-    
+
     @Override
     public String toModelImport(String name) {
         return "#include \"" + name + ".h\"";

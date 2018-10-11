@@ -85,7 +85,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("RUBY_POST_PROCESS_FILE"))) {
-            LOGGER.info("Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=/usr/local/bin/rubocop -a' (Linux/Mac)");
+            LOGGER.info("Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=\"/usr/local/bin/rubocop -a\"' (Linux/Mac)");
         }
     }
 

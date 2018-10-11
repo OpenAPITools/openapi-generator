@@ -422,8 +422,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         var.allowableValues = refModel.allowableValues;
                         var.isEnum = true;
 
-                        updateCodegenPropertyEnum(var);
-
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
                     }

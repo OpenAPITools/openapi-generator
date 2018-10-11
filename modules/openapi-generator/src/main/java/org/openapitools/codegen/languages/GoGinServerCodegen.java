@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
@@ -25,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class GoGinServerCodegen extends AbstractGoCodegen {
 
@@ -86,12 +89,22 @@ public class GoGinServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            if (op.path != null) {
+                op.path = op.path.replaceAll("\\{(.*?)\\}", ":$1");
+            }
+        }
+        return objs;
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
-
-        if (StringUtils.isEmpty(System.getenv("GO_FMT_PATH"))) {
-            LOGGER.info("Environment variable GO_FMT_PATH not defined so Go code may not be properly formatted. To define it, try 'export GO_FMT_PATH=/usr/local/bin/gofmt' (Linux/Mac)");
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));

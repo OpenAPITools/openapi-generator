@@ -11,6 +11,7 @@ package petstoreserver
 
 // Pet - A pet for sale in the pet store
 type Pet struct {
+
 	Id int64 `json:"id,omitempty"`
 
 	Category *Category `json:"category,omitempty"`

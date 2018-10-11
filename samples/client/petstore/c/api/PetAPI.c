@@ -14,8 +14,6 @@
 		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
-
-
 // Add a new pet to the store
 //
 void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
@@ -40,11 +38,8 @@ void PetAPI_addPet(apiClient_t *apiClient, pet_t *pet) {
 		localVarBodyParameters =
 			cJSON_Print(localVarSingleItemJSON_pet);
 	}
-
 	list_addElement(localVarContentType, "application/json"); // consumes
-
 	list_addElement(localVarContentType, "application/xml"); // consumes
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -115,7 +110,6 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 		list_addElement(localVarHeaderParameters,
 		                keyPairHeader_api_key);
 	}
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -166,11 +160,8 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 		// listContainer
 		localVarQueryParameters = status;
 	}
-
 	list_addElement(localVarHeaderType, "application/xml"); // produces
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -240,11 +231,8 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 		// listContainer
 		localVarQueryParameters = tags;
 	}
-
 	list_addElement(localVarHeaderType, "application/xml"); // produces
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -325,11 +313,8 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	localVarPath =
 		strReplace(localVarPath, localVarToReplace, localVarBuff);
 
-
 	list_addElement(localVarHeaderType, "application/xml"); // produces
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -393,11 +378,8 @@ void PetAPI_updatePet(apiClient_t *apiClient, pet_t *pet) {
 		localVarBodyParameters =
 			cJSON_Print(localVarSingleItemJSON_pet);
 	}
-
 	list_addElement(localVarContentType, "application/json"); // consumes
-
 	list_addElement(localVarContentType, "application/xml"); // consumes
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -486,10 +468,8 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
 		                                         valueForm_status);
 		list_addElement(localVarFormParameters, keyPairForm_status); // String
 	}
-
 	list_addElement(localVarContentType,
-	                "application/x-www-form-urlencoded");                     // consumes
-
+	                "application/x-www-form-urlencoded");                 // consumes
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -592,11 +572,8 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 		keyPairForm_file = keyValuePair_create(keyForm_file, valueFile);
 		list_addElement(localVarFormParameters, keyPairForm_file); // file adding
 	}
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	list_addElement(localVarContentType, "multipart/form-data"); // consumes
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,

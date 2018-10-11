@@ -26,6 +26,4 @@ category_t *category_parseFromJSON(char *jsonString);
 
 cJSON *category_convertToJSON(category_t *category);
 
-
-
 #endif /* _category_H_ */

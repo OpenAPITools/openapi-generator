@@ -13,13 +13,13 @@ apiClient_t *apiClient_create() {
 	apiClient->basePath = "http://petstore.swagger.io:80/v2";
 	apiClient->dataReceived = NULL;
 	apiClient->response_code = 0;
-   #ifdef BASIC_AUTH
+    #ifdef BASIC_AUTH
 	apiClient->username = NULL;
 	apiClient->password = NULL;
-   #endif // BASIC_AUTH
-   #ifdef OAUTH2
+    #endif // BASIC_AUTH
+    #ifdef OAUTH2
 	apiClient->accessToken = NULL;
-   #endif // OAUTH2
+    #endif // OAUTH2
 	return apiClient;
 }
 

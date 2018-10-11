@@ -1,34 +1,32 @@
 type {{classname}}
-{{#children}}
-    {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{classname}}Type {{classname}}
-{{/children}}
+{{#mappedModels}}
+    {{#-first}}={{/-first}}{{^-first}}|{{/-first}} {{modelName}}Type {{modelName}}
+{{/mappedModels}}
 
 
-{{classVarName}}Decoder : Decoder {{classname}}
-{{classVarName}}Decoder =
-    Decode.field "{{{discriminatorName}}}" Decode.string
-        |> Decode.andThen {{classVarName}}TypeDecoder
+decoder : Decoder {{classname}}
+decoder =
+    Decode.field "{{{discriminator.propertyName}}}" Decode.string
+        |> Decode.andThen {{classVarName}}Decoder
 
 
-{{classVarName}}TypeDecoder : String -> Decoder {{classname}}
-{{classVarName}}TypeDecoder {{{discriminatorName}}} =
-    case {{{discriminatorName}}} of
-{{#children}}
-        "{{vendorExtensions.x-discriminator-value}}" ->
-            Decode.map {{classname}}Type {{classVarName}}Decoder
+{{classVarName}}Decoder : String -> Decoder {{classname}}
+{{classVarName}}Decoder tag =
+    case tag of
+{{#mappedModels}}
+        "{{mappingName}}" ->
+            Decode.map {{modelName}}Type {{modelName}}.decoder
 
-{{/children}}
+{{/mappedModels}}
         _ ->
-            Decode.fail <|
-                "Trying to decode {{classname}}, but {{{discriminatorName}}} "
-                ++ {{{discriminatorName}}} ++ " is not supported."
+            Decode.fail <| "Trying to decode {{classname}}, but {{{discriminatorName}}} " ++ tag ++ " is not supported."
 
 
-{{classVarName}}Encoder : {{classname}} -> Encode.Value
-{{classVarName}}Encoder model =
+encoder : {{classname}} -> Encode.Value
+encoder model =
     case model of
-{{#children}}
-        {{classname}}Type subModel ->
-            {{classVarName}}Encoder subModel
+{{#mappedModels}}
+        {{modelName}}Type subModel ->
+            {{modelName}}.encoder "{{mappingName}}" subModel
 
-{{/children}}
+{{/mappedModels}}

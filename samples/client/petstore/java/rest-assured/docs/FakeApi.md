@@ -337,20 +337,20 @@ api.testEndpointParameters()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None | [default to null]
- **_double** | **Double**| None | [default to null]
- **patternWithoutDelimiter** | **String**| None | [default to null]
- **_byte** | **byte[]**| None | [default to null]
- **integer** | **Integer**| None | [optional] [default to null]
- **int32** | **Integer**| None | [optional] [default to null]
- **int64** | **Long**| None | [optional] [default to null]
- **_float** | **Float**| None | [optional] [default to null]
- **string** | **String**| None | [optional] [default to null]
- **binary** | **File**| None | [optional] [default to null]
- **date** | **LocalDate**| None | [optional] [default to null]
- **dateTime** | **OffsetDateTime**| None | [optional] [default to null]
- **password** | **String**| None | [optional] [default to null]
- **paramCallback** | **String**| None | [optional] [default to null]
+ **number** | **BigDecimal**| None |
+ **_double** | **Double**| None |
+ **patternWithoutDelimiter** | **String**| None |
+ **_byte** | **byte[]**| None |
+ **integer** | **Integer**| None | [optional]
+ **int32** | **Integer**| None | [optional]
+ **int64** | **Long**| None | [optional]
+ **_float** | **Float**| None | [optional]
+ **string** | **String**| None | [optional]
+ **binary** | **File**| None | [optional]
+ **date** | **LocalDate**| None | [optional]
+ **dateTime** | **OffsetDateTime**| None | [optional]
+ **password** | **String**| None | [optional]
+ **paramCallback** | **String**| None | [optional]
 
 ### Return type
 
@@ -391,9 +391,9 @@ api.testEnumParameters().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
+ **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [default to new ArrayList&lt;String&gt;()] [enum: >, $]
  **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
- **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [enum: >, $]
+ **enumQueryStringArray** | [**List&lt;String&gt;**](String.md)| Query parameter enum test (string array) | [optional] [default to new ArrayList&lt;String&gt;()] [enum: >, $]
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
@@ -479,8 +479,8 @@ api.testJsonFormData()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | [default to null]
- **param2** | **String**| field2 | [default to null]
+ **param** | **String**| field1 |
+ **param2** | **String**| field2 |
 
 ### Return type
 
