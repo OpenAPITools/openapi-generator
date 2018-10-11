@@ -87,6 +87,9 @@ func TestUpdatePetWithForm(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
+
+    // get the pet with id 12830 from server to verify the update
+    isPetCorrect(t, 12830, "golang", "available")
 }
 
 func TestFindPetsByTag(t *testing.T) {
@@ -301,3 +304,4 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 		t.Log(r)
 	}
 }
+
