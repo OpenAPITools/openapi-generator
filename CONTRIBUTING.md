@@ -12,6 +12,7 @@
 
  - Search the [open issue](https://github.com/openapitools/openapi-generator/issues) to ensure no one else has reported something similar and no one is actively working on similar proposed change.
  - If no one has suggested something similar, open an ["issue"](https://github.com/openapitools/openapi-generator/issues) with your suggestion to gather feedback from the community.
+ - If you're adding a new option to a generator, please consider using the `-t` option with customized templates instead or start a discussion first by opening an issue as we want to avoid adding too many options to the generator.
  - It's recommended to **create a new git branch** for the change so that the merge commit message looks nicer in the commit history.
 
 ## How to contribute
@@ -48,6 +49,7 @@ Code change should conform to the programming style guide of the respective lang
 - Clojure: https://github.com/bbatsov/clojure-style-guide
 - Dart: https://www.dartlang.org/guides/language/effective-dart/style
 - Elixir: https://github.com/christopheradams/elixir_style_guide
+- Elm: https://elm-lang.org/docs/style-guide
 - Eiffel: https://www.eiffel.org/doc/eiffel/Coding%20Standards
 - Erlang: https://github.com/inaka/erlang_guidelines
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
