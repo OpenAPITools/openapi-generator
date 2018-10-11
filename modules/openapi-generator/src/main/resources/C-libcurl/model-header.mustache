@@ -76,7 +76,7 @@ typedef struct {{classname}}_t {
         {{/isListContainer}}
         {{#isMapContainer}}
         {{datatype}} *{{baseName}};
-// TODO map/hash not supported at the moment
+        // TODO map/hash not supported at the moment
         {{/isMapContainer}}
         {{/isContainer}}
         {{/vars}}
@@ -133,8 +133,6 @@ void {{classname}}_free({{classname}}_t *{{classname}});
 {{classname}}_t *{{classname}}_parseFromJSON(char *jsonString);
 
 cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}});
-
-
 
 #endif /* _{{classname}}_H_ */
 {{/model}}{{/models}}

@@ -33,6 +33,4 @@ user_t *user_parseFromJSON(char *jsonString);
 
 cJSON *user_convertToJSON(user_t *user);
 
-
-
 #endif /* _user_H_ */

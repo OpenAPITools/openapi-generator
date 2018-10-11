@@ -38,6 +38,4 @@ pet_t *pet_parseFromJSON(char *jsonString);
 
 cJSON *pet_convertToJSON(pet_t *pet);
 
-
-
 #endif /* _pet_H_ */

@@ -14,8 +14,6 @@
 		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
-
-
 // Create user
 //
 // This can only be done by the logged in user.
@@ -42,7 +40,6 @@ void UserAPI_createUser(apiClient_t *apiClient, user_t *user) {
 		localVarBodyParameters =
 			cJSON_Print(localVarSingleItemJSON_user);
 	}
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -121,7 +118,6 @@ void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *user) {
 
 		localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
 	}
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -202,7 +198,6 @@ void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *user) {
 
 		localVarBodyParameters = cJSON_Print(localVarItemJSON_user);
 	}
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -258,7 +253,6 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -312,11 +306,8 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, username);
-
 	list_addElement(localVarHeaderType, "application/xml"); // produces
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -398,11 +389,8 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 		                                            valueQuery_password);
 		list_addElement(localVarQueryParameters, keyPairQuery_password);
 	}
-
 	list_addElement(localVarHeaderType, "application/xml"); // produces
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -454,7 +442,6 @@ void UserAPI_logoutUser(apiClient_t *apiClient) {
 	long sizeOfPath = strlen("/user/logout") + 1;
 	char *localVarPath = malloc(sizeOfPath);
 	snprintf(localVarPath, sizeOfPath, "/user/logout");
-
 
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -516,7 +503,6 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 		localVarBodyParameters =
 			cJSON_Print(localVarSingleItemJSON_user);
 	}
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,

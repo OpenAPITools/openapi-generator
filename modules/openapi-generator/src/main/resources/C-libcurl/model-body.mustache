@@ -11,26 +11,25 @@
 {{/imports}}
 
 {{#vars}}
-    {{#isEnum}}
-         char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
-            char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-            return {{baseName}}Array[{{baseName}}];
+{{#isEnum}}
+char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
+    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    return {{baseName}}Array[{{baseName}}];
 
-            }
+}
 
-
-        {{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
-            int stringToReturn = 0;
-            char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-            size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
-            while(stringToReturn < sizeofArray) {
-                if(strcmp({{baseName}}, {{baseName}}Array[stringToReturn]) == 0) {
-                    return stringToReturn;
-                }
-            stringToReturn++;
-            }
+{{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
+    int stringToReturn = 0;
+    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
+    size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
+    while(stringToReturn < sizeofArray) {
+        if(strcmp({{baseName}}, {{baseName}}Array[stringToReturn]) == 0) {
+            return stringToReturn;
         }
-    {{/isEnum}}
+        stringToReturn++;
+    }
+}
+{{/isEnum}}
 {{/vars}}
 
 {{classname}}_t *{{classname}}_create(
@@ -222,7 +221,7 @@ fail:
 {{classname}}_t *{{classname}}_parseFromJSON(char *jsonString){
 
     {{classname}}_t *{{classname}} = NULL;
-   cJSON *{{classname}}JSON = cJSON_Parse(jsonString);
+    cJSON *{{classname}}JSON = cJSON_Parse(jsonString);
     if({{classname}}JSON == NULL){
         const char *error_ptr = cJSON_GetErrorPtr();
         if (error_ptr != NULL) {

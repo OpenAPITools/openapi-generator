@@ -26,6 +26,4 @@ tag_t *tag_parseFromJSON(char *jsonString);
 
 cJSON *tag_convertToJSON(tag_t *tag);
 
-
-
 #endif /* _tag_H_ */
