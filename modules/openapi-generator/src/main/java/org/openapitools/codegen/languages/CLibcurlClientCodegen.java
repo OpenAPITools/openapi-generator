@@ -173,7 +173,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("C_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\"` (Linux/Mac)");
+            LOGGER.info("Environment variable C_POST_PROCESS_FILE not defined so the C code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export C_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
         }
 
         // make api and model doc path available in mustache template

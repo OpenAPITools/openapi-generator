@@ -38,6 +38,4 @@ order_t *order_parseFromJSON(char *jsonString);
 
 cJSON *order_convertToJSON(order_t *order);
 
-
-
 #endif /* _order_H_ */

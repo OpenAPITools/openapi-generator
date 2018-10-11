@@ -27,6 +27,4 @@ api_response_t *api_response_parseFromJSON(char *jsonString);
 
 cJSON *api_response_convertToJSON(api_response_t *api_response);
 
-
-
 #endif /* _api_response_H_ */
