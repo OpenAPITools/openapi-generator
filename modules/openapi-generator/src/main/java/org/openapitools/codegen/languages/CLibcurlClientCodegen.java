@@ -317,7 +317,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             name = name.toLowerCase(Locale.ROOT);
         }
 
-        name = underscore(name);
+        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -330,7 +330,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        return camelize(toVarName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name));
     }
 
     @Override
@@ -360,12 +360,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return underscore(toModelName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toModelName(name));
     }
 
     @Override
@@ -379,7 +379,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return camelize(name) + "API";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "API";
     }
 
     @Override
@@ -403,7 +403,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "API";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "API";
     }
 
     @Override
@@ -431,7 +431,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // string
-        String enumName = sanitizeName(camelize(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -444,7 +444,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = org.openapitools.codegen.utils.StringUtils.camelize(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -465,26 +465,26 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toOperationId(String operationId) {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            operationId = camelize("empty_method_name_" + emptyMethodNameCounter++);
+            operationId = org.openapitools.codegen.utils.StringUtils.camelize("empty_method_name_" + emptyMethodNameCounter++);
             LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize(sanitizeName("call_" + operationId), true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true);
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
     }
 
     @Override
