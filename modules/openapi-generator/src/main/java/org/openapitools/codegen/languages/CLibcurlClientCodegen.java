@@ -152,7 +152,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("array", "list");
         typeMapping.put("map", "list_t*");
         typeMapping.put("date-time", "char");
-        
+
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
         while (itr.hasNext()) {
@@ -202,13 +202,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("cJSON.c.mustache", "external" + File.separator + "src", "cJSON.c"));
         supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external" + File.separator + "include", "cJSON.h"));
 
-        // test files should not be overwritten
-       writeOptional(outputFolder, new SupportingFile("api_store_test.mustache", "unit-tests", "manual-StoreAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("api_user_test.mustache", "unit-tests", "manual-UserAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("api_pet_test.mustache", "unit-tests", "manual-PetAPI.c"));
-       writeOptional(outputFolder, new SupportingFile("model_order_test.mustache", "unit-tests", "manual-order.c"));
-       writeOptional(outputFolder, new SupportingFile("model_user_test.mustache", "unit-tests", "manual-user.c"));
-       //writeOptional(outputFolder, new SupportingFile("apiKey.c.mustache", "unit-tests", "apiKey.c"));
     }
 
     @Override
@@ -418,7 +411,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return  escapeText(value) ;
+            return escapeText(value);
         }
     }
 
@@ -498,7 +491,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     public String toApiImport(String name) {
         return apiPackage() + "/" + toApiFilename(name);
     }
-    
+
     @Override
     public String toModelImport(String name) {
         return "#include \"" + name + ".h\"";
