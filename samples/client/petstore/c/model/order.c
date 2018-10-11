@@ -40,8 +40,6 @@ order_t *order_create(long id, long petId, int quantity, char *shipDate,
 void order_free(order_t *order) {
 	listEntry_t *listEntry;
 	free(order->shipDate);
-	// free(order->status);
-	// free(order->complete);
 
 	free(order);
 }
@@ -152,12 +150,6 @@ order_t *order_parseFromJSON(char *jsonString) {
 		statusVariable,
 		complete->valueint
 		);
-	// cJSON_Delete(id);
-	// cJSON_Delete(petId);
-	// cJSON_Delete(quantity);
-	// cJSON_Delete(shipDate);
-	// cJSON_Delete(status);
-	// cJSON_Delete(complete);
 	cJSON_Delete(orderJSON);
 	return order;
 end:

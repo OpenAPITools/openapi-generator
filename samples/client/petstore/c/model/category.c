@@ -70,8 +70,6 @@ category_t *category_parseFromJSON(char *jsonString) {
 		id->valuedouble,
 		strdup(name->valuestring)
 		);
-	// cJSON_Delete(id);
-	// cJSON_Delete(name);
 	cJSON_Delete(categoryJSON);
 	return category;
 end:

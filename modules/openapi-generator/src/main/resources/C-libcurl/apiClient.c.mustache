@@ -12,6 +12,7 @@ apiClient_t *apiClient_create() {
 	apiClient_t *apiClient = malloc(sizeof(apiClient_t));
 	apiClient->basePath = "http://petstore.swagger.io:80/v2";
 	apiClient->dataReceived = NULL;
+	apiClient->response_code = 0;
    #ifdef BASIC_AUTH
 	apiClient->username = NULL;
 	apiClient->password = NULL;
@@ -315,7 +316,7 @@ void apiClient_invoke(apiClient_t	*apiClient,
 		                 CURLOPT_WRITEDATA,
 		                 &apiClient->dataReceived);
 		curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
-		curl_easy_setopt(handle, CURLOPT_VERBOSE, 1L); // to get curl debug msg
+		curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
 		// this would only be generated for OAuth2 authentication
         #ifdef OAUTH2
         if(apiClient->accessToken != NULL) {
@@ -368,7 +369,9 @@ void apiClient_invoke(apiClient_t	*apiClient,
             free(buffContent);
         }
 
-        if(res != CURLE_OK) {
+        if(res == CURLE_OK) {
+            curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &apiClient->response_code);
+        } else {
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
             curl_easy_strerror(res));
         }

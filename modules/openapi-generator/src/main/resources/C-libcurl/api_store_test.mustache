@@ -1,5 +1,4 @@
 #include <stdio.h>
-    #define MAX_BUFFER_LENGTH 9
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
@@ -21,7 +20,7 @@
    Could fail if someone else makes changes to the added pet, before it can be fetched again.
  */
 int main() {
-	printf("Hello world1\n");
+//place order test
 	apiClient_t *apiClient = apiClient_create();
 
     char *shipdate = malloc(strlen(SHIP_DATE) + 1);
@@ -40,17 +39,13 @@ int main() {
 
 	char *dataToPrint = cJSON_Print(JSONNODE);
 
-	printf("Place order 1: \n%s\n", dataToPrint);
+	printf("Placed order: \n%s\n", dataToPrint);
 	order_free(neworder);
 	order_free(returnorder);
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint);
 
-
-
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
-
+//order get by id test
 	apiClient_t *apiClient2 = apiClient_create();
 
 	neworder = StoreAPI_getOrderById(apiClient2, 1234);
@@ -59,16 +54,13 @@ int main() {
 
 	char *dataToPrint1 = cJSON_Print(JSONNODE);
 
-	printf("Place order 2: \n%s\n", dataToPrint1);
+	printf("Order received: \n%s\n", dataToPrint1);
 
 	order_free(neworder);
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint1);
 
-
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
-
+//delete order test
 	apiClient_t *apiClient3 = apiClient_create();
 
 	char *orderid = malloc(strlen("1234") + 1);
@@ -80,9 +72,7 @@ int main() {
 	free(orderid);
 
 
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
-
+// get order by id test
 	apiClient_t *apiClient4 = apiClient_create();
 
 	neworder = StoreAPI_getOrderById(apiClient4, 1234);
@@ -90,9 +80,8 @@ int main() {
 	if(neworder == NULL) {
 		printf("Order Not present \n");
 	}
-	printf(
-		"------------------------------ Part Ends ----------------------------------\n");
 
+//get inventory test
 	apiClient_t *apiClient5 = apiClient_create();
 	list_t *elementToReturn;
 	elementToReturn = StoreAPI_getInventory(apiClient5);

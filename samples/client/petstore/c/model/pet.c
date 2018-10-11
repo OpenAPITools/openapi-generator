@@ -52,7 +52,6 @@ void pet_free(pet_t *pet) {
 		tag_free(listEntry->data);
 	}
 	list_free(pet->tags);
-	// free(pet->status);
 
 	free(pet);
 }
@@ -221,18 +220,7 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 		tagsList,
 		statusVariable
 		);
-	// cJSON_Delete(id);
-	// cJSON_Delete(categoryJSON);
 	free(categoryJSONData);
-	// category_free(category);
-	// cJSON_Delete(name);
-	// cJSON_Delete(photoUrls);
-	// cJSON_Delete(photoUrlsJSON);
-	// list_free(photoUrlsList);
-	// cJSON_Delete(tags);
-	// cJSON_Delete(tagsJSON);
-	// list_free(tagsList);
-	// cJSON_Delete(status);
 	cJSON_Delete(petJSON);
 	return pet;
 end:

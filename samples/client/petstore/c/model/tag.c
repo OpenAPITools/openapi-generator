@@ -70,8 +70,6 @@ tag_t *tag_parseFromJSON(char *jsonString) {
 		id->valuedouble,
 		strdup(name->valuestring)
 		);
-	// cJSON_Delete(id);
-	// cJSON_Delete(name);
 	cJSON_Delete(tagJSON);
 	return tag;
 end:
