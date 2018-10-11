@@ -454,6 +454,16 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testParentName() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema child = openAPI.getComponents().getSchemas().get("Child");
+        CodegenModel childModel = codegen.fromModel("Child", child, openAPI.getComponents().getSchemas());
+        Assert.assertEquals(childModel.parentSchema, "Person");
+    }
+
+    @Test
     public void testCallbacks() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/callbacks.yaml", null, new ParseOptions()).getOpenAPI();
         final CodegenConfig codegen = new DefaultCodegen();

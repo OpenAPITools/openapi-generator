@@ -265,4 +265,12 @@ public class CodegenConstants {
     public static final String DATABASE_ADAPTER = "databaseAdapter";
     public static final String DATABASE_ADAPTER_DESC = "The adapter for database (e.g. mysql, sqlite). Default: sqlite";
 
+    public static final String PARENT_GROUP_ID = "parentGroupId";
+    public static final String PARENT_GROUP_ID_DESC = "parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect";
+    
+    public static final String PARENT_ARTIFACT_ID = "parentArtifactId";
+    public static final String PARENT_ARTIFACT_ID_DESC = "parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect";
+    
+    public static final String PARENT_VERSION = "parentVersion";
+    public static final String PARENT_VERSION_DESC = "parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect";
 }

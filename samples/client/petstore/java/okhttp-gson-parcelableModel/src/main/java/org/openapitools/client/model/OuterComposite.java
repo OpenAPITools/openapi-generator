@@ -34,15 +34,15 @@ import android.os.Parcel;
 public class OuterComposite implements Parcelable {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
-  private BigDecimal myNumber = null;
+  private BigDecimal myNumber;
 
   public static final String SERIALIZED_NAME_MY_STRING = "my_string";
   @SerializedName(SERIALIZED_NAME_MY_STRING)
-  private String myString = null;
+  private String myString;
 
   public static final String SERIALIZED_NAME_MY_BOOLEAN = "my_boolean";
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
-  private Boolean myBoolean = null;
+  private Boolean myBoolean;
 
   public OuterComposite() {
   }

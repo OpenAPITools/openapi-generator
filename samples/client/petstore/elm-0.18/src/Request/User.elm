@@ -12,7 +12,7 @@
 
 module Request.User exposing (createUser, createUsersWithArrayInput, createUsersWithListInput, deleteUser, getUserByName, loginUser, logoutUser, updateUser)
 
-import Data.User exposing (User, userDecoder, userEncoder)
+import Data.User as User exposing (User)
 import Dict
 import Http
 import Json.Decode as Decode
@@ -30,7 +30,7 @@ createUser model =
     { method = "POST"
     , url = basePath ++ "/user"
     , headers = []
-    , body = Http.jsonBody <| userEncoder model
+    , body = Http.jsonBody <| User.encoder model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False
@@ -43,7 +43,7 @@ createUsersWithArrayInput model =
     { method = "POST"
     , url = basePath ++ "/user/createWithArray"
     , headers = []
-    , body = Http.jsonBody <| userEncoder model
+    , body = Http.jsonBody <| User.encoder model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False
@@ -56,7 +56,7 @@ createUsersWithListInput model =
     { method = "POST"
     , url = basePath ++ "/user/createWithList"
     , headers = []
-    , body = Http.jsonBody <| userEncoder model
+    , body = Http.jsonBody <| User.encoder model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False
@@ -85,7 +85,7 @@ getUserByName username =
     , url = basePath ++ "/user/" ++ username
     , headers = []
     , body = Http.emptyBody
-    , expect = Http.expectJson userDecoder
+    , expect = Http.expectJson User.decoder
     , timeout = Just 30000
     , withCredentials = False
     }
@@ -125,7 +125,7 @@ updateUser username model =
     { method = "PUT"
     , url = basePath ++ "/user/" ++ username
     , headers = []
-    , body = Http.jsonBody <| userEncoder model
+    , body = Http.jsonBody <| User.encoder model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False

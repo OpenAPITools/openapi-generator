@@ -29,6 +29,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -156,12 +158,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
-    public String toVarName(String name) {
         // sanitize name
         name = sanitizeName(name, "\\W-[\\$]");
 
@@ -182,6 +178,33 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         return name;
+    }
+
+    @Override
+    public String toVarName(String name) {
+        name = this.toParamName(name);
+        
+        // if the proprty name has any breaking characters such as :, ;, . etc.
+        // then wrap the name within single quotes.
+        // my:interface:property: string; => 'my:interface:property': string;
+        if (propertyHasBreakingCharacters(name)) {
+            name = "\'" + name + "\'";
+        }
+
+        return name;
+    }
+
+    /**
+     * Checks whether property names have breaking characters like ':', '-'.
+     * @param str string to check for breaking characters
+     * @return <code>true</code> if breaking characters are present and <code>false</code> if not
+     */
+    private boolean propertyHasBreakingCharacters(String str) {
+        final String regex = "^.*[+*:;,.()-]+.*$";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(str);
+        boolean matches = matcher.matches();
+        return matches;
     }
 
     @Override

@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 public class Animal  implements Serializable {
   @JsonProperty("className")
-  private String className = null;
+  private String className;
 
   @JsonProperty("color")
   private String color = "red";
