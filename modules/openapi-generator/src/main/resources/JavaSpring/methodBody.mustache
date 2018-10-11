@@ -6,20 +6,20 @@ int statusCode = {{#responses}}{{#-first}}{{{code}}}{{/-first}}{{/responses}};
 {{#async}}
         return CompletableFuture.supplyAsync(()-> {
 {{/async}}
-        getRequest().ifPresent(request -> {
+{{#async}}    {{/async}}        getRequest().ifPresent(request -> {
 {{/jdk8}}
-        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+{{#jdk8}}    {{#async}}    {{/async}}{{/jdk8}}        for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
 {{/-first}}
-            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
-                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}");
-                break;
-            }
+{{#jdk8}}    {{#async}}    {{/async}}{{/jdk8}}            if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
+{{#jdk8}}    {{#async}}    {{/async}}{{/jdk8}}                ApiUtil.setExampleResponse(request, "{{{contentType}}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}");
+{{#jdk8}}    {{#async}}    {{/async}}{{/jdk8}}                break;
+{{#jdk8}}    {{#async}}    {{/async}}{{/jdk8}}            }
 {{#-last}}
-        }
+{{#jdk8}}    {{#async}}    {{/async}}{{/jdk8}}        }
 {{#jdk8}}
-        });
+{{#async}}    {{/async}}        });
 {{/jdk8}}
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+{{#async}}    {{/async}}        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
 {{#jdk8}}
 {{#async}}
         }, Runnable::run);
