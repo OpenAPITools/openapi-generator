@@ -4,7 +4,6 @@
 
 #include "cJSON.h"
 #include "list.h"
-#include "tag.h"
 
 static listEntry_t *listEntry_create(void *data) {
 	listEntry_t *createdListEntry = malloc(sizeof(listEntry_t));
