@@ -10,7 +10,6 @@ char *statusorder_ToString(status_e status) {
 	return statusArray[status];
 }
 
-
 status_e statusorder_FromString(char *status) {
 	int stringToReturn = 0;
 	char *statusArray[] = { "placed", "approved", "delivered" };

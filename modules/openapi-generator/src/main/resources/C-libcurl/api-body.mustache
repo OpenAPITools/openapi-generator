@@ -14,8 +14,6 @@
     snprintf(dst, 256, "%ld", (long int)(src));\
 }while(0)
 
-
-
 {{#operations}}
 {{#operation}}
 {{#summary}}
@@ -36,7 +34,7 @@
     char      *localVarBodyParameters = NULL;
 
     // create the path
-   long sizeOfPath = strlen("{{{path}}}")+1;
+    long sizeOfPath = strlen("{{{path}}}")+1;
     char *localVarPath = malloc(sizeOfPath);
     snprintf(localVarPath, sizeOfPath, "{{{path}}}");
 
@@ -47,7 +45,7 @@
 
     {{#isLong}}
     if({{baseName}} == 0){
-      goto end;
+        goto end;
     }
     char* localVarToReplace = malloc(sizeOfPathParams);
     snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "{{baseName}}", "}");
@@ -74,8 +72,7 @@
     char *keyHeader_{{{baseName}}};
     char *valueHeader_{{{baseName}}};
     keyValuePair_t *keyPairHeader_{{baseName}} = 0;
-    if ({{baseName}})
-    {
+    if ({{baseName}}) {
         keyHeader_{{{baseName}}} = strdup("{{{baseName}}}");
         valueHeader_{{{baseName}}} = strdup({{{baseName}}});
         keyPairHeader_{{baseName}} = keyValuePair_create(keyHeader_{{{baseName}}}, valueHeader_{{{baseName}}});
@@ -86,7 +83,7 @@
 
     // query parameters
     {{#isListContainer}}
-        if ({{baseName}} !=NULL )
+    if ({{baseName}} !=NULL )
     {{/isListContainer}}
     {{^isListContainer}}
     char *keyQuery_{{{baseName}}};
@@ -157,13 +154,13 @@
     // Body Param
     {{#isListContainer}}
     //notstring
-        cJSON *localVar_{{baseName}};
-        cJSON *localVarItemJSON_{{baseName}};
-        cJSON *localVarSingleItemJSON_{{baseName}};
-    if({{baseName}} != NULL){
+    cJSON *localVar_{{baseName}};
+    cJSON *localVarItemJSON_{{baseName}};
+    cJSON *localVarSingleItemJSON_{{baseName}};
+    if ({{baseName}} != NULL) {
         localVarItemJSON_{{baseName}} = cJSON_CreateObject();
         localVarSingleItemJSON_{{baseName}} = cJSON_AddArrayToObject(localVarItemJSON_{{baseName}}, "{{baseName}}");
-        if(localVarSingleItemJSON_{{baseName}} == NULL) {
+        if (localVarSingleItemJSON_{{baseName}} == NULL) {
             // nonprimitive container
             const char *error_ptr = cJSON_GetErrorPtr();
             if(error_ptr != NULL) {
@@ -176,12 +173,12 @@
         list_ForEach({{baseName}}BodyListEntry, {{baseName}}) {
             localVar_{{baseName}} = user_convertToJSON({{baseName}}BodyListEntry->data);
             if(localVar_{{baseName}} == NULL) {
-            const char *error_ptr = cJSON_GetErrorPtr();
-            if(error_ptr != NULL) {
-            fprintf(stderr, "Error Before: %s\n", error_ptr);
-            goto end;
+                const char *error_ptr = cJSON_GetErrorPtr();
+                if(error_ptr != NULL) {
+                    fprintf(stderr, "Error Before: %s\n", error_ptr);
+                    goto end;
+                }
             }
-        }
             cJSON_AddItemToArray(localVarSingleItemJSON_{{baseName}}, localVar_{{baseName}});
         }
 
@@ -190,22 +187,19 @@
     {{/isListContainer}}
     {{^isListContainer}}
     cJSON *localVarSingleItemJSON_{{baseName}};
-    if({{baseName}} != NULL){
-    //string
+    if ({{baseName}} != NULL) {
+        //string
         localVarSingleItemJSON_{{baseName}} = {{baseName}}_convertToJSON({{baseName}});
         localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_{{baseName}});
     }
     {{/isListContainer}}
     {{/bodyParam}}
     {{#produces}}
-
-        list_addElement(localVarHeaderType,"{{{mediaType}}}"); //produces
+    list_addElement(localVarHeaderType,"{{{mediaType}}}"); //produces
     {{/produces}}
     {{#consumes}}
-
-        list_addElement(localVarContentType,"{{{mediaType}}}"); //consumes
+    list_addElement(localVarContentType,"{{{mediaType}}}"); //consumes
     {{/consumes}}
-
     apiClient_invoke(apiClient,
                     localVarPath,
                     localVarQueryParameters,
@@ -221,8 +215,8 @@
         printf("%s\n","{{message}}");
     }
     {{/responses}}
-   {{#returnType}}
-   {{#returnTypeIsPrimitive}}
+    {{#returnType}}
+    {{#returnTypeIsPrimitive}}
     {{#returnSimpleType}}
     //primitive reutrn type simple
     {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
@@ -234,9 +228,9 @@
     cJSON *{{{baseName}}}VarJSON;
     list_t *elementToReturn = list_create();
     cJSON_ArrayForEach({{{baseName}}}VarJSON, {{baseName}}localVarJSON){
-    keyValuePair_t *keyPair = keyValuePair_create({{{baseName}}}VarJSON->string, cJSON_Print({{{baseName}}}VarJSON));
-    list_addElement(elementToReturn, keyPair);
-    free(keyPair->value);
+        keyValuePair_t *keyPair = keyValuePair_create({{{baseName}}}VarJSON->string, cJSON_Print({{{baseName}}}VarJSON));
+        list_addElement(elementToReturn, keyPair);
+        free(keyPair->value);
     }
     cJSON_Delete({{baseName}}localVarJSON);
 
@@ -252,12 +246,12 @@
     cJSON *{{{baseName}}}VarJSON;
     cJSON_ArrayForEach({{{baseName}}}VarJSON, {{classname}}localVarJSON)
     {
-    if(!cJSON_IsObject({{{baseName}}}VarJSON))
-    {
-       // return 0;
-    }
-    char *localVarJSONToChar = cJSON_Print({{{baseName}}}VarJSON);
-    list_addElement(elementToReturn , localVarJSONToChar);
+        if(!cJSON_IsObject({{{baseName}}}VarJSON))
+        {
+           // return 0;
+        }
+        char *localVarJSONToChar = cJSON_Print({{{baseName}}}VarJSON);
+        list_addElement(elementToReturn , localVarJSONToChar);
     }
 
     cJSON_Delete( {{classname}}localVarJSON);
@@ -267,7 +261,7 @@
     //nonprimitive not container
     {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
     if(elementToReturn == NULL) {
-      //  return 0;
+        // return 0;
     }
 
     {{/returnContainer}}
@@ -328,7 +322,7 @@
     {{/formParams}}
     return elementToReturn;
 end:
-     return NULL;
+    return NULL;
     {{/returnType}}
     {{^returnType}}
     //No return type
@@ -338,7 +332,7 @@ end:    apiClient_free(apiClient);
     {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
     {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
     {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
-     {{#pathParams}}
+    {{#pathParams}}
     free(localVarToReplace);
     {{/pathParams}}
     {{#headerParams}}

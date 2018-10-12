@@ -13,8 +13,6 @@
 		snprintf(dst, 256, "%ld", (long int) (src)); \
 	} while(0)
 
-
-
 // Delete purchase order by ID
 //
 // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -43,7 +41,6 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	sprintf(localVarToReplace, "%s%s%s", "{", "orderId", "}");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace, orderId);
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -88,9 +85,7 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 	char *localVarPath = malloc(sizeOfPath);
 	snprintf(localVarPath, sizeOfPath, "/store/inventory");
 
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -162,11 +157,8 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	localVarPath =
 		strReplace(localVarPath, localVarToReplace, localVarBuff);
 
-
 	list_addElement(localVarHeaderType, "application/xml"); // produces
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -230,11 +222,8 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 		localVarBodyParameters = cJSON_Print(
 			localVarSingleItemJSON_order);
 	}
-
 	list_addElement(localVarHeaderType, "application/xml"); // produces
-
 	list_addElement(localVarHeaderType, "application/json"); // produces
-
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
