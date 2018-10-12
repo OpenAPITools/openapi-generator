@@ -27,10 +27,11 @@ public class Pet   {
    */
   public enum StatusEnum {
     AVAILABLE("available"),
+    
+    PENDING("pending"),
+    
+    SOLD("sold");
 
-        PENDING("pending"),
-
-        SOLD("sold");
     private String value;
 
     StatusEnum(String value) {
@@ -41,6 +42,16 @@ public class Pet   {
     @JsonValue
     public String toString() {
       return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
