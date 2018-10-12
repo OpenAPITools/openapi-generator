@@ -82,8 +82,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         apiTemplateFiles.put("api-header.mustache", ".h");
         apiTemplateFiles.put("api-source.mustache", ".cpp");
         apiTemplateFiles.put("api-impl-header.mustache", ".h");
-        apiTemplateFiles.put("api-impl-source.mustache", ".cpp");
-        apiTemplateFiles.put("main-api-server.mustache", ".cpp");
+        apiTemplateFiles.put("api-impl-source.mustache", ".cpp");        
 
         embeddedTemplateDir = templateDir = "cpp-pistache-server";
 
@@ -97,6 +96,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
+        supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
         supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
@@ -139,6 +139,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
             supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
             supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
+            supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
             supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         }
@@ -291,10 +292,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             int ix = result.lastIndexOf(File.separatorChar);
             result = result.substring(0, ix) + result.substring(ix, result.length() - 4) + "Impl.cpp";
             result = result.replace(apiFileFolder(), implFileFolder());
-        } else if (templateName.endsWith("api-server.mustache")) {
-            int ix = result.lastIndexOf(File.separatorChar);
-            result = result.substring(0, ix) + result.substring(ix, result.length() - 4) + "MainServer.cpp";
-            result = result.replace(apiFileFolder(), outputFolder);
         }
         return result;
     }
