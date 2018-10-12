@@ -24,10 +24,11 @@ public class Order   {
    */
   public enum StatusEnum {
     PLACED("placed"),
+    
+    APPROVED("approved"),
+    
+    DELIVERED("delivered");
 
-        APPROVED("approved"),
-
-        DELIVERED("delivered");
     private String value;
 
     StatusEnum(String value) {
@@ -38,6 +39,16 @@ public class Order   {
     @JsonValue
     public String toString() {
       return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StatusEnum fromValue(String text) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
