@@ -546,6 +546,9 @@ public class InlineModelResolver {
 
     public void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
+        if (vendorExtensions == null) {
+             return;
+        }
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));
         }
