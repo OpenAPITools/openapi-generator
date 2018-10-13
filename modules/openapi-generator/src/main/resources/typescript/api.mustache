@@ -1,6 +1,7 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
-import { RequestContext, HttpMethod } from '../http/http';
+import { RequestContext, HttpMethod, ResponseContext} from '../http/http';
+import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 {{#imports}}
 import { {{classname}} } from '..{{filename}}';
@@ -8,7 +9,8 @@ import { {{classname}} } from '..{{filename}}';
 {{#operations}}
 
 export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
-
+	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
+	
 	{{#operation}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): RequestContext {
 		{{#allParams}}
@@ -40,13 +42,54 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 		requestContext.setHeaderParam("{{basename}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
 		{{/headerParams}}
 	
-		let localVarUseFormData = false;       
-
 		// Form Params
-              	
-       	WE ARE HERE TODO!    	
-		let authMethod = null;
+	    {{#hasFormParams}}
+		let localVarFormParams = new FormData();
+		{{/hasFormParams}}	
 
+		{{#formParams}}
+        {{#isListContainer}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element) => {
+                localVarFormParams.append('{{baseName}}', element as any);
+            })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+        // TODO: replace .append with .set
+                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isListContainer}}
+        {{^isListContainer}}
+        if ({{paramName}} !== undefined) {
+        // TODO: replace .append with .set
+            localVarFormParams.append('{{baseName}}', {{paramName}} as any);
+        }
+        {{/isListContainer}}
+		{{/formParams}}		
+	    {{#hasFormParams}}
+		requestContext.setBody(localVarFormParams);
+		{{/hasFormParams}}	
+
+		// Body Params
+	    {{#bodyParam}}
+        {{^consumes}}
+        requestContext.setHeaderParam("Content-Type", "application/json");
+        {{/consumes}}
+        // TODO: deal with this? Could be useful for server definition
+        {{#consumes.0}}
+        requestContext.setHeaderParam("Content-Type", "{{{mediaType}}}");
+        {{/consumes.0}}
+		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
+        const needsSerialization = (<any>"{{dataType}}" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
+        const serializedBody = needsSerialization ? JSON.stringify({{paramName}} || {}) : ({{paramName}}.toString() || ""); // TODO: `toString` call is unnecessary
+        requestContext.setBody(serializedBody);
+	    {{/bodyParam}}
+		
+		{{#hasAuthMethods}}    
+		let authMethod = null;
+		{{/hasAuthMethods}}
     	// Apply auth methods
     	{{#authMethods}}
     	authMethod = this.configuration.authMethods["{{name}}"]
@@ -56,6 +99,41 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
     	{{/authMethods}}
     	
     	return requestContext;
+    }
+			
+	{{/operation}}
+}
+{{/operations}}
+
+// TODO: find way to split these two files (both dependent on apitemplatefiles)
+
+
+{{#operations}}
+
+export class {{classname}}ResponseProcessor {
+	
+	{{#operation}}
+	/**
+	 *
+	 * @throws {{{returnType}}} if the httpStatusCode is not in [200, 299]
+	 */
+    public {{nickname}}(response: ResponseContext): {{#returnType}} {{{returnType}}}{{/returnType}} {{^returnType}} void {{/returnType}} {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+		{{#returnType}}
+        const body: {{{returnType}}} = ObjectSerializer.deserialize(response.body, "{{{returnType}}}") as {{{returnType}}};
+        if (responseOK) {
+			return body;
+        } else {
+        	// TODO: deal with different errors based on httpStatusCode
+        	throw body
+        }
+        {{/returnType}}
+        {{^returnType}}
+        // TODO: make this based on status code!
+        if (!responseOK) {
+        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+        }
+        {{/returnType}}
     }
 			
 	{{/operation}}
