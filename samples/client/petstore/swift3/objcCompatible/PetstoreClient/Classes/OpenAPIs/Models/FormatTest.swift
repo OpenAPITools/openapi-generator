@@ -67,7 +67,7 @@ open class FormatTest: JSONEncodable {
         nillableDictionary["double"] = self.double
         nillableDictionary["string"] = self.string
         nillableDictionary["byte"] = self.byte?.encodeToJSON()
-        nillableDictionary["binary"] = self.binary?.encodeToJSON()
+        nillableDictionary["binary"] = self.binary?
         nillableDictionary["date"] = self.date?.encodeToJSON()
         nillableDictionary["dateTime"] = self.dateTime?.encodeToJSON()
         nillableDictionary["uuid"] = self.uuid?.encodeToJSON()

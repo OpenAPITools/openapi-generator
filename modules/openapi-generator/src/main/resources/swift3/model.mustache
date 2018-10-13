@@ -83,12 +83,11 @@ open class {{classname}}: {{#parent}}{{{parent}}}{{/parent}}{{^parent}}JSONEncod
     {{#parent}}override {{/parent}}open func encodeToJSON() -> Any {
         var nillableDictionary = {{#parent}}super.encodeToJSON() as? [String:Any?] ?? {{/parent}}[String:Any?](){{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}{{^isEnum}}{{#isInteger}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isInteger}}{{#isLong}}
-        nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isLong}}{{#isBinary}}
-        nillableDictionary["{{baseName}}"] = self.{{name}}{{/isBinary}}{{^isLong}}{{^isInteger}}
+        nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isLong}}{{^isLong}}{{^isInteger}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{/isInteger}}{{/isLong}}{{/isEnum}}{{/isPrimitiveType}}{{#isEnum}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.rawValue{{/isEnum}}{{^isPrimitiveType}}
-        nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isPrimitiveType}}{{/isNotContainer}}{{#isContainer}}{{^isEnum}}
-        nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.encodeToJSON(){{/isEnum}}{{#isEnum}}{{#isListContainer}}
+        nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{^isBinary}}.encodeToJSON(){{/isBinary}}{{/isPrimitiveType}}{{/isNotContainer}}{{#isContainer}}{{^isEnum}}
+        nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{^isBinary}}.encodeToJSON(){{/isBinary}}{{/isEnum}}{{#isEnum}}{{#isListContainer}}
         nillableDictionary["{{baseName}}"] = self.{{name}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}.map({$0.rawValue}).encodeToJSON(){{/isListContainer}}{{#isMapContainer}}//TODO: handle enum map scenario{{/isMapContainer}}{{/isEnum}}{{/isContainer}}{{/vars}}
 
         {{#additionalPropertiesType}}
