@@ -492,7 +492,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // process enum in models
-        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+        List<Map<String, Object>> models = (List<Map<String, Object>>) postProcessModelsEnum(objs).get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
@@ -512,9 +512,28 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
         }
-
+        for (Map<String, Object> mo : models) {
+        	CodegenModel cm = (CodegenModel) mo.get("model");
+        	// Add additional filename information for imports
+            mo.put("tsImports", toTsImports(cm, cm.imports));
+        }
         return objs;
     }
+
+    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
+        List<Map<String, String>> tsImports = new ArrayList<>();
+        for (String im : imports) {
+            if (!im.equals(cm.classname)) {
+                HashMap<String, String> tsImport = new HashMap<>();
+                // TVG: This is used as class name in the import statements of the model file
+                tsImport.put("classname", im);
+                tsImport.put("filename", toModelFilename(im));
+                tsImports.add(tsImport);
+            }
+        }
+        return tsImports;
+    }
+
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {

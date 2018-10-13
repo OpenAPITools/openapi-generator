@@ -1,6 +1,8 @@
 /*
 	TODO: LICENSE INFO
 */
+import { Category } from './Category';
+import { Tag } from './Tag';
 
 /**
 * A pet for sale in the pet store

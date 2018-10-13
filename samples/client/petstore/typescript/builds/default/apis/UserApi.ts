@@ -1,11 +1,13 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
-import { RequestContext, HttpMethod } from '../http/http';
+import { RequestContext, HttpMethod, ResponseContext} from '../http/http';
+import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import { User } from '../models/User';
 
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
-
+	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
+	
     public createUser(user: User, options?: any): RequestContext {
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
@@ -19,13 +21,21 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
             
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+        // Query Params
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+        requestContext.setHeaderParam("Content-Type", "application/json");
+        // TODO: deal with this? Could be useful for server definition
+		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
+        const needsSerialization = (<any>"User" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
+        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        requestContext.setBody(serializedBody);
+		
     	// Apply auth methods
     	
     	return requestContext;
@@ -44,13 +54,21 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
             
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+        // Query Params
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+        requestContext.setHeaderParam("Content-Type", "application/json");
+        // TODO: deal with this? Could be useful for server definition
+		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
+        const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
+        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        requestContext.setBody(serializedBody);
+		
     	// Apply auth methods
     	
     	return requestContext;
@@ -69,13 +87,21 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
             
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+        // Query Params
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+        requestContext.setHeaderParam("Content-Type", "application/json");
+        // TODO: deal with this? Could be useful for server definition
+		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
+        const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
+        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        requestContext.setBody(serializedBody);
+		
     	// Apply auth methods
     	
     	return requestContext;
@@ -95,13 +121,15 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
             
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+        // Query Params
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+		
     	// Apply auth methods
     	
     	return requestContext;
@@ -121,13 +149,15 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
             
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+        // Query Params
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+		
     	// Apply auth methods
     	
     	return requestContext;
@@ -151,21 +181,21 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
             
+        // Query Params
         if (username !== undefined) {
         	requestContext.setQueryParam("", ObjectSerializer.serialize(username, "string"));
         }
-		
         if (password !== undefined) {
         	requestContext.setQueryParam("", ObjectSerializer.serialize(password, "string"));
         }
-		
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+		
     	// Apply auth methods
     	
     	return requestContext;
@@ -179,13 +209,15 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
             
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+        // Query Params
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+		
     	// Apply auth methods
     	
     	return requestContext;
@@ -210,16 +242,134 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
             
-       
-       // Form Params
-              	
-       	
-    	
-		let authMethod = null;
+        // Query Params
+	
+		// Header Params
+	
+		// Form Params
 
+
+		// Body Params
+        requestContext.setHeaderParam("Content-Type", "application/json");
+        // TODO: deal with this? Could be useful for server definition
+		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
+        const needsSerialization = (<any>"User" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
+        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        requestContext.setBody(serializedBody);
+		
     	// Apply auth methods
     	
     	return requestContext;
+    }
+			
+}
+
+// TODO: find way to split these two files (both dependent on apitemplatefiles)
+
+
+
+export class UserApiResponseProcessor {
+	
+	/**
+	 *
+	 * @throws  if the httpStatusCode is not in [200, 299]
+	 */
+    public createUser(response: ResponseContext):   void  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        // TODO: make this based on status code!
+        if (!responseOK) {
+        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+        }
+    }
+			
+	/**
+	 *
+	 * @throws  if the httpStatusCode is not in [200, 299]
+	 */
+    public createUsersWithArrayInput(response: ResponseContext):   void  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        // TODO: make this based on status code!
+        if (!responseOK) {
+        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+        }
+    }
+			
+	/**
+	 *
+	 * @throws  if the httpStatusCode is not in [200, 299]
+	 */
+    public createUsersWithListInput(response: ResponseContext):   void  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        // TODO: make this based on status code!
+        if (!responseOK) {
+        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+        }
+    }
+			
+	/**
+	 *
+	 * @throws  if the httpStatusCode is not in [200, 299]
+	 */
+    public deleteUser(response: ResponseContext):   void  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        // TODO: make this based on status code!
+        if (!responseOK) {
+        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+        }
+    }
+			
+	/**
+	 *
+	 * @throws User if the httpStatusCode is not in [200, 299]
+	 */
+    public getUserByName(response: ResponseContext):  User  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        const body: User = ObjectSerializer.deserialize(response.body, "User") as User;
+        if (responseOK) {
+			return body;
+        } else {
+        	// TODO: deal with different errors based on httpStatusCode
+        	throw body
+        }
+    }
+			
+	/**
+	 *
+	 * @throws string if the httpStatusCode is not in [200, 299]
+	 */
+    public loginUser(response: ResponseContext):  string  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        const body: string = ObjectSerializer.deserialize(response.body, "string") as string;
+        if (responseOK) {
+			return body;
+        } else {
+        	// TODO: deal with different errors based on httpStatusCode
+        	throw body
+        }
+    }
+			
+	/**
+	 *
+	 * @throws  if the httpStatusCode is not in [200, 299]
+	 */
+    public logoutUser(response: ResponseContext):   void  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        // TODO: make this based on status code!
+        if (!responseOK) {
+        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+        }
+    }
+			
+	/**
+	 *
+	 * @throws  if the httpStatusCode is not in [200, 299]
+	 */
+    public updateUser(response: ResponseContext):   void  {
+    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
+        // TODO: make this based on status code!
+        if (!responseOK) {
+        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+        }
     }
 			
 }
