@@ -26,6 +26,9 @@ import org.openapitools.codegen.GeneratorNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -42,6 +45,16 @@ public class ConfigHelp implements Runnable {
             description = "generator to get config help for")
     private String generatorName;
 
+    @Option(name = {"--named-header"}, title = "named header",
+            description = "Header includes the generator name, for clarity in output")
+    private Boolean namedHeader;
+
+    @Option(name = {"-o", "--output"}, title = "output location",
+            description = "Optionally write help to this location, otherwise default is standard output")
+    private String outputFile;
+
+    private String newline = System.lineSeparator();
+
     @Override
     public void run() {
 
@@ -57,19 +70,47 @@ public class ConfigHelp implements Runnable {
         }
 
         try {
+            StringBuilder sb = new StringBuilder();
             CodegenConfig config = CodegenConfigLoader.forName(generatorName);
-            System.out.println();
-            System.out.println("CONFIG OPTIONS");
-            for (CliOption langCliOption : config.cliOptions()) {
-                System.out.println("\t" + langCliOption.getOpt());
-                System.out.println("\t    "
-                        + langCliOption.getOptionHelp().replaceAll("\n", System.lineSeparator() + "\t    "));
-                System.out.println();
+
+            generatePlainTextHelp(sb, config);
+
+            if (!isEmpty(outputFile)) {
+                File out = new File(outputFile);
+                //noinspection ResultOfMethodCallIgnored
+                out.mkdirs();
+
+                Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8));
+
+                writer.write(sb.toString());
+                writer.close();
+            } else {
+                System.out.print(sb.toString());
             }
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());
             System.err.println("[error] Check the spelling of the generator's name and try again.");
             System.exit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void generatePlainTextHelp(StringBuilder sb, CodegenConfig config) {
+        sb.append(newline);
+        sb.append("CONFIG OPTIONS");
+        if (Boolean.TRUE.equals(namedHeader)) {
+            sb.append(" for ").append(generatorName).append(newline);
+        }
+
+        sb.append(newline);
+
+        for (CliOption langCliOption : config.cliOptions()) {
+            sb.append("\t").append(langCliOption.getOpt());
+            sb.append(newline);
+            sb.append("\t    ").append(langCliOption.getOptionHelp().replaceAll("\n", System.lineSeparator() + "\t    "));
+            sb.append(newline);
+            sb.append(newline);
         }
     }
 }
