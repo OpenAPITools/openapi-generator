@@ -2,7 +2,7 @@
 CONFIG OPTIONS for lua
 
 	packageName
-	    Lua package name (convention: lowercase). (Default: swagger-client)
+	    Lua package name (convention: lowercase). (Default: openapir-client)
 
 	packageVersion
 	    Lua package version. (Default: 1.0.0-1)

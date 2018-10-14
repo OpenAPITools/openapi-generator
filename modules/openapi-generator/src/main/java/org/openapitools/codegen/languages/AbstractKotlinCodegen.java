@@ -38,7 +38,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String artifactId;
     protected String artifactVersion = "1.0.0";
     protected String groupId = "org.openapitools";
-    protected String packageName;
+    protected String packageName = "org.openapitools";
 
     protected String sourceFolder = "src/main/kotlin";
 
@@ -191,7 +191,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.clear();
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
-        addOption(CodegenConstants.PACKAGE_NAME, "Generated artifact package name (e.g. io.swagger).", packageName);
+        addOption(CodegenConstants.PACKAGE_NAME, "Generated artifact package name (e.g. org.openapitools).", packageName);
         addOption(CodegenConstants.GROUP_ID, "Generated artifact package's organization (i.e. maven groupId).", groupId);
         addOption(CodegenConstants.ARTIFACT_ID, "Generated artifact id (name of jar).", artifactId);
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion);
