@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
