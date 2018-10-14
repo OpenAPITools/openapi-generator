@@ -138,8 +138,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.put("os", "io/ioutil");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Lua package name (convention: lowercase).")
-                .defaultValue("openapir-client"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Lua package name (convention: kebab-case).")
+                .defaultValue("openapi-client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Lua package version.")
                 .defaultValue("1.0.0-1"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
