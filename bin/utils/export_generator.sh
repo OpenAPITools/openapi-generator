@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
@@ -12,6 +12,6 @@ fi
 
 executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
-java -jar $executable config-help -g $NAME | sed -e 's/CONFIG OPTIONS/CONFIG OPTIONS for \'$NAME'\'$'\n''/g' > docs/generators/$NAME.md
+java -jar $executable config-help -g $NAME | sed -e 's/CONFIG OPTIONS/CONFIG OPTIONS for '$NAME'\'$'\n''/g' > docs/generators/$NAME.md
 
 echo "Back to the [generators list](README.md)" >> docs/generators/$NAME.md
