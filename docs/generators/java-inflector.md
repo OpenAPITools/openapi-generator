@@ -104,4 +104,13 @@ CONFIG OPTIONS for java-inflector
 	booleanGetterPrefix
 	    Set booleanGetterPrefix (default value 'get')
 
+	parentGroupId
+	    parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentArtifactId
+	    parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentVersion
+	    parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
 Back to the [generators list](README.md)

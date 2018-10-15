@@ -133,8 +133,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
-
     protected String ignoreFilePathOverride;
+    // flag to indicate whether to use environment variable to post process file
+    protected boolean enablePostProcessFile = false;
+
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -196,6 +198,11 @@ public class DefaultCodegen implements CodegenConfig {
             this.setDocExtension(String.valueOf(additionalProperties
                     .get(CodegenConstants.DOCEXTENSION).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENABLE_POST_PROCESS_FILE)) {
+            this.setEnablePostProcessFile(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
+        }
     }
 
     // override with any special post-processing for all models
@@ -239,6 +246,7 @@ public class DefaultCodegen implements CodegenConfig {
                         parent.setChildren(new ArrayList<CodegenModel>());
                     }
                     parent.getChildren().add(cm);
+                    parent.hasChildren = true;
                     if (parent.getDiscriminator() == null) {
                         parent = allModels.get(parent.getParent());
                     } else {
@@ -4698,6 +4706,24 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void postProcessFile(File file, String fileType) {
         LOGGER.debug("Post processing file {} ({})", file, fileType);
-    } 
+    }
+
+    /**
+     * Boolean value indicating the state of the option for post-processing file using envirionment variables.
+     *
+     * @return true if the option is enabled
+     */
+    public boolean isEnablePostProcessFile() {
+        return enablePostProcessFile;
+    }
+
+    /**
+     * Set the boolean value indicating the state of the option for post-processing file using envirionment variables.
+     *
+     * @param enablePostProcessFile     true to enable post-processing file
+     */
+    public void setEnablePostProcessFile(boolean enablePostProcessFile) {
+        this.enablePostProcessFile = enablePostProcessFile;
+    }
 
 }

@@ -232,8 +232,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("JS_BEAUTIFY_PATH"))) {
-            LOGGER.info("Environment variable JS_BEAUTIFY_PATH not defined so the JS code may not be properly formatted. To define it, try 'export JS_BEAUTIFY_PATH=/usr/local/bin/js-beautify' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -1167,19 +1167,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return;
         }
 
-        String jsBeautifyPath = System.getenv("JS_BEAUTIFY_PATH");
-        if (StringUtils.isEmpty(jsBeautifyPath)) {
-            return; // skip if JS_BEAUTIFY_PATH env variable is not defined
+        String jsPostProcessFile = System.getenv("JS_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(jsPostProcessFile)) {
+            return; // skip if JS_POST_PROCESS_FILE env variable is not defined
         }
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsBeautifyPath + " -r -f " + file.toString();
+            String command = jsPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}). Exit code: {}", command, p.exitValue());
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
                 LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
@@ -1187,5 +1188,4 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
     }
-
 }
