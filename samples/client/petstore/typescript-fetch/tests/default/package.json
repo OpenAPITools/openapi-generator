@@ -6,7 +6,7 @@
     "ts-node": "^3.3.0"
   },
   "scripts": {
-    "prepublish": "npm install ../../builds/with-npm-version && npm run build && npm run webpack && npm run browserify",
+    "prepublish": "npm install ../../builds/with-npm-version && npm run build --prefix ../../builds/with-npm-version && npm run build && npm run webpack && npm run browserify",
     "test": "mocha test/*.ts --compilers ts:ts-node/register --require mocks.ts --timeout 10000",
     "build": "tsc",
     "webpack": "webpack",
@@ -24,7 +24,7 @@
     "mocha": "^3.4.2",
     "node-fetch": "^2.2.0",
     "ts-loader": "^2.3.0",
-    "tsify": "^3.0.1",
+    "tsify": "^3.0.4",
     "typescript": "^2.4.1",
     "typings": "^2.1.1",
     "webpack": "^1.13.0"
