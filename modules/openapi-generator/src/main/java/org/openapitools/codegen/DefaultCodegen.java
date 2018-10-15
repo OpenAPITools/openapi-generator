@@ -128,7 +128,7 @@ public class DefaultCodegen implements CodegenConfig {
     // They are translated to words like "Dollar" and prefixed with '
     // Then translated back during JSON encoding and decoding
     protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
-    // When a model is an alias for a simple typegetIgnoreFilePathOverride
+    // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
