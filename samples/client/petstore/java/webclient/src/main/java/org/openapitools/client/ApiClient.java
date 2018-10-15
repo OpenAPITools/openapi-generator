@@ -454,6 +454,23 @@ public class ApiClient {
     }
 
     /**
+     * Handles an unsuccessful server response.
+     * This method is called when the server returns a HTTP status code != 2xx.
+     *
+     * The default behaviour is to wrap the unsuccessful response in an {@code ApiException}
+     * and terminate the reactive stream with the exception.
+     *
+     * Can be overwritten to implement custom error handling.
+     *
+     * @param response the unsuccessful HTTP response
+     * @param <T>
+     * @return reactive stream in error state
+     */
+    protected <T> Mono<T> handleUnsuccessfulResponse(ClientResponse response) {
+        return Mono.error(new ApiException(response.statusCode().toString(), null, response.statusCode().value(), response.headers().asHttpHeaders()));
+    }
+
+    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
@@ -484,7 +501,7 @@ public class ApiClient {
                         return response.bodyToMono(returnType);
                     }
                 } else {
-                    return Mono.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
+                    return handleUnsuccessfulResponse(response);
                 }
         });
     }
@@ -521,7 +538,7 @@ public class ApiClient {
                         return response.bodyToFlux(returnType);
                     }
                 } else {
-                    return Flux.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
+                    return handleUnsuccessfulResponse(response);
                 }
             });
     }
