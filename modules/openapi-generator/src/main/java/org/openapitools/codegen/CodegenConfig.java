@@ -257,4 +257,8 @@ public interface CodegenConfig {
 
     void postProcessFile(File file, String fileType);
 
+    boolean isEnablePostProcessFile();
+
+    public void setEnablePostProcessFile(boolean isEnablePostProcessFile);
+
 }
