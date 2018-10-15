@@ -23,7 +23,7 @@ if(VALGRIND)
 	set(VALGRIND_LIST "")
 endif()
 
-find_package(CURL REQUIRED)
+find_package(CURL 7.61.1 REQUIRED)
 if(CURL_FOUND)
 	include_directories(${CURL_INCLUDE_DIR})
 	set(PLATFORM_LIBRARIES ${PLATFORM_LIBRARIES} ${CURL_LIBRARIES} )
