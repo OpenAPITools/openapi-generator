@@ -239,6 +239,7 @@ public class DefaultCodegen implements CodegenConfig {
                         parent.setChildren(new ArrayList<CodegenModel>());
                     }
                     parent.getChildren().add(cm);
+                    parent.hasChildren = true;
                     if (parent.getDiscriminator() == null) {
                         parent = allModels.get(parent.getParent());
                     } else {
