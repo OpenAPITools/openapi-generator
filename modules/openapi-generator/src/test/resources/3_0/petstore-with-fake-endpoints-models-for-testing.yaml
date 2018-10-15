@@ -17,6 +17,18 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /foo:
+    get:
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Foo'
   /pet:
     post:
       tags:
@@ -1018,6 +1030,14 @@ components:
       type: http
       scheme: basic
   schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: string
+      default: bar
     Order:
       type: object
       properties:
@@ -1047,6 +1067,8 @@ components:
         name: Order
     Category:
       type: object
+      required:
+        - name
       properties:
         id:
           type: integer

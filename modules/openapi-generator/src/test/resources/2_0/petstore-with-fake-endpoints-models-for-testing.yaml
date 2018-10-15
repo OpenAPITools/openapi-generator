@@ -1049,6 +1049,8 @@ definitions:
       name: Order
   Category:
     type: object
+    required:
+      - name
     properties:
       id:
         type: integer

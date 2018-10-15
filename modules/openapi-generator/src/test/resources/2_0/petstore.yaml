@@ -596,8 +596,6 @@ definitions:
     title: Pet category
     description: A category for a pet
     type: object
-    required:
-      - name
     properties:
       id:
         type: integer
