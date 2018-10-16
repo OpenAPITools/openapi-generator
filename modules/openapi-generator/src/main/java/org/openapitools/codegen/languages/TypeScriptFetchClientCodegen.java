@@ -61,7 +61,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.apiTemplateFiles.put("apis.mustache", ".ts");
         this.modelPackage = "models";
         this.modelTemplateFiles.put("models.mustache", ".ts");
-
+        this.addExtraReservedWords();
 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
@@ -129,9 +129,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
-            return "any";
+            return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
-            return "any";
+            return "Blob";
         } else {
             return super.getTypeDeclaration(p);
         }
@@ -196,4 +196,30 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         }
     }
 
+    private void addExtraReservedWords() {
+        this.reservedWords.add("BASE_PATH");
+        this.reservedWords.add("BaseAPI");
+        this.reservedWords.add("RequiredError");
+        this.reservedWords.add("COLLECTION_FORMATS");
+        this.reservedWords.add("FetchAPI");
+        this.reservedWords.add("ConfigurationParameters");
+        this.reservedWords.add("Configuration");
+        this.reservedWords.add("HTTPMethod");
+        this.reservedWords.add("HTTPHeaders");
+        this.reservedWords.add("HTTPQuery");
+        this.reservedWords.add("HTTPBody");
+        this.reservedWords.add("ModelPropertyNaming");
+        this.reservedWords.add("FetchParams");
+        this.reservedWords.add("RequestOpts");
+        this.reservedWords.add("exists");
+        this.reservedWords.add("RequestContext");
+        this.reservedWords.add("ResponseContext");
+        this.reservedWords.add("Middleware");
+        this.reservedWords.add("ApiResponse");
+        this.reservedWords.add("ResponseTransformer");
+        this.reservedWords.add("JSONApiResponse");
+        this.reservedWords.add("VoidApiResponse");
+        this.reservedWords.add("BlobApiResponse");
+        this.reservedWords.add("TextApiResponse");
+    }
 }

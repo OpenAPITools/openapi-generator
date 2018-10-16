@@ -14,9 +14,9 @@
 
 import * as runtime from '../runtime';
 import {
-    ApiResponse,
-    ApiResponseFromJSON,
-    ApiResponseToJSON,
+    ModelApiResponse,
+    ModelApiResponseFromJSON,
+    ModelApiResponseToJSON,
     Pet,
     PetFromJSON,
     PetToJSON,
@@ -56,7 +56,7 @@ export interface UpdatePetWithFormRequest {
 export interface UploadFileRequest {
     petId: number;
     additionalMetadata?: string;
-    file?: any;
+    file?: Blob;
 }
 
 /**
@@ -67,7 +67,7 @@ export class PetApi extends runtime.BaseAPI {
     /**
      * Add a new pet to the store
      */
-    async addPet(requestParameters: AddPetRequest): Promise<Response> {
+    async addPetRaw(requestParameters: AddPetRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.pet === null || requestParameters.pet === undefined) {
             throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling addPet.');
         }
@@ -91,13 +91,21 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             body: PetToJSON(requestParameters.pet),
         });
-        return response;
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Add a new pet to the store
+     */
+    async addPet(requestParameters: AddPetRequest): Promise<void> {
+        await this.addPetRaw(requestParameters);
     }
 
     /**
      * Deletes a pet
      */
-    async deletePet(requestParameters: DeletePetRequest): Promise<Response> {
+    async deletePetRaw(requestParameters: DeletePetRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
@@ -122,14 +130,22 @@ export class PetApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
         });
-        return response;
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Deletes a pet
+     */
+    async deletePet(requestParameters: DeletePetRequest): Promise<void> {
+        await this.deletePetRaw(requestParameters);
     }
 
     /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    async findPetsByStatus(requestParameters: FindPetsByStatusRequest): Promise<Array<Pet>> {
+    async findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.status === null || requestParameters.status === undefined) {
             throw new runtime.RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
         }
@@ -157,15 +173,24 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
         });
-        const json = await response.json() as Array<any>;
-        return json.map(PetFromJSON);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
+    }
+
+    /**
+     * Multiple status values can be provided with comma separated strings
+     * Finds Pets by status
+     */
+    async findPetsByStatus(requestParameters: FindPetsByStatusRequest): Promise<Array<Pet>> {
+        const response = await this.findPetsByStatusRaw(requestParameters);
+        return await response.value();
     }
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Array<Pet>> {
+    async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (requestParameters.tags === null || requestParameters.tags === undefined) {
             throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
@@ -193,15 +218,24 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
         });
-        const json = await response.json() as Array<any>;
-        return json.map(PetFromJSON);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(PetFromJSON));
+    }
+
+    /**
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * Finds Pets by tags
+     */
+    async findPetsByTags(requestParameters: FindPetsByTagsRequest): Promise<Array<Pet>> {
+        const response = await this.findPetsByTagsRaw(requestParameters);
+        return await response.value();
     }
 
     /**
      * Returns a single pet
      * Find pet by ID
      */
-    async getPetById(requestParameters: GetPetByIdRequest): Promise<Pet> {
+    async getPetByIdRaw(requestParameters: GetPetByIdRequest): Promise<runtime.ApiResponse<Pet>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
@@ -217,13 +251,23 @@ export class PetApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
         });
-        return PetFromJSON(await response.json());
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PetFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns a single pet
+     * Find pet by ID
+     */
+    async getPetById(requestParameters: GetPetByIdRequest): Promise<Pet> {
+        const response = await this.getPetByIdRaw(requestParameters);
+        return await response.value();
     }
 
     /**
      * Update an existing pet
      */
-    async updatePet(requestParameters: UpdatePetRequest): Promise<Response> {
+    async updatePetRaw(requestParameters: UpdatePetRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.pet === null || requestParameters.pet === undefined) {
             throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling updatePet.');
         }
@@ -247,13 +291,21 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             body: PetToJSON(requestParameters.pet),
         });
-        return response;
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Update an existing pet
+     */
+    async updatePet(requestParameters: UpdatePetRequest): Promise<void> {
+        await this.updatePetRaw(requestParameters);
     }
 
     /**
      * Updates a pet in the store with form data
      */
-    async updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Promise<Response> {
+    async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
@@ -284,13 +336,21 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             body: formData,
         });
-        return response;
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Updates a pet in the store with form data
+     */
+    async updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Promise<void> {
+        await this.updatePetWithFormRaw(requestParameters);
     }
 
     /**
      * uploads an image
      */
-    async uploadFile(requestParameters: UploadFileRequest): Promise<ApiResponse> {
+    async uploadFileRaw(requestParameters: UploadFileRequest): Promise<runtime.ApiResponse<ModelApiResponse>> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
@@ -321,7 +381,16 @@ export class PetApi extends runtime.BaseAPI {
             headers: headerParameters,
             body: formData,
         });
-        return ApiResponseFromJSON(await response.json());
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ModelApiResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * uploads an image
+     */
+    async uploadFile(requestParameters: UploadFileRequest): Promise<ModelApiResponse> {
+        const response = await this.uploadFileRaw(requestParameters);
+        return await response.value();
     }
 
 }

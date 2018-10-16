@@ -40,7 +40,7 @@ export class StoreApi extends runtime.BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    async deleteOrder(requestParameters: DeleteOrderRequest): Promise<Response> {
+    async deleteOrderRaw(requestParameters: DeleteOrderRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
         }
@@ -52,14 +52,23 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
         });
-        return response;
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * Delete purchase order by ID
+     */
+    async deleteOrder(requestParameters: DeleteOrderRequest): Promise<void> {
+        await this.deleteOrderRaw(requestParameters);
     }
 
     /**
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    async getInventory(): Promise<{ [key: string]: number; }> {
+    async getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
@@ -71,14 +80,24 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
         });
-        return response.json();
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Returns a map of status codes to quantities
+     * Returns pet inventories by status
+     */
+    async getInventory(): Promise<{ [key: string]: number; }> {
+        const response = await this.getInventoryRaw();
+        return await response.value();
     }
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    async getOrderById(requestParameters: GetOrderByIdRequest): Promise<Order> {
+    async getOrderByIdRaw(requestParameters: GetOrderByIdRequest): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
         }
@@ -90,13 +109,23 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
         });
-        return OrderFromJSON(await response.json());
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
+    }
+
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * Find purchase order by ID
+     */
+    async getOrderById(requestParameters: GetOrderByIdRequest): Promise<Order> {
+        const response = await this.getOrderByIdRaw(requestParameters);
+        return await response.value();
     }
 
     /**
      * Place an order for a pet
      */
-    async placeOrder(requestParameters: PlaceOrderRequest): Promise<Order> {
+    async placeOrderRaw(requestParameters: PlaceOrderRequest): Promise<runtime.ApiResponse<Order>> {
         if (requestParameters.order === null || requestParameters.order === undefined) {
             throw new runtime.RequiredError('order','Required parameter requestParameters.order was null or undefined when calling placeOrder.');
         }
@@ -111,7 +140,16 @@ export class StoreApi extends runtime.BaseAPI {
             headers: headerParameters,
             body: OrderToJSON(requestParameters.order),
         });
-        return OrderFromJSON(await response.json());
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
+    }
+
+    /**
+     * Place an order for a pet
+     */
+    async placeOrder(requestParameters: PlaceOrderRequest): Promise<Order> {
+        const response = await this.placeOrderRaw(requestParameters);
+        return await response.value();
     }
 
 }

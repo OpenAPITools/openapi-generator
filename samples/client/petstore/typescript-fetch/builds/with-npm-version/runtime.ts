@@ -194,7 +194,7 @@ export function exists(json: any, key: string) {
     return value !== null && value !== undefined;
 }
 
-function querystring(params: HTTPQuery) {
+export function querystring(params: HTTPQuery) {
     return Object.keys(params)
         .map((key) => {
             const value = params[key];
@@ -223,4 +223,45 @@ export interface ResponseContext {
 export interface Middleware {
     pre?(context: RequestContext): Promise<FetchParams | void>;
     post?(context: ResponseContext): Promise<Response | void>;
+}
+
+export interface ApiResponse<T> {
+    raw: Response;
+    value(): Promise<T>;
+}
+
+export interface ResponseTransformer<T> {
+    (json: any): T;
+}
+
+export class JSONApiResponse<T> {
+    constructor(public raw: Response, private transformer: ResponseTransformer<T> = (jsonValue: any) => jsonValue) {}
+
+    async value() {
+        return this.transformer(await this.raw.json());
+    }
+}
+
+export class VoidApiResponse {
+    constructor(public raw: Response) {}
+
+    async value() {
+        return undefined;
+    }
+}
+
+export class BlobApiResponse {
+    constructor(public raw: Response) {}
+
+    async value() {
+        return await this.raw.blob();
+    };
+}
+
+export class TextApiResponse {
+    constructor(public raw: Response) {}
+
+    async value() {
+        return await this.raw.text();
+    };
 }
