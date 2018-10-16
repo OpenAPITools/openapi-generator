@@ -175,7 +175,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME,
                 "Rust crate name (convention: snake_case).")
-                .defaultValue("swagger_client"));
+                .defaultValue("openapi_client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION,
                 "Rust crate version.")
                 .defaultValue("1.0.0"));
@@ -219,7 +219,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger_client");
+            setPackageName("openapi_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
