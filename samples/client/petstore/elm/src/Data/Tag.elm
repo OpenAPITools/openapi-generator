@@ -10,12 +10,11 @@
 -}
 
 
-module Data.Tag exposing (Tag, tagDecoder, tagEncoder)
+module Data.Tag exposing (Tag, decoder, encoder)
 
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
-import Maybe exposing (map, withDefault)
 
 
 {-| A tag for a pet
@@ -26,19 +25,16 @@ type alias Tag =
     }
 
 
-tagDecoder : Decoder Tag
-tagDecoder =
-    decode Tag
+decoder : Decoder Tag
+decoder =
+    Decode.succeed Tag
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-
-tagEncoder : Tag -> Encode.Value
-tagEncoder model =
+encoder : Tag -> Encode.Value
+encoder model =
     Encode.object
-        [ ( "id", withDefault Encode.null (map Encode.int model.id) )
-        , ( "name", withDefault Encode.null (map Encode.string model.name) )
+        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+        , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
         ]
-
-

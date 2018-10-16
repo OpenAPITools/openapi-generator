@@ -27,10 +27,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Category {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   public Category id(Long id) {
     this.id = id;

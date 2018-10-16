@@ -13,11 +13,20 @@
         <springfox-version>2.8.0</springfox-version>
         {{/useSpringfox}}
     </properties>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
+{{^parentOverridden}}
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>{{#java8}}2.0.1.RELEASE{{/java8}}{{^java8}}1.5.12.RELEASE{{/java8}}</version>
     </parent>
+{{/parentOverridden}}
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         {{^interfaceOnly}}
@@ -134,6 +143,26 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
-{{/useBeanValidation}}        
+{{/useBeanValidation}}
+{{#virtualService}}
+    <!-- START Virtual Service API support -->
+        <dependency>
+            <groupId>io.virtualan</groupId>
+            <artifactId>virtualan-plugin</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- HyperSQL DB -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>1.5.9.RELEASE</version>
+        </dependency>
+    <!-- END Virtual Service API support -->
+{{/virtualService}}
     </dependencies>
 </project>

@@ -1,4 +1,4 @@
-module Byte exposing (Byte, byteDecoder, byteEncoder)
+module Byte exposing (Byte, decoder, encoder)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -8,12 +8,11 @@ type alias Byte =
     String
 
 
-byteDecoder : Decoder Byte
-byteDecoder =
+decoder : Decoder Byte
+decoder =
     Decode.string
 
 
-byteEncoder : Byte -> Encode.Value
-byteEncoder model =
+encoder : Byte -> Encode.Value
+encoder model =
     Encode.string model
-

@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.StringBooleanMap;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -56,7 +55,7 @@ public enum InnerEnum {
 
   private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
   private @Valid Map<String, Boolean> directMap = new HashMap<String, Boolean>();
-  private @Valid StringBooleanMap indirectMap = null;
+  private @Valid Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
 
   /**
    **/
@@ -111,7 +110,7 @@ public enum InnerEnum {
 
   /**
    **/
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -119,10 +118,10 @@ public enum InnerEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
-  public StringBooleanMap getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

@@ -13,6 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
 
     <licenses>
         <license>
@@ -114,8 +121,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -127,8 +133,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -212,7 +217,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>${swagger-annotations-version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.retrofit</groupId>
@@ -241,17 +246,15 @@
             <version>${threetenbp-version}</version>
         </dependency>
         {{/threetenbp}}
-
         {{#parcelableModel}}
-            <!-- Needed for Parcelable support-->
-            <dependency>
-                <groupId>com.google.android</groupId>
-                <artifactId>android</artifactId>
-                <version>4.1.1.4</version>
-                <scope>provided</scope>
-            </dependency>
+        <!-- Needed for Parcelable support-->
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>4.1.1.4</version>
+            <scope>provided</scope>
+        </dependency>
         {{/parcelableModel}}
-
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -262,7 +265,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-core-version>1.5.18</swagger-core-version>
+        <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <retrofit-version>1.9.0</retrofit-version>
         <okhttp-version>2.7.5</okhttp-version>
         <jodatime-version>2.9.9</jodatime-version>

@@ -26,9 +26,9 @@ class ApiResponse(Model):
         :type message: str
         """
         self.openapi_types = {
-            'code': int,
-            'type': str,
-            'message': str
+            'code': 'int',
+            'type': 'str',
+            'message': 'str'
         }
 
         self.attribute_map = {

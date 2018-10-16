@@ -7,8 +7,6 @@ package org.openapitools.api;
 
 import org.openapitools.model.Client;
 import io.swagger.annotations.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +25,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Validated
 @Api(value = "another-fake", description = "the another-fake API")
 public interface AnotherFakeApi {
+
+    default AnotherFakeApiDelegate getDelegate() {
+        return new AnotherFakeApiDelegate() {};
+    }
 
     @ApiOperation(value = "To test special tags", nickname = "call123testSpecialTags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })
     @ApiResponses(value = { 
@@ -40,17 +41,8 @@ public interface AnotherFakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Mono<Client>> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
-        Mono<Client> result = Mono.empty();
-        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
-            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}")
-                        .then(Mono.empty());
-                break;
-            }
-        }
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(client.then(result));
-
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Mono<Client> client, ServerWebExchange exchange) {
+        return getDelegate().call123testSpecialTags(client, exchange);
     }
 
 }

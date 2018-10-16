@@ -19,12 +19,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * A User who is purchasing from the pet store
  */
 @ApiModel(description = "A User who is purchasing from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-10T15:02:11.723+09:00[Asia/Tokyo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
 public class User   {
   @JsonProperty("id")
   private Long id = null;
@@ -61,6 +62,7 @@ public class User   {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -80,6 +82,7 @@ public class User   {
    **/
   @JsonProperty("username")
   @ApiModelProperty(value = "")
+  
   public String getUsername() {
     return username;
   }
@@ -99,6 +102,7 @@ public class User   {
    **/
   @JsonProperty("firstName")
   @ApiModelProperty(value = "")
+  
   public String getFirstName() {
     return firstName;
   }
@@ -118,6 +122,7 @@ public class User   {
    **/
   @JsonProperty("lastName")
   @ApiModelProperty(value = "")
+  
   public String getLastName() {
     return lastName;
   }
@@ -137,6 +142,7 @@ public class User   {
    **/
   @JsonProperty("email")
   @ApiModelProperty(value = "")
+  
   public String getEmail() {
     return email;
   }
@@ -156,6 +162,7 @@ public class User   {
    **/
   @JsonProperty("password")
   @ApiModelProperty(value = "")
+  
   public String getPassword() {
     return password;
   }
@@ -175,6 +182,7 @@ public class User   {
    **/
   @JsonProperty("phone")
   @ApiModelProperty(value = "")
+  
   public String getPhone() {
     return phone;
   }
@@ -194,6 +202,7 @@ public class User   {
    **/
   @JsonProperty("userStatus")
   @ApiModelProperty(value = "User Status")
+  
   public Integer getUserStatus() {
     return userStatus;
   }

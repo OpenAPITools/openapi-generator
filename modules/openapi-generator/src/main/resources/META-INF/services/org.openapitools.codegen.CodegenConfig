@@ -17,6 +17,7 @@ org.openapitools.codegen.languages.CSharpClientCodegen
 org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
 org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
+org.openapitools.codegen.languages.DartJaguarClientCodegen
 org.openapitools.codegen.languages.EiffelClientCodegen
 org.openapitools.codegen.languages.ElixirClientCodegen
 org.openapitools.codegen.languages.ElmClientCodegen
@@ -26,9 +27,11 @@ org.openapitools.codegen.languages.FlashClientCodegen
 org.openapitools.codegen.languages.FinchServerCodegen
 org.openapitools.codegen.languages.GoClientCodegen
 org.openapitools.codegen.languages.GoServerCodegen
+org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GroovyClientCodegen
 org.openapitools.codegen.languages.KotlinClientCodegen
 org.openapitools.codegen.languages.KotlinServerCodegen
+org.openapitools.codegen.languages.KotlinSpringServerCodegen
 org.openapitools.codegen.languages.HaskellHttpClientCodegen
 org.openapitools.codegen.languages.HaskellServantCodegen
 org.openapitools.codegen.languages.JavaClientCodegen
@@ -50,6 +53,7 @@ org.openapitools.codegen.languages.JavascriptFlowtypedClientCodegen
 org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen
 org.openapitools.codegen.languages.JMeterClientCodegen
 org.openapitools.codegen.languages.LuaClientCodegen
+org.openapitools.codegen.languages.MysqlSchemaCodegen
 org.openapitools.codegen.languages.NodeJSServerCodegen
 org.openapitools.codegen.languages.ObjcClientCodegen
 org.openapitools.codegen.languages.OpenAPIGenerator
@@ -87,6 +91,7 @@ org.openapitools.codegen.languages.Swift4Codegen
 org.openapitools.codegen.languages.TypeScriptAngularClientCodegen
 org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen
 org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen
+org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen
 org.openapitools.codegen.languages.TypeScriptFetchClientCodegen
 org.openapitools.codegen.languages.TypeScriptInversifyClientCodegen
 org.openapitools.codegen.languages.TypeScriptJqueryClientCodegen

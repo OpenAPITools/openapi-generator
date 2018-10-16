@@ -20,3 +20,8 @@ Using `composer update` to install the framework and dependencies via [Composer]
 The `composer update` should be the first thing to do right after generating Lumen server stub. The autoload.php will be generated only after excuting `composer update`.
 Or there would be errors during service or model migration.
 
+### Running the generated server stub
+
+```bash
+php -S localhost:8080 public/index.php
+```

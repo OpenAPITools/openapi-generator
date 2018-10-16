@@ -98,7 +98,7 @@ ext {
     retrofit_version = "2.3.0"
     jackson_version = "2.7.8"
     play_version = "2.5.14"
-    swagger_annotations_version = "1.5.17"
+    swagger_annotations_version = "1.5.21"
     junit_version = "4.12"
     threetenbp_version = "1.3.5"
     json_fire_version = "1.8.0"

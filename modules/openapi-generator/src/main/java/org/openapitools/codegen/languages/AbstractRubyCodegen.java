@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConfig;
@@ -25,8 +27,10 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Locale;
+
 
 abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
@@ -77,6 +81,15 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("RUBY_POST_PROCESS_FILE"))) {
+            LOGGER.info("Hint: Environment variable 'RUBY_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export RUBY_POST_PROCESS_FILE=\"/usr/local/bin/rubocop -a\"' (Linux/Mac)");
+        }
+    }
+
+    @Override
     public String escapeReservedWord(String name) {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
@@ -123,7 +136,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        name = underscore(name);
+        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -143,12 +156,12 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = underscore("call_" + operationId);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.underscore("call_" + operationId);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return underscore(operationId);
+        return org.openapitools.codegen.utils.StringUtils.underscore(operationId);
     }
 
     @Override
@@ -160,5 +173,31 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("=end", "=_end").replace("=begin", "=_begin");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String rubyPostProcessFile = System.getenv("RUBY_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(rubyPostProcessFile)) {
+            return; // skip if RUBY_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with rb extension
+        if ("rb".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = rubyPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

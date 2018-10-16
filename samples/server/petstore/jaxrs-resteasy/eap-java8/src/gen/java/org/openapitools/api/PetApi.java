@@ -127,7 +127,7 @@ public interface PetApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    public Response updatePetWithForm( @PathParam("petId") Long petId,@ApiParam(value = "Updated name of the pet", defaultValue="null")@FormParam("name")  String name,@ApiParam(value = "Updated status of the pet", defaultValue="null")@FormParam("status")  String status,@Context SecurityContext securityContext);
+    public Response updatePetWithForm( @PathParam("petId") Long petId,@ApiParam(value = "Updated name of the pet")@FormParam("name")  String name,@ApiParam(value = "Updated status of the pet")@FormParam("status")  String status,@Context SecurityContext securityContext);
     @POST
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })

@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+
 public class ApexClientCodegen extends AbstractApexCodegen {
 
     private static final String CLASS_PREFIX = "classPrefix";
@@ -191,7 +192,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
     @Override
     public String toApiName(String name) {
-        return camelize(classPrefix + super.toApiName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(classPrefix + super.toApiName(name));
     }
 
     @Override

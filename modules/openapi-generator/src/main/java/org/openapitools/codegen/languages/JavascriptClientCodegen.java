@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -231,6 +232,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
+        }
+
         if (additionalProperties.containsKey(PROJECT_NAME)) {
             setProjectName(((String) additionalProperties.get(PROJECT_NAME)));
         }
@@ -283,7 +288,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = sanitizeName(dashize(info.getTitle()));
+                projectName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(projectVersion)) {
                 // when projectVersion is not specified, use info.version
@@ -306,7 +311,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             projectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(moduleName)) {
-            moduleName = camelize(underscore(projectName));
+            moduleName = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(projectName));
         }
         if (StringUtils.isBlank(projectVersion)) {
             projectVersion = "1.0.0";
@@ -501,9 +506,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     private String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
             case original:    return name;
-            case camelCase:   return camelize(name, true);
-            case PascalCase:  return camelize(name);
-            case snake_case:  return underscore(name);
+            case camelCase:   return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+            case PascalCase:  return org.openapitools.codegen.utils.StringUtils.camelize(name);
+            case snake_case:  return org.openapitools.codegen.utils.StringUtils.underscore(name);
             default:          throw new IllegalArgumentException("Invalid model property naming '" +
                     name + "'. Must be 'original', 'camelCase', " +
                     "'PascalCase' or 'snake_case'");
@@ -556,7 +561,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = camelize(name);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -825,18 +830,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
@@ -1118,7 +1123,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
     }
 
     @Override
@@ -1156,4 +1161,31 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String jsPostProcessFile = System.getenv("JS_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(jsPostProcessFile)) {
+            return; // skip if JS_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with js extension
+        if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = jsPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                }
+                LOGGER.info("Successfully executed: " + command);
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+    }
 }

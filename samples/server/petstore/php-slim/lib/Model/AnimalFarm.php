@@ -7,6 +7,6 @@ namespace OpenAPIServer\Model;
 /**
  * AnimalFarm
  */
-class AnimalFarm {
-
+class AnimalFarm
+{
 }

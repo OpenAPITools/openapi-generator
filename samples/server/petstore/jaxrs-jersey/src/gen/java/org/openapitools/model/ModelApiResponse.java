@@ -19,12 +19,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Describes the result of uploading an image resource
  */
 @ApiModel(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-10T15:02:11.723+09:00[Asia/Tokyo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
 public class ModelApiResponse   {
   @JsonProperty("code")
   private Integer code = null;
@@ -46,6 +47,7 @@ public class ModelApiResponse   {
    **/
   @JsonProperty("code")
   @ApiModelProperty(value = "")
+  
   public Integer getCode() {
     return code;
   }
@@ -65,6 +67,7 @@ public class ModelApiResponse   {
    **/
   @JsonProperty("type")
   @ApiModelProperty(value = "")
+  
   public String getType() {
     return type;
   }
@@ -84,6 +87,7 @@ public class ModelApiResponse   {
    **/
   @JsonProperty("message")
   @ApiModelProperty(value = "")
+  
   public String getMessage() {
     return message;
   }

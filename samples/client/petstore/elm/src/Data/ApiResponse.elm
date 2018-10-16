@@ -10,12 +10,11 @@
 -}
 
 
-module Data.ApiResponse exposing (ApiResponse, apiResponseDecoder, apiResponseEncoder)
+module Data.ApiResponse exposing (ApiResponse, decoder, encoder)
 
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
-import Maybe exposing (map, withDefault)
 
 
 {-| Describes the result of uploading an image resource
@@ -27,21 +26,18 @@ type alias ApiResponse =
     }
 
 
-apiResponseDecoder : Decoder ApiResponse
-apiResponseDecoder =
-    decode ApiResponse
+decoder : Decoder ApiResponse
+decoder =
+    Decode.succeed ApiResponse
         |> optional "code" (Decode.nullable Decode.int) Nothing
         |> optional "type" (Decode.nullable Decode.string) Nothing
         |> optional "message" (Decode.nullable Decode.string) Nothing
 
 
-
-apiResponseEncoder : ApiResponse -> Encode.Value
-apiResponseEncoder model =
+encoder : ApiResponse -> Encode.Value
+encoder model =
     Encode.object
-        [ ( "code", withDefault Encode.null (map Encode.int model.code) )
-        , ( "type", withDefault Encode.null (map Encode.string model.type_) )
-        , ( "message", withDefault Encode.null (map Encode.string model.message) )
+        [ ( "code", Maybe.withDefault Encode.null (Maybe.map Encode.int model.code) )
+        , ( "type", Maybe.withDefault Encode.null (Maybe.map Encode.string model.type_) )
+        , ( "message", Maybe.withDefault Encode.null (Maybe.map Encode.string model.message) )
         ]
-
-

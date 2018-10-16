@@ -1557,7 +1557,9 @@ components:
             type: boolean
           type: object
         indirect_map:
-          $ref: '#/components/schemas/StringBooleanMap'
+          additionalProperties:
+            type: boolean
+          type: object
       type: object
     Tag:
       example:

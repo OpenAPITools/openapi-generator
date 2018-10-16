@@ -3,6 +3,8 @@ info:
   description: This spec is for testing rust-server-specific things
   title: rust-server-test
   version: 1.0.0
+servers:
+- url: /
 paths:
   /dummy:
     get:
@@ -18,5 +20,16 @@ components:
         type: string
       description: An additionalPropertiesObject
       example: foo
+      type: object
+    aNullableContainer:
+      properties:
+        NullableThing:
+          nullable: true
+          type: string
+        RequiredNullableThing:
+          nullable: true
+          type: string
+      required:
+      - RequiredNullableThing
       type: object
 

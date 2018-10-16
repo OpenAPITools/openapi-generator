@@ -31,7 +31,7 @@ OAIUser::OAIUser() {
 }
 
 OAIUser::~OAIUser() {
-    
+
 }
 
 void

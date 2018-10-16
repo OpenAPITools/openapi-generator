@@ -19,12 +19,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * A tag for a pet
  */
 @ApiModel(description = "A tag for a pet")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-10T15:02:11.723+09:00[Asia/Tokyo]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
 public class Tag   {
   @JsonProperty("id")
   private Long id = null;
@@ -43,6 +44,7 @@ public class Tag   {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -62,6 +64,7 @@ public class Tag   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(value = "")
+  
   public String getName() {
     return name;
   }

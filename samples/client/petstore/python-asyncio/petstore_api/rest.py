@@ -46,8 +46,6 @@ class RESTClientObject(object):
 
     def __init__(self, configuration, pools_size=4, maxsize=4):
         # maxsize is number of requests to host that are allowed in parallel
-        # ca_certs vs cert_file vs key_file
-        # http://stackoverflow.com/a/23957365/2985775
 
         # ca_certs
         if configuration.ssl_ca_cert:
@@ -62,10 +60,13 @@ class RESTClientObject(object):
                 configuration.cert_file, keyfile=configuration.key_file
             )
 
+        if not configuration.verify_ssl:
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
+
         connector = aiohttp.TCPConnector(
             limit=maxsize,
-            ssl_context=ssl_context,
-            verify_ssl=configuration.verify_ssl
+            ssl_context=ssl_context
         )
 
         # https pool manager
