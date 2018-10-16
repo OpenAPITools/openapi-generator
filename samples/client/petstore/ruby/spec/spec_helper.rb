@@ -114,7 +114,7 @@ def prepare_pet(pet_api)
   pet = Petstore::Pet.new('id' => pet_id, 'name' => "RUBY UNIT TESTING", 'photo_urls' => 'photo url',
                           'category' => category, 'tags' => [tag], 'status' => 'pending')
   pet_api.add_pet(pet)
-  return pet_id
+  pet_id
 end
 
 # create a random order, return its id
@@ -127,7 +127,7 @@ def prepare_store(store_api)
           "status" => "placed",
           "complete" => false)
   store_api.place_order(order)
-  return order_id
+  order_id
 end
 
 # A random string to tack onto stuff to ensure we're not seeing
@@ -141,7 +141,7 @@ end
 
 # helper method to deserialize json string back to object
 def deserialize_json(s, type)
-  headers = {'Content-Type' => 'application/json'}
+  headers = { 'Content-Type' => 'application/json' }
   response = double('response', headers: headers, body: s)
   API_CLIENT.deserialize(response, type)
 end

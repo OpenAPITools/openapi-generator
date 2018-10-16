@@ -31,7 +31,7 @@ import java.io.IOException;
 public class Client {
   public static final String SERIALIZED_NAME_CLIENT = "client";
   @SerializedName(SERIALIZED_NAME_CLIENT)
-  private String client = null;
+  private String client;
 
   public Client client(String client) {
     this.client = client;

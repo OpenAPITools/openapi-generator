@@ -33,11 +33,11 @@ import android.os.Parcel;
 public class ReadOnlyFirst implements Parcelable {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
-  private String bar = null;
+  private String bar;
 
   public static final String SERIALIZED_NAME_BAZ = "baz";
   @SerializedName(SERIALIZED_NAME_BAZ)
-  private String baz = null;
+  private String baz;
 
   public ReadOnlyFirst() {
   }

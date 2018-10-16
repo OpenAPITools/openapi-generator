@@ -36,18 +36,18 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public enum InnerEnum
         {
-            
             /// <summary>
             /// Enum UPPER for value: UPPER
             /// </summary>
             [EnumMember(Value = "UPPER")]
             UPPER = 1,
-            
+
             /// <summary>
             /// Enum Lower for value: lower
             /// </summary>
             [EnumMember(Value = "lower")]
             Lower = 2
+
         }
 
 
@@ -61,10 +61,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="mapMapOfString">mapMapOfString.</param>
         /// <param name="mapOfEnumString">mapOfEnumString.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>))
+        /// <param name="directMap">directMap.</param>
+        /// <param name="indirectMap">indirectMap.</param>
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool?> directMap = default(Dictionary<string, bool?>), StringBooleanMap indirectMap = default(StringBooleanMap))
         {
             this.MapMapOfString = mapMapOfString;
             this.MapOfEnumString = mapOfEnumString;
+            this.DirectMap = directMap;
+            this.IndirectMap = indirectMap;
         }
         
         /// <summary>
@@ -73,6 +77,18 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="map_map_of_string", EmitDefaultValue=false)]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
 
+
+        /// <summary>
+        /// Gets or Sets DirectMap
+        /// </summary>
+        [DataMember(Name="direct_map", EmitDefaultValue=false)]
+        public Dictionary<string, bool?> DirectMap { get; set; }
+
+        /// <summary>
+        /// Gets or Sets IndirectMap
+        /// </summary>
+        [DataMember(Name="indirect_map", EmitDefaultValue=false)]
+        public StringBooleanMap IndirectMap { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,6 +100,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("class MapTest {\n");
             sb.Append("  MapMapOfString: ").Append(MapMapOfString).Append("\n");
             sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
+            sb.Append("  DirectMap: ").Append(DirectMap).Append("\n");
+            sb.Append("  IndirectMap: ").Append(IndirectMap).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -127,6 +145,16 @@ namespace Org.OpenAPITools.Model
                     this.MapOfEnumString == input.MapOfEnumString ||
                     this.MapOfEnumString != null &&
                     this.MapOfEnumString.SequenceEqual(input.MapOfEnumString)
+                ) && 
+                (
+                    this.DirectMap == input.DirectMap ||
+                    this.DirectMap != null &&
+                    this.DirectMap.SequenceEqual(input.DirectMap)
+                ) && 
+                (
+                    this.IndirectMap == input.IndirectMap ||
+                    (this.IndirectMap != null &&
+                    this.IndirectMap.Equals(input.IndirectMap))
                 );
         }
 
@@ -143,6 +171,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.MapMapOfString.GetHashCode();
                 if (this.MapOfEnumString != null)
                     hashCode = hashCode * 59 + this.MapOfEnumString.GetHashCode();
+                if (this.DirectMap != null)
+                    hashCode = hashCode * 59 + this.DirectMap.GetHashCode();
+                if (this.IndirectMap != null)
+                    hashCode = hashCode * 59 + this.IndirectMap.GetHashCode();
                 return hashCode;
             }
         }

@@ -899,16 +899,16 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional, default to null)
-     * @param int32 None (optional, default to null)
-     * @param int64 None (optional, default to null)
-     * @param _float None (optional, default to null)
-     * @param string None (optional, default to null)
-     * @param binary None (optional, default to null)
-     * @param date None (optional, default to null)
-     * @param dateTime None (optional, default to null)
-     * @param password None (optional, default to null)
-     * @param paramCallback None (optional, default to null)
+     * @param integer None (optional)
+     * @param int32 None (optional)
+     * @param int64 None (optional)
+     * @param _float None (optional)
+     * @param string None (optional)
+     * @param binary None (optional)
+     * @param date None (optional)
+     * @param dateTime None (optional)
+     * @param password None (optional)
+     * @param paramCallback None (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
@@ -1046,16 +1046,16 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional, default to null)
-     * @param int32 None (optional, default to null)
-     * @param int64 None (optional, default to null)
-     * @param _float None (optional, default to null)
-     * @param string None (optional, default to null)
-     * @param binary None (optional, default to null)
-     * @param date None (optional, default to null)
-     * @param dateTime None (optional, default to null)
-     * @param password None (optional, default to null)
-     * @param paramCallback None (optional, default to null)
+     * @param integer None (optional)
+     * @param int32 None (optional)
+     * @param int64 None (optional)
+     * @param _float None (optional)
+     * @param string None (optional)
+     * @param binary None (optional)
+     * @param date None (optional)
+     * @param dateTime None (optional)
+     * @param password None (optional)
+     * @param paramCallback None (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
@@ -1069,16 +1069,16 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional, default to null)
-     * @param int32 None (optional, default to null)
-     * @param int64 None (optional, default to null)
-     * @param _float None (optional, default to null)
-     * @param string None (optional, default to null)
-     * @param binary None (optional, default to null)
-     * @param date None (optional, default to null)
-     * @param dateTime None (optional, default to null)
-     * @param password None (optional, default to null)
-     * @param paramCallback None (optional, default to null)
+     * @param integer None (optional)
+     * @param int32 None (optional)
+     * @param int64 None (optional)
+     * @param _float None (optional)
+     * @param string None (optional)
+     * @param binary None (optional)
+     * @param date None (optional)
+     * @param dateTime None (optional)
+     * @param password None (optional)
+     * @param paramCallback None (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -1094,16 +1094,16 @@ public class FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional, default to null)
-     * @param int32 None (optional, default to null)
-     * @param int64 None (optional, default to null)
-     * @param _float None (optional, default to null)
-     * @param string None (optional, default to null)
-     * @param binary None (optional, default to null)
-     * @param date None (optional, default to null)
-     * @param dateTime None (optional, default to null)
-     * @param password None (optional, default to null)
-     * @param paramCallback None (optional, default to null)
+     * @param integer None (optional)
+     * @param int32 None (optional)
+     * @param int64 None (optional)
+     * @param _float None (optional)
+     * @param string None (optional)
+     * @param binary None (optional)
+     * @param date None (optional)
+     * @param dateTime None (optional)
+     * @param password None (optional)
+     * @param paramCallback None (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1141,7 +1141,7 @@ public class FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
@@ -1238,7 +1238,7 @@ public class FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -1255,7 +1255,7 @@ public class FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -1274,7 +1274,7 @@ public class FakeApi {
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+     * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call

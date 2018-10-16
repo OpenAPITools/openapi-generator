@@ -53,6 +53,7 @@ import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.auth.RetryingOAuth;
+import org.openapitools.client.auth.OAuthFlow;
 
 public class ApiClient {
 
@@ -100,7 +101,7 @@ public class ApiClient {
     ) {
         init();
 
-        RetryingOAuth retryingOAuth = new RetryingOAuth("", clientId, GrantType.valueOf("implicit"), clientSecret, parameters);
+        RetryingOAuth retryingOAuth = new RetryingOAuth("", clientId, OAuthFlow.implicit, clientSecret, parameters);
         authentications.put(
                 "petstore_auth",
                 retryingOAuth

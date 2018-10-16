@@ -72,7 +72,7 @@ public class EnumTest {
   @JsonProperty("enum_string")
   @JacksonXmlProperty(localName = "enum_string")
   @XmlElement(name = "enum_string")
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -114,7 +114,7 @@ public class EnumTest {
   @JsonProperty("enum_string_required")
   @JacksonXmlProperty(localName = "enum_string_required")
   @XmlElement(name = "enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -154,7 +154,7 @@ public class EnumTest {
   @JsonProperty("enum_integer")
   @JacksonXmlProperty(localName = "enum_integer")
   @XmlElement(name = "enum_integer")
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -194,7 +194,7 @@ public class EnumTest {
   @JsonProperty("enum_number")
   @JacksonXmlProperty(localName = "enum_number")
   @XmlElement(name = "enum_number")
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
   @JacksonXmlProperty(localName = "outerEnum")

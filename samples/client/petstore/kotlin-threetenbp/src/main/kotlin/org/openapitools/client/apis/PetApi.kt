@@ -54,7 +54,7 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     * Deletes a pet
     * 
     * @param petId Pet id to delete 
-    * @param apiKey  (optional)
+    * @param apiKey  (optional, default to null)
     * @return void
     */
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String) : Unit {

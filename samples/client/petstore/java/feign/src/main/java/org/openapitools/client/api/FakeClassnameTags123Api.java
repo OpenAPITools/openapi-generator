@@ -18,7 +18,7 @@ public interface FakeClassnameTags123Api extends ApiClient.Api {
   /**
    * To test class name in snake case
    * To test class name in snake case
-    * @param client client model (required)
+   * @param client client model (required)
    * @return Client
    */
   @RequestLine("PATCH /fake_classname_test")
