@@ -12,7 +12,7 @@
    (ds/opt :id) int?
    (ds/opt :category) category-spec
    (ds/req :name) string?
-   (ds/req :photoUrls) (s/coll-of string?)
+   (ds/req :photo-urls) (s/coll-of string?)
    (ds/opt :tags) (s/coll-of tag-spec)
    (ds/opt :status) string?
    })
