@@ -1057,6 +1057,7 @@ definitions:
         format: int64
       name:
         type: string
+        default: default-name
     xml:
       name: Category
   User:
