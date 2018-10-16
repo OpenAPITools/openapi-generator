@@ -273,7 +273,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
-                config.postProcessFile(written, "model-test");
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(written, "model-test");
+                }
             }
         }
     }
@@ -290,7 +292,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
-                config.postProcessFile(written, "model-doc");
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(written, "model-doc");
+                }
             }
         }
     }
@@ -306,7 +310,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
-                config.postProcessFile(written, "model");
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(written, "model");
+                }
             }
         }
     }
@@ -552,7 +558,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     File written = processTemplateToFile(operation, templateName, filename);
                     if (written != null) {
                         files.add(written);
-                        config.postProcessFile(written, "api");
+                        if (config.isEnablePostProcessFile()) {
+                            config.postProcessFile(written, "api");
+                        }
                     }
                 }
 
@@ -569,7 +577,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         File written = processTemplateToFile(operation, templateName, filename);
                         if (written != null) {
                             files.add(written);
-                            config.postProcessFile(written, "api-test");
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "api-test");
+                            }
                         }
                     }
                 }
@@ -587,7 +597,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         File written = processTemplateToFile(operation, templateName, filename);
                         if (written != null) {
                             files.add(written);
-                            config.postProcessFile(written, "api-doc");
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "api-doc");
+                            }
                         }
                     }
                 }
@@ -660,7 +672,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         writeToFile(outputFilename, tmpl.execute(bundle));
                         File written = new File(outputFilename);
                         files.add(written);
-                        config.postProcessFile(written, "supporting-mustache");
+                        if (config.isEnablePostProcessFile()) {
+                            config.postProcessFile(written, "supporting-mustache");
+                        }
                     } else {
                         InputStream in = null;
 
@@ -674,7 +688,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         }
                         File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
                         files.add(outputFile);
-                        config.postProcessFile(outputFile, "supporting-common");
+                        if (config.isEnablePostProcessFile()) {
+                            config.postProcessFile(outputFile, "supporting-common");
+                        }
                     }
                 } else {
                     LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .openapi-generator-ignore");
@@ -698,7 +714,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 throw new RuntimeException("Could not generate supporting file '" + openapiGeneratorIgnore + "'", e);
             }
             files.add(ignoreFile);
-            config.postProcessFile(ignoreFile, "openapi-generator-ignore");
+            if (config.isEnablePostProcessFile()) {
+                config.postProcessFile(ignoreFile, "openapi-generator-ignore");
+            }
         }
 
         if (generateMetadata) {
@@ -707,7 +725,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             try {
                 writeToFile(versionMetadata, ImplementationVersion.read());
                 files.add(versionMetadataFile);
-                config.postProcessFile(ignoreFile, "openapi-generator-version");
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(ignoreFile, "openapi-generator-version");
+                }
             } catch (IOException e) {
                 throw new RuntimeException("Could not generate supporting file '" + versionMetadata + "'", e);
             }

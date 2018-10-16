@@ -29,7 +29,7 @@ import javax.validation.Valid;
 
 public class Dog extends Animal implements Serializable {
   @JsonProperty("breed")
-  private String breed = null;
+  private String breed;
 
   public Dog breed(String breed) {
     this.breed = breed;

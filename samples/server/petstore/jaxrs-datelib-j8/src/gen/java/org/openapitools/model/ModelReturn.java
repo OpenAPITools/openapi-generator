@@ -29,7 +29,7 @@ import javax.validation.Valid;
 
 public class ModelReturn  implements Serializable {
   @JsonProperty("return")
-  private Integer _return = null;
+  private Integer _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;
