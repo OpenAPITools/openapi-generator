@@ -596,65 +596,52 @@ public class CodeGenMojo extends AbstractMojo {
     }
     
     
-    private void adjustAdditionalProperties(final CodegenConfig config, String generatorName) throws MojoExecutionException {
-		String configFile="/typeConfig.properties";// / is the safe seperator for windows and linux
-		
-		URL resource = this.getClass().getResource(configFile);
-		
-		if(resource!=null)
-		{
-			
-			try(Reader reader=new InputStreamReader( resource.openStream(), StandardCharsets.UTF_8);)
-			{
-				PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
-				propertiesConfiguration.read(reader);
-				String[] array = (String[]) propertiesConfiguration.getArray(String.class, generatorName+".boolean");
-				Map<String, Object> cnfigAdditionalProperties = config.additionalProperties();
-		        Set<String> keySet = cnfigAdditionalProperties.keySet();
-		      
-		        for (String key : keySet) {
-					if(ArrayUtils.contains(array, key))
-					{
-						
-						Object value = cnfigAdditionalProperties.get(key);
-						if(value!=null)
-						{
-							if(value instanceof String)
-							{
-								String stringValue = (String) value;
-							
-								Boolean booleanValue = Boolean.valueOf(stringValue);
-								cnfigAdditionalProperties.put(key, booleanValue);
-								
-							}
-						}
-						else
-						{
-							//not expecting this else at all
-							//still wont hurt to have it 
-							cnfigAdditionalProperties.put(key, Boolean.FALSE);
-						}
-						
-						
-					}
-				}
-		       
-		       
-				
-			} catch (IOException | ConfigurationException e) {
-				getLog().error(e);
-	            throw new MojoExecutionException(
-	                    "Code generation failed. See above for the full exception.", e);
-			}
-			
-			
-		}
-		else
-		{
-			System.out.println("could not find resource "+configFile);
-		}
-		
-	}
+    private void adjustAdditionalProperties(final CodegenConfig config, String generatorName)
+            throws MojoExecutionException {
+        String configFile = "/typeConfig.properties";// / is the safe seperator for windows and linux
+
+        URL resource = this.getClass().getResource(configFile);
+
+        if (resource != null) {
+
+            try (Reader reader = new InputStreamReader(resource.openStream(), StandardCharsets.UTF_8);) {
+                PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
+                propertiesConfiguration.read(reader);
+                String[] array = (String[]) propertiesConfiguration.getArray(String.class, generatorName + ".boolean");
+                Map<String, Object> cnfigAdditionalProperties = config.additionalProperties();
+                Set<String> keySet = cnfigAdditionalProperties.keySet();
+
+                for (String key : keySet) {
+                    if (ArrayUtils.contains(array, key)) {
+
+                        Object value = cnfigAdditionalProperties.get(key);
+                        if (value != null) {
+                            if (value instanceof String) {
+                                String stringValue = (String) value;
+
+                                Boolean booleanValue = Boolean.valueOf(stringValue);
+                                cnfigAdditionalProperties.put(key, booleanValue);
+
+                            }
+                        } else {
+                            // not expecting this else at all
+                            // still wont hurt to have it
+                            cnfigAdditionalProperties.put(key, Boolean.FALSE);
+                        }
+
+                    }
+                }
+
+            } catch (IOException | ConfigurationException e) {
+                getLog().error(e);
+                throw new MojoExecutionException("Code generation failed. See above for the full exception.", e);
+            }
+
+        } else {
+            System.out.println("could not find resource " + configFile);
+        }
+
+    }
 
 
     private void addCompileSourceRootIfConfigured() {
