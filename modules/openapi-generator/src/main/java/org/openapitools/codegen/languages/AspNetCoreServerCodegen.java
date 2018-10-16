@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.lang.IllegalArgumentException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Locale;
@@ -38,6 +39,7 @@ import static java.util.UUID.randomUUID;
 public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
+    public static final String ASPNET_CORE_VERSION = "aspnetCoreVersion";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -47,7 +49,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-
+    protected String aspnetCoreVersion= "2.1"; // default to 2.1
 
     public AspNetCoreServerCodegen() {
         super();
@@ -56,6 +58,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("controller.mustache", ".cs");
+
+        embeddedTemplateDir = templateDir = "aspnetcore/2.1";
 
         // contextually reserved words
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -82,6 +86,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.SOURCE_FOLDER_DESC,
                 sourceFolder);
 
+        addOption(ASPNET_CORE_VERSION,
+                "ASP.NET Core version: 2.1 (default), 2.0 (deprecated)",
+                aspnetCoreVersion);
+
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
@@ -102,6 +110,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         addSwitch(USE_SWASHBUCKLE,
                 "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
                 useSwashbuckle);
+
     }
 
     @Override
@@ -118,6 +127,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public String getHelp() {
         return "Generates an ASP.NET Core Web API server.";
     }
+
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
@@ -141,12 +151,28 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
         }
 
+        // determine the ASP.NET core version setting
+        if (additionalProperties.containsKey(ASPNET_CORE_VERSION)) {
+            setAspnetCoreVersion((String) additionalProperties.get(ASPNET_CORE_VERSION));
+        }
+
         additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
 
         apiPackage = packageName + ".Controllers";
         modelPackage = packageName + ".Models";
 
         String packageFolder = sourceFolder + File.separator + packageName;
+
+        if ("2.0".equals(aspnetCoreVersion)) {
+            embeddedTemplateDir = templateDir = "aspnetcore/2.0";
+            supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
+            LOGGER.info("ASP.NET core version: 2.0");
+        } else if ("2.1".equals(aspnetCoreVersion)) {
+            // default, do nothing
+            LOGGER.info("ASP.NET core version: 2.1");
+        } else {
+            throw new IllegalArgumentException("aspnetCoreVersion must be '2.1', '2.0' but found " + aspnetCoreVersion);
+        }
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
@@ -159,26 +185,32 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
         supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
-        supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
-
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
 
-        supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json", packageFolder + File.separator + "Properties", "launchSettings.json"));
+        supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
+                packageFolder + File.separator + "Properties", "launchSettings.json"));
 
         if (useSwashbuckle) {
-            supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache", packageFolder + File.separator + "Filters", "BasePathFilter.cs"));
-            supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache", packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
+            supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache",
+                    packageFolder + File.separator + "Filters", "BasePathFilter.cs"));
+            supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache",
+                    packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
         }
 
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
         supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
 
-        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache", packageFolder + File.separator + "wwwroot", "openapi-original.json"));
+        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
+                packageFolder + File.separator + "wwwroot", "openapi-original.json"));
     }
 
     public void setPackageGuid(String packageGuid) {
         this.packageGuid = packageGuid;
+    }
+
+    public void setAspnetCoreVersion(String aspnetCoreVersion) {
+        this.aspnetCoreVersion= aspnetCoreVersion;
     }
 
     @Override

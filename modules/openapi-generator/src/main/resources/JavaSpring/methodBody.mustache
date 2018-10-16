@@ -29,19 +29,19 @@ return {{#jdk8}}{{#async}}CompletableFuture.completedFuture({{/async}}{{/jdk8}}n
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
-{{>returnTypes}} result = {{#isListContainer}}Flux{{/isListContainer}}{{^isListContainer}}Mono{{/isListContainer}}.empty();
+exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        Mono<Void> result = Mono.empty();
     {{#examples}}
         {{#-first}}
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
         {{/-first}}
             if (mediaType.isCompatibleWith(MediaType.valueOf("{{{contentType}}}"))) {
-                result = ApiUtil.getExampleResponse(exchange, "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}")
-                        .then{{#isListContainer}}Many{{/isListContainer}}(Mono.empty());
+                result = ApiUtil.getExampleResponse(exchange, "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}");
                 break;
             }
         {{#-last}}
         }
         {{/-last}}
     {{/examples}}
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body({{^isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.then({{/isBodyParam}}{{/allParams}}{{/isListContainer}}{{#isListContainer}}{{#allParams}}{{#isBodyParam}}{{paramName}}.thenMany({{/isBodyParam}}{{/allParams}}{{/isListContainer}}result{{#allParams}}{{#isBodyParam}}){{/isBodyParam}}{{/allParams}});
+        return result.then(Mono.empty());
 {{/reactive}}

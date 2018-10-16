@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -34,6 +35,7 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
@@ -360,6 +362,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("HASKELL_POST_PROCESS_FILE"))) {
+            LOGGER.info("Hint: Environment variable HASKELL_POST_PROCESS_FILE not defined so the Haskell code may not be properly formatted. To define it, try 'export HASKELL_POST_PROCESS_FILE=\"$HOME/.local/bin/hfmt -w\"' (Linux/Mac)");
+        }
+
         if (additionalProperties.containsKey(PROP_ALLOW_FROMJSON_NULLS)) {
             setAllowFromJsonNulls(convertPropertyToBoolean(PROP_ALLOW_FROMJSON_NULLS));
         } else {
@@ -616,8 +622,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
         op.operationId = uniqueName;
         op.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
-        op.operationIdCamelCase = DefaultCodegen.camelize(uniqueName);
-        op.operationIdSnakeCase = DefaultCodegen.underscore(uniqueName);
+        op.operationIdCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(uniqueName);
+        op.operationIdSnakeCase = org.openapitools.codegen.utils.StringUtils.underscore(uniqueName);
         opList.add(op);
         op.baseName = tag;
 
@@ -1077,8 +1083,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     public String toVarName(String prefix, String name) {
         Boolean hasPrefix = !StringUtils.isBlank(prefix);
-        name = underscore(sanitizeName(name.replaceAll("-", "_")));
-        name = camelize(name, !hasPrefix);
+        name = org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(name.replaceAll("-", "_")));
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, !hasPrefix);
         if (hasPrefix) {
             return prefix + name;
         } else {
@@ -1123,7 +1129,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     public String toTypeName(String prefix, String name) {
-        name = escapeIdentifier(prefix, camelize(sanitizeName(name)));
+        name = escapeIdentifier(prefix, org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(name)));
         return name;
     }
 
@@ -1132,7 +1138,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
-        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), true));
+        operationId = escapeIdentifier("op", org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true));
         return operationId;
     }
 
@@ -1343,5 +1349,32 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String haskellPostProcessFile = System.getenv("HASKELL_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(haskellPostProcessFile)) {
+            return; // skip if HASKELL_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with hs extension
+        if ("hs".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = haskellPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

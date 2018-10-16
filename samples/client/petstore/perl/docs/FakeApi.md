@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+[**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -202,6 +203,51 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_body_with_file_schema**
+> test_body_with_file_schema(file_schema_test_class => $file_schema_test_class)
+
+
+
+For this test, the body for this request much reference a schema named `File`.
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $file_schema_test_class = WWW::OpenAPIClient::Object::FileSchemaTestClass->new(); # FileSchemaTestClass | 
+
+eval { 
+    $api_instance->test_body_with_file_schema(file_schema_test_class => $file_schema_test_class);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_body_with_file_schema: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -412,7 +458,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | **ARRAY[string]**| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enum_form_string_array** | [**ARRAY[string]**](string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type

@@ -2,11 +2,11 @@ type alias {{classname}} =
     {{parent}}
 
 
-{{classVarName}}Decoder : Decoder {{classname}}
-{{classVarName}}Decoder =
-    Decode.list {{vendorExtensions.x-decoder}}
+decoder : Decoder {{classname}}
+decoder =
+    Decode.list {{vendorExtensions.elmDecoder}}
 
 
-{{classVarName}}Encoder : {{classname}} -> Encode.Value
-{{classVarName}}Encoder model =
-    Encode.list (List.map {{vendorExtensions.x-encoder}} model)
+encoder : {{classname}} -> Encode.Value
+encoder items =
+    Encode.list {{#isElm018}}(List.map {{/isElm018}}{{vendorExtensions.elmEncoder}} items{{#isElm018}}){{/isElm018}}

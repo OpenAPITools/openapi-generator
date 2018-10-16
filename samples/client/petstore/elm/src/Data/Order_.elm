@@ -10,13 +10,12 @@
 -}
 
 
-module Data.Order_ exposing (Order_, Status(..), orderDecoder, orderEncoder)
+module Data.Order_ exposing (Order_, Status(..), decoder, encoder)
 
-import DateTime exposing (DateTime, dateTimeDecoder, dateTimeEncoder)
+import DateTime exposing (DateTime)
 import Json.Decode as Decode exposing (Decoder)
-import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
-import Maybe exposing (map, withDefault)
 
 
 {-| An order for a pets from the pet store
@@ -37,49 +36,47 @@ type Status
     | Delivered
 
 
-
-orderDecoder : Decoder Order_
-orderDecoder =
-    decode Order_
+decoder : Decoder Order_
+decoder =
+    Decode.succeed Order_
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "petId" (Decode.nullable Decode.int) Nothing
         |> optional "quantity" (Decode.nullable Decode.int) Nothing
-        |> optional "shipDate" (Decode.nullable dateTimeDecoder) Nothing
+        |> optional "shipDate" (Decode.nullable DateTime.decoder) Nothing
         |> optional "status" (Decode.nullable statusDecoder) Nothing
         |> optional "complete" (Decode.nullable Decode.bool) (Just False)
 
 
-
-orderEncoder : Order_ -> Encode.Value
-orderEncoder model =
+encoder : Order_ -> Encode.Value
+encoder model =
     Encode.object
-        [ ( "id", withDefault Encode.null (map Encode.int model.id) )
-        , ( "petId", withDefault Encode.null (map Encode.int model.petId) )
-        , ( "quantity", withDefault Encode.null (map Encode.int model.quantity) )
-        , ( "shipDate", withDefault Encode.null (map dateTimeEncoder model.shipDate) )
-        , ( "status", withDefault Encode.null (map statusEncoder model.status) )
-        , ( "complete", withDefault Encode.null (map Encode.bool model.complete) )
+        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+        , ( "petId", Maybe.withDefault Encode.null (Maybe.map Encode.int model.petId) )
+        , ( "quantity", Maybe.withDefault Encode.null (Maybe.map Encode.int model.quantity) )
+        , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encoder model.shipDate) )
+        , ( "status", Maybe.withDefault Encode.null (Maybe.map statusEncoder model.status) )
+        , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
         ]
-
 
 
 statusDecoder : Decoder Status
 statusDecoder =
     Decode.string
-        |> Decode.andThen (\str ->
-            case str of
-                "placed" ->
-                    Decode.succeed Placed
+        |> Decode.andThen
+            (\str ->
+                case str of
+                    "placed" ->
+                        Decode.succeed Placed
 
-                "approved" ->
-                    Decode.succeed Approved
+                    "approved" ->
+                        Decode.succeed Approved
 
-                "delivered" ->
-                    Decode.succeed Delivered
+                    "delivered" ->
+                        Decode.succeed Delivered
 
-                other ->
-                    Decode.fail <| "Unknown type: " ++ other
-        )
+                    other ->
+                        Decode.fail <| "Unknown type: " ++ other
+            )
 
 
 statusEncoder : Status -> Encode.Value
@@ -93,6 +90,3 @@ statusEncoder model =
 
         Delivered ->
             Encode.string "delivered"
-
-
-

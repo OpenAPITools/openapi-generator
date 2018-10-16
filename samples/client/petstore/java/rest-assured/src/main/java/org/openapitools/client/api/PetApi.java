@@ -575,8 +575,8 @@ public class PetApi {
      * 
      *
      * @see #petIdPath ID of pet that needs to be updated (required)
-     * @see #nameForm Updated name of the pet (optional, default to null)
-     * @see #statusForm Updated status of the pet (optional, default to null)
+     * @see #nameForm Updated name of the pet (optional)
+     * @see #statusForm Updated status of the pet (optional)
      */
     public static class UpdatePetWithFormOper {
 
@@ -617,7 +617,7 @@ public class PetApi {
          public static final String NAME_FORM = "name";
 
          /**
-         * @param name (String) Updated name of the pet (optional, default to null)
+         * @param name (String) Updated name of the pet (optional)
          * @return operation
          */
          public UpdatePetWithFormOper nameForm(Object... name) {
@@ -628,7 +628,7 @@ public class PetApi {
          public static final String STATUS_FORM = "status";
 
          /**
-         * @param status (String) Updated status of the pet (optional, default to null)
+         * @param status (String) Updated status of the pet (optional)
          * @return operation
          */
          public UpdatePetWithFormOper statusForm(Object... status) {
@@ -661,8 +661,8 @@ public class PetApi {
      * 
      *
      * @see #petIdPath ID of pet to update (required)
-     * @see #additionalMetadataForm Additional data to pass to server (optional, default to null)
-     * @see #fileMultiPart file to upload (optional, default to null)
+     * @see #additionalMetadataForm Additional data to pass to server (optional)
+     * @see #fileMultiPart file to upload (optional)
      * return ModelApiResponse
      */
     public static class UploadFileOper {
@@ -714,7 +714,7 @@ public class PetApi {
          public static final String ADDITIONAL_METADATA_FORM = "additionalMetadata";
 
          /**
-         * @param additionalMetadata (String) Additional data to pass to server (optional, default to null)
+         * @param additionalMetadata (String) Additional data to pass to server (optional)
          * @return operation
          */
          public UploadFileOper additionalMetadataForm(Object... additionalMetadata) {
@@ -725,7 +725,7 @@ public class PetApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param file (File) file to upload (optional, default to null)
+         * @param file (File) file to upload (optional)
          * @return operation
          */
          public UploadFileOper fileMultiPart(File file) {
@@ -759,7 +759,7 @@ public class PetApi {
      *
      * @see #petIdPath ID of pet to update (required)
      * @see #requiredFileMultiPart file to upload (required)
-     * @see #additionalMetadataForm Additional data to pass to server (optional, default to null)
+     * @see #additionalMetadataForm Additional data to pass to server (optional)
      * return ModelApiResponse
      */
     public static class UploadFileWithRequiredFileOper {
@@ -811,7 +811,7 @@ public class PetApi {
          public static final String ADDITIONAL_METADATA_FORM = "additionalMetadata";
 
          /**
-         * @param additionalMetadata (String) Additional data to pass to server (optional, default to null)
+         * @param additionalMetadata (String) Additional data to pass to server (optional)
          * @return operation
          */
          public UploadFileWithRequiredFileOper additionalMetadataForm(Object... additionalMetadata) {

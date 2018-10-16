@@ -26,7 +26,7 @@ public interface FakeClassnameTestApiDelegate {
     /**
      * @see FakeClassnameTestApi#testClassname
      */
-    default ResponseEntity<Client> testClassname( Client  client) {
+    default ResponseEntity<Client> testClassname(Client client) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

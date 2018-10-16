@@ -7,12 +7,8 @@
 
 import Foundation
 
-
-
 public struct StringBooleanMap: Codable {
-
-
-    public var additionalProperties: [String:Bool] = [:]
+    public var additionalProperties: [String: Bool] = [:]
 
     public subscript(key: String) -> Bool? {
         get {
@@ -30,7 +26,6 @@ public struct StringBooleanMap: Codable {
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-
         var container = encoder.container(keyedBy: String.self)
 
         try container.encodeMap(additionalProperties)
@@ -44,8 +39,4 @@ public struct StringBooleanMap: Codable {
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-
-
-
 }
-

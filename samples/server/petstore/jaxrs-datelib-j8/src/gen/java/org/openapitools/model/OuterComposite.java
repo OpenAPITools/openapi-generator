@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * OuterComposite
@@ -28,13 +29,13 @@ import javax.validation.constraints.*;
 
 public class OuterComposite  implements Serializable {
   @JsonProperty("my_number")
-  private BigDecimal myNumber = null;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
-  private String myString = null;
+  private String myString;
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean = null;
+  private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -47,6 +48,7 @@ public class OuterComposite  implements Serializable {
    **/
   @JsonProperty("my_number")
   @ApiModelProperty(value = "")
+  @Valid
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -66,6 +68,7 @@ public class OuterComposite  implements Serializable {
    **/
   @JsonProperty("my_string")
   @ApiModelProperty(value = "")
+  
   public String getMyString() {
     return myString;
   }
@@ -85,6 +88,7 @@ public class OuterComposite  implements Serializable {
    **/
   @JsonProperty("my_boolean")
   @ApiModelProperty(value = "")
+  
   public Boolean getMyBoolean() {
     return myBoolean;
   }

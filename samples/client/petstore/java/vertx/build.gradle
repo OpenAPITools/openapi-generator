@@ -26,7 +26,7 @@ task execute(type:JavaExec) {
 }
 
 ext {
-    swagger_annotations_version = "1.5.17"
+    swagger_annotations_version = "1.5.21"
     jackson_version = "2.6.4"
     vertx_version = "3.4.2"
     junit_version = "4.12"

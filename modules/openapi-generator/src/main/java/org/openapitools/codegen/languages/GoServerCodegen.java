@@ -17,14 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 
 public class GoServerCodegen extends AbstractGoCodegen {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;

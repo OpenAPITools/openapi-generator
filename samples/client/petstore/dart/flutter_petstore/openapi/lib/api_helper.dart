@@ -4,7 +4,7 @@ const _delimiters = const {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 
 // port from Java version
 Iterable<QueryParam> _convertParametersForCollectionFormat(
-  String collectionFormat, String name, dynamic value) {
+    String collectionFormat, String name, dynamic value) {
   var params = <QueryParam>[];
 
   // preconditions
@@ -19,8 +19,8 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
 
   // get the collection format
   collectionFormat = (collectionFormat == null || collectionFormat.isEmpty)
-                     ? "csv"
-                     : collectionFormat; // default: csv
+      ? "csv"
+      : collectionFormat; // default: csv
 
   if (collectionFormat == "multi") {
     return values.map((v) => new QueryParam(name, parameterToString(v)));
@@ -28,7 +28,8 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
 
   String delimiter = _delimiters[collectionFormat] ?? ",";
 
-  params.add(new QueryParam(name, values.map((v) => parameterToString(v)).join(delimiter)));
+  params.add(new QueryParam(
+      name, values.map((v) => parameterToString(v)).join(delimiter)));
   return params;
 }
 

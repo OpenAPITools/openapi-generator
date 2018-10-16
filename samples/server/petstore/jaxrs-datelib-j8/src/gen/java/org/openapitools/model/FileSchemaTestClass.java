@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * FileSchemaTestClass
@@ -45,6 +46,7 @@ public class FileSchemaTestClass  implements Serializable {
    **/
   @JsonProperty("file")
   @ApiModelProperty(value = "")
+  @Valid
   public java.io.File getFile() {
     return file;
   }
@@ -72,6 +74,7 @@ public class FileSchemaTestClass  implements Serializable {
    **/
   @JsonProperty("files")
   @ApiModelProperty(value = "")
+  @Valid
   public List<java.io.File> getFiles() {
     return files;
   }

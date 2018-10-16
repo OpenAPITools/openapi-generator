@@ -112,6 +112,27 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
+        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="fileSchemaTestClass"></param>
+        /// <returns></returns>
+        void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="fileSchemaTestClass"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo (FileSchemaTestClass fileSchemaTestClass);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -656,6 +677,78 @@ namespace Org.OpenAPITools.Api
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
                 (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+        }
+
+        /// <summary>
+        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="fileSchemaTestClass"></param>
+        /// <returns></returns>
+        public void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
+        {
+             TestBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
+        }
+
+        /// <summary>
+        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="fileSchemaTestClass"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo (FileSchemaTestClass fileSchemaTestClass)
+        {
+            // verify the required parameter 'fileSchemaTestClass' is set
+            if (fileSchemaTestClass == null)
+                throw new ApiException(400, "Missing required parameter 'fileSchemaTestClass' when calling FakeApi->TestBodyWithFileSchema");
+
+            var localVarPath = "/fake/body-with-file-schema";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (fileSchemaTestClass != null && fileSchemaTestClass.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(fileSchemaTestClass); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = fileSchemaTestClass; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestBodyWithFileSchema", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
         }
 
         /// <summary>

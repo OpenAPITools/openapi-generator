@@ -16,8 +16,8 @@ import org.joda.time.DateTime
 import java.util.UUID
 
 case class Category (
-  id: Option[Long],
-  name: Option[String]
+  id: Option[Long] = None,
+  name: Option[String] = None
 ) extends ApiModel
 
 

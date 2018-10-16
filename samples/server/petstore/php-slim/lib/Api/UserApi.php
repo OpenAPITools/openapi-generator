@@ -37,7 +37,8 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class UserApi extends AbstractApiController {
+class UserApi extends AbstractApiController
+{
 
     /**
      * POST createUser
@@ -48,42 +49,43 @@ class UserApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function createUser($request, $response, $args) {
+    public function createUser($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing createUser as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST createUsersWithArrayInput
      * Summary: Creates list of users with given input array
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function createUsersWithArrayInput($request, $response, $args) {
+    public function createUsersWithArrayInput($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing createUsersWithArrayInput as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST createUsersWithListInput
      * Summary: Creates list of users with given input array
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function createUsersWithListInput($request, $response, $args) {
+    public function createUsersWithListInput($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing createUsersWithListInput as a POST method ?');
         return $response;
     }
-    
+
     /**
      * DELETE deleteUser
      * Summary: Delete user
@@ -93,60 +95,61 @@ class UserApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function deleteUser($request, $response, $args) {
+    public function deleteUser($request, $response, $args)
+    {
         $username = $args['username'];
         $response->write('How about implementing deleteUser as a DELETE method ?');
         return $response;
     }
-    
+
     /**
      * GET getUserByName
      * Summary: Get user by user name
-     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function getUserByName($request, $response, $args) {
+    public function getUserByName($request, $response, $args)
+    {
         $username = $args['username'];
         $response->write('How about implementing getUserByName as a GET method ?');
         return $response;
     }
-    
+
     /**
      * GET loginUser
      * Summary: Logs user into the system
-     * Notes: 
      * Output-Formats: [application/xml, application/json]
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function loginUser($request, $response, $args) {
+    public function loginUser($request, $response, $args)
+    {
         $queryParams = $request->getQueryParams();
         $username = $request->getQueryParam('username');
         $password = $request->getQueryParam('password');
         $response->write('How about implementing loginUser as a GET method ?');
         return $response;
     }
-    
+
     /**
      * GET logoutUser
      * Summary: Logs out current logged in user session
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function logoutUser($request, $response, $args) {
+    public function logoutUser($request, $response, $args)
+    {
         $response->write('How about implementing logoutUser as a GET method ?');
         return $response;
     }
-    
+
     /**
      * PUT updateUser
      * Summary: Updated user
@@ -156,11 +159,11 @@ class UserApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function updateUser($request, $response, $args) {
+    public function updateUser($request, $response, $args)
+    {
         $username = $args['username'];
         $body = $request->getParsedBody();
         $response->write('How about implementing updateUser as a PUT method ?');
         return $response;
     }
-    
 }

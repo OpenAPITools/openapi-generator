@@ -34,7 +34,7 @@ import android.os.Parcel;
 public class ClassModel implements Parcelable {
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
-  private String propertyClass = null;
+  private String propertyClass;
 
   public ClassModel() {
   }

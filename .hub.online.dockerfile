@@ -26,7 +26,7 @@ RUN mkdir -p ${TARGET_DIR}
 
 WORKDIR ${TARGET_DIR}
 
-COPY --from=builder ${GEN_DIR}/modules/openapi-generator-online/target/openapi-generator-*.jar ${TARGET_DIR}/openapi-generator-online.jar
+COPY --from=builder ${GEN_DIR}/modules/openapi-generator-online/target/openapi-generator-online.jar ${TARGET_DIR}/openapi-generator-online.jar
 
 ENV GENERATOR_HOST=http://localhost
 

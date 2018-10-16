@@ -36,7 +36,7 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated;
+            isRestful, isDeprecated, isCallbackRequest;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
     public CodegenDiscriminator discriminator;
@@ -54,6 +54,7 @@ public class CodegenOperation {
     public List<CodegenSecurity> authMethods;
     public List<Tag> tags;
     public List<CodegenResponse> responses = new ArrayList<CodegenResponse>();
+    public List<CodegenCallback> callbacks = new ArrayList<>();
     public Set<String> imports = new HashSet<String>();
     public List<Map<String, String>> examples;
     public List<Map<String, String>> requestBodyExamples;
@@ -293,6 +294,8 @@ public class CodegenOperation {
             return false;
         if (isDeprecated != that.isDeprecated)
             return false;
+        if (isCallbackRequest != that.isCallbackRequest)
+            return false;
         if (path != null ? !path.equals(that.path) : that.path != null)
             return false;
         if (operationId != null ? !operationId.equals(that.operationId) : that.operationId != null)
@@ -347,6 +350,8 @@ public class CodegenOperation {
             return false;
         if (responses != null ? !responses.equals(that.responses) : that.responses != null)
             return false;
+        if (callbacks != null ? !callbacks.equals(that.callbacks) : that.callbacks != null)
+            return false;
         if (imports != null ? !imports.equals(that.imports) : that.imports != null)
             return false;
         if (examples != null ? !examples.equals(that.examples) : that.examples != null)
@@ -386,6 +391,7 @@ public class CodegenOperation {
         result = 31 * result + (isResponseFile ? 13:31);
         result = 31 * result + (hasReference ? 13:31);
         result = 31 * result + (isDeprecated ? 13:31);
+        result = 31 * result + (isCallbackRequest ? 13:31);
         result = 31 * result + (path != null ? path.hashCode() : 0);
         result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
         result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
@@ -413,6 +419,7 @@ public class CodegenOperation {
         result = 31 * result + (authMethods != null ? authMethods.hashCode() : 0);
         result = 31 * result + (tags != null ? tags.hashCode() : 0);
         result = 31 * result + (responses != null ? responses.hashCode() : 0);
+        result = 31 * result + (callbacks != null ? callbacks.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
         result = 31 * result + (examples != null ? examples.hashCode() : 0);
         result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);

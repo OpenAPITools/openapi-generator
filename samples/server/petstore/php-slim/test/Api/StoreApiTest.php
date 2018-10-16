@@ -36,34 +36,35 @@ use OpenAPIServer\Api\StoreApi;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\StoreApi
  */
-class StoreApiTest extends \PHPUnit_Framework_TestCase {
+class StoreApiTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
@@ -72,8 +73,8 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase {
      * Delete purchase order by ID.
      * @covers ::deleteOrder
      */
-    public function testDeleteOrder() {
-
+    public function testDeleteOrder()
+    {
     }
 
     /**
@@ -82,8 +83,8 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase {
      * Returns pet inventories by status.
      * @covers ::getInventory
      */
-    public function testGetInventory() {
-
+    public function testGetInventory()
+    {
     }
 
     /**
@@ -92,8 +93,8 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase {
      * Find purchase order by ID.
      * @covers ::getOrderById
      */
-    public function testGetOrderById() {
-
+    public function testGetOrderById()
+    {
     }
 
     /**
@@ -102,7 +103,7 @@ class StoreApiTest extends \PHPUnit_Framework_TestCase {
      * Place an order for a pet.
      * @covers ::placeOrder
      */
-    public function testPlaceOrder() {
-
+    public function testPlaceOrder()
+    {
     }
 }

@@ -10,7 +10,11 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
+<<<<<<< HEAD
     <version>4.0.0-SNAPSHOT</version>
+=======
+    <version>3.4.0-SNAPSHOT</version>
+>>>>>>> origin/3.4.x
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -999,10 +1003,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>2.0.2-OpenAPITools.org-1</swagger-parser-version>
-        <swagger-core-version>2.0.1</swagger-core-version>
+        <swagger-parser-version>2.0.4</swagger-parser-version>
+        <swagger-core-version>2.0.4</swagger-core-version>
         <scala-version>2.11.1</scala-version>
-        <felix-version>3.3.0</felix-version>
+        <felix-version>3.4.0-SNAPSHOT</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>

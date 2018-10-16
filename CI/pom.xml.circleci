@@ -891,6 +891,7 @@
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
+                <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
@@ -899,6 +900,7 @@
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/java/retrofit2-play25</module>
+                <module>samples/client/petstore/java/retrofit2-play26</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
@@ -957,6 +959,7 @@
                 <module>samples/server/petstore/scala-lagom-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/finch</module>
+                <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
     </profiles>
@@ -1028,10 +1031,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-parser-version>2.0.2-OpenAPITools.org-1</swagger-parser-version>
-        <swagger-core-version>2.0.1</swagger-core-version>
+        <swagger-parser-version>2.0.4</swagger-parser-version>
+        <swagger-core-version>2.0.4</swagger-core-version>
         <scala-version>2.11.1</scala-version>
-        <felix-version>3.3.0</felix-version>
+        <felix-version>3.4.0-SNAPSHOT</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>
         <junit-version>4.8.1</junit-version>
