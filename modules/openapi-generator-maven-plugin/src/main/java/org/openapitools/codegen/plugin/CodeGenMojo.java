@@ -32,19 +32,11 @@ import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyRese
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -580,7 +572,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
             return;
         }
-        adjustAdditionalProperties(config, configurator.getGeneratorName());
+        adjustAdditionalProperties(config);
         try {
             new DefaultGenerator().opts(input).generate();
         } catch (Exception e) {
@@ -594,55 +586,6 @@ public class CodeGenMojo extends AbstractMojo {
 
         addCompileSourceRootIfConfigured();
     }
-    
-    
-    private void adjustAdditionalProperties(final CodegenConfig config, String generatorName)
-            throws MojoExecutionException {
-        String configFile = "/typeConfig.properties";// / is the safe seperator for windows and linux
-
-        URL resource = this.getClass().getResource(configFile);
-
-        if (resource != null) {
-
-            try (Reader reader = new InputStreamReader(resource.openStream(), StandardCharsets.UTF_8);) {
-                PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
-                propertiesConfiguration.read(reader);
-                String[] array = (String[]) propertiesConfiguration.getArray(String.class, generatorName + ".boolean");
-                Map<String, Object> cnfigAdditionalProperties = config.additionalProperties();
-                Set<String> keySet = cnfigAdditionalProperties.keySet();
-
-                for (String key : keySet) {
-                    if (ArrayUtils.contains(array, key)) {
-
-                        Object value = cnfigAdditionalProperties.get(key);
-                        if (value != null) {
-                            if (value instanceof String) {
-                                String stringValue = (String) value;
-
-                                Boolean booleanValue = Boolean.valueOf(stringValue);
-                                cnfigAdditionalProperties.put(key, booleanValue);
-
-                            }
-                        } else {
-                            // not expecting this else at all
-                            // still wont hurt to have it
-                            cnfigAdditionalProperties.put(key, Boolean.FALSE);
-                        }
-
-                    }
-                }
-
-            } catch (IOException | ConfigurationException e) {
-                getLog().error(e);
-                throw new MojoExecutionException("Code generation failed. See above for the full exception.", e);
-            }
-
-        } else {
-            System.out.println("could not find resource " + configFile);
-        }
-
-    }
-
 
     private void addCompileSourceRootIfConfigured() {
         if (addCompileSourceRoot) {
@@ -664,6 +607,26 @@ public class CodeGenMojo extends AbstractMojo {
                 System.clearProperty(entry.getKey());
             } else {
                 System.setProperty(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+    
+    private void adjustAdditionalProperties(final CodegenConfig config) {
+        Map<String, Object> configAdditionalProperties = config.additionalProperties();
+        Set<String> keySet = configAdditionalProperties.keySet();
+        for (String key : keySet) {
+            Object value = configAdditionalProperties.get(key);
+            if (value != null) {
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    if (stringValue.equalsIgnoreCase("true")) {
+                        configAdditionalProperties.put(key, Boolean.TRUE);
+                    } else if (stringValue.equalsIgnoreCase("false")) {
+                        configAdditionalProperties.put(key, Boolean.FALSE);
+                    }
+                }
+            } else {
+                configAdditionalProperties.put(key, Boolean.FALSE);
             }
         }
     }

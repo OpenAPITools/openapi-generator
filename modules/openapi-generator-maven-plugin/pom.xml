@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>3.3.2-SNAPSHOT</version>
+        <version>3.3.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -52,11 +52,6 @@
 <!--             <version>4.12</version> -->
             <scope>test</scope>
         </dependency>
-        <dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-configuration2</artifactId>
-		    <version>2.3</version>
-		</dependency>
     </dependencies>
     <build>
         <pluginManagement>
