@@ -183,7 +183,7 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
 	}
 
 	listEntry_t *{{{baseName}}}ListEntry;
-    list_ForEach({{{baseName}}}ListEntry, pet->photoUrls) {
+    list_ForEach({{{baseName}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
         if(cJSON_AddStringToObject({{{baseName}}}, "", {{{baseName}}}ListEntry->data) == NULL)
         {
             goto fail;
