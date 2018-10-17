@@ -137,6 +137,7 @@ export class StoreApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public deleteOrder(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -149,8 +150,9 @@ export class StoreApiResponseProcessor {
 	 * @throws { [key: string]: number; } if the httpStatusCode is not in [200, 299]
 	 */
     public getInventory(response: ResponseContext):  { [key: string]: number; }  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: { [key: string]: number; } = ObjectSerializer.deserialize(response.body, "{ [key: string]: number; }") as { [key: string]: number; };
+        const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }") as { [key: string]: number; };
         if (responseOK) {
 			return body;
         } else {
@@ -164,8 +166,9 @@ export class StoreApiResponseProcessor {
 	 * @throws Order if the httpStatusCode is not in [200, 299]
 	 */
     public getOrderById(response: ResponseContext):  Order  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: Order = ObjectSerializer.deserialize(response.body, "Order") as Order;
+        const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;
         if (responseOK) {
 			return body;
         } else {
@@ -179,8 +182,9 @@ export class StoreApiResponseProcessor {
 	 * @throws Order if the httpStatusCode is not in [200, 299]
 	 */
     public placeOrder(response: ResponseContext):  Order  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: Order = ObjectSerializer.deserialize(response.body, "Order") as Order;
+        const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;
         if (responseOK) {
 			return body;
         } else {

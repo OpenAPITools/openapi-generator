@@ -275,6 +275,7 @@ export class UserApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public createUser(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -287,6 +288,7 @@ export class UserApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public createUsersWithArrayInput(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -299,6 +301,7 @@ export class UserApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public createUsersWithListInput(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -311,6 +314,7 @@ export class UserApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public deleteUser(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -323,8 +327,9 @@ export class UserApiResponseProcessor {
 	 * @throws User if the httpStatusCode is not in [200, 299]
 	 */
     public getUserByName(response: ResponseContext):  User  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: User = ObjectSerializer.deserialize(response.body, "User") as User;
+        const body: User = ObjectSerializer.deserialize(jsonBody, "User") as User;
         if (responseOK) {
 			return body;
         } else {
@@ -338,8 +343,9 @@ export class UserApiResponseProcessor {
 	 * @throws string if the httpStatusCode is not in [200, 299]
 	 */
     public loginUser(response: ResponseContext):  string  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: string = ObjectSerializer.deserialize(response.body, "string") as string;
+        const body: string = ObjectSerializer.deserialize(jsonBody, "string") as string;
         if (responseOK) {
 			return body;
         } else {
@@ -353,6 +359,7 @@ export class UserApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public logoutUser(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -365,6 +372,7 @@ export class UserApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public updateUser(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {

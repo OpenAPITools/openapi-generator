@@ -321,6 +321,7 @@ export class PetApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public addPet(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -333,6 +334,7 @@ export class PetApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public deletePet(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -345,8 +347,9 @@ export class PetApiResponseProcessor {
 	 * @throws Array<Pet> if the httpStatusCode is not in [200, 299]
 	 */
     public findPetsByStatus(response: ResponseContext):  Array<Pet>  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: Array<Pet> = ObjectSerializer.deserialize(response.body, "Array<Pet>") as Array<Pet>;
+        const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;
         if (responseOK) {
 			return body;
         } else {
@@ -360,8 +363,9 @@ export class PetApiResponseProcessor {
 	 * @throws Array<Pet> if the httpStatusCode is not in [200, 299]
 	 */
     public findPetsByTags(response: ResponseContext):  Array<Pet>  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: Array<Pet> = ObjectSerializer.deserialize(response.body, "Array<Pet>") as Array<Pet>;
+        const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;
         if (responseOK) {
 			return body;
         } else {
@@ -375,8 +379,9 @@ export class PetApiResponseProcessor {
 	 * @throws Pet if the httpStatusCode is not in [200, 299]
 	 */
     public getPetById(response: ResponseContext):  Pet  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: Pet = ObjectSerializer.deserialize(response.body, "Pet") as Pet;
+        const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet") as Pet;
         if (responseOK) {
 			return body;
         } else {
@@ -390,6 +395,7 @@ export class PetApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public updatePet(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -402,6 +408,7 @@ export class PetApiResponseProcessor {
 	 * @throws  if the httpStatusCode is not in [200, 299]
 	 */
     public updatePetWithForm(response: ResponseContext):   void  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
         // TODO: make this based on status code!
         if (!responseOK) {
@@ -414,8 +421,9 @@ export class PetApiResponseProcessor {
 	 * @throws ApiResponse if the httpStatusCode is not in [200, 299]
 	 */
     public uploadFile(response: ResponseContext):  ApiResponse  {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: ApiResponse = ObjectSerializer.deserialize(response.body, "ApiResponse") as ApiResponse;
+        const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse") as ApiResponse;
         if (responseOK) {
 			return body;
         } else {
