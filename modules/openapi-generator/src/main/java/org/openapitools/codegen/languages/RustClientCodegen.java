@@ -190,7 +190,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
         }
-        
+
         supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
         supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
@@ -376,6 +376,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             } else if (REQWEST_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
             }
+
+            // TODO Replace this header (for petstore) with a more generic version
+            // where the name is grabbed from operation parameters.
+            headerKeys.add("api_key");
 
             // TODO Manage Rust var codestyle (snake case) and compile problems (headers with special chars, like '-').
 

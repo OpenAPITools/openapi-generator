@@ -43,5 +43,24 @@ impl Configuration {
         }
     }
 
+    pub fn header_api_key(value: String) -> Header_api_key {
+        Header_api_key(value)
+    }
 }
 
+#[derive(Debug, Clone)]
+pub struct Header_api_key(String);
+
+impl Header for Header_api_key {
+    fn header_name() -> &'static str {
+        "api_key"
+    }
+
+    fn parse_header(raw: &Raw) -> Result<Self, hyper::error::Error> {
+        Ok(Header_api_key(std::str::from_utf8(raw.one().unwrap())?.to_string()))
+    }
+
+    fn fmt_header(&self, f: &mut Formatter) -> Result<(), std::fmt::Error> {
+        f.fmt_line(&self.0)
+    }
+}
