@@ -62,6 +62,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private ElmVersion elmVersion = ElmVersion.ELM_019;
 
     private static final String ELM_VERSION = "elmVersion";
+    private static final String PREFIX_CUSTOM_TYPE_VARIANTS = "prefixCustomTypeVariants";
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
     private static final String DISCRIMINATOR_NAME = "discriminatorName";
@@ -69,6 +70,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
+    protected Boolean prefixCustomTypeVariants = false;
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -186,12 +188,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportedVersions.put("0.19", "Elm 0.19");
         elmVersion.setEnum(supportedVersions);
         cliOptions.add(elmVersion);
+        final CliOption prefixCustomTypeVariants = CliOption.newBoolean(PREFIX_CUSTOM_TYPE_VARIANTS, "Prefix custom type variants");
+        cliOptions.add(prefixCustomTypeVariants);
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
-
 
         if (additionalProperties.containsKey(ELM_VERSION)) {
             final String version = (String) additionalProperties.get(ELM_VERSION);
@@ -200,6 +203,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 elmVersion = ElmVersion.ELM_019;
             }
+        }
+
+        if (additionalProperties.containsKey(PREFIX_CUSTOM_TYPE_VARIANTS)) {
+            prefixCustomTypeVariants = "true".equals(additionalProperties.get(PREFIX_CUSTOM_TYPE_VARIANTS));
         }
 
         if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
@@ -388,6 +395,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (cm.isEnum) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.classname, DataTypeExposure.EXPOSED);
                     cm.vendorExtensions.put(UNION_TYPE, cm.classname);
+                    if (prefixCustomTypeVariants) {
+                        addCustomTypeVariantsPrefix(cm.classname, cm.allowableValues);
+                    }
                 } else if (cm.isAlias) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, DataTypeExposure.EXPOSED);
                 }
@@ -590,6 +600,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (property.isEnum) {
             addEncoderAndDecoder(property.vendorExtensions, property.baseName, DataTypeExposure.INTERNAL);
             property.vendorExtensions.put(UNION_TYPE, property.datatypeWithEnum);
+            if (prefixCustomTypeVariants) {
+                addCustomTypeVariantsPrefix(property.datatypeWithEnum, property.allowableValues);
+            }
         } else {
             final boolean isPrimitiveType = property.isMapContainer ? isPrimitiveDataType(property.dataType) : property.isPrimitiveType;
             addEncoderAndDecoder(property.vendorExtensions, property.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
@@ -612,6 +625,16 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
         final boolean isPrimitiveType = parameter.isMapContainer ? isPrimitiveDataType(parameter.dataType) : parameter.isPrimitiveType;
         addEncoderAndDecoder(parameter.vendorExtensions, parameter.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
+    }
+
+    private void addCustomTypeVariantsPrefix(final String prefix, final Map<String, Object> allowableValues) {
+        List<Map<String, Object>> enumVars = (ArrayList<Map<String, Object>>) allowableValues.get("enumVars");
+        if (enumVars == null) {
+            return;
+        }
+        for (Map<String, Object> enumVar : enumVars) {
+            enumVar.put("name", prefix + enumVar.get("name"));
+        }
     }
 
     private boolean isPrimitiveDataType(String dataType) {
