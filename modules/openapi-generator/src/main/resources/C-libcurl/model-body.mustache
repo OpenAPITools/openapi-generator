@@ -284,7 +284,7 @@ fail:
         goto end; //nonprimitive
     }
     char *{{{baseName}}}JSONData = cJSON_Print({{{baseName}}}JSON);
-    {{{baseName}}} = {{{baseName}}}_parseFromJSON({{{baseName}}}JSONData);
+    {{{baseName}}} = {{complexType}}_parseFromJSON({{{baseName}}}JSONData);
     {{/isPrimitiveType}}
     {{/isContainer}}
     {{#isContainer}}
