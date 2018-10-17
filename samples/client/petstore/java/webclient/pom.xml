@@ -110,7 +110,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.20</swagger-annotations-version>
         <spring-web-version>5.0.7.RELEASE</spring-web-version>
-        <jackson-version>2.9.5</jackson-version>
+        <jackson-version>2.9.11</jackson-version>
         <junit-version>4.12</junit-version>
         <reactor-version>3.1.8.RELEASE</reactor-version>
         <reactor-netty-version>0.7.8.RELEASE</reactor-netty-version>
