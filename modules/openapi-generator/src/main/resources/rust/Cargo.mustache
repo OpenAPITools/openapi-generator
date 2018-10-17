@@ -4,14 +4,21 @@ version = "{{{packageVersion}}}"
 authors = ["OpenAPI Generator team and contributors"]
 
 [dependencies]
-serde = "1.0"
-serde_derive = "1.0"
-serde_yaml = "0.7"
-serde_json = "1.0"
-base64 = "~0.7.0"
-futures = "0.1.16"
-hyper = "0.11.6"
+serde = "^1.0"
+serde_derive = "^1.0"
+serde_json = "^1.0"
+hyper = "~0.11"
 url = "1.5"
+{{#hyper}}
+serde_yaml = "0.7"
+base64 = "~0.7.0"
+futures = "0.1.23"
+{{/hyper}}
+{{#reqwest}}
+reqwest = "~0.8"
+{{/reqwest}}
 
 [dev-dependencies]
+{{#hyper}}
 tokio-core = "*"
+{{/hyper}}

@@ -17,33 +17,26 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
+
+    public static final String HYPER_LIBRARY = "hyper";
+    public static final String REQWEST_LIBRARY = "reqwest";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -68,7 +61,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
         outputFolder = "generated-code/rust";
         modelTemplateFiles.put("model.mustache", ".rs");
-        apiTemplateFiles.put("api.mustache", ".rs");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -141,6 +133,15 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
+        supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
+        supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set hyper as the default
+        libraryOption.setDefault(HYPER_LIBRARY);
+        cliOptions.add(libraryOption);
+        setLibrary(HYPER_LIBRARY);
     }
 
     @Override
@@ -165,21 +166,30 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
+        if ( HYPER_LIBRARY.equals(getLibrary())){
+            additionalProperties.put(HYPER_LIBRARY, "true");
+        } else if (REQWEST_LIBRARY.equals(getLibrary())) {
+            additionalProperties.put(REQWEST_LIBRARY, "true");
+        } else {
+            LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
+        }
+
+        apiTemplateFiles.put(getLibrary() + "/api.mustache", ".rs");
+
         modelPackage = packageName;
         apiPackage = packageName;
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", apiFolder, "configuration.rs"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-
-        supportingFiles.add(new SupportingFile("api_mod.mustache", apiFolder, "mod.rs"));
-        supportingFiles.add(new SupportingFile("client.mustache", apiFolder, "client.rs"));
-        supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
         supportingFiles.add(new SupportingFile("model_mod.mustache", modelFolder, "mod.rs"));
-        supportingFiles.add(new SupportingFile("lib.rs", "src", "lib.rs"));
+        supportingFiles.add(new SupportingFile("lib.rs.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
+
+        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
     }
 
     @Override
@@ -209,7 +219,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
 
         // snake_case, e.g. PetId => pet_id
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+        name = StringUtils.underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -231,16 +241,17 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(toModelFilename(name));
+        return StringUtils.camelize(toModelFilename(name));
     }
 
     @Override
     public String toModelFilename(String name) {
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
+
+        if (!Strings.isNullOrEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
 
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
+        if (!Strings.isNullOrEmpty(modelNameSuffix)) {
             name = name + "_" + modelNameSuffix;
         }
 
@@ -258,7 +269,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(name);
+        return StringUtils.underscore(name);
     }
 
     @Override
@@ -267,7 +278,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.rs => pet_api.rs
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
+        return StringUtils.underscore(name) + "_api";
     }
 
     @Override
@@ -340,11 +351,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizedOperationId);
+        return StringUtils.underscore(sanitizedOperationId);
     }
 
     @Override
@@ -353,9 +364,32 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        Set<String> headerKeys = new HashSet<>();
         for (CodegenOperation operation : operations) {
-            // http method verb conversion (e.g. PUT => Put)
-            operation.httpMethod = org.openapitools.codegen.utils.StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+            // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
+            if (HYPER_LIBRARY.equals(getLibrary())) {
+                operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+            } else if (REQWEST_LIBRARY.equals(getLibrary())) {
+                operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+            }
+
+            // TODO Manage Rust var codestyle (snake case) and compile problems (headers with special chars, like '-').
+
+            // Collect all possible headers.
+            if (operation.authMethods != null) {
+                for (CodegenSecurity authMethod : operation.authMethods) {
+                    if (authMethod.isApiKey && authMethod.isKeyInHeader) {
+                        headerKeys.add(authMethod.keyParamName);
+                    }
+                }
+            }
+
+            if (operation.headerParams != null) {
+                for (CodegenParameter parameter : operation.headerParams) {
+                    headerKeys.add(parameter.baseName);
+                }
+            }
+
             // update return type to conform to rust standard
             /*
             if (operation.returnType != null) {
@@ -406,6 +440,8 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }*/
         }
+
+        additionalProperties.put("headerKeys", headerKeys);
 
         return objs;
     }
