@@ -83,13 +83,23 @@
 
     // query parameters
     {{#isListContainer}}
+    {{#isString}}
     if ({{baseName}} !=NULL )
+    {{/isString}}
+    {{^isString}}
+    if ({{baseName}} != 0 )
+    {{/isString}}
     {{/isListContainer}}
     {{^isListContainer}}
     char *keyQuery_{{{baseName}}};
     char *valueQuery_{{{baseName}}};
-        keyValuePair_t *keyPairQuery_{{baseName}} = 0;
-    if ({{baseName}} != NULL)
+    keyValuePair_t *keyPairQuery_{{baseName}} = 0;
+    {{#isString}}
+    if ({{baseName}} !=NULL )
+    {{/isString}}
+    {{^isString}}
+    if ({{baseName}} != 0 )
+    {{/isString}}
     {{/isListContainer}}
     {
     {{#isListContainer}}
@@ -97,11 +107,20 @@
        localVarQueryParameters = {{{baseName}}};
     {{/isListContainer}}
     {{^isListContainer}}
-        //string
-        keyQuery_{{{baseName}}} = strdup("{{{baseName}}}");
-        valueQuery_{{{baseName}}} = strdup({{{baseName}}});
-        keyPairQuery_{{baseName}} = keyValuePair_create(keyQuery_{{{baseName}}}, valueQuery_{{{baseName}}});
-        list_addElement(localVarQueryParameters,keyPairQuery_{{baseName}});
+    {{#isString}}
+    //string
+    keyQuery_{{{baseName}}} = strdup("{{{baseName}}}");
+    valueQuery_{{{baseName}}} = strdup({{{baseName}}});
+    keyPairQuery_{{baseName}} = keyValuePair_create(keyQuery_{{{baseName}}}, valueQuery_{{{baseName}}});
+    list_addElement(localVarQueryParameters,keyPairQuery_{{baseName}});
+    {{/isString}}
+    {{^isString}}
+    //string
+    keyQuery_{{{baseName}}} = strdup("{{{baseName}}}");
+    valueQuery_{{{baseName}}} = {{{baseName}}};
+    keyPairQuery_{{baseName}} = keyValuePair_create(keyQuery_{{{baseName}}}, valueQuery_{{{baseName}}});
+    list_addElement(localVarQueryParameters,keyPairQuery_{{baseName}});
+    {{/isString}}
     {{/isListContainer}}
     }
     {{/queryParams}}
@@ -301,6 +320,10 @@
     {{#isString}}
     free(keyQuery_{{{baseName}}});
     free(valueQuery_{{{baseName}}});
+    keyValuePair_free(keyPairQuery_{{{baseName}}});
+    {{/isString}}
+    {{#isString}}
+    free(keyQuery_{{{baseName}}});
     keyValuePair_free(keyPairQuery_{{{baseName}}});
     {{/isString}}
     {{/isListContainer}}
