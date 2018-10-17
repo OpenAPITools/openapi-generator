@@ -1,4 +1,4 @@
-import {PetApi} from './api';
+import {PetApi} from './index';
 import {Configuration } from './configuration';
 import { Middleware } from './middleware';
 import { RequestContext, ResponseContext } from './http/http';

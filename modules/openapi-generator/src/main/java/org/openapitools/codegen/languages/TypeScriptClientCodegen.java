@@ -124,26 +124,27 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // http
         supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
         supportingFiles.add(new SupportingFile("http"  + File.separator + "isomorphic-fetch.mustache", "http", "isomorphic-fetch.ts"));
+        supportingFiles.add(new SupportingFile("http/servers.mustache", "servers.ts"));
 
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("middleware.mustache", "", "middleware.ts"));
         supportingFiles.add(new SupportingFile("auth" + File.separator + "auth.mustache", "auth", "auth.ts"));
-        supportingFiles.add(new SupportingFile("servers.mustache", "servers.ts"));
-        supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
         
-        supportingFiles.add(new SupportingFile("models_all.mustache", "models", "all.ts"));
+        supportingFiles.add(new SupportingFile("model/models_all.mustache", "models", "all.ts"));
         // TODO: add supporting files depending on cli parameter e.g. fetch vs angular
-        supportingFiles.add(new SupportingFile("generators/fetch/fetch.mustache", "api.ts"));
+        supportingFiles.add(new SupportingFile("generators/PromiseAPI.mustache", "PromiseAPI.ts"));
+        supportingFiles.add(new SupportingFile("generators/fetch/index.mustache", "index.ts"));
+
         // models
         // TODO: properly set model and api packages
         this.setModelPackage("");
-        supportingFiles.add(new SupportingFile("ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
-        modelTemplateFiles.put("model.mustache", ".ts");
+        supportingFiles.add(new SupportingFile("api/ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
+        modelTemplateFiles.put("model/model.mustache", ".ts");
 
         // api
         this.setApiPackage("");
-        this.supportingFiles.add(new SupportingFile("baseapi.mustache", "apis", "baseapi.ts"));
-        this.apiTemplateFiles.put("api.mustache", ".ts");
+        supportingFiles.add(new SupportingFile("api/middleware.mustache", "", "middleware.ts"));
+        this.supportingFiles.add(new SupportingFile("api/baseapi.mustache", "apis", "baseapi.ts"));
+        this.apiTemplateFiles.put("api/api.mustache", ".ts");
     }
 
 
