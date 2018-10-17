@@ -6,6 +6,7 @@ import 'isomorphic-fetch';
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
     public send(request: RequestContext): Promise<ResponseContext> {
+    	console.log("Request: ", request);
         let method = request.getHttpMethod().toString();
         let body = request.getBody();
         
@@ -21,7 +22,7 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
                 headers[key] = (headers[key] as Array<string>).join("; ");
             }
 
-            return resp.text().then((body) => {
+            return resp.json().then((body) => {
                 return new ResponseContext(resp.status, headers, body)
             });
         });

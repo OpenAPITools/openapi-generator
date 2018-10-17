@@ -131,6 +131,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("servers.mustache", "servers.ts"));
         supportingFiles.add(new SupportingFile("index.mustache", "index.ts"));
         
+        supportingFiles.add(new SupportingFile("models_all.mustache", "models", "all.ts"));
+        // TODO: add supporting files depending on cli parameter e.g. fetch vs angular
+        supportingFiles.add(new SupportingFile("generators/fetch/fetch.mustache", "api.ts"));
         // models
         // TODO: properly set model and api packages
         this.setModelPackage("");
