@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\EnumTest;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\EnumTest;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\EnumTest
  */
-class EnumTestTest extends \PHPUnit_Framework_TestCase
+class EnumTestTest extends TestCase
 {
 
     /**

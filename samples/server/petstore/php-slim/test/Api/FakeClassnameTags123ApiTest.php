@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Api;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Api\FakeClassnameTags123Api;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Api\FakeClassnameTags123Api;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FakeClassnameTags123Api
  */
-class FakeClassnameTags123ApiTest extends \PHPUnit_Framework_TestCase
+class FakeClassnameTags123ApiTest extends TestCase
 {
 
     /**
