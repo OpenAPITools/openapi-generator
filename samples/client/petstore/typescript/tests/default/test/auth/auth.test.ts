@@ -21,7 +21,7 @@ describe("Security Authentication", () => {
         // TODO: make all params const variables
         it("Header API Key", () => {
             let ctx = new RequestContext("http://google.com", HttpMethod.GET);
-            let auth = new APIKeyAuthentication("my_name", "paramName", "apiKey", "header");
+            let auth = new APIKeyAuthentication("my_name", "paramName", "header", "apiKey");
             auth.applySecurityAuthentication(ctx);
     
             expect(ctx.getUrl()).to.equal("http://google.com");
@@ -32,7 +32,7 @@ describe("Security Authentication", () => {
 
         it("Query API Key", () => {
             let ctx = new RequestContext("http://google.com?a=b", HttpMethod.GET);
-            let auth = new APIKeyAuthentication("my_name", "paramName", "apiKey", "query");
+            let auth = new APIKeyAuthentication("my_name", "paramName", "query", "apiKey",);
             auth.applySecurityAuthentication(ctx);
     
             expect(ctx.getUrl()).to.contain("paramName=apiKey");
@@ -42,7 +42,7 @@ describe("Security Authentication", () => {
 
         it("Cookie API Key", () => {
             let ctx = new RequestContext("http://google.com", HttpMethod.GET);
-            let auth = new APIKeyAuthentication("my_name", "paramName", "apiKey", "cookie");
+            let auth = new APIKeyAuthentication("my_name", "paramName", "cookie", "apiKey",);
             auth.applySecurityAuthentication(ctx);
     
             expect(ctx.getUrl()).to.equal("http://google.com");

@@ -1,7 +1,4 @@
-import {PetApi} from './index';
-import {Configuration } from './configuration';
-import { Middleware } from './middleware';
-import { RequestContext, ResponseContext } from './http/http';
+import {PetApi, Configuration, Middleware, RequestContext, ResponseContext} from 'ts-petstore-client';
 
 class MiddlewareA implements Middleware {
 

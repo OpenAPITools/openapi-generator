@@ -1,5 +1,4 @@
-import {RequestContext, HttpMethod, ResponseContext, HttpLibrary} from "ts-petstore-client";
-import {IsomorphicFetchHttpLibrary} from 'ts-petstore-client';
+import {RequestContext, HttpMethod, ResponseContext, HttpLibrary, IsomorphicFetchHttpLibrary } from "ts-petstore-client";
 import { expect} from "chai";
 import * as FormData from "form-data";
 

@@ -21,7 +21,7 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
                 headers[key] = (headers[key] as Array<string>).join("; ");
             }
 
-            return resp.json().then((body) => {
+            return resp.text().then((body: string) => {
                 return new ResponseContext(resp.status, headers, body)
             });
         });

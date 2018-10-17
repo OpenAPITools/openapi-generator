@@ -118,9 +118,10 @@ export class {{classname}}ResponseProcessor {
 	 * @throws {{{returnType}}} if the httpStatusCode is not in [200, 299]
 	 */
     public {{nickname}}(response: ResponseContext): {{#returnType}} {{{returnType}}}{{/returnType}} {{^returnType}} void {{/returnType}} {
+    	const jsonBody = JSON.parse(response.body);
     	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
 		{{#returnType}}
-        const body: {{{returnType}}} = ObjectSerializer.deserialize(response.body, "{{{returnType}}}") as {{{returnType}}};
+        const body: {{{returnType}}} = ObjectSerializer.deserialize(jsonBody, "{{{returnType}}}") as {{{returnType}}};
         if (responseOK) {
 			return body;
         } else {
