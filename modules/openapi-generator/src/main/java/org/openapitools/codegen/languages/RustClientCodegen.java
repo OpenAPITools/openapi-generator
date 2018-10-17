@@ -187,6 +187,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("lib.rs.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
 
+        if (HYPER_LIBRARY.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
+        }
+        
         supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
         supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
