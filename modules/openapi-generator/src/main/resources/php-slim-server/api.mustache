@@ -46,8 +46,24 @@ use {{invokerPackage}}\{{abstractNamePrefix}}ApiController{{abstractNameSuffix}}
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class {{classname}} extends {{abstractNamePrefix}}ApiController{{abstractNameSuffix}}
+abstract class {{classname}}
 {
+
+    /**
+     * @var \Interop\Container\ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
     {{#operations}}
     {{#operation}}
 
@@ -66,6 +82,8 @@ class {{classname}} extends {{abstractNamePrefix}}ApiController{{abstractNameSuf
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function {{operationId}}($request, $response, $args)
     {
@@ -99,8 +117,10 @@ class {{classname}} extends {{abstractNamePrefix}}ApiController{{abstractNameSuf
         {{#hasBodyParam}}
         $body = $request->getParsedBody();
         {{/hasBodyParam}}
-        $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
-        return $response;
+        $message = "How about implementing {{nickname}} as a {{httpMethod}} method in {{apiPackage}}\{{userClassname}} class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
     {{/operation}}
     {{/operations}}
