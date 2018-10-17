@@ -24,10 +24,21 @@ export class {{classname}} {
 {{#operation}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
     	const requestContext = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
-    	
-    	return this.configuration.httpApi.send(requestContext).then((response: ResponseContext) => {
-    		return this.responseProcessor.{{nickname}}(response);
-    	});
+
+		// build promise chain
+    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	for (let middleware of this.configuration.middleware) {
+    		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
+    	}
+
+    	return middlewarePrePromise.then((ctx) => this.configuration.httpApi.send(ctx)).
+	    	then((response: ResponseContext) => {
+	    		let middlewarePostPromise = Promise.resolve(response);
+	    		for (let middleware of this.configuration.middleware) {
+	    			middlewarePostPromise = middlewarePostPromise.then((rsp) => middleware.post(rsp));
+	    		}
+	    		return middlewarePostPromise.then((rsp) => this.responseProcessor.{{nickname}}(rsp));
+	    	});
     }
 	
 {{/operation}}
