@@ -18,10 +18,13 @@
   Method      = {{httpMethod}},
   Host        = application:get_env({{packageName}}, host, "http://localhost:8080"),
   Path        = ["{{{replacedPathName}}}"],
-  Body        = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{{baseName}}}">>, {{paramName}}}{{/required}}{{/formParams}}]++{{packageName}}_utils:optional_params([{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{{baseName}}}'{{/required}}{{/formParams}}], _OptionalParams)}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
-  ContentType = hd([{{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}}]),
+  Body        = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{{baseName}}}">>, {{paramName}}{{/required}}{{/formParams}}]++{{packageName}}_utils:optional_params([{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{{baseName}}}'{{/required}}{{/formParams}}], _OptionalParams)}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
+  ContentType = {{#consumes.length}}hd([{{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}}]){{/consumes.length}}{{^consumes.length}}<<"text/plain">>{{/consumes.length}},
+  {{^queryParams.isEmpty}}
+  QueryString = [{{#queryParams}}{{^-first}}, {{/-first}}<<"{{{baseName}}}=">>, {{{paramName}}}, <<"&">>{{/queryParams}}],
+  {{/queryParams.isEmpty}}
 
-  {{packageName}}_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
+  {{packageName}}_utils:request(Method, [Host, ?BASE_URL, Path{{^queryParams.isEmpty}}, <<"?">>, QueryString{{/queryParams.isEmpty}}], jsx:encode(Body), ContentType).
 
 {{/operation}}
 {{/operations}}
