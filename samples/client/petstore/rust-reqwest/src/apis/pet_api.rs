@@ -220,14 +220,8 @@ impl PetApi for PetApiClient {
 
 
         
-        if let Some(ref apikey) = configuration.api_key {
-            let key = apikey.key.clone();
-            let val = match apikey.prefix {
-                Some(ref prefix) => format!("{} {}", prefix, key),
-                None => key,
-            };
-
-            req_builder.header(configuration::Configuration::header_api_key(val));
+        if let Some(ref _apikey) = configuration.api_key {
+            req_builder.header(configuration.header_configured_api_key());
         };
         
 

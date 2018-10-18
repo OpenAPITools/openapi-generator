@@ -377,20 +377,17 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
             }
 
-            // TODO Replace this header (for petstore) with a more generic version
-            // where the name is grabbed from operation parameters.
-            headerKeys.add("api_key");
+            // TODO Only one auth API key header is supported.
 
-            // TODO Manage Rust var codestyle (snake case) and compile problems (headers with special chars, like '-').
-
-            // Collect all possible headers.
             if (operation.authMethods != null) {
                 for (CodegenSecurity authMethod : operation.authMethods) {
                     if (authMethod.isApiKey && authMethod.isKeyInHeader) {
-                        headerKeys.add(authMethod.keyParamName);
+                        additionalProperties.put("authHeaderKey", authMethod.keyParamName);
                     }
                 }
             }
+
+            // TODO Manage Rust var codestyle (snake case) and compile problems (headers with special chars, like '-').
 
             if (operation.headerParams != null) {
                 for (CodegenParameter parameter : operation.headerParams) {
@@ -450,6 +447,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         additionalProperties.put("headerKeys", headerKeys);
+        additionalProperties.putIfAbsent("authHeaderKey", "api-key");
 
         return objs;
     }

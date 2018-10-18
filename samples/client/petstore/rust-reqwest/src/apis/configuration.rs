@@ -20,16 +20,11 @@ pub struct Configuration {
     pub client: reqwest::Client,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
-    pub api_key: Option<ApiKey>,
+    pub api_key: Option<String>,
     // TODO: take an oauth2 token source, similar to the go one
 }
 
 pub type BasicAuth = (String, Option<String>);
-
-pub struct ApiKey {
-    pub prefix: Option<String>,
-    pub key: String,
-}
 
 impl Configuration {
     pub fn new() -> Configuration {
@@ -43,24 +38,30 @@ impl Configuration {
         }
     }
 
-    pub fn header_api_key(value: String) -> Header_api_key {
-        Header_api_key(value)
+    pub fn header_configured_api_key(&self) -> HeaderApiKey {
+        HeaderApiKey(self.api_key.clone().expect("API key not configured"))
     }
+
+    pub fn header_api_key(value: String) -> HeaderApiKey {
+        HeaderApiKey(value)
+    }
+
 }
 
 #[derive(Debug, Clone)]
-pub struct Header_api_key(String);
+pub struct HeaderApiKey(String);
 
-impl Header for Header_api_key {
+impl Header for HeaderApiKey {
     fn header_name() -> &'static str {
         "api_key"
     }
 
     fn parse_header(raw: &Raw) -> Result<Self, hyper::error::Error> {
-        Ok(Header_api_key(std::str::from_utf8(raw.one().unwrap())?.to_string()))
+        Ok(HeaderApiKey(std::str::from_utf8(raw.one().unwrap())?.to_string()))
     }
 
     fn fmt_header(&self, f: &mut Formatter) -> Result<(), std::fmt::Error> {
         f.fmt_line(&self.0)
     }
 }
+
