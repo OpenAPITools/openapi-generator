@@ -610,7 +610,13 @@ public class CodeGenMojo extends AbstractMojo {
             }
         }
     }
-    
+    /**
+     * This method enables conversion of true/false strings in 
+     * config.additionalProperties (configuration/configOptions) to proper booleans.
+     * This enables mustache files to handle the properties better.
+     * 
+     * @param config
+     */
     private void adjustAdditionalProperties(final CodegenConfig config) {
         Map<String, Object> configAdditionalProperties = config.additionalProperties();
         Set<String> keySet = configAdditionalProperties.keySet();
