@@ -313,14 +313,8 @@ use {{invokerPackage}}\ObjectSerializer;
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    protected function {{operationId}}Request({{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
-        {{#vendorExtensions.x-group-parameters}}
-        {{#allParams}}
-        ${{paramName}} = associative_array['{{paramName}}'];
-        {{/allParams}}
-
-        {{/vendorExtensions.x-group-parameters}}
         {{#allParams}}
         {{#required}}
         // verify the required parameter '{{paramName}}' is set

@@ -2026,23 +2026,8 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEndpointParametersRequest($associative_array)
+    protected function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
-        $number = associative_array['number'];
-        $double = associative_array['double'];
-        $pattern_without_delimiter = associative_array['pattern_without_delimiter'];
-        $byte = associative_array['byte'];
-        $integer = associative_array['integer'];
-        $int32 = associative_array['int32'];
-        $int64 = associative_array['int64'];
-        $float = associative_array['float'];
-        $string = associative_array['string'];
-        $binary = associative_array['binary'];
-        $date = associative_array['date'];
-        $date_time = associative_array['date_time'];
-        $password = associative_array['password'];
-        $callback = associative_array['callback'];
-
         // verify the required parameter 'number' is set
         if ($number === null || (is_array($number) && count($number) === 0)) {
             throw new \InvalidArgumentException(
