@@ -702,6 +702,7 @@ paths:
       operationId: testEndpointParameters
       consumes:
         - application/x-www-form-urlencoded
+      x-group-parameters: true
       parameters:
         - name: integer
           type: integer
