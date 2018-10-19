@@ -19,13 +19,13 @@ import javax.xml.bind.annotation.*;
 
 public class Order   {
   
-  private Long id = null;
+  private Long id;
 
-  private Long petId = null;
+  private Long petId;
 
-  private Integer quantity = null;
+  private Integer quantity;
 
-  private java.util.Date shipDate = null;
+  private java.util.Date shipDate;
 
 
 @XmlType(name="StatusEnum")
@@ -60,7 +60,7 @@ public enum StatusEnum {
     }
 }
 
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   private Boolean complete = false;
 

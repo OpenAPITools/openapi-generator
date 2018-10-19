@@ -935,7 +935,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    addPet(pet: Pet, options?: any): Promise<{}>;
+    addPet(pet: Pet, options?: any): AxiosPromise<{}>;
 
     /**
      * 
@@ -946,7 +946,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    deletePet(petId: number, apiKey?: string, options?: any): Promise<{}>;
+    deletePet(petId: number, apiKey?: string, options?: any): AxiosPromise<{}>;
 
     /**
      * Multiple status values can be provided with comma separated strings
@@ -956,7 +956,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): Promise<Array<Pet>>;
+    findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): AxiosPromise<Array<Pet>>;
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -966,7 +966,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    findPetsByTags(tags: Array<string>, options?: any): Promise<Array<Pet>>;
+    findPetsByTags(tags: Array<string>, options?: any): AxiosPromise<Array<Pet>>;
 
     /**
      * Returns a single pet
@@ -976,7 +976,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    getPetById(petId: number, options?: any): Promise<Pet>;
+    getPetById(petId: number, options?: any): AxiosPromise<Pet>;
 
     /**
      * 
@@ -986,7 +986,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    updatePet(pet: Pet, options?: any): Promise<{}>;
+    updatePet(pet: Pet, options?: any): AxiosPromise<{}>;
 
     /**
      * 
@@ -998,7 +998,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    updatePetWithForm(petId: number, name?: string, status?: string, options?: any): Promise<{}>;
+    updatePetWithForm(petId: number, name?: string, status?: string, options?: any): AxiosPromise<{}>;
 
     /**
      * 
@@ -1010,7 +1010,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): Promise<ApiResponse>;
+    uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): AxiosPromise<ApiResponse>;
 
 }
 
@@ -1396,7 +1396,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    deleteOrder(orderId: string, options?: any): Promise<{}>;
+    deleteOrder(orderId: string, options?: any): AxiosPromise<{}>;
 
     /**
      * Returns a map of status codes to quantities
@@ -1405,7 +1405,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    getInventory(options?: any): Promise<{ [key: string]: number; }>;
+    getInventory(options?: any): AxiosPromise<{ [key: string]: number; }>;
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -1415,7 +1415,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    getOrderById(orderId: number, options?: any): Promise<Order>;
+    getOrderById(orderId: number, options?: any): AxiosPromise<Order>;
 
     /**
      * 
@@ -1425,7 +1425,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    placeOrder(order: Order, options?: any): Promise<Order>;
+    placeOrder(order: Order, options?: any): AxiosPromise<Order>;
 
 }
 
@@ -2008,7 +2008,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUser(user: User, options?: any): Promise<{}>;
+    createUser(user: User, options?: any): AxiosPromise<{}>;
 
     /**
      * 
@@ -2018,7 +2018,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithArrayInput(user: Array<User>, options?: any): Promise<{}>;
+    createUsersWithArrayInput(user: Array<User>, options?: any): AxiosPromise<{}>;
 
     /**
      * 
@@ -2028,7 +2028,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithListInput(user: Array<User>, options?: any): Promise<{}>;
+    createUsersWithListInput(user: Array<User>, options?: any): AxiosPromise<{}>;
 
     /**
      * This can only be done by the logged in user.
@@ -2038,7 +2038,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    deleteUser(username: string, options?: any): Promise<{}>;
+    deleteUser(username: string, options?: any): AxiosPromise<{}>;
 
     /**
      * 
@@ -2048,7 +2048,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    getUserByName(username: string, options?: any): Promise<User>;
+    getUserByName(username: string, options?: any): AxiosPromise<User>;
 
     /**
      * 
@@ -2059,7 +2059,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    loginUser(username: string, password: string, options?: any): Promise<string>;
+    loginUser(username: string, password: string, options?: any): AxiosPromise<string>;
 
     /**
      * 
@@ -2068,7 +2068,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    logoutUser(options?: any): Promise<{}>;
+    logoutUser(options?: any): AxiosPromise<{}>;
 
     /**
      * This can only be done by the logged in user.
@@ -2079,7 +2079,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    updateUser(username: string, user: User, options?: any): Promise<{}>;
+    updateUser(username: string, user: User, options?: any): AxiosPromise<{}>;
 
 }
 

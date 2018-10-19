@@ -221,6 +221,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(ASYNC)) {
             this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
+            //fix for issue/1164
+            convertPropertyToBooleanAndWriteBack(ASYNC);
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {

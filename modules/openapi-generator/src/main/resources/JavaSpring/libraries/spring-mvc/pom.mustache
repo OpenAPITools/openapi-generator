@@ -5,6 +5,13 @@
     <packaging>jar</packaging>
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
@@ -195,7 +202,6 @@
             <version>${jackson-threetenbp-version}</version>
         </dependency>
         {{/threetenbp}}
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -231,6 +237,6 @@
 {{#useBeanValidation}}
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
 {{/useBeanValidation}}
-        <spring-version>4.3.9.RELEASE</spring-version>
+        <spring-version>4.3.20.RELEASE</spring-version>
     </properties>
 </project>

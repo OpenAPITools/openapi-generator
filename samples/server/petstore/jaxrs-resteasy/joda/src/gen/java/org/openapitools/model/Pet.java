@@ -16,9 +16,9 @@ import io.swagger.annotations.*;
 
 public class Pet   {
   
-  private Long id = null;
+  private Long id;
   private Category category = null;
-  private String name = null;
+  private String name;
   private List<String> photoUrls = new ArrayList<String>();
   private List<Tag> tags = new ArrayList<Tag>();
 
@@ -44,7 +44,7 @@ public class Pet   {
     }
   }
 
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   /**
    **/

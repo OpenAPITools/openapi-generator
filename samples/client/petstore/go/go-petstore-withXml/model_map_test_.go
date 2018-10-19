@@ -11,8 +11,8 @@
 package petstore
 
 type MapTest struct {
-	MapMapOfString  map[string]map[string]string `json:"map_map_of_string,omitempty" xml:"map_map_of_string"`
-	MapOfEnumString map[string]string            `json:"map_of_enum_string,omitempty" xml:"map_of_enum_string"`
-	DirectMap       map[string]bool              `json:"direct_map,omitempty" xml:"direct_map"`
-	IndirectMap     StringBooleanMap             `json:"indirect_map,omitempty" xml:"indirect_map"`
+	MapMapOfString map[string]map[string]string `json:"map_map_of_string,omitempty" xml:"map_map_of_string"`
+	MapOfEnumString map[string]string `json:"map_of_enum_string,omitempty" xml:"map_of_enum_string"`
+	DirectMap map[string]bool `json:"direct_map,omitempty" xml:"direct_map"`
+	IndirectMap map[string]bool `json:"indirect_map,omitempty" xml:"indirect_map"`
 }

@@ -34,7 +34,7 @@ public class SpecialModelName {
   @JsonProperty("$special[property.name]")
   @JacksonXmlProperty(localName = "$special[property.name]")
   @XmlElement(name = "$special[property.name]")
-  private Long $specialPropertyName = null;
+  private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

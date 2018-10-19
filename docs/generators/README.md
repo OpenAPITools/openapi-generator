@@ -12,6 +12,7 @@ The following generators are available:
     - [csharp](csharp.md)
     - [csharp-dotnet2](csharp-dotnet2.md)
     - [dart](dart.md)
+    - [dart-jaguar](dart-jaguar.md)
     - [eiffel](eiffel.md)
     - [elixir](elixir.md)
     - [elm](elm.md)
@@ -46,6 +47,7 @@ The following generators are available:
     - [typescript-angular](typescript-angular.md)
     - [typescript-angularjs](typescript-angularjs.md)
     - [typescript-aurelia](typescript-aurelia.md)
+    - [typescript-axios](typescript-axios.md)
     - [typescript-fetch](typescript-fetch.md)
     - [typescript-inversify](typescript-inversify.md)
     - [typescript-jquery](typescript-jquery.md)
@@ -60,8 +62,8 @@ The following generators are available:
     - [cpp-restbed-server](cpp-restbed-server.md)
     - [csharp-nancyfx](csharp-nancyfx.md)
     - [erlang-server](erlang-server.md)
-    - [go-server](go-server.md)
     - [go-gin-server](go-gin-server.md)
+    - [go-server](go-server.md)
     - [haskell](haskell.md)
     - [java-inflector](java-inflector.md)
     - [java-msf4j](java-msf4j.md)
@@ -101,6 +103,10 @@ The following generators are available:
     - [html2](html2.md)
     - [openapi](openapi.md)
     - [openapi-yaml](openapi-yaml.md)
+
+
+* SCHEMA generators:
+    - [mysql-schema](mysql-schema.md)
 
 
 * CONFIG generators:

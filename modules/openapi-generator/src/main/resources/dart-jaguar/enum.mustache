@@ -12,7 +12,7 @@ class {{classname}} {
       {{#description}}
   /// {{description}}
       {{/description}}
-  static const {{classname}} {{name}} = const {{classname}}._internal({{value}});
+  static const {{classname}} {{{name}}}} = const {{classname}}._internal({{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 }
@@ -29,7 +29,7 @@ class {{classname}}TypeTransformer extends TypeTransformer<{{classname}}> {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{value}}: return {{classname}}.{{name}};
+      case {{{value}}}: return {{classname}}.{{{name}}}};
         {{/enumVars}}
       {{/allowableValues}}
       default: throw('Unknown enum value to decode: $data');

@@ -54,6 +54,7 @@ import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 import {{invokerPackage}}.auth.OAuth;
 import {{invokerPackage}}.auth.RetryingOAuth;
+import {{invokerPackage}}.auth.OAuthFlow;
 
 public class ApiClient {
 
@@ -102,7 +103,7 @@ public class ApiClient {
     ) {
         init();
 
-        RetryingOAuth retryingOAuth = new RetryingOAuth("{{tokenUrl}}", clientId, GrantType.valueOf("{{flow}}"), clientSecret, parameters);
+        RetryingOAuth retryingOAuth = new RetryingOAuth("{{tokenUrl}}", clientId, OAuthFlow.{{flow}}, clientSecret, parameters);
         authentications.put(
                 "{{name}}",
                 retryingOAuth
