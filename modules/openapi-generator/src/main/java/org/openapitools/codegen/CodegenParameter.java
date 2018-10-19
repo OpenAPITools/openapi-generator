@@ -25,7 +25,7 @@ import java.util.Map;
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
           collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
 
@@ -110,6 +110,7 @@ public class CodegenParameter {
         output.collectionFormat = this.collectionFormat;
         output.isCollectionFormatMulti = this.isCollectionFormatMulti;
         output.isPrimitiveType = this.isPrimitiveType;
+        output.isModel = this.isModel;
         output.description = this.description;
         output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
@@ -200,6 +201,8 @@ public class CodegenParameter {
         if (isCollectionFormatMulti != that.isCollectionFormatMulti)
             return false;
         if (isPrimitiveType != that.isPrimitiveType)
+            return false;
+        if (isModel != that.isModel)
             return false;
         if (baseName != null ? !baseName.equals(that.baseName) : that.baseName != null)
             return false;
@@ -312,6 +315,7 @@ public class CodegenParameter {
         result = 31 * result + (secondaryParam ? 13:31);
         result = 31 * result + (isCollectionFormatMulti ? 13:31);
         result = 31 * result + (isPrimitiveType ? 13:31);
+        result = 31 * result + (isModel ? 13:31);
         result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
         result = 31 * result + (paramName != null ? paramName.hashCode() : 0);
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
@@ -378,6 +382,7 @@ public class CodegenParameter {
                 ", secondaryParam=" + secondaryParam +
                 ", isCollectionFormatMulti=" + isCollectionFormatMulti +
                 ", isPrimitiveType=" + isPrimitiveType +
+                ", isModel=" + isModel +
                 ", baseName='" + baseName + '\'' +
                 ", paramName='" + paramName + '\'' +
                 ", dataType='" + dataType + '\'' +
