@@ -7,6 +7,7 @@
 -include_lib("stdlib/include/assert.hrl").
 
 -compile(export_all).
+-compile(nowarn_export_all).
 
 %%==============================================================================
 %% PropEr callbacks
