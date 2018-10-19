@@ -2008,7 +2008,7 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
-			setNonArrayMapProperty(property, type);
+            setNonArrayMapProperty(property, type);
         }
 
         LOGGER.debug("debugging from property return: " + property);
@@ -2170,7 +2170,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isPrimitiveType = true;
         } else {
             property.complexType = property.baseType;
-	        property.isModel = true;
+            property.isModel = true;
         }
     }
 
@@ -4512,9 +4512,9 @@ public class DefaultCodegen implements CodegenConfig {
                 schema.setName(name);
                 codegenModel = fromModel(name, schema, schemas);
             }
-			if (codegenModel != null) {
-				codegenParameter.isModel = true;
-			}
+            if (codegenModel != null) {
+                codegenParameter.isModel = true;
+            }
 
             if (codegenModel != null && !codegenModel.emptyVars) {
                 if (StringUtils.isEmpty(bodyParameterName)) {
