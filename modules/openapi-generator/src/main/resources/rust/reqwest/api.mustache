@@ -56,7 +56,7 @@ impl {{classname}} for {{classname}}Client {
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 {{#queryParams}}
-            query.append_pair("{{baseName}}", &{{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+            query.append_pair("{{baseName}}", &{{paramName}}{{#isListContainer}}.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string());
 {{/queryParams}}
 {{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
             for (key, val) in &auth_query {

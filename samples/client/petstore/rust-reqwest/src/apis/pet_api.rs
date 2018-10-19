@@ -131,7 +131,7 @@ impl PetApi for PetApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.append_pair("status", &status.join(",").to_string());
+            query.append_pair("status", &status.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
 
             query.finish()
         };
@@ -169,7 +169,7 @@ impl PetApi for PetApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.append_pair("tags", &tags.join(",").to_string());
+            query.append_pair("tags", &tags.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
 
             query.finish()
         };
