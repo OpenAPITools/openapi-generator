@@ -1851,9 +1851,9 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParameters($associative_array)
     {
-        $this->testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
+        $this->testEndpointParametersWithHttpInfo($associative_array);
     }
 
     /**
@@ -1880,8 +1880,22 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testEndpointParametersWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersWithHttpInfo($associative_array)
     {
+        $number = associative_array['number'];
+        $double = associative_array['double'];
+        $pattern_without_delimiter = associative_array['pattern_without_delimiter'];
+        $byte = associative_array['byte'];
+        $integer = associative_array['integer'];
+        $int32 = associative_array['int32'];
+        $int64 = associative_array['int64'];
+        $float = associative_array['float'];
+        $string = associative_array['string'];
+        $binary = associative_array['binary'];
+        $date = associative_array['date'];
+        $date_time = associative_array['date_time'];
+        $password = associative_array['password'];
+        $callback = associative_array['callback'];
         $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
 
         try {
