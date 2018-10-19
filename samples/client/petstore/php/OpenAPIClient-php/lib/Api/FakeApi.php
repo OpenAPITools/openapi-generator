@@ -1882,7 +1882,7 @@ class FakeApi
      */
     public function testEndpointParametersWithHttpInfo($associative_array)
     {
-        $request = $this->testEndpointParametersRequest(associative_array['number'], associative_array['double'], associative_array['pattern_without_delimiter'], associative_array['byte'], associative_array['integer'], associative_array['int32'], associative_array['int64'], associative_array['float'], associative_array['string'], associative_array['binary'], associative_array['date'], associative_array['date_time'], associative_array['password'], associative_array['callback']);
+        $request = $this->testEndpointParametersRequest($associative_array['number'], $associative_array['double'], $associative_array['pattern_without_delimiter'], $associative_array['byte'], $associative_array['integer'], $associative_array['int32'], $associative_array['int64'], $associative_array['float'], $associative_array['string'], $associative_array['binary'], $associative_array['date'], $associative_array['date_time'], $associative_array['password'], $associative_array['callback']);
 
         try {
             $options = $this->createHttpClientOption();
