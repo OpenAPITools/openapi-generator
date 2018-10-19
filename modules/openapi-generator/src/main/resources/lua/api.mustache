@@ -49,14 +49,12 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 	req.headers:upsert(":method", "{{httpMethod}}")
 	{{#hasConsumes}}
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }
 	req.headers:upsert("accept", {{#consumes}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/consumes}})
 
 	{{/hasConsumes}}
 	{{#hasProduces}}
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }
 	req.headers:upsert("content-type", {{#produces}}{{#-first}}"{{{mediaType}}}"{{/-first}}{{/produces}})
 
