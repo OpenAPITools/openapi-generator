@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import { PetApi, Pet, Category } from "@swagger/typescript-axios-petstore";
-import { AxiosResponse } from "axios";
+import axios, {AxiosInstance, AxiosResponse} from "axios";
 
 describe("PetApi", () => {
-  function runSuite(description: string, requestOptions?: any): void {
+  function runSuite(description: string, requestOptions?: any, customAxiosInstance?: AxiosInstance): void {
     describe(description, () => {
       let api: PetApi;
       const fixture: Pet = createTestFixture();
@@ -13,12 +13,12 @@ describe("PetApi", () => {
       });
 
       it("should add and delete Pet", () => {
-        return api.addPet(fixture, requestOptions).then(() => {});
+        return api.addPet(fixture, requestOptions, customAxiosInstance).then(() => {});
       });
 
       it("should get Pet by ID", () => {
         return api
-          .getPetById(fixture.id, requestOptions)
+          .getPetById(fixture.id, requestOptions, customAxiosInstance)
           .then((result: AxiosResponse<Pet>) => {
             return expect(result.data).to.deep.equal(fixture);
           });
@@ -26,13 +26,13 @@ describe("PetApi", () => {
 
       it("should update Pet by ID", () => {
         return api
-          .getPetById(fixture.id, requestOptions)
+          .getPetById(fixture.id, requestOptions, customAxiosInstance)
           .then((response: AxiosResponse<Pet>) => {
             const result = response.data;
             result.name = "newname";
-            return api.updatePet(result, requestOptions).then(() => {
+            return api.updatePet(result, requestOptions, customAxiosInstance).then(() => {
               return api
-                .getPetById(fixture.id, requestOptions)
+                .getPetById(fixture.id, requestOptions, customAxiosInstance)
                 .then((response: AxiosResponse<Pet>) => {
                   return expect(response.data.name).to.deep.equal("newname");
                 });
@@ -41,11 +41,11 @@ describe("PetApi", () => {
       });
 
       it("should delete Pet", () => {
-        return api.deletePet(fixture.id, requestOptions);
+        return api.deletePet(fixture.id, requestOptions, customAxiosInstance);
       });
 
       it("should not contain deleted Pet", () => {
-        return api.getPetById(fixture.id, requestOptions).then(
+        return api.getPetById(fixture.id, requestOptions, customAxiosInstance).then(
           (result: AxiosResponse<Pet>) => {
             return expect(result.data).to.not.exist;
           },
@@ -63,6 +63,15 @@ describe("PetApi", () => {
     credentials: "include",
     mode: "cors"
   });
+
+  runSuite("without custom axios instance");
+
+  runSuite("with custom axios instance",{}, axios);
+
+  runSuite("with custom request options and custom axios instance",{
+      credentials: "include",
+      mode: "cors"
+  }, axios);
 });
 
 function createTestFixture(ts = Date.now()) {
