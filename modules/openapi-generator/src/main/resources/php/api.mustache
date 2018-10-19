@@ -124,7 +124,7 @@ use {{invokerPackage}}\ObjectSerializer;
      */
     public function {{operationId}}WithHttpInfo({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
-        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams}}associative_array['{{paramName}}']{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}});
+        $request = $this->{{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams}}$associative_array['{{paramName}}']{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}});
 
         try {
             $options = $this->createHttpClientOption();
