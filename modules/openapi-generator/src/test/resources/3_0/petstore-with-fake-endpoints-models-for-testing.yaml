@@ -969,6 +969,14 @@ paths:
                 - requiredFile
 servers:
   - url: 'http://petstore.swagger.io:80/v2'
+  - url: https://api.gigantic-server.com:8080/{version}
+    description: The production API server
+    variables:
+      version:
+        enum:
+          - 'v1'
+          - 'v2'
+        default: 'v2'
 components:
   requestBodies:
     UserArray:
