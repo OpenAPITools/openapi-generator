@@ -29,7 +29,7 @@ describe Petstore::Configuration do
     end
 
     it 'should get the first url' do
-      url = config.server_url(0, {server: "dev-petstore", port: "8080"})
+      url = config.server_url(0, server: "dev-petstore", port: "8080")
       expect(url).to eq("http://dev-petstore.swagger.io:8080/v2")
     end
 
@@ -44,7 +44,7 @@ describe Petstore::Configuration do
     end
 
     it 'should get the second url' do
-      url = config.server_url(1, {version: "v1"})
+      url = config.server_url(1, version: "v1")
       expect(url).to eq("https://api.gigantic-server.com:8080/v1")
     end
   end

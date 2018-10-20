@@ -274,33 +274,32 @@ module Petstore
     #
     # @param index array index of the server settings
     # @param variables hash of variable and the corresponding value
-    def server_url(index, variables={})
-        servers = server_settings
+    def server_url(index, variables = {})
+      servers = server_settings
 
-        # check array index out of bound
-        if (index < 0 || index > servers.size)
-          raise_error(ArgumentError)
+      # check array index out of bound
+      if (index < 0 || index > servers.size)
+        raise_error(ArgumentError)
+      end
+
+      server = servers[index]
+      url = server[:url]
+
+      # go through variable and assign a value
+      server[:variables].each do |name, variable|
+        if variables.key?(name)
+          if (server[:variables][name][:enum_values].include? variables[name])
+            url.gsub! "{" + name.to_s + "}", variables[name]
+          else
+            raise_error(ArgumentError)
+          end
+        else
+          # use default value
+          url.gsub! "{" + name.to_s + "}", server[:variables][name][:default_value]
         end
+      end
 
-        server = servers[index]
-        url = server[:url]
-
-        # go through variable and assign a value
-        server[:variables].each do |name, variable|
-            if variables.key?(name)
-                if (server[:variables][name][:enum_values].include? variables[name])
-                  url.gsub! "{" + name.to_s + "}", variables[name]
-                else
-                  raise_error(ArgumentError)
-                end
-            else
-              # use default value
-                url.gsub! "{" + name.to_s + "}", server[:variables][name][:default_value]
-            end
-        end
-
-        url
+      url
     end
-
   end
 end
