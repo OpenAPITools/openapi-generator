@@ -968,7 +968,20 @@ paths:
               required:
                 - requiredFile
 servers:
-  - url: 'http://petstore.swagger.io:80/v2'
+  - url: 'http://{server}.swagger.io:{port}/v2'
+    description: petstore server
+    variables:
+      server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+      port:
+        enum:
+          - 80
+          - 8080
+        default: 80
   - url: https://api.gigantic-server.com:8080/{version}
     description: The production API server
     variables:
