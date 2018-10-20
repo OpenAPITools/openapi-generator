@@ -278,7 +278,7 @@ module {{moduleName}}
           end
         else
           # use default value
-            url.gsub! "{" + name.to_s + "}", server[:variables][name][:default_value]
+          url.gsub! "{" + name.to_s + "}", server[:variables][name][:default_value]
         end
       end
 
