@@ -14,7 +14,6 @@ use std::borrow::Cow;
 use std::collections::HashMap;
 
 use serde_json;
-use serde_json::Value;
 
 use reqwest;
 
@@ -45,8 +44,6 @@ impl StoreApi for StoreApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -57,7 +54,7 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.delete(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
@@ -74,8 +71,6 @@ impl StoreApi for StoreApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -86,13 +81,18 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
-        if let Some(ref _apikey) = configuration.api_key {
-            req_builder.header(configuration.header_configured_api_key());
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.header("api_key", val);
         };
         
 
@@ -107,8 +107,6 @@ impl StoreApi for StoreApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -119,7 +117,7 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
@@ -135,8 +133,6 @@ impl StoreApi for StoreApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -147,12 +143,12 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
 
-        req_builder.json(&order);
+        req_builder = req_builder.json(&order);
 
         // send request
         let req = req_builder.build()?;

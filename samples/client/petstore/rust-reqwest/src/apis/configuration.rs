@@ -10,9 +10,7 @@
 
 use std;
 
-use hyper;
 use reqwest;
-use reqwest::header::{Formatter, Header, Raw};
 
 pub struct Configuration {
     pub base_path: String,
@@ -20,11 +18,16 @@ pub struct Configuration {
     pub client: reqwest::Client,
     pub basic_auth: Option<BasicAuth>,
     pub oauth_access_token: Option<String>,
-    pub api_key: Option<String>,
+    pub api_key: Option<ApiKey>,
     // TODO: take an oauth2 token source, similar to the go one
 }
 
 pub type BasicAuth = (String, Option<String>);
+
+pub struct ApiKey {
+  pub prefix: Option<String>,
+  pub key: String,
+}
 
 impl Configuration {
     pub fn new() -> Configuration {
@@ -37,31 +40,4 @@ impl Configuration {
             api_key: None,
         }
     }
-
-    pub fn header_configured_api_key(&self) -> HeaderApiKey {
-        HeaderApiKey(self.api_key.clone().expect("API key not configured"))
-    }
-
-    pub fn header_api_key(value: String) -> HeaderApiKey {
-        HeaderApiKey(value)
-    }
-
 }
-
-#[derive(Debug, Clone)]
-pub struct HeaderApiKey(String);
-
-impl Header for HeaderApiKey {
-    fn header_name() -> &'static str {
-        "api_key"
-    }
-
-    fn parse_header(raw: &Raw) -> Result<Self, hyper::error::Error> {
-        Ok(HeaderApiKey(std::str::from_utf8(raw.one().unwrap())?.to_string()))
-    }
-
-    fn fmt_header(&self, f: &mut Formatter) -> Result<(), std::fmt::Error> {
-        f.fmt_line(&self.0)
-    }
-}
-

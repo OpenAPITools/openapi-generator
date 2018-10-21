@@ -184,7 +184,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("model_mod.mustache", modelFolder, "mod.rs"));
-        supportingFiles.add(new SupportingFile("lib.rs.mustache", "src", "lib.rs"));
+        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
 
         if (HYPER_LIBRARY.equals(getLibrary())) {
@@ -375,24 +375,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
             } else if (REQWEST_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
-            }
-
-            // TODO Only one auth API key header is supported.
-
-            if (operation.authMethods != null) {
-                for (CodegenSecurity authMethod : operation.authMethods) {
-                    if (authMethod.isApiKey && authMethod.isKeyInHeader) {
-                        additionalProperties.put("authHeaderKey", authMethod.keyParamName);
-                    }
-                }
-            }
-
-            // TODO Manage Rust var codestyle (snake case) and compile problems (headers with special chars, like '-').
-
-            if (operation.headerParams != null) {
-                for (CodegenParameter parameter : operation.headerParams) {
-                    headerKeys.add(parameter.baseName);
-                }
             }
 
             // update return type to conform to rust standard

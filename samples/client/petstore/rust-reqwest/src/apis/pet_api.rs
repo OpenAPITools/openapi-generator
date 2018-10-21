@@ -14,7 +14,6 @@ use std::borrow::Cow;
 use std::collections::HashMap;
 
 use serde_json;
-use serde_json::Value;
 
 use reqwest;
 
@@ -49,8 +48,6 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -61,21 +58,21 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
 
-        req_builder.json(&pet);
+        req_builder = req_builder.json(&pet);
 
         // send request
         let req = req_builder.build()?;
@@ -88,8 +85,6 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -100,19 +95,19 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.delete(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
-        req_builder.header(configuration::Configuration::header_api_key(api_key.to_string()));
+        req_builder = req_builder.header("api_key", api_key.to_string());
 
         
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
 
 
@@ -127,11 +122,9 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.append_pair("status", &status.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
+            query.append_pair("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
 
             query.finish()
         };
@@ -140,18 +133,18 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
 
 
@@ -165,11 +158,9 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.append_pair("tags", &tags.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
+            query.append_pair("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
 
             query.finish()
         };
@@ -178,18 +169,18 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
 
 
@@ -203,8 +194,6 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -215,13 +204,18 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
-        if let Some(ref _apikey) = configuration.api_key {
-            req_builder.header(configuration.header_configured_api_key());
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.header("api_key", val);
         };
         
 
@@ -236,8 +230,6 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -248,21 +240,21 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.put(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
 
-        req_builder.json(&pet);
+        req_builder = req_builder.json(&pet);
 
         // send request
         let req = req_builder.build()?;
@@ -275,8 +267,6 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -287,18 +277,18 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
 
 
@@ -313,8 +303,6 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 
@@ -325,18 +313,18 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
 
         
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
 
 

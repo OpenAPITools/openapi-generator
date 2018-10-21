@@ -5,7 +5,6 @@ use std::borrow::Cow;
 use std::collections::HashMap;
 
 use serde_json;
-use serde_json::Value;
 
 use reqwest;
 
@@ -39,28 +38,19 @@ impl {{classname}} for {{classname}}Client {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
-        let mut auth_query = HashMap::<String, String>::new();
-        if let Some(ref apikey) = configuration.api_key {
-            let key = apikey.key.clone();
-            let val = match apikey.prefix {
-                Some(ref prefix) => format!("{} {}", prefix, key),
-                None => key,
-            };
-
-            auth_query.insert("{{keyParamName}}".to_owned(), val);
-
-        };
-{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
-
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
 {{#queryParams}}
-            query.append_pair("{{baseName}}", &{{paramName}}{{#isListContainer}}.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string());
+            query.append_pair("{{baseName}}", &{{paramName}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string());
 {{/queryParams}}
 {{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
-            for (key, val) in &auth_query {
-                query.append_pair(key, val);
+            if let Some(ref apikey) = configuration.api_key {
+                let key = apikey.key.clone();
+                let val = match apikey.prefix {
+                    Some(ref prefix) => format!("{} {}", prefix, key),
+                    None => key,
+                };
+                query.append_pair("{{keyParamName}}".to_owned(), val);
             }
 {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
             query.finish()
@@ -70,41 +60,46 @@ impl {{classname}} for {{classname}}Client {
         let mut req_builder = client.{{httpMethod}}(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder.header(reqwest::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
         }
 
         {{#hasHeaderParams}}
         {{#headerParams}}
-        req_builder.header(configuration::Configuration::header_{{baseName}}({{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string()));
+        req_builder = req_builder.header("{{baseName}}", {{paramName}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
         {{/headerParams}}
         {{/hasHeaderParams}}
 
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isApiKey}}{{#isKeyInHeader}}
-        if let Some(ref _apikey) = configuration.api_key {
-            req_builder.header(configuration.header_configured_api_key());
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.header("{{keyParamName}}", val);
         };
         {{/isKeyInHeader}}{{/isApiKey}}
         {{#isBasic}}
         if let Some(ref auth_conf) = configuration.basic_auth {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Basic {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Basic {
                     username: auth_conf.0.to_owned(),
                     password: auth_conf.1.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
         {{/isBasic}}
         {{#isOAuth}}
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::header::Authorization(
-                reqwest::header::Bearer {
+            let auth = reqwest::hyper_011::header::Authorization(
+                reqwest::hyper_011::header::Bearer {
                     token: token.to_owned(),
                 }
             );
-            req_builder.header(auth.to_owned());
+            req_builder = req_builder.header_011(auth.to_owned());
         };
         {{/isOAuth}}
         {{/authMethods}}
@@ -112,7 +107,7 @@ impl {{classname}} for {{classname}}Client {
 
         {{#hasBodyParam}}
         {{#bodyParams}}
-        req_builder.json(&{{paramName}});
+        req_builder = req_builder.json(&{{paramName}});
         {{/bodyParams}}
         {{/hasBodyParam}}
 
