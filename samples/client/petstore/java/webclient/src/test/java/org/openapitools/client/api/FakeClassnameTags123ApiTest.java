@@ -13,7 +13,6 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -36,12 +35,9 @@ public class FakeClassnameTags123ApiTest {
      * To test class name in snake case
      *
      * To test class name in snake case
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void testClassnameTest() throws ApiException {
+    public void testClassnameTest()  {
         Client client = null;
         Client response = api.testClassname(client).block();
 
