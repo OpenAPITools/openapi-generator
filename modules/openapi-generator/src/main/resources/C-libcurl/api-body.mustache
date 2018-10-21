@@ -53,7 +53,7 @@
     char localVarBuff_{{baseName}}[256];
     intToStr(localVarBuff_{{baseName}}, {{baseName}});
 
-    localVarPath_{{baseName}} = strReplace(localVarPath_{{baseName}}, localVarToReplace_{{baseName}}, localVarBuff_{{baseName}});
+    localVarPath = strReplace(localVarPath, localVarToReplace_{{baseName}}, localVarBuff_{{baseName}});
 
     {{/isLong}}
     {{#isString}}
@@ -63,13 +63,13 @@
     char* localVarToReplace_{{baseName}} = malloc(sizeOfPathParams_{{baseName}});
     sprintf(localVarToReplace_{{baseName}}, "%s%s%s", "{", "{{baseName}}", "}");
 
-    localVarPath_{{baseName}} = strReplace(localVarPath_{{baseName}}, localVarToReplace_{{baseName}}, {{baseName}});
+    localVarPath = strReplace(localVarPath, localVarToReplace_{{baseName}}, {{baseName}});
     {{/isString}}
     {{/pathParams}}
     {{#headerParams}}
 
     {{#isString}}
-    // header parameters (TODO free function to implement)
+    // header parameters
     char *keyHeader_{{{baseName}}};
     char *valueHeader_{{{baseName}}};
     keyValuePair_t *keyPairHeader_{{baseName}} = 0;
@@ -81,14 +81,14 @@
     }
     {{/isString}}
     {{^isString}}
-    // header parameters (TODO free function to implement)
+    // header parameters
     char *keyHeader_{{{baseName}}};
-    char *valueHeader_{{{baseName}}};
+    {{dataType}} valueHeader_{{{baseName}}};
     keyValuePair_t *keyPairHeader_{{baseName}} = 0;
     if ({{baseName}}) {
         keyHeader_{{{baseName}}} = strdup("{{{baseName}}}");
         valueHeader_{{{baseName}}} = {{{baseName}}};
-        keyPairHeader_{{baseName}} = keyValuePair_create(keyHeader_{{{baseName}}}, valueHeader_{{{baseName}}});
+        keyPairHeader_{{baseName}} = keyValuePair_create(keyHeader_{{{baseName}}}, &valueHeader_{{{baseName}}});
         list_addElement(localVarHeaderParameters,keyPairHeader_{{baseName}});
     }
     {{/isString}}
@@ -97,22 +97,20 @@
 
     // query parameters
     {{#isListContainer}}
-    {{#isString}}
-    if ({{baseName}} !=NULL )
-    {{/isString}}
-    {{^isString}}
-    if ({{baseName}} != 0 )
-    {{/isString}}
+    if ({{baseName}})
     {{/isListContainer}}
     {{^isListContainer}}
+    {{#isString}}
     char *keyQuery_{{{baseName}}};
     char *valueQuery_{{{baseName}}};
     keyValuePair_t *keyPairQuery_{{baseName}} = 0;
-    {{#isString}}
-    if ({{baseName}} !=NULL )
+    if ({{baseName}})
     {{/isString}}
     {{^isString}}
-    if ({{baseName}} != 0 )
+    char *keyQuery_{{{baseName}}};
+    {{dataType}} valueQuery_{{{baseName}}};
+    keyValuePair_t *keyPairQuery_{{baseName}} = 0;
+    if ({{baseName}})
     {{/isString}}
     {{/isListContainer}}
     {
@@ -129,10 +127,10 @@
     list_addElement(localVarQueryParameters,keyPairQuery_{{baseName}});
     {{/isString}}
     {{^isString}}
-    //string
+    //not string
     keyQuery_{{{baseName}}} = strdup("{{{baseName}}}");
     valueQuery_{{{baseName}}} = {{{baseName}}};
-    keyPairQuery_{{baseName}} = keyValuePair_create(keyQuery_{{{baseName}}}, valueQuery_{{{baseName}}});
+    keyPairQuery_{{baseName}} = keyValuePair_create(keyQuery_{{{baseName}}}, &valueQuery_{{{baseName}}});
     list_addElement(localVarQueryParameters,keyPairQuery_{{baseName}});
     {{/isString}}
     {{/isListContainer}}
@@ -149,10 +147,18 @@
     if ({{baseName}} != NULL)
     {{/isFile}}
     {{^isFile}}
+    {{#isString}}
     char *keyForm_{{baseName}};
     char *valueForm_{{baseName}};
     keyValuePair_t *keyPairForm_{{baseName}} = 0;
     if ({{baseName}})
+    {{/isString}}
+    {{^isString}}
+    char *keyForm_{{baseName}};
+    {{dataType}} valueForm_{{baseName}};
+    keyValuePair_t *keyPairForm_{{baseName}} = 0;
+    if ({{baseName}})
+    {{/isString}}
     {{/isFile}}
     {
         {{#isFile}}
@@ -184,8 +190,8 @@
         {{^isString}}
         keyForm_{{baseName}} = strdup("{{{baseName}}}");
         valueForm_{{baseName}} = {{baseName}};
-        keyPairForm_{{baseName}} = keyValuePair_create(keyForm_{{baseName}},valueForm_{{baseName}});
-        list_addElement(localVarFormParameters,keyPairForm_{{baseName}}); //String
+        keyPairForm_{{baseName}} = keyValuePair_create(keyForm_{{baseName}},&valueForm_{{baseName}});
+        list_addElement(localVarFormParameters,keyPairForm_{{baseName}}); // not String
         {{/isString}}
         {{/isFile}}
     }
@@ -316,12 +322,15 @@
     {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
     free(localVarPath);
     {{#pathParams}}
-    free(localVarToReplace);
+    free(localVarToReplace_{{baseName}});
     {{/pathParams}}
     {{#headerParams}}
     {{#isString}}
     free(keyHeader_{{{baseName}}});
     free(valueHeader_{{{baseName}}});
+    {{/isString}}
+    {{^isString}}
+    free(keyHeader_{{{baseName}}});
     {{/isString}}
     free(keyPairHeader_{{baseName}});
     {{/headerParams}}
@@ -361,6 +370,10 @@
     {{#isString}}
     free(keyForm_{{{baseName}}});
     free(valueForm_{{{baseName}}});
+    free(keyPairForm_{{baseName}});
+    {{/isString}}
+    {{^isString}}
+    free(keyForm_{{{baseName}}});
     free(keyPairForm_{{baseName}});
     {{/isString}}
     {{/isFile}}
@@ -377,15 +390,19 @@ end:    apiClient_free(apiClient);
     {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
     {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
     {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
+    free(localVarPath);
     {{#pathParams}}
-    free(localVarToReplace);
+    free(localVarToReplace_{{baseName}});
     {{/pathParams}}
     {{#headerParams}}
-    free(keyPairHeader_{{baseName}});
     {{#isString}}
     free(keyHeader_{{{baseName}}});
     free(valueHeader_{{{baseName}}});
     {{/isString}}
+    {{^isString}}
+    free(keyHeader_{{{baseName}}});
+    {{/isString}}
+    free(keyPairHeader_{{baseName}});
     {{/headerParams}}
     {{#bodyParams}}
     {{#isListContainer}}
@@ -404,6 +421,11 @@ end:    apiClient_free(apiClient);
     {{#isString}}
     free(keyQuery_{{{baseName}}});
     free(valueQuery_{{{baseName}}});
+    keyValuePair_free(keyPairQuery_{{{baseName}}});
+    {{/isString}}
+    {{#isString}}
+    free(keyQuery_{{{baseName}}});
+    keyValuePair_free(keyPairQuery_{{{baseName}}});
     {{/isString}}
     {{/isListContainer}}
     {{/queryParams}}
@@ -418,6 +440,10 @@ end:    apiClient_free(apiClient);
     free(keyForm_{{{baseName}}});
     free(valueForm_{{{baseName}}});
     keyValuePair_free(keyPairForm_{{{baseName}}});
+    {{/isString}}
+    {{^isString}}
+    free(keyForm_{{{baseName}}});
+    free(keyPairForm_{{baseName}});
     {{/isString}}
     {{/isFile}}
     {{/formParams}}
