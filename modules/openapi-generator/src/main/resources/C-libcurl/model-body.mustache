@@ -177,21 +177,31 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
 	{{#isContainer}}
 	{{#isListContainer}}
 	{{#isPrimitiveType}}
-	cJSON *{{{baseName}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
-	if({{{baseName}}} == NULL) {
+	cJSON *{{{name}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
+	if({{{name}}} == NULL) {
 		goto fail; //primitive container
 	}
 
-	listEntry_t *{{{baseName}}}ListEntry;
-    list_ForEach({{{baseName}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
+	listEntry_t *{{{name}}}ListEntry;
+    list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
+        {{#items}}
+        {{#isString}}
         if(cJSON_AddStringToObject({{{baseName}}}, "", {{{baseName}}}ListEntry->data) == NULL)
         {
             goto fail;
         }
+        {{/isString}}
+        {{^isString}}
+        if(cJSON_AddNumberToObject({{{baseName}}}, "", {{{baseName}}}ListEntry->data) == NULL)
+        {
+            goto fail;
+        }
+        {{/isString}}
+        {{/items}}
     }
 	{{/isPrimitiveType}}
 	{{^isPrimitiveType}}
-	cJSON *{{{baseName}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
+    cJSON *{{{baseName}}} = cJSON_AddArrayToObject(item, "{{{baseName}}}");
 	if({{{baseName}}} == NULL) {
 		goto fail; //nonprimitive container
 	}
@@ -207,7 +217,31 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
 	{{/isPrimitiveType}}
 	{{/isListContainer}}
 	{{#isMapContainer}}
-	// TODO map/hash not yet supported
+	// map Container
+	cJSON *{{{baseName}}} = cJSON_AddObjectToObject(item, "{{{baseName}}}");
+	if({{{baseName}}} == NULL) {
+		goto fail; //primitive map container
+	}
+    cJSON *localMapObject = cJSON_CreateObject(); //Memory free to be implemented in user code
+	listEntry_t *{{{baseName}}}ListEntry;
+    list_ForEach({{{baseName}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
+        keyValuePair_t *localKeyValue = (keyValuePair_t*){{{baseName}}}ListEntry->data
+        {{#items}}
+        {{#isString}}
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, localKeyValue->value) == NULL)
+        {
+            goto fail;
+        }
+        {{/isString}}
+        {{^isString}}
+        if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, localKeyValue->value) == NULL)
+        {
+            goto fail;
+        }
+        {{/isString}}
+        {{/items}}
+        cJSON_AddItemToObject({{{baseName}}}, localMapObject);
+    }
 	{{/isMapContainer}}
 	{{/isContainer}}
 
@@ -250,7 +284,7 @@ fail:
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{{complexType}}}_e {{baseName}}Variable;
+    {{{baseName}}}_e {{baseName}}Variable;
     cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL)){
     goto end; //String
@@ -290,20 +324,32 @@ fail:
     {{#isContainer}}
     {{#isListContainer}}
     {{#isPrimitiveType}}
-    cJSON *{{{baseName}}};
+    cJSON *{{{name}}};
     cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     if(!cJSON_IsArray({{{baseName}}}JSON)) {
         goto end;//primitive container
     }
-    list_t *{{{baseName}}}List = list_create();
+    list_t *{{{name}}}List = list_create();
 
-    cJSON_ArrayForEach({{{baseName}}}, {{{baseName}}}JSON)
+    cJSON_ArrayForEach({{{name}}}, {{{baseName}}}JSON)
     {
-        if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL))
+        {{#items}}
+        {{#isString}}
+        if(!cJSON_IsString({{{baseName}}}))
         {
             goto end;
         }
         list_addElement({{{baseName}}}List , strdup({{{baseName}}}->valuestring));
+        {{/isString}}
+        {{^isString}}
+        if(!cJSON_IsNumber({{{baseName}}}))
+        {
+            goto end;
+        }
+        list_addElement({{{baseName}}}List , {{{baseName}}}->valuedouble));
+        {{/isString}}
+        {{/items}}
+
     }
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
@@ -329,7 +375,36 @@ fail:
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    // TODO map/hash not yet supported
+    // map
+    cJSON *{{{baseName}}};
+    cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
+    if(!cJSON_IsObject({{{baseName}}}JSON)) {
+        goto end;//primitive map container
+    }
+    list_t *{{{baseName}}}List = list_create();
+    keyValuePair_t *localMapKeyPair;
+    cJSON_ArrayForEach({{{baseName}}}, {{{baseName}}}JSON)
+    {
+        {{#items}}
+        {{#isString}}
+        if(!cJSON_IsString({{{baseName}}}))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup({{{baseName}}}->string),strdup({{{baseName}}}->valuestring))
+        list_addElement({{{baseName}}}List , localMapKeyPair);
+        {{/isString}}
+        {{^isString}}
+        if(!cJSON_IsNumber({{{baseName}}}))
+        {
+            goto end;
+        }
+        localMapKeyPair = keyValuePair_create(strdup({{{baseName}}}->string),{{{baseName}}}->valuedouble )
+        list_addElement({{{baseName}}}List , localMapKeyPair);
+        {{/isString}}
+        {{/items}}
+
+    }
     {{/isMapContainer}}
     {{/isContainer}}
 
@@ -366,14 +441,14 @@ fail:
         {{#isContainer}}
         {{#isListContainer}}
         {{#isPrimitiveType}}
-        {{{baseName}}}List{{#hasMore}},{{/hasMore}}
+        {{{name}}}List{{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{{baseName}}}List{{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isMapContainer}}
-        // TODO map/hash not supported at the moment
+        {{{baseName}}}List{{#hasMore}},{{/hasMore}}
         {{/isMapContainer}}
         {{/isContainer}}
         {{/vars}}
