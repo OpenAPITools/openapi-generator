@@ -47,5 +47,10 @@ describe Petstore::Configuration do
       url = config.server_url(1, version: "v1")
       expect(url).to eq("https://api.gigantic-server.com:8080/v1")
     end
+
+    it 'should raise error due to invalid enum value' do
+      url = config.server_url(1, version: "v6")
+      expect{config.server_url(1, version: "v6")}.to raise_error(ArgumentError)
+    end
   end
 end

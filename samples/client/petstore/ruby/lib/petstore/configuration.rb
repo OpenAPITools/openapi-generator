@@ -279,7 +279,7 @@ module Petstore
 
       # check array index out of bound
       if (index < 0 || index > servers.size)
-        raise_error(ArgumentError)
+        fail ArgumentError "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
       end
 
       server = servers[index]
@@ -291,7 +291,7 @@ module Petstore
           if (server[:variables][name][:enum_values].include? variables[name])
             url.gsub! "{" + name.to_s + "}", variables[name]
           else
-            raise_error(ArgumentError)
+            fail ArgumentError, "The variable `#{name}` in the server URL has invalid value #{variables[name]}. Must be #{server[:variables][name][:enum_values]}."
           end
         else
           # use default value
