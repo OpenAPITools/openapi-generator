@@ -352,7 +352,7 @@
     free(valueQuery_{{{baseName}}});
     keyValuePair_free(keyPairQuery_{{{baseName}}});
     {{/isString}}
-    {{#isString}}
+    {{^isString}}
     free(keyQuery_{{{baseName}}});
     keyValuePair_free(keyPairQuery_{{{baseName}}});
     {{/isString}}
@@ -446,7 +446,6 @@ end:    apiClient_free(apiClient);
     {{/isString}}
     {{/isFile}}
     {{/formParams}}
-    free(localVarPath);
     {{/returnType}}
 
 }
