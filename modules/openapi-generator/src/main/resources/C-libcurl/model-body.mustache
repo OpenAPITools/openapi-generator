@@ -90,7 +90,7 @@ void {{classname}}_free({{classname}}_t *{{classname}}) {
 	{{#vars}}
 	{{^isContainer}}
 	{{^isPrimitiveType}}
-	{{{baseName}}}_free({{{classname}}}->{{{baseName}}});
+	{{{complexType}}}_free({{{classname}}}->{{{baseName}}});
 	{{/isPrimitiveType}}
 	{{#isPrimitiveType}}
     {{^isEnum}}
@@ -250,7 +250,7 @@ fail:
     {{/isBoolean}}
     {{#isEnum}}
     {{#isString}}
-    {{{baseName}}}_e {{baseName}}Variable;
+    {{{complexType}}}_e {{baseName}}Variable;
     cJSON *{{{baseName}}} = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     if(!cJSON_IsString({{{baseName}}}) || ({{{baseName}}}->valuestring == NULL)){
     goto end; //String
@@ -275,7 +275,7 @@ fail:
     {{/isDateTime}}
     {{/isPrimitiveType}}
     {{^isPrimitiveType}}
-    {{baseName}}_t *{{baseName}};
+    {{complexType}}_t *{{baseName}};
     cJSON *{{baseName}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{baseName}}");
     if({{classname}}JSON == NULL){
         const char *error_ptr = cJSON_GetErrorPtr();
