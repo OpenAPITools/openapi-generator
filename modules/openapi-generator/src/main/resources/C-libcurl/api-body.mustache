@@ -275,9 +275,8 @@
     cJSON *{{{baseName}}}VarJSON;
     list_t *elementToReturn = list_create();
     cJSON_ArrayForEach({{{baseName}}}VarJSON, {{baseName}}localVarJSON){
-        keyValuePair_t *keyPair = keyValuePair_create({{{baseName}}}VarJSON->string, cJSON_Print({{{baseName}}}VarJSON));
+        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{baseName}}}VarJSON->string), cJSON_Print({{{baseName}}}VarJSON));
         list_addElement(elementToReturn, keyPair);
-        free(keyPair->value);
     }
     cJSON_Delete({{baseName}}localVarJSON);
 
