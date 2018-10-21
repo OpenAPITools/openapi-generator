@@ -17,6 +17,7 @@ local basexx = require "basexx"
 
 -- model import
 local petstore_order = require "petstore.model.order"
+local petstore_order = require "petstore.model.order"
 
 local store_api = {}
 local store_api_mt = {
@@ -83,7 +84,6 @@ function store_api:get_inventory()
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/json" }
 	req.headers:upsert("content-type", "application/json")
 
@@ -133,7 +133,6 @@ function store_api:get_order_by_id(order_id)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -179,7 +178,6 @@ function store_api:place_order(order)
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
