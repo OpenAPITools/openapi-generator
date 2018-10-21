@@ -123,5 +123,7 @@ int main() {
 
 		api_response_free(respo);
 		fclose(file);
-	}
+	} else {
+    apiClient_free(apiClient3);
+    }
 }

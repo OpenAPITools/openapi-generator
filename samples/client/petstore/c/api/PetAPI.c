@@ -60,9 +60,9 @@ end:    apiClient_free(apiClient);
 
 
 	list_free(localVarContentType);
+	free(localVarPath);
 	cJSON_Delete(localVarSingleItemJSON_pet);
 	free(localVarBodyParameters);
-	free(localVarPath);
 }
 
 // Deletes a pet
@@ -82,23 +82,23 @@ void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key) {
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
+	long sizeOfPathParams_petId = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
-	         "}");
+	char *localVarToReplace_petId = malloc(sizeOfPathParams_petId);
+	snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "%s%s%s", "{",
+	         "petId", "}");
 
-	char localVarBuff[256];
-	intToStr(localVarBuff, petId);
+	char localVarBuff_petId[256];
+	intToStr(localVarBuff_petId, petId);
 
-	localVarPath =
-		strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath = strReplace(localVarPath, localVarToReplace_petId,
+	                          localVarBuff_petId);
 
 
-	// header parameters (TODO free function to implement)
+	// header parameters
 	char *keyHeader_api_key;
 	char *valueHeader_api_key;
 	keyValuePair_t *keyPairHeader_api_key = 0;
@@ -130,11 +130,11 @@ end:    apiClient_free(apiClient);
 
 
 
-	free(localVarToReplace);
-	free(keyPairHeader_api_key);
+	free(localVarPath);
+	free(localVarToReplace_petId);
 	free(keyHeader_api_key);
 	free(valueHeader_api_key);
-	free(localVarPath);
+	free(keyPairHeader_api_key);
 }
 
 // Finds Pets by status
@@ -156,7 +156,7 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 
 
 	// query parameters
-	if(status != NULL) {
+	if(status) {
 		// listContainer
 		localVarQueryParameters = status;
 	}
@@ -227,7 +227,7 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 
 
 	// query parameters
-	if(tags != NULL) {
+	if(tags) {
 		// listContainer
 		localVarQueryParameters = tags;
 	}
@@ -298,20 +298,20 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
+	long sizeOfPathParams_petId = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
-	         "}");
+	char *localVarToReplace_petId = malloc(sizeOfPathParams_petId);
+	snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "%s%s%s", "{",
+	         "petId", "}");
 
-	char localVarBuff[256];
-	intToStr(localVarBuff, petId);
+	char localVarBuff_petId[256];
+	intToStr(localVarBuff_petId, petId);
 
-	localVarPath =
-		strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath = strReplace(localVarPath, localVarToReplace_petId,
+	                          localVarBuff_petId);
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
 	list_addElement(localVarHeaderType, "application/json"); // produces
@@ -348,7 +348,7 @@ pet_t *PetAPI_getPetById(apiClient_t *apiClient, long petId) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
-	free(localVarToReplace);
+	free(localVarToReplace_petId);
 	return elementToReturn;
 end:
 	return NULL;
@@ -406,9 +406,9 @@ end:    apiClient_free(apiClient);
 
 
 	list_free(localVarContentType);
+	free(localVarPath);
 	cJSON_Delete(localVarSingleItemJSON_pet);
 	free(localVarBodyParameters);
-	free(localVarPath);
 }
 
 // Updates a pet in the store with form data
@@ -429,20 +429,20 @@ void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name,
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
+	long sizeOfPathParams_petId = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
-	         "}");
+	char *localVarToReplace_petId = malloc(sizeOfPathParams_petId);
+	snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "%s%s%s", "{",
+	         "petId", "}");
 
-	char localVarBuff[256];
-	intToStr(localVarBuff, petId);
+	char localVarBuff_petId[256];
+	intToStr(localVarBuff_petId, petId);
 
-	localVarPath =
-		strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath = strReplace(localVarPath, localVarToReplace_petId,
+	                          localVarBuff_petId);
 
 
 	// form parameters
@@ -490,14 +490,14 @@ end:    apiClient_free(apiClient);
 	list_free(localVarFormParameters);
 
 	list_free(localVarContentType);
-	free(localVarToReplace);
+	free(localVarPath);
+	free(localVarToReplace_petId);
 	free(keyForm_name);
 	free(valueForm_name);
 	keyValuePair_free(keyPairForm_name);
 	free(keyForm_status);
 	free(valueForm_status);
 	keyValuePair_free(keyPairForm_status);
-	free(localVarPath);
 }
 
 // uploads an image
@@ -518,20 +518,20 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(petId) + 3 + strlen("{ petId }");
+	long sizeOfPathParams_petId = sizeof(petId) + 3 + strlen("{ petId }");
 
 	if(petId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "petId",
-	         "}");
+	char *localVarToReplace_petId = malloc(sizeOfPathParams_petId);
+	snprintf(localVarToReplace_petId, sizeOfPathParams_petId, "%s%s%s", "{",
+	         "petId", "}");
 
-	char localVarBuff[256];
-	intToStr(localVarBuff, petId);
+	char localVarBuff_petId[256];
+	intToStr(localVarBuff_petId, petId);
 
-	localVarPath =
-		strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath = strReplace(localVarPath, localVarToReplace_petId,
+	                          localVarBuff_petId);
 
 
 	// form parameters
@@ -565,11 +565,12 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 		fileVar_file->fileData[f_size] = '\0';
 
 		fileVar_file->fileSize = f_size;
-		char valueFile[sizeof(fileVar_file)];
+		char valueFile_file[sizeof(fileVar_file)];
 
-		memcpy(valueFile, &fileVar_file, sizeof(fileVar_file));
+		memcpy(valueFile_file, &fileVar_file, sizeof(fileVar_file));
 
-		keyPairForm_file = keyValuePair_create(keyForm_file, valueFile);
+		keyPairForm_file = keyValuePair_create(keyForm_file,
+		                                       valueFile_file);
 		list_addElement(localVarFormParameters, keyPairForm_file); // file adding
 	}
 	list_addElement(localVarHeaderType, "application/json"); // produces
@@ -602,7 +603,7 @@ api_response_t *PetAPI_uploadFile(apiClient_t *apiClient, long petId,
 	list_free(localVarHeaderType);
 	list_free(localVarContentType);
 	free(localVarPath);
-	free(localVarToReplace);
+	free(localVarToReplace_petId);
 	free(keyForm_additionalMetadata);
 	free(valueForm_additionalMetadata);
 	free(keyPairForm_additionalMetadata);

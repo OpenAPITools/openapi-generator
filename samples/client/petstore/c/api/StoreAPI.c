@@ -32,15 +32,17 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(orderId) + 3 + strlen("{ orderId }");
+	long sizeOfPathParams_orderId = strlen(orderId) + 3 + strlen(
+		"{ orderId }");
 
 	if(orderId == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	sprintf(localVarToReplace, "%s%s%s", "{", "orderId", "}");
+	char *localVarToReplace_orderId = malloc(sizeOfPathParams_orderId);
+	sprintf(localVarToReplace_orderId, "%s%s%s", "{", "orderId", "}");
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, orderId);
+	localVarPath = strReplace(localVarPath, localVarToReplace_orderId,
+	                          orderId);
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -64,8 +66,8 @@ end:    apiClient_free(apiClient);
 
 
 
-	free(localVarToReplace);
 	free(localVarPath);
+	free(localVarToReplace_orderId);
 }
 
 // Returns pet inventories by status
@@ -104,10 +106,10 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 	cJSON *StoreVarJSON;
 	list_t *elementToReturn = list_create();
 	cJSON_ArrayForEach(StoreVarJSON, StorelocalVarJSON) {
-		keyValuePair_t *keyPair = keyValuePair_create(
-			StoreVarJSON->string, cJSON_Print(StoreVarJSON));
+		keyValuePair_t *keyPair =
+			keyValuePair_create(strdup(StoreVarJSON->string),
+			                    cJSON_Print(StoreVarJSON));
 		list_addElement(elementToReturn, keyPair);
-		free(keyPair->value);
 	}
 	cJSON_Delete(StorelocalVarJSON);
 
@@ -142,20 +144,21 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 
 
 	// Path Params
-	long sizeOfPathParams = sizeof(orderId) + 3 + strlen("{ orderId }");
+	long sizeOfPathParams_orderId = sizeof(orderId) + 3 + strlen(
+		"{ orderId }");
 
 	if(orderId == 0) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	snprintf(localVarToReplace, sizeOfPathParams, "%s%s%s", "{", "orderId",
-	         "}");
+	char *localVarToReplace_orderId = malloc(sizeOfPathParams_orderId);
+	snprintf(localVarToReplace_orderId, sizeOfPathParams_orderId, "%s%s%s",
+	         "{", "orderId", "}");
 
-	char localVarBuff[256];
-	intToStr(localVarBuff, orderId);
+	char localVarBuff_orderId[256];
+	intToStr(localVarBuff_orderId, orderId);
 
-	localVarPath =
-		strReplace(localVarPath, localVarToReplace, localVarBuff);
+	localVarPath = strReplace(localVarPath, localVarToReplace_orderId,
+	                          localVarBuff_orderId);
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
 	list_addElement(localVarHeaderType, "application/json"); // produces
@@ -192,7 +195,7 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
-	free(localVarToReplace);
+	free(localVarToReplace_orderId);
 	return elementToReturn;
 end:
 	return NULL;
