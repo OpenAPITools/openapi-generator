@@ -9,16 +9,16 @@ describe("PetApi", () => {
       const fixture: Pet = createTestFixture();
 
       beforeEach(() => {
-        api = new PetApi();
+        api = new PetApi(undefined, undefined, customAxiosInstance);
       });
 
       it("should add and delete Pet", () => {
-        return api.addPet(fixture, requestOptions, customAxiosInstance).then(() => {});
+        return api.addPet(fixture, requestOptions).then(() => {});
       });
 
       it("should get Pet by ID", () => {
         return api
-          .getPetById(fixture.id, requestOptions, customAxiosInstance)
+          .getPetById(fixture.id, requestOptions)
           .then((result: AxiosResponse<Pet>) => {
             return expect(result.data).to.deep.equal(fixture);
           });
@@ -26,13 +26,13 @@ describe("PetApi", () => {
 
       it("should update Pet by ID", () => {
         return api
-          .getPetById(fixture.id, requestOptions, customAxiosInstance)
+          .getPetById(fixture.id, requestOptions)
           .then((response: AxiosResponse<Pet>) => {
             const result = response.data;
             result.name = "newname";
-            return api.updatePet(result, requestOptions, customAxiosInstance).then(() => {
+            return api.updatePet(result, requestOptions).then(() => {
               return api
-                .getPetById(fixture.id, requestOptions, customAxiosInstance)
+                .getPetById(fixture.id, requestOptions)
                 .then((response: AxiosResponse<Pet>) => {
                   return expect(response.data.name).to.deep.equal("newname");
                 });
@@ -41,11 +41,11 @@ describe("PetApi", () => {
       });
 
       it("should delete Pet", () => {
-        return api.deletePet(fixture.id, requestOptions, customAxiosInstance);
+        return api.deletePet(fixture.id, requestOptions);
       });
 
       it("should not contain deleted Pet", () => {
-        return api.getPetById(fixture.id, requestOptions, customAxiosInstance).then(
+        return api.getPetById(fixture.id, requestOptions).then(
           (result: AxiosResponse<Pet>) => {
             return expect(result.data).to.not.exist;
           },
