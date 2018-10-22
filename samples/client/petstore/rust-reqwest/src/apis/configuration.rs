@@ -30,6 +30,12 @@ pub struct ApiKey {
 
 impl Configuration {
     pub fn new() -> Configuration {
+        Configuration::default()
+    }
+}
+
+impl Default for Configuration {
+    fn default() -> Self {
         Configuration {
             base_path: "http://petstore.swagger.io/v2".to_owned(),
             user_agent: Some("Swagger-Codegen/1.0.0/rust".to_owned()),

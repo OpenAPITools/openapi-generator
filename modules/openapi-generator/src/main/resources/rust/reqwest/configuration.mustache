@@ -21,6 +21,12 @@ pub struct ApiKey {
 
 impl Configuration {
     pub fn new() -> Configuration {
+        Configuration::default()
+    }
+}
+
+impl Default for Configuration {
+    fn default() -> Self {
         Configuration {
             base_path: "{{{basePath}}}".to_owned(),
             user_agent: {{#httpUserAgent}}Some("{{{.}}}".to_owned()){{/httpUserAgent}}{{^httpUserAgent}}Some("Swagger-Codegen/{{{version}}}/rust".to_owned()){{/httpUserAgent}},
