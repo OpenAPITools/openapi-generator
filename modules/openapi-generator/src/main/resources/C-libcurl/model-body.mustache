@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "cJSON.h"
 #include "list.h"
+#include "keyValuePair.h"
 #include "{{classname}}.h"
 {{#imports}}
 #include "{{{.}}}.h"
@@ -70,7 +71,7 @@ char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
     {{/isPrimitiveType}}
     {{/isListContainer}}
     {{#isMapContainer}}
-    {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+    {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
     // TODO map/hash not supported at the moment
     {{/isMapContainer}}
     {{/isContainer}}
@@ -225,22 +226,22 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     cJSON *localMapObject = cJSON_CreateObject(); //Memory free to be implemented in user code
 	listEntry_t *{{{baseName}}}ListEntry;
     list_ForEach({{{baseName}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
-        keyValuePair_t *localKeyValue = (keyValuePair_t*){{{baseName}}}ListEntry->data
+        keyValuePair_t *localKeyValue = (keyValuePair_t*){{{baseName}}}ListEntry->data;
         {{#items}}
         {{#isString}}
-        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, localKeyValue->value) == NULL)
+        if(cJSON_AddStringToObject(localMapObject, localKeyValue->key, (char*)localKeyValue->value) == NULL)
         {
             goto fail;
         }
         {{/isString}}
         {{^isString}}
-        if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, localKeyValue->value) == NULL)
+        if(cJSON_AddNumberToObject(localMapObject, localKeyValue->key, *(double *)localKeyValue->value) == NULL)
         {
             goto fail;
         }
         {{/isString}}
         {{/items}}
-        cJSON_AddItemToObject({{{baseName}}}, localMapObject);
+        cJSON_AddItemToObject({{{baseName}}},"", localMapObject);
     }
 	{{/isMapContainer}}
 	{{/isContainer}}
@@ -376,31 +377,31 @@ fail:
     {{/isListContainer}}
     {{#isMapContainer}}
     // map
-    cJSON *{{{baseName}}};
+    cJSON *{{{complexType}}};
     cJSON *{{{baseName}}}JSON = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{baseName}}}");
     if(!cJSON_IsObject({{{baseName}}}JSON)) {
         goto end;//primitive map container
     }
-    list_t *{{{baseName}}}List = list_create();
+    list_t *{{{complexType}}}List = list_create();
     keyValuePair_t *localMapKeyPair;
-    cJSON_ArrayForEach({{{baseName}}}, {{{baseName}}}JSON)
+    cJSON_ArrayForEach({{{complexType}}}, {{{baseName}}}JSON)
     {
         {{#items}}
         {{#isString}}
-        if(!cJSON_IsString({{{baseName}}}))
+        if(!cJSON_IsString({{{complexType}}}))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{baseName}}}->string),strdup({{{baseName}}}->valuestring))
-        list_addElement({{{baseName}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup({{{complexType}}}->string),strdup({{{complexType}}}->valuestring))
+        list_addElement({{{complexType}}}List , localMapKeyPair);
         {{/isString}}
         {{^isString}}
-        if(!cJSON_IsNumber({{{baseName}}}))
+        if(!cJSON_IsNumber({{{complexType}}}))
         {
             goto end;
         }
-        localMapKeyPair = keyValuePair_create(strdup({{{baseName}}}->string),{{{baseName}}}->valuedouble )
-        list_addElement({{{baseName}}}List , localMapKeyPair);
+        localMapKeyPair = keyValuePair_create(strdup({{{complexType}}}->string),&{{{complexType}}}->valuedouble );
+        list_addElement({{{complexType}}}List , localMapKeyPair);
         {{/isString}}
         {{/items}}
 
@@ -448,7 +449,7 @@ fail:
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isMapContainer}}
-        {{{baseName}}}List{{#hasMore}},{{/hasMore}}
+        {{{complexType}}}List{{#hasMore}},{{/hasMore}}
         {{/isMapContainer}}
         {{/isContainer}}
         {{/vars}}
