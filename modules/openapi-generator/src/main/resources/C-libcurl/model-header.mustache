@@ -75,7 +75,7 @@ typedef struct {{classname}}_t {
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isMapContainer}}
-        {{datatype}} *{{baseName}};
+        {{datatype}} {{baseName}};
         // TODO map/hash not supported at the moment
         {{/isMapContainer}}
         {{/isContainer}}
@@ -121,7 +121,7 @@ typedef struct {{classname}}_t {
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isMapContainer}}
-        {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+        {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
         // TODO map/hash not supported at the moment
         {{/isMapContainer}}
         {{/isContainer}}
