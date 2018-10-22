@@ -49,7 +49,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **user** | [**Vec&lt;::models::User&gt;**](array.md)| List of user object | 
+  **user** | [**Vec<::models::User>**](array.md)| List of user object | 
 
 ### Return type
 
@@ -74,7 +74,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-  **user** | [**Vec&lt;::models::User&gt;**](array.md)| List of user object | 
+  **user** | [**Vec<::models::User>**](array.md)| List of user object | 
 
 ### Return type
 
