@@ -352,11 +352,15 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 	}
 
 	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
+		return localVarReturnValue, localVarHttpResponse, nil
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -440,11 +444,15 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 	}
 
 	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
+		return localVarReturnValue, localVarHttpResponse, nil
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {

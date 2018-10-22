@@ -229,11 +229,15 @@ func (a *PetApiService) FindPetsByStatus(ctx context.Context, status []string) (
 	}
 
 	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
+		return localVarReturnValue, localVarHttpResponse, nil
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -316,11 +320,15 @@ func (a *PetApiService) FindPetsByTags(ctx context.Context, tags []string) ([]Pe
 	}
 
 	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
+		return localVarReturnValue, localVarHttpResponse, nil
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -416,11 +424,15 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 	}
 
 	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
+		return localVarReturnValue, localVarHttpResponse, nil
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -677,11 +689,15 @@ func (a *PetApiService) UploadFile(ctx context.Context, petId int64, localVarOpt
 	}
 
 	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
+		return localVarReturnValue, localVarHttpResponse, nil
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -782,11 +798,15 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx context.Context, petId in
 	}
 
 	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
 		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
+		if err != nil {
+			newErr := GenericOpenAPIError{
+				body:  localVarBody,
+				error: err.Error(),
+			}
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
+		return localVarReturnValue, localVarHttpResponse, nil
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
