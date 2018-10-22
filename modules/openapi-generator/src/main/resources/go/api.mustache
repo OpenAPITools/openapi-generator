@@ -272,20 +272,6 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, err
 	}
 
-	{{#returnType}}
-	if localVarHttpResponse.StatusCode < 300 {
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err != nil {
-			newErr := GenericOpenAPIError{
-				body:  localVarBody,
-				error: err.Error(),
-			}
-			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
-		}
-		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, nil
-	}
-
-	{{/returnType}}
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -308,6 +294,17 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
 	}
 
+	{{#returnType}}
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
+	}
+
+	{{/returnType}}
 	return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, nil
 }
 {{/operation}}
