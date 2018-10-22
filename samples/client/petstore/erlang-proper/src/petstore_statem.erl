@@ -148,9 +148,17 @@ command(State) ->
   Funs1 = [ X || {_, FArgs} = X <- Funs0,
                  erlang:function_exported(?MODULE, FArgs, 1)
           ],
-  proper_types:oneof([ {call, ?MODULE, F, ?MODULE:FArgs(State)}
-                       || {F, FArgs} <- Funs1
-                     ]).
+
+  WeightFun = case erlang:function_exported(?MODULE, weight, 2) of
+                true  -> fun ?MODULE:weight/2;
+                false -> fun(_, _) -> 1 end
+              end,
+
+  proper_types:frequency([ { WeightFun(State, F)
+                           , {call, ?MODULE, F, ?MODULE:FArgs(State)}
+                           }
+                           || {F, FArgs} <- Funs1
+                         ]).
 
 precondition(S, {call, M, F, Args}) ->
   Pre = list_to_atom(atom_to_list(F) ++ "_pre"),
