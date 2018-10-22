@@ -18,7 +18,7 @@ public:
 
 private:
     OAIPetApi* getApi();
-    OAIPet* createRandomPet();
+    OAIPet createRandomPet();
 
 signals:
     void quit();

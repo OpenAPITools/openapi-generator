@@ -1,8 +1,6 @@
 {{>licenseInfo}}
 #include "{{classname}}.h"
 #include "{{prefix}}Helpers.h"
-#include "{{prefix}}ModelFactory.h"
-#include "{{prefix}}QObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -11,9 +9,13 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}::{{classname}}() {}
+{{classname}}::{{classname}}() {
 
-{{classname}}::~{{classname}}() {}
+}
+
+{{classname}}::~{{classname}}() {
+
+}
 
 {{classname}}::{{classname}}(QString host, QString basePath) {
     this->host = host;
@@ -26,33 +28,28 @@ void
 {{classname}}::{{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}&{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("{{{path}}}");
-
     {{#pathParams}}
-    QString {{paramName}}PathParam("{"); {{paramName}}PathParam.append("{{baseName}}").append("}");
-    fullPath.replace({{paramName}}PathParam, stringValue({{paramName}}));
+    QString {{paramName}}PathParam("{"); 
+    {{paramName}}PathParam.append("{{baseName}}").append("}");
+    fullPath.replace({{paramName}}PathParam, ::{{cppNamespace}}::toStringValue({{paramName}}));
     {{/pathParams}}
-
-    {{#queryParams}}
-    {{^collectionFormat}}
+    {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
       fullPath.append("&");
     else
       fullPath.append("?");
     fullPath.append(QUrl::toPercentEncoding("{{baseName}}"))
         .append("=")
-        .append(QUrl::toPercentEncoding(stringValue({{paramName}})));
-    {{/collectionFormat}}
-
-    {{#collectionFormat}}
-
-    if ({{{paramName}}}->size() > 0) {
+        .append(QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
+    {{/collectionFormat}}{{#collectionFormat}}
+    if ({{{paramName}}}.size() > 0) {
       if (QString("{{collectionFormat}}").indexOf("multi") == 0) {
-        foreach({{{baseType}}} t, *{{paramName}}) {
+        foreach({{{baseType}}} t, {{paramName}}) {
           if (fullPath.indexOf("?") > 0)
             fullPath.append("&");
           else
             fullPath.append("?");
-          fullPath.append("{{{baseName}}}=").append(stringValue(t));
+          fullPath.append("{{{baseName}}}=").append(::{{cppNamespace}}::toStringValue(t));
         }
       }
       else if (QString("{{collectionFormat}}").indexOf("ssv") == 0) {
@@ -62,11 +59,11 @@ void
           fullPath.append("?");
         fullPath.append("{{baseName}}=");
         qint32 count = 0;
-        foreach({{{baseType}}} t, *{{paramName}}) {
+        foreach({{{baseType}}} t, {{paramName}}) {
           if (count > 0) {
             fullPath.append(" ");
           }
-          fullPath.append(stringValue(t));
+          fullPath.append(::{{cppNamespace}}::toStringValue(t));
         }
       }
       else if (QString("{{collectionFormat}}").indexOf("tsv") == 0) {
@@ -76,43 +73,32 @@ void
           fullPath.append("?");
         fullPath.append("{{baseName}}=");
         qint32 count = 0;
-        foreach({{{baseType}}} t, *{{paramName}}) {
+        foreach({{{baseType}}} t, {{paramName}}) {
           if (count > 0) {
             fullPath.append("\t");
           }
-          fullPath.append(stringValue(t));
+          fullPath.append(::{{cppNamespace}}::toStringValue(t));
         }
       }
     }
-
-    {{/collectionFormat}}
-    {{/queryParams}}
-
+    {{/collectionFormat}}{{/queryParams}}
     {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker();
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
-
     {{#formParams}}
     if ({{paramName}} != nullptr) {
-        {{^isFile}}input.add_var("{{baseName}}", *{{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{baseName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
+        {{^isFile}}input.add_var("{{baseName}}", {{paramName}});{{/isFile}}{{#isFile}}input.add_file("{{baseName}}", (*{{paramName}}).local_filename, (*{{paramName}}).request_filename, (*{{paramName}}).mime_type);{{/isFile}}
     }
-    {{/formParams}}
-
-    {{#bodyParams}}
-    {{#isContainer}}
-    QJsonObject {{paramName}}_jobj;
-    toJsonArray((QList<void*>*){{paramName}}, {{paramName}}_jobj, QString("body"), QString("{{prefix}}User*"));
-
-    QJsonDocument doc({{paramName}}_jobj);
+    {{/formParams}}{{#bodyParams}}
+    {{#isContainer}}{{#isListContainer}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toArray());{{/isListContainer}}{{#isMapContainer}}
+    QJsonDocument doc(::{{cppNamespace}}::toJsonValue({{paramName}}).toObject());{{/isMapContainer}}
     QByteArray bytes = doc.toJson();
-
     input.request_body.append(bytes);
-    {{/isContainer}}
-    {{^isContainer}}{{#isString}}
-    QString output(*{{paramName}});{{/isString}}{{#isByteArray}}QString output(*{{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}
+    {{/isContainer}}{{^isContainer}}{{#isString}}
+    QString output({{paramName}});{{/isString}}{{#isByteArray}}QString output({{paramName}});{{/isByteArray}}{{^isString}}{{^isByteArray}}
     QString output = {{paramName}}.asJson();{{/isByteArray}}{{/isString}}
     input.request_body.append(output);
     {{/isContainer}}{{/bodyParams}}
-
     {{#headerParams}}
     if ({{paramName}} != nullptr) {
         input.headers.insert("{{baseName}}", "{{paramName}}");
@@ -143,59 +129,41 @@ void
     else {
         msg = "Error: " + worker->error_str;
     }
-
     {{#returnType}}
     {{#isListContainer}}
-    {{{returnType}}} output = {{{defaultResponse}}};
+    {{{returnType}}} output;
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
-    wrapper->deleteLater();
     foreach(QJsonValue obj, jsonArray) {
-        {{{returnBaseType}}}* o = new {{returnBaseType}}();
-        QJsonObject jv = obj.toObject();
-        QJsonObject * ptr = (QJsonObject*)&jv;
-        o->fromJsonObject(*ptr);
-        auto objwrapper = new {{prefix}}QObjectWrapper<{{{returnBaseType}}}*> (o);
-        objwrapper->deleteLater();
-        output->append(o);
+        {{{returnBaseType}}} val;
+        ::{{cppNamespace}}::fromJsonValue(val, obj);
+        output.append(val);
     }
     {{/isListContainer}}
     {{^isListContainer}}
     {{^isMapContainer}}
     {{#returnTypeIsPrimitive}}
-    {{{returnType}}} output;  // TODO add primitive output support
-    {{#isByteArray}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
-    wrapper->deleteLater();{{/isByteArray}}
-    {{#isDateTime}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
-    wrapper->deleteLater();{{/isDateTime}}
-    {{#isDate}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
-    wrapper->deleteLater();{{/isDate}}
-    {{#isString}}auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
-    wrapper->deleteLater();{{/isString}}
+    {{{returnType}}} output;  
+    ::{{cppNamespace}}::fromStringValue(QString(worker->response), output);
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}
     {{#isMapContainer}}
-    {{{returnType}}} output = {{{defaultResponse}}};
+    {{{returnType}}} output;
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
-
     foreach(QString key, obj.keys()) {
         {{returnBaseType}} val;
-        setValue(&val, obj[key], "{{returnBaseType}}", QString());
-        output->insert(key, val);
+        ::{{cppNamespace}}::fromJsonValue(val, obj[key]);
+        output.insert(key, val);
     }
     {{/isMapContainer}}
     {{^isMapContainer}}
     {{^returnTypeIsPrimitive}}
-    QString json(worker->response);
-    {{{returnType}}} output = static_cast<{{{returnType}}}>(create(json, QString("{{{returnBaseType}}}")));
-    auto wrapper = new {{prefix}}QObjectWrapper<{{{returnType}}}> (output);
-    wrapper->deleteLater();
+    {{{returnType}}} output(QString(worker->response));
     {{/returnTypeIsPrimitive}}
     {{/isMapContainer}}
     {{/isListContainer}}

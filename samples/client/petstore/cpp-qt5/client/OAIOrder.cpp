@@ -23,76 +23,53 @@
 namespace OpenAPI {
 
 OAIOrder::OAIOrder(QString json) {
-    init();
     this->fromJson(json);
 }
 
 OAIOrder::OAIOrder() {
-    init();
+    this->init();
 }
 
 OAIOrder::~OAIOrder() {
-    this->cleanup();
+
 }
 
 void
 OAIOrder::init() {
-    id = 0L;
     m_id_isSet = false;
-    pet_id = 0L;
     m_pet_id_isSet = false;
-    quantity = 0;
     m_quantity_isSet = false;
-    ship_date = NULL;
     m_ship_date_isSet = false;
-    status = new QString("");
     m_status_isSet = false;
-    complete = false;
     m_complete_isSet = false;
 }
 
 void
-OAIOrder::cleanup() {
-
-
-
-    if(ship_date != nullptr) { 
-        delete ship_date;
-    }
-    if(status != nullptr) { 
-        delete status;
-    }
-
-}
-
-OAIOrder*
-OAIOrder::fromJson(QString json) {
-    QByteArray array (json.toStdString().c_str());
+OAIOrder::fromJson(QString jsonString) {
+    QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
-    return this;
 }
 
 void
-OAIOrder::fromJsonObject(QJsonObject pJson) {
-    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
+OAIOrder::fromJsonObject(QJsonObject json) {
+    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::setValue(&pet_id, pJson["petId"], "qint64", "");
+    ::OpenAPI::fromJsonValue(pet_id, json[QString("petId")]);
     
-    ::OpenAPI::setValue(&quantity, pJson["quantity"], "qint32", "");
+    ::OpenAPI::fromJsonValue(quantity, json[QString("quantity")]);
     
-    ::OpenAPI::setValue(&ship_date, pJson["shipDate"], "QDateTime", "QDateTime");
+    ::OpenAPI::fromJsonValue(ship_date, json[QString("shipDate")]);
     
-    ::OpenAPI::setValue(&status, pJson["status"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(status, json[QString("status")]);
     
-    ::OpenAPI::setValue(&complete, pJson["complete"], "bool", "");
+    ::OpenAPI::fromJsonValue(complete, json[QString("complete")]);
     
 }
 
 QString
-OAIOrder::asJson ()
-{
+OAIOrder::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -100,102 +77,108 @@ OAIOrder::asJson ()
 }
 
 QJsonObject
-OAIOrder::asJsonObject() {
+OAIOrder::asJsonObject() const {
     QJsonObject obj;
-    if(m_id_isSet){
-        obj.insert("id", QJsonValue(id));
+	if(m_id_isSet){
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-    if(m_pet_id_isSet){
-        obj.insert("petId", QJsonValue(pet_id));
+	if(m_pet_id_isSet){
+        obj.insert(QString("petId"), ::OpenAPI::toJsonValue(pet_id));
     }
-    if(m_quantity_isSet){
-        obj.insert("quantity", QJsonValue(quantity));
+	if(m_quantity_isSet){
+        obj.insert(QString("quantity"), ::OpenAPI::toJsonValue(quantity));
     }
-    if(ship_date != nullptr) { 
-        toJsonValue(QString("shipDate"), ship_date, obj, QString("QDateTime"));
+	if(m_ship_date_isSet){
+        obj.insert(QString("shipDate"), ::OpenAPI::toJsonValue(ship_date));
     }
-    if(status != nullptr && *status != QString("")){
-        toJsonValue(QString("status"), status, obj, QString("QString"));
+	if(m_status_isSet){
+        obj.insert(QString("status"), ::OpenAPI::toJsonValue(status));
     }
-    if(m_complete_isSet){
-        obj.insert("complete", QJsonValue(complete));
+	if(m_complete_isSet){
+        obj.insert(QString("complete"), ::OpenAPI::toJsonValue(complete));
     }
-
     return obj;
 }
 
 qint64
-OAIOrder::getId() {
+OAIOrder::getId() const {
     return id;
 }
 void
-OAIOrder::setId(qint64 id) {
+OAIOrder::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 qint64
-OAIOrder::getPetId() {
+OAIOrder::getPetId() const {
     return pet_id;
 }
 void
-OAIOrder::setPetId(qint64 pet_id) {
+OAIOrder::setPetId(const qint64 &pet_id) {
     this->pet_id = pet_id;
     this->m_pet_id_isSet = true;
 }
 
 qint32
-OAIOrder::getQuantity() {
+OAIOrder::getQuantity() const {
     return quantity;
 }
 void
-OAIOrder::setQuantity(qint32 quantity) {
+OAIOrder::setQuantity(const qint32 &quantity) {
     this->quantity = quantity;
     this->m_quantity_isSet = true;
 }
 
-QDateTime*
-OAIOrder::getShipDate() {
+QDateTime
+OAIOrder::getShipDate() const {
     return ship_date;
 }
 void
-OAIOrder::setShipDate(QDateTime* ship_date) {
+OAIOrder::setShipDate(const QDateTime &ship_date) {
     this->ship_date = ship_date;
     this->m_ship_date_isSet = true;
 }
 
-QString*
-OAIOrder::getStatus() {
+QString
+OAIOrder::getStatus() const {
     return status;
 }
 void
-OAIOrder::setStatus(QString* status) {
+OAIOrder::setStatus(const QString &status) {
     this->status = status;
     this->m_status_isSet = true;
 }
 
 bool
-OAIOrder::isComplete() {
+OAIOrder::isComplete() const {
     return complete;
 }
 void
-OAIOrder::setComplete(bool complete) {
+OAIOrder::setComplete(const bool &complete) {
     this->complete = complete;
     this->m_complete_isSet = true;
 }
 
 
 bool
-OAIOrder::isSet(){
+OAIOrder::isSet() const {
     bool isObjectUpdated = false;
-    do{
+    do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
+    
         if(m_pet_id_isSet){ isObjectUpdated = true; break;}
+    
         if(m_quantity_isSet){ isObjectUpdated = true; break;}
-        if(status != nullptr && *status != QString("")){ isObjectUpdated = true; break;}
+    
+        if(m_ship_date_isSet){ isObjectUpdated = true; break;}
+    
+        if(m_status_isSet){ isObjectUpdated = true; break;}
+    
         if(m_complete_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
 }
+
 }
 

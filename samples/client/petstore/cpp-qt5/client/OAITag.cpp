@@ -23,54 +23,41 @@
 namespace OpenAPI {
 
 OAITag::OAITag(QString json) {
-    init();
     this->fromJson(json);
 }
 
 OAITag::OAITag() {
-    init();
+    this->init();
 }
 
 OAITag::~OAITag() {
-    this->cleanup();
+
 }
 
 void
 OAITag::init() {
-    id = 0L;
     m_id_isSet = false;
-    name = new QString("");
     m_name_isSet = false;
 }
 
 void
-OAITag::cleanup() {
-
-    if(name != nullptr) { 
-        delete name;
-    }
-}
-
-OAITag*
-OAITag::fromJson(QString json) {
-    QByteArray array (json.toStdString().c_str());
+OAITag::fromJson(QString jsonString) {
+    QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
-    return this;
 }
 
 void
-OAITag::fromJsonObject(QJsonObject pJson) {
-    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
+OAITag::fromJsonObject(QJsonObject json) {
+    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(name, json[QString("name")]);
     
 }
 
 QString
-OAITag::asJson ()
-{
+OAITag::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -78,47 +65,48 @@ OAITag::asJson ()
 }
 
 QJsonObject
-OAITag::asJsonObject() {
+OAITag::asJsonObject() const {
     QJsonObject obj;
-    if(m_id_isSet){
-        obj.insert("id", QJsonValue(id));
+	if(m_id_isSet){
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-    if(name != nullptr && *name != QString("")){
-        toJsonValue(QString("name"), name, obj, QString("QString"));
+	if(m_name_isSet){
+        obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
     }
-
     return obj;
 }
 
 qint64
-OAITag::getId() {
+OAITag::getId() const {
     return id;
 }
 void
-OAITag::setId(qint64 id) {
+OAITag::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
-QString*
-OAITag::getName() {
+QString
+OAITag::getName() const {
     return name;
 }
 void
-OAITag::setName(QString* name) {
+OAITag::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 
 bool
-OAITag::isSet(){
+OAITag::isSet() const {
     bool isObjectUpdated = false;
-    do{
+    do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
-        if(name != nullptr && *name != QString("")){ isObjectUpdated = true; break;}
+    
+        if(m_name_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
 }
+
 }
 

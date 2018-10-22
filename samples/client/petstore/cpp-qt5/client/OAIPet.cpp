@@ -23,90 +23,53 @@
 namespace OpenAPI {
 
 OAIPet::OAIPet(QString json) {
-    init();
     this->fromJson(json);
 }
 
 OAIPet::OAIPet() {
-    init();
+    this->init();
 }
 
 OAIPet::~OAIPet() {
-    this->cleanup();
+
 }
 
 void
 OAIPet::init() {
-    id = 0L;
     m_id_isSet = false;
-    category = new OAICategory();
     m_category_isSet = false;
-    name = new QString("");
     m_name_isSet = false;
-    photo_urls = new QList<QString*>();
     m_photo_urls_isSet = false;
-    tags = new QList<OAITag*>();
     m_tags_isSet = false;
-    status = new QString("");
     m_status_isSet = false;
 }
 
 void
-OAIPet::cleanup() {
-
-    if(category != nullptr) { 
-        delete category;
-    }
-    if(name != nullptr) { 
-        delete name;
-    }
-    if(photo_urls != nullptr) { 
-        auto arr = photo_urls;
-        for(auto o: *arr) { 
-            delete o;
-        }
-        delete photo_urls;
-    }
-    if(tags != nullptr) { 
-        auto arr = tags;
-        for(auto o: *arr) { 
-            delete o;
-        }
-        delete tags;
-    }
-    if(status != nullptr) { 
-        delete status;
-    }
-}
-
-OAIPet*
-OAIPet::fromJson(QString json) {
-    QByteArray array (json.toStdString().c_str());
+OAIPet::fromJson(QString jsonString) {
+    QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
-    return this;
 }
 
 void
-OAIPet::fromJsonObject(QJsonObject pJson) {
-    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
+OAIPet::fromJsonObject(QJsonObject json) {
+    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::setValue(&category, pJson["category"], "OAICategory", "OAICategory");
+    ::OpenAPI::fromJsonValue(category, json[QString("category")]);
     
-    ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(name, json[QString("name")]);
     
     
-    ::OpenAPI::setValue(&photo_urls, pJson["photoUrls"], "QList", "QString");
+    ::OpenAPI::fromJsonValue(photo_urls, json[QString("photoUrls")]);
     
-    ::OpenAPI::setValue(&tags, pJson["tags"], "QList", "OAITag");
-    ::OpenAPI::setValue(&status, pJson["status"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(tags, json[QString("tags")]);
+    ::OpenAPI::fromJsonValue(status, json[QString("status")]);
     
 }
 
 QString
-OAIPet::asJson ()
-{
+OAIPet::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -114,103 +77,110 @@ OAIPet::asJson ()
 }
 
 QJsonObject
-OAIPet::asJsonObject() {
+OAIPet::asJsonObject() const {
     QJsonObject obj;
-    if(m_id_isSet){
-        obj.insert("id", QJsonValue(id));
+	if(m_id_isSet){
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-    if((category != nullptr) && (category->isSet())){
-        toJsonValue(QString("category"), category, obj, QString("OAICategory"));
+	if(category.isSet()){
+        obj.insert(QString("category"), ::OpenAPI::toJsonValue(category));
     }
-    if(name != nullptr && *name != QString("")){
-        toJsonValue(QString("name"), name, obj, QString("QString"));
+	if(m_name_isSet){
+        obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
     }
-    if(photo_urls->size() > 0){
-        toJsonArray((QList<void*>*)photo_urls, obj, "photoUrls", "QString");
+	
+    if(photo_urls.size() > 0){
+        obj.insert(QString("photoUrls"), ::OpenAPI::toJsonValue(photo_urls));
+    } 
+	
+    if(tags.size() > 0){
+        obj.insert(QString("tags"), ::OpenAPI::toJsonValue(tags));
+    } 
+	if(m_status_isSet){
+        obj.insert(QString("status"), ::OpenAPI::toJsonValue(status));
     }
-    if(tags->size() > 0){
-        toJsonArray((QList<void*>*)tags, obj, "tags", "OAITag");
-    }
-    if(status != nullptr && *status != QString("")){
-        toJsonValue(QString("status"), status, obj, QString("QString"));
-    }
-
     return obj;
 }
 
 qint64
-OAIPet::getId() {
+OAIPet::getId() const {
     return id;
 }
 void
-OAIPet::setId(qint64 id) {
+OAIPet::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
-OAICategory*
-OAIPet::getCategory() {
+OAICategory
+OAIPet::getCategory() const {
     return category;
 }
 void
-OAIPet::setCategory(OAICategory* category) {
+OAIPet::setCategory(const OAICategory &category) {
     this->category = category;
     this->m_category_isSet = true;
 }
 
-QString*
-OAIPet::getName() {
+QString
+OAIPet::getName() const {
     return name;
 }
 void
-OAIPet::setName(QString* name) {
+OAIPet::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
-QList<QString*>*
-OAIPet::getPhotoUrls() {
+QList<QString>
+OAIPet::getPhotoUrls() const {
     return photo_urls;
 }
 void
-OAIPet::setPhotoUrls(QList<QString*>* photo_urls) {
+OAIPet::setPhotoUrls(const QList<QString> &photo_urls) {
     this->photo_urls = photo_urls;
     this->m_photo_urls_isSet = true;
 }
 
-QList<OAITag*>*
-OAIPet::getTags() {
+QList<OAITag>
+OAIPet::getTags() const {
     return tags;
 }
 void
-OAIPet::setTags(QList<OAITag*>* tags) {
+OAIPet::setTags(const QList<OAITag> &tags) {
     this->tags = tags;
     this->m_tags_isSet = true;
 }
 
-QString*
-OAIPet::getStatus() {
+QString
+OAIPet::getStatus() const {
     return status;
 }
 void
-OAIPet::setStatus(QString* status) {
+OAIPet::setStatus(const QString &status) {
     this->status = status;
     this->m_status_isSet = true;
 }
 
 
 bool
-OAIPet::isSet(){
+OAIPet::isSet() const {
     bool isObjectUpdated = false;
-    do{
+    do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
-        if(category != nullptr && category->isSet()){ isObjectUpdated = true; break;}
-        if(name != nullptr && *name != QString("")){ isObjectUpdated = true; break;}
-        if(photo_urls->size() > 0){ isObjectUpdated = true; break;}
-        if(tags->size() > 0){ isObjectUpdated = true; break;}
-        if(status != nullptr && *status != QString("")){ isObjectUpdated = true; break;}
+    
+        if(category.isSet()){ isObjectUpdated = true; break;}
+    
+        if(m_name_isSet){ isObjectUpdated = true; break;}
+    
+        if(photo_urls.size() > 0){ isObjectUpdated = true; break;}
+    
+        if(tags.size() > 0){ isObjectUpdated = true; break;}
+    
+        if(m_status_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
 }
+
 }
 

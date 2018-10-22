@@ -16,8 +16,8 @@
  * An order for a pets from the pet store
  */
 
-#ifndef OAIOrder_H_
-#define OAIOrder_H_
+#ifndef OAIOrder_H
+#define OAIOrder_H
 
 #include <QJsonObject>
 
@@ -33,35 +33,33 @@ class OAIOrder: public OAIObject {
 public:
     OAIOrder();
     OAIOrder(QString json);
-    ~OAIOrder();
+    ~OAIOrder() override;
     void init();
-    void cleanup();
 
-    QString asJson () override;
-    QJsonObject asJsonObject() override;
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    OAIOrder* fromJson(QString jsonString) override;
+    void fromJson(QString jsonString) override;
 
-    qint64 getId();
-    void setId(qint64 id);
+    qint64 getId() const;
+    void setId(const qint64 &id);
 
-    qint64 getPetId();
-    void setPetId(qint64 pet_id);
+    qint64 getPetId() const;
+    void setPetId(const qint64 &pet_id);
 
-    qint32 getQuantity();
-    void setQuantity(qint32 quantity);
+    qint32 getQuantity() const;
+    void setQuantity(const qint32 &quantity);
 
-    QDateTime* getShipDate();
-    void setShipDate(QDateTime* ship_date);
+    QDateTime getShipDate() const;
+    void setShipDate(const QDateTime &ship_date);
 
-    QString* getStatus();
-    void setStatus(QString* status);
+    QString getStatus() const;
+    void setStatus(const QString &status);
 
-    bool isComplete();
-    void setComplete(bool complete);
+    bool isComplete() const;
+    void setComplete(const bool &complete);
 
-
-    virtual bool isSet() override;
+    virtual bool isSet() const override;
 
 private:
     qint64 id;
@@ -73,10 +71,10 @@ private:
     qint32 quantity;
     bool m_quantity_isSet;
 
-    QDateTime* ship_date;
+    QDateTime ship_date;
     bool m_ship_date_isSet;
 
-    QString* status;
+    QString status;
     bool m_status_isSet;
 
     bool complete;
@@ -86,4 +84,4 @@ private:
 
 }
 
-#endif /* OAIOrder_H_ */
+#endif // OAIOrder_H

@@ -15,9 +15,7 @@ HEADERS += \
 # Others
     $${PWD}/OAIHelpers.h \
     $${PWD}/OAIHttpRequest.h \
-    $${PWD}/OAIModelFactory.h \
-    $${PWD}/OAIObject.h \
-    $${PWD}/OAIQObjectWrapper.h
+    $${PWD}/OAIObject.h
 
 SOURCES += \
 # Models
