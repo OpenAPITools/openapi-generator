@@ -134,9 +134,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
-        supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest");
+        supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
 
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
         // set hyper as the default
         libraryOption.setDefault(HYPER_LIBRARY);
