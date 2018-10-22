@@ -9,7 +9,7 @@ pub struct APIClient {
 {{#operations}}
 {{#operation}}
   {{#-last}}
-  {{classFilename}}: Box<::apis::{{classname}}>,
+  {{{classFilename}}}: Box<::apis::{{{classname}}}>,
   {{/-last}}
 {{/operation}}
 {{/operations}}
@@ -28,7 +28,7 @@ impl APIClient {
 {{#operations}}
 {{#operation}}
       {{#-last}}
-      {{classFilename}}: Box::new(::apis::{{classname}}Client::new(rc.clone())),
+      {{{classFilename}}}: Box::new(::apis::{{{classname}}}Client::new(rc.clone())),
       {{/-last}}
 {{/operation}}
 {{/operations}}
@@ -42,8 +42,8 @@ impl APIClient {
 {{#operations}}
 {{#operation}}
 {{#-last}}
-  pub fn {{classFilename}}(&self) -> &::apis::{{classname}}{
-    self.{{classFilename}}.as_ref()
+  pub fn {{{classFilename}}}(&self) -> &::apis::{{{classname}}}{
+    self.{{{classFilename}}}.as_ref()
   }
 
 {{/-last}}

@@ -23,11 +23,11 @@ use super::models::*;
 
 {{#apiInfo}}
 {{#apis}}
-mod {{classFilename}};
+mod {{{classFilename}}};
 {{#operations}}
 {{#operation}}
 {{#-last}}
-pub use self::{{classFilename}}::{ {{classname}}, {{classname}}Client };
+pub use self::{{{classFilename}}}::{ {{{classname}}}, {{{classname}}}Client };
 {{/-last}}
 {{/operation}}
 {{/operations}}
