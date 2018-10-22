@@ -10,7 +10,6 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
-use std::collections::HashMap;
 
 use reqwest;
 
