@@ -15,11 +15,17 @@
   | {'status', binary() }
   ].
 
+
 petstore_pet() ->
-  [ {'id', integer() }
-  , {'category', petstore_category:petstore_category() }
-  , {'name', binary() }
-  , {'photoUrls', list(binary()) }
-  , {'tags', list(petstore_tag:petstore_tag()) }
-  , {'status', elements([<<"available">>, <<"pending">>, <<"sold">>]) }
-  ].
+    petstore_pet([]).
+
+petstore_pet(Fields) ->
+  Default = [ {'id', integer() }
+            , {'category', petstore_category:petstore_category() }
+            , {'name', binary() }
+            , {'photoUrls', list(binary()) }
+            , {'tags', list(petstore_tag:petstore_tag()) }
+            , {'status', elements([<<"available">>, <<"pending">>, <<"sold">>]) }
+            ],
+  lists:ukeymerge(1, lists:sort(Fields), lists:sort(Default)).
+

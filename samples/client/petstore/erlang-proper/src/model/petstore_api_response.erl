@@ -12,8 +12,14 @@
   | {'message', binary() }
   ].
 
+
 petstore_api_response() ->
-  [ {'code', integer() }
-  , {'type', binary() }
-  , {'message', binary() }
-  ].
+    petstore_api_response([]).
+
+petstore_api_response(Fields) ->
+  Default = [ {'code', integer() }
+            , {'type', binary() }
+            , {'message', binary() }
+            ],
+  lists:ukeymerge(1, lists:sort(Fields), lists:sort(Default)).
+

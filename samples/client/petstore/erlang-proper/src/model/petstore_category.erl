@@ -11,7 +11,13 @@
   | {'name', binary() }
   ].
 
+
 petstore_category() ->
-  [ {'id', integer() }
-  , {'name', binary() }
-  ].
+    petstore_category([]).
+
+petstore_category(Fields) ->
+  Default = [ {'id', integer() }
+            , {'name', binary() }
+            ],
+  lists:ukeymerge(1, lists:sort(Fields), lists:sort(Default)).
+
