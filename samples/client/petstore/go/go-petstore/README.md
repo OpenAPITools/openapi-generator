@@ -101,7 +101,6 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Return](docs/Return.md)
  - [SpecialModelName](docs/SpecialModelName.md)
- - [StringBooleanMap](docs/StringBooleanMap.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
 

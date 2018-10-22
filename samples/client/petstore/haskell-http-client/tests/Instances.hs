@@ -301,11 +301,6 @@ instance Arbitrary SpecialModelName where
     SpecialModelName
       <$> arbitrary -- specialModelNameSpecialPropertyName :: Maybe Integer
     
-instance Arbitrary StringBooleanMap where
-  arbitrary =
-    
-    pure StringBooleanMap
-     
 instance Arbitrary Tag where
   arbitrary =
     Tag

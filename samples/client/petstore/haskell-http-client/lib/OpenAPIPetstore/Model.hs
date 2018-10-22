@@ -1307,34 +1307,6 @@ mkSpecialModelName =
   { specialModelNameSpecialPropertyName = Nothing
   }
 
--- ** StringBooleanMap
--- | StringBooleanMap
-data StringBooleanMap = StringBooleanMap
-  { 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON StringBooleanMap
-instance A.FromJSON StringBooleanMap where
-  parseJSON = A.withObject "StringBooleanMap" $ \o ->
-    pure StringBooleanMap
-      
-
--- | ToJSON StringBooleanMap
-instance A.ToJSON StringBooleanMap where
-  toJSON StringBooleanMap  =
-   _omitNulls
-      [ 
-      ]
-
-
--- | Construct a value of type 'StringBooleanMap' (by applying it's required fields, if any)
-mkStringBooleanMap
-  :: StringBooleanMap
-mkStringBooleanMap =
-  StringBooleanMap
-  { 
-  }
-
 -- ** Tag
 -- | Tag
 data Tag = Tag

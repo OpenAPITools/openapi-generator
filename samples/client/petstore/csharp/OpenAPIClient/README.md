@@ -168,7 +168,6 @@ Class | Method | HTTP request | Description
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
- - [Model.StringBooleanMap](docs/StringBooleanMap.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
 

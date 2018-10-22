@@ -38,7 +38,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-//import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -425,6 +424,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 Schema schema = schemas.get(name);
+
+                // check to see if it's a "map" model
+                if (ModelUtils.isMapSchema(schema)) {
+                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                        // schema without property, i.e. alias to map
+                        LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
+                        continue;
+                    }
+                }
+
                 Map<String, Schema> schemaMap = new HashMap<>();
                 schemaMap.put(name, schema);
                 Map<String, Object> models = processModels(config, schemaMap, schemas);

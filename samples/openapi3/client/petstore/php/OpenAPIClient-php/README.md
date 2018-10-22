@@ -156,7 +156,6 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Model/Pet.md)
  - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
  - [SpecialModelName](docs/Model/SpecialModelName.md)
- - [StringBooleanMap](docs/Model/StringBooleanMap.md)
  - [Tag](docs/Model/Tag.md)
  - [User](docs/Model/User.md)
 
