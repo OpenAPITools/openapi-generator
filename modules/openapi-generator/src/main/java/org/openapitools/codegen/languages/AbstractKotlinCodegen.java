@@ -44,6 +44,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean parcelizeModels = false;
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
 
@@ -198,6 +199,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
+        cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
     }
 
     @Override
@@ -350,6 +352,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.warn(CodegenConstants.INVOKER_PACKAGE + " with " + this.getName() + " generator is ignored. Use " + CodegenConstants.PACKAGE_NAME + ".");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
+            this.setParcelizeModels(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+        } else {
+            additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
+        }
+
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
@@ -375,6 +383,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    public Boolean getParcelizeModels() {
+        return parcelizeModels;
+    }
+
+    public void setParcelizeModels(Boolean parcelizeModels) {
+        this.parcelizeModels = parcelizeModels;
     }
 
     /**
