@@ -1,6 +1,6 @@
 [package]
 name = "{{{packageName}}}"
-version = "{{{appVersion}}}"
+version = {{#packageVersion}}"{{{packageVersion}}}"{{/packageVersion}}{{^packageVersion}}"{{{appVersion}}}"{{/packageVersion}}
 authors = [{{#infoEmail}}"{{{infoEmail}}}"{{/infoEmail}}]
 {{#appDescription}}
 description = "{{{appDescription}}}"
