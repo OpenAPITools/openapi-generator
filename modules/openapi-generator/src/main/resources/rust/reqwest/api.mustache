@@ -1,10 +1,7 @@
 {{>partial_header}}
 use std::rc::Rc;
 use std::borrow::Borrow;
-use std::borrow::Cow;
 use std::collections::HashMap;
-
-use serde_json;
 
 use reqwest;
 
@@ -60,7 +57,7 @@ impl {{{classname}}} for {{{classname}}}Client {
         let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
         {{#hasHeaderParams}}
@@ -83,23 +80,12 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/isKeyInHeader}}{{/isApiKey}}
         {{#isBasic}}
         if let Some(ref auth_conf) = configuration.basic_auth {
-            let auth = reqwest::hyper_011::header::Authorization(
-                reqwest::hyper_011::header::Basic {
-                    username: auth_conf.0.to_owned(),
-                    password: auth_conf.1.to_owned(),
-                }
-            );
-            req_builder = req_builder.header_011(auth.to_owned());
+            req_builder = req_builder.basic_auth(auth_conf.0.to_owned(), auth_conf.1.to_owned());
         };
         {{/isBasic}}
         {{#isOAuth}}
         if let Some(ref token) = configuration.oauth_access_token {
-            let auth = reqwest::hyper_011::header::Authorization(
-                reqwest::hyper_011::header::Bearer {
-                    token: token.to_owned(),
-                }
-            );
-            req_builder = req_builder.header_011(auth.to_owned());
+            req_builder = req_builder.bearer_auth(token.to_owned());
         };
         {{/isOAuth}}
         {{/authMethods}}

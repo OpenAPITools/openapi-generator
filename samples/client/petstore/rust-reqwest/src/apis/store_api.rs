@@ -10,10 +10,7 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
-use std::borrow::Cow;
 use std::collections::HashMap;
-
-use serde_json;
 
 use reqwest;
 
@@ -54,7 +51,7 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.delete(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
 
@@ -81,7 +78,7 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
 
@@ -117,7 +114,7 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
 
@@ -143,7 +140,7 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         if let Some(ref user_agent) = configuration.user_agent {
-            req_builder = req_builder.header_011(reqwest::hyper_011::header::UserAgent::new(Cow::Owned(user_agent.clone())));
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
 
