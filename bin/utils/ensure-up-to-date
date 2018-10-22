@@ -10,7 +10,7 @@ echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 sleep 5
 
 # LIST OF SCRIPTS:
-./bin/ruby-client-petstore.sh > /dev/null 2>&1
+./bin/openapi3/ruby-client-petstore.sh > /dev/null 2>&1
 ./bin/java-petstore-all.sh > /dev/null 2>&1
 ./bin/java-jaxrs-petstore-server-all.sh > /dev/null 2>&1
 ./bin/spring-all-pestore.sh > /dev/null 2>&1
