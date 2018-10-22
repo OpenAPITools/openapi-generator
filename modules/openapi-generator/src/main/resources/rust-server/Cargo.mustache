@@ -1,6 +1,6 @@
 [package]
 name = "{{{packageName}}}"
-version = {{#packageVersion}}"{{{packageVersion}}}"{{/packageVersion}}{{^packageVersion}}"{{{appVersion}}}"{{/packageVersion}}{{! Fill in with packageVersion if defined, which can be passed via a command line argument, Else use appVersion from the .yaml, which defaults to 1.0.0 if not present.}}
+version = {{#packageVersion}}"{{{packageVersion}}}"{{/packageVersion}}{{^packageVersion}}"{{{appVersion}}}"{{/packageVersion}}{{! Fill in with packageVersion if defined, which can be passed via a command line argument, Else use appVersion from the Open API spec, which defaults to 1.0.0 if not present.}}
 authors = [{{#infoEmail}}"{{{infoEmail}}}"{{/infoEmail}}]
 {{#appDescription}}
 description = "{{{appDescription}}}"
