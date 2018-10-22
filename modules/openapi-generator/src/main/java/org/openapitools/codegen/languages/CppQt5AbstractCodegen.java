@@ -34,7 +34,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
     protected Set<String> nonFrameworkPrimitives = new HashSet<String>();
     
     public CppQt5AbstractCodegen() {
-    	super();
+        super();
         // set modelNamePrefix as default for QHttpEngine Server
         if (StringUtils.isEmpty(modelNamePrefix)) {
             modelNamePrefix = PREFIX;
@@ -55,28 +55,28 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         additionalProperties.put("cppNamespace", cppNamespace);   
         // CLI options
         addOption(CPP_NAMESPACE, CPP_NAMESPACE_DESC, this.cppNamespace);
-	    /*
-	     * Language Specific Primitives.  These types will not trigger imports by
-	     * the client generator
-	     */
-	    languageSpecificPrimitives = new HashSet<String>(
-	            Arrays.asList(
-	                    "bool",
-	                    "qint32",
-	                    "qint64",
-	                    "float",
-	                    "double")
-	    );
-	    nonFrameworkPrimitives.addAll(languageSpecificPrimitives);
-	    
-	    foundationClasses.addAll(
-	            Arrays.asList(
-	                    "QString",                          
-	                    "QDate",
-	                    "QDateTime",
-	                    "QByteArray")
-	    );
-	    languageSpecificPrimitives.addAll(foundationClasses);
+        /*
+         * Language Specific Primitives.  These types will not trigger imports by
+         * the client generator
+         */
+        languageSpecificPrimitives = new HashSet<String>(
+                Arrays.asList(
+                        "bool",
+                        "qint32",
+                        "qint64",
+                        "float",
+                        "double")
+        );
+        nonFrameworkPrimitives.addAll(languageSpecificPrimitives);
+        
+        foundationClasses.addAll(
+                Arrays.asList(
+                        "QString",                          
+                        "QDate",
+                        "QDateTime",
+                        "QByteArray")
+        );
+        languageSpecificPrimitives.addAll(foundationClasses);
         super.typeMapping = new HashMap<String, String>();
 
         typeMapping.put("date", "QDate");
@@ -134,7 +134,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         } else if (systemIncludes.contains(name)) {
             return "#include <" + name + ">";
         } else if(importMapping.containsKey(name)){
-        	return importMapping.get(name);
+            return importMapping.get(name);
         }
 
         String folder = modelPackage().replace("::", File.separator);
