@@ -32,7 +32,7 @@ OAIUserApi::OAIUserApi(QString host, QString basePath) {
 }
 
 void
-OAIUserApi::createUser(OAIUser& oai_user) {
+OAIUserApi::createUser(const OAIUser& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
     
@@ -79,7 +79,7 @@ OAIUserApi::createUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithArrayInput(QList<OAIUser>& oai_user) {
+OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
     
@@ -127,7 +127,7 @@ OAIUserApi::createUsersWithArrayInputCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithListInput(QList<OAIUser>& oai_user) {
+OAIUserApi::createUsersWithListInput(const QList<OAIUser>& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
     
@@ -175,7 +175,7 @@ OAIUserApi::createUsersWithListInputCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::deleteUser(QString username) {
+OAIUserApi::deleteUser(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{"); 
@@ -221,7 +221,7 @@ OAIUserApi::deleteUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::getUserByName(QString username) {
+OAIUserApi::getUserByName(const QString& username) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{"); 
@@ -268,7 +268,7 @@ OAIUserApi::getUserByNameCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::loginUser(QString username, QString password) {
+OAIUserApi::loginUser(const QString& username, const QString& password) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/login");
     
@@ -372,7 +372,7 @@ OAIUserApi::logoutUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::updateUser(QString username, OAIUser& oai_user) {
+OAIUserApi::updateUser(const QString& username, const OAIUser& oai_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{"); 

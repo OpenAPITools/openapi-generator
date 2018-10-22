@@ -32,7 +32,7 @@ OAIStoreApi::OAIStoreApi(QString host, QString basePath) {
 }
 
 void
-OAIStoreApi::deleteOrder(QString order_id) {
+OAIStoreApi::deleteOrder(const QString& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{"); 
@@ -131,7 +131,7 @@ OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::getOrderById(qint64 order_id) {
+OAIStoreApi::getOrderById(const qint64& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{"); 
@@ -178,7 +178,7 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::placeOrder(OAIOrder& oai_order) {
+OAIStoreApi::placeOrder(const OAIOrder& oai_order) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
     

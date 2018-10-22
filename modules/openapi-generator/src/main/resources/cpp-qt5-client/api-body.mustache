@@ -25,7 +25,7 @@ namespace {{this}} {
 {{#operations}}
 {{#operation}}
 void
-{{classname}}::{{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}&{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+{{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("{{{path}}}");
     {{#pathParams}}

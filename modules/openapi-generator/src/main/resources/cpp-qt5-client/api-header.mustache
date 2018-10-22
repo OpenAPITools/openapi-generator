@@ -25,7 +25,7 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}&{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}{{/operations}}
 private:
     {{#operations}}{{#operation}}void {{nickname}}Callback ({{prefix}}HttpRequestWorker * worker);

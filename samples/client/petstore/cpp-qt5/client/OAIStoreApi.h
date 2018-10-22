@@ -35,10 +35,10 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void deleteOrder(QString order_id);
+    void deleteOrder(const QString& order_id);
     void getInventory();
-    void getOrderById(qint64 order_id);
-    void placeOrder(OAIOrder& oai_order);
+    void getOrderById(const qint64& order_id);
+    void placeOrder(const OAIOrder& oai_order);
     
 private:
     void deleteOrderCallback (OAIHttpRequestWorker * worker);

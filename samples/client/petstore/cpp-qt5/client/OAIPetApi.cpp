@@ -32,7 +32,7 @@ OAIPetApi::OAIPetApi(QString host, QString basePath) {
 }
 
 void
-OAIPetApi::addPet(OAIPet& oai_pet) {
+OAIPetApi::addPet(const OAIPet& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
@@ -79,7 +79,7 @@ OAIPetApi::addPetCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::deletePet(qint64 pet_id, QString api_key) {
+OAIPetApi::deletePet(const qint64& pet_id, const QString& api_key) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
     QString pet_idPathParam("{"); 
@@ -128,7 +128,7 @@ OAIPetApi::deletePetCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::findPetsByStatus(QList<QString> status) {
+OAIPetApi::findPetsByStatus(const QList<QString>& status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
     
@@ -221,7 +221,7 @@ OAIPetApi::findPetsByStatusCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::findPetsByTags(QList<QString> tags) {
+OAIPetApi::findPetsByTags(const QList<QString>& tags) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
     
@@ -314,7 +314,7 @@ OAIPetApi::findPetsByTagsCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::getPetById(qint64 pet_id) {
+OAIPetApi::getPetById(const qint64& pet_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
     QString pet_idPathParam("{"); 
@@ -361,7 +361,7 @@ OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::updatePet(OAIPet& oai_pet) {
+OAIPetApi::updatePet(const OAIPet& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
@@ -408,7 +408,7 @@ OAIPetApi::updatePetCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::updatePetWithForm(qint64 pet_id, QString name, QString status) {
+OAIPetApi::updatePetWithForm(const qint64& pet_id, const QString& name, const QString& status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
     QString pet_idPathParam("{"); 
@@ -460,7 +460,7 @@ OAIPetApi::updatePetWithFormCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::uploadFile(qint64 pet_id, QString additional_metadata, OAIHttpRequestInputFileElement* file) {
+OAIPetApi::uploadFile(const qint64& pet_id, const QString& additional_metadata, const OAIHttpRequestInputFileElement*& file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
     QString pet_idPathParam("{"); 

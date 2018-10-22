@@ -35,14 +35,14 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void createUser(OAIUser& oai_user);
-    void createUsersWithArrayInput(QList<OAIUser>& oai_user);
-    void createUsersWithListInput(QList<OAIUser>& oai_user);
-    void deleteUser(QString username);
-    void getUserByName(QString username);
-    void loginUser(QString username, QString password);
+    void createUser(const OAIUser& oai_user);
+    void createUsersWithArrayInput(const QList<OAIUser>& oai_user);
+    void createUsersWithListInput(const QList<OAIUser>& oai_user);
+    void deleteUser(const QString& username);
+    void getUserByName(const QString& username);
+    void loginUser(const QString& username, const QString& password);
     void logoutUser();
-    void updateUser(QString username, OAIUser& oai_user);
+    void updateUser(const QString& username, const OAIUser& oai_user);
     
 private:
     void createUserCallback (OAIHttpRequestWorker * worker);

@@ -36,14 +36,14 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void addPet(OAIPet& oai_pet);
-    void deletePet(qint64 pet_id, QString api_key);
-    void findPetsByStatus(QList<QString> status);
-    void findPetsByTags(QList<QString> tags);
-    void getPetById(qint64 pet_id);
-    void updatePet(OAIPet& oai_pet);
-    void updatePetWithForm(qint64 pet_id, QString name, QString status);
-    void uploadFile(qint64 pet_id, QString additional_metadata, OAIHttpRequestInputFileElement* file);
+    void addPet(const OAIPet& oai_pet);
+    void deletePet(const qint64& pet_id, const QString& api_key);
+    void findPetsByStatus(const QList<QString>& status);
+    void findPetsByTags(const QList<QString>& tags);
+    void getPetById(const qint64& pet_id);
+    void updatePet(const OAIPet& oai_pet);
+    void updatePetWithForm(const qint64& pet_id, const QString& name, const QString& status);
+    void uploadFile(const qint64& pet_id, const QString& additional_metadata, const OAIHttpRequestInputFileElement*& file);
     
 private:
     void addPetCallback (OAIHttpRequestWorker * worker);
