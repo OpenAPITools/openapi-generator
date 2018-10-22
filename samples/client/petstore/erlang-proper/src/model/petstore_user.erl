@@ -4,6 +4,8 @@
 
 -export([petstore_user/0]).
 
+-export([petstore_user/1]).
+
 -export_type([petstore_user/0]).
 
 -type petstore_user() ::

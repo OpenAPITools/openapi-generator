@@ -4,6 +4,8 @@
 
 -export([petstore_api_response/0]).
 
+-export([petstore_api_response/1]).
+
 -export_type([petstore_api_response/0]).
 
 -type petstore_api_response() ::

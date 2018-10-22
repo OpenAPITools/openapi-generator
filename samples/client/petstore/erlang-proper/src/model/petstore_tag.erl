@@ -4,6 +4,8 @@
 
 -export([petstore_tag/0]).
 
+-export([petstore_tag/1]).
+
 -export_type([petstore_tag/0]).
 
 -type petstore_tag() ::

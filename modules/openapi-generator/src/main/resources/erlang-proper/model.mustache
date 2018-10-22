@@ -5,7 +5,9 @@
 -include("{{packageName}}.hrl").
 
 -export([{{classname}}/0]).
-
+{{^isEnum}}{{^isArrayModel}}
+-export([{{classname}}/1]).
+{{/isArrayModel}}{{/isEnum}}
 -export_type([{{classname}}/0]).
 
 -type {{classname}}() ::{{#isEnum}}
