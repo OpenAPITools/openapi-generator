@@ -596,26 +596,25 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 {
     return m_{{name}};
 }
-
-void {{classname}}::{{setter}}({{{dataType}}} value)
-{
-    m_{{name}} = value;
-    {{^required}}m_{{name}}IsSet = true;{{/required}}
-}
 {{/isNotContainer}}
 {{#isNotContainer}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
+{{/isNotContainer}}
 
-
+{{#isPrimitiveType}}
 void {{classname}}::{{setter}}({{{dataType}}} value)
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+void {{classname}}::{{setter}}(const {{{dataType}}}& value)
+{{/isPrimitiveType}}
 {
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
-{{/isNotContainer}}
+
 {{^required}}
 bool {{classname}}::{{nameInCamelCase}}IsSet() const
 {

@@ -54,7 +54,14 @@ public:
     {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}
+
+    {{#isPrimitiveType}}
     void {{setter}}({{{dataType}}} value);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    void {{setter}}(const {{{dataType}}}& value);
+    {{/isPrimitiveType}}
+
     {{/isInherited}}
     {{/vars}}
 
