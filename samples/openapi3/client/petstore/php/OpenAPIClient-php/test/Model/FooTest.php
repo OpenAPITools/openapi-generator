@@ -1,6 +1,6 @@
 <?php
 /**
- * Body1Test
+ * FooTest
  *
  * PHP version 5
  *
@@ -30,15 +30,15 @@
 namespace OpenAPI\Client;
 
 /**
- * Body1Test Class Doc Comment
+ * FooTest Class Doc Comment
  *
  * @category    Class
- * @description Body1
+ * @description Foo
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class Body1Test extends \PHPUnit_Framework_TestCase
+class FooTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -70,23 +70,16 @@ class Body1Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "Body1"
+     * Test "Foo"
      */
-    public function testBody1()
+    public function testFoo()
     {
     }
 
     /**
-     * Test attribute "additional_metadata"
+     * Test attribute "bar"
      */
-    public function testPropertyAdditionalMetadata()
-    {
-    }
-
-    /**
-     * Test attribute "file"
-     */
-    public function testPropertyFile()
+    public function testPropertyBar()
     {
     }
 }

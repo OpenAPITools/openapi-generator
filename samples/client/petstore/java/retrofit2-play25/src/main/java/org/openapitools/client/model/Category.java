@@ -32,7 +32,7 @@ public class Category {
   private Long id;
 
   @JsonProperty("name")
-  private String name;
+  private String name = "default-name";
 
   public Category id(Long id) {
     this.id = id;
@@ -61,7 +61,8 @@ public class Category {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  @NotNull
+  @ApiModelProperty(required = true, value = "")
   public String getName() {
     return name;
   }

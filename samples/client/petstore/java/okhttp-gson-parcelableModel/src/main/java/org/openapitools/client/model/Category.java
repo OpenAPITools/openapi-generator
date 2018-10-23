@@ -37,7 +37,7 @@ public class Category implements Parcelable {
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  private String name;
+  private String name = "default-name";
 
   public Category() {
   }
@@ -68,7 +68,7 @@ public class Category implements Parcelable {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getName() {
     return name;
   }
