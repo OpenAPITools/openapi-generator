@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * 
@@ -24,22 +24,21 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
- * An order for a pets from the pet store
+ * Order
  */
-@ApiModel(description = "An order for a pets from the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
+
 public class Order   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private Date shipDate = null;
+  private Date shipDate;
 
   /**
    * Order Status
@@ -75,7 +74,7 @@ public class Order   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;
