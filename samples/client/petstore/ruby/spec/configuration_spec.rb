@@ -40,12 +40,12 @@ describe Petstore::Configuration do
 
     it 'should get the second url with default values' do
       url = config.server_url(1)
-      expect(url).to eq("https://api.gigantic-server.com:8080/v2")
+      expect(url).to eq("https://localhost:8080/v2")
     end
 
     it 'should get the second url' do
       url = config.server_url(1, version: "v1")
-      expect(url).to eq("https://api.gigantic-server.com:8080/v1")
+      expect(url).to eq("https://localhost:8080/v1")
     end
 
     it 'should raise error due to invalid enum value' do
