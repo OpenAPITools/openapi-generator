@@ -19,6 +19,7 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 {{#useBeanValidation}}
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 {{/useBeanValidation}}
 {{#operations}}{{#operation}}{{#isMultipart}}import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 {{/isMultipart}}{{/operation}}{{/operations}}
