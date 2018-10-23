@@ -134,12 +134,12 @@ int32_t ApiResponse::getCode() const
     return m_Code;
 }
 
-
 void ApiResponse::setCode(int32_t value)
 {
     m_Code = value;
     m_CodeIsSet = true;
 }
+
 bool ApiResponse::codeIsSet() const
 {
     return m_CodeIsSet;
@@ -155,12 +155,12 @@ utility::string_t ApiResponse::getType() const
     return m_Type;
 }
 
-
-void ApiResponse::setType(utility::string_t value)
+void ApiResponse::setType(const utility::string_t& value)
 {
     m_Type = value;
     m_TypeIsSet = true;
 }
+
 bool ApiResponse::typeIsSet() const
 {
     return m_TypeIsSet;
@@ -176,12 +176,12 @@ utility::string_t ApiResponse::getMessage() const
     return m_Message;
 }
 
-
-void ApiResponse::setMessage(utility::string_t value)
+void ApiResponse::setMessage(const utility::string_t& value)
 {
     m_Message = value;
     m_MessageIsSet = true;
 }
+
 bool ApiResponse::messageIsSet() const
 {
     return m_MessageIsSet;

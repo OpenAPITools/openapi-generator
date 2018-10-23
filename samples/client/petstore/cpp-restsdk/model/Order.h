@@ -58,42 +58,54 @@ public:
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
+
     void setId(int64_t value);
+
     /// <summary>
     /// 
     /// </summary>
     int64_t getPetId() const;
     bool petIdIsSet() const;
     void unsetPetId();
+
     void setPetId(int64_t value);
+
     /// <summary>
     /// 
     /// </summary>
     int32_t getQuantity() const;
     bool quantityIsSet() const;
     void unsetQuantity();
+
     void setQuantity(int32_t value);
+
     /// <summary>
     /// 
     /// </summary>
     utility::datetime getShipDate() const;
     bool shipDateIsSet() const;
     void unsetShipDate();
-    void setShipDate(utility::datetime value);
+
+    void setShipDate(const utility::datetime& value);
+
     /// <summary>
     /// Order Status
     /// </summary>
     utility::string_t getStatus() const;
     bool statusIsSet() const;
     void unsetStatus();
-    void setStatus(utility::string_t value);
+
+    void setStatus(const utility::string_t& value);
+
     /// <summary>
     /// 
     /// </summary>
     bool isComplete() const;
     bool completeIsSet() const;
     void unsetComplete();
+
     void setComplete(bool value);
+
 
 protected:
     int64_t m_Id;

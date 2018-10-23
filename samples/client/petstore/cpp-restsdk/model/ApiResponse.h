@@ -58,21 +58,27 @@ public:
     int32_t getCode() const;
     bool codeIsSet() const;
     void unsetCode();
+
     void setCode(int32_t value);
+
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getType() const;
     bool typeIsSet() const;
     void unsetType();
-    void setType(utility::string_t value);
+
+    void setType(const utility::string_t& value);
+
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getMessage() const;
     bool messageIsSet() const;
     void unsetMessage();
-    void setMessage(utility::string_t value);
+
+    void setMessage(const utility::string_t& value);
+
 
 protected:
     int32_t m_Code;

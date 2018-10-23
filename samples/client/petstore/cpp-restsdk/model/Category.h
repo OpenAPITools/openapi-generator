@@ -58,14 +58,18 @@ public:
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
+
     void setId(int64_t value);
+
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getName() const;
     bool nameIsSet() const;
     void unsetName();
-    void setName(utility::string_t value);
+
+    void setName(const utility::string_t& value);
+
 
 protected:
     int64_t m_Id;

@@ -112,12 +112,12 @@ int64_t Category::getId() const
     return m_Id;
 }
 
-
 void Category::setId(int64_t value)
 {
     m_Id = value;
     m_IdIsSet = true;
 }
+
 bool Category::idIsSet() const
 {
     return m_IdIsSet;
@@ -133,12 +133,12 @@ utility::string_t Category::getName() const
     return m_Name;
 }
 
-
-void Category::setName(utility::string_t value)
+void Category::setName(const utility::string_t& value)
 {
     m_Name = value;
     m_NameIsSet = true;
 }
+
 bool Category::nameIsSet() const
 {
     return m_NameIsSet;

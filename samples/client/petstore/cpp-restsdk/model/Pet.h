@@ -61,38 +61,50 @@ public:
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
+
     void setId(int64_t value);
+
     /// <summary>
     /// 
     /// </summary>
     std::shared_ptr<Category> getCategory() const;
     bool categoryIsSet() const;
     void unsetCategory();
-    void setCategory(std::shared_ptr<Category> value);
+
+    void setCategory(const std::shared_ptr<Category>& value);
+
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getName() const;
-        void setName(utility::string_t value);
+    
+    void setName(const utility::string_t& value);
+
     /// <summary>
     /// 
     /// </summary>
     std::vector<utility::string_t>& getPhotoUrls();
-        void setPhotoUrls(std::vector<utility::string_t> value);
+    
+    void setPhotoUrls(const std::vector<utility::string_t>& value);
+
     /// <summary>
     /// 
     /// </summary>
     std::vector<std::shared_ptr<Tag>>& getTags();
     bool tagsIsSet() const;
     void unsetTags();
-    void setTags(std::vector<std::shared_ptr<Tag>> value);
+
+    void setTags(const std::vector<std::shared_ptr<Tag>>& value);
+
     /// <summary>
     /// pet status in the store
     /// </summary>
     utility::string_t getStatus() const;
     bool statusIsSet() const;
     void unsetStatus();
-    void setStatus(utility::string_t value);
+
+    void setStatus(const utility::string_t& value);
+
 
 protected:
     int64_t m_Id;

@@ -112,12 +112,12 @@ int64_t Tag::getId() const
     return m_Id;
 }
 
-
 void Tag::setId(int64_t value)
 {
     m_Id = value;
     m_IdIsSet = true;
 }
+
 bool Tag::idIsSet() const
 {
     return m_IdIsSet;
@@ -133,12 +133,12 @@ utility::string_t Tag::getName() const
     return m_Name;
 }
 
-
-void Tag::setName(utility::string_t value)
+void Tag::setName(const utility::string_t& value)
 {
     m_Name = value;
     m_NameIsSet = true;
 }
+
 bool Tag::nameIsSet() const
 {
     return m_NameIsSet;
