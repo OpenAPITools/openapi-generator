@@ -1832,6 +1832,8 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
+     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     *
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
@@ -1860,6 +1862,8 @@ class FakeApi
      * Operation testEndpointParametersWithHttpInfo
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+     *
+     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -1926,6 +1930,8 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
+     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     *
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
@@ -1944,9 +1950,9 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEndpointParametersAsync($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersAsync($associative_array)
     {
-        return $this->testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
+        return $this->testEndpointParametersAsyncWithHttpInfo($associative_array)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1959,6 +1965,8 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
+     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     *
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
@@ -1977,10 +1985,10 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testEndpointParametersAsyncWithHttpInfo($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersAsyncWithHttpInfo($associative_array)
     {
         $returnType = '';
-        $request = $this->testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback);
+        $request = $this->testEndpointParametersRequest($associative_array);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2008,6 +2016,8 @@ class FakeApi
     /**
      * Create request for operation 'testEndpointParameters'
      *
+     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     *
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
@@ -2026,8 +2036,24 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    protected function testEndpointParametersRequest($associative_array)
     {
+        // unbox the parameters from the associative array
+        $number = array_key_exists('number', $associative_array) ? $associative_array['number'] : null;
+        $double = array_key_exists('double', $associative_array) ? $associative_array['double'] : null;
+        $pattern_without_delimiter = array_key_exists('pattern_without_delimiter', $associative_array) ? $associative_array['pattern_without_delimiter'] : null;
+        $byte = array_key_exists('byte', $associative_array) ? $associative_array['byte'] : null;
+        $integer = array_key_exists('integer', $associative_array) ? $associative_array['integer'] : null;
+        $int32 = array_key_exists('int32', $associative_array) ? $associative_array['int32'] : null;
+        $int64 = array_key_exists('int64', $associative_array) ? $associative_array['int64'] : null;
+        $float = array_key_exists('float', $associative_array) ? $associative_array['float'] : null;
+        $string = array_key_exists('string', $associative_array) ? $associative_array['string'] : null;
+        $binary = array_key_exists('binary', $associative_array) ? $associative_array['binary'] : null;
+        $date = array_key_exists('date', $associative_array) ? $associative_array['date'] : null;
+        $date_time = array_key_exists('date_time', $associative_array) ? $associative_array['date_time'] : null;
+        $password = array_key_exists('password', $associative_array) ? $associative_array['password'] : null;
+        $callback = array_key_exists('callback', $associative_array) ? $associative_array['callback'] : null;
+
         // verify the required parameter 'number' is set
         if ($number === null || (is_array($number) && count($number) === 0)) {
             throw new \InvalidArgumentException(
