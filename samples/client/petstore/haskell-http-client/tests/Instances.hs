@@ -151,7 +151,7 @@ instance Arbitrary Category where
   arbitrary =
     Category
       <$> arbitrary -- categoryId :: Maybe Integer
-      <*> arbitrary -- categoryName :: Maybe Text
+      <*> arbitrary -- categoryName :: Text
     
 instance Arbitrary ClassModel where
   arbitrary =

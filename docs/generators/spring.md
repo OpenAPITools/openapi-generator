@@ -164,6 +164,9 @@ CONFIG OPTIONS for spring
 	useOptional
 	    Use Optional container for optional parameters (Default: false)
 
+	hateoas
+	    Use Spring HATEOAS library to allow adding HATEOAS links (Default: false)
+
 	library
 	    library template (sub-template) to use (Default: spring-boot)
 	        spring-boot - Spring-boot Server application using the SpringFox integration.

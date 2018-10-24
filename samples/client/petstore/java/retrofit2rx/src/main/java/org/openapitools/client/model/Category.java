@@ -35,7 +35,7 @@ public class Category {
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  private String name;
+  private String name = "default-name";
 
   public Category id(Long id) {
     this.id = id;
@@ -64,7 +64,7 @@ public class Category {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public String getName() {
     return name;
   }

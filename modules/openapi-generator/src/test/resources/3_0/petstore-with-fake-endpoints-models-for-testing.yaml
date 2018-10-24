@@ -17,6 +17,18 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /foo:
+    get:
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Foo'
   /pet:
     post:
       tags:
@@ -982,8 +994,8 @@ servers:
           - 80
           - 8080
         default: 80
-  - url: https://api.gigantic-server.com:8080/{version}
-    description: The production API server
+  - url: https://localhost:8080/{version}
+    description: The local server
     variables:
       version:
         enum:
@@ -1039,6 +1051,14 @@ components:
       type: http
       scheme: basic
   schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: string
+      default: bar
     Order:
       type: object
       properties:
@@ -1068,12 +1088,15 @@ components:
         name: Order
     Category:
       type: object
+      required:
+        - name
       properties:
         id:
           type: integer
           format: int64
         name:
           type: string
+          default: default-name
       xml:
         name: Category
     User:

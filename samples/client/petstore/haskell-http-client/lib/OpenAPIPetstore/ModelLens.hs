@@ -185,7 +185,7 @@ categoryIdL f Category{..} = (\categoryId -> Category { categoryId, ..} ) <$> f 
 {-# INLINE categoryIdL #-}
 
 -- | 'categoryName' Lens
-categoryNameL :: Lens_' Category (Maybe Text)
+categoryNameL :: Lens_' Category (Text)
 categoryNameL f Category{..} = (\categoryName -> Category { categoryName, ..} ) <$> f categoryName
 {-# INLINE categoryNameL #-}
 

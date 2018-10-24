@@ -24,7 +24,7 @@ python setup.py develop
 tox || exit 1
 
 ### static analysis of code
-flake8 --show-source petstore_api/
+#flake8 --show-source petstore_api/
 
 ### deactivate virtualenv
 #if [ $DEACTIVE == true ]; then

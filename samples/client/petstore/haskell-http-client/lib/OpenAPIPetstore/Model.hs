@@ -505,7 +505,7 @@ mkCat catClassName =
 -- | Category
 data Category = Category
   { categoryId :: !(Maybe Integer) -- ^ "id"
-  , categoryName :: !(Maybe Text) -- ^ "name"
+  , categoryName :: !(Text) -- ^ /Required/ "name"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Category
@@ -513,7 +513,7 @@ instance A.FromJSON Category where
   parseJSON = A.withObject "Category" $ \o ->
     Category
       <$> (o .:? "id")
-      <*> (o .:? "name")
+      <*> (o .:  "name")
 
 -- | ToJSON Category
 instance A.ToJSON Category where
@@ -526,11 +526,12 @@ instance A.ToJSON Category where
 
 -- | Construct a value of type 'Category' (by applying it's required fields, if any)
 mkCategory
-  :: Category
-mkCategory =
+  :: Text -- ^ 'categoryName' 
+  -> Category
+mkCategory categoryName =
   Category
   { categoryId = Nothing
-  , categoryName = Nothing
+  , categoryName
   }
 
 -- ** ClassModel

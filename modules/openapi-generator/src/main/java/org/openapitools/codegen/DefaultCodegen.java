@@ -2175,6 +2175,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isPrimitiveType = true;
         } else {
             property.complexType = property.baseType;
+            property.isModel = true;
         }
     }
 
@@ -4514,6 +4515,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (StringUtils.isNotBlank(name)) {
                 schema.setName(name);
                 codegenModel = fromModel(name, schema, schemas);
+            }
+            if (codegenModel != null) {
+                codegenParameter.isModel = true;
             }
 
             if (codegenModel != null && !codegenModel.emptyVars) {
