@@ -2950,7 +2950,6 @@ impl<T, C> Clone for Service<T, C>
     }
 }
 
-
 /// Request parser for `Api`.
 pub struct ApiRequestParser;
 impl RequestParser for ApiRequestParser {
