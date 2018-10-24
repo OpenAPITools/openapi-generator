@@ -39,7 +39,8 @@ use swagger;
 use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api,
-     DummyGetResponse
+     DummyGetResponse,
+     HtmlPostResponse
      };
 use models;
 
@@ -275,6 +276,78 @@ impl<F, C> Api<C> for Client<F> where
 
                         future::ok(
                             DummyGetResponse::Success
+                        )
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn html_post(&self, param_body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
+
+
+        let uri = format!(
+            "{}/html",
+            self.base_path
+        );
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Post, uri);
+
+
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
+
+
+        request.set_body(body.into_bytes());
+
+
+        request.headers_mut().set(ContentType(mimetypes::requests::HTML_POST.clone()));
+        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body| str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
+
+                                                 Ok(body.to_string())
+
+                                             ))
+                        .map(move |body|
+                            HtmlPostResponse::Success(body)
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },
