@@ -994,8 +994,8 @@ servers:
           - 80
           - 8080
         default: 80
-  - url: https://api.gigantic-server.com:8080/{version}
-    description: The production API server
+  - url: https://localhost:8080/{version}
+    description: The local server
     variables:
       version:
         enum:
