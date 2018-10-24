@@ -11,49 +11,38 @@
 */
 
 #include "PetApi.h"
+#include "Helpers.h"
 
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
+using namespace org::openapitools::server::helpers;
 using namespace org::openapitools::server::model;
 
-PetApi::PetApi(Pistache::Address addr)
-    : httpEndpoint(addr)
-{ };
+PetApi::PetApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
+    router = rtr;
+};
 
-void PetApi::init(size_t thr = 2) {
-    auto opts = Pistache::Http::Endpoint::options()
-        .threads(thr)
-        .flags(Pistache::Tcp::Options::InstallSignalHandler);
-    httpEndpoint.init(opts);
+void PetApi::init() {
     setupRoutes();
-}
-
-void PetApi::start() {
-    httpEndpoint.setHandler(router.handler());
-    httpEndpoint.serve();
-}
-
-void PetApi::shutdown() {
-    httpEndpoint.shutdown();
 }
 
 void PetApi::setupRoutes() {
     using namespace Pistache::Rest;
 
-    Routes::Post(router, base + "/pet", Routes::bind(&PetApi::add_pet_handler, this));
-    Routes::Delete(router, base + "/pet/:petId", Routes::bind(&PetApi::delete_pet_handler, this));
-    Routes::Get(router, base + "/pet/findByStatus", Routes::bind(&PetApi::find_pets_by_status_handler, this));
-    Routes::Get(router, base + "/pet/findByTags", Routes::bind(&PetApi::find_pets_by_tags_handler, this));
-    Routes::Get(router, base + "/pet/:petId", Routes::bind(&PetApi::get_pet_by_id_handler, this));
-    Routes::Put(router, base + "/pet", Routes::bind(&PetApi::update_pet_handler, this));
-    Routes::Post(router, base + "/pet/:petId", Routes::bind(&PetApi::update_pet_with_form_handler, this));
-    Routes::Post(router, base + "/pet/:petId/uploadImage", Routes::bind(&PetApi::upload_file_handler, this));
+    Routes::Post(*router, base + "/pet", Routes::bind(&PetApi::add_pet_handler, this));
+    Routes::Delete(*router, base + "/pet/:petId", Routes::bind(&PetApi::delete_pet_handler, this));
+    Routes::Get(*router, base + "/pet/findByStatus", Routes::bind(&PetApi::find_pets_by_status_handler, this));
+    Routes::Get(*router, base + "/pet/findByTags", Routes::bind(&PetApi::find_pets_by_tags_handler, this));
+    Routes::Get(*router, base + "/pet/:petId", Routes::bind(&PetApi::get_pet_by_id_handler, this));
+    Routes::Put(*router, base + "/pet", Routes::bind(&PetApi::update_pet_handler, this));
+    Routes::Post(*router, base + "/pet/:petId", Routes::bind(&PetApi::update_pet_with_form_handler, this));
+    Routes::Post(*router, base + "/pet/:petId/uploadImage", Routes::bind(&PetApi::upload_file_handler, this));
 
     // Default handler, called when a route is not found
-    router.addCustomHandler(Routes::bind(&PetApi::pet_api_default_handler, this));
+    router->addCustomHandler(Routes::bind(&PetApi::pet_api_default_handler, this));
 }
 
 void PetApi::add_pet_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -94,7 +83,14 @@ void PetApi::delete_pet_handler(const Pistache::Rest::Request &request, Pistache
 void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
-    auto status = request.query().get("status");
+    auto statusQuery = request.query().get("status");
+    Pistache::Optional<std::vector<std::string>> status;
+    if(!statusQuery.isEmpty()){
+        std::vector<std::string> value;
+        if(fromStringValue(statusQuery.get(), value)){
+            status = Pistache::Some(value);
+        }
+    }
     
     try {
       this->find_pets_by_status(status, response);
@@ -108,7 +104,14 @@ void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request,
 void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the query params
-    auto tags = request.query().get("tags");
+    auto tagsQuery = request.query().get("tags");
+    Pistache::Optional<std::vector<std::string>> tags;
+    if(!tagsQuery.isEmpty()){
+        std::vector<std::string> value;
+        if(fromStringValue(tagsQuery.get(), value)){
+            tags = Pistache::Some(value);
+        }
+    }
     
     try {
       this->find_pets_by_tags(tags, response);

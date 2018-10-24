@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.core.util.Json;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -211,6 +213,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+        }
 
         // {{packageVersion}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -421,8 +427,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         var.allowableValues = refModel.allowableValues;
                         var.isEnum = true;
 
-                        updateCodegenPropertyEnum(var);
-
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
                     }
@@ -600,17 +604,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return camelize(sanitizeName(operationId));
+        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId));
     }
 
     @Override
@@ -625,7 +629,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // camelize the variable name
         // pet_id => PetId
-        name = camelize(name);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -648,9 +652,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return name;
         }
 
-        // camelize(lower) the variable name
+        // org.openapitools.codegen.utils.StringUtils.camelize(lower) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -836,19 +840,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -936,7 +940,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(name));
         }
 
         String enumName = sanitizeName(name);
@@ -944,7 +948,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = camelize(enumName) + "Enum";
+        enumName = org.openapitools.codegen.utils.StringUtils.camelize(enumName) + "Enum";
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -955,7 +959,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
     }
 
     public String testPackageName() {
@@ -1014,6 +1018,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
         }
+    }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String csharpPostProcessFile = System.getenv("CSHARP_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(csharpPostProcessFile)) {
+            return; // skip if CSHARP_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with .cs extension
+        if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = csharpPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

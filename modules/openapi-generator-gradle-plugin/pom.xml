@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>3.2.3-SNAPSHOT</version>
+        <version>3.3.2-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -15,6 +15,7 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+        <gradleVersion>4.10.2</gradleVersion>
     </properties>
 
     <dependencies>
@@ -54,7 +55,7 @@
                 <artifactId>gradle-maven-plugin</artifactId>
                 <version>1.0.8</version>
                 <configuration>
-                    <gradleVersion>4.7</gradleVersion>
+                    <gradleVersion>${gradleVersion}</gradleVersion>
                     <args>
                         <arg>-P openApiGeneratorVersion=${project.version}</arg>
                     </args>
@@ -76,6 +77,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.gradle</groupId>
+                        <artifactId>gradle-tooling-api</artifactId>
+                        <version>${gradleVersion}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

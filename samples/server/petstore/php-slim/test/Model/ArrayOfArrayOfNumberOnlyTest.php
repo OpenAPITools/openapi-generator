@@ -36,48 +36,49 @@ use OpenAPIServer\Model\ArrayOfArrayOfNumberOnly;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
  */
-class ArrayOfArrayOfNumberOnlyTest extends \PHPUnit_Framework_TestCase {
+class ArrayOfArrayOfNumberOnlyTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "ArrayOfArrayOfNumberOnly"
      */
-    public function testArrayOfArrayOfNumberOnly() {
+    public function testArrayOfArrayOfNumberOnly()
+    {
         $testArrayOfArrayOfNumberOnly = new ArrayOfArrayOfNumberOnly();
     }
 
     /**
      * Test attribute "arrayArrayNumber"
      */
-    public function testPropertyArrayArrayNumber() {
-
+    public function testPropertyArrayArrayNumber()
+    {
     }
 }
-

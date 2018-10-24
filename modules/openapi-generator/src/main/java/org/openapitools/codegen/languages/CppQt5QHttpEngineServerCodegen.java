@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+
 public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implements CodegenConfig {
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LoggerFactory.getLogger(CppQt5QHttpEngineServerCodegen.class);
@@ -124,7 +125,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given
-        // in command line it will superseed this content
+        // in command line it will supersede this content
         additionalProperties.put("cppNamespace", cppNamespace);
 
         /*
@@ -179,7 +180,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
         // mapped as "file" type for OAS 3.0
         typeMapping.put("ByteArray", "QByteArray");
         //   UUID support - possible enhancement : use QUuid instead of QString.
-        //   beware though that Serialisation/deserialisation of QUuid does not
+        //   beware though that Serialization/deserialization of QUuid does not
         //   come out of the box and will need to be sorted out (at least imply
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
@@ -259,7 +260,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ Server (beta) using the QHTTPEngine HTTP Library.";
+        return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
     }
 
     @Override
@@ -429,7 +430,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        varName = underscore(varName);
+        varName = org.openapitools.codegen.utils.StringUtils.underscore(varName);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(varName) || varName.matches("^\\d.*")) {

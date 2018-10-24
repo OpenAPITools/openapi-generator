@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
 /**
  * Created by prokarma on 04/09/17.
  */
@@ -545,7 +546,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(title), true);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -594,7 +595,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override

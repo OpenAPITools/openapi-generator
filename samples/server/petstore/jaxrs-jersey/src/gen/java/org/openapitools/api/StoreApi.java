@@ -25,12 +25,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("/store")
 
 
 @io.swagger.annotations.Api(description = "the store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-10T15:02:11.723+09:00[Asia/Tokyo]")
+
 public class StoreApi  {
    private final StoreApiService delegate;
 
@@ -56,7 +57,7 @@ public class StoreApi  {
    }
 
     @DELETE
-    @Path("/order/{orderId}")
+    @Path("/order/{order_id}")
     
     
     @io.swagger.annotations.ApiOperation(value = "Delete purchase order by ID", notes = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors", response = Void.class, tags={ "store", })
@@ -64,7 +65,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("orderId") String orderId
+    public Response deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathParam("order_id") String orderId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.deleteOrder(orderId,securityContext);
@@ -83,7 +84,7 @@ public class StoreApi  {
         return delegate.getInventory(securityContext);
     }
     @GET
-    @Path("/order/{orderId}")
+    @Path("/order/{order_id}")
     
     @Produces({ "application/xml", "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Find purchase order by ID", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class, tags={ "store", })
@@ -93,7 +94,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Order not found", response = Void.class) })
-    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("orderId") Long orderId
+    public Response getOrderById(@ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathParam("order_id") Long orderId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getOrderById(orderId,securityContext);
@@ -107,7 +108,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) Order order
+    public Response placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true) @Valid Order order
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.placeOrder(order,securityContext);

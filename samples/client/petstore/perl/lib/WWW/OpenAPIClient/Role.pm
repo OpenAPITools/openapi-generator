@@ -1,3 +1,4 @@
+
 =begin comment
 
 OpenAPI Petstore
@@ -26,87 +27,108 @@ use Class::Inspector;
 use Log::Any qw($log);
 use WWW::OpenAPIClient::ApiFactory;
 
-has base_url => ( is => 'ro',
-                  required => 0,
-                  isa => 'Str',
-                  documentation => 'Root of the server that requests are sent to',
-                  );
+has base_url => (
+    is            => 'ro',
+    required      => 0,
+    isa           => 'Str',
+    documentation => 'Root of the server that requests are sent to',
+);
 
-has api_factory => ( is => 'ro',
-                     isa => 'WWW::OpenAPIClient::ApiFactory',
-                     builder => '_build_af',
-                     lazy => 1,
-                     documentation => 'Builds an instance of the endpoint API class',
-                     );
+has api_factory => (
+    is            => 'ro',
+    isa           => 'WWW::OpenAPIClient::ApiFactory',
+    builder       => '_build_af',
+    lazy          => 1,
+    documentation => 'Builds an instance of the endpoint API class',
+);
 
-has tokens => ( is => 'ro',
-                isa => 'HashRef',
-                required => 0,
-                default => sub { {} },
-                documentation => 'The auth tokens required by the application - basic, OAuth and/or API key(s)',
-                );
+has tokens => (
+    is       => 'ro',
+    isa      => 'HashRef',
+    required => 0,
+    default  => sub { {} },
+    documentation =>
+'The auth tokens required by the application - basic, OAuth and/or API key(s)',
+);
 
-has _cfg => ( is => 'ro',
-              isa => 'WWW::OpenAPIClient::Configuration',
-              default => sub { WWW::OpenAPIClient::Configuration->new() },
-              );
+has _cfg => (
+    is      => 'ro',
+    isa     => 'WWW::OpenAPIClient::Configuration',
+    default => sub { WWW::OpenAPIClient::Configuration->new() },
+);
 
-has version_info => ( is => 'ro',
-                      isa => 'HashRef',
-                      default => sub { {
-                          app_name => 'OpenAPI Petstore',
-                          app_version => '1.0.0',
-                          generator_class => 'org.openapitools.codegen.languages.PerlClientCodegen',
-                      } },
-                      documentation => 'Information about the application version and the codegen codebase version'
-                      );
+has version_info => (
+    is      => 'ro',
+    isa     => 'HashRef',
+    default => sub {
+        {
+            app_name    => 'OpenAPI Petstore',
+            app_version => '1.0.0',
+            generator_class =>
+              'org.openapitools.codegen.languages.PerlClientCodegen',
+        }
+    },
+    documentation =>
+'Information about the application version and the codegen codebase version'
+);
 
 sub BUILD {
-	my $self = shift;
+    my $self = shift;
 
-	$self->_cfg->accept_tokens( $self->tokens ) if keys %{$self->tokens};
+    $self->_cfg->accept_tokens( $self->tokens ) if keys %{ $self->tokens };
 
-	# ignore these symbols imported into API namespaces
-	my %outsiders = map {$_ => 1} qw( croak );
+    # ignore these symbols imported into API namespaces
+    my %outsiders = map { $_ => 1 } qw( croak );
 
-	my %delegates;
+    my %delegates;
 
-	# collect the methods callable on each API
-	foreach my $api_name ($self->api_factory->apis_available) {
-		my $api_class = $self->api_factory->classname_for($api_name);
-		my $methods = Class::Inspector->methods($api_class, 'expanded'); # not Moose, so use CI instead
-		my @local_methods = grep {! /^_/} grep {! $outsiders{$_}} map {$_->[2]} grep {$_->[1] eq $api_class} @$methods;
-		push( @{$delegates{$_}}, {api_name => $api_name, api_class => $api_class} ) for @local_methods;
-	}
+    # collect the methods callable on each API
+    foreach my $api_name ( $self->api_factory->apis_available ) {
+        my $api_class = $self->api_factory->classname_for($api_name);
+        my $methods = Class::Inspector->methods( $api_class, 'expanded' )
+          ;    # not Moose, so use CI instead
+        my @local_methods =
+          grep { !/^_/ }
+          grep { !$outsiders{$_} }
+          map { $_->[2] } grep { $_->[1] eq $api_class } @$methods;
+        push(
+            @{ $delegates{$_} },
+            { api_name => $api_name, api_class => $api_class }
+        ) for @local_methods;
+    }
 
-	# remove clashes
-	foreach my $method (keys %delegates) {
-		if ( @{$delegates{$method}} > 1 ) {
-			my ($apis) = delete $delegates{$method};
-		}
-	}
+    # remove clashes
+    foreach my $method ( keys %delegates ) {
+        if ( @{ $delegates{$method} } > 1 ) {
+            my ($apis) = delete $delegates{$method};
+        }
+    }
 
     # build the flattened API
-    foreach my $api_name ($self->api_factory->apis_available) {
+    foreach my $api_name ( $self->api_factory->apis_available ) {
         my $att_name = sprintf "%s_api", lc($api_name);
         my $api_class = $self->api_factory->classname_for($api_name);
-        my @delegated = grep { $delegates{$_}->[0]->{api_name} eq $api_name } keys %delegates;
-        $log->debugf("Adding API: '%s' handles %s", $att_name, join ', ', @delegated);
-        $self->meta->add_attribute( $att_name => (
-                                    is => 'ro',
-                                    isa => $api_class,
-                                    default => sub {$self->api_factory->get_api($api_name)},
-                                    lazy => 1,
-                                    handles => \@delegated,
-                                    ) );
+        my @delegated =
+          grep { $delegates{$_}->[0]->{api_name} eq $api_name } keys %delegates;
+        $log->debugf( "Adding API: '%s' handles %s",
+            $att_name, join ', ', @delegated );
+        $self->meta->add_attribute(
+            $att_name => (
+                is      => 'ro',
+                isa     => $api_class,
+                default => sub { $self->api_factory->get_api($api_name) },
+                lazy    => 1,
+                handles => \@delegated,
+            )
+        );
     }
 }
 
 sub _build_af {
-	my $self = shift;
-	my %args;
-	$args{base_url} = $self->base_url if $self->base_url;
-	return WWW::OpenAPIClient::ApiFactory->new(%args);
+    my $self = shift;
+    my %args;
+    $args{base_url} = $self->base_url if $self->base_url;
+    return WWW::OpenAPIClient::ApiFactory->new(%args);
 }
 
 =head1 NAME

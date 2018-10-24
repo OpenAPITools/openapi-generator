@@ -42,13 +42,13 @@ using namespace org::openapitools::server::model;
 
 class PetApiImpl : public org::openapitools::server::api::PetApi {
 public:
-    PetApiImpl(Pistache::Address addr);
-    ~PetApiImpl() { };
+    PetApiImpl(std::shared_ptr<Pistache::Rest::Router>);
+    ~PetApiImpl() {}
 
     void add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response);
     void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response);
-    void find_pets_by_status(const Pistache::Optional<std::string> &status, Pistache::Http::ResponseWriter &response);
-    void find_pets_by_tags(const Pistache::Optional<std::string> &tags, Pistache::Http::ResponseWriter &response);
+    void find_pets_by_status(const Pistache::Optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response);
+    void find_pets_by_tags(const Pistache::Optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response);
     void get_pet_by_id(const int64_t &petId, Pistache::Http::ResponseWriter &response);
     void update_pet(const Pet &pet, Pistache::Http::ResponseWriter &response);
     void update_pet_with_form(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);

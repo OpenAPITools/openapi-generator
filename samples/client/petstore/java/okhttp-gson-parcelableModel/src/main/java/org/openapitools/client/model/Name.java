@@ -34,19 +34,19 @@ import android.os.Parcel;
 public class Name implements Parcelable {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  private Integer name = null;
+  private Integer name;
 
   public static final String SERIALIZED_NAME_SNAKE_CASE = "snake_case";
   @SerializedName(SERIALIZED_NAME_SNAKE_CASE)
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   public static final String SERIALIZED_NAME_PROPERTY = "property";
   @SerializedName(SERIALIZED_NAME_PROPERTY)
-  private String property = null;
+  private String property;
 
   public static final String SERIALIZED_NAME_123NUMBER = "123Number";
   @SerializedName(SERIALIZED_NAME_123NUMBER)
-  private Integer _123number = null;
+  private Integer _123number;
 
   public Name() {
   }

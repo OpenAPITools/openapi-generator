@@ -19,7 +19,6 @@
 #define StoreApi_H_
 
 
-#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
@@ -39,11 +38,9 @@ using namespace org::openapitools::server::model;
 
 class  StoreApi {
 public:
-    StoreApi(Pistache::Address addr);
-    virtual ~StoreApi() {};
-    void init(size_t thr);
-    void start();
-    void shutdown();
+    StoreApi(std::shared_ptr<Pistache::Rest::Router>);
+    virtual ~StoreApi() {}
+    void init();
 
     const std::string base = "/v2";
 
@@ -56,9 +53,7 @@ private:
     void place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    Pistache::Http::Endpoint httpEndpoint;
-    Pistache::Rest::Router router;
-
+    std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Delete purchase order by ID

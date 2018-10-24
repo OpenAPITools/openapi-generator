@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * 
@@ -19,21 +19,21 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
- * Describes the result of uploading an image resource
+ * ModelApiResponse
  */
-@ApiModel(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-10T15:02:11.723+09:00[Asia/Tokyo]")
+
 public class ModelApiResponse   {
   @JsonProperty("code")
-  private Integer code = null;
+  private Integer code;
 
   @JsonProperty("type")
-  private String type = null;
+  private String type;
 
   @JsonProperty("message")
-  private String message = null;
+  private String message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;
@@ -46,6 +46,7 @@ public class ModelApiResponse   {
    **/
   @JsonProperty("code")
   @ApiModelProperty(value = "")
+  
   public Integer getCode() {
     return code;
   }
@@ -65,6 +66,7 @@ public class ModelApiResponse   {
    **/
   @JsonProperty("type")
   @ApiModelProperty(value = "")
+  
   public String getType() {
     return type;
   }
@@ -84,6 +86,7 @@ public class ModelApiResponse   {
    **/
   @JsonProperty("message")
   @ApiModelProperty(value = "")
+  
   public String getMessage() {
     return message;
   }

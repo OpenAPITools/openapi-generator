@@ -2,44 +2,33 @@
 {{#operations}}
 
 #include "{{classname}}.h"
+#include "{{prefix}}Helpers.h"
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
+using namespace {{helpersNamespace}};
 {{#hasModelImport}}
 using namespace {{modelNamespace}};{{/hasModelImport}}
 
-{{classname}}::{{classname}}(Pistache::Address addr)
-    : httpEndpoint(addr)
-{ };
+{{classname}}::{{classname}}(std::shared_ptr<Pistache::Rest::Router> rtr) { 
+    router = rtr;
+};
 
-void {{classname}}::init(size_t thr = 2) {
-    auto opts = Pistache::Http::Endpoint::options()
-        .threads(thr)
-        .flags(Pistache::Tcp::Options::InstallSignalHandler);
-    httpEndpoint.init(opts);
+void {{classname}}::init() {
     setupRoutes();
-}
-
-void {{classname}}::start() {
-    httpEndpoint.setHandler(router.handler());
-    httpEndpoint.serve();
-}
-
-void {{classname}}::shutdown() {
-    httpEndpoint.shutdown();
 }
 
 void {{classname}}::setupRoutes() {
     using namespace Pistache::Rest;
 
     {{#operation}}
-    Routes::{{httpMethod}}(router, base + "{{{vendorExtensions.x-codegen-pistache-path}}}", Routes::bind(&{{classname}}::{{operationIdSnakeCase}}_handler, this));
+    Routes::{{httpMethod}}(*router, base + "{{{vendorExtensions.x-codegen-pistache-path}}}", Routes::bind(&{{classname}}::{{operationIdSnakeCase}}_handler, this));
     {{/operation}}
 
     // Default handler, called when a route is not found
-    router.addCustomHandler(Routes::bind(&{{classname}}::{{classnameSnakeLowerCase}}_default_handler, this));
+    router->addCustomHandler(Routes::bind(&{{classname}}::{{classnameSnakeLowerCase}}_default_handler, this));
 }
 
 {{#operation}}
@@ -62,7 +51,14 @@ void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Reque
     {{/hasBodyParam}}{{#hasQueryParams}}
     // Getting the query params
     {{#queryParams}}
-    auto {{paramName}} = request.query().get("{{baseName}}");
+    auto {{paramName}}Query = request.query().get("{{baseName}}");
+    Pistache::Optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}}> {{paramName}};
+    if(!{{paramName}}Query.isEmpty()){
+        {{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}} value;
+        if(fromStringValue({{paramName}}Query.get(), value)){
+            {{paramName}} = Pistache::Some(value);
+        }
+    }
     {{/queryParams}}
     {{/hasQueryParams}}{{#hasHeaderParams}}
     // Getting the header params

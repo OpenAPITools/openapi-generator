@@ -7,6 +7,6 @@ namespace OpenAPIServer\Model;
 /**
  * StringBooleanMap
  */
-class StringBooleanMap {
-
+class StringBooleanMap
+{
 }

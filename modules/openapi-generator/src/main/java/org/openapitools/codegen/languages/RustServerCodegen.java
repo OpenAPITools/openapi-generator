@@ -56,6 +56,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+
 public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RustServerCodegen.class);
@@ -174,7 +175,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME,
                 "Rust crate name (convention: snake_case).")
-                .defaultValue("swagger_client"));
+                .defaultValue("openapi_client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION,
                 "Rust crate version.")
                 .defaultValue("1.0.0"));
@@ -218,7 +219,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger_client");
+            setPackageName("openapi_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -303,7 +304,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "default";
         }
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     /**
@@ -333,7 +334,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        String camelizedName = camelize(toModelFilename(name));
+        String camelizedName = org.openapitools.codegen.utils.StringUtils.camelize(toModelFilename(name));
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {
@@ -366,18 +367,18 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             sanitizedName = escapeReservedWord(sanitizedName);
         }
 
-        return underscore(sanitizedName);
+        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizedName);
     }
 
     @Override
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return camelize(operationId);
+        return org.openapitools.codegen.utils.StringUtils.camelize(operationId);
     }
 
     @Override
@@ -394,16 +395,16 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
     }
 
     @Override
@@ -454,7 +455,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.go => pet_api.go
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     @Override
@@ -520,8 +521,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             pathSetMap.put(pathId, pathSetEntry);
         }
 
-        op.vendorExtensions.put("operation_id", underscore(op.operationId));
-        op.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
+        op.vendorExtensions.put("operation_id", org.openapitools.codegen.utils.StringUtils.underscore(op.operationId));
+        op.vendorExtensions.put("uppercase_operation_id", org.openapitools.codegen.utils.StringUtils.underscore(op.operationId).toUpperCase(Locale.ROOT));
         op.vendorExtensions.put("path", op.path.replace("{", ":").replace("}", ""));
         op.vendorExtensions.put("PATH_ID", pathId);
         op.vendorExtensions.put("hasPathParams", !op.pathParams.isEmpty());
@@ -598,13 +599,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (rsp.vendorExtensions.containsKey("x-responseId")) {
                 responseId = (String) rsp.vendorExtensions.get("x-responseId");
             } else if (words.length != 0) {
-                responseId = camelize(words[0].replace(" ", "_"));
+                responseId = org.openapitools.codegen.utils.StringUtils.camelize(words[0].replace(" ", "_"));
             } else {
                 responseId = "Status" + rsp.code;
             }
             rsp.vendorExtensions.put("x-responseId", responseId);
-            rsp.vendorExtensions.put("x-uppercaseResponseId", underscore(responseId).toUpperCase(Locale.ROOT));
-            rsp.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
+            rsp.vendorExtensions.put("x-uppercaseResponseId", org.openapitools.codegen.utils.StringUtils.underscore(responseId).toUpperCase(Locale.ROOT));
+            rsp.vendorExtensions.put("uppercase_operation_id", org.openapitools.codegen.utils.StringUtils.underscore(op.operationId).toUpperCase(Locale.ROOT));
             if (rsp.dataType != null) {
                 rsp.vendorExtensions.put("uppercase_data_type", (rsp.dataType.replace("models::", "")).toUpperCase(Locale.ROOT));
 
@@ -675,7 +676,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             if (op.bodyParam != null) {
                 // Default to consuming json
-                op.bodyParam.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
+                op.bodyParam.vendorExtensions.put("uppercase_operation_id", org.openapitools.codegen.utils.StringUtils.underscore(op.operationId).toUpperCase(Locale.ROOT));
                 if (consumesXml) {
                     op.bodyParam.vendorExtensions.put("consumesXml", true);
                 } else if (consumesPlainText) {
@@ -688,7 +689,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             for (CodegenParameter param : op.bodyParams) {
                 processParam(param, op);
 
-                param.vendorExtensions.put("uppercase_operation_id", underscore(op.operationId).toUpperCase(Locale.ROOT));
+                param.vendorExtensions.put("uppercase_operation_id", org.openapitools.codegen.utils.StringUtils.underscore(op.operationId).toUpperCase(Locale.ROOT));
 
                 // Default to producing json if nothing else is specified
                 if (consumesXml) {
@@ -926,9 +927,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             // If we use a more qualified model name, then only camelize the actual type, not the qualifier.
             if (property.dataType.contains(":")) {
                 int position = property.dataType.lastIndexOf(":");
-                property.dataType = property.dataType.substring(0, position) + camelize(property.dataType.substring(position));
+                property.dataType = property.dataType.substring(0, position) + org.openapitools.codegen.utils.StringUtils.camelize(property.dataType.substring(position));
             } else {
-                property.dataType = camelize(property.dataType, false);
+                property.dataType = org.openapitools.codegen.utils.StringUtils.camelize(property.dataType, false);
             }
         }
 
@@ -976,7 +977,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
-        property.name = underscore(property.name);
+        property.name = org.openapitools.codegen.utils.StringUtils.underscore(property.name);
 
         if (!property.required) {
             property.defaultValue = (property.defaultValue != null) ? "Some(" + property.defaultValue + ")" : "None";

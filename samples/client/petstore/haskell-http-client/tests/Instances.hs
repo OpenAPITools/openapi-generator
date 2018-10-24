@@ -130,54 +130,6 @@ instance Arbitrary ArrayTest where
       <*> arbitrary -- arrayTestArrayArrayOfInteger :: Maybe [[Integer]]
       <*> arbitrary -- arrayTestArrayArrayOfModel :: Maybe [[ReadOnlyFirst]]
     
-instance Arbitrary Body where
-  arbitrary =
-    Body
-      <$> arbitrary -- bodyName :: Maybe Text
-      <*> arbitrary -- bodyStatus :: Maybe Text
-    
-instance Arbitrary Body1 where
-  arbitrary =
-    Body1
-      <$> arbitrary -- body1AdditionalMetadata :: Maybe Text
-      <*> arbitrary -- body1File :: Maybe FilePath
-    
-instance Arbitrary Body2 where
-  arbitrary =
-    Body2
-      <$> arbitrary -- body2EnumFormStringArray :: Maybe [Text]
-      <*> arbitrary -- body2EnumFormString :: Maybe Text
-    
-instance Arbitrary Body3 where
-  arbitrary =
-    Body3
-      <$> arbitrary -- body3Integer :: Maybe Int
-      <*> arbitrary -- body3Int32 :: Maybe Int
-      <*> arbitrary -- body3Int64 :: Maybe Integer
-      <*> arbitrary -- body3Number :: Double
-      <*> arbitrary -- body3Float :: Maybe Float
-      <*> arbitrary -- body3Double :: Double
-      <*> arbitrary -- body3String :: Maybe Text
-      <*> arbitrary -- body3PatternWithoutDelimiter :: Text
-      <*> arbitrary -- body3Byte :: ByteArray
-      <*> arbitrary -- body3Binary :: Maybe FilePath
-      <*> arbitrary -- body3Date :: Maybe Date
-      <*> arbitrary -- body3DateTime :: Maybe DateTime
-      <*> arbitrary -- body3Password :: Maybe Text
-      <*> arbitrary -- body3Callback :: Maybe Text
-    
-instance Arbitrary Body4 where
-  arbitrary =
-    Body4
-      <$> arbitrary -- body4Param :: Text
-      <*> arbitrary -- body4Param2 :: Text
-    
-instance Arbitrary Body5 where
-  arbitrary =
-    Body5
-      <$> arbitrary -- body5AdditionalMetadata :: Maybe Text
-      <*> arbitrary -- body5RequiredFile :: FilePath
-    
 instance Arbitrary Capitalization where
   arbitrary =
     Capitalization
@@ -199,7 +151,7 @@ instance Arbitrary Category where
   arbitrary =
     Category
       <$> arbitrary -- categoryId :: Maybe Integer
-      <*> arbitrary -- categoryName :: Maybe Text
+      <*> arbitrary -- categoryName :: Text
     
 instance Arbitrary ClassModel where
   arbitrary =
@@ -273,7 +225,7 @@ instance Arbitrary MapTest where
       <$> arbitrary -- mapTestMapMapOfString :: Maybe (Map.Map String (Map.Map String Text))
       <*> arbitrary -- mapTestMapOfEnumString :: Maybe (Map.Map String Text)
       <*> arbitrary -- mapTestDirectMap :: Maybe (Map.Map String Bool)
-      <*> arbitrary -- mapTestIndirectMap :: Maybe StringBooleanMap
+      <*> arbitrary -- mapTestIndirectMap :: Maybe (Map.Map String Bool)
     
 instance Arbitrary MixedPropertiesAndAdditionalPropertiesClass where
   arbitrary =

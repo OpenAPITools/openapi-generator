@@ -16,10 +16,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Category  {
   
   @ApiModelProperty(value = "")
-  private Long id = null;
+  private Long id;
 
-  @ApiModelProperty(value = "")
-  private String name = null;
+  @ApiModelProperty(required = true, value = "")
+  private String name = "default-name";
  /**
    * Get id
    * @return id
@@ -43,6 +43,7 @@ public class Category  {
    * @return name
   **/
   @JsonProperty("name")
+  @NotNull
   public String getName() {
     return name;
   }

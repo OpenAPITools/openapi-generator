@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+
 public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ErlangServerCodegen.class);
@@ -39,19 +40,13 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
     protected String packageName = "openapi";
+    protected String openApiSpecName = "openapi";
 
     public ErlangServerCodegen() {
         super();
 
         // set the output folder here
         outputFolder = "generated-code/erlang-server";
-
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        } else {
-            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        }
-        ;
 
         /**
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -116,6 +111,27 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang package name (convention: lowercase).")
                 .defaultValue(this.packageName));
+
+        cliOptions.add(new CliOption(CodegenConstants.OPEN_API_SPEC_NAME, "Openapi Spec Name.")
+                .defaultValue(this.openApiSpecName));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.OPEN_API_SPEC_NAME)) {
+            setOpenApiSpecName((String) additionalProperties.get(CodegenConstants.OPEN_API_SPEC_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.OPEN_API_SPEC_NAME, openApiSpecName);
+        }
+
         /**
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -134,7 +150,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("server.mustache", "", toSourceFilePath("server", "erl")));
         supportingFiles.add(new SupportingFile("utils.mustache", "", toSourceFilePath("utils", "erl")));
         supportingFiles.add(new SupportingFile("auth.mustache", "", toSourceFilePath("auth", "erl")));
-        supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath("openapi", "json")));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
         supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
@@ -184,7 +200,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return this.packageName + "_default_handler";
         }
-        return this.packageName + "_" + underscore(name) + "_handler";
+        return this.packageName + "_" + org.openapitools.codegen.utils.StringUtils.underscore(name) + "_handler";
     }
 
     /**
@@ -212,18 +228,18 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        return camelize(toModelFilename(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toModelFilename(name));
     }
 
     @Override
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return camelize(operationId);
+        return org.openapitools.codegen.utils.StringUtils.camelize(operationId);
     }
 
     @Override
@@ -253,12 +269,16 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         this.packageName = packageName;
     }
 
+    public void setOpenApiSpecName(String openApiSpecName) {
+        this.openApiSpecName = openApiSpecName;
+    }
+
     protected String toHandlerName(String name) {
         return toModuleName(name) + "_handler";
     }
 
     protected String toModuleName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_"));
+        return this.packageName + "_" + org.openapitools.codegen.utils.StringUtils.underscore(name.replaceAll("-", "_"));
     }
 
     protected String toSourceFilePath(String name, String extension) {

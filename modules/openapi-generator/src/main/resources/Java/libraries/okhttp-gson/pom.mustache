@@ -13,6 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
 
     <licenses>
         <license>
@@ -212,6 +219,11 @@
             <groupId>io.gsonfire</groupId>
             <artifactId>gson-fire</artifactId>
             <version>${gson-fire-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.oltu.oauth2</groupId>
+            <artifactId>org.apache.oltu.oauth2.client</artifactId>
+            <version>1.0.1</version>
         </dependency>
         {{#joda}}
             <dependency>

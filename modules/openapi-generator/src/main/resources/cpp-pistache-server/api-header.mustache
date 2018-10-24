@@ -9,12 +9,11 @@
 #define {{classname}}_H_
 
 {{{defaultInclude}}}
-#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-
 #include <pistache/optional.h>
+{{^hasModelImport}}#include "json.hpp"{{/hasModelImport}}
 
 {{#imports}}{{{import}}}
 {{/imports}}
@@ -28,11 +27,9 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 
 class {{declspec}} {{classname}} {
 public:
-    {{classname}}(Pistache::Address addr);
-    virtual ~{{classname}}() {};
-    void init(size_t thr);
-    void start();
-    void shutdown();
+    {{classname}}(std::shared_ptr<Pistache::Rest::Router>);
+    virtual ~{{classname}}() {}
+    void init();
 
     const std::string base = "{{basePathWithoutHost}}";
 
@@ -44,9 +41,7 @@ private:
     {{/operation}}
     void {{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    Pistache::Http::Endpoint httpEndpoint;
-    Pistache::Rest::Router router;
-
+    std::shared_ptr<Pistache::Rest::Router> router;
     {{#operation}}
 
     /// <summary>

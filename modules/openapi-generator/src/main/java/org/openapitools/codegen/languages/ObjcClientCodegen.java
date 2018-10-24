@@ -43,6 +43,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
+
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ObjcClientCodegen.class);
 
@@ -429,7 +432,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
         // model name starts with number
         /* no need for the fix below as objc model starts with prefix (e.g. SWG)
         if (type.matches("^\\d.*")) {
-            LOGGER.warn(type + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + type));
+            LOGGER.warn(type + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + type));
             type = "model_" + type; // e.g. 200Response => Model200Response (after camelize)
         }
         */
@@ -453,7 +456,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 importMapping.values().contains(type) ||
                 defaultIncludes.contains(type) ||
                 languageSpecificPrimitives.contains(type)) {
-            return camelize(type);
+            return org.openapitools.codegen.utils.StringUtils.camelize(type);
         }
         // custom classes
         else {
@@ -465,7 +468,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 type = modelNamePrefix + "_" + type;
             }
 
-            return classPrefix + camelize(type); // add class prefix
+            return classPrefix + org.openapitools.codegen.utils.StringUtils.camelize(type); // add class prefix
         }
     }
 
@@ -526,12 +529,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiName(String name) {
-        return classPrefix + camelize(name) + "Api";
+        return classPrefix + org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
     public String toApiFilename(String name) {
-        return classPrefix + camelize(name) + "Api";
+        return classPrefix + org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -556,7 +559,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize (lower first character) the variable name
         // e.g. `pet_id` to `petId`
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, prepend `_`
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -601,11 +604,11 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
     }
 
     public void setClassPrefix(String classPrefix) {
@@ -644,7 +647,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
             for (CodegenOperation operation : ops) {
                 if (!operation.allParams.isEmpty()) {
                     String firstParamName = operation.allParams.get(0).paramName;
-                    operation.vendorExtensions.put("firstParamAltName", camelize(firstParamName));
+                    operation.vendorExtensions.put("firstParamAltName", org.openapitools.codegen.utils.StringUtils.camelize(firstParamName));
                 }
             }
         }
@@ -654,7 +657,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty schema) {
         super.postProcessModelProperty(model, schema);
-        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name));
+        schema.vendorExtensions.put("x-uppercaseName", org.openapitools.codegen.utils.StringUtils.camelize(schema.name));
     }
 
     /**

@@ -1033,14 +1033,17 @@ components:
   schemas:
     Category:
       example:
-        name: name
+        name: default-name
         id: 6
       properties:
         id:
           format: int64
           type: integer
         name:
+          default: default-name
           type: string
+      required:
+      - name
       type: object
       xml:
         name: Category
@@ -1487,7 +1490,9 @@ components:
             type: boolean
           type: object
         indirect_map:
-          $ref: '#/components/schemas/StringBooleanMap'
+          additionalProperties:
+            type: boolean
+          type: object
       type: object
     Tag:
       example:
@@ -1523,7 +1528,7 @@ components:
         name: doggie
         id: 0
         category:
-          name: name
+          name: default-name
           id: 6
         tags:
         - name: name

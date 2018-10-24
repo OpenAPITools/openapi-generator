@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * 
@@ -24,21 +24,21 @@ import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
- * A pet for sale in the pet store
+ * Pet
  */
-@ApiModel(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-08-10T15:02:11.723+09:00[Asia/Tokyo]")
+
 public class Pet   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("category")
   private Category category = null;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
@@ -80,7 +80,7 @@ public class Pet   {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;
@@ -93,6 +93,7 @@ public class Pet   {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -112,6 +113,7 @@ public class Pet   {
    **/
   @JsonProperty("category")
   @ApiModelProperty(value = "")
+  @Valid
   public Category getCategory() {
     return category;
   }
@@ -131,7 +133,8 @@ public class Pet   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  @NotNull
+    @NotNull
+
   public String getName() {
     return name;
   }
@@ -156,7 +159,8 @@ public class Pet   {
    **/
   @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+    @NotNull
+
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -184,6 +188,7 @@ public class Pet   {
    **/
   @JsonProperty("tags")
   @ApiModelProperty(value = "")
+  @Valid
   public List<Tag> getTags() {
     return tags;
   }
@@ -203,6 +208,7 @@ public class Pet   {
    **/
   @JsonProperty("status")
   @ApiModelProperty(value = "pet status in the store")
+  
   public StatusEnum getStatus() {
     return status;
   }
