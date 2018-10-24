@@ -1,6 +1,6 @@
 <?php
 /**
- * StringBooleanMapTest
+ * Body2Test
  *
  * PHP version 5
  *
@@ -30,15 +30,15 @@
 namespace OpenAPI\Client;
 
 /**
- * StringBooleanMapTest Class Doc Comment
+ * Body2Test Class Doc Comment
  *
  * @category    Class
- * @description StringBooleanMap
+ * @description Body2
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class StringBooleanMapTest extends \PHPUnit_Framework_TestCase
+class Body2Test extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -70,9 +70,23 @@ class StringBooleanMapTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "StringBooleanMap"
+     * Test "Body2"
      */
-    public function testStringBooleanMap()
+    public function testBody2()
+    {
+    }
+
+    /**
+     * Test attribute "enum_form_string_array"
+     */
+    public function testPropertyEnumFormStringArray()
+    {
+    }
+
+    /**
+     * Test attribute "enum_form_string"
+     */
+    public function testPropertyEnumFormString()
     {
     }
 }

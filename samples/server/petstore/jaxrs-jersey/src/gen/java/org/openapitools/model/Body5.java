@@ -23,17 +23,17 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
- * Body1
+ * Body5
  */
 
-public class Body1   {
+public class Body5   {
   @JsonProperty("additionalMetadata")
   private String additionalMetadata;
 
-  @JsonProperty("file")
-  private File file;
+  @JsonProperty("requiredFile")
+  private File requiredFile;
 
-  public Body1 additionalMetadata(String additionalMetadata) {
+  public Body5 additionalMetadata(String additionalMetadata) {
     this.additionalMetadata = additionalMetadata;
     return this;
   }
@@ -53,24 +53,25 @@ public class Body1   {
     this.additionalMetadata = additionalMetadata;
   }
 
-  public Body1 file(File file) {
-    this.file = file;
+  public Body5 requiredFile(File requiredFile) {
+    this.requiredFile = requiredFile;
     return this;
   }
 
   /**
    * file to upload
-   * @return file
+   * @return requiredFile
    **/
-  @JsonProperty("file")
-  @ApiModelProperty(value = "file to upload")
-  
-  public File getFile() {
-    return file;
+  @JsonProperty("requiredFile")
+  @ApiModelProperty(required = true, value = "file to upload")
+    @NotNull
+
+  public File getRequiredFile() {
+    return requiredFile;
   }
 
-  public void setFile(File file) {
-    this.file = file;
+  public void setRequiredFile(File requiredFile) {
+    this.requiredFile = requiredFile;
   }
 
 
@@ -82,24 +83,24 @@ public class Body1   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Body1 body1 = (Body1) o;
-    return Objects.equals(this.additionalMetadata, body1.additionalMetadata) &&
-        Objects.equals(this.file, body1.file);
+    Body5 body5 = (Body5) o;
+    return Objects.equals(this.additionalMetadata, body5.additionalMetadata) &&
+        Objects.equals(this.requiredFile, body5.requiredFile);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(additionalMetadata, file);
+    return Objects.hash(additionalMetadata, requiredFile);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Body1 {\n");
+    sb.append("class Body5 {\n");
     
     sb.append("    additionalMetadata: ").append(toIndentedString(additionalMetadata)).append("\n");
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
+    sb.append("    requiredFile: ").append(toIndentedString(requiredFile)).append("\n");
     sb.append("}");
     return sb.toString();
   }

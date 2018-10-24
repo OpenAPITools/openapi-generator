@@ -91,7 +91,6 @@ Class | Method | HTTP request | Description
 
 * OpenAPIServer\Model\AdditionalPropertiesClass
 * OpenAPIServer\Model\Animal
-* OpenAPIServer\Model\AnimalFarm
 * OpenAPIServer\Model\ApiResponse
 * OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
 * OpenAPIServer\Model\ArrayOfNumberOnly
@@ -122,7 +121,6 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\Pet
 * OpenAPIServer\Model\ReadOnlyFirst
 * OpenAPIServer\Model\SpecialModelName
-* OpenAPIServer\Model\StringBooleanMap
 * OpenAPIServer\Model\Tag
 * OpenAPIServer\Model\User
 

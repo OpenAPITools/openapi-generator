@@ -22,54 +22,56 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
- * Body
+ * Body4
  */
 
-public class Body   {
-  @JsonProperty("name")
-  private String name;
+public class Body4   {
+  @JsonProperty("param")
+  private String param;
 
-  @JsonProperty("status")
-  private String status;
+  @JsonProperty("param2")
+  private String param2;
 
-  public Body name(String name) {
-    this.name = name;
+  public Body4 param(String param) {
+    this.param = param;
     return this;
   }
 
   /**
-   * Updated name of the pet
-   * @return name
+   * field1
+   * @return param
    **/
-  @JsonProperty("name")
-  @ApiModelProperty(value = "Updated name of the pet")
-  
-  public String getName() {
-    return name;
+  @JsonProperty("param")
+  @ApiModelProperty(required = true, value = "field1")
+    @NotNull
+
+  public String getParam() {
+    return param;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setParam(String param) {
+    this.param = param;
   }
 
-  public Body status(String status) {
-    this.status = status;
+  public Body4 param2(String param2) {
+    this.param2 = param2;
     return this;
   }
 
   /**
-   * Updated status of the pet
-   * @return status
+   * field2
+   * @return param2
    **/
-  @JsonProperty("status")
-  @ApiModelProperty(value = "Updated status of the pet")
-  
-  public String getStatus() {
-    return status;
+  @JsonProperty("param2")
+  @ApiModelProperty(required = true, value = "field2")
+    @NotNull
+
+  public String getParam2() {
+    return param2;
   }
 
-  public void setStatus(String status) {
-    this.status = status;
+  public void setParam2(String param2) {
+    this.param2 = param2;
   }
 
 
@@ -81,24 +83,24 @@ public class Body   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Body body = (Body) o;
-    return Objects.equals(this.name, body.name) &&
-        Objects.equals(this.status, body.status);
+    Body4 body4 = (Body4) o;
+    return Objects.equals(this.param, body4.param) &&
+        Objects.equals(this.param2, body4.param2);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, status);
+    return Objects.hash(param, param2);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Body {\n");
+    sb.append("class Body4 {\n");
     
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    param: ").append(toIndentedString(param)).append("\n");
+    sb.append("    param2: ").append(toIndentedString(param2)).append("\n");
     sb.append("}");
     return sb.toString();
   }

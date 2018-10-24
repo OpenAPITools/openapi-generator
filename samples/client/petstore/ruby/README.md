@@ -114,7 +114,6 @@ Class | Method | HTTP request | Description
 
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Petstore::Animal](docs/Animal.md)
- - [Petstore::AnimalFarm](docs/AnimalFarm.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -147,7 +146,6 @@ Class | Method | HTTP request | Description
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
- - [Petstore::StringBooleanMap](docs/StringBooleanMap.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
 

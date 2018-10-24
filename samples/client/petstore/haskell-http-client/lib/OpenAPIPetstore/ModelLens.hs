@@ -64,10 +64,6 @@ animalColorL f Animal{..} = (\animalColor -> Animal { animalColor, ..} ) <$> f a
 
 
 
--- * AnimalFarm
-
-
-
 -- * ApiResponse
 
 -- | 'apiResponseCode' Lens
@@ -600,10 +596,6 @@ readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { re
 specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe Integer)
 specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelNameSpecialPropertyName -> SpecialModelName { specialModelNameSpecialPropertyName, ..} ) <$> f specialModelNameSpecialPropertyName
 {-# INLINE specialModelNameSpecialPropertyNameL #-}
-
-
-
--- * StringBooleanMap
 
 
 

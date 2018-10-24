@@ -52,68 +52,6 @@ impl Animal {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct AnimalFarm(Vec<Animal>);
-
-impl ::std::convert::From<Vec<Animal>> for AnimalFarm {
-    fn from(x: Vec<Animal>) -> Self {
-        AnimalFarm(x)
-    }
-}
-
-impl ::std::convert::From<AnimalFarm> for Vec<Animal> {
-    fn from(x: AnimalFarm) -> Self {
-        x.0
-    }
-}
-
-impl ::std::iter::FromIterator<Animal> for AnimalFarm {
-    fn from_iter<U: IntoIterator<Item=Animal>>(u: U) -> Self {
-        AnimalFarm(Vec::<Animal>::from_iter(u))
-    }
-}
-
-impl ::std::iter::IntoIterator for AnimalFarm {
-    type Item = Animal;
-    type IntoIter = ::std::vec::IntoIter<Animal>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        self.0.into_iter()
-    }
-}
-
-impl<'a> ::std::iter::IntoIterator for &'a AnimalFarm {
-    type Item = &'a Animal;
-    type IntoIter = ::std::slice::Iter<'a, Animal>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        (&self.0).into_iter()
-    }
-}
-
-impl<'a> ::std::iter::IntoIterator for &'a mut AnimalFarm {
-    type Item = &'a mut Animal;
-    type IntoIter = ::std::slice::IterMut<'a, Animal>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).into_iter()
-    }
-}
-
-impl ::std::ops::Deref for AnimalFarm {
-    type Target = Vec<Animal>;
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for AnimalFarm {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ApiResponse {
     #[serde(rename = "code")]
     #[serde(skip_serializing_if="Option::is_none")]
