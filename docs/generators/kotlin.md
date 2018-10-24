@@ -5,7 +5,7 @@ CONFIG OPTIONS for kotlin
 	    source folder for generated code (Default: src/main/kotlin)
 
 	packageName
-	    Generated artifact package name (e.g. io.swagger).
+	    Generated artifact package name. (Default: org.openapitools)
 
 	groupId
 	    Generated artifact package's organization (i.e. maven groupId). (Default: org.openapitools)

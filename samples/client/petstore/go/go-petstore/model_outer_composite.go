@@ -10,7 +10,7 @@
 package petstore
 
 type OuterComposite struct {
-	MyNumber  float32 `json:"my_number,omitempty"`
-	MyString  string  `json:"my_string,omitempty"`
-	MyBoolean bool    `json:"my_boolean,omitempty"`
+	MyNumber float32 `json:"my_number,omitempty"`
+	MyString string `json:"my_string,omitempty"`
+	MyBoolean bool `json:"my_boolean,omitempty"`
 }

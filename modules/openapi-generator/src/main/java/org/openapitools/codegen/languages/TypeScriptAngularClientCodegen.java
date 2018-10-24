@@ -472,7 +472,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelFilename(String name) {
-        return this.convertUsingFileNamingConvention(name) + modelFileSuffix;
+        return this.sanitizeName(this.convertUsingFileNamingConvention(name) + modelFileSuffix);
     }
 
     @Override

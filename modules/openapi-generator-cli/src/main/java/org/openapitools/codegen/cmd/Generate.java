@@ -208,6 +208,9 @@ public class Generate implements Runnable {
                     + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
+    private Boolean enablePostProcessFile;
+
     @Override
     public void run() {
         if (logToStderr != null) {
@@ -327,6 +330,10 @@ public class Generate implements Runnable {
 
         if (removeOperationIdPrefix != null) {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+        }
+
+        if (enablePostProcessFile != null) {
+            configurator.setEnablePostProcessFile(enablePostProcessFile);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);

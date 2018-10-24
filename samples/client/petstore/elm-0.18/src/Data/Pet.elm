@@ -10,14 +10,14 @@
 -}
 
 
-module Data.Pet exposing (Pet, Status(..), petDecoder, petEncoder)
+module Data.Pet exposing (Pet, Status(..), decoder, encoder)
 
-import Data.Category exposing (Category, categoryDecoder, categoryEncoder)
-import Data.Tag exposing (Tag, tagDecoder, tagEncoder)
+import Data.Category as Category exposing (Category)
+import Data.Tag as Tag exposing (Tag)
+import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import Json.Encode as Encode
-import Maybe exposing (map, withDefault)
 
 
 {-| A pet for sale in the pet store
@@ -38,26 +38,26 @@ type Status
     | Sold
 
 
-petDecoder : Decoder Pet
-petDecoder =
+decoder : Decoder Pet
+decoder =
     decode Pet
         |> optional "id" (Decode.nullable Decode.int) Nothing
-        |> optional "category" (Decode.nullable categoryDecoder) Nothing
+        |> optional "category" (Decode.nullable Category.decoder) Nothing
         |> required "name" Decode.string
         |> required "photoUrls" (Decode.list Decode.string)
-        |> optional "tags" (Decode.nullable (Decode.list tagDecoder)) Nothing
+        |> optional "tags" (Decode.nullable (Decode.list Tag.decoder)) Nothing
         |> optional "status" (Decode.nullable statusDecoder) Nothing
 
 
-petEncoder : Pet -> Encode.Value
-petEncoder model =
+encoder : Pet -> Encode.Value
+encoder model =
     Encode.object
-        [ ( "id", withDefault Encode.null (map Encode.int model.id) )
-        , ( "category", withDefault Encode.null (map categoryEncoder model.category) )
+        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+        , ( "category", Maybe.withDefault Encode.null (Maybe.map Category.encoder model.category) )
         , ( "name", Encode.string model.name )
         , ( "photoUrls", (Encode.list << List.map Encode.string) model.photoUrls )
-        , ( "tags", withDefault Encode.null (map (Encode.list << List.map tagEncoder) model.tags) )
-        , ( "status", withDefault Encode.null (map statusEncoder model.status) )
+        , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list << List.map Tag.encoder) model.tags) )
+        , ( "status", Maybe.withDefault Encode.null (Maybe.map statusEncoder model.status) )
         ]
 
 

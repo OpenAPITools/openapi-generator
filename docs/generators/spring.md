@@ -104,6 +104,15 @@ CONFIG OPTIONS for spring
 	booleanGetterPrefix
 	    Set booleanGetterPrefix (default value 'get')
 
+	parentGroupId
+	    parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentArtifactId
+	    parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentVersion
+	    parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
 	title
 	    server title name or client service name
 
@@ -154,6 +163,9 @@ CONFIG OPTIONS for spring
 
 	useOptional
 	    Use Optional container for optional parameters (Default: false)
+
+	hateoas
+	    Use Spring HATEOAS library to allow adding HATEOAS links (Default: false)
 
 	library
 	    library template (sub-template) to use (Default: spring-boot)

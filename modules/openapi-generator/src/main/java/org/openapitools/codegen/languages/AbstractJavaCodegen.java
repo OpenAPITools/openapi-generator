@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -105,6 +106,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = BOOLEAN_GETTER_PREFIX_DEFAULT;
     protected boolean useNullForUnknownEnumValue = false;
+    protected String parentGroupId = "";
+    protected String parentArtifactId = "";
+    protected String parentVersion = "";
+    protected boolean parentOverridden = false;
 
     public AbstractJavaCodegen() {
         super();
@@ -198,11 +203,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)"));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix (default value '" + BOOLEAN_GETTER_PREFIX_DEFAULT + "')"));
+        
+        cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
             this.setSupportJava6(Boolean.valueOf(additionalProperties.get(SUPPORT_JAVA6).toString()));
@@ -218,7 +231,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
-
         if (additionalProperties.containsKey(USE_NULL_FOR_UNKNOWN_ENUM_VALUE)) {
             this.setUseNullForUnknownEnumValue(Boolean.valueOf(additionalProperties.get(USE_NULL_FOR_UNKNOWN_ENUM_VALUE).toString()));
         }
@@ -375,6 +387,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
         }
         additionalProperties.put(WITH_XML, withXml);
+        
+        if (additionalProperties.containsKey(CodegenConstants.PARENT_GROUP_ID)) {
+            this.setParentGroupId((String) additionalProperties.get(CodegenConstants.PARENT_GROUP_ID));
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.PARENT_ARTIFACT_ID)) {
+            this.setParentArtifactId((String) additionalProperties.get(CodegenConstants.PARENT_ARTIFACT_ID));
+        }
+        
+        if (additionalProperties.containsKey(CodegenConstants.PARENT_VERSION)) {
+            this.setParentVersion((String) additionalProperties.get(CodegenConstants.PARENT_VERSION));
+        }
+        
+        if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
+            additionalProperties.put("parentOverridden", true);
+        }
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -754,7 +782,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return p.getDefault().toString();
                 }
             }
-            return "null";
+            return null;
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
@@ -763,12 +791,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return p.getDefault().toString() + "d";
                 }
             }
-            return "null";
+            return null;
         } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-            return "null";
+            return null;
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String _default = (String) p.getDefault();
@@ -779,7 +807,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     return _default;
                 }
             }
-            return "null";
+            return null;
         }
         return super.toDefaultValue(p);
     }
@@ -840,7 +868,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (example == null) {
             example = "null";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            example = "Arrays.asList(" + example + ")";
+
+            if (p.items.defaultValue != null) {
+                String innerExample;
+                if ("String".equals(p.items.dataType)) {
+                    innerExample = "\"" + p.items.defaultValue + "\"";
+                } else {
+                    innerExample = p.items.defaultValue;
+                }
+                example = "Arrays.asList(" + innerExample + ")";
+            } else {
+                example = "Arrays.asList()";
+            }
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
             example = "new HashMap()";
         }
@@ -853,7 +892,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (p.getExample() != null) {
             return escapeText(p.getExample().toString());
         } else {
-            return super.toExampleValue(p);
+            return null;
         }
     }
 
@@ -1347,4 +1386,48 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return tag;
     }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String javaPostProcessFile = System.getenv("JAVA_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(javaPostProcessFile)) {
+            return; // skip if JAVA_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with hs extension
+        if ("java".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = javaPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+    }
+
+    public void setParentGroupId(final String parentGroupId) {
+        this.parentGroupId = parentGroupId;
+    }
+
+    public void setParentArtifactId(final String parentArtifactId) {
+        this.parentArtifactId = parentArtifactId;
+    }
+
+    public void setParentVersion(final String parentVersion) {
+        this.parentVersion = parentVersion;
+    }
+
+    public void setParentOverridden(final boolean parentOverridden) {
+        this.parentOverridden = parentOverridden;
+    }
 }

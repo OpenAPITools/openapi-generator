@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.core.util.Json;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
@@ -212,6 +213,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+        }
 
         // {{packageVersion}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -421,8 +426,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         CodegenModel refModel = enumRefs.get(var.dataType);
                         var.allowableValues = refModel.allowableValues;
                         var.isEnum = true;
-
-                        updateCodegenPropertyEnum(var);
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
@@ -1015,6 +1018,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
         }
+    }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String csharpPostProcessFile = System.getenv("CSHARP_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(csharpPostProcessFile)) {
+            return; // skip if CSHARP_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with .cs extension
+        if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = csharpPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

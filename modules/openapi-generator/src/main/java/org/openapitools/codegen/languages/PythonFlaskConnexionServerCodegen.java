@@ -318,8 +318,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        // need vendor extensions for x-swagger-router-controller
-        // can be changed to x-openapi-router-controller when https://github.com/zalando/connexion/issues/683 is done
+        // need vendor extensions for x-openapi-router-controller
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
             for (String pathname : paths.keySet()) {
@@ -337,9 +336,9 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
                             operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         }
                         operation.setOperationId(toOperationId(operationId));
-                        if (operation.getExtensions() == null || operation.getExtensions().get("x-swagger-router-controller") == null) {
+                        if (operation.getExtensions() == null || operation.getExtensions().get("x-openapi-router-controller") == null) {
                             operation.addExtension(
-                                    "x-swagger-router-controller",
+                                    "x-openapi-router-controller",
                                     controllerPackage + "." + toApiFilename(tag)
                             );
                         }
