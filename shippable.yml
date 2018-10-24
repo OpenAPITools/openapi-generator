@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-- openjdk9
+- oraclejdk10
 
 build:
   cache: true
