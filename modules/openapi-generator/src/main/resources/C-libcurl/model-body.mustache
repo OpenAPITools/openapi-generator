@@ -187,13 +187,13 @@ cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}}) {
     list_ForEach({{{name}}}ListEntry, {{{classname}}}->{{{baseName}}}) {
         {{#items}}
         {{#isString}}
-        if(cJSON_AddStringToObject({{{baseName}}}, "", {{{baseName}}}ListEntry->data) == NULL)
+        if(cJSON_AddStringToObject({{{baseName}}}, "", (char*){{{baseName}}}ListEntry->data) == NULL)
         {
             goto fail;
         }
         {{/isString}}
         {{^isString}}
-        if(cJSON_AddNumberToObject({{{baseName}}}, "", {{{baseName}}}ListEntry->data) == NULL)
+        if(cJSON_AddNumberToObject({{{baseName}}}, "", *(double *){{{baseName}}}ListEntry->data) == NULL)
         {
             goto fail;
         }
@@ -347,7 +347,7 @@ fail:
         {
             goto end;
         }
-        list_addElement({{{baseName}}}List , {{{baseName}}}->valuedouble));
+        list_addElement({{{baseName}}}List , &{{{baseName}}}->valuedouble);
         {{/isString}}
         {{/items}}
 
