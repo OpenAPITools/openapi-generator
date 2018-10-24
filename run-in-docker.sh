@@ -15,4 +15,4 @@ docker run --rm -it \
         -v "${PWD}:/gen" \
         -v "${maven_cache_repo}:/var/maven/.m2/repository" \
         --entrypoint /gen/docker-entrypoint.sh \
-        maven:3-jdk-8 "$@"
+        maven:3-jdk-9 "$@"

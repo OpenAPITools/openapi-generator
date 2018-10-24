@@ -71,12 +71,14 @@
                                 <goal>descriptor</goal>
                             </goals>
                         </execution>
+                        <!-- comment out below to skip javadoc warnings/errors
+[WARNING] /gen/modules/openapi-generator-maven-plugin/target/generated-sources/plugin/org/openapitools/codegen/plugin/HelpMojo.java:109: warning - @inheritDoc used but execute() does not override or implement any method.
                         <execution>
                             <id>help-goal</id>
                             <goals>
                                 <goal>helpmojo</goal>
                             </goals>
-                        </execution>
+                        </execution>-->
                     </executions>
                 </plugin>
             </plugins>
