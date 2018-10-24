@@ -15,10 +15,10 @@
 (defn-spec delete-order-with-http-info any?
   "Delete purchase order by ID
   For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
-  [order-id string?]
-  (check-required-params order-id)
+  [orderId string?]
+  (check-required-params orderId)
   (call-api "/store/order/{orderId}" :delete
-            {:path-params   {"orderId" order-id }
+            {:path-params   {"orderId" orderId }
              :header-params {}
              :query-params  {}
              :form-params   {}
@@ -29,8 +29,8 @@
 (defn-spec delete-order any?
   "Delete purchase order by ID
   For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"
-  [order-id string?]
-  (let [res (:data (delete-order-with-http-info order-id))]
+  [orderId string?]
+  (let [res (:data (delete-order-with-http-info orderId))]
     (if (:decode-models *api-context*)
        (st/decode any? res st/string-transformer)
        res)))
@@ -62,10 +62,10 @@
 (defn-spec get-order-by-id-with-http-info any?
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
-  [order-id string?]
-  (check-required-params order-id)
+  [orderId string?]
+  (check-required-params orderId)
   (call-api "/store/order/{orderId}" :get
-            {:path-params   {"orderId" order-id }
+            {:path-params   {"orderId" orderId }
              :header-params {}
              :query-params  {}
              :form-params   {}
@@ -76,8 +76,8 @@
 (defn-spec get-order-by-id order-spec
   "Find purchase order by ID
   For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions"
-  [order-id string?]
-  (let [res (:data (get-order-by-id-with-http-info order-id))]
+  [orderId string?]
+  (let [res (:data (get-order-by-id-with-http-info orderId))]
     (if (:decode-models *api-context*)
        (st/decode order-spec res st/string-transformer)
        res)))
