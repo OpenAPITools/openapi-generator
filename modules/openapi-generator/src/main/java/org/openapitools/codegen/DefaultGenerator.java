@@ -434,6 +434,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
 
+                // check to see if it's an "array" model
+                if (ModelUtils.isArraySchema(schema)) {
+                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                        // schema without property, i.e. alias to array
+                        LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
+                        continue;
+                    }
+                }
+
                 Map<String, Schema> schemaMap = new HashMap<>();
                 schemaMap.put(name, schema);
                 Map<String, Object> models = processModels(config, schemaMap, schemas);

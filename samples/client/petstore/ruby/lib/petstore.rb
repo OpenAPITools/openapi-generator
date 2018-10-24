@@ -19,7 +19,6 @@ require 'petstore/configuration'
 # Models
 require 'petstore/models/additional_properties_class'
 require 'petstore/models/animal'
-require 'petstore/models/animal_farm'
 require 'petstore/models/api_response'
 require 'petstore/models/array_of_array_of_number_only'
 require 'petstore/models/array_of_number_only'

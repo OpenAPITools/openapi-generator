@@ -113,7 +113,6 @@ Class | Method | HTTP request | Description
 
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Petstore::Animal](docs/Animal.md)
- - [Petstore::AnimalFarm](docs/AnimalFarm.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
