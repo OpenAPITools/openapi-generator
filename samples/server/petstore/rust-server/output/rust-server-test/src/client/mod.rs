@@ -318,8 +318,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
-        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
+        let body = param_body;
 
 
         request.set_body(body.into_bytes());

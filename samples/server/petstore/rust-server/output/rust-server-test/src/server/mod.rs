@@ -184,18 +184,11 @@ where
                     .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
                         match result {
                             Ok(body) => {
-
-                                let mut unused_elements = Vec::new();
                                 let param_body: Option<String> = if !body.is_empty() {
 
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
-
-                                    match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
-                                            unused_elements.push(path.to_string());
-                                    }) {
-                                        Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                    match String::from_utf8(body.to_vec()) {
+                                        Ok(param_body) => Some(param_body),
+                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - not valid UTF-8: {}", e)))),
                                     }
 
                                 } else {
@@ -211,10 +204,6 @@ where
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
-
-                                        if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
-                                        }
 
                                         match result {
                                             Ok(rsp) => match rsp {
