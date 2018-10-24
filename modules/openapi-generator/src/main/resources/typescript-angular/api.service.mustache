@@ -257,7 +257,7 @@ export class {{classname}} {
 {{#hasFormParams}}
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: { append(param: string, value: any): void; } | { append(param: string, value: any): HttpParams; };
+        let formParams: FormData | {{#useHttpClient}}HttpParams{{/useHttpClient}}{{^useHttpClient}}URLSearchParams{{/useHttpClient}}  ;
         let useForm = false;
         let convertFormParamsToString = false;
 {{#formParams}}
@@ -287,17 +287,45 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>element){{#useHttpClient}} || formParams{{/useHttpClient}};
+                {{#useHttpClient}}
+                if ( formParams instanceof HttpParams ) {
+                    formParams = formParams.append('{{baseName}}', <any>element) || formParams;
+                }else{
+                    formParams.append('{{baseName}}', <any>element);
+                }
+                {{/useHttpClient}}
+                {{^useHttpClient}}
+                    formParams.append('{{baseName}}', <any>element);
+                {{/useHttpClient}}
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])){{#useHttpClient}} || formParams{{/useHttpClient}};
+            {{#useHttpClient}}
+                if ( formParams instanceof HttpParams ) {
+                    formParams = formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) || formParams;
+                }else{
+                    formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+                }
+                {{/useHttpClient}}
+                {{^useHttpClient}}
+                    formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+                {{/useHttpClient}}    
+
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
-            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>{{paramName}}){{#useHttpClient}} || formParams{{/useHttpClient}};
+            {{#useHttpClient}}
+            if ( formParams instanceof HttpParams ) {
+                formParams = formParams.append('{{baseName}}', <any>{{paramName}}) || formParams;
+            }else{
+                formParams.append('{{baseName}}', <any>{{paramName}});
+            }
+            {{/useHttpClient}}
+            {{^useHttpClient}}
+                formParams.append('{{baseName}}', <any>{{paramName}});
+            {{/useHttpClient}}
         }
         {{/isListContainer}}
 {{/formParams}}

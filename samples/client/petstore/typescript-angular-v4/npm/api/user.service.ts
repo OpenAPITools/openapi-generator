@@ -34,12 +34,13 @@ export class UserService {
     public configuration = new Configuration();
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
+
         if (configuration) {
             this.configuration = configuration;
-            this.basePath = basePath || configuration.basePath || this.basePath;
+            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
+
+        } else {
+            this.configuration.basePath = basePath || this.basePath;
         }
     }
 
@@ -204,7 +205,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -212,7 +213,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
@@ -227,7 +228,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user`, requestOptions);
     }
 
     /**
@@ -247,7 +248,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -255,7 +256,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
@@ -270,7 +271,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/createWithArray`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user/createWithArray`, requestOptions);
     }
 
     /**
@@ -290,7 +291,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -298,7 +299,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
@@ -313,7 +314,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/createWithList`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user/createWithList`, requestOptions);
     }
 
     /**
@@ -333,7 +334,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -351,7 +352,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
     /**
@@ -373,7 +374,7 @@ export class UserService {
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -391,7 +392,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
     /**
@@ -425,7 +426,7 @@ export class UserService {
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -444,7 +445,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/login`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user/login`, requestOptions);
     }
 
     /**
@@ -460,7 +461,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -478,7 +479,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/logout`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user/logout`, requestOptions);
     }
 
     /**
@@ -502,7 +503,7 @@ export class UserService {
         let httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected != undefined) {
+        if (httpHeaderAcceptSelected !== undefined) {
             headers.set('Accept', httpHeaderAcceptSelected);
         }
 
@@ -510,7 +511,7 @@ export class UserService {
         const consumes: string[] = [
         ];
         const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected != undefined) {
+        if (httpContentTypeSelected !== undefined) {
             headers.set('Content-Type', httpContentTypeSelected);
         }
 
@@ -525,7 +526,7 @@ export class UserService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`, requestOptions);
     }
 
 }
