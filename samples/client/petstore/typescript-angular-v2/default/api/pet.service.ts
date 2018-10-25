@@ -554,10 +554,10 @@ export class PetService {
         }
 
         if (name !== undefined) {
-                formParams.append('name', <any>name);
+            formParams.append('name', <any>name);
         }
         if (status !== undefined) {
-                formParams.append('status', <any>status);
+            formParams.append('status', <any>status);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -630,10 +630,10 @@ export class PetService {
         }
 
         if (additionalMetadata !== undefined) {
-                formParams.append('additionalMetadata', <any>additionalMetadata);
+            formParams.append('additionalMetadata', <any>additionalMetadata);
         }
         if (file !== undefined) {
-                formParams.append('file', <any>file);
+            formParams.append('file', <any>file);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
