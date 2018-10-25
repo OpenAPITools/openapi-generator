@@ -301,16 +301,15 @@ export class {{classname}} {
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
             {{#useHttpClient}}
-                if ( formParams instanceof HttpParams ) {
-                    formParams = formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) || formParams;
-                }else{
-                    formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
-                }
-                {{/useHttpClient}}
-                {{^useHttpClient}}
-                    formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
-                {{/useHttpClient}}    
-
+            if ( formParams instanceof HttpParams ) {
+                formParams = formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])) || formParams;
+            }else{
+                formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            }
+            {{/useHttpClient}}
+            {{^useHttpClient}}
+                formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            {{/useHttpClient}}    
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
@@ -324,7 +323,7 @@ export class {{classname}} {
             }
             {{/useHttpClient}}
             {{^useHttpClient}}
-                formParams.append('{{baseName}}', <any>{{paramName}});
+            formParams.append('{{baseName}}', <any>{{paramName}});
             {{/useHttpClient}}
         }
         {{/isListContainer}}
