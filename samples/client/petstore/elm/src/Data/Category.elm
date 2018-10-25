@@ -10,12 +10,12 @@
 -}
 
 
-module Data.Category exposing (Category, categoryDecoder, categoryEncoder)
+module Data.Category exposing (Category, decoder, encoder)
 
+import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
-import Maybe exposing (map, withDefault)
 
 
 {-| A category for a pet
@@ -26,16 +26,16 @@ type alias Category =
     }
 
 
-categoryDecoder : Decoder Category
-categoryDecoder =
+decoder : Decoder Category
+decoder =
     Decode.succeed Category
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-categoryEncoder : Category -> Encode.Value
-categoryEncoder model =
+encoder : Category -> Encode.Value
+encoder model =
     Encode.object
-        [ ( "id", withDefault Encode.null (map Encode.int model.id) )
-        , ( "name", withDefault Encode.null (map Encode.string model.name) )
+        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+        , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
         ]

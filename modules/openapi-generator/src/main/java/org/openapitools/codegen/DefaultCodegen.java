@@ -133,8 +133,10 @@ public class DefaultCodegen implements CodegenConfig {
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
-
     protected String ignoreFilePathOverride;
+    // flag to indicate whether to use environment variable to post process file
+    protected boolean enablePostProcessFile = false;
+
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -196,6 +198,11 @@ public class DefaultCodegen implements CodegenConfig {
             this.setDocExtension(String.valueOf(additionalProperties
                     .get(CodegenConstants.DOCEXTENSION).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENABLE_POST_PROCESS_FILE)) {
+            this.setEnablePostProcessFile(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
+        }
     }
 
     // override with any special post-processing for all models
@@ -239,6 +246,7 @@ public class DefaultCodegen implements CodegenConfig {
                         parent.setChildren(new ArrayList<CodegenModel>());
                     }
                     parent.getChildren().add(cm);
+                    parent.hasChildren = true;
                     if (parent.getDiscriminator() == null) {
                         parent = allModels.get(parent.getParent());
                     } else {
@@ -1771,10 +1779,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.title = p.getTitle();
         property.getter = toGetter(name);
         property.setter = toSetter(name);
-        String example = toExampleValue(p);
-        if (!"null".equals(example)) {
-            property.example = example;
-        }
+        property.example = toExampleValue(p);
         property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
@@ -1890,6 +1895,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // keep isString to true to make it backward compatible
                 property.isString = true;
                 property.isUuid = true;
+            } else if (ModelUtils.isEmailSchema(p)) {
+                property.isString = true;
+                property.isEmail = true;
             } else {
                 property.isString = true;
             }
@@ -2170,6 +2178,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.isPrimitiveType = true;
         } else {
             property.complexType = property.baseType;
+            property.isModel = true;
         }
     }
 
@@ -2573,8 +2582,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             r.dataType = cp.dataType;
-
-            if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
+            if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isEmail)) {
+                r.isEmail = true;
+            } else if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
                 r.isUuid = true;
             } else if (Boolean.TRUE.equals(cp.isByteArray)) {
                 r.isByteArray = true;
@@ -2743,9 +2753,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // set default value
-            if (parameterSchema.getDefault() != null) {
-                codegenParameter.defaultValue = toDefaultValue(parameterSchema);
-            }
+            codegenParameter.defaultValue = toDefaultValue(parameterSchema);
+
             // TDOO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
@@ -3836,8 +3845,9 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Codegen Property cannot be null.");
             return;
         }
-
-        if (Boolean.TRUE.equals(property.isUuid) && Boolean.TRUE.equals(property.isString)) {
+        if (Boolean.TRUE.equals(property.isEmail) && Boolean.TRUE.equals(property.isString)) {
+            parameter.isEmail = true;
+        } else if (Boolean.TRUE.equals(property.isUuid) && Boolean.TRUE.equals(property.isString)) {
             parameter.isUuid = true;
         } else if (Boolean.TRUE.equals(property.isByteArray)) {
             parameter.isByteArray = true;
@@ -4215,12 +4225,12 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            Schema schema = composedSchema.getAllOf().get(0);
-            String ref = schema.get$ref();
-            if (StringUtils.isBlank(ref)) {
-                return null;
+            for (Schema schema : composedSchema.getAllOf()) {
+                String ref = schema.get$ref();
+                if (!StringUtils.isBlank(ref)) {
+                    return ModelUtils.getSimpleRef(ref);
+                }
             }
-            return ModelUtils.getSimpleRef(ref);
         }
         return null;
     }
@@ -4511,6 +4521,9 @@ public class DefaultCodegen implements CodegenConfig {
                 schema.setName(name);
                 codegenModel = fromModel(name, schema, schemas);
             }
+            if (codegenModel != null) {
+                codegenParameter.isModel = true;
+            }
 
             if (codegenModel != null && !codegenModel.emptyVars) {
                 if (StringUtils.isEmpty(bodyParameterName)) {
@@ -4703,4 +4716,23 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessFile(File file, String fileType) {
         LOGGER.debug("Post processing file {} ({})", file, fileType);
     }
+
+    /**
+     * Boolean value indicating the state of the option for post-processing file using envirionment variables.
+     *
+     * @return true if the option is enabled
+     */
+    public boolean isEnablePostProcessFile() {
+        return enablePostProcessFile;
+    }
+
+    /**
+     * Set the boolean value indicating the state of the option for post-processing file using envirionment variables.
+     *
+     * @param enablePostProcessFile     true to enable post-processing file
+     */
+    public void setEnablePostProcessFile(boolean enablePostProcessFile) {
+        this.enablePostProcessFile = enablePostProcessFile;
+    }
+
 }

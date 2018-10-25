@@ -12,6 +12,6 @@ package petstore
 
 // Model for testing model name starting with number
 type Model200Response struct {
-	Name  int32  `json:"name,omitempty" xml:"name"`
+	Name int32 `json:"name,omitempty" xml:"name"`
 	Class string `json:"class,omitempty" xml:"class"`
 }

@@ -55,8 +55,8 @@ public class CodegenProperty implements Cloneable {
     public boolean exclusiveMaximum;
     public boolean hasMore, required, secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
-    public boolean isPrimitiveType, isContainer, isNotContainer;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isPrimitiveType, isModel, isContainer, isNotContainer;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid, isEmail;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public boolean isReadOnly;
@@ -438,6 +438,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + (isEnum ? 1231 : 1237);
         result = prime * result + ((isNotContainer ? 13:31));
         result = prime * result + ((isPrimitiveType  ? 13:31));
+        result = prime * result + ((isModel  ? 13:31));
         result = prime * result + ((isReadOnly  ? 13:31));
         result = prime * result + ((isWriteOnly  ? 13:31));
         result = prime * result + ((isNullable  ? 13:31));
@@ -472,6 +473,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isDate  ? 13:31));
         result = prime * result + ((isDateTime ? 13:31));
         result = prime * result + ((isUuid ? 13:31));
+        result = prime * result + ((isEmail ? 13:31));
         result = prime * result + ((isMapContainer ? 13:31));
         result = prime * result + ((isListContainer  ? 13:31));
         result = prime * result + Objects.hashCode(isInherited);
@@ -579,6 +581,9 @@ public class CodegenProperty implements Cloneable {
         if (this.isPrimitiveType != other.isPrimitiveType) {
             return false;
         }
+        if (this.isModel != other.isModel) {
+            return false;
+        }
         if (this.isContainer != other.isContainer) {
             return false;
         }
@@ -647,6 +652,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (this.isUuid != other.isUuid) {
+            return false;
+        }
+        if (this.isEmail != other.isEmail) {
             return false;
         }
         if (this.isBinary != other.isBinary) {
@@ -759,6 +767,7 @@ public class CodegenProperty implements Cloneable {
                 ", secondaryParam=" + secondaryParam +
                 ", hasMoreNonReadOnly=" + hasMoreNonReadOnly +
                 ", isPrimitiveType=" + isPrimitiveType +
+                ", isModel=" + isModel +
                 ", isContainer=" + isContainer +
                 ", isNotContainer=" + isNotContainer +
                 ", isString=" + isString +
@@ -775,6 +784,7 @@ public class CodegenProperty implements Cloneable {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isEmail=" + isEmail +
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isEnum=" + isEnum +

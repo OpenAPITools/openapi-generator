@@ -38,7 +38,7 @@ public class Pet {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "category")
@@ -48,7 +48,7 @@ public class Pet {
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("photoUrls")
   // items.xmlName=
@@ -110,7 +110,7 @@ public class Pet {
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;

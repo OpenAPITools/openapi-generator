@@ -1,4 +1,4 @@
-module DateOnly exposing (DateOnly, dateOnlyDecoder, dateOnlyEncoder)
+module DateOnly exposing (DateOnly, decoder, encoder, toString)
 
 import Date
 import Date.Extra exposing (fromIsoString, toFormattedString)
@@ -11,15 +11,15 @@ type alias DateOnly =
     Date.Date
 
 
-dateOnlyDecoder : Decoder DateOnly
-dateOnlyDecoder =
+decoder : Decoder DateOnly
+decoder =
     Decode.string
         |> Decode.andThen decodeIsoString
 
 
-dateOnlyEncoder : DateOnly -> Encode.Value
-dateOnlyEncoder model =
-    Encode.string <| toFormattedString "yyyy-MM-dd" model
+encoder : DateOnly -> Encode.Value
+encoder =
+    Encode.string << toString
 
 
 decodeIsoString : String -> Decoder DateOnly
@@ -30,3 +30,8 @@ decodeIsoString str =
 
         Result.Err msg ->
             Decode.fail msg
+
+
+toString : DateOnly -> String
+toString =
+    toFormattedString "yyyy-MM-dd"

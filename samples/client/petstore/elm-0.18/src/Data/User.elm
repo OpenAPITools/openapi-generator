@@ -10,12 +10,12 @@
 -}
 
 
-module Data.User exposing (User, userDecoder, userEncoder)
+module Data.User exposing (User, decoder, encoder)
 
+import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import Json.Encode as Encode
-import Maybe exposing (map, withDefault)
 
 
 {-| A User who is purchasing from the pet store
@@ -32,8 +32,8 @@ type alias User =
     }
 
 
-userDecoder : Decoder User
-userDecoder =
+decoder : Decoder User
+decoder =
     decode User
         |> optional "id" (Decode.nullable Decode.int) Nothing
         |> optional "username" (Decode.nullable Decode.string) Nothing
@@ -45,15 +45,15 @@ userDecoder =
         |> optional "userStatus" (Decode.nullable Decode.int) Nothing
 
 
-userEncoder : User -> Encode.Value
-userEncoder model =
+encoder : User -> Encode.Value
+encoder model =
     Encode.object
-        [ ( "id", withDefault Encode.null (map Encode.int model.id) )
-        , ( "username", withDefault Encode.null (map Encode.string model.username) )
-        , ( "firstName", withDefault Encode.null (map Encode.string model.firstName) )
-        , ( "lastName", withDefault Encode.null (map Encode.string model.lastName) )
-        , ( "email", withDefault Encode.null (map Encode.string model.email) )
-        , ( "password", withDefault Encode.null (map Encode.string model.password) )
-        , ( "phone", withDefault Encode.null (map Encode.string model.phone) )
-        , ( "userStatus", withDefault Encode.null (map Encode.int model.userStatus) )
+        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+        , ( "username", Maybe.withDefault Encode.null (Maybe.map Encode.string model.username) )
+        , ( "firstName", Maybe.withDefault Encode.null (Maybe.map Encode.string model.firstName) )
+        , ( "lastName", Maybe.withDefault Encode.null (Maybe.map Encode.string model.lastName) )
+        , ( "email", Maybe.withDefault Encode.null (Maybe.map Encode.string model.email) )
+        , ( "password", Maybe.withDefault Encode.null (Maybe.map Encode.string model.password) )
+        , ( "phone", Maybe.withDefault Encode.null (Maybe.map Encode.string model.phone) )
+        , ( "userStatus", Maybe.withDefault Encode.null (Maybe.map Encode.int model.userStatus) )
         ]

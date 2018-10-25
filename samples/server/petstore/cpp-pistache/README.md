@@ -35,7 +35,7 @@ Once compiled run the server:
 
 ```bash
 cd build
-./server
+./api-server
 ```
 
 ## Libraries required

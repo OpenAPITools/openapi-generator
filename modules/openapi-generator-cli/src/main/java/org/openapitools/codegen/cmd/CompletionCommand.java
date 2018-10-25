@@ -84,7 +84,8 @@ public class CompletionCommand
                         null,
                         null,
                         suggesterMetadata.getMetadataInjections(),
-                        bindings.build());
+                        bindings.build(),
+                        new DefaultCommandFactory<Suggester>());
 
                 return suggester.suggest();
             }

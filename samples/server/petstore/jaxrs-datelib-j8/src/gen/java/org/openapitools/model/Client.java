@@ -28,7 +28,7 @@ import javax.validation.Valid;
 
 public class Client  implements Serializable {
   @JsonProperty("client")
-  private String client = null;
+  private String client;
 
   public Client client(String client) {
     this.client = client;

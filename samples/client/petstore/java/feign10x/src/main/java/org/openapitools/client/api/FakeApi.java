@@ -25,7 +25,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * Test serialization of outer boolean types
-    * @param body Input boolean as post body (optional)
+   * @param body Input boolean as post body (optional)
    * @return Boolean
    */
   @RequestLine("POST /fake/outer/boolean")
@@ -38,7 +38,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * Test serialization of object with outer number type
-    * @param outerComposite Input composite as post body (optional)
+   * @param outerComposite Input composite as post body (optional)
    * @return OuterComposite
    */
   @RequestLine("POST /fake/outer/composite")
@@ -51,7 +51,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * Test serialization of outer number types
-    * @param body Input number as post body (optional)
+   * @param body Input number as post body (optional)
    * @return BigDecimal
    */
   @RequestLine("POST /fake/outer/number")
@@ -64,7 +64,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * Test serialization of outer string types
-    * @param body Input string as post body (optional)
+   * @param body Input string as post body (optional)
    * @return String
    */
   @RequestLine("POST /fake/outer/string")
@@ -77,7 +77,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    * @param fileSchemaTestClass  (required)
+   * @param fileSchemaTestClass  (required)
    */
   @RequestLine("PUT /fake/body-with-file-schema")
   @Headers({
@@ -89,8 +89,8 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * 
-    * @param query  (required)
-    * @param user  (required)
+   * @param query  (required)
+   * @param user  (required)
    */
   @RequestLine("PUT /fake/body-with-query-params?query={query}")
   @Headers({
@@ -135,7 +135,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-    * @param client client model (required)
+   * @param client client model (required)
    * @return Client
    */
   @RequestLine("PATCH /fake")
@@ -148,20 +148,20 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    * @param number None (required)
-    * @param _double None (required)
-    * @param patternWithoutDelimiter None (required)
-    * @param _byte None (required)
-    * @param integer None (optional, default to null)
-    * @param int32 None (optional, default to null)
-    * @param int64 None (optional, default to null)
-    * @param _float None (optional, default to null)
-    * @param string None (optional, default to null)
-    * @param binary None (optional, default to null)
-    * @param date None (optional, default to null)
-    * @param dateTime None (optional, default to null)
-    * @param password None (optional, default to null)
-    * @param paramCallback None (optional, default to null)
+   * @param number None (required)
+   * @param _double None (required)
+   * @param patternWithoutDelimiter None (required)
+   * @param _byte None (required)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    */
   @RequestLine("POST /fake")
   @Headers({
@@ -173,14 +173,14 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * To test enum parameters
    * To test enum parameters
-    * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-    * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
-    * @param enumQueryInteger Query parameter enum test (double) (optional)
-    * @param enumQueryDouble Query parameter enum test (double) (optional)
-    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
-    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+   * @param enumQueryInteger Query parameter enum test (double) (optional)
+   * @param enumQueryDouble Query parameter enum test (double) (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
+   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    */
   @RequestLine("GET /fake?enum_query_string_array={enumQueryStringArray}&enum_query_string={enumQueryString}&enum_query_integer={enumQueryInteger}&enum_query_double={enumQueryDouble}")
   @Headers({
@@ -202,7 +202,7 @@ public interface FakeApi extends ApiClient.Api {
    * building up this map in a fluent style.
    * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
@@ -249,7 +249,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * test inline additionalProperties
    * 
-    * @param requestBody request body (required)
+   * @param requestBody request body (required)
    */
   @RequestLine("POST /fake/inline-additionalProperties")
   @Headers({
@@ -261,8 +261,8 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * test json serialization of form data
    * 
-    * @param param field1 (required)
-    * @param param2 field2 (required)
+   * @param param field1 (required)
+   * @param param2 field2 (required)
    */
   @RequestLine("GET /fake/jsonFormData")
   @Headers({

@@ -11,12 +11,12 @@ package petstore
 
 import (
 	"context"
-	"github.com/antihax/optional"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
+	"github.com/antihax/optional"
+	"os"
 )
 
 // Linger please
@@ -644,8 +644,8 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Cl
 }
 
 /*
-FakeApiService Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+FakeApiService Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param number None
  * @param double None
@@ -665,13 +665,13 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 */
 
 type TestEndpointParametersOpts struct {
-	Integer  optional.Int32
-	Int32_   optional.Int32
-	Int64_   optional.Int64
-	Float    optional.Float32
-	String_  optional.String
-	Binary   optional.Interface
-	Date     optional.String
+	Integer optional.Int32
+	Int32_ optional.Int32
+	Int64_ optional.Int64
+	Float optional.Float32
+	String_ optional.String
+	Binary optional.Interface
+	Date optional.String
 	DateTime optional.Time
 	Password optional.String
 	Callback optional.String
@@ -747,7 +747,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 		localVarFileOk := false
 		localVarFile, localVarFileOk = localVarOptionals.Binary.Value().(*os.File)
 		if !localVarFileOk {
-			return nil, reportError("binary should be *os.File")
+				return nil, reportError("binary should be *os.File")
 		}
 	}
 	if localVarFile != nil {
@@ -812,13 +812,13 @@ To test enum parameters
 
 type TestEnumParametersOpts struct {
 	EnumHeaderStringArray optional.Interface
-	EnumHeaderString      optional.String
-	EnumQueryStringArray  optional.Interface
-	EnumQueryString       optional.String
-	EnumQueryInteger      optional.Int32
-	EnumQueryDouble       optional.Float64
-	EnumFormStringArray   optional.Interface
-	EnumFormString        optional.String
+	EnumHeaderString optional.String
+	EnumQueryStringArray optional.Interface
+	EnumQueryString optional.String
+	EnumQueryInteger optional.Int32
+	EnumQueryDouble optional.Float64
+	EnumFormStringArray optional.Interface
+	EnumFormString optional.String
 }
 
 func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptionals *TestEnumParametersOpts) (*http.Response, error) {

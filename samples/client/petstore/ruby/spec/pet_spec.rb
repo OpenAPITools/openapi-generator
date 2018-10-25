@@ -19,9 +19,9 @@ describe "Pet" do
 
   describe "pet methods" do
     it "should construct a new pet object" do
-      tag1 = Petstore::Tag.new({'id' => 1, 'name'=> 'tag1'})
-      tag2 = Petstore::Tag.new({'id' => 2, 'name'=> 'tag2'})
-      category1 = Petstore::Category.new({:id => 1, :name => 'category unknown'})
+      tag1 = Petstore::Tag.new('id' => 1, 'name' => 'tag1')
+      tag2 = Petstore::Tag.new('id' => 2, 'name' => 'tag2')
+      category1 = Petstore::Category.new(:id => 1, :name => 'category unknown')
       # initalize using both string and symbol key
       pet_hash = {
         :id => @pet_id,
