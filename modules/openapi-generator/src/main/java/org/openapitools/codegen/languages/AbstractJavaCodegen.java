@@ -486,6 +486,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             typeMapping.put("date", "LocalDate");
             typeMapping.put("DateTime", "OffsetDateTime");
             importMapping.put("LocalDate", "org.threeten.bp.LocalDate");
+            importMapping.put("OffsetDateTime", "org.threeten.bp.OffsetDateTime");
             importMapping.put("DateTime", "org.threeten.bp.OffsetDateTime");
         } else if ("joda".equals(dateLibrary)) {
             additionalProperties.put("joda", "true");
@@ -500,9 +501,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importMapping.put("LocalDate", "java.time.LocalDate");
             if ("java8-localdatetime".equals(dateLibrary)) {
                 typeMapping.put("DateTime", "LocalDateTime");
+                importMapping.put("LocalDateTime", "java.time.LocalDateTime");
                 importMapping.put("DateTime", "java.time.LocalDateTime");
             } else {
                 typeMapping.put("DateTime", "OffsetDateTime");
+                importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
                 importMapping.put("DateTime", "java.time.OffsetDateTime");
             }
         } else if (dateLibrary.equals("legacy")) {
