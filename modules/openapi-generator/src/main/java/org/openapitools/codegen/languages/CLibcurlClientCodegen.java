@@ -411,7 +411,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return escapeText(value);
+            if (value.matches("\\d.*")) { // starts with number
+                return "N" + escapeText(value);
+            } else {
+                return escapeText(value);
+            }
         }
     }
 
