@@ -233,7 +233,6 @@
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>true</failOnWarnings>
                     <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
-                    <additionalOptions>-html4</additionalOptions>
                 </configuration>
                 <executions>
                     <execution>
