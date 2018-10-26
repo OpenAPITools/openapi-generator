@@ -289,13 +289,17 @@ export class {{classname}} {
             {{paramName}}.forEach((element) => {
                 {{#useHttpClient}}
                 if ( formParams instanceof HttpParams ) {
-                    formParams = formParams.append('{{baseName}}', <any>element) || formParams;
-                }else{
-                    formParams.append('{{baseName}}', <any>element);
+                    formParams = formParams.append('{{baseName}}', element) || formParams;
+                }else {
+                    formParams.append('{{baseName}}', element);
                 }
                 {{/useHttpClient}}
                 {{^useHttpClient}}
-                    formParams.append('{{baseName}}', <any>element);
+                if ( formParams instanceof FormData ) {
+                    formParams.append('{{baseName}}', element);
+                }else {
+                    formParams.append('{{baseName}}', element);
+                }
                 {{/useHttpClient}}
             })
         {{/isCollectionFormatMulti}}
@@ -308,7 +312,11 @@ export class {{classname}} {
             }
             {{/useHttpClient}}
             {{^useHttpClient}}
+            if ( formParams instanceof FormData ) {
                 formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            }else {
+                formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+            }
             {{/useHttpClient}}    
         {{/isCollectionFormatMulti}}
         }
@@ -317,13 +325,17 @@ export class {{classname}} {
         if ({{paramName}} !== undefined) {
             {{#useHttpClient}}
             if ( formParams instanceof HttpParams ) {
-                formParams = formParams.append('{{baseName}}', <any>{{paramName}}) || formParams;
-            }else{
-                formParams.append('{{baseName}}', <any>{{paramName}});
+                formParams = formParams.append('{{baseName}}', {{paramName}}) || formParams;
+            }else {
+                formParams.append('{{baseName}}', {{paramName}});
             }
             {{/useHttpClient}}
             {{^useHttpClient}}
-            formParams.append('{{baseName}}', <any>{{paramName}});
+            if ( formParams instanceof FormData ) {
+                formParams.append('{{baseName}}', {{paramName}});
+            }else {
+                formParams.append('{{baseName}}', {{paramName}});
+            }
             {{/useHttpClient}}
         }
         {{/isListContainer}}
