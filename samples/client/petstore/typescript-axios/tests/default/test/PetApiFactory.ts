@@ -5,7 +5,7 @@ import {
   Category
 } from "@swagger/typescript-axios-petstore";
 import { Configuration } from "@swagger/typescript-axios-petstore";
-import { AxiosResponse } from "axios";
+import axios, {AxiosInstance, AxiosResponse} from "axios";
 
 let config: Configuration;
 
@@ -24,18 +24,18 @@ before(function() {
 });
 
 describe("PetApiFactory", () => {
-  function runSuite(description: string, requestOptions?: any): void {
+  function runSuite(description: string, requestOptions?: any, customAxiosInstance?: AxiosInstance): void {
     describe(description, () => {
       const fixture: Pet = createTestFixture();
 
       it("should add and delete Pet", () => {
-        return PetApiFactory(config)
+        return PetApiFactory(config, undefined, customAxiosInstance)
           .addPet(fixture, requestOptions)
           .then(() => {});
       });
 
       it("should get Pet by ID", () => {
-        return PetApiFactory(config)
+        return PetApiFactory(config, undefined, customAxiosInstance)
           .getPetById(fixture.id, requestOptions)
           .then((result: AxiosResponse<Pet>) => {
             return expect(result.data).to.deep.equal(fixture);
@@ -43,7 +43,7 @@ describe("PetApiFactory", () => {
       });
 
       it("should update Pet by ID", () => {
-        return PetApiFactory(config)
+        return PetApiFactory(config, undefined, customAxiosInstance)
           .getPetById(fixture.id, requestOptions)
           .then((result: AxiosResponse<Pet>) => {
             result.data.name = "newname";
@@ -60,11 +60,11 @@ describe("PetApiFactory", () => {
       });
 
       it("should delete Pet", () => {
-        return PetApiFactory(config).deletePet(fixture.id, requestOptions);
+        return PetApiFactory(config, undefined, customAxiosInstance).deletePet(fixture.id, requestOptions);
       });
 
       it("should not contain deleted Pet", () => {
-        return PetApiFactory(config)
+        return PetApiFactory(config, undefined, customAxiosInstance)
           .getPetById(fixture.id, requestOptions)
           .then(
             (result: AxiosResponse<Pet>) => {
@@ -84,6 +84,15 @@ describe("PetApiFactory", () => {
     credentials: "include",
     mode: "cors"
   });
+
+  runSuite("without custom axios instance");
+
+  runSuite("with custom axios instance",{}, axios);
+
+  runSuite("with custom request options and custom axios instance",{
+      credentials: "include",
+      mode: "cors"
+  }, axios);
 });
 
 function createTestFixture(ts = Date.now()) {

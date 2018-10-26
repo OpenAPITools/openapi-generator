@@ -20,6 +20,7 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BinarySchema;
@@ -167,40 +168,56 @@ public class ModelUtils {
 
         if (paths != null) {
             for (PathItem path : paths.values()) {
-                List<Operation> allOperations = path.readOperations();
-                if (allOperations != null) {
-                    for (Operation operation : allOperations) {
-                        //Params:
-                        if (operation.getParameters() != null) {
-                            for (Parameter p : operation.getParameters()) {
-                                Parameter parameter = getReferencedParameter(openAPI, p);
-                                if (parameter.getSchema() != null) {
-                                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
-                                }
-                            }
-                        }
+                visitPathItem(path, openAPI, visitor, visitedSchemas);
+            }
+        }
+    }
 
-                        //RequestBody:
-                        RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
-                        if (requestBody != null && requestBody.getContent() != null) {
-                            for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
+    private static void visitPathItem(PathItem pathItem, OpenAPI openAPI, OpenAPISchemaVisitor visitor, List<String> visitedSchemas) {
+        List<Operation> allOperations = pathItem.readOperations();
+        if (allOperations != null) {
+            for (Operation operation : allOperations) {
+                //Params:
+                if (operation.getParameters() != null) {
+                    for (Parameter p : operation.getParameters()) {
+                        Parameter parameter = getReferencedParameter(openAPI, p);
+                        if (parameter.getSchema() != null) {
+                            visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                        }
+                    }
+                }
+
+                //RequestBody:
+                RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
+                if (requestBody != null && requestBody.getContent() != null) {
+                    for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
+                        if (e.getValue().getSchema() != null) {
+                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
+                        }
+                    }
+                }
+
+                //Responses:
+                if (operation.getResponses() != null) {
+                    for (ApiResponse r : operation.getResponses().values()) {
+                        ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
+                        if (apiResponse != null && apiResponse.getContent() != null) {
+                            for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
                                 if (e.getValue().getSchema() != null) {
                                     visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                                 }
                             }
                         }
+                    }
+                }
 
-                        //Responses:
-                        if (operation.getResponses() != null) {
-                            for (ApiResponse r : operation.getResponses().values()) {
-                                ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
-                                if (apiResponse != null && apiResponse.getContent() != null) {
-                                    for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
-                                        if (e.getValue().getSchema() != null) {
-                                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
-                                        }
-                                    }
-                                }
+                //Callbacks:
+                if (operation.getCallbacks() != null) {
+                    for (Callback c : operation.getCallbacks().values()) {
+                        Callback callback = getReferencedCallback(openAPI, c);
+                        if (callback != null) {
+                            for (PathItem p : callback.values()) {
+                                visitPathItem(p, openAPI, visitor, visitedSchemas);
                             }
                         }
                     }
@@ -599,6 +616,35 @@ public class ModelUtils {
 
         if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getParameters() != null) {
             return openAPI.getComponents().getParameters().get(name);
+        }
+        return null;
+    }
+
+    /**
+     * If a Callback contains a reference to an other Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
+     *
+     * @param openAPI   specification being checked
+     * @param callback potentially containing a '$ref'
+     * @return callback without '$ref'
+     */
+    public static Callback getReferencedCallback(OpenAPI openAPI, Callback callback) {
+        if (callback != null && StringUtils.isNotEmpty(callback.get$ref())) {
+            String name = getSimpleRef(callback.get$ref());
+            Callback referencedCallback = getCallback(openAPI, name);
+            if (referencedCallback != null) {
+                return referencedCallback;
+            }
+        }
+        return callback;
+    }
+
+    public static Callback getCallback(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+        
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
+            return openAPI.getComponents().getCallbacks().get(name);
         }
         return null;
     }

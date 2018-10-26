@@ -17,6 +17,7 @@ local basexx = require "basexx"
 
 -- model import
 local petstore_user = require "petstore.model.user"
+local petstore_user = require "petstore.model.user"
 
 local user_api = {}
 local user_api_mt = {
@@ -179,7 +180,6 @@ function user_api:get_user_by_name(username)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -225,7 +225,6 @@ function user_api:login_user(username, password)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 

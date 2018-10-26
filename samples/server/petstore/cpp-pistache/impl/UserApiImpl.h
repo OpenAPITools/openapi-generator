@@ -42,7 +42,7 @@ using namespace org::openapitools::server::model;
 
 class UserApiImpl : public org::openapitools::server::api::UserApi {
 public:
-    UserApiImpl(Pistache::Address addr);
+    UserApiImpl(std::shared_ptr<Pistache::Rest::Router>);
     ~UserApiImpl() {}
 
     void create_user(const User &user, Pistache::Http::ResponseWriter &response);

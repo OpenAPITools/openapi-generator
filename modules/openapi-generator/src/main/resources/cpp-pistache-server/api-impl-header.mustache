@@ -31,7 +31,7 @@ using namespace {{modelNamespace}};{{/hasModelImport}}
 
 class {{classname}}Impl : public {{apiNamespace}}::{{classname}} {
 public:
-    {{classname}}Impl(Pistache::Address addr);
+    {{classname}}Impl(std::shared_ptr<Pistache::Rest::Router>);
     ~{{classname}}Impl() {}
 
     {{#operation}}

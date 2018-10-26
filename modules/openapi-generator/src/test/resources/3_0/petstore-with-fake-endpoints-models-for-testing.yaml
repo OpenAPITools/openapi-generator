@@ -17,6 +17,18 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /foo:
+    get:
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Foo'
   /pet:
     post:
       tags:
@@ -968,7 +980,28 @@ paths:
               required:
                 - requiredFile
 servers:
-  - url: 'http://petstore.swagger.io:80/v2'
+  - url: 'http://{server}.swagger.io:{port}/v2'
+    description: petstore server
+    variables:
+      server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+      port:
+        enum:
+          - 80
+          - 8080
+        default: 80
+  - url: https://localhost:8080/{version}
+    description: The local server
+    variables:
+      version:
+        enum:
+          - 'v1'
+          - 'v2'
+        default: 'v2'
 components:
   requestBodies:
     UserArray:
@@ -1018,6 +1051,14 @@ components:
       type: http
       scheme: basic
   schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: string
+      default: bar
     Order:
       type: object
       properties:
@@ -1047,12 +1088,15 @@ components:
         name: Order
     Category:
       type: object
+      required:
+        - name
       properties:
         id:
           type: integer
           format: int64
         name:
           type: string
+          default: default-name
       xml:
         name: Category
     User:
