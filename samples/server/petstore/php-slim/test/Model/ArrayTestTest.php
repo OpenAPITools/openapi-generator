@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\ArrayTest;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\ArrayTest;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\ArrayTest
  */
-class ArrayTestTest extends \PHPUnit_Framework_TestCase
+class ArrayTestTest extends TestCase
 {
 
     /**

@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\Capitalization;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\Capitalization;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Capitalization
  */
-class CapitalizationTest extends \PHPUnit_Framework_TestCase
+class CapitalizationTest extends TestCase
 {
 
     /**

@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\FormatTest;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\FormatTest;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FormatTest
  */
-class FormatTestTest extends \PHPUnit_Framework_TestCase
+class FormatTestTest extends TestCase
 {
 
     /**

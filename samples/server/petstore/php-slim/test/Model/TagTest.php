@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\Tag;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\Tag;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Tag
  */
-class TagTest extends \PHPUnit_Framework_TestCase
+class TagTest extends TestCase
 {
 
     /**
