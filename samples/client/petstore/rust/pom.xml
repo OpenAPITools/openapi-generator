@@ -35,8 +35,7 @@
                         <configuration>
                             <executable>cargo</executable>
                             <arguments>
-                                <argument>build</argument>
-                                <argument>--release</argument>
+                                <argument>check</argument>
                             </arguments>
                         </configuration>
                     </execution>

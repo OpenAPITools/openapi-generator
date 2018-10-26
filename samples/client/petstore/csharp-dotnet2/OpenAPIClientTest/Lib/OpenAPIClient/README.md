@@ -103,6 +103,8 @@ Class | Method | HTTP request | Description
 
  - [Org.OpenAPITools.Model.ApiResponse](docs/ApiResponse.md)
  - [Org.OpenAPITools.Model.Category](docs/Category.md)
+ - [Org.OpenAPITools.Model.InlineObject](docs/InlineObject.md)
+ - [Org.OpenAPITools.Model.InlineObject1](docs/InlineObject1.md)
  - [Org.OpenAPITools.Model.Order](docs/Order.md)
  - [Org.OpenAPITools.Model.Pet](docs/Pet.md)
  - [Org.OpenAPITools.Model.Tag](docs/Tag.md)

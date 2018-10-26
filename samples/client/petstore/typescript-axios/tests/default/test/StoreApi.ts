@@ -1,14 +1,14 @@
 import { expect } from "chai";
 import { StoreApi } from "@swagger/typescript-axios-petstore";
-import { AxiosResponse } from "axios";
+import axios, {AxiosInstance, AxiosResponse} from "axios";
 
 describe("StoreApi", function() {
-  function runSuite(description: string, requestOptions?: any): void {
+  function runSuite(description: string, requestOptions?: any, customAxiosInstance?: AxiosInstance): void {
     describe(description, () => {
       let api: StoreApi;
 
       beforeEach(function() {
-        api = new StoreApi();
+        api = new StoreApi(undefined, undefined, customAxiosInstance);
       });
 
       it("should get inventory", function() {
@@ -27,4 +27,13 @@ describe("StoreApi", function() {
     credentials: "include",
     mode: "cors"
   });
+
+  runSuite("without custom axios instance");
+
+  runSuite("with custom axios instance",{}, axios);
+
+  runSuite("with custom request options and custom axios instance",{
+      credentials: "include",
+      mode: "cors"
+  }, axios);
 });

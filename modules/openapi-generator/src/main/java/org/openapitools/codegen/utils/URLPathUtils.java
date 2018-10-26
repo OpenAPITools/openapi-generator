@@ -168,7 +168,7 @@ public class URLPathUtils {
      */
     public static String getHost(OpenAPI openAPI) {
         if (openAPI.getServers() != null && openAPI.getServers().size() > 0) {
-            return sanitizeUrl(openAPI.getServers().get(0).getUrl());
+            return sanitizeUrl(getServerURL(openAPI.getServers().get(0)).toString());
         }
         return LOCAL_HOST;
     }

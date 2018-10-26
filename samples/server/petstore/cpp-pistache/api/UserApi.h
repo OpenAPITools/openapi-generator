@@ -19,7 +19,6 @@
 #define UserApi_H_
 
 
-#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
@@ -39,11 +38,9 @@ using namespace org::openapitools::server::model;
 
 class  UserApi {
 public:
-    UserApi(Pistache::Address addr);
+    UserApi(std::shared_ptr<Pistache::Rest::Router>);
     virtual ~UserApi() {}
-    void init(size_t thr);
-    void start();
-    void shutdown();
+    void init();
 
     const std::string base = "/v2";
 
@@ -60,9 +57,7 @@ private:
     void update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    Pistache::Http::Endpoint httpEndpoint;
-    Pistache::Rest::Router router;
-
+    std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Create user

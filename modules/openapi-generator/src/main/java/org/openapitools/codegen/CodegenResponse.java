@@ -30,7 +30,7 @@ public class CodegenResponse {
     public List<Map<String, Object>> examples;
     public String dataType, baseType, containerType;
     public boolean hasHeaders;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime, isUuid, isEmail;
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;

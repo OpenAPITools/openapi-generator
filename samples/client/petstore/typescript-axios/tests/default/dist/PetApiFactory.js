@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var typescript_axios_petstore_1 = require("@swagger/typescript-axios-petstore");
 var typescript_axios_petstore_2 = require("@swagger/typescript-axios-petstore");
+var axios_1 = require("axios");
 var config;
 before(function () {
     config = new typescript_axios_petstore_2.Configuration();
@@ -18,23 +19,23 @@ before(function () {
     config.password = "bar";
 });
 describe("PetApiFactory", function () {
-    function runSuite(description, requestOptions) {
+    function runSuite(description, requestOptions, customAxiosInstance) {
         describe(description, function () {
             var fixture = createTestFixture();
             it("should add and delete Pet", function () {
-                return typescript_axios_petstore_1.PetApiFactory(config)
+                return typescript_axios_petstore_1.PetApiFactory(config, undefined, customAxiosInstance)
                     .addPet(fixture, requestOptions)
                     .then(function () { });
             });
             it("should get Pet by ID", function () {
-                return typescript_axios_petstore_1.PetApiFactory(config)
+                return typescript_axios_petstore_1.PetApiFactory(config, undefined, customAxiosInstance)
                     .getPetById(fixture.id, requestOptions)
                     .then(function (result) {
                     return chai_1.expect(result.data).to.deep.equal(fixture);
                 });
             });
             it("should update Pet by ID", function () {
-                return typescript_axios_petstore_1.PetApiFactory(config)
+                return typescript_axios_petstore_1.PetApiFactory(config, undefined, customAxiosInstance)
                     .getPetById(fixture.id, requestOptions)
                     .then(function (result) {
                     result.data.name = "newname";
@@ -50,10 +51,10 @@ describe("PetApiFactory", function () {
                 });
             });
             it("should delete Pet", function () {
-                return typescript_axios_petstore_1.PetApiFactory(config).deletePet(fixture.id, requestOptions);
+                return typescript_axios_petstore_1.PetApiFactory(config, undefined, customAxiosInstance).deletePet(fixture.id, requestOptions);
             });
             it("should not contain deleted Pet", function () {
-                return typescript_axios_petstore_1.PetApiFactory(config)
+                return typescript_axios_petstore_1.PetApiFactory(config, undefined, customAxiosInstance)
                     .getPetById(fixture.id, requestOptions)
                     .then(function (result) {
                     return chai_1.expect(result.data).to.not.exist;
@@ -68,6 +69,12 @@ describe("PetApiFactory", function () {
         credentials: "include",
         mode: "cors"
     });
+    runSuite("without custom axios instance");
+    runSuite("with custom axios instance", {}, axios_1.default);
+    runSuite("with custom request options and custom axios instance", {
+        credentials: "include",
+        mode: "cors"
+    }, axios_1.default);
 });
 function createTestFixture(ts) {
     if (ts === void 0) { ts = Date.now(); }
