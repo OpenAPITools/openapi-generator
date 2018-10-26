@@ -549,7 +549,6 @@ public class CodegenConfigurator implements Serializable {
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        options.setFlatten(true);
         SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         Set<String> validationMessages = new HashSet<>(result.getMessages());

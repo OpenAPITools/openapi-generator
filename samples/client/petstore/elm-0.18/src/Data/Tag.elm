@@ -12,6 +12,7 @@
 
 module Data.Tag exposing (Tag, decoder, encoder)
 
+import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import Json.Encode as Encode

@@ -13,6 +13,7 @@
 module Data.Order_ exposing (Order_, Status(..), decoder, encoder)
 
 import DateTime exposing (DateTime)
+import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode

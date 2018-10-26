@@ -13,7 +13,6 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
 import org.openapitools.client.model.User;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -36,12 +35,9 @@ public class UserApiTest {
      * Create user
      *
      * This can only be done by the logged in user.
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void createUserTest() throws ApiException {
+    public void createUserTest()  {
         User user = null;
         api.createUser(user).block();
 
@@ -52,12 +48,9 @@ public class UserApiTest {
      * Creates list of users with given input array
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void createUsersWithArrayInputTest() throws ApiException {
+    public void createUsersWithArrayInputTest()  {
         List<User> user = null;
         api.createUsersWithArrayInput(user).block();
 
@@ -68,12 +61,9 @@ public class UserApiTest {
      * Creates list of users with given input array
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void createUsersWithListInputTest() throws ApiException {
+    public void createUsersWithListInputTest()  {
         List<User> user = null;
         api.createUsersWithListInput(user).block();
 
@@ -84,12 +74,9 @@ public class UserApiTest {
      * Delete user
      *
      * This can only be done by the logged in user.
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void deleteUserTest() throws ApiException {
+    public void deleteUserTest()  {
         String username = null;
         api.deleteUser(username).block();
 
@@ -100,12 +87,9 @@ public class UserApiTest {
      * Get user by user name
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void getUserByNameTest() throws ApiException {
+    public void getUserByNameTest()  {
         String username = null;
         User response = api.getUserByName(username).block();
 
@@ -116,12 +100,9 @@ public class UserApiTest {
      * Logs user into the system
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void loginUserTest() throws ApiException {
+    public void loginUserTest()  {
         String username = null;
         String password = null;
         String response = api.loginUser(username, password).block();
@@ -133,12 +114,9 @@ public class UserApiTest {
      * Logs out current logged in user session
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void logoutUserTest() throws ApiException {
+    public void logoutUserTest()  {
         api.logoutUser().block();
 
         // TODO: test validations
@@ -148,12 +126,9 @@ public class UserApiTest {
      * Updated user
      *
      * This can only be done by the logged in user.
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void updateUserTest() throws ApiException {
+    public void updateUserTest()  {
         String username = null;
         User user = null;
         api.updateUser(username, user).block();
