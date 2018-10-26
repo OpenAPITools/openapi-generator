@@ -12,7 +12,6 @@
  */
 
 import ApiClient from '../ApiClient';
-import StringBooleanMap from './StringBooleanMap';
 
 /**
  * The MapTest model module.
@@ -58,7 +57,7 @@ class MapTest {
                 obj['direct_map'] = ApiClient.convertToType(data['direct_map'], {'String': 'Boolean'});
             }
             if (data.hasOwnProperty('indirect_map')) {
-                obj['indirect_map'] = StringBooleanMap.constructFromObject(data['indirect_map']);
+                obj['indirect_map'] = ApiClient.convertToType(data['indirect_map'], {'String': 'Boolean'});
             }
         }
         return obj;
@@ -83,7 +82,7 @@ MapTest.prototype['map_of_enum_string'] = undefined;
 MapTest.prototype['direct_map'] = undefined;
 
 /**
- * @member {module:model/StringBooleanMap} indirect_map
+ * @member {Object.<String, Boolean>} indirect_map
  */
 MapTest.prototype['indirect_map'] = undefined;
 

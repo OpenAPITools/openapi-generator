@@ -1,7 +1,8 @@
 import { expect } from "chai";
 import { StoreApiFactory } from "@swagger/typescript-axios-petstore";
 import { Configuration } from "@swagger/typescript-axios-petstore";
-import { AxiosResponse } from "axios";
+import {AxiosInstance, AxiosResponse} from "axios";
+import axios from "axios";
 
 let config: Configuration;
 
@@ -20,10 +21,10 @@ before(function() {
 });
 
 describe("StoreApiFactory", function() {
-  function runSuite(description: string, requestOptions?: any): void {
+  function runSuite(description: string, requestOptions?: any, customAxiosInstance?: AxiosInstance): void {
     describe(description, () => {
       it("should get inventory", function() {
-        return StoreApiFactory(config)
+        return StoreApiFactory(config, undefined, customAxiosInstance)
           .getInventory(requestOptions)
           .then((result: AxiosResponse<{ [key: string]: number }>) => {
             expect(Object.keys(result.data)).to.not.be.empty;
@@ -38,4 +39,13 @@ describe("StoreApiFactory", function() {
     credentials: "include",
     mode: "cors"
   });
+
+  runSuite("without custom axios instance");
+
+  runSuite("with custom axios instance",{}, axios);
+
+  runSuite("with custom request options and custom axios instance",{
+      credentials: "include",
+      mode: "cors"
+  }, axios);
 });

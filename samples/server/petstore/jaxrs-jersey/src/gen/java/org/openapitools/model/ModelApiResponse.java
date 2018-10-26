@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * OpenAPI spec version: 1.0.0
  * 
@@ -22,19 +22,18 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
- * Describes the result of uploading an image resource
+ * ModelApiResponse
  */
-@ApiModel(description = "Describes the result of uploading an image resource")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", date = "2018-09-12T17:34:16.225+09:00[Asia/Tokyo]")
+
 public class ModelApiResponse   {
   @JsonProperty("code")
-  private Integer code = null;
+  private Integer code;
 
   @JsonProperty("type")
-  private String type = null;
+  private String type;
 
   @JsonProperty("message")
-  private String message = null;
+  private String message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;
