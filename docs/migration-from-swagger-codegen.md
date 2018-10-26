@@ -247,9 +247,10 @@ If your API client is using named parameters in the function call (e.g. Perl req
 The following gnereators are not yet fully migrated and tested
 
 - ~~rust-server~~ (migrated)
-- `apex` (migration scheduled in Jul/Aug 2018)
+- ~~`apex`~~ (migrated)
 
-and we welcome contributions from the community to help with the migration
+and we welcome contributions from the community to help with the migration.
 
+UPDATE: all generators have been successfullly migrated.
 
 [Back to OpenAPI-Generator's README page](../README.md)

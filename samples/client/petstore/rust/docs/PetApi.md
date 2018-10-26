@@ -86,7 +86,7 @@ Multiple status values can be provided with comma separated strings
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **status** | [**Vec&lt;String&gt;**](String.md)| Status values that need to be considered for filter | 
+  **status** | [**Vec<String>**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -114,7 +114,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **tags** | [**Vec&lt;String&gt;**](String.md)| Tags to filter by | 
+  **tags** | [**Vec<String>**](String.md)| Tags to filter by | 
 
 ### Return type
 
