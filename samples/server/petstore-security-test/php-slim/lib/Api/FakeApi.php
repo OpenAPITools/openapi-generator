@@ -40,7 +40,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class FakeApi extends AbstractApiController
 {
-    
+
     /**
      * PUT testCodeInjectEndRnNR
      * Summary: To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r

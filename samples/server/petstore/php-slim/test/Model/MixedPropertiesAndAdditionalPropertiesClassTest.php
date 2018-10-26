@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\MixedPropertiesAndAdditionalPropertiesClass;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\MixedPropertiesAndAdditionalPropertiesClass;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\MixedPropertiesAndAdditionalPropertiesClass
  */
-class MixedPropertiesAndAdditionalPropertiesClassTest extends \PHPUnit_Framework_TestCase
+class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
 {
 
     /**

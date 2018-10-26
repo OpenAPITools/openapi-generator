@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\ArrayOfArrayOfNumberOnly;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\ArrayOfArrayOfNumberOnly;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
  */
-class ArrayOfArrayOfNumberOnlyTest extends \PHPUnit_Framework_TestCase
+class ArrayOfArrayOfNumberOnlyTest extends TestCase
 {
 
     /**
