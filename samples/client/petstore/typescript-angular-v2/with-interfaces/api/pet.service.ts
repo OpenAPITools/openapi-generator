@@ -555,10 +555,18 @@ export class PetService implements PetServiceInterface {
         }
 
         if (name !== undefined) {
-            formParams.append('name', <any>name);
+            if ( formParams instanceof FormData ) {
+                formParams.append('name', name);
+            }else {
+                formParams.append('name', name);
+            }
         }
         if (status !== undefined) {
-            formParams.append('status', <any>status);
+            if ( formParams instanceof FormData ) {
+                formParams.append('status', status);
+            }else {
+                formParams.append('status', status);
+            }
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -631,10 +639,18 @@ export class PetService implements PetServiceInterface {
         }
 
         if (additionalMetadata !== undefined) {
-            formParams.append('additionalMetadata', <any>additionalMetadata);
+            if ( formParams instanceof FormData ) {
+                formParams.append('additionalMetadata', additionalMetadata);
+            }else {
+                formParams.append('additionalMetadata', additionalMetadata);
+            }
         }
         if (file !== undefined) {
-            formParams.append('file', <any>file);
+            if ( formParams instanceof FormData ) {
+                formParams.append('file', file);
+            }else {
+                formParams.append('file', file);
+            }
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({

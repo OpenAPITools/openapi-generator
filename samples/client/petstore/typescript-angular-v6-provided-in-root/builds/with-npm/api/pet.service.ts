@@ -428,16 +428,16 @@ export class PetService {
 
         if (name !== undefined) {
             if ( formParams instanceof HttpParams ) {
-                formParams = formParams.append('name', <any>name) || formParams;
-            }else{
-                formParams.append('name', <any>name);
+                formParams = formParams.append('name', name) || formParams;
+            }else {
+                formParams.append('name', name);
             }
         }
         if (status !== undefined) {
             if ( formParams instanceof HttpParams ) {
-                formParams = formParams.append('status', <any>status) || formParams;
-            }else{
-                formParams.append('status', <any>status);
+                formParams = formParams.append('status', status) || formParams;
+            }else {
+                formParams.append('status', status);
             }
         }
 
@@ -509,16 +509,16 @@ export class PetService {
 
         if (additionalMetadata !== undefined) {
             if ( formParams instanceof HttpParams ) {
-                formParams = formParams.append('additionalMetadata', <any>additionalMetadata) || formParams;
-            }else{
-                formParams.append('additionalMetadata', <any>additionalMetadata);
+                formParams = formParams.append('additionalMetadata', additionalMetadata) || formParams;
+            }else {
+                formParams.append('additionalMetadata', additionalMetadata);
             }
         }
         if (file !== undefined) {
             if ( formParams instanceof HttpParams ) {
-                formParams = formParams.append('file', <any>file) || formParams;
-            }else{
-                formParams.append('file', <any>file);
+                formParams = formParams.append('file', file) || formParams;
+            }else {
+                formParams.append('file', file);
             }
         }
 
