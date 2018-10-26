@@ -541,7 +541,7 @@ export class PetService implements PetServiceInterface {
 
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: FormData | URLSearchParams  ;
+        let formParams: { append(param: string, value: any): any; };
         let useForm = false;
         let convertFormParamsToString = false;
         if (useForm) {
@@ -555,18 +555,10 @@ export class PetService implements PetServiceInterface {
         }
 
         if (name !== undefined) {
-            if ( formParams instanceof FormData ) {
-                formParams.append('name', <any> name);
-            }else {
-                formParams.append('name', name);
-            }
+            formParams.append('name', <any>name);
         }
         if (status !== undefined) {
-            if ( formParams instanceof FormData ) {
-                formParams.append('status', <any> status);
-            }else {
-                formParams.append('status', status);
-            }
+            formParams.append('status', <any>status);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
@@ -622,7 +614,7 @@ export class PetService implements PetServiceInterface {
 
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: FormData | URLSearchParams  ;
+        let formParams: { append(param: string, value: any): any; };
         let useForm = false;
         let convertFormParamsToString = false;
         // use FormData to transmit files using content-type "multipart/form-data"
@@ -639,18 +631,10 @@ export class PetService implements PetServiceInterface {
         }
 
         if (additionalMetadata !== undefined) {
-            if ( formParams instanceof FormData ) {
-                formParams.append('additionalMetadata', <any> additionalMetadata);
-            }else {
-                formParams.append('additionalMetadata', additionalMetadata);
-            }
+            formParams.append('additionalMetadata', <any>additionalMetadata);
         }
         if (file !== undefined) {
-            if ( formParams instanceof FormData ) {
-                formParams.append('file', <any> file);
-            }else {
-                formParams.append('file', file);
-            }
+            formParams.append('file', <any>file);
         }
 
         let requestOptions: RequestOptionsArgs = new RequestOptions({
