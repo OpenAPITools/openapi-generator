@@ -2,7 +2,6 @@
 
 package {{package}};
 
-import {{invokerPackage}}.ApiException;
 {{#imports}}import {{import}};
 {{/imports}}
 import org.junit.Test;
@@ -28,12 +27,9 @@ public class {{classname}}Test {
      * {{summary}}
      *
      * {{notes}}
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void {{operationId}}Test() throws ApiException {
+    public void {{operationId}}Test()  {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}

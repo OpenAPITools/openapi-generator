@@ -25,13 +25,13 @@ import java.util.Map;
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
-            secondaryParam, isCollectionFormatMulti, isPrimitiveType;
+            secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
           collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
 
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isEmail;
     public boolean isListContainer, isMapContainer;
     public boolean isFile;
     public boolean isEnum;
@@ -110,6 +110,7 @@ public class CodegenParameter {
         output.collectionFormat = this.collectionFormat;
         output.isCollectionFormatMulti = this.isCollectionFormatMulti;
         output.isPrimitiveType = this.isPrimitiveType;
+        output.isModel = this.isModel;
         output.description = this.description;
         output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
@@ -165,6 +166,7 @@ public class CodegenParameter {
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
         output.isUuid = this.isUuid;
+        output.isEmail = this.isEmail;
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
 
@@ -200,6 +202,8 @@ public class CodegenParameter {
         if (isCollectionFormatMulti != that.isCollectionFormatMulti)
             return false;
         if (isPrimitiveType != that.isPrimitiveType)
+            return false;
+        if (isModel != that.isModel)
             return false;
         if (baseName != null ? !baseName.equals(that.baseName) : that.baseName != null)
             return false;
@@ -252,6 +256,8 @@ public class CodegenParameter {
         if (isDateTime != that.isDateTime)
             return false;
         if (isUuid != that.isUuid)
+            return false;
+        if (isEmail != that.isEmail)
             return false;
         if (isListContainer != that.isListContainer)
             return false;
@@ -312,6 +318,7 @@ public class CodegenParameter {
         result = 31 * result + (secondaryParam ? 13:31);
         result = 31 * result + (isCollectionFormatMulti ? 13:31);
         result = 31 * result + (isPrimitiveType ? 13:31);
+        result = 31 * result + (isModel ? 13:31);
         result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
         result = 31 * result + (paramName != null ? paramName.hashCode() : 0);
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
@@ -338,6 +345,7 @@ public class CodegenParameter {
         result = 31 * result + (isDate ? 13:31);
         result = 31 * result + (isDateTime ? 13:31);
         result = 31 * result + (isUuid ? 13:31);
+        result = 31 * result + (isEmail ? 13:31);
         result = 31 * result + (isListContainer ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
@@ -378,6 +386,7 @@ public class CodegenParameter {
                 ", secondaryParam=" + secondaryParam +
                 ", isCollectionFormatMulti=" + isCollectionFormatMulti +
                 ", isPrimitiveType=" + isPrimitiveType +
+                ", isModel=" + isModel +
                 ", baseName='" + baseName + '\'' +
                 ", paramName='" + paramName + '\'' +
                 ", dataType='" + dataType + '\'' +
@@ -404,6 +413,7 @@ public class CodegenParameter {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isEmail=" + isEmail +
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isFile=" + isFile +

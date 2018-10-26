@@ -110,6 +110,7 @@ if(hasProperty('target') && target == 'android') {
 ext {
     swagger_annotations_version = "1.5.17"
     jackson_version = "2.6.4"
+    jackson_databind_version = "2.6.4"
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
@@ -121,7 +122,7 @@ dependencies {
     compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
     compile "com.brsanthu:migbase64:2.2"
