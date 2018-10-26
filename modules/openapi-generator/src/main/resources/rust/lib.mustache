@@ -4,8 +4,13 @@ extern crate serde_derive;
 extern crate serde;
 extern crate serde_json;
 extern crate url;
+{{#hyper}}
 extern crate hyper;
 extern crate futures;
+{{/hyper}}
+{{#reqwest}}
+extern crate reqwest;
+{{/reqwest}}
 
 pub mod apis;
 pub mod models;
