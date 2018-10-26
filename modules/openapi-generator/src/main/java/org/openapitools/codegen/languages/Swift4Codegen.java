@@ -285,7 +285,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-                                                       Schema schema) {
+                                                       Schema schema,
+                                                       Map<String, Schema> allDefinitions) {
 
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 

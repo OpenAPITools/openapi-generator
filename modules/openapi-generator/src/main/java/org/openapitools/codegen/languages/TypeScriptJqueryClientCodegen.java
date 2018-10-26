@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.util.Map;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenParameter;
@@ -136,7 +137,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema, Map<String, Schema> allDefinitions) {
         codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }

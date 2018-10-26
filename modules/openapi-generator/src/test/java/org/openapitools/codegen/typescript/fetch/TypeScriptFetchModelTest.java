@@ -227,7 +227,7 @@ public class TypeScriptFetchModelTest {
         final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
 
         Schema property = (Schema) schema.getProperties().get("array_enum");
-        CodegenProperty prope = codegen.fromProperty("array_enum", property);
+        CodegenProperty prope = codegen.fromProperty("array_enum", property, openAPI.getComponents().getSchemas());
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
@@ -263,7 +263,7 @@ public class TypeScriptFetchModelTest {
         final Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
 
         Schema property = (Schema) schema.getProperties().get("enum_integer");
-        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
+        CodegenProperty prope = codegen.fromProperty("enum_integer", property, openAPI.getComponents().getSchemas());
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");

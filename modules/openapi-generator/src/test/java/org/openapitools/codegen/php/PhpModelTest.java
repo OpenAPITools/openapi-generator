@@ -303,7 +303,7 @@ public class PhpModelTest {
         final Schema definition = schemas.get("EnumArrays");
 
         Schema property =  (Schema) definition.getProperties().get("array_enum");
-        CodegenProperty prope = codegen.fromProperty("array_enum", property);
+        CodegenProperty prope = codegen.fromProperty("array_enum", property, openAPI.getComponents().getSchemas());
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
         Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
@@ -336,7 +336,7 @@ public class PhpModelTest {
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
 
         Schema property =  (Schema) definition.getProperties().get("enum_integer");
-        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
+        CodegenProperty prope = codegen.fromProperty("enum_integer", property, openAPI.getComponents().getSchemas());
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
         Assert.assertEquals(prope.enumName, "ENUM_INTEGER");

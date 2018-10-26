@@ -371,8 +371,8 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty codegenProperty = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, Map<String, Schema> allDefinitions) {
+        CodegenProperty codegenProperty = super.fromProperty(name, p, allDefinitions);
         // TODO skip array/map of enum for the time being,
         // we need to add logic here to handle array/map of enum for any
         // dimensions

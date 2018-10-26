@@ -252,7 +252,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
                 response = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), response);
                 if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response);
+                    CodegenProperty cm = fromProperty("response", response, schema);
                     op.vendorExtensions.put("x-codegen-response", cm);
                     if ("HttpContent".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);

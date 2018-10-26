@@ -306,10 +306,10 @@ public class ObjcModelTest {
         final Schema definition = model.getComponents().getSchemas().get("format_test");
 
         Schema property = ((Map<String, Schema>) definition.getProperties()).get("uuid");
-        CodegenProperty prope = codegen.fromProperty("uuid", property);
+        CodegenProperty prope = codegen.fromProperty("uuid", property, model.getComponents().getSchemas());
         Assert.assertEquals(prope.baseType, "NSString");
 
-        prope = codegen.fromProperty("password", property);
+        prope = codegen.fromProperty("password", property, model.getComponents().getSchemas());
         Assert.assertEquals(prope.baseType, "NSString");
     }
 
@@ -320,7 +320,7 @@ public class ObjcModelTest {
         final Schema definition = model.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
 
         Schema property = ((Map<String, Schema>)definition.getProperties()).get("map");
-        CodegenProperty prope = codegen.fromProperty("map", property);
+        CodegenProperty prope = codegen.fromProperty("map", property, model.getComponents().getSchemas());
         Assert.assertEquals(prope.baseType, "NSDictionary");
     }
 

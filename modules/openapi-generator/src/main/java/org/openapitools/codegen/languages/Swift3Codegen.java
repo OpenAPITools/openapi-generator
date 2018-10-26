@@ -230,7 +230,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema, Map<String, Schema> allDefinitions) {
 
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 

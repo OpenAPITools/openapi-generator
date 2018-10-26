@@ -425,9 +425,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
      * @return Codegen Parameter object
      */
     @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
+    public CodegenParameter fromParameter(Parameter param, Set<String> imports, Map<String, Schema> allDefinitions) {
 
-        CodegenParameter p = super.fromParameter(param, imports);
+        CodegenParameter p = super.fromParameter(param, imports, allDefinitions);
 
         if (p.isContainer) { // array or map
             /**

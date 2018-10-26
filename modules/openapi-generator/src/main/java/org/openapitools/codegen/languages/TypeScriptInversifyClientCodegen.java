@@ -78,7 +78,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema, Map<String, Schema> allDefinitions) {
         codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }

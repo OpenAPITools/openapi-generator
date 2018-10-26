@@ -598,7 +598,7 @@ public class JavaModelTest {
                 .name("limit")
                 .required(true);
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenParameter cm = codegen.fromParameter(parameter, null);
+        final CodegenParameter cm = codegen.fromParameter(parameter, null, new HashMap<>());
 
         Assert.assertNull(cm.allowableValues);
         Assert.assertEquals(cm.description, "this is a description");
@@ -796,7 +796,7 @@ public class JavaModelTest {
         final BooleanSchema property = new BooleanSchema();
         final JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setBooleanGetterPrefix("is");
-        final CodegenProperty cp = codegen.fromProperty("property", property);
+        final CodegenProperty cp = codegen.fromProperty("property", property, new HashMap<>());
 
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.dataType, "Boolean");
@@ -811,7 +811,7 @@ public class JavaModelTest {
     public void integerPropertyTest() {
         final IntegerSchema property = new IntegerSchema();
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenProperty cp = codegen.fromProperty("property", property);
+        final CodegenProperty cp = codegen.fromProperty("property", property, new HashMap<>());
 
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.dataType, "Integer");
@@ -827,7 +827,7 @@ public class JavaModelTest {
     public void longPropertyTest() {
         final IntegerSchema property = new IntegerSchema().format("int64");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenProperty cp = codegen.fromProperty("property", property);
+        final CodegenProperty cp = codegen.fromProperty("property", property, new HashMap<>());
 
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.nameInCamelCase, "Property");
@@ -904,7 +904,7 @@ public class JavaModelTest {
     public void stringPropertyTest() {
         final Schema property = new StringSchema().maxLength(10).minLength(3).pattern("^[A-Z]+$");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenProperty cp = codegen.fromProperty("somePropertyWithMinMaxAndPattern", property);
+        final CodegenProperty cp = codegen.fromProperty("somePropertyWithMinMaxAndPattern", property, new HashMap<>());
 
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");

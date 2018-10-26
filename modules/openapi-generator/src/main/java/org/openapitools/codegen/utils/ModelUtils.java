@@ -700,6 +700,7 @@ public class ModelUtils {
                 return schema;
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
+                // return ref;
                 return schema;
             } else if (isArraySchema(ref) || isComposedSchema(ref)) { // array def should be created as models
                 return schema;

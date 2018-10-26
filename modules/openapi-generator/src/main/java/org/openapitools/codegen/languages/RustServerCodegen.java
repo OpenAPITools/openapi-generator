@@ -764,8 +764,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter parameter = super.fromParameter(param, imports);
+    public CodegenParameter fromParameter(Parameter param, Set<String> imports, Map<String, Schema> allDefinitions) {
+        CodegenParameter parameter = super.fromParameter(param, imports, allDefinitions);
         if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
             !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
             !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
