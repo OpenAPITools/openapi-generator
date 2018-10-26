@@ -42,6 +42,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.project.MavenProject;
 
 import org.openapitools.codegen.CliOption;
@@ -50,6 +51,8 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.sonatype.plexus.build.incremental.BuildContext;
+import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +63,13 @@ import org.slf4j.LoggerFactory;
 public class CodeGenMojo extends AbstractMojo {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CodeGenMojo.class);
+
+    /**
+     * The build context is only avail when running from within eclipse.
+     * It is used to update the eclipse-m2e-layer when the plugin is executed inside the IDE.
+     */
+    @Component
+    private BuildContext buildContext = new DefaultBuildContext();
 
     @Parameter(name="validateSpec", required = false, defaultValue = "true")
     private Boolean validateSpec;
@@ -329,17 +339,33 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(readonly = true, required = true, defaultValue = "${project}")
     private MavenProject project;
 
-
+    public void setBuildContext(BuildContext buildContext) {
+        this.buildContext = buildContext;
+    }
 
     @Override
     public void execute() throws MojoExecutionException {
+        File inputSpecFile = new File(inputSpec);
+        addCompileSourceRootIfConfigured();
 
-        if (skip) {
-            getLog().info("Code generation is skipped.");
-            // Even when no new sources are generated, the existing ones should
-            // still be compiled if needed.
-            addCompileSourceRootIfConfigured();
+        try {
+            if (skip) {
+                getLog().info("Code generation is skipped.");
             return;
+        }
+
+        if (buildContext != null) {
+            if (buildContext.isIncremental()) {
+                if (inputSpec != null) {
+                    if (inputSpecFile.exists()) {
+                        if (!buildContext.hasDelta(inputSpecFile)) {
+                            getLog().info(
+                                    "Code generation is skipped in delta-build because source-json was not modified.");
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         // attempt to read from config file
@@ -573,30 +599,39 @@ public class CodeGenMojo extends AbstractMojo {
             return;
         }
         adjustAdditionalProperties(config);
-        try {
+//        try {
             new DefaultGenerator().opts(input).generate();
+            
+            if (buildContext != null) {
+            	buildContext.refresh(new File(getCompileSourceRoot()));
+            }
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
             // I find it annoying to jump through hoops to get basic diagnostic information,
             // so let's log it in any case:
-            getLog().error(e);
+        	if (buildContext != null) {
+            	buildContext.addError(inputSpecFile, 0, 0, "unexpected error in Open-API generation", e);
+        	}
+        	getLog().error(e);
             throw new MojoExecutionException(
                     "Code generation failed. See above for the full exception.");
         }
+    }
+    
+    private String getCompileSourceRoot() {
+        final Object sourceFolderObject =
+                configOptions == null ? null : configOptions
+                        .get(CodegenConstants.SOURCE_FOLDER);
+        final String sourceFolder =
+                sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
 
-        addCompileSourceRootIfConfigured();
+        String sourceJavaFolder = output.toString() + "/" + sourceFolder;
+        return sourceJavaFolder;
     }
 
     private void addCompileSourceRootIfConfigured() {
         if (addCompileSourceRoot) {
-            final Object sourceFolderObject =
-                    configOptions == null ? null : configOptions
-                            .get(CodegenConstants.SOURCE_FOLDER);
-            final String sourceFolder =
-                    sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
-
-            String sourceJavaFolder = output.toString() + "/" + sourceFolder;
-            project.addCompileSourceRoot(sourceJavaFolder);
+            project.addCompileSourceRoot(getCompileSourceRoot());
         }
 
         // Reset all environment variables to their original value. This prevents unexpected
