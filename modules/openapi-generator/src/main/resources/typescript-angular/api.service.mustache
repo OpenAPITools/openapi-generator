@@ -296,7 +296,7 @@ export class {{classname}} {
                 {{/useHttpClient}}
                 {{^useHttpClient}}
                 if ( formParams instanceof FormData ) {
-                    formParams.append('{{baseName}}', element);
+                    formParams.append('{{baseName}}', <any> element);
                 }else {
                     formParams.append('{{baseName}}', element);
                 }
@@ -313,7 +313,7 @@ export class {{classname}} {
             {{/useHttpClient}}
             {{^useHttpClient}}
             if ( formParams instanceof FormData ) {
-                formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
+                formParams.append('{{baseName}}', <any> {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
             }else {
                 formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']));
             }
@@ -332,7 +332,7 @@ export class {{classname}} {
             {{/useHttpClient}}
             {{^useHttpClient}}
             if ( formParams instanceof FormData ) {
-                formParams.append('{{baseName}}', {{paramName}});
+                formParams.append('{{baseName}}', <any> {{paramName}});
             }else {
                 formParams.append('{{baseName}}', {{paramName}});
             }

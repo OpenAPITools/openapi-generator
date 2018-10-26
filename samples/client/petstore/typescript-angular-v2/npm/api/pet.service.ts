@@ -555,14 +555,14 @@ export class PetService {
 
         if (name !== undefined) {
             if ( formParams instanceof FormData ) {
-                formParams.append('name', name);
+                formParams.append('name', <any> name);
             }else {
                 formParams.append('name', name);
             }
         }
         if (status !== undefined) {
             if ( formParams instanceof FormData ) {
-                formParams.append('status', status);
+                formParams.append('status', <any> status);
             }else {
                 formParams.append('status', status);
             }
@@ -639,14 +639,14 @@ export class PetService {
 
         if (additionalMetadata !== undefined) {
             if ( formParams instanceof FormData ) {
-                formParams.append('additionalMetadata', additionalMetadata);
+                formParams.append('additionalMetadata', <any> additionalMetadata);
             }else {
                 formParams.append('additionalMetadata', additionalMetadata);
             }
         }
         if (file !== undefined) {
             if ( formParams instanceof FormData ) {
-                formParams.append('file', file);
+                formParams.append('file', <any> file);
             }else {
                 formParams.append('file', file);
             }
