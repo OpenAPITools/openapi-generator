@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"regexp"
 	"testing"
 	"time"
 
@@ -20,7 +21,15 @@ func TestPlaceOrder(t *testing.T) {
 	_, r, err := client.StoreApi.PlaceOrder(context.Background(), newOrder)
 
 	if err != nil {
-		t.Errorf("Error while placing order")
+		// Skip parsing time error due to error in Petstore Test Server
+		// https://github.com/OpenAPITools/openapi-generator/issues/1292
+		if regexp.
+			MustCompile(`^parsing time.+cannot parse "\+0000"" as "Z07:00"$`).
+			MatchString(err.Error()) {
+			t.Log("Skipping error for parsing time with `+0000` UTC offset as Petstore Test Server does not return valid RFC 3339 datetime")
+		} else {
+			t.Errorf("Error while placing order")
+		}
 		t.Log(err)
 	}
 	if r.StatusCode != 200 {
