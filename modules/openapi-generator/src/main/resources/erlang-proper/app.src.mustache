@@ -1,0 +1,21 @@
+{ application, {{packageName}}
+, [ {description, {{#appDescription}}"{{appDescription}}"{{/appDescription}}{{^appDescription}}"OpenAPI client library for EQC testing"{{/appDescription}}}
+  , {vsn, "{{#apiVersion}}{{apiVersion}}{{/apiVersion}}{{^apiVersion}}0.1.0{{/apiVersion}}"}
+  , {registered, []}
+  , { applications
+    , [ kernel
+      , stdlib
+      , ssl
+      , jsx
+      ]
+    }
+  , { env
+    , [ {host, "http://{{#host}}{{{host}}}{{/host}}{{^host}}localhost:8080{{/host}}"}
+      , {basic_auth, {"admin", "admin"}}
+      ]
+    }
+  , {modules, []}
+  , {maintainers, []}
+  , {licenses, [{{#licenseInfo}}"{{licenseInfo}}"{{/licenseInfo}}]}
+  , {links, [{{#infoUrl}}"{{infoUrl}}"{{/infoUrl}}]}
+]}.
