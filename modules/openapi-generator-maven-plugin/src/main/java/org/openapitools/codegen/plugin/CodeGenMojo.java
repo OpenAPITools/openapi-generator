@@ -35,6 +35,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -571,6 +572,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
             return;
         }
+        adjustAdditionalProperties(config);
         try {
             new DefaultGenerator().opts(input).generate();
         } catch (Exception e) {
@@ -605,6 +607,32 @@ public class CodeGenMojo extends AbstractMojo {
                 System.clearProperty(entry.getKey());
             } else {
                 System.setProperty(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+    /**
+     * This method enables conversion of true/false strings in 
+     * config.additionalProperties (configuration/configOptions) to proper booleans.
+     * This enables mustache files to handle the properties better.
+     * 
+     * @param config
+     */
+    private void adjustAdditionalProperties(final CodegenConfig config) {
+        Map<String, Object> configAdditionalProperties = config.additionalProperties();
+        Set<String> keySet = configAdditionalProperties.keySet();
+        for (String key : keySet) {
+            Object value = configAdditionalProperties.get(key);
+            if (value != null) {
+                if (value instanceof String) {
+                    String stringValue = (String) value;
+                    if (stringValue.equalsIgnoreCase("true")) {
+                        configAdditionalProperties.put(key, Boolean.TRUE);
+                    } else if (stringValue.equalsIgnoreCase("false")) {
+                        configAdditionalProperties.put(key, Boolean.FALSE);
+                    }
+                }
+            } else {
+                configAdditionalProperties.put(key, Boolean.FALSE);
             }
         }
     }

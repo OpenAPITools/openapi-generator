@@ -95,6 +95,17 @@ namespace {{packageName}}.{{apiPackage}}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class
+        /// </summary>
+        /// <returns></returns>
+        public {{classname}}()
+        {
+            this.Configuration = {{packageName}}.Client.Configuration.Default;
+
+            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>

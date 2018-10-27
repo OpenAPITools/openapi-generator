@@ -1,0 +1,89 @@
+{{>partial_header}}
+use std::rc::Rc;
+use std::borrow::Borrow;
+
+use hyper;
+use serde_json;
+use futures::Future;
+
+use super::{Error, configuration};
+use super::request as __internal_request;
+
+pub struct {{{classname}}}Client<C: hyper::client::Connect> {
+    configuration: Rc<configuration::Configuration<C>>,
+}
+
+impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
+    pub fn new(configuration: Rc<configuration::Configuration<C>>) -> {{{classname}}}Client<C> {
+        {{{classname}}}Client {
+            configuration: configuration,
+        }
+    }
+}
+
+pub trait {{{classname}}} {
+{{#operations}}
+{{#operation}}
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
+{{/operation}}
+{{/operations}}
+}
+
+
+impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
+{{#operations}}
+{{#operation}}
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
+        __internal_request::Request::new(hyper::Method::{{{httpMethod}}}, "{{{path}}}".to_string())
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isApiKey}}
+            .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
+                in_header: {{#isKeyInHeader}}true{{/isKeyInHeader}}{{^isKeyInHeader}}false{{/isKeyInHeader}},
+                in_query: {{#isKeyInQuery}}true{{/isKeyInQuery}}{{^isKeyInQuery}}false{{/isKeyInQuery}},
+                param_name: "{{{keyParamName}}}".to_owned(),
+            }))
+        {{/isApiKey}}
+        {{#isBasic}}
+            .with_auth(__internal_request::Auth::Basic)
+        {{/isBasic}}
+        {{#isOAuth}}
+            .with_auth(__internal_request::Auth::Oauth)
+        {{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+        {{#queryParams}}
+            .with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
+        {{/queryParams}}
+        {{#pathParams}}
+            .with_path_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
+        {{/pathParams}}
+        {{#hasHeaderParams}}
+        {{#headerParams}}
+            .with_header_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
+        {{/headerParams}}
+        {{/hasHeaderParams}}
+        {{#hasFormParams}}
+        {{#formParams}}
+        {{#isFile}}
+            .with_form_param("{{{baseName}}}".to_string(), unimplemented!())
+        {{/isFile}}
+        {{^isFile}}
+            .with_form_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
+        {{/isFile}}
+        {{/formParams}}
+        {{/hasFormParams}}
+        {{#hasBodyParam}}
+        {{#bodyParams}}
+            .with_body_param({{{paramName}}})
+        {{/bodyParams}}
+        {{/hasBodyParam}}
+        {{^returnType}}
+            .returns_nothing()
+        {{/returnType}}
+            .execute(self.configuration.borrow())
+    }
+
+{{/operation}}
+{{/operations}}
+}
