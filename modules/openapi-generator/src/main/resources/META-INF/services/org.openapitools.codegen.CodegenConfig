@@ -22,6 +22,7 @@ org.openapitools.codegen.languages.EiffelClientCodegen
 org.openapitools.codegen.languages.ElixirClientCodegen
 org.openapitools.codegen.languages.ElmClientCodegen
 org.openapitools.codegen.languages.ErlangClientCodegen
+org.openapitools.codegen.languages.ErlangProperCodegen
 org.openapitools.codegen.languages.ErlangServerCodegen
 org.openapitools.codegen.languages.FlashClientCodegen
 org.openapitools.codegen.languages.FinchServerCodegen
