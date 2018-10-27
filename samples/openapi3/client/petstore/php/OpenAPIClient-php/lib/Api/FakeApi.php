@@ -2255,7 +2255,7 @@ class FakeApi
      *
      * Fake endpoint to test group parameters (optional)
      *
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
      * @param  int $string_group String in group parameters (optional)
      * @param  bool $boolean_group Boolean in group parameters (optional)
@@ -2395,7 +2395,7 @@ class FakeApi
     /**
      * Create request for operation 'testGroupParameters'
      *
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
      * @param  int $string_group String in group parameters (optional)
      * @param  bool $boolean_group Boolean in group parameters (optional)

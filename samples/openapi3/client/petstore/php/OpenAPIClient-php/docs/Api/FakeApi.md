@@ -326,7 +326,6 @@ $config = OpenAPI\Client\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
 
-
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -469,12 +468,12 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$string_group = 56; // int | String in group parameters
-$boolean_group = True; // bool | Boolean in group parameters
-$int64_group = 56; // int | Integer in group parameters
+$associate_array['string_group'] = 56; // int | String in group parameters
+$associate_array['boolean_group'] = True; // bool | Boolean in group parameters
+$associate_array['int64_group'] = 56; // int | Integer in group parameters
 
 try {
-    $apiInstance->testGroupParameters($string_group, $boolean_group, $int64_group);
+    $apiInstance->testGroupParameters($associate_array);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testGroupParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -482,6 +481,8 @@ try {
 ```
 
 ### Parameters
+Note: the input parameter is an associative array with the keys listed as the parameter name below.
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
