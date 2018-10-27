@@ -562,18 +562,30 @@ paths:
     patch:
       tags:
         - fake
-      summary: To test "client" model
-      description: To test "client" model
-      operationId: testClientModel
+      summary: Fake endpoint to test group parameters (optional)
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      x-group-parameters: true
+      parameters:
+        - name: string_group
+          in: query
+          description: String in group parameters
+          schema:
+            type: integer
+        - name: boolean_group
+          in: header
+          description: Boolean in group parameters
+          schema:
+            type: boolean
+        - name: int64_group
+          in: query
+          description: Integer in group parameters
+          schema:
+            type: integer
+            format: int64
       responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Client'
-      requestBody:
-        $ref: '#/components/requestBodies/Client'
+        '400':
+          description: Someting wrong
     get:
       tags:
         - fake
@@ -911,7 +923,7 @@ paths:
         - $another-fake?
       summary: To test special tags
       description: To test special tags and operation ID starting with number
-      operationId: 123_test_@#$%_special_tags
+      operationId: '123_test_@#$%_special_tags'
       responses:
         '200':
           description: successful operation
