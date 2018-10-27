@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
@@ -32,6 +33,7 @@ import java.lang.IllegalArgumentException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.List;
 import java.util.Map;
 
 import static java.util.UUID.randomUUID;
@@ -39,6 +41,7 @@ import static java.util.UUID.randomUUID;
 public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
+    public static final String USE_PARTIAL_CONTROLLER_CLASS = "usePartialControllerClass";
     public static final String ASPNET_CORE_VERSION = "aspnetCoreVersion";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -47,9 +50,17 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
 
     private boolean useSwashbuckle = true;
+    private boolean usePartialControllerClass = true;
+
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected String aspnetCoreVersion= "2.1"; // default to 2.1
+    protected String implFolder = "impl";
+
+    /**
+     * @brief Code generate-flag for wild card media type.
+     */
+    static final String X_MEDIA_IS_WILDCARD = "x-mediaIsWildcard";
 
     public AspNetCoreServerCodegen() {
         super();
@@ -58,6 +69,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("controller.mustache", ".cs");
+        apiTemplateFiles.put("controller_impl.mustache", ".cs");
 
         embeddedTemplateDir = templateDir = "aspnetcore/2.1";
 
@@ -111,6 +123,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
                 useSwashbuckle);
 
+        addSwitch(USE_PARTIAL_CONTROLLER_CLASS,
+                "Use partial classes when generating controllers.",
+                usePartialControllerClass);
     }
 
     @Override
@@ -149,6 +164,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
         } else {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
+        }
+
+        if (additionalProperties.containsKey(USE_PARTIAL_CONTROLLER_CLASS)) {
+            usePartialControllerClass = convertPropertyToBooleanAndWriteBack(USE_PARTIAL_CONTROLLER_CLASS);
+        } else {
+            additionalProperties.put(USE_PARTIAL_CONTROLLER_CLASS, usePartialControllerClass);
         }
 
         // determine the ASP.NET core version setting
@@ -190,6 +211,15 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
                 packageFolder + File.separator + "Properties", "launchSettings.json"));
 
+        supportingFiles.add(new SupportingFile("Formatters" + File.separator + "BinaryBodyFormatter.mustache",
+                packageFolder + File.separator + "Formatters", "BinaryBodyFormatter.cs"));
+        supportingFiles.add(new SupportingFile("Formatters" + File.separator + "ByteBodyFormatter.mustache",
+                packageFolder + File.separator + "Formatters", "ByteBodyFormatter.cs"));
+        supportingFiles.add(new SupportingFile("Formatters" + File.separator + "BinaryResultFormatter.mustache",
+                packageFolder + File.separator + "Formatters", "BinaryResultFormatter.cs"));
+        supportingFiles.add(new SupportingFile("Formatters" + File.separator + "ByteResultFormatter.mustache",
+                packageFolder + File.separator + "Formatters", "ByteResultFormatter.cs"));
+
         if (useSwashbuckle) {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache",
                     packageFolder + File.separator + "Filters", "BasePathFilter.cs"));
@@ -223,6 +253,17 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Models";
     }
 
+    /**
+     * @brief The partial controller implementation folder.
+     *
+     * This must be different from the @ref apiFileFolder.
+     * @return Path to controller implementation folder.
+     */
+    private String implFileFolder() {
+        return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Controllers_impl";
+    }
+
+
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
@@ -244,6 +285,40 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         // Converts, for example, PUT to HttpPut for controller attributes
         operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);
+    }
+
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation op, Map<String, List<CodegenOperation>> operations) {
+        super.addOperationToGroup(tag, resourcePath, operation, op, operations);
+        // In order to prevent issues with a media type of "*/*", set a flag for those entities.
+        if (op.hasProduces) {
+            for (Map<String, String> m : op.produces) {
+                String mediaType = m.get("mediaType");
+                if ("*/*".equals(mediaType)) {
+                    m.put(X_MEDIA_IS_WILDCARD, "true");
+                }
+            }
+        }
+        if (op.hasConsumes) {
+            for (Map<String, String> m : op.consumes) {
+                String mediaType = m.get("mediaType");
+                if ("*/*".equals(mediaType)) {
+                    m.put(X_MEDIA_IS_WILDCARD, "true");
+                }
+            }
+        }
+
+    }
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String result = super.apiFilename(templateName, tag);
+
+        if (templateName.endsWith("_impl.mustache")) {
+            int ix = result.lastIndexOf(File.separatorChar);
+            result = result.substring(0, ix) + result.substring(ix, result.length() - 3) + "Impl.cs";
+            result = result.replace(apiFileFolder(), implFileFolder());
+        }
+        return result;
     }
 
     @Override

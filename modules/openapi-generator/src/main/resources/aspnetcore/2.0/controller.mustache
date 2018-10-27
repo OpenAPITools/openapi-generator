@@ -14,7 +14,7 @@ namespace {{packageName}}.Controllers
     /// {{description}}
     /// </summary>{{#description}}
     [Description("{{description}}")]{{/description}}
-    public class {{classname}}Controller : Controller
+    public partial class {{classname}}Controller : Controller
     { {{#operation}}
         /// <summary>
         /// {{#summary}}{{summary}}{{/summary}}
@@ -23,12 +23,15 @@ namespace {{packageName}}.Controllers
         /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
-        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
-        [ValidateModelState]{{#useSwashbuckle}}
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]{{#hasConsumes}}{{^consumes.0.x-mediaIsWildcard}}
+        [Consumes({{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}})]{{/consumes.0.x-mediaIsWildcard}}{{/hasConsumes}}{{#hasProduces}}{{^produces.0.x-mediaIsWildcard}}
+        [Produces({{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}})]
+        {{/produces.0.x-mediaIsWildcard}}{{/hasProduces}}[ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
         public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
-        { {{#responses}}
+        {
+{{^usePartialControllerClass}}{{#responses}}{{#dataType}}
 {{#dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode({{code}}, default({{&dataType}}));
@@ -47,7 +50,16 @@ namespace {{packageName}}.Controllers
             //TODO: Change the data returned
             return new ObjectResult(example);{{/returnType}}{{^returnType}}
             throw new NotImplementedException();{{/returnType}}
+{{/usePartialControllerClass}}
+{{#usePartialControllerClass}}
+            IActionResult result = null;
+            {{operationId}}_impl({{#allParams}}{{paramName}}, {{/allParams}}ref result);
+            return result;
+{{/usePartialControllerClass}}
         }
+{{#usePartialControllerClass}}
+        partial void {{operationId}}_impl({{#allParams}}{{&dataType}} {{paramName}}, {{/allParams}}ref IActionResult result_);
+{{/usePartialControllerClass}}
         {{/operation}}
     }
 {{/operations}}

@@ -1,0 +1,44 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
+using System;
+using System.Threading.Tasks;
+
+namespace {{packageName}}.Formatters
+{
+    /// <summary>
+    /// An input formatter that "transforms" the incoming request body
+    /// to an I/O stream. Supports content types of application/octet-stream
+    /// and text/plain.
+    /// </summary>
+    public class BinaryBodyFormatter: InputFormatter
+    {
+        /// <summary>
+        /// Create a new BinaryBodyFormatter instance.
+        /// </summary>
+        public BinaryBodyFormatter()
+        {
+            SupportedMediaTypes.Add("application/octet-stream");
+            SupportedMediaTypes.Add("text/plain");
+        }
+
+        /// <summary>
+        /// Determine if the formatter supports reading to the given type.
+        /// <param name="type">Type to test.</param>
+        /// <returns>True if the type is assignable from System.IO.Stream.</returns>
+        /// </summary>
+        protected override bool CanReadType(Type type)
+        {
+            return type.IsAssignableFrom(typeof(System.IO.Stream)) && base.CanReadType(type);
+        }
+        
+        /// <summary>
+        /// "Read" the body to a stream. This actually just returns the body,
+        /// as is; there is no asynchronous operation here.
+        /// <param name="context">The filter context.</param>
+        /// <returns>The request body stream, as is.</returns>
+        /// </summary>
+        public override Task<InputFormatterResult> ReadRequestBodyAsync(InputFormatterContext context)
+        {
+        	return Task.FromResult(InputFormatterResult.Success(context.HttpContext.Request.Body));
+        }
+    }  
+}
