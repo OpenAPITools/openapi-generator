@@ -10,9 +10,4 @@ CONFIG OPTIONS for rust
 	hideGenerationTimestamp
 	    Hides the generation timestamp when files are generated. (Default: true)
 
-	library
-	    library template (sub-template) to use. (Default: hyper)
-	        hyper - HTTP client: Hyper.
-	        reqwest - HTTP client: Reqwest.
-
 Back to the [generators list](README.md)

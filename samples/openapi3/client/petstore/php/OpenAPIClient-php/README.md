@@ -75,7 +75,7 @@ try {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://{server}.swagger.io:{port}/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -125,6 +125,12 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/Model/ArrayTest.md)
+ - [Body](docs/Model/Body.md)
+ - [Body1](docs/Model/Body1.md)
+ - [Body2](docs/Model/Body2.md)
+ - [Body3](docs/Model/Body3.md)
+ - [Body4](docs/Model/Body4.md)
+ - [Body5](docs/Model/Body5.md)
  - [Capitalization](docs/Model/Capitalization.md)
  - [Cat](docs/Model/Cat.md)
  - [Category](docs/Model/Category.md)
@@ -139,12 +145,6 @@ Class | Method | HTTP request | Description
  - [Foo](docs/Model/Foo.md)
  - [FormatTest](docs/Model/FormatTest.md)
  - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
- - [InlineObject](docs/Model/InlineObject.md)
- - [InlineObject1](docs/Model/InlineObject1.md)
- - [InlineObject2](docs/Model/InlineObject2.md)
- - [InlineObject3](docs/Model/InlineObject3.md)
- - [InlineObject4](docs/Model/InlineObject4.md)
- - [InlineObject5](docs/Model/InlineObject5.md)
  - [InlineResponseDefault](docs/Model/InlineResponseDefault.md)
  - [MapTest](docs/Model/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)

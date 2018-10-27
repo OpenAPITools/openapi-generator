@@ -136,23 +136,6 @@ class FakeApi extends AbstractApiController
     }
 
     /**
-     * PATCH testClientModel
-     * Summary: To test \&quot;client\&quot; model
-     * Notes: To test \&quot;client\&quot; model
-     * Output-Formats: [application/json]
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
-     */
-    public function testClientModel($request, $response, $args)
-    {
-        $body = $request->getParsedBody();
-        $response->write('How about implementing testClientModel as a PATCH method ?');
-        return $response;
-    }
-
-    /**
      * POST testEndpointParameters
      * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
@@ -203,6 +186,26 @@ class FakeApi extends AbstractApiController
         $enumFormStringArray = $request->getParsedBodyParam('enum_form_string_array');
         $enumFormString = $request->getParsedBodyParam('enum_form_string');
         $response->write('How about implementing testEnumParameters as a GET method ?');
+        return $response;
+    }
+
+    /**
+     * PATCH testGroupParameters
+     * Summary: Fake endpoint to test group parameters (optional)
+     * Notes: Fake endpoint to test group parameters (optional)
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
+     * @param \Psr\Http\Message\ResponseInterface      $response Response
+     * @param array|null                               $args     Path arguments
+     */
+    public function testGroupParameters($request, $response, $args)
+    {
+        $headers = $request->getHeaders();
+        $booleanGroup = $request->hasHeader('boolean_group') ? $headers['boolean_group'] : null;
+        $queryParams = $request->getQueryParams();
+        $stringGroup = $request->getQueryParam('string_group');
+        $int64Group = $request->getQueryParam('int64_group');
+        $response->write('How about implementing testGroupParameters as a PATCH method ?');
         return $response;
     }
 

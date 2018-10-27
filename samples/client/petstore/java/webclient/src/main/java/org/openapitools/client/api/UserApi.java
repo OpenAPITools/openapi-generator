@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 
 import org.openapitools.client.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;

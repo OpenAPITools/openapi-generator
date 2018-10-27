@@ -1,6 +1,6 @@
 <?php
 /**
- * InlineObject3Test
+ * Body3Test
  *
  * PHP version 5
  *
@@ -30,15 +30,15 @@
 namespace OpenAPI\Client;
 
 /**
- * InlineObject3Test Class Doc Comment
+ * Body3Test Class Doc Comment
  *
  * @category    Class
- * @description InlineObject3
+ * @description Body3
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class InlineObject3Test extends \PHPUnit_Framework_TestCase
+class Body3Test extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -70,9 +70,9 @@ class InlineObject3Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "InlineObject3"
+     * Test "Body3"
      */
-    public function testInlineObject3()
+    public function testBody3()
     {
     }
 

@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import java.util.Map;
@@ -56,11 +55,6 @@ public interface FakeApiDelegate {
         User user);
 
     /**
-     * @see FakeApi#testClientModel
-     */
-    ResponseEntity<Client> testClientModel(Client client);
-
-    /**
      * @see FakeApi#testEndpointParameters
      */
     ResponseEntity<Void> testEndpointParameters(BigDecimal number,
@@ -89,6 +83,13 @@ public interface FakeApiDelegate {
         Double enumQueryDouble,
         List<String> enumFormStringArray,
         String enumFormString);
+
+    /**
+     * @see FakeApi#testGroupParameters
+     */
+    ResponseEntity<Void> testGroupParameters(Integer stringGroup,
+        Boolean booleanGroup,
+        Long int64Group);
 
     /**
      * @see FakeApi#testInlineAdditionalProperties

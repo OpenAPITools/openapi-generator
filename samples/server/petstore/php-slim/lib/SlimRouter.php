@@ -101,10 +101,6 @@ class SlimRouter
             '/v2/fake/body-with-query-params',
             FakeApi::class . ':testBodyWithQueryParams'
         );
-        $app->PATCH(
-            '/v2/fake',
-            FakeApi::class . ':testClientModel'
-        );
         $app->POST(
             '/v2/fake',
             FakeApi::class . ':testEndpointParameters'
@@ -114,6 +110,10 @@ class SlimRouter
         $app->GET(
             '/v2/fake',
             FakeApi::class . ':testEnumParameters'
+        );
+        $app->PATCH(
+            '/v2/fake',
+            FakeApi::class . ':testGroupParameters'
         );
         $app->POST(
             '/v2/fake/inline-additionalProperties',

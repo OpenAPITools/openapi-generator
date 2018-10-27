@@ -58,9 +58,9 @@ Class | Method | HTTP request | Description
 *FakeApi* | **fakeOuterStringSerialize** | **POST** /fake/outer/string | 
 *FakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
-*FakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
 *FakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
 *FakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
+*FakeApi* | **testGroupParameters** | **PATCH** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case

@@ -81,7 +81,7 @@ class Configuration
      *
      * @var string
      */
-    protected $host = 'http://petstore.swagger.io:80/v2';
+    protected $host = 'http://{server}.swagger.io:{port}/v2';
 
     /**
      * User agent of the HTTP request, set to "OpenAPI-Generator/{version}/PHP" by default

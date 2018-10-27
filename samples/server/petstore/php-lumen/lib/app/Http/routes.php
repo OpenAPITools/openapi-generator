@@ -29,13 +29,6 @@ $app->get('/', function () use ($app) {
  */
 $app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
- * patch testClientModel
- * Summary: To test \&quot;client\&quot; model
- * Notes: To test \&quot;client\&quot; model
- * Output-Formats: [application/json]
- */
-$app->patch('/v2/fake', 'FakeApi@testClientModel');
-/**
  * post testEndpointParameters
  * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
  * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
@@ -49,6 +42,13 @@ $app->post('/v2/fake', 'FakeApi@testEndpointParameters');
 
  */
 $app->get('/v2/fake', 'FakeApi@testEnumParameters');
+/**
+ * patch testGroupParameters
+ * Summary: Fake endpoint to test group parameters (optional)
+ * Notes: Fake endpoint to test group parameters (optional)
+
+ */
+$app->patch('/v2/fake', 'FakeApi@testGroupParameters');
 /**
  * put testBodyWithFileSchema
  * Summary: 

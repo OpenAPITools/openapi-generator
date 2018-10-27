@@ -3,7 +3,6 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
-import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
@@ -244,42 +243,6 @@ public class FakeApi {
         apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
-     * <p><b>200</b> - successful operation
-     * @param client client model
-     * @return Client
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public Client testClientModel(Client client) throws RestClientException {
-        Object postBody = client;
-        
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'client' when calling testClientModel");
-        }
-        
-        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
-        
-        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
-        final HttpHeaders headerParams = new HttpHeaders();
-        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
-
-        final String[] accepts = { 
-            "application/json"
-        };
-        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
-        final String[] contentTypes = { 
-            "application/json"
-        };
-        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
-
-        String[] authNames = new String[] {  };
-
-        ParameterizedTypeReference<Client> returnType = new ParameterizedTypeReference<Client>() {};
-        return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-    }
-    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied
@@ -420,6 +383,40 @@ public class FakeApi {
 
         ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
         apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * <p><b>400</b> - Someting wrong
+     * @param stringGroup String in group parameters
+     * @param booleanGroup Boolean in group parameters
+     * @param int64Group Integer in group parameters
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
+        Object postBody = null;
+        
+        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
+        
+        if (booleanGroup != null)
+        headerParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
      * test inline additionalProperties

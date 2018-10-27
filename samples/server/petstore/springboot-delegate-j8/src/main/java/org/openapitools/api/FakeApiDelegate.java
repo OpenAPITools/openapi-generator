@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
@@ -90,22 +89,6 @@ public interface FakeApiDelegate {
     }
 
     /**
-     * @see FakeApi#testClientModel
-     */
-    default ResponseEntity<Client> testClientModel(Client client) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-    /**
      * @see FakeApi#testEndpointParameters
      */
     default ResponseEntity<Void> testEndpointParameters(BigDecimal number,
@@ -137,6 +120,16 @@ public interface FakeApiDelegate {
         Double enumQueryDouble,
         List<String> enumFormStringArray,
         String enumFormString) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
+     * @see FakeApi#testGroupParameters
+     */
+    default ResponseEntity<Void> testGroupParameters(Integer stringGroup,
+        Boolean booleanGroup,
+        Long int64Group) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
