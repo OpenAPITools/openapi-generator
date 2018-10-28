@@ -77,7 +77,6 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{^consumes}}
         requestContext.setHeaderParam("Content-Type", "application/json");
         {{/consumes}}
-        // TODO: deal with this? Could be useful for server definition
         {{#consumes.0}}
         requestContext.setHeaderParam("Content-Type", "{{{mediaType}}}");
         {{/consumes.0}}
