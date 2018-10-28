@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.wordnik</groupId>
-    <artifactId>TypeScriptClientTest</artifactId>
+    <groupId>org.openapitools</groupId>
+    <artifactId>TypeScriptPestoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>TS Petstore Test Client</name>
