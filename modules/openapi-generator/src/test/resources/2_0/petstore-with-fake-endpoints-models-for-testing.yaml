@@ -792,7 +792,7 @@ paths:
           description: User not found
       security:
         - http_basic_test: []
-    patch:
+    delete:
       tags:
         - fake
       summary: Fake endpoint to test group parameters (optional)
