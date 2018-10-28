@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
@@ -103,6 +104,23 @@ public interface FakeApiDelegate {
         ServerWebExchange exchange) {
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         Mono<Void> result = Mono.empty();
+        return result.then(Mono.empty());
+
+    }
+
+    /**
+     * @see FakeApi#testClientModel
+     */
+    default Mono<ResponseEntity<Client>> testClientModel(Mono<Client> client,
+        ServerWebExchange exchange) {
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        Mono<Void> result = Mono.empty();
+        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
+            if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
+                break;
+            }
+        }
         return result.then(Mono.empty());
 
     }

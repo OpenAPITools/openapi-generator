@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
@@ -26,6 +27,8 @@ public interface FakeApi {
     void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> handler);
 
     void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> handler);
+
+    void testClientModel(Client client, Handler<AsyncResult<Client>> handler);
 
     void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> handler);
 

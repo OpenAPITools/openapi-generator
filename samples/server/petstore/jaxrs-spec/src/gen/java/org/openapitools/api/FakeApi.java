@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -91,6 +92,17 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @PATCH
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
+    })
+    public Response testClientModel(@Valid Client client) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
@@ -115,7 +127,7 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
-    @PATCH
+    @DELETE
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong", response = Void.class)

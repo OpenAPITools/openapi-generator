@@ -12,6 +12,7 @@ import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
@@ -102,6 +103,20 @@ public interface FakeApi {
   );
 
   /**
+   * To test \&quot;client\&quot; model
+   * To test \&quot;client\&quot; model
+   * @param client client model (required)
+   * @return Call&lt;Client&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @PATCH("fake")
+  F.Promise<Response<Client>> testClientModel(
+    @retrofit2.http.Body Client client
+  );
+
+  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
@@ -153,7 +168,7 @@ public interface FakeApi {
    * @param int64Group Integer in group parameters (optional)
    * @return Call&lt;Void&gt;
    */
-  @PATCH("fake")
+  @DELETE("fake")
   F.Promise<Response<Void>> testGroupParameters(
     @retrofit2.http.Query("string_group") Integer stringGroup, @retrofit2.http.Header("boolean_group") Boolean booleanGroup, @retrofit2.http.Query("int64_group") Long int64Group
   );

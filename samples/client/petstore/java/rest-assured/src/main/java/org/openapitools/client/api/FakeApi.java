@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
@@ -114,6 +115,16 @@ public class FakeApi {
             @ApiResponse(code = 200, message = "Success")  })
     public TestBodyWithQueryParamsOper testBodyWithQueryParams() {
         return new TestBodyWithQueryParamsOper(reqSpec);
+    }
+
+    @ApiOperation(value = "To test \"client\" model",
+            notes = "To test \"client\" model",
+            nickname = "testClientModel",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
+    public TestClientModelOper testClientModel() {
+        return new TestClientModelOper(reqSpec);
     }
 
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
@@ -595,6 +606,77 @@ public class FakeApi {
         }
     }
     /**
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
+     *
+     * @see #body client model (required)
+     * return Client
+     */
+    public static class TestClientModelOper {
+
+        public static final Method REQ_METHOD = PATCH;
+        public static final String REQ_URI = "/fake";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public TestClientModelOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setContentType("application/json");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * PATCH /fake
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        /**
+         * PATCH /fake
+         * @param handler handler
+         * @return Client
+         */
+        public Client executeAs(Function<Response, Response> handler) {
+            Type type = new TypeToken<Client>(){}.getType();
+            return execute(handler).as(type);
+        }
+
+         /**
+         * @param client (Client) client model (required)
+         * @return operation
+         */
+        public TestClientModelOper body(Client client) {
+            reqSpec.setBody(client);
+            return this;
+        }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestClientModelOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestClientModelOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
@@ -968,7 +1050,7 @@ public class FakeApi {
      */
     public static class TestGroupParametersOper {
 
-        public static final Method REQ_METHOD = PATCH;
+        public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/fake";
 
         private RequestSpecBuilder reqSpec;
@@ -981,7 +1063,7 @@ public class FakeApi {
         }
 
         /**
-         * PATCH /fake
+         * DELETE /fake
          * @param handler handler
          * @param <T> type
          * @return type

@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
@@ -84,6 +85,22 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testBodyWithQueryParams(String query,
         User user) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
+     * @see FakeApi#testClientModel
+     */
+    default ResponseEntity<Client> testClientModel(Client client) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

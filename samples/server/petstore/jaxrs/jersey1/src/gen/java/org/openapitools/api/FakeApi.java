@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -119,6 +120,19 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query,user,securityContext);
     }
+    @PATCH
+    
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake",  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    public Response testClientModel(
+        @ApiParam(value = "client model" ,required=true) @Valid Client client,
+        @Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testClientModel(client,securityContext);
+    }
     @POST
     
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -170,7 +184,7 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,enumFormStringArray,enumFormString,securityContext);
     }
-    @PATCH
+    @DELETE
     
     
     

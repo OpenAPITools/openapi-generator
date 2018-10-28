@@ -6,6 +6,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
@@ -135,6 +136,29 @@ public interface FakeApi {
     }
 
 
+    @ApiOperation(value = "To test \"client\" model", nickname = "testClientModel", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    @ApiImplicitParams({
+    })
+    @RequestMapping(value = "/fake",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.PATCH)
+    default ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", nickname = "testEndpointParameters", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake", })
@@ -176,7 +200,7 @@ public interface FakeApi {
     @ApiImplicitParam(name = "booleanGroup", value = "Boolean in group parameters",  dataType = "Boolean", paramType = "header")
     })
     @RequestMapping(value = "/fake",
-        method = RequestMethod.PATCH)
+        method = RequestMethod.DELETE)
     default ResponseEntity<Void> testGroupParameters(@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

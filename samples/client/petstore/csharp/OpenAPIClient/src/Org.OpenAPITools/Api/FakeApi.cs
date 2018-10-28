@@ -153,6 +153,27 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo (string query, User user);
         /// <summary>
+        /// To test \&quot;client\&quot; model
+        /// </summary>
+        /// <remarks>
+        /// To test \&quot;client\&quot; model
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>ModelClient</returns>
+        ModelClient TestClientModel (ModelClient modelClient);
+
+        /// <summary>
+        /// To test \&quot;client\&quot; model
+        /// </summary>
+        /// <remarks>
+        /// To test \&quot;client\&quot; model
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>ApiResponse of ModelClient</returns>
+        ApiResponse<ModelClient> TestClientModelWithHttpInfo (ModelClient modelClient);
+        /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <remarks>
@@ -433,6 +454,27 @@ namespace Org.OpenAPITools.Api
         /// <param name="user"></param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsAsyncWithHttpInfo (string query, User user);
+        /// <summary>
+        /// To test \&quot;client\&quot; model
+        /// </summary>
+        /// <remarks>
+        /// To test \&quot;client\&quot; model
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>Task of ModelClient</returns>
+        System.Threading.Tasks.Task<ModelClient> TestClientModelAsync (ModelClient modelClient);
+
+        /// <summary>
+        /// To test \&quot;client\&quot; model
+        /// </summary>
+        /// <remarks>
+        /// To test \&quot;client\&quot; model
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>Task of ApiResponse (ModelClient)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelAsyncWithHttpInfo (ModelClient modelClient);
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -1562,6 +1604,155 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>ModelClient</returns>
+        public ModelClient TestClientModel (ModelClient modelClient)
+        {
+             ApiResponse<ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient);
+             return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>ApiResponse of ModelClient</returns>
+        public ApiResponse< ModelClient > TestClientModelWithHttpInfo (ModelClient modelClient)
+        {
+            // verify the required parameter 'modelClient' is set
+            if (modelClient == null)
+                throw new ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
+
+            var localVarPath = "/fake";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = modelClient; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestClientModel", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<ModelClient>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (ModelClient) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
+        }
+
+        /// <summary>
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>Task of ModelClient</returns>
+        public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync (ModelClient modelClient)
+        {
+             ApiResponse<ModelClient> localVarResponse = await TestClientModelAsyncWithHttpInfo(modelClient);
+             return localVarResponse.Data;
+
+        }
+
+        /// <summary>
+        /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="modelClient">client model</param>
+        /// <returns>Task of ApiResponse (ModelClient)</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelAsyncWithHttpInfo (ModelClient modelClient)
+        {
+            // verify the required parameter 'modelClient' is set
+            if (modelClient == null)
+                throw new ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
+
+            var localVarPath = "/fake";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+                "application/json"
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = modelClient; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestClientModel", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<ModelClient>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                (ModelClient) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
+        }
+
+        /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -2018,7 +2209,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
@@ -2086,7 +2277,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.PATCH, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;

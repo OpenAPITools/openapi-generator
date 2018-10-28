@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import java.util.Map;
@@ -53,6 +54,11 @@ public interface FakeApiDelegate {
      */
     ResponseEntity<Void> testBodyWithQueryParams(String query,
         User user);
+
+    /**
+     * @see FakeApi#testClientModel
+     */
+    ResponseEntity<Client> testClientModel(Client client);
 
     /**
      * @see FakeApi#testEndpointParameters

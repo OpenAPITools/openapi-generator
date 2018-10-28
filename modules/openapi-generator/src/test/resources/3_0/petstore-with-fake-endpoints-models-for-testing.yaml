@@ -17,18 +17,6 @@ tags:
   - name: user
     description: Operations about user
 paths:
-  /foo:
-    get:
-      responses:
-        default:
-          description: response
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  string:
-                    $ref: '#/components/schemas/Foo'
   /pet:
     post:
       tags:
@@ -562,30 +550,18 @@ paths:
     patch:
       tags:
         - fake
-      summary: Fake endpoint to test group parameters (optional)
-      description: Fake endpoint to test group parameters (optional)
-      operationId: testGroupParameters
-      x-group-parameters: true
-      parameters:
-        - name: string_group
-          in: query
-          description: String in group parameters
-          schema:
-            type: integer
-        - name: boolean_group
-          in: header
-          description: Boolean in group parameters
-          schema:
-            type: boolean
-        - name: int64_group
-          in: query
-          description: Integer in group parameters
-          schema:
-            type: integer
-            format: int64
+      summary: To test "client" model
+      description: To test "client" model
+      operationId: testClientModel
       responses:
-        '400':
-          description: Someting wrong
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+      requestBody:
+        $ref: '#/components/requestBodies/Client'
     get:
       tags:
         - fake
@@ -777,6 +753,33 @@ paths:
                 - double
                 - pattern_without_delimiter
                 - byte
+    delete:
+      tags:
+        - fake
+      summary: Fake endpoint to test group parameters (optional)
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      x-group-parameters: true
+      parameters:
+        - name: string_group
+          in: query
+          description: String in group parameters
+          schema:
+            type: integer
+        - name: boolean_group
+          in: header
+          description: Boolean in group parameters
+          schema:
+            type: boolean
+        - name: int64_group
+          in: query
+          description: Integer in group parameters
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Someting wrong
   /fake/outer/number:
     post:
       tags:
@@ -992,28 +995,7 @@ paths:
               required:
                 - requiredFile
 servers:
-  - url: 'http://{server}.swagger.io:{port}/v2'
-    description: petstore server
-    variables:
-      server:
-        enum:
-          - 'petstore'
-          - 'qa-petstore'
-          - 'dev-petstore'
-        default: 'petstore'
-      port:
-        enum:
-          - 80
-          - 8080
-        default: 80
-  - url: https://localhost:8080/{version}
-    description: The local server
-    variables:
-      version:
-        enum:
-          - 'v1'
-          - 'v2'
-        default: 'v2'
+  - url: 'http://petstore.swagger.io:80/v2'
 components:
   requestBodies:
     UserArray:
@@ -1063,14 +1045,6 @@ components:
       type: http
       scheme: basic
   schemas:
-    Foo:
-      type: object
-      properties:
-        bar:
-          $ref: '#/components/schemas/Bar'
-    Bar:
-      type: string
-      default: bar
     Order:
       type: object
       properties:

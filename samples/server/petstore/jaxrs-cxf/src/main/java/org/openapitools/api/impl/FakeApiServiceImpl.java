@@ -2,6 +2,7 @@ package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -64,6 +65,18 @@ public class FakeApiServiceImpl implements FakeApi {
         // TODO: Implement...
         
         
+    }
+    
+    /**
+     * To test \&quot;client\&quot; model
+     *
+     * To test \&quot;client\&quot; model
+     *
+     */
+    public Client testClientModel(Client client) {
+        // TODO: Implement...
+        
+        return null;
     }
     
     /**

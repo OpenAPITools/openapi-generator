@@ -132,6 +132,16 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for testClientModel
+     *
+     * To test \"client\" model.
+     *
+     */
+    public function testTestClientModel()
+    {
+    }
+
+    /**
      * Test case for testEndpointParameters
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.

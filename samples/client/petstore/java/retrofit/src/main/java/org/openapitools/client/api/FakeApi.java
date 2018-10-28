@@ -7,6 +7,7 @@ import retrofit.http.*;
 import retrofit.mime.*;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import org.joda.time.DateTime;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
@@ -167,6 +168,30 @@ public interface FakeApi {
     @retrofit.http.Query("query") String query, @retrofit.http.Body User user, Callback<Void> cb
   );
   /**
+   * To test \&quot;client\&quot; model
+   * Sync method
+   * To test \&quot;client\&quot; model
+   * @param client client model (required)
+   * @return Client
+   */
+  
+  @PATCH("/fake")
+  Client testClientModel(
+    @retrofit.http.Body Client client
+  );
+
+  /**
+   * To test \&quot;client\&quot; model
+   * Async method
+   * @param client client model (required)
+   * @param cb callback method
+   */
+  
+  @PATCH("/fake")
+  void testClientModel(
+    @retrofit.http.Body Client client, Callback<Client> cb
+  );
+  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Sync method
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -268,7 +293,7 @@ public interface FakeApi {
    * @return Void
    */
   
-  @PATCH("/fake")
+  @DELETE("/fake")
   Void testGroupParameters(
     @retrofit.http.Query("string_group") Integer stringGroup, @retrofit.http.Header("boolean_group") Boolean booleanGroup, @retrofit.http.Query("int64_group") Long int64Group
   );
@@ -282,7 +307,7 @@ public interface FakeApi {
    * @param cb callback method
    */
   
-  @PATCH("/fake")
+  @DELETE("/fake")
   void testGroupParameters(
     @retrofit.http.Query("string_group") Integer stringGroup, @retrofit.http.Header("boolean_group") Boolean booleanGroup, @retrofit.http.Query("int64_group") Long int64Group, Callback<Void> cb
   );

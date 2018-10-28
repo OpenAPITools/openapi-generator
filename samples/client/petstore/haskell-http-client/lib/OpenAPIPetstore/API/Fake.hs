@@ -195,6 +195,34 @@ instance Consumes TestBodyWithQueryParams MimeJSON
 instance Produces TestBodyWithQueryParams MimeNoContent
 
 
+-- *** testClientModel
+
+-- | @PATCH \/fake@
+-- 
+-- To test \"client\" model
+-- 
+-- To test \"client\" model
+-- 
+testClientModel 
+  :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON Client)
+  => Client -- ^ "client" -  client model
+  -> OpenAPIPetstoreRequest TestClientModel MimeJSON Client MimeJSON
+testClientModel client =
+  _mkRequest "PATCH" ["/fake"]
+    `setBodyParam` client
+
+data TestClientModel 
+
+-- | /Body Param/ "Client" - client model
+instance HasBodyParam TestClientModel Client 
+
+-- | @application/json@
+instance Consumes TestClientModel MimeJSON
+
+-- | @application/json@
+instance Produces TestClientModel MimeJSON
+
+
 -- *** testEndpointParameters
 
 -- | @POST \/fake@
@@ -342,7 +370,7 @@ instance Produces TestEnumParameters MimeNoContent
 
 -- *** testGroupParameters
 
--- | @PATCH \/fake@
+-- | @DELETE \/fake@
 -- 
 -- Fake endpoint to test group parameters (optional)
 -- 
@@ -351,7 +379,7 @@ instance Produces TestEnumParameters MimeNoContent
 testGroupParameters 
   :: OpenAPIPetstoreRequest TestGroupParameters MimeNoContent NoContent MimeNoContent
 testGroupParameters =
-  _mkRequest "PATCH" ["/fake"]
+  _mkRequest "DELETE" ["/fake"]
 
 data TestGroupParameters  
 

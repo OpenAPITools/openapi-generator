@@ -3,6 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
@@ -568,6 +569,98 @@ public class FakeApi {
 
 
   /**
+    * To test \&quot;client\&quot; model
+    * To test \&quot;client\&quot; model
+    * <p><b>200</b> - successful operation
+    * @param client client model
+    * @return Client
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public Client testClientModel(Client client) throws IOException {
+        HttpResponse response = testClientModelForHttpResponse(client);
+        TypeReference typeRef = new TypeReference<Client>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+  /**
+    * To test \&quot;client\&quot; model
+    * To test \&quot;client\&quot; model
+    * <p><b>200</b> - successful operation
+    * @param client client model
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @return Client
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public Client testClientModel(Client client, Map<String, Object> params) throws IOException {
+        HttpResponse response = testClientModelForHttpResponse(client, params);
+        TypeReference typeRef = new TypeReference<Client>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+    public HttpResponse testClientModelForHttpResponse(Client client) throws IOException {
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClientModel");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(client);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+    }
+
+      public HttpResponse testClientModelForHttpResponse(java.io.InputStream client, String mediaType) throws IOException {
+          // verify the required parameter 'client' is set
+              if (client == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClientModel");
+              }
+              UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+
+              String url = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(url);
+
+              HttpContent content = client == null ?
+                apiClient.new JacksonJsonHttpContent(null) :
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, client);
+              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+      }
+
+    public HttpResponse testClientModelForHttpResponse(Client client, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClientModel");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(client);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+    }
+
+
+  /**
     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * <p><b>400</b> - Invalid username supplied
@@ -838,8 +931,8 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
     public HttpResponse testGroupParametersForHttpResponse(Map<String, Object> params) throws IOException {
@@ -867,8 +960,8 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
-        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
 

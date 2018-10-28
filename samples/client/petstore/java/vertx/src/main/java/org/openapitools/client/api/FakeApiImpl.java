@@ -2,6 +2,7 @@ package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
@@ -232,6 +233,40 @@ public class FakeApiImpl implements FakeApi {
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
+     * @param client client model (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        Object localVarBody = client;
+        
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling testClientModel"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = { "application/json" };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+        TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
+        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+    }
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param number None (required)
@@ -387,7 +422,7 @@ if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormS
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * test inline additionalProperties

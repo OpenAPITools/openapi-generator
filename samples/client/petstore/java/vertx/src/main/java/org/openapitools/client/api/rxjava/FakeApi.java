@@ -2,6 +2,7 @@ package org.openapitools.client.api.rxjava;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
@@ -153,6 +154,27 @@ public class FakeApi {
     public Single<Void> rxTestBodyWithQueryParams(String query, User user) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.testBodyWithQueryParams(query, user, fut);
+        }));
+    }
+    /**
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
+     * @param client client model (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.testClientModel(client, resultHandler);
+    }
+
+    /**
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
+     * @param client client model (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Client> rxTestClientModel(Client client) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testClientModel(client, fut);
         }));
     }
     /**

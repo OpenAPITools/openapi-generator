@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -73,6 +74,14 @@ public interface FakeApi {
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
     void testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User user);
 
+    @PATCH
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    Client testClientModel(@Valid Client client);
+
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
@@ -91,7 +100,7 @@ public interface FakeApi {
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
     void testEnumParameters(@HeaderParam("enum_header_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")  @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString);
 
-    @PATCH
+    @DELETE
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })

@@ -1,6 +1,7 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -85,6 +86,21 @@ public interface FakeApi  {
     public void testBodyWithQueryParams(@QueryParam("query") @NotNull String query, @Valid User user);
 
     /**
+     * To test \&quot;client\&quot; model
+     *
+     * To test \&quot;client\&quot; model
+     *
+     */
+    @PATCH
+    @Path("/fake")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "To test \"client\" model", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
+    public Client testClientModel(@Valid Client client);
+
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -120,7 +136,7 @@ public interface FakeApi  {
      * Fake endpoint to test group parameters (optional)
      *
      */
-    @PATCH
+    @DELETE
     @Path("/fake")
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", tags={ "fake",  })
     @ApiResponses(value = { 

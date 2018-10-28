@@ -10,9 +10,10 @@ Method | HTTP request | Description
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
+[**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
-[**test_group_parameters**](FakeApi.md#test_group_parameters) | **PATCH** /fake | Fake endpoint to test group parameters (optional)
+[**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
@@ -284,6 +285,51 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
+
+
+# **test_client_model**
+> Client test_client_model(client)
+
+To test \"client\" model
+
+To test \"client\" model
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+client = Petstore::Client.new # Client | client model
+
+begin
+  #To test \"client\" model
+  result = api_instance.test_client_model(client)
+  p result
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->test_client_model: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **client** | [**Client**](Client.md)| client model | 
+
+### Return type
+
+[**Client**](Client.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 
 

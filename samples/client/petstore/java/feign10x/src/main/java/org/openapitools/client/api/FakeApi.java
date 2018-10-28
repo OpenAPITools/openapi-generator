@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
@@ -132,6 +133,19 @@ public interface FakeApi extends ApiClient.Api {
   }
 
   /**
+   * To test \&quot;client\&quot; model
+   * To test \&quot;client\&quot; model
+   * @param client client model (required)
+   * @return Client
+   */
+  @RequestLine("PATCH /fake")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  Client testClientModel(Client client);
+
+  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
@@ -239,7 +253,7 @@ public interface FakeApi extends ApiClient.Api {
    * @param booleanGroup Boolean in group parameters (optional)
    * @param int64Group Integer in group parameters (optional)
    */
-  @RequestLine("PATCH /fake?string_group={stringGroup}&int64_group={int64Group}")
+  @RequestLine("DELETE /fake?string_group={stringGroup}&int64_group={int64Group}")
   @Headers({
     "Accept: application/json",
     "boolean_group: {booleanGroup}"
@@ -262,7 +276,7 @@ public interface FakeApi extends ApiClient.Api {
    *   <li>int64Group - Integer in group parameters (optional)</li>
    *   </ul>
    */
-  @RequestLine("PATCH /fake?string_group={stringGroup}&int64_group={int64Group}")
+  @RequestLine("DELETE /fake?string_group={stringGroup}&int64_group={int64Group}")
   @Headers({
   "Accept: application/json",
       "boolean_group: {booleanGroup}"

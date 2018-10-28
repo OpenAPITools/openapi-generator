@@ -6,6 +6,7 @@ import org.openapitools.model.*;
 import com.sun.jersey.multipart.FormDataParam;
 
 import java.math.BigDecimal;
+import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -37,6 +38,8 @@ public abstract class FakeApiService {
       public abstract Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testBodyWithQueryParams( @NotNull String query,User user,SecurityContext securityContext)
+      throws NotFoundException;
+      public abstract Response testClientModel(Client client,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testEndpointParameters(BigDecimal number,Double _double,String patternWithoutDelimiter,byte[] _byte,Integer integer,Integer int32,Long int64,Float _float,String string,InputStream binaryInputStream, FormDataContentDisposition binaryDetail,Date date,Date dateTime,String password,String paramCallback,SecurityContext securityContext)
       throws NotFoundException;
