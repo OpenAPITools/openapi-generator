@@ -254,8 +254,8 @@ module Petstore
             }
         },
         {
-          url: "https://api.gigantic-server.com:8080/{version}",
-          description: "The production API server",
+          url: "https://localhost:8080/{version}",
+          description: "The local server",
           variables: {
             version: {
                 description: "No descriptoin provided",

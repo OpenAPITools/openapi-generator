@@ -31,7 +31,7 @@ public class Category  implements Serializable {
   private Long id;
 
   @JsonProperty("name")
-  private String name;
+  private String name = "default-name";
 
   public Category id(Long id) {
     this.id = id;
@@ -63,8 +63,9 @@ public class Category  implements Serializable {
    * @return name
    **/
   @JsonProperty("name")
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+    @NotNull
+
   public String getName() {
     return name;
   }

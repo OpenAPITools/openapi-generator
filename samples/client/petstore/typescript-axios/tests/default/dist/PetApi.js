@@ -2,13 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var typescript_axios_petstore_1 = require("@swagger/typescript-axios-petstore");
+var axios_1 = require("axios");
 describe("PetApi", function () {
-    function runSuite(description, requestOptions) {
+    function runSuite(description, requestOptions, customAxiosInstance) {
         describe(description, function () {
             var api;
             var fixture = createTestFixture();
             beforeEach(function () {
-                api = new typescript_axios_petstore_1.PetApi();
+                api = new typescript_axios_petstore_1.PetApi(undefined, undefined, customAxiosInstance);
             });
             it("should add and delete Pet", function () {
                 return api.addPet(fixture, requestOptions).then(function () { });
@@ -52,6 +53,12 @@ describe("PetApi", function () {
         credentials: "include",
         mode: "cors"
     });
+    runSuite("without custom axios instance");
+    runSuite("with custom axios instance", {}, axios_1.default);
+    runSuite("with custom request options and custom axios instance", {
+        credentials: "include",
+        mode: "cors"
+    }, axios_1.default);
 });
 function createTestFixture(ts) {
     if (ts === void 0) { ts = Date.now(); }

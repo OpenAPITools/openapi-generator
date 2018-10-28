@@ -14,6 +14,7 @@ module Data.Pet exposing (Pet, Status(..), decoder, encoder)
 
 import Data.Category as Category exposing (Category)
 import Data.Tag as Tag exposing (Tag)
+import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import Json.Encode as Encode

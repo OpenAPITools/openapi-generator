@@ -599,7 +599,7 @@ class FakeApi(object):
             collection_formats=collection_formats)
 
     def test_client_model(self, client, **kwargs):  # noqa: E501
-        """To test \&quot;client\&quot; model  # noqa: E501
+        """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
@@ -621,7 +621,7 @@ class FakeApi(object):
             return data
 
     def test_client_model_with_http_info(self, client, **kwargs):  # noqa: E501
-        """To test \&quot;client\&quot; model  # noqa: E501
+        """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
@@ -803,7 +803,7 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
         if 'double' in local_var_params and local_var_params['double'] < 67.8:  # noqa: E501
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
-        if 'pattern_without_delimiter' in local_var_params and not re.search('^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
+        if 'pattern_without_delimiter' in local_var_params and not re.search(r'^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
             raise ValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
         if 'integer' in local_var_params and local_var_params['integer'] > 100:  # noqa: E501
             raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
@@ -815,7 +815,7 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
         if 'float' in local_var_params and local_var_params['float'] > 987.6:  # noqa: E501
             raise ValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
-        if 'string' in local_var_params and not re.search('[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
+        if 'string' in local_var_params and not re.search(r'[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
             raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
         if ('password' in local_var_params and
                 len(local_var_params['password']) > 64):

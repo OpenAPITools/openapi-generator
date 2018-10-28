@@ -282,4 +282,5 @@ public class CodegenConstants {
     public static final String ENABLE_POST_PROCESS_FILE = "enablePostProcessFile";
     public static final String ENABLE_POST_PROCESS_FILE_DESC = "Enable post-processing file using environment variables.";
 
+    public static final String OPEN_API_SPEC_NAME = "openAPISpecName";
 }
