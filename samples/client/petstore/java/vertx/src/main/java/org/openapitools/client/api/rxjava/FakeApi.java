@@ -2,7 +2,6 @@ package org.openapitools.client.api.rxjava;
 
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
-import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
@@ -157,27 +156,6 @@ public class FakeApi {
         }));
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
-     * @param client client model (required)
-     * @param resultHandler Asynchronous result handler
-     */
-    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.testClientModel(client, resultHandler);
-    }
-
-    /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
-     * @param client client model (required)
-     * @return Asynchronous result handler (RxJava Single)
-     */
-    public Single<Client> rxTestClientModel(Client client) {
-        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testClientModel(client, fut);
-        }));
-    }
-    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param number None (required)
@@ -257,6 +235,31 @@ public class FakeApi {
     public Single<Void> rxTestEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, fut);
+        }));
+    }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testGroupParameters(stringGroup, booleanGroup, int64Group, resultHandler);
+    }
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testGroupParameters(stringGroup, booleanGroup, int64Group, fut);
         }));
     }
     /**

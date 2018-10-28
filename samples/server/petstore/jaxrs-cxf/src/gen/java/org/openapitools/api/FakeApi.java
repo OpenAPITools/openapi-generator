@@ -1,7 +1,6 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -86,21 +85,6 @@ public interface FakeApi  {
     public void testBodyWithQueryParams(@QueryParam("query") @NotNull String query, @Valid User user);
 
     /**
-     * To test \&quot;client\&quot; model
-     *
-     * To test \&quot;client\&quot; model
-     *
-     */
-    @PATCH
-    @Path("/fake")
-    @Consumes({ "application/json" })
-    @Produces({ "application/json" })
-    @ApiOperation(value = "To test \"client\" model", tags={ "fake",  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client testClientModel(@Valid Client client);
-
-    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -129,6 +113,19 @@ public interface FakeApi  {
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found") })
     public void testEnumParameters(@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array") @DefaultValue("new ArrayList<String>()") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString);
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     */
+    @PATCH
+    @Path("/fake")
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Someting wrong") })
+    public void testGroupParameters(@QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group") Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
 
     /**
      * test inline additionalProperties

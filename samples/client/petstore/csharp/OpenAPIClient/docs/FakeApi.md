@@ -10,9 +10,9 @@ Method | HTTP request | Description
 [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
-[**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+[**TestGroupParameters**](FakeApi.md#testgroupparameters) | **PATCH** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 
@@ -375,67 +375,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="testclientmodel"></a>
-# **TestClientModel**
-> ModelClient TestClientModel (ModelClient modelClient)
-
-To test \"client\" model
-
-To test \"client\" model
-
-### Example
-```csharp
-using System;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class TestClientModelExample
-    {
-        public void main()
-        {
-            var apiInstance = new FakeApi();
-            var modelClient = new ModelClient(); // ModelClient | client model
-
-            try
-            {
-                // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(modelClient);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling FakeApi.TestClientModel: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
-
-### Return type
-
-[**ModelClient**](ModelClient.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
 > void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
@@ -596,6 +535,70 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="testgroupparameters"></a>
+# **TestGroupParameters**
+> void TestGroupParameters (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestGroupParametersExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var stringGroup = 56;  // int? | String in group parameters (optional) 
+            var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
+            var int64Group = 789;  // long? | Integer in group parameters (optional) 
+
+            try
+            {
+                // Fake endpoint to test group parameters (optional)
+                apiInstance.TestGroupParameters(stringGroup, booleanGroup, int64Group);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestGroupParameters: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stringGroup** | **int?**| String in group parameters | [optional] 
+ **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
+ **int64Group** | **long?**| Integer in group parameters | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

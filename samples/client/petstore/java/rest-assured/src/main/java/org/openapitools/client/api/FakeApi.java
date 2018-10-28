@@ -15,7 +15,6 @@ package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
 import java.math.BigDecimal;
-import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
@@ -117,16 +116,6 @@ public class FakeApi {
         return new TestBodyWithQueryParamsOper(reqSpec);
     }
 
-    @ApiOperation(value = "To test \"client\" model",
-            notes = "To test \"client\" model",
-            nickname = "testClientModel",
-            tags = { "fake" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
-    public TestClientModelOper testClientModel() {
-        return new TestClientModelOper(reqSpec);
-    }
-
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
             notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
             nickname = "testEndpointParameters",
@@ -147,6 +136,16 @@ public class FakeApi {
             @ApiResponse(code = 404, message = "Not found")  })
     public TestEnumParametersOper testEnumParameters() {
         return new TestEnumParametersOper(reqSpec);
+    }
+
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)",
+            notes = "Fake endpoint to test group parameters (optional)",
+            nickname = "testGroupParameters",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Someting wrong")  })
+    public TestGroupParametersOper testGroupParameters() {
+        return new TestGroupParametersOper(reqSpec);
     }
 
     @ApiOperation(value = "test inline additionalProperties",
@@ -596,77 +595,6 @@ public class FakeApi {
         }
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
-     *
-     * @see #body client model (required)
-     * return Client
-     */
-    public static class TestClientModelOper {
-
-        public static final Method REQ_METHOD = PATCH;
-        public static final String REQ_URI = "/fake";
-
-        private RequestSpecBuilder reqSpec;
-        private ResponseSpecBuilder respSpec;
-
-        public TestClientModelOper(RequestSpecBuilder reqSpec) {
-            this.reqSpec = reqSpec;
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
-
-        /**
-         * PATCH /fake
-         * @param handler handler
-         * @param <T> type
-         * @return type
-         */
-        public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
-        }
-
-        /**
-         * PATCH /fake
-         * @param handler handler
-         * @return Client
-         */
-        public Client executeAs(Function<Response, Response> handler) {
-            Type type = new TypeToken<Client>(){}.getType();
-            return execute(handler).as(type);
-        }
-
-         /**
-         * @param client (Client) client model (required)
-         * @return operation
-         */
-        public TestClientModelOper body(Client client) {
-            reqSpec.setBody(client);
-            return this;
-        }
-
-        /**
-         * Customise request specification
-         * @param consumer consumer
-         * @return operation
-         */
-        public TestClientModelOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
-            consumer.accept(reqSpec);
-            return this;
-        }
-
-        /**
-         * Customise response specification
-         * @param consumer consumer
-         * @return operation
-         */
-        public TestClientModelOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
-            consumer.accept(respSpec);
-            return this;
-        }
-    }
-    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
@@ -1026,6 +954,91 @@ public class FakeApi {
          * @return operation
          */
         public TestEnumParametersOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     *
+     * @see #stringGroupQuery String in group parameters (optional)
+     * @see #booleanGroupHeader Boolean in group parameters (optional)
+     * @see #int64GroupQuery Integer in group parameters (optional)
+     */
+    public static class TestGroupParametersOper {
+
+        public static final Method REQ_METHOD = PATCH;
+        public static final String REQ_URI = "/fake";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public TestGroupParametersOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * PATCH /fake
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        public static final String BOOLEAN_GROUP_HEADER = "boolean_group";
+
+        /**
+         * @param booleanGroup (Boolean) Boolean in group parameters (optional)
+         * @return operation
+         */
+        public TestGroupParametersOper booleanGroupHeader(String booleanGroup) {
+            reqSpec.addHeader(BOOLEAN_GROUP_HEADER, booleanGroup);
+            return this;
+        }
+
+        public static final String STRING_GROUP_QUERY = "string_group";
+
+        /**
+         * @param stringGroup (Integer) String in group parameters (optional)
+         * @return operation
+         */
+        public TestGroupParametersOper stringGroupQuery(Object... stringGroup) {
+            reqSpec.addQueryParam(STRING_GROUP_QUERY, stringGroup);
+            return this;
+        }
+
+        public static final String INT64_GROUP_QUERY = "int64_group";
+
+        /**
+         * @param int64Group (Long) Integer in group parameters (optional)
+         * @return operation
+         */
+        public TestGroupParametersOper int64GroupQuery(Object... int64Group) {
+            reqSpec.addQueryParam(INT64_GROUP_QUERY, int64Group);
+            return this;
+        }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestGroupParametersOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestGroupParametersOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
             return this;
         }

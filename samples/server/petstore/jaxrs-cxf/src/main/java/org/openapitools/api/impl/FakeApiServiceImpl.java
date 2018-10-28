@@ -2,7 +2,6 @@ package org.openapitools.api.impl;
 
 import org.openapitools.api.*;
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -68,18 +67,6 @@ public class FakeApiServiceImpl implements FakeApi {
     }
     
     /**
-     * To test \&quot;client\&quot; model
-     *
-     * To test \&quot;client\&quot; model
-     *
-     */
-    public Client testClientModel(Client client) {
-        // TODO: Implement...
-        
-        return null;
-    }
-    
-    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -98,6 +85,18 @@ public class FakeApiServiceImpl implements FakeApi {
      *
      */
     public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     */
+    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) {
         // TODO: Implement...
         
         

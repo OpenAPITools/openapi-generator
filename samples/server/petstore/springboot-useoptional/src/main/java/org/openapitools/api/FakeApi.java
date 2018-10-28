@@ -6,7 +6,6 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.util.Map;
@@ -124,27 +123,6 @@ public interface FakeApi {
     }
 
 
-    @ApiOperation(value = "To test \"client\" model", nickname = "testClientModel", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    @RequestMapping(value = "/fake",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PATCH)
-    default ResponseEntity<Client> testClientModel(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    ApiUtil.setExampleResponse(request, "application/json", "{  \"client\" : \"client\"}");
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", nickname = "testEndpointParameters", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake", })
@@ -168,6 +146,17 @@ public interface FakeApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.GET)
     default ResponseEntity<Void> testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $", defaultValue="new ArrayList<>()") @RequestHeader(value="enum_header_string_array", required=false) Optional<List<String>> enumHeaderStringArray,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestHeader(value="enum_header_string", required=false) Optional<String> enumHeaderString,@ApiParam(value = "Query parameter enum test (string array)", allowableValues = ">, $", defaultValue = "new ArrayList<>()") @Valid @RequestParam(value = "enum_query_string_array", required = false, defaultValue="new ArrayList<>()") Optional<List<String>> enumQueryStringArray,@ApiParam(value = "Query parameter enum test (string)", allowableValues = "_abc, -efg, (xyz)", defaultValue = "-efg") @Valid @RequestParam(value = "enum_query_string", required = false, defaultValue="-efg") Optional<String> enumQueryString,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1, -2") @Valid @RequestParam(value = "enum_query_integer", required = false) Optional<Integer> enumQueryInteger,@ApiParam(value = "Query parameter enum test (double)", allowableValues = "1.1, -1.2") @Valid @RequestParam(value = "enum_query_double", required = false) Optional<Double> enumQueryDouble,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$") @RequestParam(value="enum_form_string_array", required=false)  List<String> enumFormStringArray,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @RequestParam(value="enum_form_string", required=false)  String enumFormString) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", nickname = "testGroupParameters", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Someting wrong") })
+    @RequestMapping(value = "/fake",
+        method = RequestMethod.PATCH)
+    default ResponseEntity<Void> testGroupParameters(@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Optional<Integer> stringGroup,@ApiParam(value = "Boolean in group parameters" ) @RequestHeader(value="boolean_group", required=false) Optional<Boolean> booleanGroup,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Optional<Long> int64Group) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

@@ -81,9 +81,9 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *Petstore::FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *Petstore::FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
-*Petstore::FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \"client\" model
 *Petstore::FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *Petstore::FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+*Petstore::FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **PATCH** /fake | Fake endpoint to test group parameters (optional)
 *Petstore::FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *Petstore::FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *Petstore::FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case

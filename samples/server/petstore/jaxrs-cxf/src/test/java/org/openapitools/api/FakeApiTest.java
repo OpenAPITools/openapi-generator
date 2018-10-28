@@ -26,7 +26,6 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -165,24 +164,6 @@ public class FakeApiTest {
     }
     
     /**
-     * To test \&quot;client\&quot; model
-     *
-     * To test \&quot;client\&quot; model
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void testClientModelTest() {
-        Client client = null;
-        //Client response = api.testClientModel(client);
-        //assertNotNull(response);
-        // TODO: test validations
-        
-        
-    }
-    
-    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -232,6 +213,26 @@ public class FakeApiTest {
         List<String> enumFormStringArray = null;
         String enumFormString = null;
         //api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+        
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testGroupParametersTest() {
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        //api.testGroupParameters(stringGroup, booleanGroup, int64Group);
         
         // TODO: test validations
         

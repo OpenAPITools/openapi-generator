@@ -6,7 +6,6 @@ import org.openapitools.model.*;
 import com.sun.jersey.multipart.FormDataParam;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
@@ -64,12 +63,6 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testClientModel(Client client, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    @Override
     public Response testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binaryInputStream, FormDataContentDisposition binaryDetail, Date date, Date dateTime, String password, String paramCallback, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
@@ -77,6 +70,12 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString,  List<String> enumQueryStringArray,  String enumQueryString,  Integer enumQueryInteger,  Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testGroupParameters( Integer stringGroup, Boolean booleanGroup,  Long int64Group, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

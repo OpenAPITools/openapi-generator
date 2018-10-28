@@ -27,30 +27,6 @@ class FakeApi extends Controller
     }
 
     /**
-     * Operation testClientModel
-     *
-     * To test \"client\" model.
-     *
-     *
-     * @return Http response
-     */
-    public function testClientModel()
-    {
-        $input = Request::all();
-
-        //path params validation
-
-
-        //not path params validation
-        if (!isset($input['client'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $client when calling testClientModel');
-        }
-        $client = $input['client'];
-
-
-        return response('How about implementing testClientModel as a patch method ?');
-    }
-    /**
      * Operation testEndpointParameters
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
@@ -182,6 +158,31 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testEnumParameters as a get method ?');
+    }
+    /**
+     * Operation testGroupParameters
+     *
+     * Fake endpoint to test group parameters (optional).
+     *
+     *
+     * @return Http response
+     */
+    public function testGroupParameters()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $string_group = $input['string_group'];
+
+        $boolean_group = $input['boolean_group'];
+
+        $int64_group = $input['int64_group'];
+
+
+        return response('How about implementing testGroupParameters as a patch method ?');
     }
     /**
      * Operation testBodyWithFileSchema

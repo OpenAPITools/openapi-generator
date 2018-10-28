@@ -12,7 +12,6 @@ import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
 import java.math.BigDecimal;
-import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
@@ -103,20 +102,6 @@ public interface FakeApi {
   );
 
   /**
-   * To test \&quot;client\&quot; model
-   * To test \&quot;client\&quot; model
-   * @param client client model (required)
-   * @return Call&lt;Client&gt;
-   */
-  @Headers({
-    "Content-Type:application/json"
-  })
-  @PATCH("fake")
-  CompletionStage<Response<Client>> testClientModel(
-    @retrofit2.http.Body Client client
-  );
-
-  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)
@@ -158,6 +143,19 @@ public interface FakeApi {
   @GET("fake")
   CompletionStage<Response<Void>> testEnumParameters(
     @retrofit2.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit2.http.Header("enum_header_string") String enumHeaderString, @retrofit2.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit2.http.Query("enum_query_string") String enumQueryString, @retrofit2.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit2.http.Query("enum_query_double") Double enumQueryDouble, @retrofit2.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit2.http.Field("enum_form_string") String enumFormString
+  );
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @return Call&lt;Void&gt;
+   */
+  @PATCH("fake")
+  CompletionStage<Response<Void>> testGroupParameters(
+    @retrofit2.http.Query("string_group") Integer stringGroup, @retrofit2.http.Header("boolean_group") Boolean booleanGroup, @retrofit2.http.Query("int64_group") Long int64Group
   );
 
   /**

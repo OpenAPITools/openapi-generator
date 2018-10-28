@@ -320,61 +320,6 @@ module Petstore
       return data, status_code, headers
     end
 
-    # To test \"client\" model
-    # To test \"client\" model
-    # @param client client model
-    # @param [Hash] opts the optional parameters
-    # @return [Client]
-    def test_client_model(client, opts = {})
-      data, _status_code, _headers = test_client_model_with_http_info(client, opts)
-      data
-    end
-
-    # To test \&quot;client\&quot; model
-    # To test \&quot;client\&quot; model
-    # @param client client model
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
-    def test_client_model_with_http_info(client, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: FakeApi.test_client_model ...'
-      end
-      # verify the required parameter 'client' is set
-      if @api_client.config.client_side_validation && client.nil?
-        fail ArgumentError, "Missing the required parameter 'client' when calling FakeApi.test_client_model"
-      end
-      # resource path
-      local_var_path = '/fake'
-
-      # query parameters
-      query_params = {}
-
-      # header parameters
-      header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
-
-      # form parameters
-      form_params = {}
-
-      # http body (model)
-      post_body = @api_client.object_to_http_body(client)
-      auth_names = []
-      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => 'Client')
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: FakeApi#test_client_model\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # @param number None
@@ -621,6 +566,59 @@ module Petstore
         :auth_names => auth_names)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_enum_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Fake endpoint to test group parameters (optional)
+    # Fake endpoint to test group parameters (optional)
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :string_group String in group parameters
+    # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
+    # @option opts [Integer] :int64_group Integer in group parameters
+    # @return [nil]
+    def test_group_parameters(opts = {})
+      test_group_parameters_with_http_info(opts)
+      nil
+    end
+
+    # Fake endpoint to test group parameters (optional)
+    # Fake endpoint to test group parameters (optional)
+    # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :string_group String in group parameters
+    # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
+    # @option opts [Integer] :int64_group Integer in group parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def test_group_parameters_with_http_info(opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FakeApi.test_group_parameters ...'
+      end
+      # resource path
+      local_var_path = '/fake'
+
+      # query parameters
+      query_params = {}
+      query_params[:'string_group'] = opts[:'string_group'] if !opts[:'string_group'].nil?
+      query_params[:'int64_group'] = opts[:'int64_group'] if !opts[:'int64_group'].nil?
+
+      # header parameters
+      header_params = {}
+      header_params[:'boolean_group'] = opts[:'boolean_group'] if !opts[:'boolean_group'].nil?
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#test_group_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
