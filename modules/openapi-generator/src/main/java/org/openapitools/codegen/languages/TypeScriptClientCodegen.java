@@ -115,7 +115,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
         // TODO: gen package.json?
-        	
+        
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
@@ -517,8 +517,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
         }
         for (Map<String, Object> mo : models) {
-        	CodegenModel cm = (CodegenModel) mo.get("model");
-        	// Add additional filename information for imports
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // Add additional filename information for imports
             mo.put("tsImports", toTsImports(cm, cm.imports));
         }
         return objs;
