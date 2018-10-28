@@ -51,6 +51,19 @@
       }
     end
 
+    {{#oneOf}}
+    {{#-first}}
+    # Attribute type mapping.
+    def self.openapi_one_of
+      [
+    {{/-first}}
+      :'{{{.}}}'{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/oneOf}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
@@ -182,6 +195,27 @@
       {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
+      {{#oneOf}}
+      {{#-first}}
+      _one_of_found = false
+      openapi_one_of.each do |_class|
+        _one_of = Object.const_get(_class).new
+        _one_of.build_from_hash(self.to_hash)
+        if _one_of.valid?
+          if _one_of_found?
+            return false
+          else
+            _one_of_found = true
+          end
+        end
+      end
+
+      if !_one_of_found?
+        return false
+      end
+
+      {{/-first}}
+      {{/oneOf}}
       true
     end
 

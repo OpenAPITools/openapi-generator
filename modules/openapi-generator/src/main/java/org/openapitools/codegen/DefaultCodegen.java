@@ -1298,16 +1298,53 @@ public class DefaultCodegen implements CodegenConfig {
      **/
     @SuppressWarnings("static-method")
     public String getSchemaType(Schema schema) {
-        // TODO better logic to handle compose schema
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
+            List<Schema> schemas = ModelUtils.getInterfaces(cs);
             if (cs.getAllOf() != null) {
                 for (Schema s : cs.getAllOf()) {
                     if (s != null) {
-                        // using the first schema defined in allOf
-                        schema = s;
-                        break;
+                        //schema = s;
                     }
+                    //LOGGER.info("ALL OF SCHEMA: {}", s);
+                }
+
+                LOGGER.info("Composed schema not yet supported: {}", cs);
+                // get the model (allOf)
+                return getAlias("UNKNOWN_COMPOSED_SCHMEA");
+            } else if (cs.getAnyOf() != null) { // anyOf
+                List<String> names = new ArrayList<String>();
+                for (Schema s : schemas) {
+                    if (StringUtils.isNotBlank(s.get$ref())) { // reference to another definition/schema
+                        String schemaName = ModelUtils.getSimpleRef(s.get$ref());
+                        if (StringUtils.isNotEmpty(schemaName)) {
+                            names.add(getAlias(schemaName));
+                        } else {
+                            LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref() + ". Default to 'object'");
+                            return "object";
+                        }
+                    } else {
+                        // primitive type or model
+                        names.add(getAlias(getPrimitiveType(s)));
+                    }
+                    return "anyOf<"  + String.join(",", names) + ">";
+                }
+            } else if (cs.getOneOf() != null) { // oneOf
+                List<String> names = new ArrayList<String>();
+                for (Schema s : schemas) {
+                    if (StringUtils.isNotBlank(s.get$ref())) { // reference to another definition/schema
+                        String schemaName = ModelUtils.getSimpleRef(s.get$ref());
+                        if (StringUtils.isNotEmpty(schemaName)) {
+                            names.add(getAlias(schemaName));
+                        } else {
+                            LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref() + ". Default to 'object'");
+                            return "object";
+                        }
+                    } else {
+                        // primitive type or model
+                        names.add(getAlias(getPrimitiveType(s)));
+                    }
+                    return "oneOf<"  + String.join(",", names) + ">";
                 }
             }
         }
@@ -1591,7 +1628,7 @@ public class DefaultCodegen implements CodegenConfig {
             final String parentName = getParentName(composed, allDefinitions);
             final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
 
-            List<Schema> interfaces = getInterfaces(composed);
+            List<Schema> interfaces = ModelUtils.getInterfaces(composed);
 
             // interfaces (intermediate models)
             if (interfaces != null) {
@@ -1617,6 +1654,16 @@ public class DefaultCodegen implements CodegenConfig {
                         if (supportsInheritance) {
                             addProperties(allProperties, allRequired, refSchema, allDefinitions);
                         }
+                    }
+
+                    if (composed.getAnyOf() != null) {
+                        m.anyOf.add(modelName);
+                    } else if (composed.getOneOf() != null) {
+                        m.oneOf.add(modelName);
+                    } else if (composed.getAllOf() != null) {
+                        m.allOf.add(modelName);
+                    } else {
+                        LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined");
                     }
                 }
             }
@@ -4074,19 +4121,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private List<Schema> getInterfaces(ComposedSchema composed) {
-        List<Schema> interfaces;
-        if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
-            return composed.getAllOf();
-        } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
-            return composed.getAnyOf();
-        } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
-            return composed.getOneOf();
-        } else {
-            return null;
-        }
-    }
-
     private void addConsumesInfo(OpenAPI openAPI, Operation operation, CodegenOperation codegenOperation) {
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
@@ -4729,7 +4763,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Set the boolean value indicating the state of the option for post-processing file using envirionment variables.
      *
-     * @param enablePostProcessFile     true to enable post-processing file
+     * @param enablePostProcessFile true to enable post-processing file
      */
     public void setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;

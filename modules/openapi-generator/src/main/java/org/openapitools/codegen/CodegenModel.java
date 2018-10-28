@@ -40,6 +40,11 @@ public class CodegenModel {
     public List<CodegenModel> interfaceModels;
     public List<CodegenModel> children;
 
+    // anyOf, oneOf
+    public Set<String> anyOf = new TreeSet<String>();
+    public Set<String> oneOf = new TreeSet<String>();
+    public Set<String> allOf = new TreeSet<String>();
+
     public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
     public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
