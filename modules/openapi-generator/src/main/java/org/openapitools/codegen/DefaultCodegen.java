@@ -2576,6 +2576,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 if (cp.complexType != null) {
                     r.baseType = cp.complexType;
+                    r.isModel = true;
                 } else {
                     r.baseType = cp.baseType;
                 }
@@ -4729,7 +4730,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Set the boolean value indicating the state of the option for post-processing file using envirionment variables.
      *
-     * @param enablePostProcessFile     true to enable post-processing file
+     * @param enablePostProcessFile true to enable post-processing file
      */
     public void setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;
