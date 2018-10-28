@@ -51,9 +51,22 @@
       }
     end
 
+    {{#anyOf}}
+    {{#-first}}
+    # List of class defined in anyOf (OpenAPI v3)
+    def self.openapi_any_of
+      [
+    {{/-first}}
+      :'{{{.}}}'{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/anyOf}}
     {{#oneOf}}
     {{#-first}}
-    # Attribute type mapping.
+    # List of class defined in oneOf (OpenAPI v3)
     def self.openapi_one_of
       [
     {{/-first}}
@@ -195,11 +208,28 @@
       {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
+      {{#anyOf}}
+      {{#-first}}
+      _any_of_found = false
+      openapi_any_of.each do |_class|
+        _any_of = {{moduleName}}.const_get(_class).new
+        _any_of.build_from_hash(self.to_hash)
+        if _any_of.valid?
+          _any_of_found = true
+        end
+      end
+
+      if !_any_of_found?
+        return false
+      end
+
+      {{/-first}}
+      {{/anyOf}}
       {{#oneOf}}
       {{#-first}}
       _one_of_found = false
       openapi_one_of.each do |_class|
-        _one_of = Object.const_get(_class).new
+        _one_of = {{moduleName}}.const_get(_class).new
         _one_of.build_from_hash(self.to_hash)
         if _one_of.valid?
           if _one_of_found?
