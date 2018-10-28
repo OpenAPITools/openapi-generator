@@ -74,6 +74,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*Petstore::DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -130,8 +131,10 @@ Class | Method | HTTP request | Description
  - [Petstore::EnumTest](docs/EnumTest.md)
  - [Petstore::File](docs/File.md)
  - [Petstore::FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [Petstore::Foo](docs/Foo.md)
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [Petstore::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Petstore::List](docs/List.md)
  - [Petstore::MapTest](docs/MapTest.md)
  - [Petstore::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)

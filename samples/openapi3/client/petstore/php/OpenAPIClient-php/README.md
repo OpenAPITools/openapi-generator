@@ -80,6 +80,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**fooGet**](docs/Api/DefaultApi.md#fooget) | **GET** /foo | 
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/Api/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -136,6 +137,7 @@ Class | Method | HTTP request | Description
  - [EnumTest](docs/Model/EnumTest.md)
  - [File](docs/Model/File.md)
  - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
+ - [Foo](docs/Model/Foo.md)
  - [FormatTest](docs/Model/FormatTest.md)
  - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
  - [InlineObject](docs/Model/InlineObject.md)
@@ -144,6 +146,7 @@ Class | Method | HTTP request | Description
  - [InlineObject3](docs/Model/InlineObject3.md)
  - [InlineObject4](docs/Model/InlineObject4.md)
  - [InlineObject5](docs/Model/InlineObject5.md)
+ - [InlineResponseDefault](docs/Model/InlineResponseDefault.md)
  - [MapTest](docs/Model/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model/Model200Response.md)
