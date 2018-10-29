@@ -156,6 +156,19 @@ public interface FakeApi {
   );
 
   /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @return Observable&lt;Void&gt;
+   */
+  @DELETE("fake")
+  Observable<Void> testGroupParameters(
+    @retrofit2.http.Query("string_group") Integer stringGroup, @retrofit2.http.Header("boolean_group") Boolean booleanGroup, @retrofit2.http.Query("int64_group") Long int64Group
+  );
+
+  /**
    * test inline additionalProperties
    * 
    * @param requestBody request body (required)
