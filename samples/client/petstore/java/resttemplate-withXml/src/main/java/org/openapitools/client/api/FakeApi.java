@@ -422,6 +422,40 @@ public class FakeApi {
         apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * <p><b>400</b> - Someting wrong
+     * @param stringGroup String in group parameters
+     * @param booleanGroup Boolean in group parameters
+     * @param int64Group Integer in group parameters
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
+        Object postBody = null;
+        
+        String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
+        
+        if (booleanGroup != null)
+        headerParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        apiClient.invokeAPI(path, HttpMethod.DELETE, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
      * test inline additionalProperties
      * 
      * <p><b>200</b> - successful operation

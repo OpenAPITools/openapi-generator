@@ -162,6 +162,16 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for testGroupParameters
+     *
+     * Fake endpoint to test group parameters (optional).
+     *
+     */
+    public function testTestGroupParameters()
+    {
+    }
+
+    /**
      * Test case for testInlineAdditionalProperties
      *
      * test inline additionalProperties.

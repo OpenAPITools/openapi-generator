@@ -256,6 +256,31 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
         /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns></returns>
+        void TestGroupParameters (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestGroupParametersWithHttpInfo (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        /// <summary>
         /// test inline additionalProperties
         /// </summary>
         /// <remarks>
@@ -532,6 +557,31 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersAsyncWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestGroupParametersAsync (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -2100,6 +2150,141 @@ namespace Org.OpenAPITools.Api
             if (ExceptionFactory != null)
             {
                 Exception exception = ExceptionFactory("TestEnumParameters", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns></returns>
+        public void TestGroupParameters (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+             TestGroupParametersWithHttpInfo(stringGroup, booleanGroup, int64Group);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestGroupParametersWithHttpInfo (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+
+            var localVarPath = "/fake";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (stringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "string_group", stringGroup)); // query parameter
+            if (int64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "int64_group", int64Group)); // query parameter
+            if (booleanGroup != null) localVarHeaderParams.Add("boolean_group", this.Configuration.ApiClient.ParameterToString(booleanGroup)); // header parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestGroupParameters", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                null);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestGroupParametersAsync (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+             await TestGroupParametersAsyncWithHttpInfo(stringGroup, booleanGroup, int64Group);
+
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+
+            var localVarPath = "/fake";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (stringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "string_group", stringGroup)); // query parameter
+            if (int64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "int64_group", int64Group)); // query parameter
+            if (booleanGroup != null) localVarHeaderParams.Add("boolean_group", this.Configuration.ApiClient.ParameterToString(booleanGroup)); // header parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestGroupParameters", localVarResponse);
                 if (exception != null) throw exception;
             }
 

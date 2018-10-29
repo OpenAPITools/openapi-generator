@@ -147,6 +147,16 @@ public interface FakeApi {
     }
 
 
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", nickname = "testGroupParameters", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Someting wrong") })
+    @RequestMapping(value = "/fake",
+        method = RequestMethod.DELETE)
+    default Mono<ResponseEntity<Void>> testGroupParameters(@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@ApiParam(value = "Boolean in group parameters" ) @RequestHeader(value="boolean_group", required=false) Boolean booleanGroup,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group, ServerWebExchange exchange) {
+        return getDelegate().testGroupParameters(stringGroup, booleanGroup, int64Group, exchange);
+    }
+
+
     @ApiOperation(value = "test inline additionalProperties", nickname = "testInlineAdditionalProperties", notes = "", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
