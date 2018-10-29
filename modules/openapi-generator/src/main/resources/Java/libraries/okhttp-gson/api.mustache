@@ -63,7 +63,7 @@ public class {{classname}} {
     }
 
     {{#operation}}
-    /**
+    {{^useBuildersForApiRequests}}/**
      * Build call for {{operationId}}{{#allParams}}
      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}{{/allParams}}
      * @param progressListener Progress listener
@@ -81,7 +81,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public com.squareup.okhttp.Call {{operationId}}Call({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public{{/useBuildersForApiRequests}}{{#useBuildersForApiRequests}}private{{/useBuildersForApiRequests}} com.squareup.okhttp.Call {{operationId}}Call({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}new Object(){{/bodyParam}};
 
         // create path and map variables
@@ -185,6 +185,7 @@ public class {{classname}} {
         {{/performBeanValidation}}
     }
 
+    {{^useBuildersForApiRequests}}
     /**
      * {{summary}}
      * {{notes}}{{#allParams}}
@@ -206,8 +207,8 @@ public class {{classname}} {
         {{#returnType}}ApiResponse<{{{returnType}}}> {{localVariablePrefix}}resp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
         return {{localVariablePrefix}}resp.getData();{{/returnType}}
     }
-
-    /**
+    {{/useBuildersForApiRequests}}
+    {{^useBuildersForApiRequests}}/**
      * {{summary}}
      * {{notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}{{/allParams}}
@@ -224,13 +225,13 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    public{{/useBuildersForApiRequests}}{{#useBuildersForApiRequests}}private{{/useBuildersForApiRequests}} ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
         com.squareup.okhttp.Call {{localVariablePrefix}}call = {{operationId}}ValidateBeforeCall({{#allParams}}{{paramName}}, {{/allParams}}null, null);
         {{#returnType}}Type {{localVariablePrefix}}localVarReturnType = new TypeToken<{{{returnType}}}>(){}.getType();
         return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call, {{localVariablePrefix}}localVarReturnType);{{/returnType}}{{^returnType}}return {{localVariablePrefix}}apiClient.execute({{localVariablePrefix}}call);{{/returnType}}
     }
 
-    /**
+    {{^useBuildersForApiRequests}}/**
      * {{summary}} (asynchronously)
      * {{notes}}{{#allParams}}
      * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}{{/allParams}}
@@ -248,7 +249,7 @@ public class {{classname}} {
     {{#isDeprecated}}
     @Deprecated
     {{/isDeprecated}}
-    public com.squareup.okhttp.Call {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ApiCallback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{localVariablePrefix}}callback) throws ApiException {
+    public{{/useBuildersForApiRequests}}{{#useBuildersForApiRequests}}private{{/useBuildersForApiRequests}} com.squareup.okhttp.Call {{operationId}}Async({{#allParams}}{{{dataType}}} {{paramName}}, {{/allParams}}final ApiCallback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{localVariablePrefix}}callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -274,6 +275,119 @@ public class {{classname}} {
         {{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}localVarReturnType, {{localVariablePrefix}}callback);{{/returnType}}{{^returnType}}{{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}callback);{{/returnType}}
         return {{localVariablePrefix}}call;
     }
+
+    {{#useBuildersForApiRequests}}
+    public class API{{operationId}}Request {
+        {{#requiredParams}}
+        private final {{{dataType}}} {{localVariablePrefix}}{{paramName}};
+        {{/requiredParams}}
+        {{#optionalParams}}
+        private {{{dataType}}} {{localVariablePrefix}}{{paramName}};
+        {{/optionalParams}}
+
+        private API{{operationId}}Request({{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}) {
+            {{#requiredParams}}
+            this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
+            {{/requiredParams}}
+        }
+
+        {{#optionalParams}}
+        /**
+         * Set {{paramName}}
+         * @param {{paramName}} {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}})
+         * @return API{{operationId}}Request
+         */
+        public API{{operationId}}Request {{paramName}}({{{dataType}}} {{paramName}}) {
+            this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
+            return this;
+        }
+
+        {{/optionalParams}}
+        /**
+         * Build call for {{operationId}}
+         * @param progressListener Progress listener
+         * @param progressRequestListener Progress request listener
+         * @return Call to execute
+         * @throws ApiException If fail to serialize the request body object
+         {{#isDeprecated}}
+         * @deprecated
+         {{/isDeprecated}}
+         */
+        {{#isDeprecated}}
+        @Deprecated
+        {{/isDeprecated}}
+        public com.squareup.okhttp.Call buildCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+            return {{operationId}}Call({{#allParams}}{{localVariablePrefix}}{{paramName}}, {{/allParams}}progressListener, progressRequestListener);
+        }
+
+        /**
+         * Execute {{operationId}} request{{#returnType}}
+         * @return {{returnType}}{{/returnType}}
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         {{#isDeprecated}}
+         * @deprecated
+         {{/isDeprecated}}
+         */
+        {{#isDeprecated}}
+        @Deprecated
+        {{/isDeprecated}}
+        public {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}} execute() throws ApiException {
+            {{#returnType}}ApiResponse<{{{returnType}}}> {{localVariablePrefix}}resp = {{/returnType}}{{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+            return {{localVariablePrefix}}resp.getData();{{/returnType}}
+        }
+
+        /**
+         * Execute {{operationId}} request with HTTP info returned
+         * @return ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+         * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+         {{#isDeprecated}}
+         * @deprecated
+         {{/isDeprecated}}
+         */
+        {{#isDeprecated}}
+        @Deprecated
+        {{/isDeprecated}}
+        public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
+            return {{operationId}}WithHttpInfo({{#allParams}}{{localVariablePrefix}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        }
+
+        /**
+         * Execute {{operationId}} request (asynchronously)
+         * @param callback The callback to be executed when the API call finishes
+         * @return The request call
+         * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+         {{#isDeprecated}}
+         * @deprecated
+         {{/isDeprecated}}
+         */
+        {{#isDeprecated}}
+        @Deprecated
+        {{/isDeprecated}}
+        public com.squareup.okhttp.Call executeAsync(final ApiCallback<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> callback) throws ApiException {
+            return {{operationId}}Async({{#allParams}}{{localVariablePrefix}}{{paramName}}, {{/allParams}}callback);
+        }
+    }
+
+    /**
+     * {{summary}}
+     * {{notes}}{{#requiredParams}}
+     * @param {{paramName}} {{description}} (required){{/requiredParams}}
+     * @return API{{operationId}}Request
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
+        {{#externalDocs}}
+     * {{description}}
+     * @see <a href="{{url}}">{{summary}} Documentation</a>
+        {{/externalDocs}}
+     */
+    {{#isDeprecated}}
+    @Deprecated
+    {{/isDeprecated}}
+    public API{{operationId}}Request {{operationId}}({{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}) {
+        return new API{{operationId}}Request({{#requiredParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}});
+    }
+    {{/useBuildersForApiRequests}}
     {{/operation}}
 }
 {{/operations}}
