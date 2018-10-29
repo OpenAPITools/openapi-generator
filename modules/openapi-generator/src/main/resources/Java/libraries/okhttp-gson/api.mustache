@@ -208,6 +208,7 @@ public class {{classname}} {
         return {{localVariablePrefix}}resp.getData();{{/returnType}}
     }
     {{/useBuildersForApiRequests}}
+
     {{^useBuildersForApiRequests}}/**
      * {{summary}}
      * {{notes}}{{#allParams}}
@@ -275,8 +276,8 @@ public class {{classname}} {
         {{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}localVarReturnType, {{localVariablePrefix}}callback);{{/returnType}}{{^returnType}}{{localVariablePrefix}}apiClient.executeAsync({{localVariablePrefix}}call, {{localVariablePrefix}}callback);{{/returnType}}
         return {{localVariablePrefix}}call;
     }
-
     {{#useBuildersForApiRequests}}
+
     public class API{{operationId}}Request {
         {{#requiredParams}}
         private final {{{dataType}}} {{localVariablePrefix}}{{paramName}};
