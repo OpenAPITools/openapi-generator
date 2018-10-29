@@ -224,6 +224,8 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
             .packageName + "_gen.erl"));
         supportingFiles.add(new SupportingFile("include.mustache", "", "src" + File.separator +
             this.packageName + ".hrl"));
+        supportingFiles.add(new SupportingFile("statem.hrl.mustache", "", "src" + File.separator +
+            this.packageName + "_statem.hrl"));
         supportingFiles.add(new SupportingFile("test.mustache", "", "test" + File.separator +
             "prop_" + this.packageName + ".erl"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

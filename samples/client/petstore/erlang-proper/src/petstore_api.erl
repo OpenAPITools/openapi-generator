@@ -116,3 +116,4 @@ update_user(Username, PetstoreUser) ->
   ContentType = <<"text/plain">>,
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
+
