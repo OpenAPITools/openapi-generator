@@ -330,7 +330,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        return camelize(toVarName(name));
+        name = name.replaceAll("-","_");
+        return name;
     }
 
     @Override
