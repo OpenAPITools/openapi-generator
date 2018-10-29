@@ -1327,7 +1327,7 @@ public class DefaultCodegen implements CodegenConfig {
                         // primitive type or model
                         names.add(getAlias(getPrimitiveType(s)));
                     }
-                    return "anyOf<"  + String.join(",", names) + ">";
+                    return "anyOf<" + String.join(",", names) + ">";
                 }
             } else if (cs.getOneOf() != null) { // oneOf
                 List<String> names = new ArrayList<String>();
@@ -1344,7 +1344,7 @@ public class DefaultCodegen implements CodegenConfig {
                         // primitive type or model
                         names.add(getAlias(getPrimitiveType(s)));
                     }
-                    return "oneOf<"  + String.join(",", names) + ">";
+                    return "oneOf<" + String.join(",", names) + ">";
                 }
             }
         }
@@ -1599,24 +1599,33 @@ public class DefaultCodegen implements CodegenConfig {
             Map<String, Schema> allProperties;
             List<String> allRequired;
 
+            // parent model
+            final String parentName = ModelUtils.getParentName(composed, allDefinitions);
+            final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
+            final boolean hasParent = StringUtils.isNotBlank(parentName);
+
+            // TODO revise the logic below to set dicriminator, xml attributes
             if (supportsInheritance || supportsMixins) {
                 allProperties = new LinkedHashMap<String, Schema>();
                 allRequired = new ArrayList<String>();
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
-                    for (Schema innerModel : composed.getAllOf()) {
+                    for (Schema innerSchema : composed.getAllOf()) {
                         if (m.discriminator == null) {
+                            LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
                             m.discriminator = createDiscriminator(name, schema, allDefinitions);
                         }
-                        if (innerModel.getXml() != null) {
-                            m.xmlPrefix = innerModel.getXml().getPrefix();
-                            m.xmlNamespace = innerModel.getXml().getNamespace();
-                            m.xmlName = innerModel.getXml().getName();
+
+                        if (innerSchema.getXml() != null) {
+                            m.xmlPrefix = innerSchema.getXml().getPrefix();
+                            m.xmlNamespace = innerSchema.getXml().getNamespace();
+                            m.xmlName = innerSchema.getXml().getName();
                         }
+
                         if (modelImplCnt++ > 1) {
                             LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
-                            break; // only one ModelImpl with discriminator allowed in allOf
+                            break; // only one schema with discriminator allowed in allOf
                         }
                     }
                 }
@@ -1624,14 +1633,11 @@ public class DefaultCodegen implements CodegenConfig {
                 allProperties = null;
                 allRequired = null;
             }
-            // parent model
-            final String parentName = getParentName(composed, allDefinitions);
-            final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
 
+            // interfaces (schemas defined in allOf, anyOf, oneOf)
             List<Schema> interfaces = ModelUtils.getInterfaces(composed);
-
-            // interfaces (intermediate models)
-            if (interfaces != null) {
+            if (!interfaces.isEmpty()) {
+                // m.interfaces is for backward compatability
                 if (m.interfaces == null)
                     m.interfaces = new ArrayList<String>();
 
@@ -1648,12 +1654,19 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        if (!supportsMixins && !supportsInheritance) {
+                        if (hasParent || supportsInheritance) {
+                            if (parentName.equals(modelName)) {
+                                // iheritance
+                                addProperties(allProperties, allRequired, refSchema, allDefinitions);
+                            } else {
+                                // composition
+                                //LOGGER.debug("Parent {} not set to model name {}", parentName, modelName);
+                                addProperties(properties, required, refSchema, allDefinitions);
+                            }
+                        } else if (!supportsMixins && !supportsInheritance) {
                             addProperties(properties, required, refSchema, allDefinitions);
                         }
-                        if (supportsInheritance) {
-                            addProperties(allProperties, allRequired, refSchema, allDefinitions);
-                        }
+
                     }
 
                     if (composed.getAnyOf() != null) {
@@ -1663,7 +1676,7 @@ public class DefaultCodegen implements CodegenConfig {
                     } else if (composed.getAllOf() != null) {
                         m.allOf.add(modelName);
                     } else {
-                        LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined");
+                        LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
                     }
                 }
             }
@@ -1673,7 +1686,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.parent = toModelName(parentName);
                 addImport(m, m.parent);
                 if (allDefinitions != null && !allDefinitions.isEmpty()) {
-                    if (supportsInheritance) {
+                    if (hasParent || supportsInheritance) {
                         addProperties(allProperties, allRequired, parent, allDefinitions);
                     } else {
                         addProperties(properties, required, parent, allDefinitions);
@@ -1681,23 +1694,25 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // child model (properties owned by the model itself)
-            Schema child = null;
-            if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
-                for (Schema component : composed.getAllOf()) {
-                    if (component.get$ref() == null) {
-                        child = component;
+            // child schema (properties owned by the schema itself)
+            for (Schema component : interfaces) {
+                if (component.get$ref() == null) {
+                    if (component != null) {
+                        // component is the child schema
+                        addProperties(properties, required, component, allDefinitions);
+
+                        if (hasParent || supportsInheritance) {
+                            addProperties(allProperties, allRequired, component, allDefinitions);
+                        }
                     }
+                    break; // at most one schema not using $ref
                 }
             }
-            if (child != null) {
-                addProperties(properties, required, child, allDefinitions);
-                if (supportsInheritance) {
-                    addProperties(allProperties, allRequired, child, allDefinitions);
-                }
-            }
+
+
             addVars(m, unaliasPropertySchema(allDefinitions, properties), required, allProperties, allRequired);
 
+            // end of code block for composed schema
         } else {
             m.dataType = getSchemaType(schema);
             if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
@@ -1741,7 +1756,7 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
-                String name = ModelUtils.getSimpleRef(e.getValue());
+                String name = e.getValue(); // example: Dog, Cat (not #/components/schemas/Dog)
                 discriminator.getMappedModels().add(new MappedModel(e.getKey(), name));
             }
         } else {
@@ -4255,18 +4270,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return produces;
-    }
-
-    protected String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
-        if (composedSchema.getAllOf() != null && !composedSchema.getAllOf().isEmpty()) {
-            for (Schema schema : composedSchema.getAllOf()) {
-                String ref = schema.get$ref();
-                if (!StringUtils.isBlank(ref)) {
-                    return ModelUtils.getSimpleRef(ref);
-                }
-            }
-        }
-        return null;
     }
 
     protected String getCollectionFormat(Parameter parameter) {

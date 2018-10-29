@@ -65,7 +65,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // clear import mapping (from default generator) as ruby does not use it
         // at the moment
         importMapping.clear();
-
+        
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separator + "ruby";

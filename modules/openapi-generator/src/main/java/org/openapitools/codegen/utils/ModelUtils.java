@@ -291,8 +291,8 @@ public class ModelUtils {
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
-            LOGGER.warn("Failed to get the schema name: {}", ref);
-            return null;
+            //LOGGER.warn("Failed to get the schema name: {}", ref);
+            throw new RuntimeException("Failed to get the schema: " + ref);
         }
 
         return ref;
@@ -623,7 +623,7 @@ public class ModelUtils {
     /**
      * If a Callback contains a reference to an other Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
      *
-     * @param openAPI   specification being checked
+     * @param openAPI  specification being checked
      * @param callback potentially containing a '$ref'
      * @return callback without '$ref'
      */
@@ -642,7 +642,7 @@ public class ModelUtils {
         if (name == null) {
             return null;
         }
-        
+
         if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
             return openAPI.getComponents().getCallbacks().get(name);
         }
@@ -764,11 +764,10 @@ public class ModelUtils {
     /**
      * Get the interfaces from the schema (composed)
      *
-     * @param composed     schema (alias or direct reference)
+     * @param composed schema (alias or direct reference)
      * @return a list of schema defined in allOf, anyOf or oneOf
      */
     public static List<Schema> getInterfaces(ComposedSchema composed) {
-        List<Schema> interfaces;
         if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
             return composed.getAllOf();
         } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
@@ -776,7 +775,55 @@ public class ModelUtils {
         } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
             return composed.getOneOf();
         } else {
-            return null;
+            return Collections.<Schema>emptyList();
         }
+    }
+
+    /**
+     * Get the the parent model name from the schemas (allOf, anyOf, oneOf)
+     *
+     * @param composedSchema schema (alias or direct reference)
+     * @param allSchemas     all schemas
+     * @return the name of the parent model
+     */
+    public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        List<Schema> interfaces = getInterfaces(composedSchema);
+
+        if (interfaces != null && !interfaces.isEmpty()) {
+            for (Schema schema : interfaces) {
+                // get the actual schema
+                if (StringUtils.isNotEmpty(schema.get$ref())) {
+                    String parentName = getSimpleRef(schema.get$ref());
+                    Schema s = allSchemas.get(parentName);
+                    if (s == null) {
+                        LOGGER.error("Failed to obtain schema from {}", parentName);
+                        return "UNKNOWN_PARENT_NAME";
+                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                        // discriminator.propertyName is used
+                        return parentName;
+                        /*
+                        if (!StringUtils.isBlank(s.get$ref())) {
+                            String modelName = getSimpleRef(s.get$ref());
+                            if (modelName == null) {
+                                LOGGER.warn("failed to obtain the model name from {}", s.get$ref());
+                                return s.get$ref();
+                            } else {
+                                return modelName;
+                            }
+                        } else {
+                            LOGGER.error("Failed to obtain parent name since $ref is null or empty string: {}", s);
+                            return "UNKNOWN_PARENT_NAME";
+                        }*/
+                    } else {
+                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
+                        // not a parent since discriminator.propertyName is not set
+                    }
+                } else {
+                    // not a ref, doing nothing
+                }
+            }
+        }
+
+        return null;
     }
 }

@@ -13,7 +13,7 @@ OpenAPI Generator version: 3.3.2-SNAPSHOT
 require 'date'
 
 module Petstore
-  class AnimalFarm
+  class AnimalFarm < null<Animal>
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
@@ -33,26 +33,29 @@ module Petstore
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+
+      # call parent's initialize
+      super(attributes)
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
+      invalid_properties = super
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      true
+      true && super
     end
 
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class
+      self.class == o.class && super(o)
     end
 
     # @see the `==` method
@@ -72,6 +75,7 @@ module Petstore
     # @return [Object] Returns the model itself
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
+      super(attributes)
       self.class.openapi_types.each_pair do |key, type|
         if type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the the attribute
@@ -144,7 +148,7 @@ module Petstore
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = {}
+      hash = super
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         next if value.nil?
@@ -170,5 +174,7 @@ module Petstore
         value
       end
     end
+
   end
+
 end

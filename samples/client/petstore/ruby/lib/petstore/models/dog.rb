@@ -13,18 +13,12 @@ OpenAPI Generator version: 3.3.2-SNAPSHOT
 require 'date'
 
 module Petstore
-  class Dog
-    attr_accessor :class_name
-
-    attr_accessor :color
-
+  class Dog < Animal
     attr_accessor :breed
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'class_name' => :'className',
-        :'color' => :'color',
         :'breed' => :'breed'
       }
     end
@@ -32,8 +26,6 @@ module Petstore
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'class_name' => :'String',
-        :'color' => :'String',
         :'breed' => :'String'
       }
     end
@@ -46,15 +38,8 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      if attributes.has_key?(:'className')
-        self.class_name = attributes[:'className']
-      end
-
-      if attributes.has_key?(:'color')
-        self.color = attributes[:'color']
-      else
-        self.color = 'red'
-      end
+      # call parent's initialize
+      super(attributes)
 
       if attributes.has_key?(:'breed')
         self.breed = attributes[:'breed']
@@ -64,19 +49,14 @@ module Petstore
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
-      if @class_name.nil?
-        invalid_properties.push('invalid value for "class_name", class_name cannot be nil.')
-      end
-
+      invalid_properties = super
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @class_name.nil?
-      true
+      true && super
     end
 
     # Checks equality by comparing each attribute.
@@ -84,9 +64,7 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          class_name == o.class_name &&
-          color == o.color &&
-          breed == o.breed
+          breed == o.breed && super(o)
     end
 
     # @see the `==` method
@@ -98,7 +76,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [class_name, color, breed].hash
+      [breed].hash
     end
 
     # Builds the object from hash
@@ -106,6 +84,7 @@ module Petstore
     # @return [Object] Returns the model itself
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
+      super(attributes)
       self.class.openapi_types.each_pair do |key, type|
         if type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the the attribute
@@ -178,7 +157,7 @@ module Petstore
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = {}
+      hash = super
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         next if value.nil?
@@ -204,5 +183,7 @@ module Petstore
         value
       end
     end
+
   end
+
 end

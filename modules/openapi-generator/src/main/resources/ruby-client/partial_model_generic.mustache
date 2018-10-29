@@ -1,7 +1,7 @@
   {{#description}}
   # {{{description}}}
   {{/description}}
-  class {{classname}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
   {{#vars}}
     {{#description}}
     # {{{description}}}
@@ -77,6 +77,28 @@
 
     {{/-last}}
     {{/oneOf}}
+    {{#allOf}}
+    {{#-first}}
+    # List of class defined in allOf (OpenAPI v3)
+    def self.openapi_all_of
+      [
+    {{/-first}}
+      :'{{{.}}}'{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/allOf}}
+    {{#discriminator}}
+    {{#propertyName}}
+    # discriminator's property name in OpenAPI v3
+    def self.openapi_discriminator_name
+      :'{{{.}}}'
+    end
+
+    {{/propertyName}}
+    {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
@@ -84,6 +106,11 @@
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      {{#parent}}
+
+      # call parent's initialize
+      super(attributes)
+      {{/parent}}
       {{#vars}}
 
       if attributes.has_key?(:'{{{baseName}}}')
@@ -111,7 +138,7 @@
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
+      invalid_properties = {{^parent}}Array.new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
       {{^isNullable}}
       {{#required}}
@@ -246,7 +273,7 @@
 
       {{/-first}}
       {{/oneOf}}
-      true
+      true{{#parent}} && super{{/parent}}
     end
 
     {{#vars}}
@@ -330,7 +357,7 @@
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class{{#vars}} &&
-          {{name}} == o.{{name}}{{/vars}}
+          {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
     end
 
     # @see the `==` method
