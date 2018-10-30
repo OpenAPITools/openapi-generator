@@ -1611,7 +1611,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
-                    for (Schema innerSchema : composed.getAllOf()) {
+                    for (Schema innerSchema : composed.getAllOf()) { // TOOD need to work with anyOf, oneOf as well
                         if (m.discriminator == null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
                             m.discriminator = createDiscriminator(name, schema, allDefinitions);
@@ -1637,7 +1637,7 @@ public class DefaultCodegen implements CodegenConfig {
             // interfaces (schemas defined in allOf, anyOf, oneOf)
             List<Schema> interfaces = ModelUtils.getInterfaces(composed);
             if (!interfaces.isEmpty()) {
-                // m.interfaces is for backward compatability
+                // m.interfaces is for backward compatibility
                 if (m.interfaces == null)
                     m.interfaces = new ArrayList<String>();
 
@@ -1656,7 +1656,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (allDefinitions != null && refSchema != null) {
                         if (hasParent || supportsInheritance) {
                             if (parentName.equals(modelName)) {
-                                // iheritance
+                                // inheritance
                                 addProperties(allProperties, allRequired, refSchema, allDefinitions);
                             } else {
                                 // composition
