@@ -465,6 +465,6 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     }
 
     private String getDiscriminatorValue(CodegenModel model) {
-    	return model.classname;
+        return model.classname;
     }
 }
