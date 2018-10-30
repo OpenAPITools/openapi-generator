@@ -115,7 +115,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
     else if(type.startsWith("{{prefix}}") && obj.isObject()) {
         // complex type
         QJsonObject jsonObj = obj.toObject();
-        {{prefix}}Object * so = ({{prefix}}Object*)::{{cppNamespace}}::create(complexType);
+        {{prefix}}Object * so = ({{prefix}}Object*)::{{cppNamespace}}::createPoly(complexType, jsonObj);
         if(so != nullptr) {
             so->fromJsonObject(jsonObj);
             {{prefix}}Object **val = static_cast<{{prefix}}Object**>(value);
@@ -134,10 +134,12 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr) {
                 // it's an object
-                {{prefix}}Object * val = ({{prefix}}Object*)::{{cppNamespace}}::create(complexType);
                 QJsonObject t = jval.toObject();
-                val->fromJsonObject(t);
-                (*output)->append(val);
+                {{prefix}}Object * val = ({{prefix}}Object*)::{{cppNamespace}}::createPoly(complexType, t);
+                if (val != nullptr) {
+	                val->fromJsonObject(t);
+    	            (*output)->append(val);
+    	        }
             }
         }
         else if(QStringLiteral("qint32").compare(complexType) == 0) {
@@ -241,8 +243,9 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             auto varmap = obj.toObject().toVariantMap();
             if(varmap.count() > 0){
                 for(auto itemkey : varmap.keys() ){
-                    auto  val = ({{prefix}}Object*)::{{cppNamespace}}::create(complexType);
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
+                    auto jsonObj = jsonval.toObject();
+                    auto  val = ({{prefix}}Object*)::{{cppNamespace}}::createPoly(complexType, jsonObj);
                     ::{{cppNamespace}}::setValue(&val, jsonval, complexType, complexType);
                     (*output)->insert(itemkey, val);
                 }

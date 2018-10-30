@@ -23,6 +23,8 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -33,6 +35,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +60,8 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
     public CppQt5ClientCodegen() {
         super();
+
+        supportsInheritance = true;
 
         // set the output folder here
         outputFolder = "generated-code/qt5cpp";
@@ -253,7 +258,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         if (!folder.isEmpty())
             folder += File.separator;
 
-        return "#include \"" + folder + toModelName(name) + ".h\"";
+        return "#include \"" + folder + name + ".h\"";
     }
 
     /**
@@ -369,6 +374,26 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         return toModelName(type);
     }
 
+    /**
+     * Output the Getter name, e.g. getSize
+     *
+     * @param name the name of the property
+     * @return getter name -- keep same name to work with discriminator for inheritance
+     */
+    public String toGetter(String name) {
+        return "get" + name; //getterAndSetterCapitalize(name);
+    }
+
+    /**
+     * Output the Getter name, e.g. getSize
+     *
+     * @param name the name of the property
+     * @return setter name -- keep same name to work with discriminator for inheritance
+     */
+    public String toSetter(String name) {
+        return "set" + name; //getterAndSetterCapitalize(name);
+    }
+
     @Override
     public String toVarName(String name) {
         // sanitize name
@@ -403,5 +428,43 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     @Override
     public String getTypeDeclaration(String str) {
         return str;
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                if (cm.discriminator != null && cm.children != null) {
+                    for (CodegenModel child : cm.children) {
+                        this.setDiscriminatorValue(child, cm.discriminator.getPropertyName(), this.getDiscriminatorValue(child));
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    private void setDiscriminatorValue(CodegenModel model, String baseName, String value) {
+        for (CodegenProperty prop : model.allVars) {
+            if (prop.baseName.equals(baseName)) {
+                prop.discriminatorValue = value;
+                prop.baseType = prop.baseType;
+            }
+        }
+        if (model.children != null) {
+            final boolean newDiscriminator = model.discriminator != null;
+            for (CodegenModel child : model.children) {
+                this.setDiscriminatorValue(child, baseName, newDiscriminator ? value : this.getDiscriminatorValue(child));
+            }
+        }
+    }
+
+    private String getDiscriminatorValue(CodegenModel model) {
+    	return model.classname;
     }
 }

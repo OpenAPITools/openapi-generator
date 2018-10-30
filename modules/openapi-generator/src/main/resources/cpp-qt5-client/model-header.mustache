@@ -22,7 +22,12 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
+{{#model.parent}}
+class {{classname}}: public {{model.parent}} {
+{{/model.parent}}
+{{^model.parent}}
 class {{classname}}: public {{prefix}}Object {
+{{/model.parent}}
 public:
     {{classname}}();
     {{classname}}(QString json);
@@ -33,6 +38,10 @@ public:
     QString asJson () override;
     QJsonObject asJsonObject() override;
     void fromJsonObject(QJsonObject json) override;
+    {{#discriminator}}
+    void parentFromJsonObject(QJsonObject json) override;
+    void parentAsJsonObject(QJsonObject &jobj) override;
+    {{/discriminator}}
     {{classname}}* fromJson(QString jsonString) override;
 
     {{#vars}}
@@ -47,7 +56,6 @@ private:
     {{#vars}}
     {{{dataType}}} {{name}};
     bool m_{{name}}_isSet;
-
     {{/vars}}
 };
 

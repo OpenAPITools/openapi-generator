@@ -18,6 +18,31 @@ namespace {{this}} {
     return nullptr;
   }
 
+  inline void* createPoly(QString type, QJsonObject &t) {
+    {{#models}}{{#model}}{{#discriminator}}
+    if (QString("{{classname}}").compare(type) == 0) {
+      auto baseClass = new {{classname}}();
+      baseClass->fromJsonObject(t);
+      QString * discriminator = baseClass->get{{{discriminator.propertyName}}}();
+
+      void *derivedClass;
+      {{#children}}
+      if (QString("{{name}}").compare(*discriminator) == 0)
+      {
+        derivedClass = create(QString("{{prefix}}") + *discriminator);
+      }
+      {{/children}}
+      delete baseClass;
+      return derivedClass;
+    }
+    {{/discriminator}}{{^discriminator}}
+    if(QString("{{classname}}").compare(type) == 0) {
+      return create(type);
+    }
+    {{/discriminator}}
+    {{/model}}{{/models}}
+  }
+
   inline void* create(QString json, QString type) {
     if(type.startsWith("QString")) {
       return new QString();
