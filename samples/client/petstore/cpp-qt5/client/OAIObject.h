@@ -27,6 +27,11 @@ class OAIObject {
         return QJsonObject();
     }
 
+    virtual void parentAsJsonObject(QJsonObject &jobj) {
+    	Q_UNUSED(jobj);
+    	return;
+    }
+
     OAIObject() {
         jObj = nullptr;
     }
@@ -50,6 +55,12 @@ class OAIObject {
             delete jObj;
         }
         jObj = new QJsonObject(json);
+    }
+
+    virtual void parentFromJsonObject(QJsonObject json) {
+    	Q_UNUSED(json);
+
+    	return;
     }
 
     virtual QString asJson() {

@@ -41,29 +41,29 @@ public:
     void fromJsonObject(QJsonObject json) override;
     OAIUser* fromJson(QString jsonString) override;
 
-    qint64 getId();
-    void setId(qint64 id);
+    qint64 getid();
+    void setid(qint64 id);
 
-    QString* getUsername();
-    void setUsername(QString* username);
+    QString* getusername();
+    void setusername(QString* username);
 
-    QString* getFirstName();
-    void setFirstName(QString* first_name);
+    QString* getfirstName();
+    void setfirstName(QString* first_name);
 
-    QString* getLastName();
-    void setLastName(QString* last_name);
+    QString* getlastName();
+    void setlastName(QString* last_name);
 
-    QString* getEmail();
-    void setEmail(QString* email);
+    QString* getemail();
+    void setemail(QString* email);
 
-    QString* getPassword();
-    void setPassword(QString* password);
+    QString* getpassword();
+    void setpassword(QString* password);
 
-    QString* getPhone();
-    void setPhone(QString* phone);
+    QString* getphone();
+    void setphone(QString* phone);
 
-    qint32 getUserStatus();
-    void setUserStatus(qint32 user_status);
+    qint32 getuserStatus();
+    void setuserStatus(qint32 user_status);
 
 
     virtual bool isSet() override;
@@ -71,28 +71,20 @@ public:
 private:
     qint64 id;
     bool m_id_isSet;
-
     QString* username;
     bool m_username_isSet;
-
     QString* first_name;
     bool m_first_name_isSet;
-
     QString* last_name;
     bool m_last_name_isSet;
-
     QString* email;
     bool m_email_isSet;
-
     QString* password;
     bool m_password_isSet;
-
     QString* phone;
     bool m_phone_isSet;
-
     qint32 user_status;
     bool m_user_status_isSet;
-
 };
 
 }

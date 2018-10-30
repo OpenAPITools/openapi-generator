@@ -41,14 +41,14 @@ public:
     void fromJsonObject(QJsonObject json) override;
     OAIApiResponse* fromJson(QString jsonString) override;
 
-    qint32 getCode();
-    void setCode(qint32 code);
+    qint32 getcode();
+    void setcode(qint32 code);
 
-    QString* getType();
-    void setType(QString* type);
+    QString* gettype();
+    void settype(QString* type);
 
-    QString* getMessage();
-    void setMessage(QString* message);
+    QString* getmessage();
+    void setmessage(QString* message);
 
 
     virtual bool isSet() override;
@@ -56,13 +56,10 @@ public:
 private:
     qint32 code;
     bool m_code_isSet;
-
     QString* type;
     bool m_type_isSet;
-
     QString* message;
     bool m_message_isSet;
-
 };
 
 }

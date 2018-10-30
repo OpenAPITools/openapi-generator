@@ -124,7 +124,7 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
     else if(type.startsWith("OAI") && obj.isObject()) {
         // complex type
         QJsonObject jsonObj = obj.toObject();
-        OAIObject * so = (OAIObject*)::OpenAPI::create(complexType);
+        OAIObject * so = (OAIObject*)::OpenAPI::createPoly(complexType, jsonObj);
         if(so != nullptr) {
             so->fromJsonObject(jsonObj);
             OAIObject **val = static_cast<OAIObject**>(value);
@@ -143,10 +143,12 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             QJsonArray arr = obj.toArray();
             for (const QJsonValue & jval : arr) {
                 // it's an object
-                OAIObject * val = (OAIObject*)::OpenAPI::create(complexType);
                 QJsonObject t = jval.toObject();
-                val->fromJsonObject(t);
-                (*output)->append(val);
+                OAIObject * val = (OAIObject*)::OpenAPI::createPoly(complexType, t);
+                if (val != nullptr) {
+	                val->fromJsonObject(t);
+    	            (*output)->append(val);
+    	        }
             }
         }
         else if(QStringLiteral("qint32").compare(complexType) == 0) {
@@ -250,8 +252,9 @@ setValue(void* value, QJsonValue obj, QString type, QString complexType) {
             auto varmap = obj.toObject().toVariantMap();
             if(varmap.count() > 0){
                 for(auto itemkey : varmap.keys() ){
-                    auto  val = (OAIObject*)::OpenAPI::create(complexType);
                     auto  jsonval = QJsonValue::fromVariant(varmap.value(itemkey));
+                    auto jsonObj = jsonval.toObject();
+                    auto  val = (OAIObject*)::OpenAPI::createPoly(complexType, jsonObj);
                     ::OpenAPI::setValue(&val, jsonval, complexType, complexType);
                     (*output)->insert(itemkey, val);
                 }

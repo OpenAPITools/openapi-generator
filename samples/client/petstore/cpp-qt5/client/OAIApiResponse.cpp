@@ -67,13 +67,15 @@ OAIApiResponse::fromJson(QString json) {
 
 void
 OAIApiResponse::fromJsonObject(QJsonObject pJson) {
+    parentFromJsonObject(pJson);
     ::OpenAPI::setValue(&code, pJson["code"], "qint32", "");
-    
+
     ::OpenAPI::setValue(&type, pJson["type"], "QString", "QString");
-    
+
     ::OpenAPI::setValue(&message, pJson["message"], "QString", "QString");
-    
+
 }
+
 
 QString
 OAIApiResponse::asJson ()
@@ -87,6 +89,7 @@ OAIApiResponse::asJson ()
 QJsonObject
 OAIApiResponse::asJsonObject() {
     QJsonObject obj;
+    parentAsJsonObject(obj);
     if(m_code_isSet){
         obj.insert("code", QJsonValue(code));
     }
@@ -100,32 +103,33 @@ OAIApiResponse::asJsonObject() {
     return obj;
 }
 
+
 qint32
-OAIApiResponse::getCode() {
+OAIApiResponse::getcode() {
     return code;
 }
 void
-OAIApiResponse::setCode(qint32 code) {
+OAIApiResponse::setcode(qint32 code) {
     this->code = code;
     this->m_code_isSet = true;
 }
 
 QString*
-OAIApiResponse::getType() {
+OAIApiResponse::gettype() {
     return type;
 }
 void
-OAIApiResponse::setType(QString* type) {
+OAIApiResponse::settype(QString* type) {
     this->type = type;
     this->m_type_isSet = true;
 }
 
 QString*
-OAIApiResponse::getMessage() {
+OAIApiResponse::getmessage() {
     return message;
 }
 void
-OAIApiResponse::setMessage(QString* message) {
+OAIApiResponse::setmessage(QString* message) {
     this->message = message;
     this->m_message_isSet = true;
 }

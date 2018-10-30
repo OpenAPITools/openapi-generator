@@ -47,6 +47,34 @@ namespace OpenAPI {
     return nullptr;
   }
 
+  inline void* createPoly(QString type, QJsonObject &t) {
+    
+    if(QString("OAIApiResponse").compare(type) == 0) {
+      return create(type);
+    }
+    
+    if(QString("OAICategory").compare(type) == 0) {
+      return create(type);
+    }
+    
+    if(QString("OAIOrder").compare(type) == 0) {
+      return create(type);
+    }
+    
+    if(QString("OAIPet").compare(type) == 0) {
+      return create(type);
+    }
+    
+    if(QString("OAITag").compare(type) == 0) {
+      return create(type);
+    }
+    
+    if(QString("OAIUser").compare(type) == 0) {
+      return create(type);
+    }
+    
+  }
+
   inline void* create(QString json, QString type) {
     if(type.startsWith("QString")) {
       return new QString();

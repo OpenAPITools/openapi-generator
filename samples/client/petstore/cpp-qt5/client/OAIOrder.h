@@ -42,23 +42,23 @@ public:
     void fromJsonObject(QJsonObject json) override;
     OAIOrder* fromJson(QString jsonString) override;
 
-    qint64 getId();
-    void setId(qint64 id);
+    qint64 getid();
+    void setid(qint64 id);
 
-    qint64 getPetId();
-    void setPetId(qint64 pet_id);
+    qint64 getpetId();
+    void setpetId(qint64 pet_id);
 
-    qint32 getQuantity();
-    void setQuantity(qint32 quantity);
+    qint32 getquantity();
+    void setquantity(qint32 quantity);
 
-    QDateTime* getShipDate();
-    void setShipDate(QDateTime* ship_date);
+    QDateTime* getshipDate();
+    void setshipDate(QDateTime* ship_date);
 
-    QString* getStatus();
-    void setStatus(QString* status);
+    QString* getstatus();
+    void setstatus(QString* status);
 
     bool isComplete();
-    void setComplete(bool complete);
+    void setcomplete(bool complete);
 
 
     virtual bool isSet() override;
@@ -66,22 +66,16 @@ public:
 private:
     qint64 id;
     bool m_id_isSet;
-
     qint64 pet_id;
     bool m_pet_id_isSet;
-
     qint32 quantity;
     bool m_quantity_isSet;
-
     QDateTime* ship_date;
     bool m_ship_date_isSet;
-
     QString* status;
     bool m_status_isSet;
-
     bool complete;
     bool m_complete_isSet;
-
 };
 
 }

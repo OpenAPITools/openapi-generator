@@ -44,23 +44,23 @@ public:
     void fromJsonObject(QJsonObject json) override;
     OAIPet* fromJson(QString jsonString) override;
 
-    qint64 getId();
-    void setId(qint64 id);
+    qint64 getid();
+    void setid(qint64 id);
 
-    OAICategory* getCategory();
-    void setCategory(OAICategory* category);
+    OAICategory* getcategory();
+    void setcategory(OAICategory* category);
 
-    QString* getName();
-    void setName(QString* name);
+    QString* getname();
+    void setname(QString* name);
 
-    QList<QString*>* getPhotoUrls();
-    void setPhotoUrls(QList<QString*>* photo_urls);
+    QList<QString*>* getphotoUrls();
+    void setphotoUrls(QList<QString*>* photo_urls);
 
-    QList<OAITag*>* getTags();
-    void setTags(QList<OAITag*>* tags);
+    QList<OAITag*>* gettags();
+    void settags(QList<OAITag*>* tags);
 
-    QString* getStatus();
-    void setStatus(QString* status);
+    QString* getstatus();
+    void setstatus(QString* status);
 
 
     virtual bool isSet() override;
@@ -68,22 +68,16 @@ public:
 private:
     qint64 id;
     bool m_id_isSet;
-
     OAICategory* category;
     bool m_category_isSet;
-
     QString* name;
     bool m_name_isSet;
-
     QList<QString*>* photo_urls;
     bool m_photo_urls_isSet;
-
     QList<OAITag*>* tags;
     bool m_tags_isSet;
-
     QString* status;
     bool m_status_isSet;
-
 };
 
 }

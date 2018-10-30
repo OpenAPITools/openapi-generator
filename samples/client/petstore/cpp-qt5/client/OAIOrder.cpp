@@ -76,19 +76,21 @@ OAIOrder::fromJson(QString json) {
 
 void
 OAIOrder::fromJsonObject(QJsonObject pJson) {
+    parentFromJsonObject(pJson);
     ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
-    
+
     ::OpenAPI::setValue(&pet_id, pJson["petId"], "qint64", "");
-    
+
     ::OpenAPI::setValue(&quantity, pJson["quantity"], "qint32", "");
-    
+
     ::OpenAPI::setValue(&ship_date, pJson["shipDate"], "QDateTime", "QDateTime");
-    
+
     ::OpenAPI::setValue(&status, pJson["status"], "QString", "QString");
-    
+
     ::OpenAPI::setValue(&complete, pJson["complete"], "bool", "");
-    
+
 }
+
 
 QString
 OAIOrder::asJson ()
@@ -102,6 +104,7 @@ OAIOrder::asJson ()
 QJsonObject
 OAIOrder::asJsonObject() {
     QJsonObject obj;
+    parentAsJsonObject(obj);
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
     }
@@ -124,52 +127,53 @@ OAIOrder::asJsonObject() {
     return obj;
 }
 
+
 qint64
-OAIOrder::getId() {
+OAIOrder::getid() {
     return id;
 }
 void
-OAIOrder::setId(qint64 id) {
+OAIOrder::setid(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 qint64
-OAIOrder::getPetId() {
+OAIOrder::getpetId() {
     return pet_id;
 }
 void
-OAIOrder::setPetId(qint64 pet_id) {
+OAIOrder::setpetId(qint64 pet_id) {
     this->pet_id = pet_id;
     this->m_pet_id_isSet = true;
 }
 
 qint32
-OAIOrder::getQuantity() {
+OAIOrder::getquantity() {
     return quantity;
 }
 void
-OAIOrder::setQuantity(qint32 quantity) {
+OAIOrder::setquantity(qint32 quantity) {
     this->quantity = quantity;
     this->m_quantity_isSet = true;
 }
 
 QDateTime*
-OAIOrder::getShipDate() {
+OAIOrder::getshipDate() {
     return ship_date;
 }
 void
-OAIOrder::setShipDate(QDateTime* ship_date) {
+OAIOrder::setshipDate(QDateTime* ship_date) {
     this->ship_date = ship_date;
     this->m_ship_date_isSet = true;
 }
 
 QString*
-OAIOrder::getStatus() {
+OAIOrder::getstatus() {
     return status;
 }
 void
-OAIOrder::setStatus(QString* status) {
+OAIOrder::setstatus(QString* status) {
     this->status = status;
     this->m_status_isSet = true;
 }
@@ -179,7 +183,7 @@ OAIOrder::isComplete() {
     return complete;
 }
 void
-OAIOrder::setComplete(bool complete) {
+OAIOrder::setcomplete(bool complete) {
     this->complete = complete;
     this->m_complete_isSet = true;
 }

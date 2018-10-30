@@ -62,11 +62,13 @@ OAICategory::fromJson(QString json) {
 
 void
 OAICategory::fromJsonObject(QJsonObject pJson) {
+    parentFromJsonObject(pJson);
     ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
-    
+
     ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
-    
+
 }
+
 
 QString
 OAICategory::asJson ()
@@ -80,6 +82,7 @@ OAICategory::asJson ()
 QJsonObject
 OAICategory::asJsonObject() {
     QJsonObject obj;
+    parentAsJsonObject(obj);
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
     }
@@ -90,22 +93,23 @@ OAICategory::asJsonObject() {
     return obj;
 }
 
+
 qint64
-OAICategory::getId() {
+OAICategory::getid() {
     return id;
 }
 void
-OAICategory::setId(qint64 id) {
+OAICategory::setid(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 QString*
-OAICategory::getName() {
+OAICategory::getname() {
     return name;
 }
 void
-OAICategory::setName(QString* name) {
+OAICategory::setname(QString* name) {
     this->name = name;
     this->m_name_isSet = true;
 }

@@ -41,11 +41,11 @@ public:
     void fromJsonObject(QJsonObject json) override;
     OAITag* fromJson(QString jsonString) override;
 
-    qint64 getId();
-    void setId(qint64 id);
+    qint64 getid();
+    void setid(qint64 id);
 
-    QString* getName();
-    void setName(QString* name);
+    QString* getname();
+    void setname(QString* name);
 
 
     virtual bool isSet() override;
@@ -53,10 +53,8 @@ public:
 private:
     qint64 id;
     bool m_id_isSet;
-
     QString* name;
     bool m_name_isSet;
-
 };
 
 }

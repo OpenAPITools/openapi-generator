@@ -62,11 +62,13 @@ OAITag::fromJson(QString json) {
 
 void
 OAITag::fromJsonObject(QJsonObject pJson) {
+    parentFromJsonObject(pJson);
     ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
-    
+
     ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
-    
+
 }
+
 
 QString
 OAITag::asJson ()
@@ -80,6 +82,7 @@ OAITag::asJson ()
 QJsonObject
 OAITag::asJsonObject() {
     QJsonObject obj;
+    parentAsJsonObject(obj);
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
     }
@@ -90,22 +93,23 @@ OAITag::asJsonObject() {
     return obj;
 }
 
+
 qint64
-OAITag::getId() {
+OAITag::getid() {
     return id;
 }
 void
-OAITag::setId(qint64 id) {
+OAITag::setid(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 QString*
-OAITag::getName() {
+OAITag::getname() {
     return name;
 }
 void
-OAITag::setName(QString* name) {
+OAITag::setname(QString* name) {
     this->name = name;
     this->m_name_isSet = true;
 }

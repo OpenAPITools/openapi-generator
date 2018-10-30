@@ -90,19 +90,21 @@ OAIPet::fromJson(QString json) {
 
 void
 OAIPet::fromJsonObject(QJsonObject pJson) {
+    parentFromJsonObject(pJson);
     ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
-    
+
     ::OpenAPI::setValue(&category, pJson["category"], "OAICategory", "OAICategory");
-    
+
     ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
-    
+
     
     ::OpenAPI::setValue(&photo_urls, pJson["photoUrls"], "QList", "QString");
     
     ::OpenAPI::setValue(&tags, pJson["tags"], "QList", "OAITag");
     ::OpenAPI::setValue(&status, pJson["status"], "QString", "QString");
-    
+
 }
+
 
 QString
 OAIPet::asJson ()
@@ -116,6 +118,7 @@ OAIPet::asJson ()
 QJsonObject
 OAIPet::asJsonObject() {
     QJsonObject obj;
+    parentAsJsonObject(obj);
     if(m_id_isSet){
         obj.insert("id", QJsonValue(id));
     }
@@ -138,62 +141,63 @@ OAIPet::asJsonObject() {
     return obj;
 }
 
+
 qint64
-OAIPet::getId() {
+OAIPet::getid() {
     return id;
 }
 void
-OAIPet::setId(qint64 id) {
+OAIPet::setid(qint64 id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
 OAICategory*
-OAIPet::getCategory() {
+OAIPet::getcategory() {
     return category;
 }
 void
-OAIPet::setCategory(OAICategory* category) {
+OAIPet::setcategory(OAICategory* category) {
     this->category = category;
     this->m_category_isSet = true;
 }
 
 QString*
-OAIPet::getName() {
+OAIPet::getname() {
     return name;
 }
 void
-OAIPet::setName(QString* name) {
+OAIPet::setname(QString* name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 QList<QString*>*
-OAIPet::getPhotoUrls() {
+OAIPet::getphotoUrls() {
     return photo_urls;
 }
 void
-OAIPet::setPhotoUrls(QList<QString*>* photo_urls) {
+OAIPet::setphotoUrls(QList<QString*>* photo_urls) {
     this->photo_urls = photo_urls;
     this->m_photo_urls_isSet = true;
 }
 
 QList<OAITag*>*
-OAIPet::getTags() {
+OAIPet::gettags() {
     return tags;
 }
 void
-OAIPet::setTags(QList<OAITag*>* tags) {
+OAIPet::settags(QList<OAITag*>* tags) {
     this->tags = tags;
     this->m_tags_isSet = true;
 }
 
 QString*
-OAIPet::getStatus() {
+OAIPet::getstatus() {
     return status;
 }
 void
-OAIPet::setStatus(QString* status) {
+OAIPet::setstatus(QString* status) {
     this->status = status;
     this->m_status_isSet = true;
 }
