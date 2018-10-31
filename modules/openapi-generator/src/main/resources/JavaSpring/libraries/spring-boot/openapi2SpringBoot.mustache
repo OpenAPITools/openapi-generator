@@ -50,7 +50,7 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
     }
     /*
     rearranging the commenting out.
-    this appears to solve the issue of code not compiling properly during maven build
+    this solves the issue of code not compiling properly during maven build
     @Bean
     public Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer webConfigurer() {
         return new Web{{^reactive}}Mvc{{/reactive}}{{#reactive}}Flux{{/reactive}}Configurer{{^java8}}Adapter{{/java8}}() {
