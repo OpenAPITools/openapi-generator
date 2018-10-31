@@ -65,6 +65,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [1.4 - Build Projects](#14---build-projects)
     - [1.5 - Homebrew](#15---homebrew)
     - [1.6 - Docker](#16---docker)
+    - [1.7 - NPM](#17---npm)    
   - [2 - Getting Started](#2---getting-started)
   - [3 - Usage](#3---usage)
     - [3.1 - Customization](#31---customization)
@@ -344,6 +345,15 @@ vagrant up
 vagrant ssh
 cd /vagrant
 ./run-in-docker.sh mvn package
+```
+
+### [1.7 - NPM](#table-of-contents)
+
+There is also an [NPM package wrapper](https://github.com/HarmoWatch/openapi-generator-cli), available.
+Please see the [docs](https://github.com/HarmoWatch/openapi-generator-cli) there for more information.
+
+```sh
+npm install @harmowatch/openapi-generator-cli -D
 ```
 
 ## [2 - Getting Started](#table-of-contents)
