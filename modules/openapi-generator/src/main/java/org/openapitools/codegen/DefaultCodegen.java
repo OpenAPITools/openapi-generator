@@ -1596,8 +1596,8 @@ public class DefaultCodegen implements CodegenConfig {
             final ComposedSchema composed = (ComposedSchema) schema;
             Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
             List<String> required = new ArrayList<String>();
-            Map<String, Schema> allProperties;
-            List<String> allRequired;
+            Map<String, Schema> allProperties = new LinkedHashMap<String, Schema>();
+            List<String> allRequired = new ArrayList<String>();
 
             // parent model
             final String parentName = ModelUtils.getParentName(composed, allDefinitions);
@@ -1606,8 +1606,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             // TODO revise the logic below to set dicriminator, xml attributes
             if (supportsInheritance || supportsMixins) {
-                allProperties = new LinkedHashMap<String, Schema>();
-                allRequired = new ArrayList<String>();
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
@@ -1629,9 +1627,6 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                     }
                 }
-            } else {
-                allProperties = null;
-                allRequired = null;
             }
 
             // interfaces (schemas defined in allOf, anyOf, oneOf)

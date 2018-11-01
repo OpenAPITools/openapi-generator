@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Breed** | **string** |  | [optional] 
 **ClassName** | **string** |  | 
 **Color** | **string** |  | [optional] [default to red]
 **Breed** | **string** |  | [optional] 

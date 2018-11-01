@@ -467,7 +467,7 @@ mkCapitalization =
 -- ** Cat
 -- | Cat
 data Cat = Cat
-  { catClassName :: !(Text) -- ^ /Required/ "className"
+  { catDeclawed :: !(Maybe Bool) -- ^ "declawed"catClassName :: !(Text) -- ^ /Required/ "className"
   , catColor :: !(Maybe Text) -- ^ "color"
   , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
   } deriving (P.Show, P.Eq, P.Typeable)
@@ -476,7 +476,7 @@ data Cat = Cat
 instance A.FromJSON Cat where
   parseJSON = A.withObject "Cat" $ \o ->
     Cat
-      <$> (o .:  "className")
+      <$> (o .:? "declawed") (o .:  "className")
       <*> (o .:? "color")
       <*> (o .:? "declawed")
 
@@ -484,7 +484,7 @@ instance A.FromJSON Cat where
 instance A.ToJSON Cat where
   toJSON Cat {..} =
    _omitNulls
-      [ "className" .= catClassName
+      [ "declawed" .= catDeclawed"className" .= catClassName
       , "color" .= catColor
       , "declawed" .= catDeclawed
       ]
@@ -496,7 +496,7 @@ mkCat
   -> Cat
 mkCat catClassName =
   Cat
-  { catClassName
+  { catDeclawed = NothingcatClassName
   , catColor = Nothing
   , catDeclawed = Nothing
   }
@@ -594,7 +594,7 @@ mkClient =
 -- ** Dog
 -- | Dog
 data Dog = Dog
-  { dogClassName :: !(Text) -- ^ /Required/ "className"
+  { dogBreed :: !(Maybe Text) -- ^ "breed"dogClassName :: !(Text) -- ^ /Required/ "className"
   , dogColor :: !(Maybe Text) -- ^ "color"
   , dogBreed :: !(Maybe Text) -- ^ "breed"
   } deriving (P.Show, P.Eq, P.Typeable)
@@ -603,7 +603,7 @@ data Dog = Dog
 instance A.FromJSON Dog where
   parseJSON = A.withObject "Dog" $ \o ->
     Dog
-      <$> (o .:  "className")
+      <$> (o .:? "breed") (o .:  "className")
       <*> (o .:? "color")
       <*> (o .:? "breed")
 
@@ -611,7 +611,7 @@ instance A.FromJSON Dog where
 instance A.ToJSON Dog where
   toJSON Dog {..} =
    _omitNulls
-      [ "className" .= dogClassName
+      [ "breed" .= dogBreed"className" .= dogClassName
       , "color" .= dogColor
       , "breed" .= dogBreed
       ]
@@ -623,7 +623,7 @@ mkDog
   -> Dog
 mkDog dogClassName =
   Dog
-  { dogClassName
+  { dogBreed = NothingdogClassName
   , dogColor = Nothing
   , dogBreed = Nothing
   }

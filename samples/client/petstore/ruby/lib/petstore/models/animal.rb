@@ -34,6 +34,11 @@ module Petstore
       }
     end
 
+    # discriminator's property name in OpenAPI v3
+    def self.openapi_discriminator_name
+      :'className'
+    end
+
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})

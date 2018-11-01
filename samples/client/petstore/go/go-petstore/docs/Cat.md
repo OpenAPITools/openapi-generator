@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Declawed** | **bool** |  | [optional] 
 **ClassName** | **string** |  | 
 **Color** | **string** |  | [optional] [default to red]
 **Declawed** | **bool** |  | [optional] 

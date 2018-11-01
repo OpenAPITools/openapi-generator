@@ -10,6 +10,7 @@
 package petstore
 
 type Dog struct {
+	Breed string `json:"breed,omitempty"`
 	ClassName string `json:"className"`
 	Color string `json:"color,omitempty"`
 	Breed string `json:"breed,omitempty"`
