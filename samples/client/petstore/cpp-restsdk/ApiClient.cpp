@@ -13,6 +13,18 @@
 #include "MultipartFormData.h"
 #include "ModelBase.h"
 
+#include <sstream>
+#include <limits>
+#include <iomanip>
+
+template <typename T>
+utility::string_t toString(const T value)
+{
+  std::ostringstream out;
+  out << std::setprecision(std::numeric_limits<T>::digits10) << std::fixed << value;
+  return out.str();
+}
+
 namespace org {
 namespace openapitools {
 namespace client {
@@ -57,12 +69,12 @@ utility::string_t ApiClient::parameterToString(int32_t value)
 
 utility::string_t ApiClient::parameterToString(float value)
 {
-    return utility::conversions::to_string_t(std::to_string(value));
+    return utility::conversions::to_string_t(toString(value));
 }
 
 utility::string_t ApiClient::parameterToString(double value)
 {
-    return utility::conversions::to_string_t(std::to_string(value));
+    return utility::conversions::to_string_t(toString(value));
 }
 
 utility::string_t ApiClient::parameterToString(const utility::datetime &value)
