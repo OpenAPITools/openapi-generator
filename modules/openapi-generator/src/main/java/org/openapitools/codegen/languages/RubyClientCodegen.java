@@ -65,7 +65,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // clear import mapping (from default generator) as ruby does not use it
         // at the moment
         importMapping.clear();
-        
+
         modelPackage = "models";
         apiPackage = "api";
         outputFolder = "generated-code" + File.separator + "ruby";
@@ -87,8 +87,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 "_header_content_type", "form_params", "post_body", "auth_names")) {
             reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
-
-
+        
         // primitives in ruby lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("array");
