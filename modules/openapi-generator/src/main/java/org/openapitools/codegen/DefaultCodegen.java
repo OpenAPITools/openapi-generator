@@ -1650,7 +1650,7 @@ public class DefaultCodegen implements CodegenConfig {
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
                         if (hasParent || supportsInheritance) {
-                            if (parentName.equals(modelName)) {
+                            if (supportsInheritance || parentName.equals(modelName)) {
                                 // inheritance
                                 addProperties(allProperties, allRequired, refSchema, allDefinitions);
                             } else {

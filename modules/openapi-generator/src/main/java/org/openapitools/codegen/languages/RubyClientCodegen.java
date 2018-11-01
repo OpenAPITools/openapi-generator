@@ -87,7 +87,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 "_header_content_type", "form_params", "post_body", "auth_names")) {
             reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
-        
+
         // primitives in ruby lang
         languageSpecificPrimitives.add("int");
         languageSpecificPrimitives.add("array");
