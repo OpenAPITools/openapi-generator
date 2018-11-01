@@ -45,15 +45,29 @@ nlohmann::json {{classname}}::toJson() const
         if(jsonArray.size() > 0)
         {
             val["{{baseName}}"] = jsonArray;
-        }
-        {{/required}}
+        } {{/required}}
     }
-    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
+    {{/isListContainer}}{{#isMapContainer}}{
+        nlohmann::json jsonObj;
+        for( auto const& item : m_{{name}} )
+        {   {{^items.isContainer}} 
+            jsonObj[item.first] = {{prefix}}ModelBase::toJson(item.second);{{/items.isContainer}} {{#items.isListContainer}} 
+            jsonObj[item.first] = {{prefix}}ArrayHelper::toJson<{{{items.items.datatype}}}>(item.second);
+            {{/items.isListContainer}} {{#items.isMapContainer}} 
+            jsonObj[item.first] = {{prefix}}MapHelper::toJson<{{{items.items.datatype}}}>(item.second); {{/items.isMapContainer}} 
+        }
+        {{#required}}val["{{baseName}}"] = jsonObj; {{/required}}{{^required}}
+        if(jsonObj.size() > 0)
+        {
+            val["{{baseName}}"] = jsonObj;
+        } {{/required}}
+    }
+    {{/isMapContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
     {
         val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
     }
     {{/required}}{{#required}}val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
-    {{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
+    {{/required}}{{/isPrimitiveType}}{{/isContainer}}{{/vars}}
 
     return val;
 }
@@ -67,33 +81,53 @@ void {{classname}}::fromJson(nlohmann::json& val)
     {{/required}}{{#required}}{{setter}}(val.at("{{baseName}}"));
     {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
         m_{{name}}.clear();
-        nlohmann::json jsonArray;
         {{^required}}if(val.find("{{baseName}}") != val.end())
         {
         {{/required}}
-        for( auto& item : val["{{baseName}}"] )
-        {
-            {{#isPrimitiveType}}m_{{name}}.push_back(item);
-            {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(item);
-            {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(item);
-            {{/items.isDateTime}}{{^items.isDateTime}}
-            if(item.is_null())
+            for( auto& item : val["{{baseName}}"] )
             {
-                m_{{name}}.push_back( {{{items.datatype}}}() );
+                {{#isPrimitiveType}}m_{{name}}.push_back(item);
+                {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(item);
+                {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(item);
+                {{/items.isDateTime}}{{^items.isDateTime}}
+                if(item.is_null())
+                {
+                    m_{{name}}.push_back( {{{items.datatype}}}() );
+                }
+                else
+                {
+                    {{{items.datatype}}} newItem;
+                    newItem.fromJson(item);
+                    m_{{name}}.push_back( newItem );
+                }
+                {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
             }
-            else
-            {
-                {{{items.datatype}}} newItem;
-                newItem.fromJson(item);
-                m_{{name}}.push_back( newItem );
-            }
-            {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
-        }
         {{^required}}
         }
         {{/required}}
     }
-    {{/isListContainer}}{{^isListContainer}}{{^isPrimitiveType}}{{^required}}if(val.find("{{baseName}}") != val.end())
+    {{/isListContainer}}{{#isMapContainer}}{
+        m_{{name}}.clear();
+        {{^required}}if(val.find("{{baseName}}") != val.end())
+        {
+        {{/required}}
+            if(val["{{baseName}}"].is_object()) { {{^items.isContainer}}
+                m_{{name}} = {{prefix}}MapHelper::fromJson<{{{items.datatype}}}>(val["{{baseName}}"]);
+                {{/items.isContainer}} {{#items.isContainer}}
+                for( auto& item : val["{{baseName}}"].items() )
+                {   {{#items.isMapContainer}}
+                    {{{items.datatype}}} newItem = {{prefix}}MapHelper::fromJson<{{{items.items.datatype}}}>(item.value());
+                    {{/items.isMapContainer}}{{#items.isListContainer}} 
+                    {{{items.datatype}}} newItem = {{prefix}}ArrayHelper::fromJson<{{{items.items.datatype}}}>(item.value());
+                    {{/items.isListContainer}}
+                    m_{{name}}.insert(m_{{name}}.end(), std::pair< std::string, {{{items.datatype}}} >(item.key(), newItem));
+                } {{/items.isContainer}}
+            }
+        {{^required}}
+        }
+        {{/required}}
+    }
+    {{/isMapContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^required}}if(val.find("{{baseName}}") != val.end())
     {
         {{#isString}}{{setter}}(val.at("{{baseName}}"));{{/isString}}{{#isByteArray}}{{setter}}(val.at("{{baseName}}"));{{/isByteArray}}{{#isBinary}}{{setter}}(val.at("{{baseName}}"));
         {{/isBinary}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
@@ -107,7 +141,7 @@ void {{classname}}::fromJson(nlohmann::json& val)
     }
     {{/required}}{{#required}}{{#isString}}{{setter}}(val.at("{{baseName}}"));
     {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
-    {{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
+    {{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isContainer}}{{/vars}}
 }
 
 

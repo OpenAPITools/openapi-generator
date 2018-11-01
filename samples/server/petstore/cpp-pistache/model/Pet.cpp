@@ -59,7 +59,8 @@ nlohmann::json Pet::toJson() const
             jsonArray.push_back(ModelBase::toJson(item));
         }
         val["photoUrls"] = jsonArray;
-            }
+        
+    }
     {
         nlohmann::json jsonArray;
         for( auto& item : m_Tags )
@@ -70,7 +71,7 @@ nlohmann::json Pet::toJson() const
         if(jsonArray.size() > 0)
         {
             val["tags"] = jsonArray;
-        }
+        } 
     }
     if(m_StatusIsSet)
     {
@@ -100,33 +101,31 @@ void Pet::fromJson(nlohmann::json& val)
     setName(val.at("name"));
     {
         m_PhotoUrls.clear();
-        nlohmann::json jsonArray;
-                for( auto& item : val["photoUrls"] )
-        {
-            m_PhotoUrls.push_back(item);
-            
-        }
+                    for( auto& item : val["photoUrls"] )
+            {
+                m_PhotoUrls.push_back(item);
+                
+            }
     }
     {
         m_Tags.clear();
-        nlohmann::json jsonArray;
         if(val.find("tags") != val.end())
         {
-        for( auto& item : val["tags"] )
-        {
-            
-            if(item.is_null())
+            for( auto& item : val["tags"] )
             {
-                m_Tags.push_back( Tag() );
+                
+                if(item.is_null())
+                {
+                    m_Tags.push_back( Tag() );
+                }
+                else
+                {
+                    Tag newItem;
+                    newItem.fromJson(item);
+                    m_Tags.push_back( newItem );
+                }
+                
             }
-            else
-            {
-                Tag newItem;
-                newItem.fromJson(item);
-                m_Tags.push_back( newItem );
-            }
-            
-        }
         }
     }
     if(val.find("status") != val.end())
