@@ -1,5 +1,7 @@
 package org.openapitools.codegen;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.*;
 
 public class CodegenDiscriminator {
@@ -84,5 +86,14 @@ public class CodegenDiscriminator {
     @Override
     public int hashCode() {
         return Objects.hash(propertyName, mapping, mappedModels);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("propertyName", propertyName)
+                .append("mapping", mapping)
+                .append("mappedModels", mappedModels)
+                .toString();
     }
 }

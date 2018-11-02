@@ -80,8 +80,7 @@ public class ObjcModelTest {
                 .addProperties("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
-                .addRequiredItem("name")
-                .discriminator(new Discriminator().mapping("test", "test"));
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
@@ -89,7 +88,6 @@ public class ObjcModelTest {
         Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
-        Assert.assertEquals(cm.discriminator.getMapping().get("test"),"test");
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");

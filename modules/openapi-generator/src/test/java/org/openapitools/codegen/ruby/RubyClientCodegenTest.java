@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.*;
 
 import static org.testng.Assert.*;
 
@@ -270,5 +270,58 @@ public class RubyClientCodegenTest {
         CodegenParameter status = op.formParams.get(1);
         // TODO comment out the following until https://github.com/swagger-api/swagger-parser/issues/820 is solved
         //Assert.assertTrue(status.isNullable);
+    }
+
+
+    @Test(description = "test anyOf (OAS3)")
+    public void anyOfTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/anyOf.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
+        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas());
+
+        Set<String> anyOf = new TreeSet<String>();
+        anyOf.add("Apple");
+        anyOf.add("Banana");
+        Assert.assertEquals(fruit.anyOf, anyOf);
+    }
+
+    @Test(description = "test oneOf (OAS3)")
+    public void oneOfTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/oneOf.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
+        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas());
+
+        Set<String> oneOf = new TreeSet<String>();
+        oneOf.add("Apple");
+        oneOf.add("Banana");
+        Assert.assertEquals(fruit.oneOf, oneOf);
+    }
+
+    @Test(description = "test allOf (OAS3)")
+    public void allOfTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("Person");
+        CodegenModel person = codegen.fromModel("Person", schema, openAPI.getComponents().getSchemas());
+        Assert.assertNotNull(person);
+
+        CodegenDiscriminator codegenDiscriminator = person.getDiscriminator();
+        Set<CodegenDiscriminator.MappedModel> mappedModels = new LinkedHashSet<CodegenDiscriminator.MappedModel>();
+        CodegenDiscriminator.MappedModel adult = new CodegenDiscriminator.MappedModel("a", "Adult");
+        mappedModels.add(adult);
+        CodegenDiscriminator.MappedModel child = new CodegenDiscriminator.MappedModel("c", "Child");
+        mappedModels.add(child);
+        Assert.assertEquals(codegenDiscriminator.getMappedModels(), mappedModels);
     }
 }

@@ -1751,7 +1751,10 @@ public class DefaultCodegen implements CodegenConfig {
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
-                String name = e.getValue(); // example: Dog, Cat (not #/components/schemas/Dog)
+                String name = toModelName(ModelUtils.getSimpleRef(e.getValue())); // e.g e.getValue => #/components/schemas/Dog
+                if (allDefinitions.get(name) == null) {
+                    LOGGER.warn("Discriminator's mapping: model {} (mapped to {}) couldn't be found", name, e.getKey());
+                }
                 discriminator.getMappedModels().add(new MappedModel(e.getKey(), name));
             }
         } else {

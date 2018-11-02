@@ -291,8 +291,10 @@ public class ModelUtils {
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
-            //LOGGER.warn("Failed to get the schema name: {}", ref);
-            throw new RuntimeException("Failed to get the schema: " + ref);
+            LOGGER.warn("Failed to get the schema name: {}", ref);
+            //throw new RuntimeException("Failed to get the schema: " + ref);
+            return null;
+
         }
 
         return ref;

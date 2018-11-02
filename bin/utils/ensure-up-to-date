@@ -9,11 +9,7 @@ echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 
 sleep 5
 
-# fail fast
-set -e
-
 # LIST OF SCRIPTS:
-
 declare -a scripts=("./bin/openapi3/ruby-client-petstore.sh"
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
