@@ -438,7 +438,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(discriminator, test);
     }
 
-    @Test(enabled = false)
+    @Test
     public void testDiscriminatorWithCustomMapping() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
         DefaultCodegen codegen = new DefaultCodegen();
