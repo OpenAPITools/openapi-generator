@@ -324,4 +324,32 @@ public class RubyClientCodegenTest {
         mappedModels.add(child);
         Assert.assertEquals(codegenDiscriminator.getMappedModels(), mappedModels);
     }
+
+    @Test(description = "test allOf with duplicated properties(OAS3)")
+    public void allOfDuplicatedPropertiesTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOfDuplicatedProperties.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/pet";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("ModelC");
+        CodegenModel modelC = codegen.fromModel("ModelC", schema, openAPI.getComponents().getSchemas());
+        Assert.assertNotNull(modelC);
+        Assert.assertEquals(modelC.getVars().size(), 5);
+
+        CodegenProperty cp0 = modelC.getVars().get(0);
+        Assert.assertEquals(cp0.name, "foo");
+
+        CodegenProperty cp1 = modelC.getVars().get(1);
+        Assert.assertEquals(cp1.name, "duplicated_optional");
+
+        CodegenProperty cp2 = modelC.getVars().get(2);
+        Assert.assertEquals(cp2.name, "duplicated_required");
+
+        CodegenProperty cp3 = modelC.getVars().get(3);
+        Assert.assertEquals(cp3.name, "bar");
+
+        CodegenProperty cp4 = modelC.getVars().get(4);
+        Assert.assertEquals(cp4.name, "baz");
+    }
 }

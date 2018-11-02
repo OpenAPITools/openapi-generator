@@ -70,6 +70,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -1732,6 +1733,20 @@ public class DefaultCodegen implements CodegenConfig {
             addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired());
         }
 
+        // remove duplicated propertyies
+        Set<String> duplciatedProperties = removeDuplicatedProperty(m.allVars);
+        if (!duplciatedProperties.isEmpty()) {
+            LOGGER.warn("Duplicated proeprteis {} removed from the model {}", duplciatedProperties, m.name);
+        }
+
+        removeDuplicatedProperty(m.optionalVars);
+        removeDuplicatedProperty(m.requiredVars);
+        removeDuplicatedProperty(m.parentVars);
+        removeDuplicatedProperty(m.vars);
+        removeDuplicatedProperty(m.readOnlyVars);
+        removeDuplicatedProperty(m.readWriteVars);
+
+        // post process model properties
         if (m.vars != null) {
             for (CodegenProperty prop : m.vars) {
                 postProcessModelProperty(m, prop);
@@ -1740,6 +1755,27 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromModel return: " + m);
 
         return m;
+    }
+
+    private Set<String> removeDuplicatedProperty(List<CodegenProperty> vars)  {
+        Set<String> propertyNames = new TreeSet<String>();
+        Set<String> duplicatedNames = new TreeSet<String>();
+
+        ListIterator<CodegenProperty> iterator = vars.listIterator();
+        while(iterator.hasNext()){
+            CodegenProperty element = iterator.next();
+
+            if (propertyNames.contains(element.baseName)) {
+                duplicatedNames.add(element.baseName);
+                LOGGER.debug("Removing {} as duplicated property", element.baseName);
+                iterator.remove();
+            } else {
+                propertyNames.add(element.baseName);
+            }
+        }
+
+        return duplicatedNames;
+
     }
 
     private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, Map<String, Schema> allDefinitions) {
