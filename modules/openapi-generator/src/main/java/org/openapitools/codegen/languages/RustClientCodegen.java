@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.StringUtils;
@@ -310,9 +311,17 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
+            if (inner == null) {
+                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
+                inner = new StringSchema().description("TODO default missing array inner type to string");
+            }
             return "Vec<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
+            if (inner == null) {
+                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+            }
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
         }
 
