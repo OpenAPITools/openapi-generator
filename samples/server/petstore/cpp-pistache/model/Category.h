@@ -38,6 +38,8 @@ public:
     Category();
     virtual ~Category();
 
+    
+
     /////////////////////////////////////////////
     /// ModelBase overrides
 

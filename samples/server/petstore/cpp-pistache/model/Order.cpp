@@ -12,6 +12,8 @@
 
 
 #include "Order.h"
+#include <stdexcept>
+#include <sstream>
 
 namespace org {
 namespace openapitools {
@@ -73,7 +75,7 @@ nlohmann::json Order::toJson() const
         val["complete"] = m_Complete;
     }
     
-
+    
     return val;
 }
 
@@ -104,6 +106,7 @@ void Order::fromJson(nlohmann::json& val)
     {
         setComplete(val.at("complete"));
     }
+    
     
 }
 

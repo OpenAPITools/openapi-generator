@@ -2,6 +2,8 @@
 {{#models}}{{#model}}
 
 #include "{{classname}}.h"
+#include <stdexcept>
+#include <sstream>
 
 {{#modelNamespaceDeclarations}}
 namespace {{this}} {
@@ -54,7 +56,21 @@ nlohmann::json {{classname}}::toJson() const
     }
     {{/required}}{{#required}}val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
     {{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
-
+    {{#isEnum}}{{#allowableValues}}
+    switch (m_value)
+    {
+        {{#enumVars}}
+        {{#-first}}
+        case e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED:
+            val = "INVALID_VALUE_OPENAPI_GENERATED";
+            break;
+        {{/-first}}
+        case e{{classname}}::{{name}}:
+            val = "{{value}}";
+            break;
+        {{/enumVars}}
+    }
+    {{/allowableValues}}{{/isEnum}}
     return val;
 }
 
@@ -108,6 +124,19 @@ void {{classname}}::fromJson(nlohmann::json& val)
     {{/required}}{{#required}}{{#isString}}{{setter}}(val.at("{{baseName}}"));
     {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
     {{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isListContainer}}{{/vars}}
+    {{#isEnum}}{{#allowableValues}}
+    auto s = val.get<std::string>();
+    {{#enumVars}} 
+    {{#-first}}if{{/-first}}{{^-first}}else if{{/-first}} (s == "{{value}}") {
+        m_value = e{{classname}}::{{name}};
+    } {{#-last}} else {
+        std::stringstream ss;
+        ss << "Unexpected value " << s << " in json"
+           << " cannot be converted to enum of type"
+           << " {{classname}}::e{{classname}}";
+        throw std::invalid_argument(ss.str());
+    } {{/-last}}
+    {{/enumVars}}{{/allowableValues}}{{/isEnum}}
 }
 
 
@@ -135,6 +164,17 @@ void {{classname}}::unset{{name}}()
 }
 {{/required}}
 {{/vars}}
+{{#isEnum}}
+{{classname}}::e{{classname}} {{classname}}::getValue() const
+{
+    return m_value;
+}
+
+void {{classname}}::setValue({{classname}}::e{{classname}} value)
+{
+    m_value = value;
+}
+{{/isEnum}}
 
 {{#modelNamespaceDeclarations}}
 }

@@ -12,6 +12,8 @@
 
 
 #include "Category.h"
+#include <stdexcept>
+#include <sstream>
 
 namespace org {
 namespace openapitools {
@@ -49,7 +51,7 @@ nlohmann::json Category::toJson() const
         val["name"] = ModelBase::toJson(m_Name);
     }
     
-
+    
     return val;
 }
 
@@ -63,6 +65,7 @@ void Category::fromJson(nlohmann::json& val)
     {
         setName(val.at("name"));
     }
+    
     
 }
 

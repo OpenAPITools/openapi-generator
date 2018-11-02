@@ -38,6 +38,8 @@ public:
     User();
     virtual ~User();
 
+    
+
     /////////////////////////////////////////////
     /// ModelBase overrides
 

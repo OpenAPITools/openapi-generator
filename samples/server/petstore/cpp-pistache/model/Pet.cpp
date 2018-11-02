@@ -12,6 +12,8 @@
 
 
 #include "Pet.h"
+#include <stdexcept>
+#include <sstream>
 
 namespace org {
 namespace openapitools {
@@ -77,7 +79,7 @@ nlohmann::json Pet::toJson() const
         val["status"] = ModelBase::toJson(m_Status);
     }
     
-
+    
     return val;
 }
 
@@ -133,6 +135,7 @@ void Pet::fromJson(nlohmann::json& val)
     {
         setStatus(val.at("status"));
     }
+    
     
 }
 

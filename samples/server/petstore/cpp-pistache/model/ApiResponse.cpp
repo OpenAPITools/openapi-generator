@@ -12,6 +12,8 @@
 
 
 #include "ApiResponse.h"
+#include <stdexcept>
+#include <sstream>
 
 namespace org {
 namespace openapitools {
@@ -55,7 +57,7 @@ nlohmann::json ApiResponse::toJson() const
         val["message"] = ModelBase::toJson(m_Message);
     }
     
-
+    
     return val;
 }
 
@@ -73,6 +75,7 @@ void ApiResponse::fromJson(nlohmann::json& val)
     {
         setMessage(val.at("message"));
     }
+    
     
 }
 

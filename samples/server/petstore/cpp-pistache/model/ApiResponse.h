@@ -38,6 +38,8 @@ public:
     ApiResponse();
     virtual ~ApiResponse();
 
+    
+
     /////////////////////////////////////////////
     /// ModelBase overrides
 

@@ -12,6 +12,8 @@
 
 
 #include "User.h"
+#include <stdexcept>
+#include <sstream>
 
 namespace org {
 namespace openapitools {
@@ -85,7 +87,7 @@ nlohmann::json User::toJson() const
         val["userStatus"] = m_UserStatus;
     }
     
-
+    
     return val;
 }
 
@@ -123,6 +125,7 @@ void User::fromJson(nlohmann::json& val)
     {
         setUserStatus(val.at("userStatus"));
     }
+    
     
 }
 

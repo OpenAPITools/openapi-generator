@@ -38,6 +38,8 @@ public:
     Tag();
     virtual ~Tag();
 
+    
+
     /////////////////////////////////////////////
     /// ModelBase overrides
 

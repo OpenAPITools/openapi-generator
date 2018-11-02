@@ -28,6 +28,18 @@ public:
     {{classname}}();
     virtual ~{{classname}}();
 
+    {{#isEnum}}{{#allowableValues}}
+    enum class e{{classname}} {
+    // To have a valid default value.
+    // Avoiding nameclashes with user defined
+    // enum values
+    INVALID_VALUE_OPENAPI_GENERATED = 0,
+    {{#enumVars}}
+    {{{name}}}{{^-last}}, {{/-last}}
+    {{/enumVars}}
+    };
+    {{/allowableValues}}{{/isEnum}}
+
     /////////////////////////////////////////////
     /// {{prefix}}ModelBase overrides
 
@@ -50,6 +62,10 @@ public:
     void unset{{name}}();
     {{/required}}
     {{/vars}}
+    {{#isEnum}}
+    {{classname}}::e{{classname}} getValue() const;
+    void setValue({{classname}}::e{{classname}} value);
+    {{/isEnum}}
 
 protected:
     {{#vars}}
@@ -57,6 +73,9 @@ protected:
     {{^required}}
     bool m_{{name}}IsSet;{{/required}}
     {{/vars}}
+    {{#isEnum}}
+    e{{classname}} m_value = e{{classname}}::INVALID_VALUE_OPENAPI_GENERATED;
+    {{/isEnum}}
 };
 
 {{#modelNamespaceDeclarations}}
