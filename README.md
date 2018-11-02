@@ -352,6 +352,15 @@ cd /vagrant
 There is also an [NPM package wrapper](https://github.com/HarmoWatch/openapi-generator-cli), available.
 Please see the [docs](https://github.com/HarmoWatch/openapi-generator-cli) there for more information.
 
+Install it globally to get the CLI available on the command line:
+
+```sh
+npm install @harmowatch/openapi-generator-cli -g
+openapi-generator version
+```
+
+Or you install it as dev-dependency like this:
+
 ```sh
 npm install @harmowatch/openapi-generator-cli -D
 ```
