@@ -649,7 +649,7 @@ validate(Rule = {pattern, Pattern}, Name, Value, _ValidatorState) ->
     end;
 
 validate(Rule = schema, Name, Value, ValidatorState) ->
-    Definition =  list_to_binary("#/definitions/" ++ openapi_utils:to_list(Name)),
+    Definition =  list_to_binary("#/components/schemas/" ++ openapi_utils:to_list(Name)),
     try
         _ = validate_with_schema(Value, Definition, ValidatorState),
         ok
@@ -688,7 +688,7 @@ validation_error(ViolatedRule, Name, Info) ->
     {Value :: any(), Req :: cowboy_req:req()} | 
     {error, Reason :: any(), Req :: cowboy_req:req()}.
 get_value(body, _Name, Req0) ->
-    {ok, Body, Req} = cowboy_req:body(Req0),
+    {ok, Body, Req} = cowboy_req:read_body(Req0),
     case prepare_body(Body) of
         {error, Reason} ->
             {error, Reason, Req};
@@ -696,19 +696,18 @@ get_value(body, _Name, Req0) ->
             {Value, Req}
     end;
 
-get_value(qs_val, Name, Req0) ->
-    {QS, Req} = cowboy_req:qs_vals(Req0),
+get_value(qs_val, Name, Req) ->
+    QS = cowboy_req:parse_qs(Req),
     Value = openapi_utils:get_opt(openapi_utils:to_qs(Name), QS),
     {Value, Req};
 
-get_value(header, Name, Req0) ->
-    {Headers, Req} = cowboy_req:headers(Req0),
-    Value = openapi_utils:get_opt(openapi_utils:to_header(Name), Headers),
+get_value(header, Name, Req) ->
+    Headers = cowboy_req:headers(Req),
+    Value =  maps:get(openapi_utils:to_header(Name), Headers, undefined),
     {Value, Req};
 
-get_value(binding, Name, Req0) ->
-    {Bindings, Req} = cowboy_req:bindings(Req0),
-    Value = openapi_utils:get_opt(openapi_utils:to_binding(Name), Bindings),
+get_value(binding, Name, Req) ->
+    Value = cowboy_req:binding(openapi_utils:to_binding(Name), Req),
     {Value, Req}.
 
 prepare_body(Body) ->
