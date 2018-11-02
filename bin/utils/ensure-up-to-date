@@ -44,7 +44,7 @@ for script in "${scripts[@]}"; do
     echo "Executed $script successfully!"
   else
     echo "ERROR: Failed to run $script"
-    exit $?
+    exit 1
   fi
 done
 
