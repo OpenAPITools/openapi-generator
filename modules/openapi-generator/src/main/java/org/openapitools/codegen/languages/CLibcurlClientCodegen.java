@@ -330,7 +330,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
-        return camelize(toVarName(name));
+        name = name.replaceAll("-","_");
+        return name;
     }
 
     @Override
@@ -411,7 +412,11 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return escapeText(value);
+            if (value.matches("\\d.*")) { // starts with number
+                return "N" + escapeText(value);
+            } else {
+                return escapeText(value);
+            }
         }
     }
 

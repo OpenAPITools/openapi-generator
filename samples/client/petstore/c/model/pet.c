@@ -78,15 +78,15 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 	}
 
 	// pet->photoUrls
-	cJSON *photoUrls = cJSON_AddArrayToObject(item, "photoUrls");
-	if(photoUrls == NULL) {
+	cJSON *photo_urls = cJSON_AddArrayToObject(item, "photoUrls");
+	if(photo_urls == NULL) {
 		goto fail; // primitive container
 	}
 
-	listEntry_t *photoUrlsListEntry;
-	list_ForEach(photoUrlsListEntry, pet->photoUrls) {
-		if(cJSON_AddStringToObject(photoUrls, "",
-		                           photoUrlsListEntry->data) == NULL)
+	listEntry_t *photo_urlsListEntry;
+	list_ForEach(photo_urlsListEntry, pet->photoUrls) {
+		if(cJSON_AddStringToObject(photo_urls, "",
+		                           photo_urlsListEntry->data) == NULL)
 		{
 			goto fail;
 		}
@@ -160,22 +160,21 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 	}
 
 	// pet->photoUrls
-	cJSON *photoUrls;
+	cJSON *photo_urls;
 	cJSON *photoUrlsJSON = cJSON_GetObjectItemCaseSensitive(petJSON,
 	                                                        "photoUrls");
 	if(!cJSON_IsArray(photoUrlsJSON)) {
 		goto end; // primitive container
 	}
-	list_t *photoUrlsList = list_create();
+	list_t *photo_urlsList = list_create();
 
-	cJSON_ArrayForEach(photoUrls, photoUrlsJSON)
+	cJSON_ArrayForEach(photo_urls, photoUrlsJSON)
 	{
-		if(!cJSON_IsString(photoUrls) ||
-		   (photoUrls->valuestring == NULL))
-		{
+		if(!cJSON_IsString(photo_urls)) {
 			goto end;
 		}
-		list_addElement(photoUrlsList, strdup(photoUrls->valuestring));
+		list_addElement(photo_urlsList,
+		                strdup(photo_urls->valuestring));
 	}
 
 	// pet->tags
@@ -215,7 +214,7 @@ pet_t *pet_parseFromJSON(char *jsonString) {
 		id->valuedouble,
 		category,
 		strdup(name->valuestring),
-		photoUrlsList,
+		photo_urlsList,
 		tagsList,
 		statusVariable
 		);

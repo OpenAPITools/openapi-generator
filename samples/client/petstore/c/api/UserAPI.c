@@ -60,9 +60,9 @@ end:    apiClient_free(apiClient);
 
 
 
+	free(localVarPath);
 	cJSON_Delete(localVarSingleItemJSON_user);
 	free(localVarBodyParameters);
-	free(localVarPath);
 }
 
 // Creates list of users with given input array
@@ -138,11 +138,11 @@ end:    apiClient_free(apiClient);
 
 
 
+	free(localVarPath);
 	cJSON_Delete(localVarItemJSON_user);
 	cJSON_Delete(localVarSingleItemJSON_user);
 	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
-	free(localVarPath);
 }
 
 // Creates list of users with given input array
@@ -218,11 +218,11 @@ end:    apiClient_free(apiClient);
 
 
 
+	free(localVarPath);
 	cJSON_Delete(localVarItemJSON_user);
 	cJSON_Delete(localVarSingleItemJSON_user);
 	cJSON_Delete(localVar_user);
 	free(localVarBodyParameters);
-	free(localVarPath);
 }
 
 // Delete user
@@ -244,15 +244,17 @@ void UserAPI_deleteUser(apiClient_t *apiClient, char *username) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(username) + 3 + strlen("{ username }");
+	long sizeOfPathParams_username = strlen(username) + 3 + strlen(
+		"{ username }");
 
 	if(username == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
+	char *localVarToReplace_username = malloc(sizeOfPathParams_username);
+	sprintf(localVarToReplace_username, "%s%s%s", "{", "username", "}");
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, username);
+	localVarPath = strReplace(localVarPath, localVarToReplace_username,
+	                          username);
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -276,8 +278,8 @@ end:    apiClient_free(apiClient);
 
 
 
-	free(localVarToReplace);
 	free(localVarPath);
+	free(localVarToReplace_username);
 }
 
 // Get user by user name
@@ -297,15 +299,17 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(username) + 3 + strlen("{ username }");
+	long sizeOfPathParams_username = strlen(username) + 3 + strlen(
+		"{ username }");
 
 	if(username == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
+	char *localVarToReplace_username = malloc(sizeOfPathParams_username);
+	sprintf(localVarToReplace_username, "%s%s%s", "{", "username", "}");
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, username);
+	localVarPath = strReplace(localVarPath, localVarToReplace_username,
+	                          username);
 	list_addElement(localVarHeaderType, "application/xml"); // produces
 	list_addElement(localVarHeaderType, "application/json"); // produces
 	apiClient_invoke(apiClient,
@@ -341,7 +345,7 @@ user_t *UserAPI_getUserByName(apiClient_t *apiClient, char *username) {
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
-	free(localVarToReplace);
+	free(localVarToReplace_username);
 	return elementToReturn;
 end:
 	return NULL;
@@ -368,7 +372,7 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	char *keyQuery_username;
 	char *valueQuery_username;
 	keyValuePair_t *keyPairQuery_username = 0;
-	if(username != NULL) {
+	if(username) {
 		// string
 		keyQuery_username = strdup("username");
 		valueQuery_username = strdup(username);
@@ -381,7 +385,7 @@ char *UserAPI_loginUser(apiClient_t *apiClient, char *username,
 	char *keyQuery_password;
 	char *valueQuery_password;
 	keyValuePair_t *keyPairQuery_password = 0;
-	if(password != NULL) {
+	if(password) {
 		// string
 		keyQuery_password = strdup("password");
 		valueQuery_password = strdup(password);
@@ -485,15 +489,17 @@ void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *user) {
 
 
 	// Path Params
-	long sizeOfPathParams = strlen(username) + 3 + strlen("{ username }");
+	long sizeOfPathParams_username = strlen(username) + 3 + strlen(
+		"{ username }");
 
 	if(username == NULL) {
 		goto end;
 	}
-	char *localVarToReplace = malloc(sizeOfPathParams);
-	sprintf(localVarToReplace, "%s%s%s", "{", "username", "}");
+	char *localVarToReplace_username = malloc(sizeOfPathParams_username);
+	sprintf(localVarToReplace_username, "%s%s%s", "{", "username", "}");
 
-	localVarPath = strReplace(localVarPath, localVarToReplace, username);
+	localVarPath = strReplace(localVarPath, localVarToReplace_username,
+	                          username);
 
 	// Body Param
 	cJSON *localVarSingleItemJSON_user;
@@ -526,8 +532,8 @@ end:    apiClient_free(apiClient);
 
 
 
-	free(localVarToReplace);
+	free(localVarPath);
+	free(localVarToReplace_username);
 	cJSON_Delete(localVarSingleItemJSON_user);
 	free(localVarBodyParameters);
-	free(localVarPath);
 }

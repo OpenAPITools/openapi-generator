@@ -86,8 +86,15 @@ int main() {
 	list_t *elementToReturn;
 	elementToReturn = StoreAPI_getInventory(apiClient5);
 	listEntry_t *listEntry;
+    list_ForEach(listEntry, elementToReturn) {
+    keyValuePair_t *pair = (keyValuePair_t*)listEntry->data;
+    printf("%s - %s\n",pair->key,pair->value );
+    }
 	list_ForEach(listEntry, elementToReturn) {
-		keyValuePair_free(listEntry->data);
+    keyValuePair_t *pair = (keyValuePair_t*)listEntry->data;
+    free(pair->key);
+    free(pair->value);
+    keyValuePair_free(pair);
 	}
 	list_free(elementToReturn);
 }
