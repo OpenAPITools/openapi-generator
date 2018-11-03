@@ -59,7 +59,7 @@ nlohmann::json ApiResponse::toJson() const
     return val;
 }
 
-void ApiResponse::fromJson(nlohmann::json& val)
+void ApiResponse::fromJson(const nlohmann::json& val)
 {
     if(val.find("code") != val.end())
     {
