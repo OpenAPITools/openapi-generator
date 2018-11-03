@@ -365,13 +365,13 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp0.name, "age");
 
         CodegenProperty cp1 = child.getVars().get(1);
-        Assert.assertEquals(cp1.name, "firstName");
+        Assert.assertEquals(cp1.name, "first_name");
 
         CodegenProperty cp2 = child.getVars().get(2);
-        Assert.assertEquals(cp2.name, "lastName");
+        Assert.assertEquals(cp2.name, "_type");
 
         CodegenProperty cp3 = child.getVars().get(3);
-        Assert.assertEquals(cp3.name, "$_type");
+        Assert.assertEquals(cp3.name, "last_name");
 
         CodegenProperty cp4 = child.getVars().get(4);
         Assert.assertEquals(cp4.name, "duplicated_optional");
