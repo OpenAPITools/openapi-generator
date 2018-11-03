@@ -1705,7 +1705,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-
             addVars(m, unaliasPropertySchema(allDefinitions, properties), required, allProperties, allRequired);
 
             // end of code block for composed schema
@@ -1734,15 +1733,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // remove duplicated propertyies
-        Set<String> duplciatedProperties = removeDuplicatedProperty(m.allVars);
-        if (!duplciatedProperties.isEmpty()) {
-            LOGGER.warn("Duplicated proeprteis {} removed from the model {}", duplciatedProperties, m.name);
-        }
-
+        removeDuplicatedProperty(m.vars);
         removeDuplicatedProperty(m.optionalVars);
         removeDuplicatedProperty(m.requiredVars);
         removeDuplicatedProperty(m.parentVars);
-        removeDuplicatedProperty(m.vars);
+        removeDuplicatedProperty(m.allVars);
         removeDuplicatedProperty(m.readOnlyVars);
         removeDuplicatedProperty(m.readWriteVars);
 
@@ -1752,22 +1747,20 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-        LOGGER.debug("debugging fromModel return: " + m);
 
         return m;
     }
 
-    private Set<String> removeDuplicatedProperty(List<CodegenProperty> vars)  {
+    private Set<String> removeDuplicatedProperty(List<CodegenProperty> vars) {
         Set<String> propertyNames = new TreeSet<String>();
         Set<String> duplicatedNames = new TreeSet<String>();
 
         ListIterator<CodegenProperty> iterator = vars.listIterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             CodegenProperty element = iterator.next();
 
             if (propertyNames.contains(element.baseName)) {
                 duplicatedNames.add(element.baseName);
-                LOGGER.debug("Removing {} as duplicated property", element.baseName);
                 iterator.remove();
             } else {
                 propertyNames.add(element.baseName);
@@ -1775,7 +1768,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return duplicatedNames;
-
     }
 
     private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, Map<String, Schema> allDefinitions) {

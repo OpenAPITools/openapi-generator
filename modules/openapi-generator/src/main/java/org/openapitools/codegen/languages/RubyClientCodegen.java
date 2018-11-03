@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -581,5 +582,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         return !(skipOverwrite && new File(filename).exists());
         //
         //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+
+        if (additionalProperties != null) {
+            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
     }
 }
