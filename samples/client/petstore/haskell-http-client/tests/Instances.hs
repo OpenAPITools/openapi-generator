@@ -146,8 +146,7 @@ instance Arbitrary Cat where
       <$> arbitrary -- catDeclawed :: Maybe Bool
     arbitrary -- catClassName :: Text
       <*> arbitrary -- catColor :: Maybe Text
-      <*> arbitrary -- catDeclawed :: Maybe Bool
-    
+      <*> 
 instance Arbitrary Category where
   arbitrary =
     Category
@@ -170,8 +169,7 @@ instance Arbitrary Dog where
       <$> arbitrary -- dogBreed :: Maybe Text
     arbitrary -- dogClassName :: Text
       <*> arbitrary -- dogColor :: Maybe Text
-      <*> arbitrary -- dogBreed :: Maybe Text
-    
+      <*> 
 instance Arbitrary EnumArrays where
   arbitrary =
     EnumArrays

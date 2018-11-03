@@ -18,7 +18,4 @@ class Dog
     
     /** @var string $color */
     private $color;
-    
-    /** @var string $breed */
-    private $breed;
 }

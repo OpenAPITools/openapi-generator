@@ -18,7 +18,4 @@ class Cat
     
     /** @var string $color */
     private $color;
-    
-    /** @var bool $declawed */
-    private $declawed;
 }

@@ -20,15 +20,12 @@ module Petstore
 
     attr_accessor :color
 
-    attr_accessor :declawed
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'declawed' => :'declawed'
         :'class_name' => :'className',
         :'color' => :'color',
-        :'declawed' => :'declawed'
       }
     end
 
@@ -38,7 +35,6 @@ module Petstore
         :'declawed' => :'BOOLEAN'
         :'class_name' => :'String',
         :'color' => :'String',
-        :'declawed' => :'BOOLEAN'
       }
     end
 
@@ -73,10 +69,6 @@ module Petstore
       else
         self.color = 'red'
       end
-
-      if attributes.has_key?(:'declawed')
-        self.declawed = attributes[:'declawed']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -104,8 +96,7 @@ module Petstore
       self.class == o.class &&
           declawed == o.declawed &&
           class_name == o.class_name &&
-          color == o.color &&
-          declawed == o.declawed && super(o)
+          color == o.color && super(o)
     end
 
     # @see the `==` method
@@ -117,7 +108,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [declawedclass_name, color, declawed].hash
+      [declawedclass_name, color, ].hash
     end
 
     # Builds the object from hash

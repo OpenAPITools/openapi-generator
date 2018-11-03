@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: TestApi
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      summary: Test
+      operationId: testApi
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ModelC"
+components:
+  schemas:
+    ModelA:
+      required:
+        - duplicated_required
+      properties:
+        foo:
+          type: string
+        duplicated_optional:
+           type: string
+        duplicated_required:
+           type: string
+    ModelB:
+      required:
+        - duplicated_required
+      properties:
+        bar:
+          type: string
+        duplicated_optional:
+           type: integer
+        duplicated_required:
+           type: integer
+    ModelC:
+      allOf:
+        - $ref: "#/components/schemas/ModelA"
+        - $ref: "#/components/schemas/ModelB"
+        - type: object
+          properties:
+            baz:
+              type: string
+

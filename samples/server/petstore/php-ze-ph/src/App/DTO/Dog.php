@@ -26,10 +26,4 @@ class Dog
      * @var string
      */
     public $color;
-    /**
-     * @DTA\Data(field="breed", nullable=true)
-     * @DTA\Validator(name="Type", options={"type":"string"})
-     * @var string
-     */
-    public $breed;
 }
