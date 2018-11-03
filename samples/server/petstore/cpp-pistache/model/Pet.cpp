@@ -82,7 +82,7 @@ nlohmann::json Pet::toJson() const
     return val;
 }
 
-void Pet::fromJson(nlohmann::json& val)
+void Pet::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {

@@ -39,7 +39,7 @@ public:
     virtual void validate() = 0;
 
     virtual nlohmann::json toJson() const = 0;
-    virtual void fromJson(nlohmann::json& json) = 0;
+    virtual void fromJson(const nlohmann::json& json) = 0;
 
     static std::string toJson(  std::string const& value );
     static std::string toJson(  std::time_t const& value );
@@ -53,25 +53,25 @@ public:
 class ArrayHelper {
 private:
     template<typename T, typename std::enable_if<!std::is_base_of<ModelBase, T>::value>::value>
-    static void itemFromJson(T &item, nlohmann::json &json){
+    static void itemFromJson(T& item, const nlohmann::json& json){
         item = json;
     }
-    static void itemFromJson(ModelBase &item, nlohmann::json &json){
+    static void itemFromJson(ModelBase& item, const nlohmann::json& json){
         item.fromJson(json);
     }
     template<typename T, typename std::enable_if<!std::is_base_of<ModelBase, T>::value>::value>
-    static nlohmann::json itemtoJson(T &item){
+    static nlohmann::json itemtoJson(const T& item){
         return item;
     }
-    static nlohmann::json itemtoJson(ModelBase &item){
+    static nlohmann::json itemtoJson(const ModelBase& item){
         return item.toJson();
     }
 public:
     template<typename T>
-    static std::vector<T> fromJson(nlohmann::json& json) {
+    static std::vector<T> fromJson(const nlohmann::json& json) {
         std::vector<T> val;
         if (!json.empty()) {
-            for (auto &item : json.items()) {
+            for (const auto& item : json.items()) {
                 T entry;
                 itemFromJson(entry, item.value());
                 val.push_back(entry);
@@ -80,9 +80,9 @@ public:
         return val;
     }
     template<typename T>
-    static nlohmann::json toJson(std::vector<T> val) {
+    static nlohmann::json toJson(const std::vector<T>& val) {
         nlohmann::json json;
-        for(auto item : val){
+        for(const auto& item : val){
             json.push_back(itemtoJson(item));
         }
         return json;
@@ -92,26 +92,26 @@ public:
 class MapHelper {
 private:
     template<typename T, typename std::enable_if<!std::is_base_of<ModelBase, T>::value>::value>
-    static void itemFromJson(T &item, nlohmann::json &json){
+    static void itemFromJson(T &item, const nlohmann::json& json){
         item = json;
     }
-    static void itemFromJson(ModelBase &item, nlohmann::json &json){
+    static void itemFromJson(ModelBase &item, const nlohmann::json& json){
         item.fromJson(json);
     }
     template<typename T, typename std::enable_if<!std::is_base_of<ModelBase, T>::value>::value>
-    static nlohmann::json itemtoJson(T &item){
+    static nlohmann::json itemtoJson(const T& item){
         return item;
     }
-    static nlohmann::json itemtoJson(ModelBase &item){
+    static nlohmann::json itemtoJson(const ModelBase& item){
         return item.toJson();
     }
 
 public:
     template<typename T>
-    static std::map<std::string, T> & fromJson(nlohmann::json& json) {
+    static std::map<std::string, T> fromJson(const nlohmann::json& json) {
         std::map<std::string, T> val;
         if (!json.empty()) {
-            for (auto &item : json.items()) {
+            for (const auto& item : json.items()) {
                 T entry;
                 itemfromJson(entry, item.value());
                 val.insert(val.end(),
@@ -121,9 +121,9 @@ public:
         return val;
     }
     template<typename T>
-    static nlohmann::json toJson(std::map<std::string, T> val) {
+    static nlohmann::json toJson(const std::map<std::string, T>& val) {
         nlohmann::json json;
-        for (auto const& item : val) {
+        for (const auto& item : val) {
           nlohmann::json jitem = itemtoJson(item.second);
           json[item.first] = jitem;
         }

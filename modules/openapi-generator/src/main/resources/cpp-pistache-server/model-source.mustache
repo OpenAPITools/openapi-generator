@@ -72,7 +72,7 @@ nlohmann::json {{classname}}::toJson() const
     return val;
 }
 
-void {{classname}}::fromJson(nlohmann::json& val)
+void {{classname}}::fromJson(const nlohmann::json& val)
 {
     {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(val.find("{{baseName}}") != val.end())
     {
