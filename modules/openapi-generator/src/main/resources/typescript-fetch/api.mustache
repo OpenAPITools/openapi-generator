@@ -67,6 +67,41 @@ export class RequiredError extends Error {
     }
 }
 
+{{#hasFileOperations}}
+const responseToFile = (fileResponse: Response): Promise<File> => {
+  let filename = "download"; // Default filename of 'download'
+
+  const contentTypeHeader = fileResponse.headers.get("Content-Type");
+  const lastModifiedHeader = fileResponse.headers.get("Last-Modified");
+  const contentDispositionHeader = fileResponse.headers.get("Content-Disposition");
+
+  const type = contentTypeHeader || "";
+  const lastModified = lastModifiedHeader ? Date.parse(lastModifiedHeader) : Date.now();
+  if (contentDispositionHeader) {
+    const filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+    const filenameMatches = filenameRegex.exec(contentDispositionHeader);
+    if (filenameMatches && filenameMatches[1]) {
+      filename = filenameMatches[1].replace(/['"]/g, "");
+    }
+  }
+
+  return fileResponse.blob().then(blob => {
+    // If the File constructor is available and this is not Edge (which has an unimplemented constructor), use it...
+    // (https://developer.mozilla.org/en-US/docs/Web/API/File/File)
+    if (typeof File === "function" && !/Edge/.test(navigator.userAgent)) {
+      return new File([blob], filename, { type, lastModified });
+    }
+    // Otherwise, extend the Blob with the additional properties and return it as a File...
+    else {
+      const file = blob as any;
+      file.name = filename;
+      file.lastModified = lastModified;
+      return file as File;
+    }
+  });
+};
+
+{{/hasFileOperations}}
 {{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
 {{/models}}
@@ -264,12 +299,17 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}{{#isResponseFile}}File{{/isResponseFile}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
             const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
+    {{^isResponseFile}}
                         return response{{#returnType}}.json(){{/returnType}};
+    {{/isResponseFile}}
+    {{#isResponseFile}}
+                        return responseToFile(response);
+    {{/isResponseFile}}
                     } else {
                         throw response;
                     }

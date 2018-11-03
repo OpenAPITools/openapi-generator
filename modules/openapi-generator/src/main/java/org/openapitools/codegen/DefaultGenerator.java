@@ -801,6 +801,29 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             bundle.put("hasServers", true);
         }
 
+        if (allOperations != null) {
+            // Scan all API Group Operations to determine if there is at least one Operation within this API that
+            // returns a File Response, in which case the API hasFileOperations, and we may use this property in
+            // the mustache templates if useful...
+            for (HashMap<String, Object> apiGroup : (List<HashMap<String, Object>>) (Object) allOperations) {                
+                HashMap<String, Object> apiGroupOperationsContainer = 
+                    (HashMap<String, Object>) apiGroup.get("operations");
+                List<CodegenOperation> apiGroupOperations = 
+                    (List<CodegenOperation>) (Object) apiGroupOperationsContainer.get("operation");
+                for (CodegenOperation apiGroupOperation : apiGroupOperations) {
+                    if (apiGroupOperation.isResponseFile) {
+                        bundle.put("hasFileOperations", true);
+                        break;
+                    }
+                }
+                // If we've already found at least one API Group containing an operation that must return
+                // file responses, we're done...
+                if (bundle.containsKey("hasFileOperations")) {
+                    break;
+                }
+            }
+        }
+
         if (openAPI.getExternalDocs() != null) {
             bundle.put("externalDocs", openAPI.getExternalDocs());
         }
