@@ -271,4 +271,33 @@ public class RubyClientCodegenTest {
         // TODO comment out the following until https://github.com/swagger-api/swagger-parser/issues/820 is solved
         //Assert.assertTrue(status.isNullable);
     }
+
+    @Test(description = "test example string imported from x-example parameterr (OAS2)")
+    public void exampleStringFromExampleParameterOAS2Test() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-nullable.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/store/order/{orderId}";
+
+        final Operation p = openAPI.getPaths().get(path).getDelete();
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p, openAPI.getComponents().getSchemas());
+
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertEquals(pp.example, "'orderid123'");
+    }
+
+    @Test(description = "test example string imported from example in schema (OAS3)")
+    public void exampleStringFromXExampleParameterOAS3Test() {
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/store/order/{orderId}";
+
+        final Operation p = openAPI.getPaths().get(path).getDelete();
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p, openAPI.getComponents().getSchemas());
+
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertEquals(pp.example, "'orderid123'");
+    }
 }
