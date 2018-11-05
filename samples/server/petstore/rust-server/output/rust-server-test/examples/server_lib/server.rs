@@ -11,7 +11,8 @@ use swagger;
 use swagger::{Has, XSpanIdString};
 
 use rust_server_test::{Api, ApiError,
-                      DummyGetResponse
+                      DummyGetResponse,
+                      HtmlPostResponse
 };
 use rust_server_test::models;
 
@@ -32,6 +33,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>> {
         let context = context.clone();
         println!("dummy_get() - X-Span-ID: {:?}", context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+    /// Test HTML handling
+    fn html_post(&self, body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
+        let context = context.clone();
+        println!("html_post(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

@@ -37,7 +37,8 @@ use swagger::{ApiError, XSpanId, XSpanIdString, Has, RequestParser};
 use swagger::auth::Scopes;
 
 use {Api,
-     DummyGetResponse
+     DummyGetResponse,
+     HtmlPostResponse
      };
 #[allow(unused_imports)]
 use models;
@@ -51,10 +52,12 @@ mod paths {
 
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
-            r"^/dummy$"
+            r"^/dummy$",
+            r"^/html$"
         ]).unwrap();
     }
     pub static ID_DUMMY: usize = 0;
+    pub static ID_HTML: usize = 1;
 }
 
 pub struct NewService<T, C> {
@@ -162,6 +165,80 @@ where
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
 
+
+            },
+
+
+            // HtmlPost - POST /html
+            &hyper::Method::Post if path.matched(paths::ID_HTML) => {
+
+
+
+
+
+
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                        match result {
+                            Ok(body) => {
+                                let param_body: Option<String> = if !body.is_empty() {
+
+                                    match String::from_utf8(body.to_vec()) {
+                                        Ok(param_body) => Some(param_body),
+                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - not valid UTF-8: {}", e)))),
+                                    }
+
+                                } else {
+                                    None
+                                };
+                                let param_body = match param_body {
+                                    Some(param_body) => param_body,
+                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                };
+
+
+                                Box::new(api_impl.html_post(param_body, &context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                HtmlPostResponse::Success
+
+                                                    (body)
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::HTML_POST_SUCCESS.clone()));
+
+
+                                                    response.set_body(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+
+
+                            },
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                        }
+                    })
+                ) as Box<Future<Item=Response, Error=Error>>
 
             },
 
