@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: "This spec is for testing rust-server-specific things"
-  version: 1.0.0
+  version: 2.0.0
   title: rust-server-test
 schemes:
   - http

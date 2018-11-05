@@ -177,8 +177,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 "Rust crate name (convention: snake_case).")
                 .defaultValue("openapi_client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION,
-                "Rust crate version.")
-                .defaultValue("1.0.0"));
+                "Rust crate version."));
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -224,8 +223,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else {
-            setPackageVersion("1.0.0");
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);

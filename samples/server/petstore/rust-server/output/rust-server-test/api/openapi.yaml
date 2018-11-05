@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   description: This spec is for testing rust-server-specific things
   title: rust-server-test
-  version: 1.0.0
+  version: 2.0.0
 servers:
 - url: /
 paths:
