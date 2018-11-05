@@ -1732,14 +1732,8 @@ public class DefaultCodegen implements CodegenConfig {
             addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired());
         }
 
-        // remove duplicated propertyies
-        removeDuplicatedProperty(m.vars);
-        removeDuplicatedProperty(m.optionalVars);
-        removeDuplicatedProperty(m.requiredVars);
-        removeDuplicatedProperty(m.parentVars);
-        removeDuplicatedProperty(m.allVars);
-        removeDuplicatedProperty(m.readOnlyVars);
-        removeDuplicatedProperty(m.readWriteVars);
+        // remove duplicated properties
+        m.removeAllDuplicatedProperty();
 
         // post process model properties
         if (m.vars != null) {
@@ -1749,35 +1743,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return m;
-    }
-
-    private Set<String> removeDuplicatedProperty(List<CodegenProperty> vars) {
-        Set<String> propertyNames = new TreeSet<String>();
-        Set<String> duplicatedNames = new TreeSet<String>();
-
-        ListIterator<CodegenProperty> iterator = vars.listIterator();
-        while (iterator.hasNext()) {
-            CodegenProperty element = iterator.next();
-
-            if (propertyNames.contains(element.baseName)) {
-                duplicatedNames.add(element.baseName);
-                iterator.remove();
-            } else {
-                propertyNames.add(element.baseName);
-            }
-        }
-
-        if (vars != null) {
-            for (int i = 0; i < vars.size(); i++) {
-                if (i < vars.size() - 1) {
-                    vars.get(i).hasMore = true;
-                } else { // last element
-                    vars.get(i).hasMore = false;
-                }
-            }
-        }
-
-        return duplicatedNames;
     }
 
     private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, Map<String, Schema> allDefinitions) {

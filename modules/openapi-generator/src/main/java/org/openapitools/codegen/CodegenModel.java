@@ -19,14 +19,7 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -503,5 +496,49 @@ public class CodegenModel {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    /**
+     * Remove duplicated properties in all variable list and update "hasMore"
+     *
+     */
+    public void removeAllDuplicatedProperty() {
+        // remove duplicated propertyies
+        removeDuplicatedProperty(vars);
+        removeDuplicatedProperty(optionalVars);
+        removeDuplicatedProperty(requiredVars);
+        removeDuplicatedProperty(parentVars);
+        removeDuplicatedProperty(allVars);
+        removeDuplicatedProperty(readOnlyVars);
+        removeDuplicatedProperty(readWriteVars);
+    }
+
+    private Set<String> removeDuplicatedProperty(List<CodegenProperty> vars) {
+        Set<String> propertyNames = new TreeSet<String>();
+        Set<String> duplicatedNames = new TreeSet<String>();
+
+        ListIterator<CodegenProperty> iterator = vars.listIterator();
+        while (iterator.hasNext()) {
+            CodegenProperty element = iterator.next();
+
+            if (propertyNames.contains(element.baseName)) {
+                duplicatedNames.add(element.baseName);
+                iterator.remove();
+            } else {
+                propertyNames.add(element.baseName);
+            }
+        }
+
+        if (vars != null) {
+            for (int i = 0; i < vars.size(); i++) {
+                if (i < vars.size() - 1) {
+                    vars.get(i).hasMore = true;
+                } else { // last element
+                    vars.get(i).hasMore = false;
+                }
+            }
+        }
+
+        return duplicatedNames;
     }
 }
