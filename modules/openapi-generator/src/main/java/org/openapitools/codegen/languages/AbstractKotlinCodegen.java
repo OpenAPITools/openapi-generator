@@ -354,6 +354,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
             this.setParcelizeModels(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+            LOGGER.info(CodegenConstants.PARCELIZE_MODELS + " depends on the android framework and " +
+                    "experimental parcelize feature. Make sure your build applies the android plugin:\n" +
+                    "apply plugin: 'com.android.library' OR apply plugin: 'com.android.application'.\n" +
+                    "and enables the experimental features:\n" +
+                    "androidExtensions {\n" +
+                    "    experimental = true\n" +
+                    "}"
+            );
         } else {
             additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
         }
