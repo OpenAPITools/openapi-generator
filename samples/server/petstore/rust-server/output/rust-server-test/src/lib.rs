@@ -51,6 +51,7 @@ pub enum DummyPutResponse {
     Success ,
 }
 
+#[derive(Debug, PartialEq)]
 pub enum FileResponseGetResponse {
     /// Success
     Success ( swagger::ByteArray ) ,
