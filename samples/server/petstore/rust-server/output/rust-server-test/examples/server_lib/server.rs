@@ -13,6 +13,7 @@ use swagger::{Has, XSpanIdString};
 use rust_server_test::{Api, ApiError,
                       DummyGetResponse,
                       DummyPutResponse,
+                      FileResponseGetResponse,
                       HtmlPostResponse
 };
 use rust_server_test::models;
@@ -41,6 +42,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn dummy_put(&self, inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
         let context = context.clone();
         println!("dummy_put({:?}) - X-Span-ID: {:?}", inline_object, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+    /// Get a file
+    fn file_response_get(&self, context: &C) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>> {
+        let context = context.clone();
+        println!("file_response_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

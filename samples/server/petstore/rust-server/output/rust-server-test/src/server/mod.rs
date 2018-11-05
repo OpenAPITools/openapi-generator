@@ -39,6 +39,7 @@ use swagger::auth::Scopes;
 use {Api,
      DummyGetResponse,
      DummyPutResponse,
+     FileResponseGetResponse,
      HtmlPostResponse
      };
 #[allow(unused_imports)]
@@ -54,11 +55,13 @@ mod paths {
     lazy_static! {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
             r"^/dummy$",
+            r"^/file_response$",
             r"^/html$"
         ]).unwrap();
     }
     pub static ID_DUMMY: usize = 0;
-    pub static ID_HTML: usize = 1;
+    pub static ID_FILE_RESPONSE: usize = 1;
+    pub static ID_HTML: usize = 2;
 }
 
 pub struct NewService<T, C> {
@@ -242,6 +245,60 @@ where
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
+
+            },
+
+
+            // FileResponseGet - GET /file_response
+            &hyper::Method::Get if path.matched(paths::ID_FILE_RESPONSE) => {
+
+
+
+
+
+
+
+                Box::new({
+                        {{
+
+                                Box::new(api_impl.file_response_get(&context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                FileResponseGetResponse::Success
+
+                                                    (body)
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::FILE_RESPONSE_GET_SUCCESS.clone()));
+
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+
+                                                    response.set_body(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+
+                        }}
+                }) as Box<Future<Item=Response, Error=Error>>
+
 
             },
 
