@@ -68,13 +68,12 @@ public class ReadOnlyFirst {
     return false;
   }
     ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
-    return ObjectUtils.equals(this.bar, readOnlyFirst.bar) &&
-    ObjectUtils.equals(this.baz, readOnlyFirst.baz);
+    return ObjectUtils.equals(this.bar, readOnlyFirst.bar)ObjectUtils.equals(this.baz, readOnlyFirst.baz);
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(bar, baz);
+    return ObjectUtils.hashCodeMulti(barbaz);
   }
 
 

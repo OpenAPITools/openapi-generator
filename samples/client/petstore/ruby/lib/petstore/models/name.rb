@@ -28,7 +28,7 @@ module Petstore
       {
         :'name' => :'name',
         :'snake_case' => :'snake_case',
-        :'property' => :'property',
+        :'property' => :'property'
         :'_123_number' => :'123Number'
       }
     end
@@ -38,7 +38,7 @@ module Petstore
       {
         :'name' => :'Integer',
         :'snake_case' => :'Integer',
-        :'property' => :'String',
+        :'property' => :'String'
         :'_123_number' => :'Integer'
       }
     end
@@ -106,7 +106,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [name, snake_case, property, _123_number].hash
+      [name, snake_case, property_123_number].hash
     end
 
     # Builds the object from hash

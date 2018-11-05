@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
                     this.Property == input.Property ||
                     (this.Property != null &&
                     this.Property.Equals(input.Property))
-                ) && 
+                )
                 (
                     this._123Number == input._123Number ||
                     (this._123Number != null &&

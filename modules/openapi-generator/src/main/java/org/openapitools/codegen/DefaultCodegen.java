@@ -1767,6 +1767,16 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        if (vars != null) {
+            for (int i = 0; i < vars.size(); i++) {
+                if (i < vars.size() - 1) {
+                    vars.get(i).hasMore = true;
+                } else { // last element
+                    vars.get(i).hasMore = false;
+                }
+            }
+        }
+
         return duplicatedNames;
     }
 

@@ -74,13 +74,12 @@ public class ReadOnlyFirst  implements Serializable {
       return false;
     }
     ReadOnlyFirst readOnlyFirst = (ReadOnlyFirst) o;
-    return Objects.equals(this.bar, readOnlyFirst.bar) &&
-        Objects.equals(this.baz, readOnlyFirst.baz);
+    return Objects.equals(this.bar, readOnlyFirst.bar)Objects.equals(this.baz, readOnlyFirst.baz);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bar, baz);
+    return Objects.hash(barbaz);
   }
 
 

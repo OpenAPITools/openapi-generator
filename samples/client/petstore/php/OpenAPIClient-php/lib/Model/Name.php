@@ -60,8 +60,7 @@ class Name implements ModelInterface, ArrayAccess
     protected static $openAPITypes = [
         'name' => 'int',
         'snake_case' => 'int',
-        'property' => 'string',
-        '_123_number' => 'int'
+        'property' => 'string''_123_number' => 'int'
     ];
 
     /**
@@ -72,8 +71,7 @@ class Name implements ModelInterface, ArrayAccess
     protected static $openAPIFormats = [
         'name' => 'int32',
         'snake_case' => 'int32',
-        'property' => null,
-        '_123_number' => null
+        'property' => null'_123_number' => null
     ];
 
     /**
@@ -105,8 +103,7 @@ class Name implements ModelInterface, ArrayAccess
     protected static $attributeMap = [
         'name' => 'name',
         'snake_case' => 'snake_case',
-        'property' => 'property',
-        '_123_number' => '123Number'
+        'property' => 'property''_123_number' => '123Number'
     ];
 
     /**
@@ -117,8 +114,7 @@ class Name implements ModelInterface, ArrayAccess
     protected static $setters = [
         'name' => 'setName',
         'snake_case' => 'setSnakeCase',
-        'property' => 'setProperty',
-        '_123_number' => 'set123Number'
+        'property' => 'setProperty''_123_number' => 'set123Number'
     ];
 
     /**
@@ -129,8 +125,7 @@ class Name implements ModelInterface, ArrayAccess
     protected static $getters = [
         'name' => 'getName',
         'snake_case' => 'getSnakeCase',
-        'property' => 'getProperty',
-        '_123_number' => 'get123Number'
+        'property' => 'getProperty''_123_number' => 'get123Number'
     ];
 
     /**

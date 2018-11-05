@@ -55,7 +55,8 @@ class Cat extends Animal
       * @var string[]
       */
     protected static $openAPITypes = [
-        'declawed' => 'bool'
+        'declawed' => 'bool',
+        
     ];
 
     /**
@@ -64,7 +65,8 @@ class Cat extends Animal
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'declawed' => null
+        'declawed' => null,
+        
     ];
 
     /**
@@ -94,7 +96,8 @@ class Cat extends Animal
      * @var string[]
      */
     protected static $attributeMap = [
-        'declawed' => 'declawed'
+        'declawed' => 'declawed',
+        
     ];
 
     /**
@@ -103,7 +106,8 @@ class Cat extends Animal
      * @var string[]
      */
     protected static $setters = [
-        'declawed' => 'setDeclawed'
+        'declawed' => 'setDeclawed',
+        
     ];
 
     /**
@@ -112,7 +116,8 @@ class Cat extends Animal
      * @var string[]
      */
     protected static $getters = [
-        'declawed' => 'getDeclawed'
+        'declawed' => 'getDeclawed',
+        
     ];
 
     /**

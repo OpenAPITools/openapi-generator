@@ -467,26 +467,26 @@ mkCapitalization =
 -- ** Cat
 -- | Cat
 data Cat = Cat
-  { catDeclawed :: !(Maybe Bool) -- ^ "declawed"catClassName :: !(Text) -- ^ /Required/ "className"
+  { catDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  , catClassName :: !(Text) -- ^ /Required/ "className"
   , catColor :: !(Maybe Text) -- ^ "color"
-  , 
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Cat
 instance A.FromJSON Cat where
   parseJSON = A.withObject "Cat" $ \o ->
     Cat
-      <$> (o .:? "declawed") (o .:  "className")
+      <$> (o .:? "declawed")
+      <*> (o .:  "className")
       <*> (o .:? "color")
-      <*>
 
 -- | ToJSON Cat
 instance A.ToJSON Cat where
   toJSON Cat {..} =
    _omitNulls
-      [ "declawed" .= catDeclawed"className" .= catClassName
+      [ "declawed" .= catDeclawed
+      , "className" .= catClassName
       , "color" .= catColor
-      , 
       ]
 
 
@@ -496,9 +496,9 @@ mkCat
   -> Cat
 mkCat catClassName =
   Cat
-  { catDeclawed = NothingcatClassName
+  { catDeclawed = Nothing
+  , catClassName
   , catColor = Nothing
-  , 
   }
 
 -- ** Category
@@ -594,26 +594,26 @@ mkClient =
 -- ** Dog
 -- | Dog
 data Dog = Dog
-  { dogBreed :: !(Maybe Text) -- ^ "breed"dogClassName :: !(Text) -- ^ /Required/ "className"
+  { dogBreed :: !(Maybe Text) -- ^ "breed"
+  , dogClassName :: !(Text) -- ^ /Required/ "className"
   , dogColor :: !(Maybe Text) -- ^ "color"
-  , 
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Dog
 instance A.FromJSON Dog where
   parseJSON = A.withObject "Dog" $ \o ->
     Dog
-      <$> (o .:? "breed") (o .:  "className")
+      <$> (o .:? "breed")
+      <*> (o .:  "className")
       <*> (o .:? "color")
-      <*>
 
 -- | ToJSON Dog
 instance A.ToJSON Dog where
   toJSON Dog {..} =
    _omitNulls
-      [ "breed" .= dogBreed"className" .= dogClassName
+      [ "breed" .= dogBreed
+      , "className" .= dogClassName
       , "color" .= dogColor
-      , 
       ]
 
 
@@ -623,9 +623,9 @@ mkDog
   -> Dog
 mkDog dogClassName =
   Dog
-  { dogBreed = NothingdogClassName
+  { dogBreed = Nothing
+  , dogClassName
   , dogColor = Nothing
-  , 
   }
 
 -- ** EnumArrays
@@ -1050,8 +1050,7 @@ mkModelReturn =
 data Name = Name
   { nameName :: !(Int) -- ^ /Required/ "name"
   , nameSnakeCase :: !(Maybe Int) -- ^ "snake_case"
-  , nameProperty :: !(Maybe Text) -- ^ "property"
-  , name123number :: !(Maybe Int) -- ^ "123Number"
+  , nameProperty :: !(Maybe Text) -- ^ "property"name123number :: !(Maybe Int) -- ^ "123Number"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Name
@@ -1060,8 +1059,7 @@ instance A.FromJSON Name where
     Name
       <$> (o .:  "name")
       <*> (o .:? "snake_case")
-      <*> (o .:? "property")
-      <*> (o .:? "123Number")
+      <*> (o .:? "property") (o .:? "123Number")
 
 -- | ToJSON Name
 instance A.ToJSON Name where
@@ -1069,8 +1067,7 @@ instance A.ToJSON Name where
    _omitNulls
       [ "name" .= nameName
       , "snake_case" .= nameSnakeCase
-      , "property" .= nameProperty
-      , "123Number" .= name123number
+      , "property" .= nameProperty"123Number" .= name123number
       ]
 
 
@@ -1082,8 +1079,7 @@ mkName nameName =
   Name
   { nameName
   , nameSnakeCase = Nothing
-  , nameProperty = Nothing
-  , name123number = Nothing
+  , nameProperty = Nothingname123number = Nothing
   }
 
 -- ** NumberOnly
@@ -1251,23 +1247,20 @@ mkPet petName petPhotoUrls =
 -- ** ReadOnlyFirst
 -- | ReadOnlyFirst
 data ReadOnlyFirst = ReadOnlyFirst
-  { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"
-  , readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
+  { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ReadOnlyFirst
 instance A.FromJSON ReadOnlyFirst where
   parseJSON = A.withObject "ReadOnlyFirst" $ \o ->
     ReadOnlyFirst
-      <$> (o .:? "bar")
-      <*> (o .:? "baz")
+      <$> (o .:? "bar") (o .:? "baz")
 
 -- | ToJSON ReadOnlyFirst
 instance A.ToJSON ReadOnlyFirst where
   toJSON ReadOnlyFirst {..} =
    _omitNulls
-      [ "bar" .= readOnlyFirstBar
-      , "baz" .= readOnlyFirstBaz
+      [ "bar" .= readOnlyFirstBar"baz" .= readOnlyFirstBaz
       ]
 
 
@@ -1276,8 +1269,7 @@ mkReadOnlyFirst
   :: ReadOnlyFirst
 mkReadOnlyFirst =
   ReadOnlyFirst
-  { readOnlyFirstBar = Nothing
-  , readOnlyFirstBaz = Nothing
+  { readOnlyFirstBar = NothingreadOnlyFirstBaz = Nothing
   }
 
 -- ** SpecialModelName

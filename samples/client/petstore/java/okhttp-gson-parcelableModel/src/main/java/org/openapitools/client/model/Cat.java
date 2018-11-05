@@ -68,12 +68,13 @@ public class Cat extends Animal implements Parcelable {
     }
     Cat cat = (Cat) o;
     return Objects.equals(this.declawed, cat.declawed) &&
+         &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed, super.hashCode());
+    return Objects.hash(declawed, , super.hashCode());
   }
 
 

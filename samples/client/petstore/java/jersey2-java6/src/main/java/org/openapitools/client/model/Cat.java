@@ -58,12 +58,13 @@ public class Cat extends Animal {
   }
     Cat cat = (Cat) o;
     return ObjectUtils.equals(this.declawed, cat.declawed) &&
+     &&
     super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(declawed, super.hashCode());
+    return ObjectUtils.hashCodeMulti(declawed, , super.hashCode());
   }
 
 

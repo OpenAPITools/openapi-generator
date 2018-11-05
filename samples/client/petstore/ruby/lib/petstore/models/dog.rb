@@ -23,18 +23,18 @@ module Petstore
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'breed' => :'breed'
+        :'breed' => :'breed',
         :'class_name' => :'className',
-        :'color' => :'color',
+        :'color' => :'color'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'breed' => :'String'
+        :'breed' => :'String',
         :'class_name' => :'String',
-        :'color' => :'String',
+        :'color' => :'String'
       }
     end
 
@@ -108,7 +108,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [breedclass_name, color, ].hash
+      [breed, class_name, color].hash
     end
 
     # Builds the object from hash

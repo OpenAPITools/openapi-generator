@@ -57,8 +57,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'bar' => 'string',
-        'baz' => 'string'
+        'bar' => 'string''baz' => 'string'
     ];
 
     /**
@@ -67,8 +66,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'bar' => null,
-        'baz' => null
+        'bar' => null'baz' => null
     ];
 
     /**
@@ -98,8 +96,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'bar' => 'bar',
-        'baz' => 'baz'
+        'bar' => 'bar''baz' => 'baz'
     ];
 
     /**
@@ -108,8 +105,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'bar' => 'setBar',
-        'baz' => 'setBaz'
+        'bar' => 'setBar''baz' => 'setBaz'
     ];
 
     /**
@@ -118,8 +114,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'bar' => 'getBar',
-        'baz' => 'getBaz'
+        'bar' => 'getBar''baz' => 'getBaz'
     ];
 
     /**

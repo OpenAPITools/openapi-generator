@@ -40,7 +40,7 @@ public class CodegenModel {
     public List<CodegenModel> interfaceModels;
     public List<CodegenModel> children;
 
-    // anyOf, oneOf
+    // anyOf, oneOf, allOf
     public Set<String> anyOf = new TreeSet<String>();
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();

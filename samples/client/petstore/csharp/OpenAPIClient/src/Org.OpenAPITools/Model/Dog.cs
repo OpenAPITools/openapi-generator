@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
                     this.Breed == input.Breed ||
                     (this.Breed != null &&
                     this.Breed.Equals(input.Breed))
-                );
+                ) && ;
         }
 
         /// <summary>
