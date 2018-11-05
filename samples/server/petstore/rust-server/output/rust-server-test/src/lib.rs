@@ -45,12 +45,21 @@ pub enum DummyGetResponse {
     Success ,
 }
 
+#[derive(Debug, PartialEq)]
+pub enum HtmlPostResponse {
+    /// Success
+    Success ( String ) ,
+}
+
 
 /// API
 pub trait Api<C> {
 
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
+
+    /// Test HTML handling
+    fn html_post(&self, body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -59,6 +68,9 @@ pub trait ApiNoContext {
 
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(&self) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
+
+    /// Test HTML handling
+    fn html_post(&self, body: String) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -79,6 +91,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(&self) -> Box<Future<Item=DummyGetResponse, Error=ApiError>> {
         self.api().dummy_get(&self.context())
+    }
+
+    /// Test HTML handling
+    fn html_post(&self, body: String) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
+        self.api().html_post(body, &self.context())
     }
 
 }

@@ -19,7 +19,8 @@ use tokio_core::reactor;
 #[allow(unused_imports)]
 use rust_server_test::{ApiNoContext, ContextWrapperExt,
                       ApiError,
-                      DummyGetResponse
+                      DummyGetResponse,
+                      HtmlPostResponse
                      };
 use clap::{App, Arg};
 
@@ -29,6 +30,7 @@ fn main() {
             .help("Sets the operation to run")
             .possible_values(&[
     "DummyGet",
+    "HtmlPost",
 ])
             .required(true)
             .index(1))
@@ -71,6 +73,11 @@ fn main() {
 
         Some("DummyGet") => {
             let result = core.run(client.dummy_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("HtmlPost") => {
+            let result = core.run(client.html_post("body_example".to_string()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

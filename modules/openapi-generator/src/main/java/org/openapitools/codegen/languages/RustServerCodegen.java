@@ -474,6 +474,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("text/plain");
     }
 
+    boolean isMimetypeHtmlText(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith("text/html");
+    }
+
     boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded");
     }
@@ -544,6 +548,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     consumesXml = true;
                 } else if (isMimetypePlainText(mimeType)) {
                     consumesPlainText = true;
+                } else if (isMimetypeHtmlText(mimeType)) {
+                    consumesPlainText = true;
                 } else if (isMimetypeWwwFormUrlEncoded(mimeType)) {
                     additionalProperties.put("usesUrlEncodedForm", true);
                 }
@@ -569,6 +575,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.put("usesXml", true);
                     producesXml = true;
                 } else if (isMimetypePlainText(mimeType)) {
+                    producesPlainText = true;
+                } else if (isMimetypeHtmlText(mimeType)) {
                     producesPlainText = true;
                 }
 
@@ -662,7 +670,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         if (isMimetypeXml(mediaType)) {
                             additionalProperties.put("usesXml", true);
                             consumesXml = true;
-                        } else if (isMimetypePlainText(mediaType)) {
+                        } else if (isMimetypePlainText(mediaType) || isMimetypeHtmlText(mediaType)) {
                             consumesPlainText = true;
                         } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
                             additionalProperties.put("usesUrlEncodedForm", true);

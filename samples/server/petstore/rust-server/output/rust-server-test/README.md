@@ -56,6 +56,7 @@ To run a client, follow one of the following simple steps:
 
 ```
 cargo run --example client DummyGet
+cargo run --example client HtmlPost
 ```
 
 ### HTTPS

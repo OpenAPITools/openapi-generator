@@ -13,6 +13,22 @@ paths:
           content: {}
           description: Success
       summary: A dummy endpoint to make the spec valid.
+  /html:
+    post:
+      requestBody:
+        content:
+          text/html:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          content:
+            text/html:
+              schema:
+                type: string
+          description: Success
+      summary: Test HTML handling
 components:
   schemas:
     additionalPropertiesObject:
