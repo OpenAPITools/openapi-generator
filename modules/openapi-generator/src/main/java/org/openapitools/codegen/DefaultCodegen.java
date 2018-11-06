@@ -4740,7 +4740,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Get the boolean value indicating the state of the option for updating only changed files
      */
-	@Override
+    @Override
     public boolean isEnableMinimalUpdate() {
         return enableMinimalUpdate;
     }
@@ -4750,7 +4750,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param enableMinimalUpdate    true to enable minimal update
      */
-	@Override
+    @Override
     public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
         this.enableMinimalUpdate = enableMinimalUpdate;
     }
