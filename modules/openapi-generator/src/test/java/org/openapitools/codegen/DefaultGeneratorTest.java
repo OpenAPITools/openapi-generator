@@ -67,11 +67,8 @@ public class DefaultGeneratorTest {
 		if (testPath.exists()) {
 			testPath.delete();
 		}
-		long before = System.currentTimeMillis();
 		generator.writeToFile(testPath.toString(), "some file contents");
-		long middle = System.currentTimeMillis();
 		long createTime = testPath.lastModified();
-		Assert.assertTrue(createTime >= before && createTime <= middle);
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException ex) {
