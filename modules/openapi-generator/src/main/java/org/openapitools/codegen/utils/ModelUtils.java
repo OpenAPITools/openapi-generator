@@ -762,7 +762,6 @@ public class ModelUtils {
         return null;
     }
 
-
     /**
      * Get the interfaces from the schema (composed)
      *
@@ -800,22 +799,9 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         return "UNKNOWN_PARENT_NAME";
-                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                    } else if (s.getDiscriminator() != null) {
                         // discriminator.propertyName is used
                         return parentName;
-                        /*
-                        if (!StringUtils.isBlank(s.get$ref())) {
-                            String modelName = getSimpleRef(s.get$ref());
-                            if (modelName == null) {
-                                LOGGER.warn("failed to obtain the model name from {}", s.get$ref());
-                                return s.get$ref();
-                            } else {
-                                return modelName;
-                            }
-                        } else {
-                            LOGGER.error("Failed to obtain parent name since $ref is null or empty string: {}", s);
-                            return "UNKNOWN_PARENT_NAME";
-                        }*/
                     } else {
                         LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
                         // not a parent since discriminator.propertyName is not set
