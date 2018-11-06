@@ -211,6 +211,11 @@ public class Generate implements Runnable {
     @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
     private Boolean enablePostProcessFile;
 
+    @Option(name = {"--minimal-update"},
+        title = "Minimal update",
+        description = "Only write output files that have changed.")
+    private Boolean minimalUpdate;
+
     @Override
     public void run() {
         if (logToStderr != null) {
@@ -334,6 +339,10 @@ public class Generate implements Runnable {
 
         if (enablePostProcessFile != null) {
             configurator.setEnablePostProcessFile(enablePostProcessFile);
+        }
+
+        if (minimalUpdate != null) {
+            configurator.setEnableMinimalUpdate(minimalUpdate);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);
