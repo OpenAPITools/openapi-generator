@@ -455,7 +455,7 @@ test inline additionalProperties
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.FakeApi();
-var requestBody = {key: "inner_example"}; // {String: String} | request body
+var requestBody = {key: "null"}; // {String: String} | request body
 apiInstance.testInlineAdditionalProperties(requestBody).then(function() {
   console.log('API called successfully.');
 }, function(error) {

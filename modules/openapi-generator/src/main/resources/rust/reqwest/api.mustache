@@ -1,0 +1,113 @@
+{{>partial_header}}
+use std::rc::Rc;
+use std::borrow::Borrow;
+
+use reqwest;
+
+use super::{Error, configuration};
+
+pub struct {{{classname}}}Client {
+    configuration: Rc<configuration::Configuration>,
+}
+
+impl {{{classname}}}Client {
+    pub fn new(configuration: Rc<configuration::Configuration>) -> {{{classname}}}Client {
+        {{{classname}}}Client {
+            configuration: configuration,
+        }
+    }
+}
+
+pub trait {{{classname}}} {
+{{#operations}}
+{{#operation}}
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+{{/operation}}
+{{/operations}}
+}
+
+
+impl {{{classname}}} for {{{classname}}}Client {
+{{#operations}}
+{{#operation}}
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+        let configuration: &configuration::Configuration = self.configuration.borrow();
+        let client = &configuration.client;
+
+        let query_string = {
+            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
+{{#queryParams}}
+            query.append_pair("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string());
+{{/queryParams}}
+{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+            if let Some(ref apikey) = configuration.api_key {
+                let key = apikey.key.clone();
+                let val = match apikey.prefix {
+                    Some(ref prefix) => format!("{} {}", prefix, key),
+                    None => key,
+                };
+                query.append_pair("{{{keyParamName}}}".to_owned(), val);
+            }
+{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
+            query.finish()
+        };
+        let uri_str = format!("{}{{{path}}}?{}", configuration.base_path, query_string{{#pathParams}}, {{{baseName}}}={{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{/pathParams}});
+
+        let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
+
+        if let Some(ref user_agent) = configuration.user_agent {
+            req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+        }
+
+        {{#hasHeaderParams}}
+        {{#headerParams}}
+        req_builder = req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/headerParams}}
+        {{/hasHeaderParams}}
+
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isApiKey}}{{#isKeyInHeader}}
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.header("{{{keyParamName}}}", val);
+        };
+        {{/isKeyInHeader}}{{/isApiKey}}
+        {{#isBasic}}
+        if let Some(ref auth_conf) = configuration.basic_auth {
+            req_builder = req_builder.basic_auth(auth_conf.0.to_owned(), auth_conf.1.to_owned());
+        };
+        {{/isBasic}}
+        {{#isOAuth}}
+        if let Some(ref token) = configuration.oauth_access_token {
+            req_builder = req_builder.bearer_auth(token.to_owned());
+        };
+        {{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+
+        {{#hasBodyParam}}
+        {{#bodyParams}}
+        req_builder = req_builder.json(&{{{paramName}}});
+        {{/bodyParams}}
+        {{/hasBodyParam}}
+
+        // send request
+        let req = req_builder.build()?;
+
+        {{^returnType}}
+        client.execute(req)?.error_for_status()?;
+        Ok(())
+        {{/returnType}}
+        {{#returnType}}
+        Ok(client.execute(req)?.error_for_status()?.json()?)
+        {{/returnType}}
+    }
+
+{{/operation}}
+{{/operations}}
+}

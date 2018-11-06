@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: "This spec is for testing rust-server-specific things"
-  version: 1.0.0
+  version: 2.0.0
   title: rust-server-test
 schemes:
   - http
@@ -12,6 +12,22 @@ paths:
       responses:
         '200':
           description: Success
+  /html:
+    post:
+      summary: Test HTML handling
+      consumes: [text/html]
+      produces: [text/html]
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: string
 definitions:
   additionalPropertiesObject:
     description: An additionalPropertiesObject

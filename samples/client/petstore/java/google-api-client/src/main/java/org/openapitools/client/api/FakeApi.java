@@ -880,6 +880,92 @@ public class FakeApi {
 
 
   /**
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+    * <p><b>400</b> - Someting wrong
+    * @param stringGroup String in group parameters
+    * @param booleanGroup Boolean in group parameters
+    * @param int64Group Integer in group parameters
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        testGroupParametersForHttpResponse(stringGroup, booleanGroup, int64Group);
+    }
+
+  /**
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+    * <p><b>400</b> - Someting wrong
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testGroupParameters(Map<String, Object> params) throws IOException {
+        testGroupParametersForHttpResponse(params);
+    }
+
+    public HttpResponse testGroupParametersForHttpResponse(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+        if (stringGroup != null) {
+            String key = "string_group";
+            Object value = stringGroup;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (int64Group != null) {
+            String key = "int64_group";
+            Object value = int64Group;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+    }
+
+    public HttpResponse testGroupParametersForHttpResponse(Map<String, Object> params) throws IOException {
+        
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+    }
+
+
+  /**
     * test inline additionalProperties
     * <p><b>200</b> - successful operation
     * @param requestBody request body
