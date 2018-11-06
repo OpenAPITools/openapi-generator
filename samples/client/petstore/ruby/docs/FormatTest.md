@@ -16,5 +16,7 @@ Name | Type | Description | Notes
 **date_time** | **DateTime** |  | [optional] 
 **uuid** | **String** |  | [optional] 
 **password** | **String** |  | 
+**pattern_with_digits** | **String** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
+**pattern_with_digits_and_delimiter** | **String** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
 
 
