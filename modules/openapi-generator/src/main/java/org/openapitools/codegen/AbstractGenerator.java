@@ -47,10 +47,24 @@ public abstract class AbstractGenerator {
      */
     public abstract boolean getEnableMinimalUpdate();
 
+	/**
+	 * Write String to a file, formatting as UTF-8
+	 * @param filename The name of file to write
+	 * @param contents The contents string.
+	 * @return File representing the written file.
+	 * @throws IOException If file cannot be written.
+	 */
     public File writeToFile(String filename, String contents) throws IOException {
         return writeToFile(filename, contents.getBytes(Charset.forName("UTF-8")));
     }
 
+	/**
+	 * Write bytes to a file
+	 * @param filename The name of file to write
+	 * @param contents The contents bytes.  Typically this is a UTF-8 formatted string.
+	 * @return File representing the written file.
+	 * @throws IOException If file cannot be written.
+	 */
     @SuppressWarnings("static-method")
     public File writeToFile(String filename, byte contents[]) throws IOException {
         if (getEnableMinimalUpdate()) {
