@@ -40,59 +40,59 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGenerator.class);
-	
-	/**
-	 * Is the minimal-file-update option enabled?
-	 * @return Option value
-	 */
-	public abstract boolean getEnableMinimalUpdate();
+    
+    /**
+     * Is the minimal-file-update option enabled?
+     * @return Option value
+     */
+    public abstract boolean getEnableMinimalUpdate();
 
     public File writeToFile(String filename, String contents) throws IOException {
-		return writeToFile(filename, contents.getBytes(Charset.forName("UTF-8")));
-	}
+        return writeToFile(filename, contents.getBytes(Charset.forName("UTF-8")));
+    }
 
     @SuppressWarnings("static-method")
     public File writeToFile(String filename, byte contents[]) throws IOException {
-		if (getEnableMinimalUpdate()) {
-			String tempFilename = filename + ".tmp";
-			File outputFile = new File(filename);
-			File tempFile = null;
-			try {
-				tempFile = writeToFileRaw(tempFilename, contents);
-				if (!filesEqual(tempFile, outputFile)) {
-			        LOGGER.info("writing file " + filename);
-					Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-					tempFile = null;
-				} else {
-			        LOGGER.info("skipping unchanged file " + filename);
-				}
-			} finally {
-				if (tempFile != null && tempFile.exists()) {
-					try {
-						tempFile.delete();
-					} catch (Exception ex) {
-						LOGGER.error("Error removing temporary file " + tempFile, ex);
-					}
-				}
-			}
-			return outputFile;
-		} else {
-	        LOGGER.info("writing file " + filename);
-			return writeToFileRaw(filename, contents);
-		}
+        if (getEnableMinimalUpdate()) {
+            String tempFilename = filename + ".tmp";
+            File outputFile = new File(filename);
+            File tempFile = null;
+            try {
+                tempFile = writeToFileRaw(tempFilename, contents);
+                if (!filesEqual(tempFile, outputFile)) {
+                    LOGGER.info("writing file " + filename);
+                    Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    tempFile = null;
+                } else {
+                    LOGGER.info("skipping unchanged file " + filename);
+                }
+            } finally {
+                if (tempFile != null && tempFile.exists()) {
+                    try {
+                        tempFile.delete();
+                    } catch (Exception ex) {
+                        LOGGER.error("Error removing temporary file " + tempFile, ex);
+                    }
+                }
+            }
+            return outputFile;
+        } else {
+            LOGGER.info("writing file " + filename);
+            return writeToFileRaw(filename, contents);
+        }
     }
 
-	private boolean filesEqual(File file1, File file2) throws IOException {
-		return file1.exists() && file2.exists() && Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
-	}
-	
-	private File writeToFileRaw(String filename, byte[] contents) throws IOException {
+    private boolean filesEqual(File file1, File file2) throws IOException {
+        return file1.exists() && file2.exists() && Arrays.equals(Files.readAllBytes(file1.toPath()), Files.readAllBytes(file2.toPath()));
+    }
+    
+    private File writeToFileRaw(String filename, byte[] contents) throws IOException {
         File output = new File(filename);
         if (output.getParent() != null && !new File(output.getParent()).exists()) {
             File parent = new File(output.getParent());
             parent.mkdirs();
         }
-		Files.write(output.toPath(), contents);
+        Files.write(output.toPath(), contents);
         return output;
     }
 
