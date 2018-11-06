@@ -63,13 +63,12 @@ public class Dog extends Animal {
     }
     Dog dog = (Dog) o;
     return Objects.equals(this.breed, dog.breed) &&
-         &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed, , super.hashCode());
+    return Objects.hash(breed, super.hashCode());
   }
 
 

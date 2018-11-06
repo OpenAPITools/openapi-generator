@@ -46,13 +46,12 @@ public class Dog extends Animal implements Serializable {
       return false;
     }
     Dog dog = (Dog) o;
-    return Objects.equals(breed, dog.breed) &&
-        
+    return Objects.equals(breed, dog.breed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(breed, );
+    return Objects.hash(breed);
   }
 
   @Override

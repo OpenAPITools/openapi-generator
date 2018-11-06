@@ -99,7 +99,7 @@ namespace Org.OpenAPITools.Model
                     this.Bar == input.Bar ||
                     (this.Bar != null &&
                     this.Bar.Equals(input.Bar))
-                )
+                ) && 
                 (
                     this.Baz == input.Baz ||
                     (this.Baz != null &&

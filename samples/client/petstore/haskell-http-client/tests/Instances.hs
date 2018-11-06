@@ -256,7 +256,7 @@ instance Arbitrary Name where
       <$> arbitrary -- nameName :: Int
       <*> arbitrary -- nameSnakeCase :: Maybe Int
       <*> arbitrary -- nameProperty :: Maybe Text
-    arbitrary -- name123number :: Maybe Int
+      <*> arbitrary -- name123number :: Maybe Int
     
 instance Arbitrary NumberOnly where
   arbitrary =
@@ -294,7 +294,7 @@ instance Arbitrary ReadOnlyFirst where
   arbitrary =
     ReadOnlyFirst
       <$> arbitrary -- readOnlyFirstBar :: Maybe Text
-    arbitrary -- readOnlyFirstBaz :: Maybe Text
+      <*> arbitrary -- readOnlyFirstBaz :: Maybe Text
     
 instance Arbitrary SpecialModelName where
   arbitrary =

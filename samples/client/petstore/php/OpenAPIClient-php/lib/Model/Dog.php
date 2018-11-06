@@ -55,8 +55,7 @@ class Dog extends Animal
       * @var string[]
       */
     protected static $openAPITypes = [
-        'breed' => 'string',
-        
+        'breed' => 'string'
     ];
 
     /**
@@ -65,8 +64,7 @@ class Dog extends Animal
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'breed' => null,
-        
+        'breed' => null
     ];
 
     /**
@@ -96,8 +94,7 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $attributeMap = [
-        'breed' => 'breed',
-        
+        'breed' => 'breed'
     ];
 
     /**
@@ -106,8 +103,7 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $setters = [
-        'breed' => 'setBreed',
-        
+        'breed' => 'setBreed'
     ];
 
     /**
@@ -116,8 +112,7 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $getters = [
-        'breed' => 'getBreed',
-        
+        'breed' => 'getBreed'
     ];
 
     /**

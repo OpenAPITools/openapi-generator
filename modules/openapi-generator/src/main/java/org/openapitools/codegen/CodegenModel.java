@@ -51,8 +51,8 @@ public class CodegenModel {
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> readOnlyVars = new ArrayList<CodegenProperty>(); // a list of read-only properties
     public List<CodegenProperty> readWriteVars = new ArrayList<CodegenProperty>(); // a list of properties for read, write
-    public List<CodegenProperty> allVars;
-    public List<CodegenProperty> parentVars = new ArrayList<>();
+    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> parentVars = new ArrayList<CodegenProperty>();
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
@@ -500,24 +500,38 @@ public class CodegenModel {
 
     /**
      * Remove duplicated properties in all variable list and update "hasMore"
-     *
      */
     public void removeAllDuplicatedProperty() {
-        // remove duplicated propertyies
-        removeDuplicatedProperty(vars);
-        removeDuplicatedProperty(optionalVars);
-        removeDuplicatedProperty(requiredVars);
-        removeDuplicatedProperty(parentVars);
-        removeDuplicatedProperty(allVars);
-        removeDuplicatedProperty(readOnlyVars);
-        removeDuplicatedProperty(readWriteVars);
+        // remove duplicated properties
+        vars = removeDuplicatedProperty(vars);
+        optionalVars = removeDuplicatedProperty(optionalVars);
+        requiredVars = removeDuplicatedProperty(requiredVars);
+        parentVars = removeDuplicatedProperty(parentVars);
+        allVars = removeDuplicatedProperty(allVars);
+        readOnlyVars = removeDuplicatedProperty(readOnlyVars);
+        readWriteVars = removeDuplicatedProperty(readWriteVars);
+
+        // update property list's "hasMore"
+        updatePropertyListHasMore(vars);
+        updatePropertyListHasMore(optionalVars);
+        updatePropertyListHasMore(requiredVars);
+        updatePropertyListHasMore(parentVars);
+        updatePropertyListHasMore(allVars);
+        updatePropertyListHasMore(readOnlyVars);
+        updatePropertyListHasMore(readWriteVars);
     }
 
-    private Set<String> removeDuplicatedProperty(List<CodegenProperty> vars) {
+    private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
+        // clone the list first
+        List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
+        for(CodegenProperty cp : vars) {
+            newList.add(cp.clone());
+        }
+
         Set<String> propertyNames = new TreeSet<String>();
         Set<String> duplicatedNames = new TreeSet<String>();
 
-        ListIterator<CodegenProperty> iterator = vars.listIterator();
+        ListIterator<CodegenProperty> iterator = newList.listIterator();
         while (iterator.hasNext()) {
             CodegenProperty element = iterator.next();
 
@@ -529,16 +543,29 @@ public class CodegenModel {
             }
         }
 
+        return newList;
+
+        //return duplicatedNames;
+    }
+
+    /**
+     * Clone the element and update "hasMore" in the list of codegen properties
+     */
+    private void updatePropertyListHasMore(List<CodegenProperty> vars) {
+        //List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
+
         if (vars != null) {
             for (int i = 0; i < vars.size(); i++) {
+                //CodegenProperty newNode = vars.get(i).clone();
                 if (i < vars.size() - 1) {
                     vars.get(i).hasMore = true;
                 } else { // last element
                     vars.get(i).hasMore = false;
                 }
+                //newList.add(newNode);
             }
         }
 
-        return duplicatedNames;
+        //vars = newList;
     }
 }

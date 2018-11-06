@@ -46,13 +46,12 @@ public class Cat extends Animal implements Serializable {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(declawed, cat.declawed) &&
-        
+    return Objects.equals(declawed, cat.declawed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed, );
+    return Objects.hash(declawed);
   }
 
   @Override

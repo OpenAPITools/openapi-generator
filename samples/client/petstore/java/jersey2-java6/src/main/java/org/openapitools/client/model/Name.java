@@ -104,12 +104,13 @@ public class Name {
     Name name = (Name) o;
     return ObjectUtils.equals(this.name, name.name) &&
     ObjectUtils.equals(this.snakeCase, name.snakeCase) &&
-    ObjectUtils.equals(this.property, name.property)ObjectUtils.equals(this._123number, name._123number);
+    ObjectUtils.equals(this.property, name.property) &&
+    ObjectUtils.equals(this._123number, name._123number);
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(name, snakeCase, property_123number);
+    return ObjectUtils.hashCodeMulti(name, snakeCase, property, _123number);
   }
 
 

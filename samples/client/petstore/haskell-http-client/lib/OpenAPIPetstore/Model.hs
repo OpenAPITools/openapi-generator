@@ -252,9 +252,9 @@ instance A.ToJSON Animal where
 
 -- | Construct a value of type 'Animal' (by applying it's required fields, if any)
 mkAnimal
-  :: Text -- ^ 'animalClassName' 
+  ::  -- ^ 'className' 
   -> Animal
-mkAnimal animalClassName =
+mkAnimal className =
   Animal
   { animalClassName
   , animalColor = Nothing
@@ -492,9 +492,9 @@ instance A.ToJSON Cat where
 
 -- | Construct a value of type 'Cat' (by applying it's required fields, if any)
 mkCat
-  :: Text -- ^ 'catClassName' 
+  ::  -- ^ 'className' 
   -> Cat
-mkCat catClassName =
+mkCat className =
   Cat
   { catDeclawed = Nothing
   , catClassName
@@ -526,9 +526,9 @@ instance A.ToJSON Category where
 
 -- | Construct a value of type 'Category' (by applying it's required fields, if any)
 mkCategory
-  :: Text -- ^ 'categoryName' 
+  ::  -- ^ 'name' 
   -> Category
-mkCategory categoryName =
+mkCategory name =
   Category
   { categoryId = Nothing
   , categoryName
@@ -619,9 +619,9 @@ instance A.ToJSON Dog where
 
 -- | Construct a value of type 'Dog' (by applying it's required fields, if any)
 mkDog
-  :: Text -- ^ 'dogClassName' 
+  ::  -- ^ 'className' 
   -> Dog
-mkDog dogClassName =
+mkDog className =
   Dog
   { dogBreed = Nothing
   , dogClassName
@@ -694,9 +694,9 @@ instance A.ToJSON EnumTest where
 
 -- | Construct a value of type 'EnumTest' (by applying it's required fields, if any)
 mkEnumTest
-  :: E'EnumString -- ^ 'enumTestEnumStringRequired' 
+  ::  -- ^ 'enumStringRequired' 
   -> EnumTest
-mkEnumTest enumTestEnumStringRequired =
+mkEnumTest enumStringRequired =
   EnumTest
   { enumTestEnumString = Nothing
   , enumTestEnumStringRequired
@@ -824,12 +824,12 @@ instance A.ToJSON FormatTest where
 
 -- | Construct a value of type 'FormatTest' (by applying it's required fields, if any)
 mkFormatTest
-  :: Double -- ^ 'formatTestNumber' 
-  -> ByteArray -- ^ 'formatTestByte' 
-  -> Date -- ^ 'formatTestDate' 
-  -> Text -- ^ 'formatTestPassword' 
+  ::  -- ^ 'number' 
+  ->  -- ^ 'byte' 
+  ->  -- ^ 'date' 
+  ->  -- ^ 'password' 
   -> FormatTest
-mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
+mkFormatTest number byte date password =
   FormatTest
   { formatTestInteger = Nothing
   , formatTestInt32 = Nothing
@@ -1050,7 +1050,8 @@ mkModelReturn =
 data Name = Name
   { nameName :: !(Int) -- ^ /Required/ "name"
   , nameSnakeCase :: !(Maybe Int) -- ^ "snake_case"
-  , nameProperty :: !(Maybe Text) -- ^ "property"name123number :: !(Maybe Int) -- ^ "123Number"
+  , nameProperty :: !(Maybe Text) -- ^ "property"
+  , name123number :: !(Maybe Int) -- ^ "123Number"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Name
@@ -1059,7 +1060,8 @@ instance A.FromJSON Name where
     Name
       <$> (o .:  "name")
       <*> (o .:? "snake_case")
-      <*> (o .:? "property") (o .:? "123Number")
+      <*> (o .:? "property")
+      <*> (o .:? "123Number")
 
 -- | ToJSON Name
 instance A.ToJSON Name where
@@ -1067,19 +1069,21 @@ instance A.ToJSON Name where
    _omitNulls
       [ "name" .= nameName
       , "snake_case" .= nameSnakeCase
-      , "property" .= nameProperty"123Number" .= name123number
+      , "property" .= nameProperty
+      , "123Number" .= name123number
       ]
 
 
 -- | Construct a value of type 'Name' (by applying it's required fields, if any)
 mkName
-  :: Int -- ^ 'nameName' 
+  ::  -- ^ 'name' 
   -> Name
-mkName nameName =
+mkName name =
   Name
   { nameName
   , nameSnakeCase = Nothing
-  , nameProperty = Nothingname123number = Nothing
+  , nameProperty = Nothing
+  , name123number = Nothing
   }
 
 -- ** NumberOnly
@@ -1231,10 +1235,10 @@ instance A.ToJSON Pet where
 
 -- | Construct a value of type 'Pet' (by applying it's required fields, if any)
 mkPet
-  :: Text -- ^ 'petName' 
-  -> [Text] -- ^ 'petPhotoUrls' 
+  ::  -- ^ 'name' 
+  ->  -- ^ 'photoUrls' 
   -> Pet
-mkPet petName petPhotoUrls =
+mkPet name photoUrls =
   Pet
   { petId = Nothing
   , petCategory = Nothing
@@ -1247,20 +1251,23 @@ mkPet petName petPhotoUrls =
 -- ** ReadOnlyFirst
 -- | ReadOnlyFirst
 data ReadOnlyFirst = ReadOnlyFirst
-  { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
+  { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"
+  , readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON ReadOnlyFirst
 instance A.FromJSON ReadOnlyFirst where
   parseJSON = A.withObject "ReadOnlyFirst" $ \o ->
     ReadOnlyFirst
-      <$> (o .:? "bar") (o .:? "baz")
+      <$> (o .:? "bar")
+      <*> (o .:? "baz")
 
 -- | ToJSON ReadOnlyFirst
 instance A.ToJSON ReadOnlyFirst where
   toJSON ReadOnlyFirst {..} =
    _omitNulls
-      [ "bar" .= readOnlyFirstBar"baz" .= readOnlyFirstBaz
+      [ "bar" .= readOnlyFirstBar
+      , "baz" .= readOnlyFirstBaz
       ]
 
 
@@ -1269,7 +1276,8 @@ mkReadOnlyFirst
   :: ReadOnlyFirst
 mkReadOnlyFirst =
   ReadOnlyFirst
-  { readOnlyFirstBar = NothingreadOnlyFirstBaz = Nothing
+  { readOnlyFirstBar = Nothing
+  , readOnlyFirstBaz = Nothing
   }
 
 -- ** SpecialModelName

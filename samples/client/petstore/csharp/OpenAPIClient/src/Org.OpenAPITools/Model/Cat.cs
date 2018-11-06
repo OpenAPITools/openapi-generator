@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
                     this.Declawed == input.Declawed ||
                     (this.Declawed != null &&
                     this.Declawed.Equals(input.Declawed))
-                ) && ;
+                );
         }
 
         /// <summary>
