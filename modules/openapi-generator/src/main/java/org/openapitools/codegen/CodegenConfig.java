@@ -261,4 +261,7 @@ public interface CodegenConfig {
 
     public void setEnablePostProcessFile(boolean isEnablePostProcessFile);
 
+	public boolean isEnableMinimalUpdate();
+	public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
+
 }
