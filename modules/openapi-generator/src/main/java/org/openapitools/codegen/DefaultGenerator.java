@@ -69,10 +69,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private String contextPath;
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
 
-	@Override
-	public boolean getEnableMinimalUpdate() {
-		return config.isEnableMinimalUpdate();
-	}
+    @Override
+    public boolean getEnableMinimalUpdate() {
+        return config.isEnableMinimalUpdate();
+    }
 
     @Override
     public Generator opts(ClientOptInput opts) {
@@ -760,11 +760,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws FileNotFoundException, IOException {
         if (in != null) {
-			byte bytes[] = IOUtils.toByteArray(in);
-			return writeToFile(filename, bytes);
+            byte bytes[] = IOUtils.toByteArray(in);
+            return writeToFile(filename, bytes);
         } else {
             LOGGER.error("can't open '" + templateFile + "' for input, can not write '" + filename + "'");
-			return null;
+            return null;
         }
     }
 
