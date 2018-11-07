@@ -90,7 +90,12 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: any = {}): FetchArgs {
+        {{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters: any = {}, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options: any = {}): FetchArgs {
+    {{#vendorExtensions.x-group-parameters}}
+    {{#allParams}}
+            const {{paramName}}: {{{dataType}}} = methodParameters['{{paramName}}']
+    {{/allParams}}
+    {{/vendorExtensions.x-group-parameters}}
     {{#allParams}}
     {{#required}}
             // verify required parameter '{{paramName}}' is not null or undefined

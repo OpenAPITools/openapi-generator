@@ -1532,10 +1532,17 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
          * This can only be done by the logged in user.
          * @summary Delete user
          * @param {string} username The name that needs to be deleted
+         * @param {number} [stringGroup] String in group parameters
+         * @param {boolean} [booleanGroup] Boolean in group parameters
+         * @param {number} [int64Group] Integer in group parameters
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, options: any = {}): FetchArgs {
+        deleteUser(methodParameters: any = {}, options: any = {}): FetchArgs {
+            const username: string = methodParameters['username']
+            const stringGroup: number = methodParameters['stringGroup']
+            const booleanGroup: boolean = methodParameters['booleanGroup']
+            const int64Group: number = methodParameters['int64Group']
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling deleteUser.');
@@ -1550,6 +1557,18 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = Object.assign({ method: 'DELETE' }, baseOptions, options);
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (stringGroup !== undefined) {
+                localVarQueryParameter['string_group'] = stringGroup;
+            }
+
+            if (int64Group !== undefined) {
+                localVarQueryParameter['int64_group'] = int64Group;
+            }
+
+            if (booleanGroup !== undefined && booleanGroup !== null) {
+                localVarHeaderParameter['boolean_group'] = String(booleanGroup);
+            }
 
             localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
@@ -1778,11 +1797,14 @@ export const UserApiFp = function(configuration?: Configuration) {
          * This can only be done by the logged in user.
          * @summary Delete user
          * @param {string} username The name that needs to be deleted
+         * @param {number} [stringGroup] String in group parameters
+         * @param {boolean} [booleanGroup] Boolean in group parameters
+         * @param {number} [int64Group] Integer in group parameters
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
-            const localVarFetchArgs = UserApiFetchParamCreator(configuration).deleteUser(username, options);
+        deleteUser(username: string, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).deleteUser(username, stringGroup, booleanGroup, int64Group, options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
@@ -1913,11 +1935,14 @@ export const UserApiFactory = function (configuration?: Configuration, fetch?: F
          * This can only be done by the logged in user.
          * @summary Delete user
          * @param {string} username The name that needs to be deleted
+         * @param {number} [stringGroup] String in group parameters
+         * @param {boolean} [booleanGroup] Boolean in group parameters
+         * @param {number} [int64Group] Integer in group parameters
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser(username: string, options?: any) {
-            return UserApiFp(configuration).deleteUser(username, options)(fetch, basePath);
+        deleteUser(username: string, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: any) {
+            return UserApiFp(configuration).deleteUser(username, stringGroup, booleanGroup, int64Group, options)(fetch, basePath);
         },
         /**
          * 
@@ -2010,12 +2035,15 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * @summary Delete user
      * @param {string} username The name that needs to be deleted
+     * @param {number} [stringGroup] String in group parameters
+     * @param {boolean} [booleanGroup] Boolean in group parameters
+     * @param {number} [int64Group] Integer in group parameters
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public deleteUser(username: string, options?: any) {
-        return UserApiFp(this.configuration).deleteUser(username, options)(this.fetch, this.basePath);
+    public deleteUser(username: string, stringGroup?: number, booleanGroup?: boolean, int64Group?: number, options?: any) {
+        return UserApiFp(this.configuration).deleteUser(username, stringGroup, booleanGroup, int64Group, options)(this.fetch, this.basePath);
     }
 
     /**
