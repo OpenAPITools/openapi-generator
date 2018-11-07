@@ -35,7 +35,7 @@ public class Animal   {
   /**
    * Get className
    * @return className
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -56,7 +56,7 @@ public class Animal   {
   /**
    * Get color
    * @return color
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
