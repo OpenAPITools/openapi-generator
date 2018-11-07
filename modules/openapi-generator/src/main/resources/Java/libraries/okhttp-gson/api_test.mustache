@@ -37,9 +37,9 @@ public class {{classname}}Test {
         {{#allParams}}
         {{{dataType}}} {{paramName}} = null;
         {{/allParams}}
-        {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}{{^useBuildersForApiRequests}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/useBuildersForApiRequests}}{{#useBuildersForApiRequests}}({{#requiredParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}){{#optionalParams}}
+        {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}{{^vendorExtensions.x-builders-for-api-requests}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-builders-for-api-requests}}{{#vendorExtensions.x-builders-for-api-requests}}({{#requiredParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}){{#optionalParams}}
                 .{{paramName}}({{paramName}}){{/optionalParams}}
-                .execute();{{/useBuildersForApiRequests}}
+                .execute();{{/vendorExtensions.x-builders-for-api-requests}}
 
         // TODO: test validations
     }
