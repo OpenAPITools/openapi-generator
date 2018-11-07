@@ -763,7 +763,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             byte bytes[] = IOUtils.toByteArray(in);
             return writeToFile(filename, bytes);
         } else {
-            LOGGER.error("can't open '" + templateFile + "' for input, can not write '" + filename + "'");
+            LOGGER.error("can't open '" + templateFile + "' for input; cannot write '" + filename + "'");
             return null;
         }
     }
