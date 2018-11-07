@@ -146,9 +146,6 @@ CONFIG OPTIONS for java
 	feignVersion
 	    Version of OpenFeign: '10.x', '9.x' (default) (Default: false)
 
-	useBuildersForApiRequests
-	    Generate API that does not require specifying unused optional parameters when making requests with the okhttp-gson library (Default: false)
-
 	library
 	    library template (sub-template) to use (Default: okhttp-gson)
 	        jersey1 - HTTP client: Jersey client 1.19.4. JSON processing: Jackson 2.8.9. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.

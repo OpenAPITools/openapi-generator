@@ -63,7 +63,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String FEIGN_VERSION = "feignVersion";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
-    public static final String USE_BUILDERS_FOR_API_REQUESTS = "useBuildersForApiRequests";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -97,7 +96,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean performBeanValidation = false;
     protected boolean useGzipFeature = false;
     protected boolean useRuntimeException = false;
-    protected boolean useBuildersForApiRequests = false;
 
 
     public JavaClientCodegen() {
@@ -120,7 +118,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
         cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x', '9.x' (default)"));
-        cliOptions.add(CliOption.newBoolean(USE_BUILDERS_FOR_API_REQUESTS, "Generate API that does not require specifying unused optional parameters when making requests with the okhttp-gson library"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.4. JSON processing: Jackson 2.8.9. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.4.0. JSON processing: Jackson 2.8.9. To enable OpenFeign 10.x, set the 'feignVersion' option to '10.x'");
@@ -225,10 +222,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(USE_RUNTIME_EXCEPTION)) {
             this.setUseRuntimeException(convertPropertyToBooleanAndWriteBack(USE_RUNTIME_EXCEPTION));
-        }
-
-        if (additionalProperties.containsKey(USE_BUILDERS_FOR_API_REQUESTS)) {
-            this.setUseBuildersForApiRequests(convertPropertyToBooleanAndWriteBack(USE_BUILDERS_FOR_API_REQUESTS));
         }
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -636,10 +629,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseRuntimeException(boolean useRuntimeException) {
         this.useRuntimeException = useRuntimeException;
-    }
-
-    public void setUseBuildersForApiRequests(boolean useBuildersForApiRequests) {
-        this.useBuildersForApiRequests = useBuildersForApiRequests;
     }
 
     final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
