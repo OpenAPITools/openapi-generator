@@ -40,6 +40,7 @@ use swagger::{ApiError, XSpanId, XSpanIdString, Has, AuthData};
 
 use {Api,
      DummyGetResponse,
+     DummyPutResponse,
      HtmlPostResponse
      };
 use models;
@@ -276,6 +277,71 @@ impl<F, C> Api<C> for Client<F> where
 
                         future::ok(
                             DummyGetResponse::Success
+                        )
+                    ) as Box<Future<Item=_, Error=_>>
+                },
+                code => {
+                    let headers = response.headers().clone();
+                    Box::new(response.body()
+                            .take(100)
+                            .concat2()
+                            .then(move |body|
+                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                                    code,
+                                    headers,
+                                    match body {
+                                        Ok(ref body) => match str::from_utf8(body) {
+                                            Ok(body) => Cow::from(body),
+                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
+                                        },
+                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
+                                    })))
+                            )
+                    ) as Box<Future<Item=_, Error=_>>
+                }
+            }
+        }))
+
+    }
+
+    fn dummy_put(&self, param_inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+
+
+        let uri = format!(
+            "{}/dummy",
+            self.base_path
+        );
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
+        };
+
+        let mut request = hyper::Request::new(hyper::Method::Put, uri);
+
+        let body = param_inline_object.map(|ref body| {
+
+            serde_json::to_string(body).expect("impossible to fail to serialize")
+        });
+
+if let Some(body) = body {
+            request.set_body(body.into_bytes());
+        }
+
+        request.headers_mut().set(ContentType(mimetypes::requests::DUMMY_PUT.clone()));
+        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
+
+
+        Box::new(self.client_service.call(request)
+                             .map_err(|e| ApiError(format!("No response received: {}", e)))
+                             .and_then(|mut response| {
+            match response.status().as_u16() {
+                200 => {
+                    let body = response.body();
+                    Box::new(
+
+                        future::ok(
+                            DummyPutResponse::Success
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },

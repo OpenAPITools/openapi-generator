@@ -38,6 +38,7 @@ use swagger::auth::Scopes;
 
 use {Api,
      DummyGetResponse,
+     DummyPutResponse,
      HtmlPostResponse
      };
 #[allow(unused_imports)]
@@ -165,6 +166,82 @@ where
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
 
+
+            },
+
+
+            // DummyPut - PUT /dummy
+            &hyper::Method::Put if path.matched(paths::ID_DUMMY) => {
+
+
+
+
+
+
+                // Body parameters (note that non-required body parameters will ignore garbage
+                // values, rather than causing a 400 response). Produce warning header and logs for
+                // any unused fields.
+                Box::new(body.concat2()
+                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
+                        match result {
+                            Ok(body) => {
+
+                                let mut unused_elements = Vec::new();
+                                let param_inline_object: Option<models::InlineObject> = if !body.is_empty() {
+
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+
+                                    match serde_ignored::deserialize(deserializer, |path| {
+                                            warn!("Ignoring unknown field in body: {}", path);
+                                            unused_elements.push(path.to_string());
+                                    }) {
+                                        Ok(param_inline_object) => param_inline_object,
+
+                                        Err(_) => None,
+                                    }
+
+                                } else {
+                                    None
+                                };
+
+
+                                Box::new(api_impl.dummy_put(param_inline_object, &context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+
+                                        if !unused_elements.is_empty() {
+                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
+                                        }
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                DummyPutResponse::Success
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+
+
+                            },
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter InlineObject: {}", e)))),
+                        }
+                    })
+                ) as Box<Future<Item=Response, Error=Error>>
 
             },
 
