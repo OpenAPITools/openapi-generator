@@ -761,7 +761,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             IOUtils.copy(in, out);
             out.close();
         } else {
-            LOGGER.error("can't open '" + templateFile + "' for input, can not write '" + filename + "'");
+            LOGGER.error("can't open '" + templateFile + "' for input; cannot write '" + filename + "'");
         }
         return outputFile;
     }
