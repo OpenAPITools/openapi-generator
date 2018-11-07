@@ -166,7 +166,7 @@ public class EnumTest   {
   /**
    * Get enumString
    * @return enumString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -186,7 +186,7 @@ public class EnumTest   {
   /**
    * Get enumStringRequired
    * @return enumStringRequired
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -207,7 +207,7 @@ public class EnumTest   {
   /**
    * Get enumInteger
    * @return enumInteger
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -227,7 +227,7 @@ public class EnumTest   {
   /**
    * Get enumNumber
    * @return enumNumber
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -247,7 +247,7 @@ public class EnumTest   {
   /**
    * Get outerEnum
    * @return outerEnum
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

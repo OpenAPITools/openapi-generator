@@ -67,7 +67,7 @@ public class FormatTest   {
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @Min(10) @Max(100) 
@@ -89,7 +89,7 @@ public class FormatTest   {
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @Min(20) @Max(200) 
@@ -109,7 +109,7 @@ public class FormatTest   {
   /**
    * Get int64
    * @return int64
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -131,7 +131,7 @@ public class FormatTest   {
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -155,7 +155,7 @@ public class FormatTest   {
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @DecimalMin("54.3") @DecimalMax("987.6") 
@@ -177,7 +177,7 @@ public class FormatTest   {
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @DecimalMin("67.8") @DecimalMax("123.4") 
@@ -197,7 +197,7 @@ public class FormatTest   {
   /**
    * Get string
    * @return string
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @Pattern(regexp="/[a-z]/i") 
@@ -217,7 +217,7 @@ public class FormatTest   {
   /**
    * Get _byte
    * @return _byte
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -238,7 +238,7 @@ public class FormatTest   {
   /**
    * Get binary
    * @return binary
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -259,7 +259,7 @@ public class FormatTest   {
   /**
    * Get date
    * @return date
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -281,7 +281,7 @@ public class FormatTest   {
   /**
    * Get dateTime
    * @return dateTime
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -302,7 +302,7 @@ public class FormatTest   {
   /**
    * Get uuid
    * @return uuid
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -323,7 +323,7 @@ public class FormatTest   {
   /**
    * Get password
    * @return password
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
