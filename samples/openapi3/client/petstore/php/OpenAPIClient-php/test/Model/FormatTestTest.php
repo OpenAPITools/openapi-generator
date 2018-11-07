@@ -166,4 +166,18 @@ class FormatTestTest extends \PHPUnit_Framework_TestCase
     public function testPropertyPassword()
     {
     }
+
+    /**
+     * Test attribute "pattern_with_digits"
+     */
+    public function testPropertyPatternWithDigits()
+    {
+    }
+
+    /**
+     * Test attribute "pattern_with_digits_and_delimiter"
+     */
+    public function testPropertyPatternWithDigitsAndDelimiter()
+    {
+    }
 }
