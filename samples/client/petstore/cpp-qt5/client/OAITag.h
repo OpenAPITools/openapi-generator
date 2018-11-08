@@ -16,8 +16,8 @@
  * A tag for a pet
  */
 
-#ifndef OAITag_H_
-#define OAITag_H_
+#ifndef OAITag_H
+#define OAITag_H
 
 #include <QJsonObject>
 
@@ -32,33 +32,31 @@ class OAITag: public OAIObject {
 public:
     OAITag();
     OAITag(QString json);
-    ~OAITag();
+    ~OAITag() override;
     void init();
-    void cleanup();
 
-    QString asJson () override;
-    QJsonObject asJsonObject() override;
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    OAITag* fromJson(QString jsonString) override;
+    void fromJson(QString jsonString) override;
 
-    qint64 getId();
-    void setId(qint64 id);
+    qint64 getId() const;
+    void setId(const qint64 &id);
 
-    QString* getName();
-    void setName(QString* name);
+    QString getName() const;
+    void setName(const QString &name);
 
-
-    virtual bool isSet() override;
+    virtual bool isSet() const override;
 
 private:
     qint64 id;
     bool m_id_isSet;
 
-    QString* name;
+    QString name;
     bool m_name_isSet;
 
 };
 
 }
 
-#endif /* OAITag_H_ */
+#endif // OAITag_H
