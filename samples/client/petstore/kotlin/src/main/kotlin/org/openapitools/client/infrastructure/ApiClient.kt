@@ -35,7 +35,7 @@ open class ApiClient(val baseUrl: String) {
                  var builder = FormBody.Builder()
                  // content's type *must* be Map<String, Any>
                  @Suppress("UNCHECKED_CAST")
-                 (content as Map<String,String>).forEach { key, value ->
+                 (content as Map<String, String>).forEach { key, value ->
                      builder = builder.add(key, value)
                  }
                  builder.build()
@@ -48,15 +48,15 @@ open class ApiClient(val baseUrl: String) {
              else -> TODO("requestBody currently only supports JSON body and File body.")
          }
 
-    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String = JsonMediaType): T? {
-        if(body == null) return null
-        return when(mediaType) {
+    protected inline fun <reified T : Any?> responseBody(body: ResponseBody?, mediaType: String = JsonMediaType): T? {
+        if (body == null) return null
+        return when (mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(body.source())
             else -> TODO()
         }
     }
 
-    protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified T : Any?> request(requestConfig: RequestConfig, body: Any? = null): ApiInfrastructureResponse<T?> {
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
 
         var urlBuilder = httpUrl.newBuilder()
@@ -71,11 +71,11 @@ open class ApiClient(val baseUrl: String) {
         val url = urlBuilder.build()
         val headers = requestConfig.headers + defaultHeaders
 
-        if(headers[ContentType] ?: "" == "") {
+        if (headers[ContentType] ?: "" == "") {
             throw kotlin.IllegalStateException("Missing Content-Type header. This is required.")
         }
 
-        if(headers[Accept] ?: "" == "") {
+        if (headers[Accept] ?: "" == "") {
             throw kotlin.IllegalStateException("Missing Accept header. This is required.")
         }
 
@@ -83,7 +83,7 @@ open class ApiClient(val baseUrl: String) {
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
         val accept = (headers[Accept] as String).substringBefore(";").toLowerCase()
 
-        var request : Request.Builder =  when (requestConfig.method) {
+        var request: Request.Builder = when (requestConfig.method) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete()
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()

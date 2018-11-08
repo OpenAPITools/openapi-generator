@@ -13,7 +13,7 @@ open class ClientException : RuntimeException {
     /**
      * Constructs an [ClientException] with the specified detail message.
 
-     * @param   message   the detail message.
+     * @param message the detail message.
      */
     constructor(message: kotlin.String) : super(message)
 
@@ -32,7 +32,7 @@ open class ServerException : RuntimeException {
     /**
      * Constructs an [ServerException] with the specified detail message.
 
-     * @param   message   the detail message.
+     * @param message the detail message.
      */
     constructor(message: kotlin.String) : super(message)
 
