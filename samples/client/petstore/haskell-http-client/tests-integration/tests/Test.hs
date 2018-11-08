@@ -122,7 +122,7 @@ testPetOps mgr config =
         let updatePetRequest = S.updatePet (S.ContentType S.MimeJSON)
               (pet
                  { S.petStatus   = Just S.E'Status2'Available
-                 , S.petCategory = Just (S.Category (Just 3) (Just "catname"))
+                 , S.petCategory = Just (S.Category (Just 3) "catname")
                  })
         updatePetResponse <- S.dispatchLbs mgr config updatePetRequest 
         NH.responseStatus updatePetResponse `shouldBe` NH.status200
