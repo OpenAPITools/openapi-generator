@@ -368,6 +368,39 @@ instance Consumes TestEnumParameters MimeFormUrlEncoded
 instance Produces TestEnumParameters MimeNoContent
 
 
+-- *** testGroupParameters
+
+-- | @DELETE \/fake@
+-- 
+-- Fake endpoint to test group parameters (optional)
+-- 
+-- Fake endpoint to test group parameters (optional)
+-- 
+testGroupParameters 
+  :: OpenAPIPetstoreRequest TestGroupParameters MimeNoContent NoContent MimeNoContent
+testGroupParameters =
+  _mkRequest "DELETE" ["/fake"]
+
+data TestGroupParameters  
+
+-- | /Optional Param/ "string_group" - String in group parameters
+instance HasOptionalParam TestGroupParameters StringGroup where
+  applyOptionalParam req (StringGroup xs) =
+    req `setQuery` toQuery ("string_group", Just xs)
+
+-- | /Optional Param/ "boolean_group" - Boolean in group parameters
+instance HasOptionalParam TestGroupParameters BooleanGroup where
+  applyOptionalParam req (BooleanGroup xs) =
+    req `setHeader` toHeader ("boolean_group", xs)
+
+-- | /Optional Param/ "int64_group" - Integer in group parameters
+instance HasOptionalParam TestGroupParameters Int64Group where
+  applyOptionalParam req (Int64Group xs) =
+    req `setQuery` toQuery ("int64_group", Just xs)
+
+instance Produces TestGroupParameters MimeNoContent
+
+
 -- *** testInlineAdditionalProperties
 
 -- | @POST \/fake\/inline-additionalProperties@

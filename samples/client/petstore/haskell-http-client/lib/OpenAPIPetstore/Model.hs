@@ -81,6 +81,9 @@ newtype BodyBool = BodyBool { unBodyBool :: Bool } deriving (P.Eq, P.Show, A.ToJ
 -- ** BodyText
 newtype BodyText = BodyText { unBodyText :: Text } deriving (P.Eq, P.Show, A.ToJSON)
 
+-- ** BooleanGroup
+newtype BooleanGroup = BooleanGroup { unBooleanGroup :: Bool } deriving (P.Eq, P.Show)
+
 -- ** Byte
 newtype Byte = Byte { unByte :: ByteArray } deriving (P.Eq, P.Show)
 
@@ -119,6 +122,9 @@ newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
 
 -- ** Int64
 newtype Int64 = Int64 { unInt64 :: Integer } deriving (P.Eq, P.Show)
+
+-- ** Int64Group
+newtype Int64Group = Int64Group { unInt64Group :: Integer } deriving (P.Eq, P.Show)
 
 -- ** Name2
 newtype Name2 = Name2 { unName2 :: Text } deriving (P.Eq, P.Show)
@@ -182,6 +188,9 @@ newtype Status = Status { unStatus :: [E'Status2] } deriving (P.Eq, P.Show)
 
 -- ** StatusText
 newtype StatusText = StatusText { unStatusText :: Text } deriving (P.Eq, P.Show)
+
+-- ** StringGroup
+newtype StringGroup = StringGroup { unStringGroup :: Int } deriving (P.Eq, P.Show)
 
 -- ** Tags
 newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)

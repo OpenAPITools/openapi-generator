@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.info.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.util.*;
 
@@ -224,7 +225,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             );
         } else if (ModelUtils.isBooleanSchema(p)) {
             // true => "true", false => "false", null => "null"
-            out = String.valueOf(((BooleanSchema) p).getDefault());
+            out = String.valueOf(p.getDefault());
         } else if (ModelUtils.isLongSchema(p)) {
             Long def = (Long) p.getDefault();
             out = def == null ? out : def.toString() + "L";

@@ -37,7 +37,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   /**
    * Get uuid
    * @return uuid
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -58,7 +58,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   /**
    * Get dateTime
    * @return dateTime
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -87,7 +87,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   /**
    * Get map
    * @return map
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

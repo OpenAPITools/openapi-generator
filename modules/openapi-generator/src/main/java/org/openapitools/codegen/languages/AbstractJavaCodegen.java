@@ -1397,7 +1397,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return; // skip if JAVA_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only process files with hs extension
+        // only process files with java extension
         if ("java".equals(FilenameUtils.getExtension(file.toString()))) {
             String command = javaPostProcessFile + " " + file.toString();
             try {

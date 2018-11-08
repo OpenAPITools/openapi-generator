@@ -464,7 +464,7 @@ test inline additionalProperties
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let requestBody = {key: "inner_example"}; // {String: String} | request body
+let requestBody = {key: "null"}; // {String: String} | request body
 apiInstance.testInlineAdditionalProperties(requestBody, (error, data, response) => {
   if (error) {
     console.error(error);

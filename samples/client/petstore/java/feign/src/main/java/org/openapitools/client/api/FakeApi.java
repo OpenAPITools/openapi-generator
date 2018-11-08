@@ -247,6 +247,58 @@ public interface FakeApi extends ApiClient.Api {
   }
 
   /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   */
+  @RequestLine("DELETE /fake?string_group={stringGroup}&int64_group={int64Group}")
+  @Headers({
+    "Accept: application/json",
+    "boolean_group: {booleanGroup}"
+  })
+  void testGroupParameters(@Param("stringGroup") Integer stringGroup, @Param("booleanGroup") Boolean booleanGroup, @Param("int64Group") Long int64Group);
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * Note, this is equivalent to the other <code>testGroupParameters</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestGroupParametersQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>stringGroup - String in group parameters (optional)</li>
+   *   <li>int64Group - Integer in group parameters (optional)</li>
+   *   </ul>
+   */
+  @RequestLine("DELETE /fake?string_group={stringGroup}&int64_group={int64Group}")
+  @Headers({
+  "Accept: application/json",
+      "boolean_group: {booleanGroup}"
+  })
+  void testGroupParameters(@Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
+
+  /**
+   * A convenience class for generating query parameters for the
+   * <code>testGroupParameters</code> method in a fluent style.
+   */
+  public static class TestGroupParametersQueryParams extends HashMap<String, Object> {
+    public TestGroupParametersQueryParams stringGroup(final Integer value) {
+      put("string_group", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestGroupParametersQueryParams int64Group(final Long value) {
+      put("int64_group", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
    * test inline additionalProperties
    * 
    * @param requestBody request body (required)
