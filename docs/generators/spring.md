@@ -152,9 +152,6 @@ CONFIG OPTIONS for spring
 	useBeanValidation
 	    Use BeanValidation API annotations (Default: true)
 
-	performBeanValidation
-	    Use Bean Validation Impl. to perform BeanValidation (Default: false)
-
 	implicitHeaders
 	    Use of @ApiImplicitParams for headers. (Default: false)
 
@@ -166,9 +163,6 @@ CONFIG OPTIONS for spring
 
 	useOptional
 	    Use Optional container for optional parameters (Default: false)
-
-	hateoas
-	    Use Spring HATEOAS library to allow adding HATEOAS links (Default: false)
 
 	library
 	    library template (sub-template) to use (Default: spring-boot)
