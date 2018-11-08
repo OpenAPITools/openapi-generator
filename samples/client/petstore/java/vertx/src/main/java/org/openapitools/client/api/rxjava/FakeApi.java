@@ -260,6 +260,31 @@ public class FakeApi {
         }));
     }
     /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testGroupParameters(stringGroup, booleanGroup, int64Group, resultHandler);
+    }
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testGroupParameters(stringGroup, booleanGroup, int64Group, fut);
+        }));
+    }
+    /**
      * test inline additionalProperties
      * 
      * @param requestBody request body (required)
