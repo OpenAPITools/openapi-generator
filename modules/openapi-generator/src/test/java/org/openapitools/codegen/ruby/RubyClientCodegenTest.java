@@ -271,4 +271,61 @@ public class RubyClientCodegenTest {
         // TODO comment out the following until https://github.com/swagger-api/swagger-parser/issues/820 is solved
         //Assert.assertTrue(status.isNullable);
     }
+
+    @Test(description = "test example string imported from x-example parameterr (OAS2)")
+    public void exampleStringFromExampleParameterOAS2Test() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-nullable.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/store/order/{orderId}";
+
+        final Operation p = openAPI.getPaths().get(path).getDelete();
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p, openAPI.getComponents().getSchemas());
+
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertEquals(pp.example, "'orderid123'");
+    }
+
+    @Test(description = "test example string imported from example in schema (OAS3)")
+    public void exampleStringFromXExampleParameterOAS3Test() {
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+        final String path = "/store/order/{orderId}";
+
+        final Operation p = openAPI.getPaths().get(path).getDelete();
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p, openAPI.getComponents().getSchemas());
+
+        CodegenParameter pp = op.pathParams.get(0);
+        Assert.assertEquals(pp.example, "'orderid123'");
+    }
+
+    /**
+     * We want to make sure that all Regex patterns:
+     *  - Start with / so Ruby know this is a regex pattern
+     *  - Have a second / that may be added to end if only 1 exists at start
+     *  - If there are 2 / in pattern then don't add any more
+     */
+    @Test(description = "test regex patterns")
+    public void exampleRegexParameterValidationOAS3Test() {
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/test_regex.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        final String path = "/ping";
+        final Operation p = openAPI.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
+        // pattern_no_forward_slashes '^pattern$'
+        Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
+        // pattern_two_slashes '/^pattern$/i'
+        Assert.assertEquals(op.allParams.get(1).pattern, "/^pattern$/i");
+        // pattern_one_slash_start '/^pattern$'
+        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern$/");
+        // pattern_one_slash_end '^pattern$/'
+        Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern$/");
+        // pattern_one_slash_near_end '^pattern$/im'
+        Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern$/im");
+        // pattern_dont_escape_backslash '/^pattern\d{3}$/i' NOTE: the double \ is to escape \ in string but is read as single \
+        Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+    }
 }

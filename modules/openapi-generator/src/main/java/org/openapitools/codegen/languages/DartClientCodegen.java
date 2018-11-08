@@ -313,6 +313,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+            }
             return schema.getDefault().toString();
         } else {
             return "null";

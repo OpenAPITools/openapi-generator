@@ -46,6 +46,8 @@ public abstract class FakeApiService {
       throws NotFoundException;
       public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext)
       throws NotFoundException;
+      public abstract Response testGroupParameters( Integer stringGroup,Boolean booleanGroup, Long int64Group,SecurityContext securityContext)
+      throws NotFoundException;
       public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext)

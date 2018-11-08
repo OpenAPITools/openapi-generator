@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.examples.Example;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
@@ -534,6 +536,34 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
         p.example = example;
+    }
+
+    /**
+     * Return the example value of the parameter. Overrides the
+     * setParameterExampleValue(CodegenParameter, Parameter) method in
+     * DefaultCodegen to always call setParameterExampleValue(CodegenParameter)
+     * in this class, which adds single quotes around strings from the
+     * x-example property.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter        Parameter
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else {
+            Schema schema = parameter.getSchema();
+            if (schema != null && schema.getExample() != null) {
+                codegenParameter.example = schema.getExample().toString();
+            }
+        }
+
+        setParameterExampleValue(codegenParameter);
     }
 
     public void setGemName(String gemName) {

@@ -127,6 +127,15 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @DELETE
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Someting wrong", response = Void.class)
+    })
+    public Response testGroupParameters(@QueryParam("string_group")   @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")   @ApiParam("Integer in group parameters")  Long int64Group) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })

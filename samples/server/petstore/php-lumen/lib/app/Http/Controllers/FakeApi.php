@@ -184,6 +184,31 @@ class FakeApi extends Controller
         return response('How about implementing testEnumParameters as a get method ?');
     }
     /**
+     * Operation testGroupParameters
+     *
+     * Fake endpoint to test group parameters (optional).
+     *
+     *
+     * @return Http response
+     */
+    public function testGroupParameters()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        $string_group = $input['string_group'];
+
+        $boolean_group = $input['boolean_group'];
+
+        $int64_group = $input['int64_group'];
+
+
+        return response('How about implementing testGroupParameters as a delete method ?');
+    }
+    /**
      * Operation testBodyWithFileSchema
      *
      * .

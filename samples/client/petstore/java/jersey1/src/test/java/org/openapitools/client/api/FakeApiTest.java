@@ -15,8 +15,8 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
-import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -105,6 +105,22 @@ public class FakeApiTest {
     /**
      * 
      *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() throws ApiException {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        api.testBodyWithFileSchema(fileSchemaTestClass);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
      * 
      *
      * @throws ApiException
@@ -115,22 +131,6 @@ public class FakeApiTest {
         String query = null;
         User user = null;
         api.testBodyWithQueryParams(query, user);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * To test \&quot;client\&quot; model
-     *
-     * To test \&quot;client\&quot; model
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void testClientModelTest() throws ApiException {
-        Client client = null;
-        Client response = api.testClientModel(client);
 
         // TODO: test validations
     }
@@ -183,6 +183,24 @@ public class FakeApiTest {
         List<String> enumFormStringArray = null;
         String enumFormString = null;
         api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testGroupParametersTest() throws ApiException {
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        api.testGroupParameters(stringGroup, booleanGroup, int64Group);
 
         // TODO: test validations
     }

@@ -16,6 +16,7 @@ package org.openapitools.client.api;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -92,6 +93,18 @@ public class FakeApiTest {
     public void shouldSee200AfterFakeOuterStringSerialize() {
         String body = null;
         api.fakeOuterStringSerialize().execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
+     * Success
+     */
+    @Test
+    public void shouldSee200AfterTestBodyWithFileSchema() {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        api.testBodyWithFileSchema()
+                .body(fileSchemaTestClass).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -208,6 +221,19 @@ public class FakeApiTest {
         List<String> enumFormStringArray = null;
         String enumFormString = null;
         api.testEnumParameters().execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
+     * Someting wrong
+     */
+    @Test
+    public void shouldSee400AfterTestGroupParameters() {
+        Integer stringGroup = null;
+        String booleanGroup = null;
+        Long int64Group = null;
+        api.testGroupParameters().execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

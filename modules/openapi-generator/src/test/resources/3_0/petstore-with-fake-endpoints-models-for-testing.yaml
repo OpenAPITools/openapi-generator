@@ -765,6 +765,33 @@ paths:
                 - double
                 - pattern_without_delimiter
                 - byte
+    delete:
+      tags:
+        - fake
+      summary: Fake endpoint to test group parameters (optional)
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      x-group-parameters: true
+      parameters:
+        - name: string_group
+          in: query
+          description: String in group parameters
+          schema:
+            type: integer
+        - name: boolean_group
+          in: header
+          description: Boolean in group parameters
+          schema:
+            type: boolean
+        - name: int64_group
+          in: query
+          description: Integer in group parameters
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Someting wrong
   /fake/outer/number:
     post:
       tags:
@@ -911,7 +938,7 @@ paths:
         - $another-fake?
       summary: To test special tags
       description: To test special tags and operation ID starting with number
-      operationId: 123_test_@#$%_special_tags
+      operationId: '123_test_@#$%_special_tags'
       responses:
         '200':
           description: successful operation
@@ -1311,6 +1338,14 @@ components:
           format: password
           maxLength: 64
           minLength: 10
+        pattern_with_digits:
+          description: A string that is a 10 digit number. Can have leading zeros. 
+          type: string
+          pattern: '^\d{10}$'
+        pattern_with_digits_and_delimiter:
+          description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+          type: string
+          pattern: '/^image_\d{1,3}$/i'
     EnumClass:
       type: string
       default: '-efg'
