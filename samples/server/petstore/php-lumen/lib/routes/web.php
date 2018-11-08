@@ -46,6 +46,13 @@ $router->post('/v2/fake', 'FakeApi@testEndpointParameters');
  */
 $router->get('/v2/fake', 'FakeApi@testEnumParameters');
 /**
+ * delete testGroupParameters
+ * Summary: Fake endpoint to test group parameters (optional)
+ * Notes: Fake endpoint to test group parameters (optional)
+
+ */
+$app->delete('/v2/fake', 'FakeApi@testGroupParameters');
+/**
  * put testBodyWithFileSchema
  * Summary: 
  * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.

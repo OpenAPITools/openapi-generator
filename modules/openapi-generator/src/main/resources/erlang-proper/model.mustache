@@ -1,0 +1,26 @@
+{{#models}}
+{{#model}}
+-module({{classname}}).
+
+-include("{{packageName}}.hrl").
+
+-export([{{classname}}/0]).
+
+-export_type([{{classname}}/0]).
+
+-type {{classname}}() ::{{#isEnum}}
+  binary().{{/isEnum}}{{^isEnum}}{{#isArrayModel}}
+  list({{arrayModelType}}).{{/isArrayModel}}{{^isArrayModel}}
+  [ {{#vars}}{{^-first}}
+  | {{/-first}}{'{{name}}', {{dataType}} }{{/vars}}
+  ].{{/isArrayModel}}{{/isEnum}}
+
+{{classname}}() ->{{#isEnum}}
+  elements([{{#allowableValues.values}}{{^-first}}, {{/-first}}<<"{{.}}">>{{/allowableValues.values}}]).
+  {{/isEnum}}{{#isArrayModel}}
+  list({{arrayModelType}}{{#minItems}}, {{minItems}}{{#maxItems}}, {{maxItems}}{{/maxItems}}{{/minItems}}).{{/isArrayModel}}{{^isEnum}}{{^isArrayModel}}
+  [ {{#vars}}{{^-first}}
+  , {{/-first}}{'{{baseName}}', {{#isString}}{{#isEnum}}elements([{{#allowableValues.values}}{{^-first}}, {{/-first}}<<"{{.}}">>{{/allowableValues.values}}]){{/isEnum}}{{^isEnum}}binary({{#minLength}}{{minLength}}{{#maxLength}}, {{maxLength}}{{/maxLength}}{{/minLength}}){{/isEnum}}{{/isString}}{{^isString}}{{baseType}}{{/isString}} }{{/vars}}
+  ].{{/isArrayModel}}{{/isEnum}}
+{{/model}}
+{{/models}}

@@ -69,7 +69,9 @@ class FormatTest implements ModelInterface, ArrayAccess
         'date' => '\DateTime',
         'date_time' => '\DateTime',
         'uuid' => 'string',
-        'password' => 'string'
+        'password' => 'string',
+        'pattern_with_digits' => 'string',
+        'pattern_with_digits_and_delimiter' => 'string'
     ];
 
     /**
@@ -90,7 +92,9 @@ class FormatTest implements ModelInterface, ArrayAccess
         'date' => 'date',
         'date_time' => 'date-time',
         'uuid' => 'uuid',
-        'password' => 'password'
+        'password' => 'password',
+        'pattern_with_digits' => null,
+        'pattern_with_digits_and_delimiter' => null
     ];
 
     /**
@@ -132,7 +136,9 @@ class FormatTest implements ModelInterface, ArrayAccess
         'date' => 'date',
         'date_time' => 'dateTime',
         'uuid' => 'uuid',
-        'password' => 'password'
+        'password' => 'password',
+        'pattern_with_digits' => 'pattern_with_digits',
+        'pattern_with_digits_and_delimiter' => 'pattern_with_digits_and_delimiter'
     ];
 
     /**
@@ -153,7 +159,9 @@ class FormatTest implements ModelInterface, ArrayAccess
         'date' => 'setDate',
         'date_time' => 'setDateTime',
         'uuid' => 'setUuid',
-        'password' => 'setPassword'
+        'password' => 'setPassword',
+        'pattern_with_digits' => 'setPatternWithDigits',
+        'pattern_with_digits_and_delimiter' => 'setPatternWithDigitsAndDelimiter'
     ];
 
     /**
@@ -174,7 +182,9 @@ class FormatTest implements ModelInterface, ArrayAccess
         'date' => 'getDate',
         'date_time' => 'getDateTime',
         'uuid' => 'getUuid',
-        'password' => 'getPassword'
+        'password' => 'getPassword',
+        'pattern_with_digits' => 'getPatternWithDigits',
+        'pattern_with_digits_and_delimiter' => 'getPatternWithDigitsAndDelimiter'
     ];
 
     /**
@@ -250,6 +260,8 @@ class FormatTest implements ModelInterface, ArrayAccess
         $this->container['date_time'] = isset($data['date_time']) ? $data['date_time'] : null;
         $this->container['uuid'] = isset($data['uuid']) ? $data['uuid'] : null;
         $this->container['password'] = isset($data['password']) ? $data['password'] : null;
+        $this->container['pattern_with_digits'] = isset($data['pattern_with_digits']) ? $data['pattern_with_digits'] : null;
+        $this->container['pattern_with_digits_and_delimiter'] = isset($data['pattern_with_digits_and_delimiter']) ? $data['pattern_with_digits_and_delimiter'] : null;
     }
 
     /**
@@ -323,6 +335,14 @@ class FormatTest implements ModelInterface, ArrayAccess
 
         if ((mb_strlen($this->container['password']) < 10)) {
             $invalidProperties[] = "invalid value for 'password', the character length must be bigger than or equal to 10.";
+        }
+
+        if (!is_null($this->container['pattern_with_digits']) && !preg_match("/^\\d{10}$/", $this->container['pattern_with_digits'])) {
+            $invalidProperties[] = "invalid value for 'pattern_with_digits', must be conform to the pattern /^\\d{10}$/.";
+        }
+
+        if (!is_null($this->container['pattern_with_digits_and_delimiter']) && !preg_match("/^image_\\d{1,3}$/i", $this->container['pattern_with_digits_and_delimiter'])) {
+            $invalidProperties[] = "invalid value for 'pattern_with_digits_and_delimiter', must be conform to the pattern /^image_\\d{1,3}$/i.";
         }
 
         return $invalidProperties;
@@ -700,6 +720,64 @@ class FormatTest implements ModelInterface, ArrayAccess
         }
 
         $this->container['password'] = $password;
+
+        return $this;
+    }
+
+    /**
+     * Gets pattern_with_digits
+     *
+     * @return string|null
+     */
+    public function getPatternWithDigits()
+    {
+        return $this->container['pattern_with_digits'];
+    }
+
+    /**
+     * Sets pattern_with_digits
+     *
+     * @param string|null $pattern_with_digits A string that is a 10 digit number. Can have leading zeros.
+     *
+     * @return $this
+     */
+    public function setPatternWithDigits($pattern_with_digits)
+    {
+
+        if (!is_null($pattern_with_digits) && (!preg_match("/^\\d{10}$/", $pattern_with_digits))) {
+            throw new \InvalidArgumentException("invalid value for $pattern_with_digits when calling FormatTest., must conform to the pattern /^\\d{10}$/.");
+        }
+
+        $this->container['pattern_with_digits'] = $pattern_with_digits;
+
+        return $this;
+    }
+
+    /**
+     * Gets pattern_with_digits_and_delimiter
+     *
+     * @return string|null
+     */
+    public function getPatternWithDigitsAndDelimiter()
+    {
+        return $this->container['pattern_with_digits_and_delimiter'];
+    }
+
+    /**
+     * Sets pattern_with_digits_and_delimiter
+     *
+     * @param string|null $pattern_with_digits_and_delimiter A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+     *
+     * @return $this
+     */
+    public function setPatternWithDigitsAndDelimiter($pattern_with_digits_and_delimiter)
+    {
+
+        if (!is_null($pattern_with_digits_and_delimiter) && (!preg_match("/^image_\\d{1,3}$/i", $pattern_with_digits_and_delimiter))) {
+            throw new \InvalidArgumentException("invalid value for $pattern_with_digits_and_delimiter when calling FormatTest., must conform to the pattern /^image_\\d{1,3}$/i.");
+        }
+
+        $this->container['pattern_with_digits_and_delimiter'] = $pattern_with_digits_and_delimiter;
 
         return $this;
     }
