@@ -12,17 +12,19 @@
 
 #include "OAIStoreApi.h"
 #include "OAIHelpers.h"
-#include "OAIModelFactory.h"
-#include "OAIQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 
 namespace OpenAPI {
 
-OAIStoreApi::OAIStoreApi() {}
+OAIStoreApi::OAIStoreApi() {
 
-OAIStoreApi::~OAIStoreApi() {}
+}
+
+OAIStoreApi::~OAIStoreApi() {
+
+}
 
 OAIStoreApi::OAIStoreApi(QString host, QString basePath) {
     this->host = host;
@@ -30,19 +32,15 @@ OAIStoreApi::OAIStoreApi(QString host, QString basePath) {
 }
 
 void
-OAIStoreApi::deleteOrder(QString* order_id) {
+OAIStoreApi::deleteOrder(const QString& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
-
-    QString order_idPathParam("{"); order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, stringValue(order_id));
-
-
+    QString order_idPathParam("{"); 
+    order_idPathParam.append("orderId").append("}");
+    fullPath.replace(order_idPathParam, ::OpenAPI::toStringValue(order_id));
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "DELETE");
-
-
-
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -69,7 +67,6 @@ OAIStoreApi::deleteOrderCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -84,14 +81,9 @@ void
 OAIStoreApi::getInventory() {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/inventory");
-
-
-
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");
-
-
-
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -118,17 +110,15 @@ OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    QMap<QString, qint32>* output = new QMap<QString, qint32>();
+    QMap<QString, qint32> output;
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject obj = doc.object();
-
     foreach(QString key, obj.keys()) {
         qint32 val;
-        setValue(&val, obj[key], "qint32", QString());
-        output->insert(key, val);
+        ::OpenAPI::fromJsonValue(val, obj[key]);
+        output.insert(key, val);
     }
     worker->deleteLater();
 
@@ -141,19 +131,15 @@ OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::getOrderById(qint64 order_id) {
+OAIStoreApi::getOrderById(const qint64& order_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
-
-    QString order_idPathParam("{"); order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, stringValue(order_id));
-
-
+    QString order_idPathParam("{"); 
+    order_idPathParam.append("orderId").append("}");
+    fullPath.replace(order_idPathParam, ::OpenAPI::toStringValue(order_id));
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");
-
-
-
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -180,11 +166,7 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    QString json(worker->response);
-    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
-    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
-    wrapper->deleteLater();
+    OAIOrder output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -196,21 +178,17 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::placeOrder(OAIOrder& oai_order) {
+OAIStoreApi::placeOrder(const OAIOrder& oai_order) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
-
-
-
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "POST");
-
 
     
     QString output = oai_order.asJson();
     input.request_body.append(output);
     
-
 
     foreach(QString key, this->defaultHeaders.keys()) {
         input.headers.insert(key, this->defaultHeaders.value(key));
@@ -236,11 +214,7 @@ OAIStoreApi::placeOrderCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    QString json(worker->response);
-    OAIOrder* output = static_cast<OAIOrder*>(create(json, QString("OAIOrder")));
-    auto wrapper = new OAIQObjectWrapper<OAIOrder*> (output);
-    wrapper->deleteLater();
+    OAIOrder output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {

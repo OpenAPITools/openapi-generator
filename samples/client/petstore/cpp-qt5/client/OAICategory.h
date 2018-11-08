@@ -16,8 +16,8 @@
  * A category for a pet
  */
 
-#ifndef OAICategory_H_
-#define OAICategory_H_
+#ifndef OAICategory_H
+#define OAICategory_H
 
 #include <QJsonObject>
 
@@ -32,33 +32,31 @@ class OAICategory: public OAIObject {
 public:
     OAICategory();
     OAICategory(QString json);
-    ~OAICategory();
+    ~OAICategory() override;
     void init();
-    void cleanup();
 
-    QString asJson () override;
-    QJsonObject asJsonObject() override;
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    OAICategory* fromJson(QString jsonString) override;
+    void fromJson(QString jsonString) override;
 
-    qint64 getId();
-    void setId(qint64 id);
+    qint64 getId() const;
+    void setId(const qint64 &id);
 
-    QString* getName();
-    void setName(QString* name);
+    QString getName() const;
+    void setName(const QString &name);
 
-
-    virtual bool isSet() override;
+    virtual bool isSet() const override;
 
 private:
     qint64 id;
     bool m_id_isSet;
 
-    QString* name;
+    QString name;
     bool m_name_isSet;
 
 };
 
 }
 
-#endif /* OAICategory_H_ */
+#endif // OAICategory_H

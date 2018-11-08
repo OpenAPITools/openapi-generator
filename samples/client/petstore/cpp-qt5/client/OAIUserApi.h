@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIUserApi_H_
-#define _OAI_OAIUserApi_H_
+#ifndef OAI_OAIUserApi_H
+#define OAI_OAIUserApi_H
 
 #include "OAIHttpRequest.h"
 
@@ -35,14 +35,14 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void createUser(OAIUser& oai_user);
-    void createUsersWithArrayInput(QList<OAIUser*>*& oai_user);
-    void createUsersWithListInput(QList<OAIUser*>*& oai_user);
-    void deleteUser(QString* username);
-    void getUserByName(QString* username);
-    void loginUser(QString* username, QString* password);
+    void createUser(const OAIUser& oai_user);
+    void createUsersWithArrayInput(const QList<OAIUser>& oai_user);
+    void createUsersWithListInput(const QList<OAIUser>& oai_user);
+    void deleteUser(const QString& username);
+    void getUserByName(const QString& username);
+    void loginUser(const QString& username, const QString& password);
     void logoutUser();
-    void updateUser(QString* username, OAIUser& oai_user);
+    void updateUser(const QString& username, const OAIUser& oai_user);
     
 private:
     void createUserCallback (OAIHttpRequestWorker * worker);
@@ -59,8 +59,8 @@ signals:
     void createUsersWithArrayInputSignal();
     void createUsersWithListInputSignal();
     void deleteUserSignal();
-    void getUserByNameSignal(OAIUser* summary);
-    void loginUserSignal(QString* summary);
+    void getUserByNameSignal(OAIUser summary);
+    void loginUserSignal(QString summary);
     void logoutUserSignal();
     void updateUserSignal();
     
@@ -68,8 +68,8 @@ signals:
     void createUsersWithArrayInputSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
     void createUsersWithListInputSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
     void deleteUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getUserByNameSignalE(OAIUser* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void loginUserSignalE(QString* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getUserByNameSignalE(OAIUser summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void loginUserSignalE(QString summary, QNetworkReply::NetworkError error_type, QString& error_str);
     void logoutUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
     void updateUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
     

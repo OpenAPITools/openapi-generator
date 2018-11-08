@@ -23,54 +23,41 @@
 namespace OpenAPI {
 
 OAICategory::OAICategory(QString json) {
-    init();
     this->fromJson(json);
 }
 
 OAICategory::OAICategory() {
-    init();
+    this->init();
 }
 
 OAICategory::~OAICategory() {
-    this->cleanup();
+
 }
 
 void
 OAICategory::init() {
-    id = 0L;
     m_id_isSet = false;
-    name = new QString("");
     m_name_isSet = false;
 }
 
 void
-OAICategory::cleanup() {
-
-    if(name != nullptr) { 
-        delete name;
-    }
-}
-
-OAICategory*
-OAICategory::fromJson(QString json) {
-    QByteArray array (json.toStdString().c_str());
+OAICategory::fromJson(QString jsonString) {
+    QByteArray array (jsonString.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonObject jsonObject = doc.object();
     this->fromJsonObject(jsonObject);
-    return this;
 }
 
 void
-OAICategory::fromJsonObject(QJsonObject pJson) {
-    ::OpenAPI::setValue(&id, pJson["id"], "qint64", "");
+OAICategory::fromJsonObject(QJsonObject json) {
+    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::setValue(&name, pJson["name"], "QString", "QString");
+    ::OpenAPI::fromJsonValue(name, json[QString("name")]);
     
 }
 
 QString
-OAICategory::asJson ()
-{
+OAICategory::asJson () const {
     QJsonObject obj = this->asJsonObject();
     QJsonDocument doc(obj);
     QByteArray bytes = doc.toJson();
@@ -78,47 +65,48 @@ OAICategory::asJson ()
 }
 
 QJsonObject
-OAICategory::asJsonObject() {
+OAICategory::asJsonObject() const {
     QJsonObject obj;
-    if(m_id_isSet){
-        obj.insert("id", QJsonValue(id));
+	if(m_id_isSet){
+        obj.insert(QString("id"), ::OpenAPI::toJsonValue(id));
     }
-    if(name != nullptr && *name != QString("")){
-        toJsonValue(QString("name"), name, obj, QString("QString"));
+	if(m_name_isSet){
+        obj.insert(QString("name"), ::OpenAPI::toJsonValue(name));
     }
-
     return obj;
 }
 
 qint64
-OAICategory::getId() {
+OAICategory::getId() const {
     return id;
 }
 void
-OAICategory::setId(qint64 id) {
+OAICategory::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
 
-QString*
-OAICategory::getName() {
+QString
+OAICategory::getName() const {
     return name;
 }
 void
-OAICategory::setName(QString* name) {
+OAICategory::setName(const QString &name) {
     this->name = name;
     this->m_name_isSet = true;
 }
 
 
 bool
-OAICategory::isSet(){
+OAICategory::isSet() const {
     bool isObjectUpdated = false;
-    do{
+    do{ 
         if(m_id_isSet){ isObjectUpdated = true; break;}
-        if(name != nullptr && *name != QString("")){ isObjectUpdated = true; break;}
+    
+        if(m_name_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
 }
+
 }
 

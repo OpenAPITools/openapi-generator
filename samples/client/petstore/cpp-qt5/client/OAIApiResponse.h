@@ -16,8 +16,8 @@
  * Describes the result of uploading an image resource
  */
 
-#ifndef OAIApiResponse_H_
-#define OAIApiResponse_H_
+#ifndef OAIApiResponse_H
+#define OAIApiResponse_H
 
 #include <QJsonObject>
 
@@ -32,39 +32,37 @@ class OAIApiResponse: public OAIObject {
 public:
     OAIApiResponse();
     OAIApiResponse(QString json);
-    ~OAIApiResponse();
+    ~OAIApiResponse() override;
     void init();
-    void cleanup();
 
-    QString asJson () override;
-    QJsonObject asJsonObject() override;
+    QString asJson () const override;
+    QJsonObject asJsonObject() const override;
     void fromJsonObject(QJsonObject json) override;
-    OAIApiResponse* fromJson(QString jsonString) override;
+    void fromJson(QString jsonString) override;
 
-    qint32 getCode();
-    void setCode(qint32 code);
+    qint32 getCode() const;
+    void setCode(const qint32 &code);
 
-    QString* getType();
-    void setType(QString* type);
+    QString getType() const;
+    void setType(const QString &type);
 
-    QString* getMessage();
-    void setMessage(QString* message);
+    QString getMessage() const;
+    void setMessage(const QString &message);
 
-
-    virtual bool isSet() override;
+    virtual bool isSet() const override;
 
 private:
     qint32 code;
     bool m_code_isSet;
 
-    QString* type;
+    QString type;
     bool m_type_isSet;
 
-    QString* message;
+    QString message;
     bool m_message_isSet;
 
 };
 
 }
 
-#endif /* OAIApiResponse_H_ */
+#endif // OAIApiResponse_H
