@@ -1,6 +1,6 @@
 [package]
 name = "rust-server-test"
-version = "1.0.0"
+version = "2.3.4"
 authors = []
 description = "This spec is for testing rust-server-specific things"
 license = "Unlicense"

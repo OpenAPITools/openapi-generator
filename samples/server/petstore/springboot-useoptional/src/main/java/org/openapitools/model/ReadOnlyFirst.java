@@ -27,7 +27,7 @@ public class ReadOnlyFirst   {
   /**
    * Get bar
    * @return bar
-  **/
+  */
   @ApiModelProperty(readOnly = true, value = "")
 
 
@@ -47,7 +47,7 @@ public class ReadOnlyFirst   {
   /**
    * Get baz
    * @return baz
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

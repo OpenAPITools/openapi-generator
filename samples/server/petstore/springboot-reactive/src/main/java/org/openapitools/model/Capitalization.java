@@ -39,7 +39,7 @@ public class Capitalization   {
   /**
    * Get smallCamel
    * @return smallCamel
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -59,7 +59,7 @@ public class Capitalization   {
   /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -79,7 +79,7 @@ public class Capitalization   {
   /**
    * Get smallSnake
    * @return smallSnake
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -99,7 +99,7 @@ public class Capitalization   {
   /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -119,7 +119,7 @@ public class Capitalization   {
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -139,7 +139,7 @@ public class Capitalization   {
   /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+  */
   @ApiModelProperty(value = "Name of the pet ")
 
 

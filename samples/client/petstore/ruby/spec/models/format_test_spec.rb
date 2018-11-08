@@ -110,4 +110,31 @@ describe 'FormatTest' do
     end
   end
 
+  describe 'test attribute "pattern_with_digits"' do
+    it 'should accept string "1234567890"' do
+      @instance.pattern_with_digits = '1234567890'
+    end
+
+    it 'should accept string with leading zero "0123456789"' do
+      @instance.pattern_with_digits = '0123456789'
+    end
+
+    it 'should reject string with non digits "ABC3456789"' do
+      expect {@instance.pattern_with_digits = 'ABC3456789'}.to raise_error(ArgumentError)
+    end
+
+    it 'should reject string less than 10 in length "123456789"' do
+      expect {@instance.pattern_with_digits = '123456789'}.to raise_error(ArgumentError)
+    end
+
+    it 'should reject string more than 10 in length "0123456789123"' do
+      expect {@instance.pattern_with_digits = '0123456789123'}.to raise_error(ArgumentError)
+    end
+  end
+
+  describe 'test attribute "pattern_with_digits_and_delimiter"' do
+    it 'should accept string "Image_01"' do
+      @instance.pattern_with_digits_and_delimiter = 'Image_01'
+    end
+  end
 end

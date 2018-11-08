@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-- openjdk9
+- oraclejdk10
 
 build:
   cache: true
@@ -11,7 +11,7 @@ build:
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
     - java -version
-    - mvn --quiet clean install
+    - mvn --quiet clean install -Dmaven.javadoc.skip=true
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
     # prepare environment for tests

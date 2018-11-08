@@ -33,11 +33,7 @@ fi
 
 echo "Release preparation: replacing $FROM with $TO in different files"
 
-declare -a files=("CI/pom.xml.bash"
-                  "CI/pom.xml.circleci"
-                  "CI/pom.xml.circleci.java7"
-                  "CI/pom.xml.ios"
-                  "modules/openapi-generator-cli/pom.xml"
+declare -a files=("modules/openapi-generator-cli/pom.xml"
                   "modules/openapi-generator-gradle-plugin/gradle.properties"
                   "modules/openapi-generator-gradle-plugin/pom.xml"
                   "modules/openapi-generator-maven-plugin/pom.xml"
