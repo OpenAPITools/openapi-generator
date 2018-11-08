@@ -36,13 +36,25 @@ mod mimetypes;
 pub use swagger::{ApiError, ContextWrapper};
 
 pub const BASE_PATH: &'static str = "";
-pub const API_VERSION: &'static str = "1.0.0";
+pub const API_VERSION: &'static str = "2.3.4";
 
 
 #[derive(Debug, PartialEq)]
 pub enum DummyGetResponse {
     /// Success
     Success ,
+}
+
+#[derive(Debug, PartialEq)]
+pub enum DummyPutResponse {
+    /// Success
+    Success ,
+}
+
+#[derive(Debug, PartialEq)]
+pub enum HtmlPostResponse {
+    /// Success
+    Success ( String ) ,
 }
 
 
@@ -52,6 +64,12 @@ pub trait Api<C> {
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
 
+
+    fn dummy_put(&self, inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
+
+    /// Test HTML handling
+    fn html_post(&self, body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>>;
+
 }
 
 /// API without a `Context`
@@ -59,6 +77,12 @@ pub trait ApiNoContext {
 
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(&self) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
+
+
+    fn dummy_put(&self, inline_object: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
+
+    /// Test HTML handling
+    fn html_post(&self, body: String) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -79,6 +103,16 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     /// A dummy endpoint to make the spec valid.
     fn dummy_get(&self) -> Box<Future<Item=DummyGetResponse, Error=ApiError>> {
         self.api().dummy_get(&self.context())
+    }
+
+
+    fn dummy_put(&self, inline_object: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+        self.api().dummy_put(inline_object, &self.context())
+    }
+
+    /// Test HTML handling
+    fn html_post(&self, body: String) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
+        self.api().html_post(body, &self.context())
     }
 
 }

@@ -47,7 +47,7 @@ public:
     void validate() override;
 
     nlohmann::json toJson() const override;
-    void fromJson(nlohmann::json& json) override;
+    void fromJson(const nlohmann::json& json) override;
 
     /////////////////////////////////////////////
     /// Pet members

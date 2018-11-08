@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -307,6 +308,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("KOTLIN_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable KOTLIN_POST_PROCESS_FILE not defined so the Kotlin code may not be properly formatted. To define it, try 'export KOTLIN_POST_PROCESS_FILE=\"/usr/local/bin/ktlint -F\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
@@ -683,5 +689,34 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
         }
         return startsWithTwoUppercaseLetters;
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String kotlinPostProcessFile = System.getenv("KOTLIN_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(kotlinPostProcessFile)) {
+            return; // skip if KOTLIN_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with kt extension
+        if ("kt".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = kotlinPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

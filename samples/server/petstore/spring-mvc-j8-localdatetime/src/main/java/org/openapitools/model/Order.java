@@ -74,7 +74,7 @@ public class Order   {
   /**
    * Get id
    * @return id
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -94,7 +94,7 @@ public class Order   {
   /**
    * Get petId
    * @return petId
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -114,7 +114,7 @@ public class Order   {
   /**
    * Get quantity
    * @return quantity
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -134,7 +134,7 @@ public class Order   {
   /**
    * Get shipDate
    * @return shipDate
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -155,7 +155,7 @@ public class Order   {
   /**
    * Order Status
    * @return status
-  **/
+  */
   @ApiModelProperty(value = "Order Status")
 
 
@@ -175,7 +175,7 @@ public class Order   {
   /**
    * Get complete
    * @return complete
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
