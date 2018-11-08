@@ -49,9 +49,8 @@ $router->get('/v2/fake', 'FakeApi@testEnumParameters');
  * delete testGroupParameters
  * Summary: Fake endpoint to test group parameters (optional)
  * Notes: Fake endpoint to test group parameters (optional)
-
  */
-$app->delete('/v2/fake', 'FakeApi@testGroupParameters');
+$router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 /**
  * put testBodyWithFileSchema
  * Summary: 
