@@ -7,7 +7,10 @@
 
 import Foundation
 
+
+
 public struct Dog: Codable {
+
     public var className: String
     public var color: String? = "red"
     public var breed: String?
@@ -17,4 +20,7 @@ public struct Dog: Codable {
         self.color = color
         self.breed = breed
     }
+
+
 }
+
