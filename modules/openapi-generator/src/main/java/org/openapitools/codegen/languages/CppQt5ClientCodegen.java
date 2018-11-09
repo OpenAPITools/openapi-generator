@@ -253,7 +253,7 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         if (!folder.isEmpty())
             folder += File.separator;
 
-        return "#include \"" + folder + toModelName(name) + ".h\"";
+        return "#include \"" + folder + sanitizeName(name) + ".h\"";
     }
 
     /**
