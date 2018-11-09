@@ -212,7 +212,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelFilename(String name) {
-        return modelNamePrefix + initialCaps(name);
+        return modelNamePrefix + sanitizeName(initialCaps(name));
     }
     
     /**
