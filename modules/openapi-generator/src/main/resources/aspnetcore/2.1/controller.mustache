@@ -1,55 +1,97 @@
 {{>partial_header}}
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;{{#useSwashbuckle}}
+using Microsoft.AspNetCore.Mvc;
+{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;{{/useSwashbuckle}}
+using Swashbuckle.AspNetCore.SwaggerGen;
+{{/useSwashbuckle}}
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using {{packageName}}.Attributes;
 using {{packageName}}.Models;
 
 namespace {{packageName}}.Controllers
-{ {{#operations}}
+{
+{{#operations}}
     /// <summary>
     /// {{description}}
-    /// </summary>{{#description}}
-    [Description("{{description}}")]{{/description}}
+    /// </summary>
+{{#description}}
+    [Description("{{description}}")]
+{{/description}}
     public partial class {{classname}}Controller : ControllerBase
-    { {{#operation}}
+    {
+{{#operation}}
         /// <summary>
         /// {{#summary}}{{summary}}{{/summary}}
-        /// </summary>{{#notes}}
-        /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
-        /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
-        /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        /// </summary>
+{{#notes}}
+        /// <remarks>{{notes}}</remarks>
+{{/notes}}
+{{#allParams}}
+        /// <param name="{{paramName}}">{{description}}</param>
+{{/allParams}}
+{{#responses}}
+        /// <response code="{{code}}">{{message}}</response>
+{{/responses}}
         [{{httpMethod}}]
-        [Route("{{{basePathWithoutHost}}}{{{path}}}")]{{#hasConsumes}}{{^consumes.0.x-mediaIsWildcard}}
-        [Consumes({{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}})]{{/consumes.0.x-mediaIsWildcard}}{{/hasConsumes}}{{#hasProduces}}{{^produces.0.x-mediaIsWildcard}}
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
+{{#hasConsumes}}
+{{^consumes.0.x-mediaIsWildcard}}
+        [Consumes({{#consumes}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/consumes}})]
+{{/consumes.0.x-mediaIsWildcard}}
+{{/hasConsumes}}
+{{#hasProduces}}
+{{^produces.0.x-mediaIsWildcard}}
         [Produces({{#produces}}"{{mediaType}}"{{#hasMore}}, {{/hasMore}}{{/produces}})]
-        {{/produces.0.x-mediaIsWildcard}}{{/hasProduces}}[ValidateModelState]{{#useSwashbuckle}}
-        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
-        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
+{{/produces.0.x-mediaIsWildcard}}
+{{/hasProduces}}
+        [ValidateModelState]
+{{#useSwashbuckle}}
+        [SwaggerOperation("{{operationId}}")]
+{{#responses}}
+{{#dataType}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]
+{{/dataType}}
+{{/responses}}
+{{/useSwashbuckle}}
         public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
-{{^usePartialControllerClass}}{{#responses}}{{#dataType}}
+{{^usePartialControllerClass}}
+{{#responses}}
+{{#dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode({{code}}, default({{&dataType}}));
 {{/dataType}}
 {{^dataType}}
             //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode({{code}});
-{{/dataType}}{{/responses}}
+{{/dataType}}
+{{/responses}}
 {{#returnType}}
             string exampleJson = null;
-            {{#examples}}
+{{#examples}}
             exampleJson = "{{{example}}}";
-            {{/examples}}
-            {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMapContainer}}{{>mapReturn}}{{/isMapContainer}}{{^isMapContainer}}{{>objectReturn}}{{/isMapContainer}}{{/isListCollection}}
+{{/examples}}
+{{#isListCollection}}
+            {{>listReturn}}
+{{/isListCollection}}
+{{^isListCollection}}
+{{#isMapContainer}}
+            {{>mapReturn}}
+{{/isMapContainer}}
+{{^isMapContainer}}
+            {{>objectReturn}}
+{{/isMapContainer}}
+{{/isListCollection}}
             {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
             //TODO: Change the data returned
-            return new ObjectResult(example);{{/returnType}}{{^returnType}}
-            throw new NotImplementedException();{{/returnType}}
+            return new ObjectResult(example);
+{{/returnType}}
+{{^returnType}}
+            throw new NotImplementedException();
+{{/returnType}}
 {{/usePartialControllerClass}}
 {{#usePartialControllerClass}}
             IActionResult result = null;
@@ -57,10 +99,11 @@ namespace {{packageName}}.Controllers
             return result;
 {{/usePartialControllerClass}}
         }
+
 {{#usePartialControllerClass}}
         partial void {{operationId}}_impl({{#allParams}}{{&dataType}} {{paramName}}, {{/allParams}}ref IActionResult result_);
 {{/usePartialControllerClass}}
-        {{/operation}}
+{{/operation}}
     }
 {{/operations}}
 }
