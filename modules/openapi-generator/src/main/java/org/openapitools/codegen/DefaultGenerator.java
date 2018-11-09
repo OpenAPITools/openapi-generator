@@ -170,7 +170,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
         }
 
-
         if (System.getProperty("debugOpenAPI") != null) {
             Json.prettyPrint(openAPI);
         } else if (System.getProperty("debugSwagger") != null) {
@@ -526,6 +525,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 if (!config.vendorExtensions().isEmpty()) {
                     operation.put("vendorExtensions", config.vendorExtensions());
+                }
+
+                // process top-level x-group-parameters
+                if (config.vendorExtensions().containsKey("x-group-parameters")) {
+                    Boolean isGroupParameters = Boolean.valueOf(config.vendorExtensions().get("x-group-parameters").toString());
+
+                    Map<String, Object> objectMap = (Map<String, Object>) operation.get("operations");
+                    @SuppressWarnings("unchecked")
+                    List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+                    for (CodegenOperation op : operations) {
+                        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
+                        if (!op.vendorExtensions.containsKey("x-group-parameters")) {
+                            op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+                        }
+                    }
                 }
 
                 // Pass sortParamsByRequiredFlag through to the Mustache template...
@@ -1053,6 +1067,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (imports.size() > 0) {
             operations.put("hasImport", true);
         }
+
         config.postProcessOperations(operations);
         config.postProcessOperationsWithModels(operations, allModels);
         if (objs.size() > 0) {

@@ -883,30 +883,65 @@ public class FakeApi {
     * Fake endpoint to test group parameters (optional)
     * Fake endpoint to test group parameters (optional)
     * <p><b>400</b> - Someting wrong
+    * @param requiredStringGroup Required String in group parameters
+    * @param requiredBooleanGroup Required Boolean in group parameters
+    * @param requiredInt64Group Required Integer in group parameters
     * @param stringGroup String in group parameters
     * @param booleanGroup Boolean in group parameters
     * @param int64Group Integer in group parameters
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
-        testGroupParametersForHttpResponse(stringGroup, booleanGroup, int64Group);
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
   /**
     * Fake endpoint to test group parameters (optional)
     * Fake endpoint to test group parameters (optional)
     * <p><b>400</b> - Someting wrong
+    * @param requiredStringGroup Required String in group parameters
+    * @param requiredBooleanGroup Required Boolean in group parameters
+    * @param requiredInt64Group Required Integer in group parameters
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testGroupParameters(Map<String, Object> params) throws IOException {
-        testGroupParametersForHttpResponse(params);
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+        testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, params);
     }
 
-    public HttpResponse testGroupParametersForHttpResponse(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
-        
+    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
-        if (stringGroup != null) {
+        if (requiredStringGroup != null) {
+            String key = "required_string_group";
+            Object value = requiredStringGroup;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (requiredInt64Group != null) {
+            String key = "required_int64_group";
+            Object value = requiredInt64Group;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (stringGroup != null) {
             String key = "string_group";
             Object value = stringGroup;
             if (value instanceof Collection) {
@@ -935,12 +970,25 @@ public class FakeApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
-    public HttpResponse testGroupParametersForHttpResponse(Map<String, Object> params) throws IOException {
-        
+    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
         // Copy the params argument if present, to allow passing in immutable maps
         Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+        // Add the required query param 'requiredStringGroup' to the map of query params
+        allParams.put("requiredStringGroup", requiredStringGroup);
+        // Add the required query param 'requiredInt64Group' to the map of query params
+        allParams.put("requiredInt64Group", requiredInt64Group);
 
         for (Map.Entry<String, Object> entry: allParams.entrySet()) {
             String key = entry.getKey();
