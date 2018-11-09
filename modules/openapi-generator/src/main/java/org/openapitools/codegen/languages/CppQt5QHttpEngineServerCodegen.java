@@ -187,7 +187,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + initialCaps(name) + "ApiHandler";
+        return modelNamePrefix + sanitizeName(initialCaps(name)) + "ApiHandler";
     }
 
 }
