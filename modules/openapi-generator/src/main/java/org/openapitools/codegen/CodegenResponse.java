@@ -27,7 +27,7 @@ public class CodegenResponse {
     public String dataType, baseType, containerType;
     public boolean hasHeaders;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
-            isDateTime, isUuid, isEmail, isModel;
+            isDateTime, isUuid, isEmail, isModel, isFreeFormObject;
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;
@@ -68,6 +68,7 @@ public class CodegenResponse {
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
                 ", isEmail=" + isEmail +
+                ", isFreeFormObject=" + isFreeFormObject +
                 ", isModel=" + isModel +
                 ", isDefault=" + isDefault +
                 ", simpleType=" + simpleType +
@@ -102,6 +103,7 @@ public class CodegenResponse {
                 isDateTime == that.isDateTime &&
                 isUuid == that.isUuid &&
                 isEmail == that.isEmail &&
+                isFreeFormObject == that.isFreeFormObject &&
                 isModel == that.isModel &&
                 isDefault == that.isDefault &&
                 simpleType == that.simpleType &&
@@ -124,7 +126,9 @@ public class CodegenResponse {
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime, isUuid, isEmail, isModel, isDefault, simpleType, primitiveType, isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);
+        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
+                isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
+                isDateTime, isUuid, isEmail, isFreeFormObject, isModel, isDefault, simpleType, primitiveType, isMapContainer,
+                isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);
     }
 }

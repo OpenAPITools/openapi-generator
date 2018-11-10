@@ -302,9 +302,13 @@ public class ModelUtils {
         if (schema instanceof ObjectSchema) {
             return true;
         }
+
+        // must not be a map
         if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
             return true;
         }
+
+        // must have at least one property
         if (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             return true;
         }
@@ -750,7 +754,8 @@ public class ModelUtils {
      */
     public static Schema unaliasSchema(Map<String, Schema> allSchemas, Schema schema) {
         if (allSchemas == null || allSchemas.isEmpty()) {
-            LOGGER.warn("allSchemas cann't be null/empty in unaliasSchema. Returned 'schema'");
+            // skip the warning as the spec can have no model defined
+            //LOGGER.warn("allSchemas cannot be null/empty in unaliasSchema. Returned 'schema'");
             return schema;
         }
 
@@ -761,6 +766,8 @@ public class ModelUtils {
                 return schema;
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
+                return schema;
+            } else if (isFreeFormObject(ref)) {
                 return schema;
             } else if (isArraySchema(ref) || isComposedSchema(ref)) { // array def should be created as models
                 return schema;
