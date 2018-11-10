@@ -10,9 +10,10 @@ import Foundation
 public typealias EncodeResult = (data: Data?, error: Error?)
 
 open class CodableHelper {
-    open static var dateformatter: DateFormatter?
 
-    open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T: Decodable {
+    public static var dateformatter: DateFormatter?
+
+    open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
         var returnedDecodable: T? = nil
         var returnedError: Error? = nil
 
@@ -38,9 +39,9 @@ open class CodableHelper {
         return (returnedDecodable, returnedError)
     }
 
-    open class func encode<T>(_ value: T, prettyPrint: Bool = false) -> EncodeResult where T: Encodable {
+    open class func encode<T>(_ value: T, prettyPrint: Bool = false) -> EncodeResult where T : Encodable {
         var returnedData: Data?
-        var returnedError: Error?
+        var returnedError: Error? = nil
 
         let encoder = JSONEncoder()
         if prettyPrint {
@@ -66,4 +67,5 @@ open class CodableHelper {
 
         return (returnedData, returnedError)
     }
+
 }
