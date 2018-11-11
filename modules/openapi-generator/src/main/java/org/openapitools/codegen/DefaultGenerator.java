@@ -1032,13 +1032,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+        Set<String> mappingSet = new TreeSet<>();
         for (String nextImport : allImports) {
             Map<String, String> im = new LinkedHashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
                 mapping = config.toModelImport(nextImport);
             }
-            if (mapping != null) {
+
+            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
+                mappingSet.add(mapping);
                 im.put("import", mapping);
                 im.put("classname", nextImport);
                 if (!imports.contains(im)) { // avoid duplicates
