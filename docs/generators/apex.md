@@ -26,4 +26,3 @@ CONFIG OPTIONS for apex
 	    The named credential name for the HTTP callouts
 
 Back to the [generators list](README.md)
-Back to the [generators list](README.md)
