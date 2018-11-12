@@ -122,7 +122,7 @@ script:
   # fail if generators contain tab '\t'
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
-  - ./bin/run-in-docker.sh mvn --quiet --batch clean install
+  - ./run-in-docker.sh mvn --quiet --batch clean install
   - mvn --quiet --batch verify -Psamples
 after_success:
   # push to maven repo
