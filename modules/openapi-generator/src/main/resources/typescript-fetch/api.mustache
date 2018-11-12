@@ -84,6 +84,10 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
          {{#summary}}
          * @summary {{&summary}}
          {{/summary}}
+         {{#vendorExtensions.x-group-parameters}}
+         * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+         *
+         {{/vendorExtensions.x-group-parameters}}
          {{#allParams}}
          * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
          {{/allParams}}
@@ -263,14 +267,18 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
          {{#summary}}
          * @summary {{&summary}}
          {{/summary}}
+         {{#vendorExtensions.x-group-parameters}}
+         * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+         *
+         {{/vendorExtensions.x-group-parameters}}
          {{#allParams}}
          * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
          {{/allParams}}
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
-            const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+        {{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters: any = {}, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
+            const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options);
             return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {

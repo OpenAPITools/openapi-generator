@@ -536,7 +536,6 @@ paths:
       summary: Delete user
       description: This can only be done by the logged in user.
       operationId: deleteUser
-      x-group-parameters: true
       produces:
         - application/xml
         - application/json
@@ -546,19 +545,6 @@ paths:
           description: The name that needs to be deleted
           required: true
           type: string
-        - name: string_group
-          type: integer
-          in: query
-          description: String in group parameters
-        - name: boolean_group
-          type: boolean
-          in: header
-          description: Boolean in group parameters
-        - name: int64_group
-          type: integer
-          format: int64
-          in: query
-          description: Integer in group parameters
       responses:
         '400':
           description: Invalid username supplied
