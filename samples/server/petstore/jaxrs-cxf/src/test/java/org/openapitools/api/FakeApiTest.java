@@ -248,10 +248,13 @@ public class FakeApiTest {
      */
     @Test
     public void testGroupParametersTest() {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
-        //api.testGroupParameters(stringGroup, booleanGroup, int64Group);
+        //api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
         
         // TODO: test validations
         
