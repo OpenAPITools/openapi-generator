@@ -81,7 +81,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     public String getName() {
-        return "kotlin";
+        return "kotlin-client";
     }
 
     public String getHelp() {
