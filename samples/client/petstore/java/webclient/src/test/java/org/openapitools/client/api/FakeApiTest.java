@@ -177,6 +177,24 @@ public class FakeApiTest {
     }
     
     /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     */
+    @Test
+    public void testGroupParametersTest()  {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).block();
+
+        // TODO: test validations
+    }
+    
+    /**
      * test inline additionalProperties
      *
      * 
