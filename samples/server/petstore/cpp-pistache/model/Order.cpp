@@ -77,7 +77,7 @@ nlohmann::json Order::toJson() const
     return val;
 }
 
-void Order::fromJson(nlohmann::json& val)
+void Order::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {

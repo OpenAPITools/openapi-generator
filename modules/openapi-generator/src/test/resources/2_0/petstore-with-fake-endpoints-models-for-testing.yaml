@@ -792,6 +792,46 @@ paths:
           description: User not found
       security:
         - http_basic_test: []
+    delete:
+      tags:
+        - fake
+      summary: Fake endpoint to test group parameters (optional)
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      x-group-parameters: true
+      parameters:
+        - name: required_string_group
+          type: integer
+          in: query
+          description: Required String in group parameters
+          required: true
+        - name: required_boolean_group
+          type: boolean
+          in: header
+          description: Required Boolean in group parameters
+          required: true
+        - name: required_int64_group
+          type: integer
+          format: int64
+          in: query
+          description: Required Integer in group parameters
+          required: true
+        - name: string_group
+          type: integer
+          in: query
+          description: String in group parameters
+        - name: boolean_group
+          type: boolean
+          in: header
+          description: Boolean in group parameters
+        - name: int64_group
+          type: integer
+          format: int64
+          in: query
+          description: Integer in group parameters
+      responses:
+        '400':
+          description: Someting wrong
   /fake/outer/number:
     post:
       tags:

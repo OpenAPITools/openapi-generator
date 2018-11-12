@@ -251,4 +251,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         // To avoid unexpected behaviors when options are passed programmatically such as { "useCollection": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
     }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        return escapeText(pattern);
+    }
 }

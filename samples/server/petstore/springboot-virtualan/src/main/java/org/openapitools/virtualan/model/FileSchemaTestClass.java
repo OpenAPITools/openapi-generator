@@ -30,7 +30,7 @@ public class FileSchemaTestClass   {
   /**
    * Get file
    * @return file
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -59,7 +59,7 @@ public class FileSchemaTestClass   {
   /**
    * Get files
    * @return files
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

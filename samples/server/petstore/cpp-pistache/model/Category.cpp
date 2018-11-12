@@ -53,7 +53,7 @@ nlohmann::json Category::toJson() const
     return val;
 }
 
-void Category::fromJson(nlohmann::json& val)
+void Category::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {

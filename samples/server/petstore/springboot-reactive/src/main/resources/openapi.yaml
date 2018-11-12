@@ -662,6 +662,56 @@ paths:
       x-tags:
       - tag: fake_classname_tags 123#$%^
   /fake:
+    delete:
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      parameters:
+      - description: Required String in group parameters
+        in: query
+        name: required_string_group
+        required: true
+        schema:
+          type: integer
+      - description: Required Boolean in group parameters
+        in: header
+        name: required_boolean_group
+        required: true
+        schema:
+          type: boolean
+      - description: Required Integer in group parameters
+        in: query
+        name: required_int64_group
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: String in group parameters
+        in: query
+        name: string_group
+        schema:
+          type: integer
+      - description: Boolean in group parameters
+        in: header
+        name: boolean_group
+        schema:
+          type: boolean
+      - description: Integer in group parameters
+        in: query
+        name: int64_group
+        schema:
+          format: int64
+          type: integer
+      responses:
+        400:
+          content: {}
+          description: Someting wrong
+      summary: Fake endpoint to test group parameters (optional)
+      tags:
+      - fake
+      x-group-parameters: true
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
     get:
       description: To test enum parameters
       operationId: testEnumParameters

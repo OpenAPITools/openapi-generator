@@ -391,6 +391,65 @@ if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormS
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = null;
+        
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters"));
+            return;
+        }
+        
+        // verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters"));
+            return;
+        }
+        
+        // verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_string_group", requiredStringGroup));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_int64_group", requiredInt64Group));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "string_group", stringGroup));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "int64_group", int64Group));
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        if (requiredBooleanGroup != null)
+        localVarHeaderParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
+if (booleanGroup != null)
+        localVarHeaderParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
+
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
+    /**
      * test inline additionalProperties
      * 
      * @param requestBody request body (required)
