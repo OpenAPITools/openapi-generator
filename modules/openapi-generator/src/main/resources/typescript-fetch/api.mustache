@@ -385,7 +385,7 @@ export class {{classname}} extends BaseAPI {
      * @memberof {{classname}}
      */
     public {{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters: any = {}, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options?: any) {
-        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(this.fetch, this.basePath);
+        return {{classname}}Fp(this.configuration).{{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options)(this.fetch, this.basePath);
     }
 
     {{/operation}}

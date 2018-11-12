@@ -2165,7 +2165,7 @@ export class UserApi extends BaseAPI {
      * @memberof UserApi
      */
     public patchUser(methodParameters: any = {}, options?: any) {
-        return UserApiFp(this.configuration).patchUser(username, int64Group, stringGroup, booleanGroup, options)(this.fetch, this.basePath);
+        return UserApiFp(this.configuration).patchUser(methodParameters, options)(this.fetch, this.basePath);
     }
 
     /**
