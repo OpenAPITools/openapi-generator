@@ -550,6 +550,41 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+    patch:
+      tags:
+        - user
+      summary: Delete user
+      description: for testing x-group-parameters, will be removed later
+      operationId: patchUser
+      x-group-parameters: true
+      produces:
+        - application/xml
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          type: string
+        - name: string_group
+          type: integer
+          in: query
+          description: String in group parameters
+        - name: boolean_group
+          type: boolean
+          in: header
+          description: Boolean in group parameters
+        - name: int64_group
+          type: integer
+          format: int64
+          required: true
+          in: query
+          description: Integer in group parameters
+      responses:
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
 securityDefinitions:
   petstore_auth:
     type: oauth2

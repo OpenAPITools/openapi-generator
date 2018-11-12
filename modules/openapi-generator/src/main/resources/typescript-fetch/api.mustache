@@ -306,14 +306,18 @@ export const {{classname}}Factory = function (configuration?: Configuration, fet
          {{#summary}}
          * @summary {{&summary}}
          {{/summary}}
+         {{#vendorExtensions.x-group-parameters}}
+         * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+         *
+         {{/vendorExtensions.x-group-parameters}}
          {{#allParams}}
          * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
          {{/allParams}}
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
-            return {{classname}}Fp(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(fetch, basePath);
+        {{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters: any = {}, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options?: any) {
+            return {{classname}}Fp(configuration).{{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options)(fetch, basePath);
         },
     {{/operation}}
     };
@@ -333,6 +337,10 @@ export interface {{classname}}Interface {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
+     {{#vendorExtensions.x-group-parameters}}
+     * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+     *
+     {{/vendorExtensions.x-group-parameters}}
      {{#allParams}}
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
@@ -340,7 +348,7 @@ export interface {{classname}}Interface {
      * @throws {RequiredError}
      * @memberof {{classname}}Interface
      */
-    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}>;
+    {{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters: any = {}, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options?: any): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}>;
 
 {{/operation}}
 }
@@ -365,6 +373,10 @@ export class {{classname}} extends BaseAPI {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
+     {{#vendorExtensions.x-group-parameters}}
+     * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+     *
+     {{/vendorExtensions.x-group-parameters}}
      {{#allParams}}
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
@@ -372,7 +384,7 @@ export class {{classname}} extends BaseAPI {
      * @throws {RequiredError}
      * @memberof {{classname}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
+    public {{nickname}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#allParams.0}}methodParameters: any = {}, {{/allParams.0}}{{/vendorExtensions.x-group-parameters}}options?: any) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(this.fetch, this.basePath);
     }
 

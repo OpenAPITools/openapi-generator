@@ -1667,6 +1667,64 @@ export const UserApiFetchParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * for testing x-group-parameters, will be removed later
+         * @summary Delete user
+         * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+         *
+         * @param {string} username The name that needs to be deleted
+         * @param {number} int64Group Integer in group parameters
+         * @param {number} [stringGroup] String in group parameters
+         * @param {boolean} [booleanGroup] Boolean in group parameters
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchUser(methodParameters: any = {}, options: any = {}): FetchArgs {
+            const username: string = methodParameters['username']
+            const int64Group: number = methodParameters['int64Group']
+            const stringGroup: number = methodParameters['stringGroup']
+            const booleanGroup: boolean = methodParameters['booleanGroup']
+            // verify required parameter 'username' is not null or undefined
+            if (username === null || username === undefined) {
+                throw new RequiredError('username','Required parameter username was null or undefined when calling patchUser.');
+            }
+            // verify required parameter 'int64Group' is not null or undefined
+            if (int64Group === null || int64Group === undefined) {
+                throw new RequiredError('int64Group','Required parameter int64Group was null or undefined when calling patchUser.');
+            }
+            const localVarPath = `/user/{username}`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = Object.assign({ method: 'PATCH' }, baseOptions, options);
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (stringGroup !== undefined) {
+                localVarQueryParameter['string_group'] = stringGroup;
+            }
+
+            if (int64Group !== undefined) {
+                localVarQueryParameter['int64_group'] = int64Group;
+            }
+
+            if (booleanGroup !== undefined && booleanGroup !== null) {
+                localVarHeaderParameter['boolean_group'] = String(booleanGroup);
+            }
+
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
@@ -1851,6 +1909,30 @@ export const UserApiFp = function(configuration?: Configuration) {
             };
         },
         /**
+         * for testing x-group-parameters, will be removed later
+         * @summary Delete user
+         * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+         *
+         * @param {string} username The name that needs to be deleted
+         * @param {number} int64Group Integer in group parameters
+         * @param {number} [stringGroup] String in group parameters
+         * @param {boolean} [booleanGroup] Boolean in group parameters
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchUser(methodParameters: any = {}, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Response> {
+            const localVarFetchArgs = UserApiFetchParamCreator(configuration).patchUser(methodParameters, options);
+            return (fetch: FetchAPI = portableFetch, basePath: string = BASE_PATH) => {
+                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                    if (response.status >= 200 && response.status < 300) {
+                        return response;
+                    } else {
+                        throw response;
+                    }
+                });
+            };
+        },
+        /**
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
@@ -1948,6 +2030,21 @@ export const UserApiFactory = function (configuration?: Configuration, fetch?: F
          */
         logoutUser(options?: any) {
             return UserApiFp(configuration).logoutUser(options)(fetch, basePath);
+        },
+        /**
+         * for testing x-group-parameters, will be removed later
+         * @summary Delete user
+         * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+         *
+         * @param {string} username The name that needs to be deleted
+         * @param {number} int64Group Integer in group parameters
+         * @param {number} [stringGroup] String in group parameters
+         * @param {boolean} [booleanGroup] Boolean in group parameters
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        patchUser(methodParameters: any = {}, options?: any) {
+            return UserApiFp(configuration).patchUser(methodParameters, options)(fetch, basePath);
         },
         /**
          * This can only be done by the logged in user.
@@ -2052,6 +2149,23 @@ export class UserApi extends BaseAPI {
      */
     public logoutUser(options?: any) {
         return UserApiFp(this.configuration).logoutUser(options)(this.fetch, this.basePath);
+    }
+
+    /**
+     * for testing x-group-parameters, will be removed later
+     * @summary Delete user
+     * Note: the input parameter is a dictionary with the keys listed as the parameter name below
+     *
+     * @param {string} username The name that needs to be deleted
+     * @param {number} int64Group Integer in group parameters
+     * @param {number} [stringGroup] String in group parameters
+     * @param {boolean} [booleanGroup] Boolean in group parameters
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public patchUser(methodParameters: any = {}, options?: any) {
+        return UserApiFp(this.configuration).patchUser(username, int64Group, stringGroup, booleanGroup, options)(this.fetch, this.basePath);
     }
 
     /**
