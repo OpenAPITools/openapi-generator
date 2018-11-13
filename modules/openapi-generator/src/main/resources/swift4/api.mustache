@@ -149,7 +149,7 @@ open class {{classname}} {
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
             {{#queryParams}}
-            {{> _param}}{{#isDateTime}}.addingPercentEncoding(withAllowedCharacters: CharacterSet(charactersIn: "1234567890T.-")){{/isDateTime}}{{#hasMore}}, {{/hasMore}}
+            {{> _param}}{{#hasMore}}, {{/hasMore}}
             {{/queryParams}}
         ]){{/hasQueryParams}}{{^hasQueryParams}}
         let url = URLComponents(string: URLString){{/hasQueryParams}}{{#headerParams}}{{^secondaryParam}}
