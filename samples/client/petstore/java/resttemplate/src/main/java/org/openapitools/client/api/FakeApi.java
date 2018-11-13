@@ -425,13 +425,31 @@ public class FakeApi {
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
      * <p><b>400</b> - Someting wrong
+     * @param requiredStringGroup Required String in group parameters
+     * @param requiredBooleanGroup Required Boolean in group parameters
+     * @param requiredInt64Group Required Integer in group parameters
      * @param stringGroup String in group parameters
      * @param booleanGroup Boolean in group parameters
      * @param int64Group Integer in group parameters
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
         Object postBody = null;
+        
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        }
+        
+        // verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        }
+        
+        // verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        }
         
         String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
         
@@ -439,9 +457,13 @@ public class FakeApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
         
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_string_group", requiredStringGroup));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
         
+        if (requiredBooleanGroup != null)
+        headerParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
         if (booleanGroup != null)
         headerParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
 

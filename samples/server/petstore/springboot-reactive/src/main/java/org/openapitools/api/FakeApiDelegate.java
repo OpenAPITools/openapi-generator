@@ -170,7 +170,10 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testGroupParameters
      */
-    default Mono<ResponseEntity<Void>> testGroupParameters(Integer stringGroup,
+    default Mono<ResponseEntity<Void>> testGroupParameters(Integer requiredStringGroup,
+        Boolean requiredBooleanGroup,
+        Long requiredInt64Group,
+        Integer stringGroup,
         Boolean booleanGroup,
         Long int64Group,
         ServerWebExchange exchange) {

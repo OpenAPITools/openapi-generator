@@ -10,14 +10,14 @@ protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
-public enum ErrorResponse: Error {
+public enum ErrorResponse : Error {
     case error(Int, Data?, Error)
 }
 
 open class Response<T> {
-    open let statusCode: Int
-    open let header: [String: String]
-    open let body: T?
+    public let statusCode: Int
+    public let header: [String: String]
+    public let body: T?
 
     public init(statusCode: Int, header: [String: String], body: T?) {
         self.statusCode = statusCode
@@ -27,7 +27,7 @@ open class Response<T> {
 
     public convenience init(response: HTTPURLResponse, body: T?) {
         let rawHeader = response.allHeaderFields
-        var header = [String: String]()
+        var header = [String:String]()
         for case let (key, value) as (String, String) in rawHeader {
             header[key] = value
         }

@@ -13,6 +13,10 @@ pub mod responses {
 
 pub mod requests {
     use hyper::mime::*;
+   /// Create Mime objects for the request content types for DummyPut
+    lazy_static! {
+        pub static ref DUMMY_PUT: Mime = "application/json".parse().unwrap();
+    }
    /// Create Mime objects for the request content types for HtmlPost
     lazy_static! {
         pub static ref HTML_POST: Mime = "text/html".parse().unwrap();

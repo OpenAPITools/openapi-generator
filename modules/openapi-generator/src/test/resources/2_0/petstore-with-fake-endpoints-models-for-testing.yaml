@@ -800,6 +800,22 @@ paths:
       operationId: testGroupParameters
       x-group-parameters: true
       parameters:
+        - name: required_string_group
+          type: integer
+          in: query
+          description: Required String in group parameters
+          required: true
+        - name: required_boolean_group
+          type: boolean
+          in: header
+          description: Required Boolean in group parameters
+          required: true
+        - name: required_int64_group
+          type: integer
+          format: int64
+          in: query
+          description: Required Integer in group parameters
+          required: true
         - name: string_group
           type: integer
           in: query
