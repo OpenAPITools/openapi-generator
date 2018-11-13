@@ -10,6 +10,10 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using RestSharp;
 
 namespace Org.OpenAPITools.Client
 {
@@ -22,7 +26,7 @@ namespace Org.OpenAPITools.Client
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        IReadableConfiguration Configuration {get; set;}
+        Configuration Configuration {get; set;}
 
         /// <summary>
         /// Gets the base path of the API client.

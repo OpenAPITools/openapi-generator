@@ -506,7 +506,7 @@ Name | Type | Description  | Notes
  **int64** | **long?**| None | [optional] 
  **_float** | **float?**| None | [optional] 
  **_string** | **string**| None | [optional] 
- **binary** | **System.IO.Stream****System.IO.Stream**| None | [optional] 
+ **binary** | **System.IO.Stream**| None | [optional] 
  **date** | **DateTime?**| None | [optional] 
  **dateTime** | **DateTime?**| None | [optional] 
  **password** | **string**| None | [optional] 
