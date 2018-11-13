@@ -1,6 +1,15 @@
 {{>partial_header}}
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+{{#netStandard}}
+using RestSharp.Portable;
+{{/netStandard}}
+{{^netStandard}}
+using RestSharp;
+{{/netStandard}}
 
 namespace {{packageName}}.Client
 {
@@ -13,7 +22,7 @@ namespace {{packageName}}.Client
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        IReadableConfiguration Configuration {get; set;}
+        Configuration Configuration {get; set;}
 
         /// <summary>
         /// Gets the base path of the API client.

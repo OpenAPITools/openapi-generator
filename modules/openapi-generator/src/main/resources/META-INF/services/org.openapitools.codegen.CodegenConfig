@@ -14,6 +14,7 @@ org.openapitools.codegen.languages.CppRestbedServerCodegen
 org.openapitools.codegen.languages.CppRestSdkClientCodegen
 org.openapitools.codegen.languages.CppTizenClientCodegen
 org.openapitools.codegen.languages.CSharpClientCodegen
+org.openapitools.codegen.languages.CSharpRefactorClientCodegen
 org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
 org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen

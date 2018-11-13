@@ -217,7 +217,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
 
 {{/generatePropertyChanged}}
 {{#validatable}}
-{{#discriminator}}
+{{#hasChildren}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -235,8 +235,8 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-{{/discriminator}}
-{{^discriminator}}
+{{/hasChildren}}
+{{^hasChildren}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -244,11 +244,11 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-{{/discriminator}}
+{{/hasChildren}}
             {{#parent}}
             {{^isArrayModel}}
             {{^isMapModel}}
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            foreach(var x in base.BaseValidate(validationContext)) yield return x;
             {{/isMapModel}}
             {{/isArrayModel}}
             {{/parent}}

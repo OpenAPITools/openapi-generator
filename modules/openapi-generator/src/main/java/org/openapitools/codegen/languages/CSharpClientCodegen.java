@@ -21,9 +21,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -40,7 +38,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
@@ -57,7 +58,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     private static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
 
-    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
+    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
@@ -385,18 +386,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache",
                 clientPackageDir, "OpenAPIDateConverter.cs"));
 
-        supportingFiles.add(new SupportingFile("ClientUtils.mustache",
-                clientPackageDir, "ClientUtils.cs"));
-        supportingFiles.add(new SupportingFile("HttpMethod.mustache",
-                clientPackageDir, "HttpMethod.cs"));
-        supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache",
-                clientPackageDir, "IAsynchronousClient.cs"));
-        supportingFiles.add(new SupportingFile("ISynchronousClient.mustache",
-                clientPackageDir, "ISynchronousClient.cs"));
-        supportingFiles.add(new SupportingFile("RequestOptions.mustache",
-                clientPackageDir, "RequestOptions.cs"));
-        supportingFiles.add(new SupportingFile("Multimap.mustache",
-                clientPackageDir, "Multimap.cs"));
+        if (NET40.equals(this.targetFramework)) {
+            // .net 4.0 doesn't include ReadOnlyDictionary…
+            supportingFiles.add(new SupportingFile("ReadOnlyDictionary.mustache",
+                    clientPackageDir, "ReadOnlyDictionary.cs"));
+        }
 
         if (Boolean.FALSE.equals(this.netStandard) && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
             supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
@@ -710,7 +704,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return camelize(getSymbolName(value));
+            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(value));
         }
 
         // number
@@ -726,7 +720,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // string
         String var = value.replaceAll("_", " ");
         //var = WordUtils.capitalizeFully(var);
-        var = camelize(var);
+        var = org.openapitools.codegen.utils.StringUtils.camelize(var);
         var = var.replaceAll("\\W+", "");
 
         if (var.matches("\\d.*")) {
@@ -761,11 +755,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
             case PascalCase:
-                return camelize(name);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name);
             case snake_case:
-                return underscore(name);
+                return org.openapitools.codegen.utils.StringUtils.underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
