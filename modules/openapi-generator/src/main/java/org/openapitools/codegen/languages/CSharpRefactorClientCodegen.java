@@ -57,7 +57,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     private static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
 
-    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
+    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
