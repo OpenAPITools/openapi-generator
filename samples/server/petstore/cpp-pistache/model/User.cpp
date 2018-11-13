@@ -89,7 +89,7 @@ nlohmann::json User::toJson() const
     return val;
 }
 
-void User::fromJson(nlohmann::json& val)
+void User::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {

@@ -10,7 +10,7 @@
  * @link     https://github.com/openapitools/openapi-generator
  */
 
-/** 
+/**
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -46,7 +46,8 @@ use Tuupola\Middleware\HttpBasicAuthentication;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class SlimRouter {
+class SlimRouter
+{
 
     /**
      * @var $slimApp Slim\App instance
@@ -59,7 +60,8 @@ class SlimRouter {
      * @param ContainerInterface|array $container Either a ContainerInterface or an associative array of app settings
      * @throws InvalidArgumentException when no container is provided that implements ContainerInterface
      */
-    public function __construct($container = []) {
+    public function __construct($container = [])
+    {
         $app = new App($container);
 
         $basicAuth = new HttpBasicAuthentication([
@@ -72,108 +74,146 @@ class SlimRouter {
         ]);
 
         $app->PATCH(
-            '/v2/another-fake/dummy', AnotherFakeApi::class . ':call123TestSpecialTags'
+            '/v2/another-fake/dummy',
+            AnotherFakeApi::class . ':call123TestSpecialTags'
         );
         $app->POST(
-            '/v2/fake/outer/boolean', FakeApi::class . ':fakeOuterBooleanSerialize'
+            '/v2/fake/outer/boolean',
+            FakeApi::class . ':fakeOuterBooleanSerialize'
         );
         $app->POST(
-            '/v2/fake/outer/composite', FakeApi::class . ':fakeOuterCompositeSerialize'
+            '/v2/fake/outer/composite',
+            FakeApi::class . ':fakeOuterCompositeSerialize'
         );
         $app->POST(
-            '/v2/fake/outer/number', FakeApi::class . ':fakeOuterNumberSerialize'
+            '/v2/fake/outer/number',
+            FakeApi::class . ':fakeOuterNumberSerialize'
         );
         $app->POST(
-            '/v2/fake/outer/string', FakeApi::class . ':fakeOuterStringSerialize'
+            '/v2/fake/outer/string',
+            FakeApi::class . ':fakeOuterStringSerialize'
         );
         $app->PUT(
-            '/v2/fake/body-with-file-schema', FakeApi::class . ':testBodyWithFileSchema'
+            '/v2/fake/body-with-file-schema',
+            FakeApi::class . ':testBodyWithFileSchema'
         );
         $app->PUT(
-            '/v2/fake/body-with-query-params', FakeApi::class . ':testBodyWithQueryParams'
+            '/v2/fake/body-with-query-params',
+            FakeApi::class . ':testBodyWithQueryParams'
         );
         $app->PATCH(
-            '/v2/fake', FakeApi::class . ':testClientModel'
+            '/v2/fake',
+            FakeApi::class . ':testClientModel'
         );
         $app->POST(
-            '/v2/fake', FakeApi::class . ':testEndpointParameters'
+            '/v2/fake',
+            FakeApi::class . ':testEndpointParameters'
         )->add(
             $basicAuth
         );
         $app->GET(
-            '/v2/fake', FakeApi::class . ':testEnumParameters'
+            '/v2/fake',
+            FakeApi::class . ':testEnumParameters'
+        );
+        $app->DELETE(
+            '/v2/fake',
+            FakeApi::class . ':testGroupParameters'
         );
         $app->POST(
-            '/v2/fake/inline-additionalProperties', FakeApi::class . ':testInlineAdditionalProperties'
+            '/v2/fake/inline-additionalProperties',
+            FakeApi::class . ':testInlineAdditionalProperties'
         );
         $app->GET(
-            '/v2/fake/jsonFormData', FakeApi::class . ':testJsonFormData'
+            '/v2/fake/jsonFormData',
+            FakeApi::class . ':testJsonFormData'
         );
         $app->PATCH(
-            '/v2/fake_classname_test', FakeClassnameTags123Api::class . ':testClassname'
+            '/v2/fake_classname_test',
+            FakeClassnameTags123Api::class . ':testClassname'
         );
         $app->POST(
-            '/v2/pet', PetApi::class . ':addPet'
+            '/v2/pet',
+            PetApi::class . ':addPet'
         );
         $app->GET(
-            '/v2/pet/findByStatus', PetApi::class . ':findPetsByStatus'
+            '/v2/pet/findByStatus',
+            PetApi::class . ':findPetsByStatus'
         );
         $app->GET(
-            '/v2/pet/findByTags', PetApi::class . ':findPetsByTags'
+            '/v2/pet/findByTags',
+            PetApi::class . ':findPetsByTags'
         );
         $app->PUT(
-            '/v2/pet', PetApi::class . ':updatePet'
+            '/v2/pet',
+            PetApi::class . ':updatePet'
         );
         $app->DELETE(
-            '/v2/pet/{petId}', PetApi::class . ':deletePet'
+            '/v2/pet/{petId}',
+            PetApi::class . ':deletePet'
         );
         $app->GET(
-            '/v2/pet/{petId}', PetApi::class . ':getPetById'
+            '/v2/pet/{petId}',
+            PetApi::class . ':getPetById'
         );
         $app->POST(
-            '/v2/pet/{petId}', PetApi::class . ':updatePetWithForm'
+            '/v2/pet/{petId}',
+            PetApi::class . ':updatePetWithForm'
         );
         $app->POST(
-            '/v2/pet/{petId}/uploadImage', PetApi::class . ':uploadFile'
+            '/v2/pet/{petId}/uploadImage',
+            PetApi::class . ':uploadFile'
         );
         $app->POST(
-            '/v2/fake/{petId}/uploadImageWithRequiredFile', PetApi::class . ':uploadFileWithRequiredFile'
+            '/v2/fake/{petId}/uploadImageWithRequiredFile',
+            PetApi::class . ':uploadFileWithRequiredFile'
         );
         $app->GET(
-            '/v2/store/inventory', StoreApi::class . ':getInventory'
+            '/v2/store/inventory',
+            StoreApi::class . ':getInventory'
         );
         $app->POST(
-            '/v2/store/order', StoreApi::class . ':placeOrder'
+            '/v2/store/order',
+            StoreApi::class . ':placeOrder'
         );
         $app->DELETE(
-            '/v2/store/order/{order_id}', StoreApi::class . ':deleteOrder'
+            '/v2/store/order/{order_id}',
+            StoreApi::class . ':deleteOrder'
         );
         $app->GET(
-            '/v2/store/order/{order_id}', StoreApi::class . ':getOrderById'
+            '/v2/store/order/{order_id}',
+            StoreApi::class . ':getOrderById'
         );
         $app->POST(
-            '/v2/user', UserApi::class . ':createUser'
+            '/v2/user',
+            UserApi::class . ':createUser'
         );
         $app->POST(
-            '/v2/user/createWithArray', UserApi::class . ':createUsersWithArrayInput'
+            '/v2/user/createWithArray',
+            UserApi::class . ':createUsersWithArrayInput'
         );
         $app->POST(
-            '/v2/user/createWithList', UserApi::class . ':createUsersWithListInput'
+            '/v2/user/createWithList',
+            UserApi::class . ':createUsersWithListInput'
         );
         $app->GET(
-            '/v2/user/login', UserApi::class . ':loginUser'
+            '/v2/user/login',
+            UserApi::class . ':loginUser'
         );
         $app->GET(
-            '/v2/user/logout', UserApi::class . ':logoutUser'
+            '/v2/user/logout',
+            UserApi::class . ':logoutUser'
         );
         $app->DELETE(
-            '/v2/user/{username}', UserApi::class . ':deleteUser'
+            '/v2/user/{username}',
+            UserApi::class . ':deleteUser'
         );
         $app->GET(
-            '/v2/user/{username}', UserApi::class . ':getUserByName'
+            '/v2/user/{username}',
+            UserApi::class . ':getUserByName'
         );
         $app->PUT(
-            '/v2/user/{username}', UserApi::class . ':updateUser'
+            '/v2/user/{username}',
+            UserApi::class . ':updateUser'
         );
 
         $this->slimApp = $app;
@@ -183,7 +223,8 @@ class SlimRouter {
      * Returns Slim Framework instance
      * @return App
      */
-    public function getSlimApp() {
+    public function getSlimApp()
+    {
         return $this->slimApp;
     }
 }

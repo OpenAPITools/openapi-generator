@@ -2,6 +2,8 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -16,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Animal  implements Serializable {
   
-  private @Valid String className = null;
+  private @Valid String className;
   private @Valid String color = "red";
 
   /**

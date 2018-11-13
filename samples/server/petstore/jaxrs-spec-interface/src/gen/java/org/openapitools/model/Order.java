@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -15,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Order  implements Serializable {
   
-  private @Valid Long id = null;
-  private @Valid Long petId = null;
-  private @Valid Integer quantity = null;
-  private @Valid Date shipDate = null;
+  private @Valid Long id;
+  private @Valid Long petId;
+  private @Valid Integer quantity;
+  private @Valid Date shipDate;
 
 public enum StatusEnum {
 
@@ -52,7 +54,7 @@ public enum StatusEnum {
     }
 }
 
-  private @Valid StatusEnum status = null;
+  private @Valid StatusEnum status;
   private @Valid Boolean complete = false;
 
   /**

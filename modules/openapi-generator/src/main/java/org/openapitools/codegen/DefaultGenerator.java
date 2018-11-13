@@ -169,13 +169,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
         }
-        // for backward compatibility
-        if (System.getProperty("debugSwagger") != null) {
-            LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
-            Json.prettyPrint(openAPI);
-        }
 
         if (System.getProperty("debugOpenAPI") != null) {
+            Json.prettyPrint(openAPI);
+        } else if (System.getProperty("debugSwagger") != null) {
+            // This exists for backward compatibility
+            // We fall to this block only if debugOpenAPI is null. No need to dump this twice.
+            LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
             Json.prettyPrint(openAPI);
         }
 
@@ -192,15 +192,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         URL url = URLPathUtils.getServerURL(openAPI);
-        contextPath = config.escapeText(url.getPath());
-        basePathWithoutHost = contextPath; // for backward compatibility
-        basePath = config.escapeText(URLPathUtils.getHost(openAPI));
-        if ("/".equals(basePath.substring(basePath.length() - 1))) {
-            // remove trailing "/"
-            // https://host.example.com/ => https://host.example.com
-            basePath = basePath.substring(0, basePath.length() - 1);
-        }
-
+        contextPath = config.escapeText(url.getPath()).replaceAll("/$", ""); // for backward compatibility
+        basePathWithoutHost = contextPath;
+        basePath = config.escapeText(URLPathUtils.getHost(openAPI)).replaceAll("/$", "");
     }
 
     private void configureOpenAPIInfo() {
@@ -278,6 +272,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(written, "model-test");
+                }
             }
         }
     }
@@ -285,7 +282,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
-            String suffix = docExtension!=null ? docExtension : config.modelDocTemplateFiles().get(templateName);
+            String suffix = docExtension != null ? docExtension : config.modelDocTemplateFiles().get(templateName);
             String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(modelName) + suffix;
             if (!config.shouldOverwrite(filename)) {
                 LOGGER.info("Skipped overwriting " + filename);
@@ -294,6 +291,27 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(written, "model-doc");
+                }
+            }
+        }
+    }
+
+    private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+        for (String templateName : config.modelTemplateFiles().keySet()) {
+            String suffix = config.modelTemplateFiles().get(templateName);
+            String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
+            if (!config.shouldOverwrite(filename)) {
+                LOGGER.info("Skipped overwriting " + filename);
+                continue;
+            }
+            File written = processTemplateToFile(models, templateName, filename);
+            if (written != null) {
+                files.add(written);
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(written, "model");
+                }
             }
         }
     }
@@ -381,6 +399,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             } */
         });
 
+        Boolean skipFormModel = System.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
+                Boolean.valueOf(System.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
+                getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, false);
+
         // process models only
         for (String name : modelKeys) {
             try {
@@ -392,8 +414,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // don't generate models that are not used as object (e.g. form parameters)
                 if (unusedModels.contains(name)) {
-                    LOGGER.debug("Model " + name + " not generated since it's marked as unused (due to form parameters)");
-                    continue;
+                    if (Boolean.FALSE.equals(skipFormModel)) {
+                        // if skipFormModel sets to true, still generate the model and log the result
+                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to skipFormModel=false (default)");
+                    } else {
+                        LOGGER.info("Model " + name + " not generated since it's marked as unused (due to form parameters) and skipFormModel set to true");
+                        continue;
+                    }
                 }
 
                 Schema schema = schemas.get(name);
@@ -432,19 +459,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 allModels.add(modelTemplate);
 
-                for (String templateName : config.modelTemplateFiles().keySet()) {
-                    String suffix = config.modelTemplateFiles().get(templateName);
-                    String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
-                    if (!config.shouldOverwrite(filename)) {
-                        LOGGER.info("Skipped overwriting " + filename);
-                        continue;
-                    }
-                    File written = processTemplateToFile(models, templateName, filename);
-                    if (written != null) {
-                        files.add(written);
-                    }
-                }
+                // to generate model files
+                generateModel(files, models, modelName);
+
                 if (generateModelTests) {
+                    // to generate model test files
                     generateModelTests(files, models, modelName);
                 }
                 if (generateModelDocumentation) {
@@ -508,6 +527,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     operation.put("vendorExtensions", config.vendorExtensions());
                 }
 
+                // process top-level x-group-parameters
+                if (config.vendorExtensions().containsKey("x-group-parameters")) {
+                    Boolean isGroupParameters = Boolean.valueOf(config.vendorExtensions().get("x-group-parameters").toString());
+
+                    Map<String, Object> objectMap = (Map<String, Object>) operation.get("operations");
+                    @SuppressWarnings("unchecked")
+                    List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+                    for (CodegenOperation op : operations) {
+                        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
+                        if (!op.vendorExtensions.containsKey("x-group-parameters")) {
+                            op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+                        }
+                    }
+                }
+
                 // Pass sortParamsByRequiredFlag through to the Mustache template...
                 boolean sortParamsByRequiredFlag = true;
                 if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
@@ -538,6 +572,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     File written = processTemplateToFile(operation, templateName, filename);
                     if (written != null) {
                         files.add(written);
+                        if (config.isEnablePostProcessFile()) {
+                            config.postProcessFile(written, "api");
+                        }
                     }
                 }
 
@@ -554,6 +591,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         File written = processTemplateToFile(operation, templateName, filename);
                         if (written != null) {
                             files.add(written);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "api-test");
+                            }
                         }
                     }
                 }
@@ -571,6 +611,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         File written = processTemplateToFile(operation, templateName, filename);
                         if (written != null) {
                             files.add(written);
+                            if (config.isEnablePostProcessFile()) {
+                                config.postProcessFile(written, "api-doc");
+                            }
                         }
                     }
                 }
@@ -641,7 +684,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                 .compile(template);
 
                         writeToFile(outputFilename, tmpl.execute(bundle));
-                        files.add(new File(outputFilename));
+                        File written = new File(outputFilename);
+                        files.add(written);
+                        if (config.isEnablePostProcessFile()) {
+                            config.postProcessFile(written, "supporting-mustache");
+                        }
                     } else {
                         InputStream in = null;
 
@@ -655,6 +702,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         }
                         File outputFile = writeInputStreamToFile(outputFilename, in, templateFile);
                         files.add(outputFile);
+                        if (config.isEnablePostProcessFile()) {
+                            config.postProcessFile(outputFile, "supporting-common");
+                        }
                     }
                 } else {
                     LOGGER.info("Skipped generation of " + outputFilename + " due to rule in .openapi-generator-ignore");
@@ -678,6 +728,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 throw new RuntimeException("Could not generate supporting file '" + openapiGeneratorIgnore + "'", e);
             }
             files.add(ignoreFile);
+            if (config.isEnablePostProcessFile()) {
+                config.postProcessFile(ignoreFile, "openapi-generator-ignore");
+            }
         }
 
         if (generateMetadata) {
@@ -686,6 +739,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             try {
                 writeToFile(versionMetadata, ImplementationVersion.read());
                 files.add(versionMetadataFile);
+                if (config.isEnablePostProcessFile()) {
+                    config.postProcessFile(ignoreFile, "openapi-generator-version");
+                }
             } catch (IOException e) {
                 throw new RuntimeException("Could not generate supporting file '" + versionMetadata + "'", e);
             }
@@ -751,6 +807,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
+        }
+
+        List<CodegenServer> servers = config.fromServers(openAPI.getServers());
+        if (servers != null && !servers.isEmpty()) {
+            bundle.put("servers", servers);
+            bundle.put("hasServers", true);
         }
 
         if (openAPI.getExternalDocs() != null) {
@@ -984,14 +1046,18 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+        Set<String> mappingSet = new TreeSet<>();
         for (String nextImport : allImports) {
             Map<String, String> im = new LinkedHashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
                 mapping = config.toModelImport(nextImport);
             }
-            if (mapping != null) {
+
+            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
+                mappingSet.add(mapping);
                 im.put("import", mapping);
+                im.put("classname", nextImport);
                 if (!imports.contains(im)) { // avoid duplicates
                     imports.add(im);
                 }
@@ -1004,6 +1070,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (imports.size() > 0) {
             operations.put("hasImport", true);
         }
+
         config.postProcessOperations(operations);
         config.postProcessOperationsWithModels(operations, allModels);
         if (objs.size() > 0) {

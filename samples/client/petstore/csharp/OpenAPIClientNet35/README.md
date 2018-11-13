@@ -76,12 +76,12 @@ namespace Example
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.TestSpecialTags(modelClient);
+                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling AnotherFakeApi.TestSpecialTags: " + e.Message );
+                Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
             }
 
         }
@@ -96,11 +96,12 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**TestSpecialTags**](docs/AnotherFakeApi.md#testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -116,6 +117,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**UpdatePet**](docs/PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**UploadFile**](docs/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*PetApi* | [**UploadFileWithRequiredFile**](docs/PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *StoreApi* | [**DeleteOrder**](docs/StoreApi.md#deleteorder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**GetInventory**](docs/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**GetOrderById**](docs/StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -148,6 +150,8 @@ Class | Method | HTTP request | Description
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
+ - [Model.File](docs/File.md)
+ - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Model.FormatTest](docs/FormatTest.md)
  - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Model.List](docs/List.md)
@@ -164,6 +168,7 @@ Class | Method | HTTP request | Description
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
+ - [Model.StringBooleanMap](docs/StringBooleanMap.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
 

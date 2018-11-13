@@ -1,0 +1,82 @@
+class {{classname}} {
+  {{#vars}}
+  {{#description}}/* {{{description}}} */{{/description}}
+  {{{dataType}}} {{name}} = {{{defaultValue}}};
+  {{#allowableValues}}
+  {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
+  {{/allowableValues}}
+  {{/vars}}
+  {{classname}}();
+
+  @override
+  String toString() {
+    return '{{classname}}[{{#vars}}{{name}}=${{name}}, {{/vars}}]';
+  }
+
+  {{classname}}.fromJson(Map<String, dynamic> json) {
+    if (json == null) return;
+  {{#vars}}
+  {{#isDateTime}}
+    {{name}} = json['{{baseName}}'] == null ? null : DateTime.parse(json['{{baseName}}']);
+  {{/isDateTime}}
+  {{#isDate}}
+    {{name}} = json['{{baseName}}'] == null ? null : DateTime.parse(json['{{baseName}}']);
+  {{/isDate}}
+  {{^isDateTime}}
+  {{^isDate}}
+    {{#complexType}}
+      {{#isListContainer}}
+    {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
+      {{/isListContainer}}
+      {{^isListContainer}}
+      {{#isMapContainer}}
+    {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
+      {{/isMapContainer}}
+      {{^isMapContainer}}
+    {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
+      {{/isMapContainer}}
+      {{/isListContainer}}
+    {{/complexType}}
+    {{^complexType}}
+      {{#isListContainer}}
+    {{name}} = ((json['{{baseName}}'] ?? []) as List).map((item) => item as {{items.datatype}}).toList();
+      {{/isListContainer}}
+      {{^isListContainer}}
+    {{name}} = json['{{baseName}}'];
+      {{/isListContainer}}
+    {{/complexType}}
+  {{/isDate}}
+  {{/isDateTime}}
+  {{/vars}}
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+    {{#vars}}
+      {{#isDateTime}}
+      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+      {{/isDateTime}}
+      {{#isDate}}
+      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+      {{/isDate}}
+      {{^isDateTime}}
+      {{^isDate}}
+      '{{baseName}}': {{name}}{{^-last}},{{/-last}}
+      {{/isDate}}
+      {{/isDateTime}}
+    {{/vars}}
+    };
+  }
+
+  static List<{{classname}}> listFromJson(List<dynamic> json) {
+    return json == null ? new List<{{classname}}>() : json.map((value) => new {{classname}}.fromJson(value)).toList();
+  }
+
+  static Map<String, {{classname}}> mapFromJson(Map<String, dynamic> json) {
+    var map = new Map<String, {{classname}}>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, dynamic value) => map[key] = new {{classname}}.fromJson(value));
+    }
+    return map;
+  }
+}

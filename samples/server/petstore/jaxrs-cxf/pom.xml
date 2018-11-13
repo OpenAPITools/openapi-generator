@@ -197,8 +197,8 @@
     <logback-version>1.1.7</logback-version>
     <servlet-api-version>2.5</servlet-api-version>
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>
-    <cxf-version>3.2.5</cxf-version>
-    <jackson-jaxrs-version>2.9.6</jackson-jaxrs-version>
+    <cxf-version>3.2.7</cxf-version>
+    <jackson-jaxrs-version>2.9.7</jackson-jaxrs-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

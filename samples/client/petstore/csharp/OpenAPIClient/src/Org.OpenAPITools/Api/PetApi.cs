@@ -482,6 +482,17 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public PetApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PetApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>

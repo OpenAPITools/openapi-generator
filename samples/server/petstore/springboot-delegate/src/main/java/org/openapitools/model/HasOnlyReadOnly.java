@@ -14,10 +14,10 @@ import javax.validation.constraints.*;
 
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
-  private String bar = null;
+  private String bar;
 
   @JsonProperty("foo")
-  private String foo = null;
+  private String foo;
 
   public HasOnlyReadOnly bar(String bar) {
     this.bar = bar;
@@ -27,7 +27,7 @@ public class HasOnlyReadOnly   {
   /**
    * Get bar
    * @return bar
-  **/
+  */
   @ApiModelProperty(readOnly = true, value = "")
 
 
@@ -47,7 +47,7 @@ public class HasOnlyReadOnly   {
   /**
    * Get foo
    * @return foo
-  **/
+  */
   @ApiModelProperty(readOnly = true, value = "")
 
 

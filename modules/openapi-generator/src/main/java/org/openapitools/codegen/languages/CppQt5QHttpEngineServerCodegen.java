@@ -17,21 +17,29 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
 
 public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implements CodegenConfig {
     @SuppressWarnings("unused")
@@ -52,7 +60,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     protected Map<String, String> namespaces = new HashMap<String, String>();
     protected Set<String> systemIncludes = new HashSet<String>();
     protected String cppNamespace = "OpenAPI";
-
+    protected Set<String> nonFrameworkPrimitives = new HashSet<String>();
     public CppQt5QHttpEngineServerCodegen() {
         super();
 
@@ -117,7 +125,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
         // Write defaults namespace in properties so that it can be accessible in templates.
         // At this point command line has not been parsed so if value is given
-        // in command line it will superseed this content
+        // in command line it will supersede this content
         additionalProperties.put("cppNamespace", cppNamespace);
 
         /*
@@ -132,7 +140,17 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
                         "float",
                         "double")
         );
-
+        nonFrameworkPrimitives.addAll(languageSpecificPrimitives);
+        
+        foundationClasses.addAll(
+                Arrays.asList(
+                        "QString",                          
+                        "QDate",
+                        "QDateTime",
+                        "QByteArray")
+        );
+        languageSpecificPrimitives.addAll(foundationClasses);
+        
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));        
@@ -162,7 +180,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
         // mapped as "file" type for OAS 3.0
         typeMapping.put("ByteArray", "QByteArray");
         //   UUID support - possible enhancement : use QUuid instead of QString.
-        //   beware though that Serialisation/deserialisation of QUuid does not
+        //   beware though that Serialization/deserialization of QUuid does not
         //   come out of the box and will need to be sorted out (at least imply
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
@@ -171,7 +189,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
         importMapping = new HashMap<String, String>();
         namespaces = new HashMap<String, String>();
 
-        foundationClasses.add("QString");
+
 
         systemIncludes.add("QString");
         systemIncludes.add("QList");
@@ -242,7 +260,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
      */
     @Override
     public String getHelp() {
-        return "Generates a Qt5 C++ Server (beta) using the QHTTPEngine HTTP Library.";
+        return "Generates a Qt5 C++ Server using the QHTTPEngine HTTP Library.";
     }
 
     @Override
@@ -288,7 +306,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     
     @Override
     public String toModelFilename(String name) {
-        return modelNamePrefix + initialCaps(name);
+        return modelNamePrefix + sanitizeName(initialCaps(name));
     }
 
     @Override
@@ -304,7 +322,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + initialCaps(name) + "ApiHandler";
+        return modelNamePrefix + sanitizeName(initialCaps(name)) + "ApiHandler";
     }
 
     /**
@@ -323,7 +341,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isBinarySchema(p)) {
             return getSchemaType(p) + "*";
@@ -359,7 +377,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -407,12 +425,12 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
         // if it's all uppper case, convert to lower case
         if (varName.matches("^[A-Z_]*$")) {
-            varName = varName.toLowerCase();
+            varName = varName.toLowerCase(Locale.ROOT);
         }
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        varName = underscore(varName);
+        varName = org.openapitools.codegen.utils.StringUtils.underscore(varName);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(varName) || varName.matches("^\\d.*")) {
@@ -430,5 +448,72 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     @Override
     public String getTypeDeclaration(String str) {
         return str;
+    }
+      
+    @Override
+    protected boolean needToImport(String type) {
+        return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
+                && !nonFrameworkPrimitives.contains(type);
+    }
+   
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        for (CodegenOperation operation : operations) {
+            // Check all return parameter baseType if there is a necessity to include, include it if not 
+            // already done
+            if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
+                if(!isIncluded(operation.returnBaseType, imports)) {
+                    imports.add(createMapping("import", operation.returnBaseType));
+                }
+            }
+            List<CodegenParameter> params = new ArrayList<CodegenParameter>();
+            if (operation.allParams != null)params.addAll(operation.allParams);
+
+            // Check all parameter baseType if there is a necessity to include, include it if not 
+            // already done
+            for(CodegenParameter param : params) {
+                if(param.isPrimitiveType && needToImport(param.baseType)) {
+                    if(!isIncluded(param.baseType, imports)) {
+                        imports.add(createMapping("import", param.baseType));
+                    }
+                }
+            }
+            if (operation.pathParams != null) {
+                // We use QString to pass path params, add it to include
+                if(!isIncluded("QString", imports)) {
+                    imports.add(createMapping("import", "QString"));
+                }               
+            }
+        }
+        if(isIncluded("QMap", imports)) {
+            // Maps uses QString as key
+            if(!isIncluded("QString", imports)) {
+                imports.add(createMapping("import", "QString"));
+            }
+        }
+        return objs;
+    }
+        
+    public Map<String, String> createMapping(String key, String value) {
+        Map<String, String> customImport = new HashMap<String, String>();
+        customImport.put(key, toModelImport(value));
+        return customImport;
+    }
+    
+    private boolean isIncluded(String type, List<Map<String, String>> imports) {
+        boolean included = false;
+        String inclStr = toModelImport(type);
+        for (Map<String, String> importItem : imports) {
+            if(importItem.containsValue(inclStr)) {
+                included = true;
+                break;
+            }
+        }
+        return included;
     }
 }

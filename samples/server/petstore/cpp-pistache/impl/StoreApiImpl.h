@@ -42,8 +42,8 @@ using namespace org::openapitools::server::model;
 
 class StoreApiImpl : public org::openapitools::server::api::StoreApi {
 public:
-    StoreApiImpl(Pistache::Address addr);
-    ~StoreApiImpl() { };
+    StoreApiImpl(std::shared_ptr<Pistache::Rest::Router>);
+    ~StoreApiImpl() {}
 
     void delete_order(const std::string &orderId, Pistache::Http::ResponseWriter &response);
     void get_inventory(Pistache::Http::ResponseWriter &response);

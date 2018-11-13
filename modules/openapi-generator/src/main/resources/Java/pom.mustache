@@ -13,6 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
 
     <licenses>
         <license>
@@ -114,8 +121,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -127,8 +133,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -308,6 +313,14 @@
                 <scope>provided</scope>
             </dependency>
         {{/useBeanValidation}}
+        {{#performBeanValidation}}
+            <!-- Bean Validation Impl. used to perform BeanValidation -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>5.4.1.Final</version>
+            </dependency>
+        {{/performBeanValidation}}
         {{#parcelableModel}}
             <!-- Needed for Parcelable support-->
             <dependency>
@@ -327,7 +340,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.5.17</swagger-annotations-version>
+        <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jersey-version>1.19.4</jersey-version>
         {{#supportJava6}}
         <commons_io_version>2.5</commons_io_version>

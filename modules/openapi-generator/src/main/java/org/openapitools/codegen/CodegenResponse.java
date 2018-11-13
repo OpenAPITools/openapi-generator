@@ -20,6 +20,7 @@ package org.openapitools.codegen;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class CodegenResponse {
@@ -29,7 +30,7 @@ public class CodegenResponse {
     public List<Map<String, Object>> examples;
     public String dataType, baseType, containerType;
     public boolean hasHeaders;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime, isUuid, isEmail;
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;
@@ -47,7 +48,7 @@ public class CodegenResponse {
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", code, containerType);
+        return String.format(Locale.ROOT, "%s(%s)", code, containerType);
     }
 
     @Override

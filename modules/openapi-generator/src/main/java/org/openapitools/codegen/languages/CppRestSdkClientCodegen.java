@@ -17,17 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -42,8 +38,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
@@ -139,6 +139,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("cmake-lists.mustache", "", "CMakeLists.txt"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("int", "char", "bool", "long", "float", "double", "int32_t", "int64_t"));
@@ -154,7 +155,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
-        typeMapping.put("binary", "std::string");
+        typeMapping.put("binary", "utility::string_t");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
         typeMapping.put("ByteArray", "utility::string_t");
@@ -188,10 +189,10 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase());
+        additionalProperties.put("modelHeaderGuardPrefix", modelPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
-        additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase());
+        additionalProperties.put("apiHeaderGuardPrefix", apiPackage.replaceAll("\\.", "_").toUpperCase(Locale.ROOT));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
     }
@@ -249,6 +250,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
             if (methodResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
+                response = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), response);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
@@ -276,6 +278,24 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         }
     }
 
+    // override with any special post-processing
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            for(String hdr : op.imports) {
+                if(importMapping.containsKey(hdr)) {
+                    continue;
+                }
+                operations.put("hasModelImport", true);
+                break;
+            }
+        }
+        return objs;
+    }
+    
     protected boolean isFileSchema(CodegenProperty property) {
         return property.baseType.equals("HttpContent");
     }
@@ -307,7 +327,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isStringSchema(p)
                 || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
@@ -338,7 +358,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

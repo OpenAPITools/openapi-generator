@@ -13,6 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
 
     <licenses>
         <license>
@@ -114,8 +121,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -127,8 +133,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -212,7 +217,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>${swagger-annotations-version}</version>
         </dependency>
 
         <!-- HTTP client: jersey-client -->
@@ -246,7 +251,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-databind-version}</version>
         </dependency>
         {{#withXml}}
 
@@ -318,7 +323,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-core-version>1.5.20</swagger-core-version>
+        <swagger-annotations-version>1.5.21</swagger-annotations-version>
         {{^supportJava6}}
         <jersey-version>2.27</jersey-version>
         {{/supportJava6}}
@@ -327,7 +332,8 @@
         <commons_io_version>2.5</commons_io_version>
         <commons_lang3_version>3.6</commons_lang3_version>
         {{/supportJava6}}
-        <jackson-version>2.8.9</jackson-version>
+        <jackson-version>2.8.11</jackson-version>
+        <jackson-databind-version>2.8.11.2</jackson-databind-version>
         {{#threetenbp}}
         <threetenbp-version>2.6.4</threetenbp-version>
         {{/threetenbp}}

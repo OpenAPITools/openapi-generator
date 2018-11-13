@@ -18,6 +18,6 @@ public interface AnotherFakeApiDelegate {
     /**
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    ResponseEntity<Client> call123testSpecialTags( Client  client);
+    ResponseEntity<Client> call123testSpecialTags(Client client);
 
 }

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Client
@@ -26,7 +27,7 @@ import javax.validation.constraints.*;
 
 public class Client   {
   @JsonProperty("client")
-  private String client = null;
+  private String client;
 
   public Client client(String client) {
     this.client = client;
@@ -39,6 +40,7 @@ public class Client   {
    **/
   @JsonProperty("client")
   @ApiModelProperty(value = "")
+  
   public String getClient() {
     return client;
   }

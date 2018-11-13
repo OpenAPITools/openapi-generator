@@ -206,6 +206,58 @@ open class FakeAPI {
 
     /**
 
+     - parameter fileSchemaTestClass: (body)  
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: fileSchemaTestClass).execute { (response, error) -> Void in
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+
+     - parameter fileSchemaTestClass: (body)  
+     - returns: Observable<Void>
+     */
+    open class func testBodyWithFileSchema(fileSchemaTestClass: FileSchemaTestClass) -> Observable<Void> {
+        return Observable.create { observer -> Disposable in
+            testBodyWithFileSchema(fileSchemaTestClass: fileSchemaTestClass) { data, error in
+                if let error = error {
+                    observer.on(.error(error))
+                } else {
+                    observer.on(.next(data!))
+                }
+                observer.on(.completed)
+            }
+            return Disposables.create()
+        }
+    }
+
+    /**
+     - PUT /fake/body-with-file-schema
+     - For this test, the body for this request much reference a schema named `File`.
+     - parameter fileSchemaTestClass: (body)  
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: FileSchemaTestClass) -> RequestBuilder<Void> {
+        let path = "/fake/body-with-file-schema"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: fileSchemaTestClass)
+
+        let url = URLComponents(string: URLString)
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+
      - parameter query: (query)  
      - parameter user: (body)  
      - parameter completion: completion handler to receive the data and the error objects
@@ -498,13 +550,13 @@ open class FakeAPI {
      To test enum parameters
      
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to "-efg")
+     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .-efg)
      - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to "-efg")
+     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .-efg)
      - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to "$")
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to "-efg")
+     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .$)
+     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .-efg)
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
@@ -521,13 +573,13 @@ open class FakeAPI {
      To test enum parameters
      
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to "-efg")
+     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .-efg)
      - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to "-efg")
+     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .-efg)
      - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to "$")
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to "-efg")
+     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .$)
+     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .-efg)
      - returns: Observable<Void>
      */
     open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> Observable<Void> {
@@ -549,13 +601,13 @@ open class FakeAPI {
      - GET /fake
      - To test enum parameters
      - parameter enumHeaderStringArray: (header) Header parameter enum test (string array) (optional)
-     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to "-efg")
+     - parameter enumHeaderString: (header) Header parameter enum test (string) (optional, default to .-efg)
      - parameter enumQueryStringArray: (query) Query parameter enum test (string array) (optional)
-     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to "-efg")
+     - parameter enumQueryString: (query) Query parameter enum test (string) (optional, default to .-efg)
      - parameter enumQueryInteger: (query) Query parameter enum test (double) (optional)
      - parameter enumQueryDouble: (query) Query parameter enum test (double) (optional)
-     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to "$")
-     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to "-efg")
+     - parameter enumFormStringArray: (form) Form parameter enum test (string array) (optional, default to .$)
+     - parameter enumFormString: (form) Form parameter enum test (string) (optional, default to .-efg)
      - returns: RequestBuilder<Void> 
      */
     open class func testEnumParametersWithRequestBuilder(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil) -> RequestBuilder<Void> {

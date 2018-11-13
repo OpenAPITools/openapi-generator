@@ -36,7 +36,8 @@ namespace OpenAPIServer;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-abstract class AbstractApiController {
+abstract class AbstractApiController
+{
 
     /**
      * @var \Interop\Container\ContainerInterface Slim app container instance
@@ -48,8 +49,8 @@ abstract class AbstractApiController {
      *
      * @param \Interop\Container\ContainerInterface $container Slim app container instance
      */
-    public function __construct($container) {
+    public function __construct($container)
+    {
         $this->container = $container;
     }
-
 }

@@ -416,6 +416,17 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public UserApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>

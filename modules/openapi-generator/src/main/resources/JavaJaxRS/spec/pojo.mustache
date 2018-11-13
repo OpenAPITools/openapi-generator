@@ -1,4 +1,6 @@
+{{#useSwaggerAnnotations}}
 import io.swagger.annotations.*;
+{{/useSwaggerAnnotations}}
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -7,15 +9,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 {{#description}}
 /**
  * {{description}}
- **/{{/description}}
-{{#description}}@ApiModel(description = "{{{description}}}"){{/description}}
+ **/{{/description}}{{#useSwaggerAnnotations}}
+{{#description}}@ApiModel(description = "{{{description}}}"){{/description}}{{/useSwaggerAnnotations}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
  
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  private {{#useBeanValidation}}@Valid{{/useBeanValidation}} {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/vars}}
+  private {{#useBeanValidation}}@Valid{{/useBeanValidation}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
   {{#vars}}
   /**
@@ -34,8 +36,8 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     return this;
   }
 
-  {{#vendorExtensions.extraAnnotation}}{{{vendorExtensions.extraAnnotation}}}{{/vendorExtensions.extraAnnotation}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
+  {{#vendorExtensions.extraAnnotation}}{{{vendorExtensions.extraAnnotation}}}{{/vendorExtensions.extraAnnotation}}{{#useSwaggerAnnotations}}
+  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};

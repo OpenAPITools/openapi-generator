@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
-  private Long $specialPropertyName = null;
+  private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -24,7 +24,7 @@ public class SpecialModelName   {
   /**
    * Get $specialPropertyName
    * @return $specialPropertyName
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

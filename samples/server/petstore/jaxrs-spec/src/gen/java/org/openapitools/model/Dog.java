@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -15,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Dog extends Animal implements Serializable {
   
-  private @Valid String breed = null;
+  private @Valid String breed;
 
   /**
    **/

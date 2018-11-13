@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.cmd;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
 import org.openapitools.codegen.ClientOptInput;
@@ -32,6 +34,7 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
@@ -199,8 +202,26 @@ public class Generate implements Runnable {
             description = "Skips the default behavior of validating an input specification.")
     private Boolean skipValidateSpec;
 
+    @Option(name = {"--log-to-stderr"},
+            title = "Log to STDERR",
+            description = "write all log messages (not just errors) to STDOUT."
+                    + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
+    private Boolean logToStderr;
+
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
+    private Boolean enablePostProcessFile;
+
     @Override
     public void run() {
+        if (logToStderr != null) {
+            LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+            Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
+                    .map(lc::getLogger)
+                    .peek(logger -> logger.detachAppender("STDOUT"))
+                    .reduce((logger, next) -> logger.getName().equals(Logger.ROOT_LOGGER_NAME) ? logger : next)
+                    .map(root -> root.getAppender("STDERR"))
+                    .ifPresent(FilterAttachable::clearAllFilters);
+        }
 
         // attempt to read from config file
         CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
@@ -309,6 +330,10 @@ public class Generate implements Runnable {
 
         if (removeOperationIdPrefix != null) {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+        }
+
+        if (enablePostProcessFile != null) {
+            configurator.setEnablePostProcessFile(enablePostProcessFile);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);

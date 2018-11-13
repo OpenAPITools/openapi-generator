@@ -17,10 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 
-import java.util.*;
 import java.io.File;
+import java.util.*;
 
 public class PhpLumenServerCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
@@ -115,11 +117,7 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
 
         for (CodegenOperation op : operations) {
-            op.httpMethod = op.httpMethod.toLowerCase();
-            // check to see if the path contains ".", which is not supported by Lumen
-            if (op.path != null && op.path.contains(".")) {
-                throw new IllegalArgumentException("'.' (dot) is not supported by PHP Lumen.");
-            }
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
         }
 
         // sort the endpoints in ascending to avoid the route priority issure. 

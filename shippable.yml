@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-- oraclejdk8 
+- oraclejdk10
 
 build:
   cache: true
@@ -10,9 +10,10 @@ build:
     - $HOME/.stack
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
-    - mvn --quiet clean install
+    - java -version
+    - mvn --quiet clean install -Dmaven.javadoc.skip=true
     # ensure all modifications created by 'mature' generators are in the git repo
-    - ./bin/utils/ensure-up-to-date
+    # below move to CircleCI ./bin/utils/ensure-up-to-date
     # prepare environment for tests
     - sudo apt-get update -qq
     # install stack
@@ -24,6 +25,8 @@ build:
     - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
     - sudo apt-get update
     - sudo apt-get install elixir
+    # install elm
+    - curl -SL https://github.com/elm/compiler/releases/download/0.19.0/binaries-for-linux.tar.gz | tar xzv -C /usr/local/bin
     # install rebar3
     - wget https://s3.amazonaws.com/rebar3/rebar3 && chmod +x rebar3 && cp rebar3 /usr/bin
     # install php
@@ -39,3 +42,5 @@ build:
     - ./bin/run-all-petstore
     # generate all petstore samples (openapi3)
     - ./bin/openapi3/run-all-petstore
+    # generate test scripts
+    - ./bin/tests/run-all-test

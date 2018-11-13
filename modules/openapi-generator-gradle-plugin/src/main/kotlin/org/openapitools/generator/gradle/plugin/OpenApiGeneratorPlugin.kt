@@ -18,7 +18,6 @@ package org.openapitools.generator.gradle.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.invoke
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorGenerateExtension
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorMetaExtension
 import org.openapitools.generator.gradle.plugin.extensions.OpenApiGeneratorValidateExtension
@@ -56,12 +55,13 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
 
             generate.outputDir.set("$buildDir/generate-resources/main")
 
-            tasks {
-                "openApiGenerators"(GeneratorsTask::class) {
+            tasks.apply {
+                create("openApiGenerators", GeneratorsTask::class.java) {
                     group = pluginGroup
                     description = "Lists generators available via Open API Generators."
                 }
-                "openApiMeta"(MetaTask::class) {
+
+                create("openApiMeta", MetaTask::class.java) {
                     group = pluginGroup
                     description = "Generates a new generator to be consumed via Open API Generator."
 
@@ -69,13 +69,15 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     packageName.set(meta.packageName)
                     outputFolder.set(meta.outputFolder)
                 }
-                "openApiValidate"(ValidateTask::class) {
+
+                create("openApiValidate", ValidateTask::class.java) {
                     group = pluginGroup
                     description = "Validates an Open API 2.0 or 3.x specification document."
 
                     inputSpec.set(validate.inputSpec)
                 }
-                "openApiGenerate"(GenerateTask::class) {
+
+                create("openApiGenerate", GenerateTask::class.java) {
                     group = pluginGroup
                     description = "Generate code via Open API Tools Generator for Open API 2.0 or 3.x specification documents."
 

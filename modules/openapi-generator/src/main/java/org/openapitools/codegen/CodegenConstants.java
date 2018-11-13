@@ -31,6 +31,7 @@ public class CodegenConstants {
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
     public static final String WITH_XML = "withXml";
+    public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
     public static final String API_PACKAGE = "apiPackage";
@@ -181,6 +182,7 @@ public class CodegenConstants {
     public static final String DOTNET_FRAMEWORK_DESC = "The target .NET framework version.";
 
     public static enum MODEL_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original}
+
     public static enum ENUM_PROPERTY_NAMING_TYPE {camelCase, PascalCase, snake_case, original, UPPERCASE}
 
     public static final String ENUM_PROPERTY_NAMING = "enumPropertyNaming";
@@ -219,6 +221,10 @@ public class CodegenConstants {
     public static final String SOURCECODEONLY_GENERATION = "generateSourceCodeOnly";
     public static final String SOURCECODEONLY_GENERATION_DESC = "Specifies that only a library source code is to be generated.";
 
+    public static final String PARCELIZE_MODELS = "parcelizeModels";
+    public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
+
+
     // Not user-configurable. System provided for use in templates.
 
     public static final String GENERATE_APIS = "generateApis";
@@ -230,6 +236,9 @@ public class CodegenConstants {
     // Not user-configurable. System provided for use in templates.
     public static final String GENERATE_MODELS = "generateModels";
     public static final String GENERATE_MODEL_DOCS = "generateModelDocs";
+
+    public static final String VIRTUAL_SERVICE = "virtualService";
+    public static final String VIRTUAL_SERVICE_DESC = "Generate Spring boot rest service as virtual service with Virtualan";
 
     public static final String GENERATE_MODEL_TESTS = "generateModelTests";
     public static final String GENERATE_MODEL_TESTS_DESC = "Specifies that model tests are to be generated.";
@@ -261,4 +270,17 @@ public class CodegenConstants {
     public static final String DATABASE_ADAPTER = "databaseAdapter";
     public static final String DATABASE_ADAPTER_DESC = "The adapter for database (e.g. mysql, sqlite). Default: sqlite";
 
+    public static final String PARENT_GROUP_ID = "parentGroupId";
+    public static final String PARENT_GROUP_ID_DESC = "parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect";
+
+    public static final String PARENT_ARTIFACT_ID = "parentArtifactId";
+    public static final String PARENT_ARTIFACT_ID_DESC = "parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect";
+
+    public static final String PARENT_VERSION = "parentVersion";
+    public static final String PARENT_VERSION_DESC = "parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect";
+
+    public static final String ENABLE_POST_PROCESS_FILE = "enablePostProcessFile";
+    public static final String ENABLE_POST_PROCESS_FILE_DESC = "Enable post-processing file using environment variables.";
+
+    public static final String OPEN_API_SPEC_NAME = "openAPISpecName";
 }

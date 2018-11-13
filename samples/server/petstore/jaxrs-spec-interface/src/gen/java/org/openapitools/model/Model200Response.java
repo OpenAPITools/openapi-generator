@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -17,8 +18,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @ApiModel(description = "Model for testing model name starting with number")
 public class Model200Response  implements Serializable {
   
-  private @Valid Integer name = null;
-  private @Valid String propertyClass = null;
+  private @Valid Integer name;
+  private @Valid String propertyClass;
 
   /**
    **/

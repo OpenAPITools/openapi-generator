@@ -18,6 +18,7 @@
 #include <QSharedPointer>
 #include <QList>
 #include <QMultiMap>
+#include <QRegularExpression>
 
 #include <qhttpengine/socket.h>
 #include <qhttpengine/handler.h>
@@ -30,7 +31,7 @@
 
 namespace OpenAPI {
 
-class RequestHandler : public  QHttpEngine::QObjectHandler
+class OAIApiRequestHandler : public  QHttpEngine::QObjectHandler
 {
     Q_OBJECT
 signals:
@@ -43,21 +44,61 @@ protected:
     }
 };
 
-class ApiRouter : public QObject
+class OAIApiRouter : public QObject
 {
     Q_OBJECT
 public:
-    ApiRouter();
-    virtual ~ApiRouter();
+    OAIApiRouter();
+    virtual ~OAIApiRouter();
 
     void setUpRoutes();
     void processRequest(QHttpEngine::Socket *socket);
 private:
-    QMultiMap<QString, std::function<void(QHttpEngine::Socket *)>> Routes;  
+    QMap<QString, std::function<void(QHttpEngine::Socket *)>> Routes;
+    QMultiMap<QString, std::function<void(QHttpEngine::Socket *)>> RoutesWithPathParam;
+
+    bool handleRequest(QHttpEngine::Socket *socket);
+    bool handleRequestAndExtractPathParam(QHttpEngine::Socket *socket);
+
     
     OAIPetApiHandler *OAIPetApiApiHandler;
     OAIStoreApiHandler *OAIStoreApiApiHandler;
-    OAIUserApiHandler *OAIUserApiApiHandler; 
+    OAIUserApiHandler *OAIUserApiApiHandler;
+protected:
+    // override this method to provide custom class derived from ApiHandler classes
+    virtual void createApiHandlers();
+
+private :
+    inline QString fromQHttpEngineMethod(QHttpEngine::Socket::Method method){
+        switch( method ){
+            case QHttpEngine::Socket::Method::OPTIONS:
+                return QStringLiteral("OPTIONS");
+            case QHttpEngine::Socket::Method::GET:
+                return QStringLiteral("GET");
+            case QHttpEngine::Socket::Method::HEAD:
+                return QStringLiteral("HEAD");
+            case QHttpEngine::Socket::Method::POST:
+                return QStringLiteral("POST");
+            case QHttpEngine::Socket::Method::PUT:
+                return QStringLiteral("PUT");
+            case QHttpEngine::Socket::Method::DELETE:
+                return QStringLiteral("DELETE");
+            case QHttpEngine::Socket::Method::TRACE:
+                return QStringLiteral("TRACE");
+            case QHttpEngine::Socket::Method::CONNECT:
+                return QStringLiteral("CONNECT");
+        }
+        return QStringLiteral("");
+    }
+    
+    inline QRegularExpressionMatch getRequestMatch(QString serverTemplatePath, QString requestPath){
+        QRegularExpression parExpr( R"(\{([^\/\\s]+)\})" );
+        serverTemplatePath.replace( parExpr, R"((?<\1>[^\/\s]+))" );
+        serverTemplatePath.append("[\\/]?$");
+        QRegularExpression pathExpr( serverTemplatePath );
+        return pathExpr.match( requestPath );
+    }
+
 };
 
 

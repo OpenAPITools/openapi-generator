@@ -50,7 +50,7 @@ public class URLPathUtils {
         return getServerURL(servers.get(0));
     }
 
-    static URL getServerURL(final Server server) {
+    public static URL getServerURL(final Server server) {
         String url = server.getUrl();
         ServerVariables variables = server.getVariables();
         if(variables == null) {
@@ -168,7 +168,7 @@ public class URLPathUtils {
      */
     public static String getHost(OpenAPI openAPI) {
         if (openAPI.getServers() != null && openAPI.getServers().size() > 0) {
-            return sanitizeUrl(openAPI.getServers().get(0).getUrl());
+            return sanitizeUrl(getServerURL(openAPI.getServers().get(0)).toString());
         }
         return LOCAL_HOST;
     }

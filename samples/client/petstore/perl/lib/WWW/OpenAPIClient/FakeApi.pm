@@ -1,3 +1,4 @@
+
 =begin comment
 
 OpenAPI Petstore
@@ -22,7 +23,7 @@ package WWW::OpenAPIClient::FakeApi;
 require 5.6.0;
 use strict;
 use warnings;
-use utf8; 
+use utf8;
 use Exporter;
 use Carp qw( croak );
 use Log::Any qw($log);
@@ -31,15 +32,16 @@ use WWW::OpenAPIClient::ApiClient;
 
 use base "Class::Data::Inheritable";
 
-__PACKAGE__->mk_classdata('method_documentation' => {});
+__PACKAGE__->mk_classdata( 'method_documentation' => {} );
 
 sub new {
     my $class = shift;
     my $api_client;
 
-    if ($_[0] && ref $_[0] && ref $_[0] eq 'WWW::OpenAPIClient::ApiClient' ) {
+    if ( $_[0] && ref $_[0] && ref $_[0] eq 'WWW::OpenAPIClient::ApiClient' ) {
         $api_client = $_[0];
-    } else {
+    }
+    else {
         $api_client = WWW::OpenAPIClient::ApiClient->new(@_);
     }
 
@@ -47,50 +49,52 @@ sub new {
 
 }
 
-
 #
 # fake_outer_boolean_serialize
 #
-# 
-# 
+#
+#
 # @param boolean $body Input boolean as post body (optional)
 {
     my $params = {
-    'body' => {
-        data_type => 'boolean',
-        description => 'Input boolean as post body',
-        required => '0',
-    },
+        'body' => {
+            data_type   => 'boolean',
+            description => 'Input boolean as post body',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'fake_outer_boolean_serialize' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'fake_outer_boolean_serialize'} = {
+        summary => '',
+        params  => $params,
         returns => 'boolean',
-        };
+    };
 }
+
 # @return boolean
 #
 sub fake_outer_boolean_serialize {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/fake/outer/boolean';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -98,59 +102,64 @@ sub fake_outer_boolean_serialize {
     my $auth_settings = [qw()];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('boolean', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'boolean', $response );
     return $_response_object;
 }
 
 #
 # fake_outer_composite_serialize
 #
-# 
-# 
+#
+#
 # @param OuterComposite $outer_composite Input composite as post body (optional)
 {
     my $params = {
-    'outer_composite' => {
-        data_type => 'OuterComposite',
-        description => 'Input composite as post body',
-        required => '0',
-    },
+        'outer_composite' => {
+            data_type   => 'OuterComposite',
+            description => 'Input composite as post body',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'fake_outer_composite_serialize' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'fake_outer_composite_serialize'} = {
+        summary => '',
+        params  => $params,
         returns => 'OuterComposite',
-        };
+    };
 }
+
 # @return OuterComposite
 #
 sub fake_outer_composite_serialize {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/fake/outer/composite';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'outer_composite'}) {
+    if ( exists $args{'outer_composite'} ) {
         $_body_data = $args{'outer_composite'};
     }
 
@@ -158,59 +167,64 @@ sub fake_outer_composite_serialize {
     my $auth_settings = [qw()];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('OuterComposite', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'OuterComposite', $response );
     return $_response_object;
 }
 
 #
 # fake_outer_number_serialize
 #
-# 
-# 
+#
+#
 # @param double $body Input number as post body (optional)
 {
     my $params = {
-    'body' => {
-        data_type => 'double',
-        description => 'Input number as post body',
-        required => '0',
-    },
+        'body' => {
+            data_type   => 'double',
+            description => 'Input number as post body',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'fake_outer_number_serialize' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'fake_outer_number_serialize'} = {
+        summary => '',
+        params  => $params,
         returns => 'double',
-        };
+    };
 }
+
 # @return double
 #
 sub fake_outer_number_serialize {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/fake/outer/number';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -218,59 +232,64 @@ sub fake_outer_number_serialize {
     my $auth_settings = [qw()];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('double', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'double', $response );
     return $_response_object;
 }
 
 #
 # fake_outer_string_serialize
 #
-# 
-# 
+#
+#
 # @param string $body Input string as post body (optional)
 {
     my $params = {
-    'body' => {
-        data_type => 'string',
-        description => 'Input string as post body',
-        required => '0',
-    },
+        'body' => {
+            data_type   => 'string',
+            description => 'Input string as post body',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'fake_outer_string_serialize' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'fake_outer_string_serialize'} = {
+        summary => '',
+        params  => $params,
         returns => 'string',
-        };
+    };
 }
+
 # @return string
 #
 sub fake_outer_string_serialize {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/fake/outer/string';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept('*/*');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type();
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'body'}) {
+    if ( exists $args{'body'} ) {
         $_body_data = $args{'body'};
     }
 
@@ -278,80 +297,157 @@ sub fake_outer_string_serialize {
     my $auth_settings = [qw()];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('string', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'string', $response );
     return $_response_object;
 }
 
 #
-# test_body_with_query_params
+# test_body_with_file_schema
 #
-# 
-# 
-# @param string $query  (required)
-# @param User $user  (required)
+#
+#
+# @param FileSchemaTestClass $file_schema_test_class  (required)
 {
     my $params = {
-    'query' => {
-        data_type => 'string',
-        description => '',
-        required => '1',
-    },
-    'user' => {
-        data_type => 'User',
-        description => '',
-        required => '1',
-    },
+        'file_schema_test_class' => {
+            data_type   => 'FileSchemaTestClass',
+            description => '',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'test_body_with_query_params' } = { 
-    	summary => '',
-        params => $params,
+    __PACKAGE__->method_documentation->{'test_body_with_file_schema'} = {
+        summary => '',
+        params  => $params,
         returns => undef,
-        };
+    };
 }
+
 # @return void
 #
-sub test_body_with_query_params {
-    my ($self, %args) = @_;
+sub test_body_with_file_schema {
+    my ( $self, %args ) = @_;
 
-    # verify the required parameter 'query' is set
-    unless (exists $args{'query'}) {
-      croak("Missing the required parameter 'query' when calling test_body_with_query_params");
-    }
-
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling test_body_with_query_params");
+    # verify the required parameter 'file_schema_test_class' is set
+    unless ( exists $args{'file_schema_test_class'} ) {
+        croak(
+"Missing the required parameter 'file_schema_test_class' when calling test_body_with_file_schema"
+        );
     }
 
     # parse inputs
-    my $_resource_path = '/fake/body-with-query-params';
+    my $_resource_path = '/fake/body-with-file-schema';
 
-    my $_method = 'PUT';
-    my $query_params = {};
+    my $_method       = 'PUT';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+
+    # body params
+    if ( exists $args{'file_schema_test_class'} ) {
+        $_body_data = $args{'file_schema_test_class'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    return;
+}
+
+#
+# test_body_with_query_params
+#
+#
+#
+# @param string $query  (required)
+# @param User $user  (required)
+{
+    my $params = {
+        'query' => {
+            data_type   => 'string',
+            description => '',
+            required    => '1',
+        },
+        'user' => {
+            data_type   => 'User',
+            description => '',
+            required    => '1',
+        },
+    };
+    __PACKAGE__->method_documentation->{'test_body_with_query_params'} = {
+        summary => '',
+        params  => $params,
+        returns => undef,
+    };
+}
+
+# @return void
+#
+sub test_body_with_query_params {
+    my ( $self, %args ) = @_;
+
+    # verify the required parameter 'query' is set
+    unless ( exists $args{'query'} ) {
+        croak(
+"Missing the required parameter 'query' when calling test_body_with_query_params"
+        );
+    }
+
+    # verify the required parameter 'user' is set
+    unless ( exists $args{'user'} ) {
+        croak(
+"Missing the required parameter 'user' when calling test_body_with_query_params"
+        );
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/body-with-query-params';
+
+    my $_method       = 'PUT';
+    my $query_params  = {};
+    my $header_params = {};
+    my $form_params   = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type('application/json');
 
     # query params
-    if ( exists $args{'query'}) {
-        $query_params->{'query'} = $self->{api_client}->to_query_value($args{'query'});
+    if ( exists $args{'query'} ) {
+        $query_params->{'query'} =
+          $self->{api_client}->to_query_value( $args{'query'} );
     }
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'user'}) {
+    if ( exists $args{'user'} ) {
         $_body_data = $args{'user'};
     }
 
@@ -359,9 +455,10 @@ sub test_body_with_query_params {
     my $auth_settings = [qw()];
 
     # make the API Call
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
+    $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
     return;
 }
 
@@ -369,50 +466,56 @@ sub test_body_with_query_params {
 # test_client_model
 #
 # To test \"client\" model
-# 
+#
 # @param Client $client client model (required)
 {
     my $params = {
-    'client' => {
-        data_type => 'Client',
-        description => 'client model',
-        required => '1',
-    },
+        'client' => {
+            data_type   => 'Client',
+            description => 'client model',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'test_client_model' } = { 
-    	summary => 'To test \&quot;client\&quot; model',
-        params => $params,
+    __PACKAGE__->method_documentation->{'test_client_model'} = {
+        summary => 'To test \&quot;client\&quot; model',
+        params  => $params,
         returns => 'Client',
-        };
+    };
 }
+
 # @return Client
 #
 sub test_client_model {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'client' is set
-    unless (exists $args{'client'}) {
-      croak("Missing the required parameter 'client' when calling test_client_model");
+    unless ( exists $args{'client'} ) {
+        croak(
+"Missing the required parameter 'client' when calling test_client_model"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/fake';
 
-    my $_method = 'PATCH';
-    my $query_params = {};
+    my $_method       = 'PATCH';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
-    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    my $_header_accept =
+      $self->{api_client}->select_header_accept('application/json');
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type('application/json');
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'client'}) {
+    if ( exists $args{'client'} ) {
         $_body_data = $args{'client'};
     }
 
@@ -420,21 +523,23 @@ sub test_client_model {
     my $auth_settings = [qw()];
 
     # make the API Call
-    my $response = $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
-    if (!$response) {
+    my $response = $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
+    if ( !$response ) {
         return;
     }
-    my $_response_object = $self->{api_client}->deserialize('Client', $response);
+    my $_response_object =
+      $self->{api_client}->deserialize( 'Client', $response );
     return $_response_object;
 }
 
 #
 # test_endpoint_parameters
 #
-# Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-# 
+# Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+#
 # @param double $number None (required)
 # @param double $double None (required)
 # @param string $pattern_without_delimiter None (required)
@@ -451,202 +556,228 @@ sub test_client_model {
 # @param string $callback None (optional)
 {
     my $params = {
-    'number' => {
-        data_type => 'double',
-        description => 'None',
-        required => '1',
-    },
-    'double' => {
-        data_type => 'double',
-        description => 'None',
-        required => '1',
-    },
-    'pattern_without_delimiter' => {
-        data_type => 'string',
-        description => 'None',
-        required => '1',
-    },
-    'byte' => {
-        data_type => 'string',
-        description => 'None',
-        required => '1',
-    },
-    'integer' => {
-        data_type => 'int',
-        description => 'None',
-        required => '0',
-    },
-    'int32' => {
-        data_type => 'int',
-        description => 'None',
-        required => '0',
-    },
-    'int64' => {
-        data_type => 'int',
-        description => 'None',
-        required => '0',
-    },
-    'float' => {
-        data_type => 'double',
-        description => 'None',
-        required => '0',
-    },
-    'string' => {
-        data_type => 'string',
-        description => 'None',
-        required => '0',
-    },
-    'binary' => {
-        data_type => 'string',
-        description => 'None',
-        required => '0',
-    },
-    'date' => {
-        data_type => 'DateTime',
-        description => 'None',
-        required => '0',
-    },
-    'date_time' => {
-        data_type => 'DateTime',
-        description => 'None',
-        required => '0',
-    },
-    'password' => {
-        data_type => 'string',
-        description => 'None',
-        required => '0',
-    },
-    'callback' => {
-        data_type => 'string',
-        description => 'None',
-        required => '0',
-    },
+        'number' => {
+            data_type   => 'double',
+            description => 'None',
+            required    => '1',
+        },
+        'double' => {
+            data_type   => 'double',
+            description => 'None',
+            required    => '1',
+        },
+        'pattern_without_delimiter' => {
+            data_type   => 'string',
+            description => 'None',
+            required    => '1',
+        },
+        'byte' => {
+            data_type   => 'string',
+            description => 'None',
+            required    => '1',
+        },
+        'integer' => {
+            data_type   => 'int',
+            description => 'None',
+            required    => '0',
+        },
+        'int32' => {
+            data_type   => 'int',
+            description => 'None',
+            required    => '0',
+        },
+        'int64' => {
+            data_type   => 'int',
+            description => 'None',
+            required    => '0',
+        },
+        'float' => {
+            data_type   => 'double',
+            description => 'None',
+            required    => '0',
+        },
+        'string' => {
+            data_type   => 'string',
+            description => 'None',
+            required    => '0',
+        },
+        'binary' => {
+            data_type   => 'string',
+            description => 'None',
+            required    => '0',
+        },
+        'date' => {
+            data_type   => 'DateTime',
+            description => 'None',
+            required    => '0',
+        },
+        'date_time' => {
+            data_type   => 'DateTime',
+            description => 'None',
+            required    => '0',
+        },
+        'password' => {
+            data_type   => 'string',
+            description => 'None',
+            required    => '0',
+        },
+        'callback' => {
+            data_type   => 'string',
+            description => 'None',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'test_endpoint_parameters' } = { 
-    	summary => 'Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ',
-        params => $params,
+    __PACKAGE__->method_documentation->{'test_endpoint_parameters'} = {
+        summary =>
+'Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ',
+        params  => $params,
         returns => undef,
-        };
+    };
 }
+
 # @return void
 #
 sub test_endpoint_parameters {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'number' is set
-    unless (exists $args{'number'}) {
-      croak("Missing the required parameter 'number' when calling test_endpoint_parameters");
+    unless ( exists $args{'number'} ) {
+        croak(
+"Missing the required parameter 'number' when calling test_endpoint_parameters"
+        );
     }
 
     # verify the required parameter 'double' is set
-    unless (exists $args{'double'}) {
-      croak("Missing the required parameter 'double' when calling test_endpoint_parameters");
+    unless ( exists $args{'double'} ) {
+        croak(
+"Missing the required parameter 'double' when calling test_endpoint_parameters"
+        );
     }
 
     # verify the required parameter 'pattern_without_delimiter' is set
-    unless (exists $args{'pattern_without_delimiter'}) {
-      croak("Missing the required parameter 'pattern_without_delimiter' when calling test_endpoint_parameters");
+    unless ( exists $args{'pattern_without_delimiter'} ) {
+        croak(
+"Missing the required parameter 'pattern_without_delimiter' when calling test_endpoint_parameters"
+        );
     }
 
     # verify the required parameter 'byte' is set
-    unless (exists $args{'byte'}) {
-      croak("Missing the required parameter 'byte' when calling test_endpoint_parameters");
+    unless ( exists $args{'byte'} ) {
+        croak(
+"Missing the required parameter 'byte' when calling test_endpoint_parameters"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/fake';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/x-www-form-urlencoded');
 
     # form params
     if ( exists $args{'integer'} ) {
-                $form_params->{'integer'} = $self->{api_client}->to_form_value($args{'integer'});
+        $form_params->{'integer'} =
+          $self->{api_client}->to_form_value( $args{'integer'} );
     }
-    
+
     # form params
     if ( exists $args{'int32'} ) {
-                $form_params->{'int32'} = $self->{api_client}->to_form_value($args{'int32'});
+        $form_params->{'int32'} =
+          $self->{api_client}->to_form_value( $args{'int32'} );
     }
-    
+
     # form params
     if ( exists $args{'int64'} ) {
-                $form_params->{'int64'} = $self->{api_client}->to_form_value($args{'int64'});
+        $form_params->{'int64'} =
+          $self->{api_client}->to_form_value( $args{'int64'} );
     }
-    
+
     # form params
     if ( exists $args{'number'} ) {
-                $form_params->{'number'} = $self->{api_client}->to_form_value($args{'number'});
+        $form_params->{'number'} =
+          $self->{api_client}->to_form_value( $args{'number'} );
     }
-    
+
     # form params
     if ( exists $args{'float'} ) {
-                $form_params->{'float'} = $self->{api_client}->to_form_value($args{'float'});
+        $form_params->{'float'} =
+          $self->{api_client}->to_form_value( $args{'float'} );
     }
-    
+
     # form params
     if ( exists $args{'double'} ) {
-                $form_params->{'double'} = $self->{api_client}->to_form_value($args{'double'});
+        $form_params->{'double'} =
+          $self->{api_client}->to_form_value( $args{'double'} );
     }
-    
+
     # form params
     if ( exists $args{'string'} ) {
-                $form_params->{'string'} = $self->{api_client}->to_form_value($args{'string'});
+        $form_params->{'string'} =
+          $self->{api_client}->to_form_value( $args{'string'} );
     }
-    
+
     # form params
     if ( exists $args{'pattern_without_delimiter'} ) {
-                $form_params->{'pattern_without_delimiter'} = $self->{api_client}->to_form_value($args{'pattern_without_delimiter'});
+        $form_params->{'pattern_without_delimiter'} = $self->{api_client}
+          ->to_form_value( $args{'pattern_without_delimiter'} );
     }
-    
+
     # form params
     if ( exists $args{'byte'} ) {
-                $form_params->{'byte'} = $self->{api_client}->to_form_value($args{'byte'});
+        $form_params->{'byte'} =
+          $self->{api_client}->to_form_value( $args{'byte'} );
     }
-    
+
     # form params
     if ( exists $args{'binary'} ) {
         $form_params->{'binary'} = [] unless defined $form_params->{'binary'};
-        push @{$form_params->{'binary'}}, $args{'binary'};
-            }
-    
+        push @{ $form_params->{'binary'} }, $args{'binary'};
+    }
+
     # form params
     if ( exists $args{'date'} ) {
-                $form_params->{'date'} = $self->{api_client}->to_form_value($args{'date'});
+        $form_params->{'date'} =
+          $self->{api_client}->to_form_value( $args{'date'} );
     }
-    
+
     # form params
     if ( exists $args{'date_time'} ) {
-                $form_params->{'dateTime'} = $self->{api_client}->to_form_value($args{'date_time'});
+        $form_params->{'dateTime'} =
+          $self->{api_client}->to_form_value( $args{'date_time'} );
     }
-    
+
     # form params
     if ( exists $args{'password'} ) {
-                $form_params->{'password'} = $self->{api_client}->to_form_value($args{'password'});
+        $form_params->{'password'} =
+          $self->{api_client}->to_form_value( $args{'password'} );
     }
-    
+
     # form params
     if ( exists $args{'callback'} ) {
-                $form_params->{'callback'} = $self->{api_client}->to_form_value($args{'callback'});
+        $form_params->{'callback'} =
+          $self->{api_client}->to_form_value( $args{'callback'} );
     }
-    
+
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw(http_basic_test )];
 
     # make the API Call
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
+    $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
     return;
 }
 
@@ -654,7 +785,7 @@ sub test_endpoint_parameters {
 # test_enum_parameters
 #
 # To test enum parameters
-# 
+#
 # @param ARRAY[string] $enum_header_string_array Header parameter enum test (string array) (optional)
 # @param string $enum_header_string Header parameter enum test (string) (optional, default to '-efg')
 # @param ARRAY[string] $enum_query_string_array Query parameter enum test (string array) (optional)
@@ -665,121 +796,133 @@ sub test_endpoint_parameters {
 # @param string $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
 {
     my $params = {
-    'enum_header_string_array' => {
-        data_type => 'ARRAY[string]',
-        description => 'Header parameter enum test (string array)',
-        required => '0',
-    },
-    'enum_header_string' => {
-        data_type => 'string',
-        description => 'Header parameter enum test (string)',
-        required => '0',
-    },
-    'enum_query_string_array' => {
-        data_type => 'ARRAY[string]',
-        description => 'Query parameter enum test (string array)',
-        required => '0',
-    },
-    'enum_query_string' => {
-        data_type => 'string',
-        description => 'Query parameter enum test (string)',
-        required => '0',
-    },
-    'enum_query_integer' => {
-        data_type => 'int',
-        description => 'Query parameter enum test (double)',
-        required => '0',
-    },
-    'enum_query_double' => {
-        data_type => 'double',
-        description => 'Query parameter enum test (double)',
-        required => '0',
-    },
-    'enum_form_string_array' => {
-        data_type => 'ARRAY[string]',
-        description => 'Form parameter enum test (string array)',
-        required => '0',
-    },
-    'enum_form_string' => {
-        data_type => 'string',
-        description => 'Form parameter enum test (string)',
-        required => '0',
-    },
+        'enum_header_string_array' => {
+            data_type   => 'ARRAY[string]',
+            description => 'Header parameter enum test (string array)',
+            required    => '0',
+        },
+        'enum_header_string' => {
+            data_type   => 'string',
+            description => 'Header parameter enum test (string)',
+            required    => '0',
+        },
+        'enum_query_string_array' => {
+            data_type   => 'ARRAY[string]',
+            description => 'Query parameter enum test (string array)',
+            required    => '0',
+        },
+        'enum_query_string' => {
+            data_type   => 'string',
+            description => 'Query parameter enum test (string)',
+            required    => '0',
+        },
+        'enum_query_integer' => {
+            data_type   => 'int',
+            description => 'Query parameter enum test (double)',
+            required    => '0',
+        },
+        'enum_query_double' => {
+            data_type   => 'double',
+            description => 'Query parameter enum test (double)',
+            required    => '0',
+        },
+        'enum_form_string_array' => {
+            data_type   => 'ARRAY[string]',
+            description => 'Form parameter enum test (string array)',
+            required    => '0',
+        },
+        'enum_form_string' => {
+            data_type   => 'string',
+            description => 'Form parameter enum test (string)',
+            required    => '0',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'test_enum_parameters' } = { 
-    	summary => 'To test enum parameters',
-        params => $params,
+    __PACKAGE__->method_documentation->{'test_enum_parameters'} = {
+        summary => 'To test enum parameters',
+        params  => $params,
         returns => undef,
-        };
+    };
 }
+
 # @return void
 #
 sub test_enum_parameters {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # parse inputs
     my $_resource_path = '/fake';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/x-www-form-urlencoded');
 
     # query params
-    if ( exists $args{'enum_query_string_array'}) {
-        $query_params->{'enum_query_string_array'} = $self->{api_client}->to_query_value($args{'enum_query_string_array'});
+    if ( exists $args{'enum_query_string_array'} ) {
+        $query_params->{'enum_query_string_array'} = $self->{api_client}
+          ->to_query_value( $args{'enum_query_string_array'} );
     }
 
     # query params
-    if ( exists $args{'enum_query_string'}) {
-        $query_params->{'enum_query_string'} = $self->{api_client}->to_query_value($args{'enum_query_string'});
+    if ( exists $args{'enum_query_string'} ) {
+        $query_params->{'enum_query_string'} =
+          $self->{api_client}->to_query_value( $args{'enum_query_string'} );
     }
 
     # query params
-    if ( exists $args{'enum_query_integer'}) {
-        $query_params->{'enum_query_integer'} = $self->{api_client}->to_query_value($args{'enum_query_integer'});
+    if ( exists $args{'enum_query_integer'} ) {
+        $query_params->{'enum_query_integer'} =
+          $self->{api_client}->to_query_value( $args{'enum_query_integer'} );
     }
 
     # query params
-    if ( exists $args{'enum_query_double'}) {
-        $query_params->{'enum_query_double'} = $self->{api_client}->to_query_value($args{'enum_query_double'});
+    if ( exists $args{'enum_query_double'} ) {
+        $query_params->{'enum_query_double'} =
+          $self->{api_client}->to_query_value( $args{'enum_query_double'} );
     }
 
     # header params
-    if ( exists $args{'enum_header_string_array'}) {
-        $header_params->{'enum_header_string_array'} = $self->{api_client}->to_header_value($args{'enum_header_string_array'});
+    if ( exists $args{'enum_header_string_array'} ) {
+        $header_params->{'enum_header_string_array'} = $self->{api_client}
+          ->to_header_value( $args{'enum_header_string_array'} );
     }
 
     # header params
-    if ( exists $args{'enum_header_string'}) {
-        $header_params->{'enum_header_string'} = $self->{api_client}->to_header_value($args{'enum_header_string'});
+    if ( exists $args{'enum_header_string'} ) {
+        $header_params->{'enum_header_string'} =
+          $self->{api_client}->to_header_value( $args{'enum_header_string'} );
     }
 
     # form params
     if ( exists $args{'enum_form_string_array'} ) {
-                $form_params->{'enum_form_string_array'} = $self->{api_client}->to_form_value($args{'enum_form_string_array'});
+        $form_params->{'enum_form_string_array'} =
+          $self->{api_client}->to_form_value( $args{'enum_form_string_array'} );
     }
-    
+
     # form params
     if ( exists $args{'enum_form_string'} ) {
-                $form_params->{'enum_form_string'} = $self->{api_client}->to_form_value($args{'enum_form_string'});
+        $form_params->{'enum_form_string'} =
+          $self->{api_client}->to_form_value( $args{'enum_form_string'} );
     }
-    
+
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw()];
 
     # make the API Call
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
+    $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
     return;
 }
 
@@ -787,50 +930,55 @@ sub test_enum_parameters {
 # test_inline_additional_properties
 #
 # test inline additionalProperties
-# 
+#
 # @param HASH[string,string] $request_body request body (required)
 {
     my $params = {
-    'request_body' => {
-        data_type => 'HASH[string,string]',
-        description => 'request body',
-        required => '1',
-    },
+        'request_body' => {
+            data_type   => 'HASH[string,string]',
+            description => 'request body',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'test_inline_additional_properties' } = { 
-    	summary => 'test inline additionalProperties',
-        params => $params,
+    __PACKAGE__->method_documentation->{'test_inline_additional_properties'} = {
+        summary => 'test inline additionalProperties',
+        params  => $params,
         returns => undef,
-        };
+    };
 }
+
 # @return void
 #
 sub test_inline_additional_properties {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'request_body' is set
-    unless (exists $args{'request_body'}) {
-      croak("Missing the required parameter 'request_body' when calling test_inline_additional_properties");
+    unless ( exists $args{'request_body'} ) {
+        croak(
+"Missing the required parameter 'request_body' when calling test_inline_additional_properties"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/fake/inline-additionalProperties';
 
-    my $_method = 'POST';
-    my $query_params = {};
+    my $_method       = 'POST';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} =
+      $self->{api_client}->select_header_content_type('application/json');
 
     my $_body_data;
+
     # body params
-    if ( exists $args{'request_body'}) {
+    if ( exists $args{'request_body'} ) {
         $_body_data = $args{'request_body'};
     }
 
@@ -838,9 +986,10 @@ sub test_inline_additional_properties {
     my $auth_settings = [qw()];
 
     # make the API Call
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
+    $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
     return;
 }
 
@@ -848,76 +997,86 @@ sub test_inline_additional_properties {
 # test_json_form_data
 #
 # test json serialization of form data
-# 
+#
 # @param string $param field1 (required)
 # @param string $param2 field2 (required)
 {
     my $params = {
-    'param' => {
-        data_type => 'string',
-        description => 'field1',
-        required => '1',
-    },
-    'param2' => {
-        data_type => 'string',
-        description => 'field2',
-        required => '1',
-    },
+        'param' => {
+            data_type   => 'string',
+            description => 'field1',
+            required    => '1',
+        },
+        'param2' => {
+            data_type   => 'string',
+            description => 'field2',
+            required    => '1',
+        },
     };
-    __PACKAGE__->method_documentation->{ 'test_json_form_data' } = { 
-    	summary => 'test json serialization of form data',
-        params => $params,
+    __PACKAGE__->method_documentation->{'test_json_form_data'} = {
+        summary => 'test json serialization of form data',
+        params  => $params,
         returns => undef,
-        };
+    };
 }
+
 # @return void
 #
 sub test_json_form_data {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     # verify the required parameter 'param' is set
-    unless (exists $args{'param'}) {
-      croak("Missing the required parameter 'param' when calling test_json_form_data");
+    unless ( exists $args{'param'} ) {
+        croak(
+"Missing the required parameter 'param' when calling test_json_form_data"
+        );
     }
 
     # verify the required parameter 'param2' is set
-    unless (exists $args{'param2'}) {
-      croak("Missing the required parameter 'param2' when calling test_json_form_data");
+    unless ( exists $args{'param2'} ) {
+        croak(
+"Missing the required parameter 'param2' when calling test_json_form_data"
+        );
     }
 
     # parse inputs
     my $_resource_path = '/fake/jsonFormData';
 
-    my $_method = 'GET';
-    my $query_params = {};
+    my $_method       = 'GET';
+    my $query_params  = {};
     my $header_params = {};
-    my $form_params = {};
+    my $form_params   = {};
 
     # 'Accept' and 'Content-Type' header
     my $_header_accept = $self->{api_client}->select_header_accept();
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/x-www-form-urlencoded');
+    $header_params->{'Content-Type'} = $self->{api_client}
+      ->select_header_content_type('application/x-www-form-urlencoded');
 
     # form params
     if ( exists $args{'param'} ) {
-                $form_params->{'param'} = $self->{api_client}->to_form_value($args{'param'});
+        $form_params->{'param'} =
+          $self->{api_client}->to_form_value( $args{'param'} );
     }
-    
+
     # form params
     if ( exists $args{'param2'} ) {
-                $form_params->{'param2'} = $self->{api_client}->to_form_value($args{'param2'});
+        $form_params->{'param2'} =
+          $self->{api_client}->to_form_value( $args{'param2'} );
     }
-    
+
     my $_body_data;
+
     # authentication setting, if any
     my $auth_settings = [qw()];
 
     # make the API Call
-    $self->{api_client}->call_api($_resource_path, $_method,
-                                           $query_params, $form_params,
-                                           $header_params, $_body_data, $auth_settings);
+    $self->{api_client}->call_api(
+        $_resource_path, $_method,    $query_params, $form_params,
+        $header_params,  $_body_data, $auth_settings
+    );
     return;
 }
 

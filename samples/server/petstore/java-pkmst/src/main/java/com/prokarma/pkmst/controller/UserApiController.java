@@ -60,6 +60,16 @@ public class UserApiController implements UserApi {
     public ResponseEntity<User> getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true ) @PathVariable("username") String username,
         @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<User>(objectMapper.readValue("", User.class), HttpStatus.OK);
+        }
+
+
+        if (accept != null && accept.contains("application/xml")) {
+            return new ResponseEntity<User>(objectMapper.readValue("", User.class), HttpStatus.OK);
+        }
+
         return new ResponseEntity<User>(HttpStatus.OK);
     }
 

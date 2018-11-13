@@ -12,7 +12,7 @@
 
 module Request.Store exposing (deleteOrder, getInventory, getOrderById, placeOrder)
 
-import Data.Order_ exposing (Order_, orderDecoder, orderEncoder)
+import Data.Order_ as Order_ exposing (Order_)
 import Dict
 import Http
 import Json.Decode as Decode
@@ -58,10 +58,10 @@ getInventory =
 getOrderById : Int -> Http.Request Order_
 getOrderById orderId =
     { method = "GET"
-    , url = basePath ++ "/store/order/" ++ toString orderId
+    , url = basePath ++ "/store/order/" ++ String.fromInt orderId
     , headers = []
     , body = Http.emptyBody
-    , expect = Http.expectJson orderDecoder
+    , expect = Http.expectJson Order_.decoder
     , timeout = Just 30000
     , withCredentials = False
     }
@@ -73,8 +73,8 @@ placeOrder model =
     { method = "POST"
     , url = basePath ++ "/store/order"
     , headers = []
-    , body = Http.jsonBody <| orderEncoder model
-    , expect = Http.expectJson orderDecoder
+    , body = Http.jsonBody <| Order_.encoder model
+    , expect = Http.expectJson Order_.decoder
     , timeout = Just 30000
     , withCredentials = False
     }
