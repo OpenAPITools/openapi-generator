@@ -1,0 +1,33 @@
+{{#models}}
+{{#model}}
+{{>partial_header_graphql}}
+{{#description}}
+# {{{description}}}
+{{/description}}
+type {{classname}} {
+
+{{#vars}}
+  {{#description}}
+  # {{{description}}}
+  {{/description}}
+  {{baseName}}: {{#isEnum}}{{classname}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatypeWithEnum}}{{/isEnum}}
+
+{{/vars}}
+}
+{{#vars}}
+{{#isEnum}}
+
+{{#description}}
+# {{{description}}}
+{{/description}}
+enum {{classname}}{{enumName}} {
+  {{#allowableValues}}
+  {{#values}}
+  {{{.}}}
+  {{/values}}
+  {{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+{{/model}}
+{{/models}}
