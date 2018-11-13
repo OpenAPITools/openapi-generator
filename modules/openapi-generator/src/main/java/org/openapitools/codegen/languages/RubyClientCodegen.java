@@ -43,6 +43,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_DESCRIPTION = "gemDescription";
     public static final String GEM_AUTHOR = "gemAuthor";
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+    public static final String FARADAY = "faraday";
+    public static final String TYPHOEUS = "typhoeus";
 
     protected String gemName;
     protected String moduleName;
@@ -51,8 +53,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String libFolder = "lib";
     protected String gemLicense = "proprietary";
     protected String gemRequiredRubyVersion = ">= 1.9";
-    protected String gemHomepage = "http://org.openapitools";
-    protected String gemSummary = "A ruby wrapper for the REST APIs";
+    protected String gemHomepage = "https://openapitools.org";
+    protected String gemSummary = "A Ruby SDK for the REST API";
     protected String gemDescription = "This gem maps to a REST API";
     protected String gemAuthor = "";
     protected String gemAuthorEmail = "";
@@ -89,7 +91,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 "_header_content_type", "form_params", "post_body", "auth_names")) {
             reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
-
 
         // primitives in ruby lang
         languageSpecificPrimitives.add("int");
@@ -137,6 +138,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
+        cliOptions.add(CliOption.newBoolean(FARADAY, "Faraday (https://github.com/lostisland/faraday)"));
+        cliOptions.add(CliOption.newBoolean(TYPHOEUS, "Typhoeus (https://github.com/typhoeus/typhoeus)"));
+
+        supportedLibraries.put(FARADAY, "Faraday (https://github.com/lostisland/faraday)");
+        supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set FARADAY as the default
+        libraryOption.setDefault(FARADAY);
+        cliOptions.add(libraryOption);
+        setLibrary(FARADAY);
     }
 
     @Override
@@ -208,7 +221,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("gemspec.mustache", "", gemName + ".gemspec"));
         supportingFiles.add(new SupportingFile("gem.mustache", libFolder, gemName + ".rb"));
         String gemFolder = libFolder + File.separator + gemName;
-        supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("version.mustache", gemFolder, "version.rb"));
@@ -219,6 +231,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
+
+        if (TYPHOEUS.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("api_client.mustache", gemFolder, "api_client.rb"));
+        } else if (FARADAY.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("faraday_api_client.mustache", gemFolder, "api_client.rb"));
+        } else {
+            throw new RuntimeException("Invalid HTTP library " +  getLibrary() + ". Only faraday, typhoeus are supported.");
+        }
 
         // test files should not be overwritten
         writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
