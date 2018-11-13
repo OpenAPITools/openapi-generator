@@ -1,6 +1,6 @@
 {{#models}}
 {{#model}}
-{{>partial_header}}
+{{>partial_header_graphql}}
 {{#description}}
 # {{{description}}}
 {{/description}}
@@ -10,7 +10,7 @@ type {{classname}} {
   {{#description}}
   # {{{description}}}
   {{/description}}
-  {{baseName}}: {{{datatypeWithEnum}}}
+  {{baseName}}: {{#isEnum}}{{classname}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatypeWithEnum}}{{/isEnum}}
 
 {{/vars}}
 }
@@ -20,7 +20,7 @@ type {{classname}} {
 {{#description}}
 # {{{description}}}
 {{/description}}
-enum {{enumName}} {
+enum {{classname}}{{enumName}} {
   {{#allowableValues}}
   {{#values}}
   {{{.}}}
