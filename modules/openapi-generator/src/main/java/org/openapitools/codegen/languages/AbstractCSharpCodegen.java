@@ -731,8 +731,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     return p.getDefault().toString() + "F";
                 } else if (ModelUtils.isDoubleSchema(p)) { // double
                     return p.getDefault().toString() + "D";
-                } else {
-                    return p.getDefault().toString();
+                } else {	// decimal
+                    return p.getDefault().toString() + "M";
                 }
             }
         } else if (ModelUtils.isIntegerSchema(p)) {

@@ -404,9 +404,6 @@ public class ModelUtils {
     }
 
     public static boolean isDoubleSchema(Schema schema) {
-        if (schema instanceof NumberSchema) {
-            return true;
-        }
         if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
                 && SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) { // format: double
             return true;
