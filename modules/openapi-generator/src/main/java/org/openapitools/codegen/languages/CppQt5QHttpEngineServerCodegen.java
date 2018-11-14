@@ -306,7 +306,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
     
     @Override
     public String toModelFilename(String name) {
-        return modelNamePrefix + initialCaps(name);
+        return modelNamePrefix + sanitizeName(initialCaps(name));
     }
 
     @Override
@@ -322,7 +322,7 @@ public class CppQt5QHttpEngineServerCodegen extends AbstractCppCodegen implement
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + initialCaps(name) + "ApiHandler";
+        return modelNamePrefix + sanitizeName(initialCaps(name)) + "ApiHandler";
     }
 
     /**

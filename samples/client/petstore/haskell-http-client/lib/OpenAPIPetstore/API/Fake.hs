@@ -377,9 +377,15 @@ instance Produces TestEnumParameters MimeNoContent
 -- Fake endpoint to test group parameters (optional)
 -- 
 testGroupParameters 
-  :: OpenAPIPetstoreRequest TestGroupParameters MimeNoContent NoContent MimeNoContent
-testGroupParameters =
+  :: RequiredStringGroup -- ^ "requiredStringGroup" -  Required String in group parameters
+  -> RequiredBooleanGroup -- ^ "requiredBooleanGroup" -  Required Boolean in group parameters
+  -> RequiredInt64Group -- ^ "requiredInt64Group" -  Required Integer in group parameters
+  -> OpenAPIPetstoreRequest TestGroupParameters MimeNoContent NoContent MimeNoContent
+testGroupParameters (RequiredStringGroup requiredStringGroup) (RequiredBooleanGroup requiredBooleanGroup) (RequiredInt64Group requiredInt64Group) =
   _mkRequest "DELETE" ["/fake"]
+    `setQuery` toQuery ("required_string_group", Just requiredStringGroup)
+    `setHeader` toHeader ("required_boolean_group", requiredBooleanGroup)
+    `setQuery` toQuery ("required_int64_group", Just requiredInt64Group)
 
 data TestGroupParameters  
 
