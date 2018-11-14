@@ -234,6 +234,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
