@@ -12,20 +12,23 @@
 
 # An order for a pets from the pet store
 type Order {
-
   id: Int!
-
   petId: Int!
-
   quantity: Int!
-
   shipDate: String!
-
   # Order Status
   status: OrderStatusEnum
-
   complete: Boolean!
+}
 
+input OrderInput {
+    id: Int!
+    petId: Int!
+    quantity: Int!
+    shipDate: String!
+    # Order Status
+    status: OrderStatusEnum
+    complete: Boolean!
 }
 
 # Order Status
