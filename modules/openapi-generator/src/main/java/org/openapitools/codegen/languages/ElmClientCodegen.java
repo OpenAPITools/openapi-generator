@@ -261,7 +261,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        final String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+        String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+
+        if (camelized.length() == 0) {
+            LOGGER.error("Unable to determine enum variable name (name: {}, datatype: {}) from empty string. Default to UnknownEnumVariableName", value, datatype);
+            camelized = "UnknownEnumVariableName";
+        }
+
         if (!Character.isUpperCase(camelized.charAt(0))) {
             return "N" + camelized;
         }
@@ -495,9 +501,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return toOptionalValue(null);
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return toOptionalValue(dp.getDefault().toString());
+            if (p.getDefault() != null) {
+                return toOptionalValue(p.getDefault().toString());
             }
             return toOptionalValue(null);
         } else if (ModelUtils.isIntegerSchema(p)) {
