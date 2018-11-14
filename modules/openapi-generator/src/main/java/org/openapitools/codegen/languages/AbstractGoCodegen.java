@@ -121,6 +121,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (StringUtils.isEmpty(System.getenv("GO_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable GO_POST_PROCESS_FILE not defined so Go code may not be properly formatted. To define it, try `export GO_POST_PROCESS_FILE=\"/usr/local/bin/gofmt -w\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
     }
 

@@ -116,6 +116,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
         if (StringUtils.isEmpty(System.getenv("SCALA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable SCALA_POST_PROCESS_FILE not defined so the Scala code may not be properly formatted. To define it, try 'export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
