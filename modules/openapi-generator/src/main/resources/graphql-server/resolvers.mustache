@@ -1,0 +1,30 @@
+{{>partial_header}}
+// package {{packageName}}
+
+// {{classname}}
+
+export default {
+    Query: {
+{{#operations}}
+{{#operation}}{{^vendorExtensions.x-is-mutation}}
+        {{operationId}}: ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) => {
+            return {
+                id: 42
+            };
+        },
+{{/vendorExtensions.x-is-mutation}}{{/operation}}
+{{/operations}}
+    },
+
+    Mutation: {
+{{#operations}}
+{{#operation}}{{#vendorExtensions.x-is-mutation}}
+        {{operationId}}: ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) => {
+            return {
+                id: 42
+            };
+        },
+{{/vendorExtensions.x-is-mutation}}{{/operation}}
+{{/operations}}
+    }
+}

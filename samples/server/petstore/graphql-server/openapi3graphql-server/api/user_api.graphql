@@ -16,25 +16,30 @@
 
 
 input CreateUserInput {
-    user: User
+    user: UserInput
 }
+
 
 input CreateUsersWithArrayInputInput {
-    user: [User]
+    user: [UserInput]
 }
 
+
 input CreateUsersWithListInputInput {
-    user: [User]
+    user: [UserInput]
 }
+
 
 input DeleteUserInput {
     username: String!
 }
 
+
 input UpdateUserInput {
     username: String!, 
-    user: User
+    user: UserInput
 }
+
 
 
 type Mutation {
@@ -42,26 +47,26 @@ type Mutation {
   # This can only be done by the logged in user.
   # @param User user Created user object
   # @return [Boolean]
-  CreateUser(input: CreateUserInput): Boolean
+  CreateUser(input: CreateUserInput!): Boolean
   # Creates list of users with given input array
-  # @param [User] user List of user object
+  # @param User user List of user object
   # @return [Boolean]
-  CreateUsersWithArrayInput(input: CreateUsersWithArrayInputInput): Boolean
+  CreateUsersWithArrayInput(input: CreateUsersWithArrayInputInput!): Boolean
   # Creates list of users with given input array
-  # @param [User] user List of user object
+  # @param User user List of user object
   # @return [Boolean]
-  CreateUsersWithListInput(input: CreateUsersWithListInputInput): Boolean
+  CreateUsersWithListInput(input: CreateUsersWithListInputInput!): Boolean
   # Delete user
   # This can only be done by the logged in user.
   # @param String! username The name that needs to be deleted
   # @return [Boolean]
-  DeleteUser(input: DeleteUserInput): Boolean
+  DeleteUser(input: DeleteUserInput!): Boolean
   # Updated user
   # This can only be done by the logged in user.
   # @param String! username name that need to be deleted
   # @param User user Updated user object
   # @return [Boolean]
-  UpdateUser(input: UpdateUserInput): Boolean
+  UpdateUser(input: UpdateUserInput!): Boolean
 }
 
 type Query {

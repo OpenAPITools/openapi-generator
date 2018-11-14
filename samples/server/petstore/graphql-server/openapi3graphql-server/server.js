@@ -34,5 +34,4 @@ server.applyMiddleware({app: app});
 // Start the server
 app.listen(PORT, () => {
     console.log(`You can reach GraphQL at: http://localhost:${PORT}/graphql`);
-    console.log(`Go to http://localhost:${PORT}/graphiql to run queries`);
 });

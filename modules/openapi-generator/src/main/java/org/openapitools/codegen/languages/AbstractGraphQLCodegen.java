@@ -264,7 +264,8 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[" + getTypeDeclaration(inner) + "]";
+            // return "[" + getTypeDeclaration(inner) + "]"; // we add this within the template because there we have to differenciate between some specific types for graphql
+            return getTypeDeclaration(inner);
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);

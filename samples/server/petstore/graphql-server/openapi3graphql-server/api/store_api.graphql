@@ -19,9 +19,11 @@ input DeleteOrderInput {
     orderId: String!
 }
 
+
 input PlaceOrderInput {
-    order: Order
+    order: OrderInput
 }
+
 
 
 type Mutation {
@@ -29,11 +31,11 @@ type Mutation {
   # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
   # @param String! orderId ID of the order that needs to be deleted
   # @return [Boolean]
-  DeleteOrder(input: DeleteOrderInput): Boolean
+  DeleteOrder(input: DeleteOrderInput!): Boolean
   # Place an order for a pet
   # @param Order order order placed for purchasing the pet
   # @return [Order]
-  PlaceOrder(input: PlaceOrderInput): Order
+  PlaceOrder(input: PlaceOrderInput!): Order
 }
 
 type Query {

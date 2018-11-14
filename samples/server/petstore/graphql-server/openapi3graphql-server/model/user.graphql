@@ -12,22 +12,25 @@
 
 # A User who is purchasing from the pet store
 type User {
-
   id: Int!
-
   username: String!
-
   firstName: String!
-
   lastName: String!
-
   email: String!
-
   password: String!
-
   phone: String!
-
   # User Status
   userStatus: Int!
+}
 
+input UserInput {
+    id: Int!
+    username: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    phone: String!
+    # User Status
+    userStatus: Int!
 }
