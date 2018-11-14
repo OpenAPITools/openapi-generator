@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 
@@ -51,6 +53,7 @@ public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements Co
         hideGenerationTimestamp = Boolean.TRUE;
 
         apiTemplateFiles.put("api.mustache", ".graphql");
+        apiTemplateFiles.put("resolvers.mustache", "_resolver.js");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
         modelTemplateFiles.put("model.mustache", ".graphql");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
@@ -82,7 +85,7 @@ public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements Co
         // Dynamic express/graphql related stuff
         // supportingFiles.add(new SupportingFile("operations.mustache", supportFolder, "operations.js"));
         // TODO supportingFiles.add(new SupportingFile("type-defs.mustache", supportFolder, "type-defs.js"));
-        // TODO supportingFiles.add(new SupportingFile("operations.mustache", supportFolder, "operations.js"));
+        supportingFiles.add(new SupportingFile("schema.graphql.mustache", supportFolder, "schema.graphql"));
 
         // General stuff
         supportingFiles.add(new SupportingFile(".gitignore", supportFolder, ".gitignore"));

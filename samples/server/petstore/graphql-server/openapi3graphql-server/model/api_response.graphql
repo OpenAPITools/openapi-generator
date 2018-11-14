@@ -12,11 +12,13 @@
 
 # Describes the result of uploading an image resource
 type ApiResponse {
-
   code: Int!
-
   type: String!
-
   message: String!
+}
 
+input ApiResponseInput {
+    code: Int!
+    type: String!
+    message: String!
 }

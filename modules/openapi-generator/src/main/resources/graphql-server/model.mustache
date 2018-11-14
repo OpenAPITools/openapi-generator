@@ -5,13 +5,20 @@
 # {{{description}}}
 {{/description}}
 type {{classname}} {
-
 {{#vars}}
   {{#description}}
   # {{{description}}}
   {{/description}}
   {{baseName}}: {{#isEnum}}{{classname}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{datatypeWithEnum}}{{/isEnum}}
+{{/vars}}
+}
 
+input {{classname}}Input {
+{{#vars}}
+    {{#description}}
+    # {{{description}}}
+    {{/description}}
+    {{baseName}}: {{#isEnum}}{{classname}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{#isContainer}}[{{datatypeWithEnum}}{{#complexType}}Input{{/complexType}}]{{/isContainer}}{{^isContainer}}{{datatypeWithEnum}}{{#isModel}}Input{{/isModel}}{{/isContainer}}{{/isEnum}}
 {{/vars}}
 }
 {{#vars}}
