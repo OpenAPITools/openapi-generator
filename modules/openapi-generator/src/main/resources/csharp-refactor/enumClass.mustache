@@ -1,0 +1,20 @@
+        /// <summary>
+        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// </summary>
+        {{#description}}
+        /// <value>{{description}}</value>
+        {{/description}}
+        [JsonConverter(typeof(StringEnumConverter))]
+        {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+        {
+            {{#allowableValues}}
+            {{#enumVars}}
+            /// <summary>
+            /// Enum {{name}} for {{{value}}}
+            /// </summary>
+            [EnumMember(Value = {{#isLong}}"{{/isLong}}{{#isInteger}}"{{/isInteger}}{{#isFloat}}"{{/isFloat}}{{#isDouble}}"{{/isDouble}}{{{value}}}{{#isLong}}"{{/isLong}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isFloat}}"{{/isFloat}})]
+            {{name}}{{#isLong}} = {{{value}}}{{/isLong}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^isInteger}} = {{-index}}{{/isInteger}}{{^-last}},{{/-last}}
+
+            {{/enumVars}}
+            {{/allowableValues}}
+        }

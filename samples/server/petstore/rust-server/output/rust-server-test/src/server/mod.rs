@@ -334,3 +334,23 @@ impl<T, C> Clone for Service<T, C>
         }
     }
 }
+
+/// Request parser for `Api`.
+pub struct ApiRequestParser;
+impl RequestParser for ApiRequestParser {
+    fn parse_operation_id(request: &Request) -> Result<&'static str, ()> {
+        let path = paths::GLOBAL_REGEX_SET.matches(request.uri().path());
+        match request.method() {
+
+            // DummyGet - GET /dummy
+            &hyper::Method::Get if path.matched(paths::ID_DUMMY) => Ok("DummyGet"),
+
+            // DummyPut - PUT /dummy
+            &hyper::Method::Put if path.matched(paths::ID_DUMMY) => Ok("DummyPut"),
+
+            // HtmlPost - POST /html
+            &hyper::Method::Post if path.matched(paths::ID_HTML) => Ok("HtmlPost"),
+            _ => Err(()),
+        }
+    }
+}
