@@ -162,7 +162,7 @@ class ErrorConsumptionToken {
 
     deinit {
         if !consumed {
-#if os(Linux)
+#if os(Linux) || os(Android)
             PMKUnhandledErrorHandler(error)
 #else
             PMKUnhandledErrorHandler(error as NSError)

@@ -1,7 +1,7 @@
 //
 //  SessionManager.swift
 //
-//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2018 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +45,7 @@ open class SessionManager {
 
     /// A default instance of `SessionManager`, used by top-level Alamofire request methods, and suitable for use
     /// directly for any ad hoc requests.
-    open static let `default`: SessionManager = {
+    public static let `default`: SessionManager = {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
 
@@ -53,7 +53,7 @@ open class SessionManager {
     }()
 
     /// Creates default values for the "Accept-Encoding", "Accept-Language" and "User-Agent" headers.
-    open static let defaultHTTPHeaders: HTTPHeaders = {
+    public static let defaultHTTPHeaders: HTTPHeaders = {
         // Accept-Encoding HTTP Header; see https://tools.ietf.org/html/rfc7230#section-4.2.3
         let acceptEncoding: String = "gzip;q=1.0, compress;q=0.5"
 
@@ -118,13 +118,13 @@ open class SessionManager {
     }()
 
     /// Default memory threshold used when encoding `MultipartFormData` in bytes.
-    open static let multipartFormDataEncodingMemoryThreshold: UInt64 = 10_000_000
+    public static let multipartFormDataEncodingMemoryThreshold: UInt64 = 10_000_000
 
     /// The underlying session.
-    open let session: URLSession
+    public let session: URLSession
 
     /// The session delegate handling all the task and session delegate callbacks.
-    open let delegate: SessionDelegate
+    public let delegate: SessionDelegate
 
     /// Whether to start requests immediately after being constructed. `true` by default.
     open var startRequestsImmediately: Bool = true
@@ -249,6 +249,7 @@ open class SessionManager {
     /// - parameter urlRequest: The URL request.
     ///
     /// - returns: The created `DataRequest`.
+    @discardableResult
     open func request(_ urlRequest: URLRequestConvertible) -> DataRequest {
         var originalRequest: URLRequest?
 
@@ -846,6 +847,10 @@ open class SessionManager {
 
         do {
             let task = try originalTask.task(session: session, adapter: adapter, queue: queue)
+
+            if let originalTask = request.task {
+                delegate[originalTask] = nil // removes the old request to avoid endless growth
+            }
 
             request.delegate.task = task // resets all task delegate data
 

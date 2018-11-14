@@ -26,7 +26,7 @@ extension Observable {
      - seealso: [from operator on reactivex.io](http://reactivex.io/documentation/operators/from.html)
 
      - parameter optional: Optional element in the resulting observable sequence.
-     - parameter: Scheduler to send the optional element on.
+     - parameter scheduler: Scheduler to send the optional element on.
      - returns: An observable sequence containing the wrapped value or not from given optional.
      */
     @available(*, deprecated, message: "Implicit conversions from any type to optional type are allowed and that is causing issues with `from` operator overloading.", renamed: "from(optional:scheduler:)")
@@ -156,6 +156,17 @@ extension ObservableType {
 ///
 /// Unlike `BehaviorSubject` it can't terminate with error, and when variable is deallocated
 /// it will complete its observable sequence (`asObservable`).
+///
+/// **This concept will be deprecated from RxSwift but offical migration path hasn't been decided yet.**
+/// https://github.com/ReactiveX/RxSwift/issues/1501
+///
+/// Current recommended replacement for this API is `RxCocoa.BehaviorRelay` because:
+/// * `Variable` isn't a standard cross platform concept, hence it's out of place in RxSwift target.
+/// * It doesn't have a counterpart for handling events (`PublishRelay`). It models state only.
+/// * It doesn't have a consistent naming with *Relay or other Rx concepts.
+/// * It has an inconsistent memory management model compared to other parts of RxSwift (completes on `deinit`).
+///
+/// Once plans are finalized, official availability attribute will be added in one of upcoming versions.
 public final class Variable<Element> {
 
     public typealias E = Element
@@ -198,6 +209,10 @@ public final class Variable<Element> {
     ///
     /// - parameter value: Initial variable value.
     public init(_ value: Element) {
+        #if DEBUG
+            DeprecationWarner.warnIfNeeded(.variable)
+        #endif
+
         _value = value
         _subject = BehaviorSubject(value: value)
     }

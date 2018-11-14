@@ -16,7 +16,7 @@ extern NSString * __nonnull const PMKErrorDomain;
 #define PMKJoinError 10l
 
 
-#if __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -228,7 +228,7 @@ extern __nonnull dispatch_queue_t PMKDefaultDispatchQueue(void) NS_REFINED_FOR_S
 */
 extern void PMKSetDefaultDispatchQueue(__nonnull dispatch_queue_t) NS_REFINED_FOR_SWIFT;
 
-#if __cplusplus
+#ifdef __cplusplus
 }   // Extern C
 #endif
 

@@ -1,7 +1,7 @@
 //
 //  ServerTrustPolicy.swift
 //
-//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2018 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import Foundation
 /// Responsible for managing the mapping of `ServerTrustPolicy` objects to a given host.
 open class ServerTrustPolicyManager {
     /// The dictionary of policies mapped to a particular host.
-    open let policies: [String: ServerTrustPolicy]
+    public let policies: [String: ServerTrustPolicy]
 
     /// Initializes the `ServerTrustPolicyManager` instance with the given policies.
     ///

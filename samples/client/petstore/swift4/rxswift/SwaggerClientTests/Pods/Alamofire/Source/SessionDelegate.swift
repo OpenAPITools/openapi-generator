@@ -1,7 +1,7 @@
 //
 //  SessionDelegate.swift
 //
-//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2018 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -163,7 +163,7 @@ open class SessionDelegate: NSObject {
     var retrier: RequestRetrier?
     weak var sessionManager: SessionManager?
 
-    private var requests: [Int: Request] = [:]
+    var requests: [Int: Request] = [:]
     private let lock = NSLock()
 
     /// Access the task delegate for the specified task in a thread-safe manner.
@@ -442,10 +442,16 @@ extension SessionDelegate: URLSessionTaskDelegate {
 
             strongSelf[task]?.delegate.urlSession(session, task: task, didCompleteWithError: error)
 
+            var userInfo: [String: Any] = [Notification.Key.Task: task]
+
+            if let data = (strongSelf[task]?.delegate as? DataTaskDelegate)?.data {
+                userInfo[Notification.Key.ResponseData] = data
+            }
+
             NotificationCenter.default.post(
                 name: Notification.Name.Task.DidComplete,
                 object: strongSelf,
-                userInfo: [Notification.Key.Task: task]
+                userInfo: userInfo
             )
 
             strongSelf[task] = nil

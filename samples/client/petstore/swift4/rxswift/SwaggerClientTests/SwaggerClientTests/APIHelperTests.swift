@@ -48,8 +48,8 @@ class APIHelperTests: XCTestCase {
         let expected: [URLQueryItem] = [URLQueryItem(name: "a", value: "1"),
                                       URLQueryItem(name: "c", value: "1,2"),
                                       URLQueryItem(name: "d", value: "true"),
-                                      URLQueryItem(name: "e", value: "false")].sorted(by: { $0.0.name > $0.1.name })
-        let actual: [URLQueryItem] = APIHelper.mapValuesToQueryItems(source)!.sorted(by: { $0.0.name > $0.1.name })
+                                      URLQueryItem(name: "e", value: "false")].sorted(by: { $0.name > $1.name })
+        let actual: [URLQueryItem] = APIHelper.mapValuesToQueryItems(source)!.sorted(by: { $0.name > $1.name })
         XCTAssert(actual == expected)
     }
 }

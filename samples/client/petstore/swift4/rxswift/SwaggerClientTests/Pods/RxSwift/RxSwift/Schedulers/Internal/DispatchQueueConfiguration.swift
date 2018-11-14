@@ -43,11 +43,7 @@ extension DispatchQueueConfiguration {
         let compositeDisposable = CompositeDisposable()
 
         let timer = DispatchSource.makeTimerSource(queue: queue)
-        #if swift(>=4.0)
-            timer.schedule(deadline: deadline, leeway: leeway)
-        #else
-            timer.scheduleOneshot(deadline: deadline, leeway: leeway)
-        #endif
+        timer.schedule(deadline: deadline, leeway: leeway)
 
         // TODO:
         // This looks horrible, and yes, it is.
@@ -81,11 +77,7 @@ extension DispatchQueueConfiguration {
         var timerState = state
 
         let timer = DispatchSource.makeTimerSource(queue: queue)
-        #if swift(>=4.0)
-            timer.schedule(deadline: initial, repeating: dispatchInterval(period), leeway: leeway)
-        #else
-            timer.scheduleRepeating(deadline: initial, interval: dispatchInterval(period), leeway: leeway)
-        #endif
+        timer.schedule(deadline: initial, repeating: dispatchInterval(period), leeway: leeway)
         
         // TODO:
         // This looks horrible, and yes, it is.
