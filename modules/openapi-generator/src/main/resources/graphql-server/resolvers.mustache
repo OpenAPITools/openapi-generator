@@ -7,9 +7,11 @@ export default {
     Query: {
 {{#operations}}
 {{#operation}}{{^vendorExtensions.x-is-mutation}}
+        // @return {{returnType}}
         {{operationId}}: ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) => {
             return {
-                id: 42
+                {{#allParams}}"{{paramName}}": "{{example}}"{{#hasMore}},
+                {{/hasMore}}{{/allParams}}
             };
         },
 {{/vendorExtensions.x-is-mutation}}{{/operation}}
@@ -19,9 +21,11 @@ export default {
     Mutation: {
 {{#operations}}
 {{#operation}}{{#vendorExtensions.x-is-mutation}}
+        // @return {{returnType}}
         {{operationId}}: ({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) => {
             return {
-                id: 42
+                {{#allParams}}"{{paramName}}": "{{example}}"{{#hasMore}},
+                {{/hasMore}}{{/allParams}}
             };
         },
 {{/vendorExtensions.x-is-mutation}}{{/operation}}

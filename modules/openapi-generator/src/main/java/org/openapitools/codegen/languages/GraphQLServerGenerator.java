@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -72,10 +73,12 @@ public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements Co
     public void processOpts() {
         super.processOpts();
 
+        // TODO: add api test template
         //apiTestTemplateFiles.put("api_test.mustache", ".graphql");
 
+        // TODO: add model test template
         //modelTestTemplateFiles.put("model_test.mustache", ".graphql");
-        modelTestTemplateFiles.clear(); // TODO: add model test template
+        modelTestTemplateFiles.clear();
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -83,8 +86,6 @@ public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements Co
         String supportFolder = apiPackage().replace('.', File.separatorChar);
 
         // Dynamic express/graphql related stuff
-        // supportingFiles.add(new SupportingFile("operations.mustache", supportFolder, "operations.js"));
-        // TODO supportingFiles.add(new SupportingFile("type-defs.mustache", supportFolder, "type-defs.js"));
         supportingFiles.add(new SupportingFile("schema.graphql.mustache", supportFolder, "schema.graphql"));
 
         // General stuff
@@ -96,13 +97,45 @@ public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements Co
     }
 
     @Override
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+
+            // IMPORTANT NOTE we add the braces within template because there we have the possibility to differenciate
+            // between some specific types for GraphQL:
+            // return "[" + getTypeDeclaration(inner) + "]";
+            return getTypeDeclaration(inner);
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
+
+            return getTypeDeclaration(inner);
+        }
+
+        // IMPORANT NOTE Not using the supertype invocation, because we want to UpperCamelize the type:
+        String schemaType = getSchemaType(p);
+        String nullable = ModelUtils.isNullable(p) ? "" : "!";
+
+        if (typeMapping.containsKey(schemaType)) {
+            return typeMapping.get(schemaType) + nullable;
+        }
+
+        if (languageSpecificPrimitives.contains(schemaType)) {
+            return schemaType + nullable;
+        }
+
+        return toModelName(schemaType);
+    }
+
+    @Override
     public String toEnumName(CodegenProperty property) {
         String enumName = toModelName(property.name);
 
-        // remove [] for array or map of enum
+        // Remove [] for array or map of ENUM
         enumName = enumName.replace("[]", "");
 
-        if (enumName.matches("\\d.*")) { // starts with number
+        // ENUM starts with a number
+        if (enumName.matches("\\d.*")) {
             return StringUtils.capitalize("_" + enumName) + "Enum";
         } else {
             return StringUtils.capitalize(enumName) + "Enum";
