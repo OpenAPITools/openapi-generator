@@ -1,6 +1,7 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api
+ * key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -16,71 +17,46 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-HttpContent::HttpContent()
-{
+HttpContent::HttpContent() {}
+
+HttpContent::~HttpContent() {}
+
+utility::string_t HttpContent::getContentDisposition() {
+  return m_ContentDisposition;
 }
 
-HttpContent::~HttpContent()
-{
+void HttpContent::setContentDisposition(const utility::string_t &value) {
+  m_ContentDisposition = value;
 }
 
-utility::string_t HttpContent::getContentDisposition()
-{
-    return m_ContentDisposition;
+utility::string_t HttpContent::getName() { return m_Name; }
+
+void HttpContent::setName(const utility::string_t &value) { m_Name = value; }
+
+utility::string_t HttpContent::getFileName() { return m_FileName; }
+
+void HttpContent::setFileName(const utility::string_t &value) {
+  m_FileName = value;
 }
 
-void HttpContent::setContentDisposition( const utility::string_t & value )
-{
-    m_ContentDisposition = value;
+utility::string_t HttpContent::getContentType() { return m_ContentType; }
+
+void HttpContent::setContentType(const utility::string_t &value) {
+  m_ContentType = value;
 }
 
-utility::string_t HttpContent::getName()
-{
-    return m_Name;
+std::shared_ptr<std::istream> HttpContent::getData() { return m_Data; }
+
+void HttpContent::setData(std::shared_ptr<std::istream> value) {
+  m_Data = value;
 }
 
-void HttpContent::setName( const utility::string_t & value )
-{
-    m_Name = value;
+void HttpContent::writeTo(std::ostream &stream) {
+  m_Data->seekg(0, m_Data->beg);
+  stream << m_Data->rdbuf();
 }
 
-utility::string_t HttpContent::getFileName()
-{
-    return m_FileName;
-}
-
-void HttpContent::setFileName( const utility::string_t & value )
-{
-    m_FileName = value;
-}
-
-utility::string_t HttpContent::getContentType()
-{
-    return m_ContentType;
-}
-
-void HttpContent::setContentType( const utility::string_t & value )
-{
-    m_ContentType = value;
-}
-
-std::shared_ptr<std::istream> HttpContent::getData()
-{
-    return m_Data;
-}
-
-void HttpContent::setData( std::shared_ptr<std::istream> value )
-{
-    m_Data = value;
-}
-
-void HttpContent::writeTo( std::ostream& stream )
-{
-    m_Data->seekg( 0, m_Data->beg );
-    stream << m_Data->rdbuf();
-}
-
-}
-}
-}
-}
+} // namespace model
+} // namespace client
+} // namespace openapitools
+} // namespace org

@@ -1,6 +1,7 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api
+ * key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -16,21 +17,13 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-JsonBody::JsonBody( const web::json::value& json)
-    : m_Json(json)
-{
-}
+JsonBody::JsonBody(const web::json::value &json) : m_Json(json) {}
 
-JsonBody::~JsonBody()
-{
-}
+JsonBody::~JsonBody() {}
 
-void JsonBody::writeTo( std::ostream& target )
-{
-    m_Json.serialize(target);
-}
+void JsonBody::writeTo(std::ostream &target) { m_Json.serialize(target); }
 
-}
-}
-}
-}
+} // namespace model
+} // namespace client
+} // namespace openapitools
+} // namespace org

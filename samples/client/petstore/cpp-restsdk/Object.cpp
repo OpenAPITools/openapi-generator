@@ -1,6 +1,7 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api
+ * key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -16,66 +17,55 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-Object::Object()
-{
-    m_object = web::json::value::object();
+Object::Object() { m_object = web::json::value::object(); }
+
+Object::~Object() {}
+
+void Object::validate() {
+  // TODO: implement validation
 }
 
-Object::~Object()
-{
+web::json::value Object::toJson() const { return m_object; }
+
+void Object::fromJson(const web::json::value &val) {
+  if (val.is_object()) {
+    m_object = val;
+  }
 }
 
-void Object::validate()
-{
-    // TODO: implement validation
+void Object::toMultipart(std::shared_ptr<MultipartFormData> multipart,
+                         const utility::string_t &prefix) const {
+  utility::string_t namePrefix = prefix;
+  if (namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) !=
+                                   utility::conversions::to_string_t(".")) {
+    namePrefix += utility::conversions::to_string_t(".");
+  }
+  multipart->add(ModelBase::toHttpContent(
+      namePrefix + utility::conversions::to_string_t("object"), m_object));
 }
 
-web::json::value Object::toJson() const
-{
-    return m_object;
+void Object::fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
+                           const utility::string_t &prefix) {
+  utility::string_t namePrefix = prefix;
+  if (namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) !=
+                                   utility::conversions::to_string_t(".")) {
+    namePrefix += utility::conversions::to_string_t(".");
+  }
+
+  m_object = ModelBase::valueFromHttpContent(multipart->getContent(
+      namePrefix + utility::conversions::to_string_t("object")));
 }
 
-void Object::fromJson(const web::json::value& val)
-{
-    if (val.is_object())
-    {
-        m_object = val;
-    }
+web::json::value Object::getValue(const utility::string_t &key) const {
+  return m_object.at(key);
 }
 
-void Object::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
-{
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
-    {
-        namePrefix += utility::conversions::to_string_t(".");
-    }
-    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("object"), m_object));
+void Object::setValue(const utility::string_t &key,
+                      const web::json::value &value) {
+  m_object[key] = value;
 }
 
-void Object::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
-{
-    utility::string_t namePrefix = prefix;
-    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
-    {
-        namePrefix += utility::conversions::to_string_t(".");
-    }
-
-    m_object = ModelBase::valueFromHttpContent(multipart->getContent(namePrefix + utility::conversions::to_string_t("object")));
-}
-
-web::json::value Object::getValue(const utility::string_t& key) const
-{
-    return m_object.at(key);
-}
-
-
-void Object::setValue(const utility::string_t& key, const web::json::value& value)
-{
-    m_object[key] = value;
-}
-
-}
-}
-}
-}
+} // namespace model
+} // namespace client
+} // namespace openapitools
+} // namespace org

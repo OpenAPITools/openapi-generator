@@ -1,6 +1,7 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api
+ * key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -18,7 +19,6 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_H_
 
-
 #include "../ModelBase.h"
 
 #include <cpprest/details/basic_types.h>
@@ -31,56 +31,55 @@ namespace model {
 /// <summary>
 /// A tag for a pet
 /// </summary>
-class  Tag
-    : public ModelBase
-{
+class Tag : public ModelBase {
 public:
-    Tag();
-    virtual ~Tag();
+  Tag();
+  virtual ~Tag();
 
-    /////////////////////////////////////////////
-    /// ModelBase overrides
+  /////////////////////////////////////////////
+  /// ModelBase overrides
 
-    void validate() override;
+  void validate() override;
 
-    web::json::value toJson() const override;
-    void fromJson(const web::json::value& json) override;
+  web::json::value toJson() const override;
+  void fromJson(const web::json::value &json) override;
 
-    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
-    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+  void toMultipart(std::shared_ptr<MultipartFormData> multipart,
+                   const utility::string_t &namePrefix) const override;
+  void fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
+                     const utility::string_t &namePrefix) override;
 
-    /////////////////////////////////////////////
-    /// Tag members
+  /////////////////////////////////////////////
+  /// Tag members
 
-    /// <summary>
-    /// 
-    /// </summary>
-    int64_t getId() const;
-    bool idIsSet() const;
-    void unsetId();
+  /// <summary>
+  ///
+  /// </summary>
+  int64_t getId() const;
+  bool idIsSet() const;
+  void unsetId();
 
-    void setId(int64_t value);
+  void setId(int64_t value);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    utility::string_t getName() const;
-    bool nameIsSet() const;
-    void unsetName();
+  /// <summary>
+  ///
+  /// </summary>
+  utility::string_t getName() const;
+  bool nameIsSet() const;
+  void unsetName();
 
-    void setName(const utility::string_t& value);
-
+  void setName(const utility::string_t &value);
 
 protected:
-    int64_t m_Id;
-    bool m_IdIsSet;
-    utility::string_t m_Name;
-    bool m_NameIsSet;
+  int64_t m_Id;
+  bool m_IdIsSet;
+  utility::string_t m_Name;
+  bool m_NameIsSet;
 };
 
-}
-}
-}
-}
+} // namespace model
+} // namespace client
+} // namespace openapitools
+} // namespace org
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Tag_H_ */

@@ -1,6 +1,7 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api
+ * key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -16,38 +17,27 @@ namespace openapitools {
 namespace client {
 namespace api {
 
-ApiException::ApiException( int errorCode
-    , const utility::string_t& message
-    , std::shared_ptr<std::istream> content /*= nullptr*/ )
-    : web::http::http_exception( errorCode, message )
-    , m_Content(content)
-{
-}
-ApiException::ApiException( int errorCode
-    , const utility::string_t& message
-    , std::map<utility::string_t, utility::string_t>& headers
-    , std::shared_ptr<std::istream> content /*= nullptr*/ )
-    : web::http::http_exception( errorCode, message )
-    , m_Content(content)
-    , m_Headers(headers)
-{
+ApiException::ApiException(int errorCode, const utility::string_t &message,
+                           std::shared_ptr<std::istream> content /*= nullptr*/)
+    : web::http::http_exception(errorCode, message), m_Content(content) {}
+ApiException::ApiException(
+    int errorCode, const utility::string_t &message,
+    std::map<utility::string_t, utility::string_t> &headers,
+    std::shared_ptr<std::istream> content /*= nullptr*/)
+    : web::http::http_exception(errorCode, message), m_Content(content),
+      m_Headers(headers) {}
+
+ApiException::~ApiException() {}
+
+std::shared_ptr<std::istream> ApiException::getContent() const {
+  return m_Content;
 }
 
-ApiException::~ApiException()
-{
+std::map<utility::string_t, utility::string_t> &ApiException::getHeaders() {
+  return m_Headers;
 }
 
-std::shared_ptr<std::istream> ApiException::getContent() const
-{
-    return m_Content;
-}
-
-std::map<utility::string_t, utility::string_t>& ApiException::getHeaders()
-{
-    return m_Headers;
-}
-
-}
-}
-}
-}
+} // namespace api
+} // namespace client
+} // namespace openapitools
+} // namespace org

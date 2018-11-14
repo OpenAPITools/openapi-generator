@@ -1,6 +1,7 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api
+ * key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -18,7 +19,6 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_IHttpBody_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_IHttpBody_H_
 
-
 #include <iostream>
 
 namespace org {
@@ -26,17 +26,16 @@ namespace openapitools {
 namespace client {
 namespace model {
 
-class  IHttpBody
-{
+class IHttpBody {
 public:
-    virtual ~IHttpBody() { }
+  virtual ~IHttpBody() {}
 
-    virtual void writeTo( std::ostream& stream ) = 0;
+  virtual void writeTo(std::ostream &stream) = 0;
 };
 
-}
-}
-}
-}
+} // namespace model
+} // namespace client
+} // namespace openapitools
+} // namespace org
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_IHttpBody_H_ */
