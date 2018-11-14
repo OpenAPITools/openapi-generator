@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+import unittest
 
 from flask import json
 from six import BytesIO
@@ -17,9 +18,12 @@ class TestStoreController(BaseTestCase):
 
         Delete purchase order by ID
         """
+        headers = { 
+        }
         response = self.client.open(
-            '/v2/store/order/{orderId}'.format(order_id='order_id_example'),
-            method='DELETE')
+            '/v2/store/order/{order_id}'.format(order_id='order_id_example'),
+            method='DELETE',
+            headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -28,9 +32,14 @@ class TestStoreController(BaseTestCase):
 
         Returns pet inventories by status
         """
+        headers = { 
+            'Accept': 'application/json',
+            'api_key': 'special-key',
+        }
         response = self.client.open(
             '/v2/store/inventory',
-            method='GET')
+            method='GET',
+            headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
@@ -39,27 +48,36 @@ class TestStoreController(BaseTestCase):
 
         Find purchase order by ID
         """
+        headers = { 
+            'Accept': 'application/json',
+        }
         response = self.client.open(
-            '/v2/store/order/{orderId}'.format(order_id=5),
-            method='GET')
+            '/v2/store/order/{order_id}'.format(order_id=5),
+            method='GET',
+            headers=headers)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
+    @unittest.skip("*/* not supported by Connexion. Use application/json instead. See https://github.com/zalando/connexion/pull/760")
     def test_place_order(self):
         """Test case for place_order
 
         Place an order for a pet
         """
-        body = Order()
+        order = {}
+        headers = { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
         response = self.client.open(
             '/v2/store/order',
             method='POST',
-            data=json.dumps(body),
+            headers=headers,
+            data=json.dumps(order),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
 
 if __name__ == '__main__':
-    import unittest
     unittest.main()

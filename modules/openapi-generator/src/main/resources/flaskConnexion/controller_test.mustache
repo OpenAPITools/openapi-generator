@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+import unittest
 
 from flask import json
 from six import BytesIO
@@ -13,7 +14,10 @@ from {{packageName}}.test import BaseTestCase
 class {{#operations}}Test{{classname}}(BaseTestCase):
     """{{classname}} integration test stubs"""
 
-   {{#operation}}
+    {{#operation}}
+    {{#vendorExtensions.x-skip-test}}
+    @unittest.skip("{{reason}}")
+    {{/vendorExtensions.x-skip-test}}
     def test_{{operationId}}(self):
         """Test case for {{{operationId}}}
 
@@ -25,18 +29,21 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#queryParams}}
         {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
         {{/queryParams}}
-        {{#headerParams}}
-        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{paramName}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
-        {{/headerParams}}
+        headers = { {{#vendorExtensions.x-prefered-produce}}
+            'Accept': '{{mediaType}}',{{/vendorExtensions.x-prefered-produce}}{{#vendorExtensions.x-prefered-consume}}
+            'Content-Type': '{{mediaType}}',{{/vendorExtensions.x-prefered-consume}}{{#headerParams}}
+            '{{paramName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
+            {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasic}}'Authorization': '{{#isBasicBasic}}{{#isBasicBasic}} BasicZm9vOmJhcg=={{#isBasicBearer}}Bearer special-key{{#isBasicBearer}}',{{/isBasic}}{{/authMethods}}
+        }
         {{#formParams}}
         {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{#hasMore}},{{/hasMore}}{{#-last}}){{/-last}}
         {{/formParams}}
         response = self.client.open(
             '{{#contextPath}}{{{.}}}{{/contextPath}}{{{path}}}'{{#pathParams}}{{#-first}}.format({{/-first}}{{paramName}}={{{example}}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/pathParams}},
-            method='{{httpMethod}}'{{#bodyParam}},
+            method='{{httpMethod}}',
+            headers=headers{{#bodyParam}},
             data=json.dumps({{paramName}}){{^consumes}},
-            content_type='application/json'{{/consumes}}{{/bodyParam}}{{#headerParams}}{{#-first}},
-            headers=headers{{/-first}}{{/headerParams}}{{#formParams}}{{#-first}},
+            content_type='application/json'{{/consumes}}{{/bodyParam}}{{#formParams}}{{#-first}},
             data=data{{/-first}}{{/formParams}}{{#consumes}}{{#-first}},
             content_type='{{{mediaType}}}'{{/-first}}{{/consumes}}{{#queryParams}}{{#-first}},
             query_string=query_string{{/-first}}{{/queryParams}})
@@ -47,5 +54,4 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
 {{/operations}}
 
 if __name__ == '__main__':
-    import unittest
     unittest.main()

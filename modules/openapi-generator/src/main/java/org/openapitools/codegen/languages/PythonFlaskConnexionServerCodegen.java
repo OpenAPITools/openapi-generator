@@ -16,8 +16,10 @@
 
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -27,7 +29,7 @@ public class PythonFlaskConnexionServerCodegen extends PythonAbstractConnexionSe
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
 
     public PythonFlaskConnexionServerCodegen() {
-        super("flaskConnexion");
+        super("flaskConnexion", false);
     }
 
     /**
@@ -39,5 +41,20 @@ public class PythonFlaskConnexionServerCodegen extends PythonAbstractConnexionSe
     @Override
     public String getName() {
         return "python-flask";
+    }
+
+    @Override
+    protected void addSupportingFiles() {
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
+        supportingFiles.add(new SupportingFile("dockerignore.mustache", "", ".dockerignore"));
+        supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+        supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("encoder.mustache", packageName, "encoder.py"));
+        supportingFiles.add(new SupportingFile("__init__test.mustache", packageName + File.separatorChar + testPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__.mustache", packageName, "__init__.py"));
+        testPackage = packageName + "." + testPackage;
     }
 }
