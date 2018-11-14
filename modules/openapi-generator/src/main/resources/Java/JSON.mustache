@@ -25,7 +25,9 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 {{/threetenbp}}
 
+{{#models.0}}
 import {{modelPackage}}.*;
+{{/models.0}}
 import okio.ByteString;
 
 import java.io.IOException;
@@ -40,6 +42,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 {{/java8}}
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -60,36 +63,43 @@ public class JSON {
 
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-        {{#parent}}
-          .registerTypeSelector({{classname}}.class, new TypeSelector() {
-            @Override
-            public Class getClassForElement(JsonElement readElement) {
-                Map classByDiscriminatorValue = new HashMap();
-                {{#children}}
-                classByDiscriminatorValue.put("{{name}}".toUpperCase(), {{classname}}.class);
-                {{/children}}
-                classByDiscriminatorValue.put("{{classname}}".toUpperCase(), {{classname}}.class);
-                return getClassByDiscriminator(
-                                           classByDiscriminatorValue,
-                                           getDiscriminatorValue(readElement, "{{{discriminatorName}}}"));
-            }
+        {{#models}}
+        {{#model}}
+        {{#discriminator}}
+                .registerTypeSelector({{classname}}.class, new TypeSelector() {
+                    @Override
+                    public Class getClassForElement(JsonElement readElement) {
+                        Map classByDiscriminatorValue = new HashMap();
+                        {{#mappedModels}}
+                        classByDiscriminatorValue.put("{{mappingName}}".toUpperCase(Locale.ROOT), {{modelName}}.class);
+                        {{/mappedModels}}
+                        classByDiscriminatorValue.put("{{classname}}".toUpperCase(Locale.ROOT), {{classname}}.class);
+                        return getClassByDiscriminator(classByDiscriminatorValue,
+                                getDiscriminatorValue(readElement, "{{{propertyName}}}"));
+                    }
           })
-        {{/parent}}
+        {{/discriminator}}
+        {{/model}}
+        {{/models}}
         ;
-        return fireBuilder.createGsonBuilder();
+        GsonBuilder builder = fireBuilder.createGsonBuilder();
+        {{#disableHtmlEscaping}}
+        builder.disableHtmlEscaping();
+        {{/disableHtmlEscaping}}
+        return builder;
     }
 
     private static String getDiscriminatorValue(JsonElement readElement, String discriminatorField) {
         JsonElement element = readElement.getAsJsonObject().get(discriminatorField);
-        if(null == element) {
+        if (null == element) {
             throw new IllegalArgumentException("missing discriminator field: <" + discriminatorField + ">");
         }
         return element.getAsString();
     }
 
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase());
-        if(null == clazz) {
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
+        if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }
         return clazz;
@@ -168,9 +178,11 @@ public class JSON {
         } catch (JsonParseException e) {
             // Fallback processing when failed to parse JSON form response body:
             // return the response body string directly for the String return type;
-            if (returnType.equals(String.class))
+            if (returnType.equals(String.class)) {
                 return (T) body;
-            else throw (e);
+            } else {
+                throw (e);
+            }
         }
     }
 
@@ -404,8 +416,7 @@ public class JSON {
 
         private DateFormat dateFormat;
 
-        public SqlDateTypeAdapter() {
-        }
+        public SqlDateTypeAdapter() {}
 
         public SqlDateTypeAdapter(DateFormat dateFormat) {
             this.dateFormat = dateFormat;
@@ -458,8 +469,7 @@ public class JSON {
 
         private DateFormat dateFormat;
 
-        public DateTypeAdapter() {
-        }
+        public DateTypeAdapter() {}
 
         public DateTypeAdapter(DateFormat dateFormat) {
             this.dateFormat = dateFormat;

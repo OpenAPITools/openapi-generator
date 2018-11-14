@@ -1,0 +1,84 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{modelHeaderGuardPrefix}}_{{classname}}_H_
+#define {{modelHeaderGuardPrefix}}_{{classname}}_H_
+
+{{^parent}}
+{{{defaultInclude}}}
+#include "../ModelBase.h"
+{{/parent}}
+
+{{#imports}}{{{this}}}
+{{/imports}}
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+class {{declspec}} {{classname}}
+    : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    /////////////////////////////////////////////
+    /// ModelBase overrides
+
+    void validate() override;
+
+    web::json::value toJson() const override;
+    void fromJson(const web::json::value& json) override;
+
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    {{#vars}}
+    {{^isInherited}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{^isNotContainer}}{{{dataType}}}& {{getter}}();
+    {{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{getter}}() const;
+    {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
+    void unset{{name}}();
+    {{/required}}
+
+    {{#isPrimitiveType}}
+    void {{setter}}({{{dataType}}} value);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    void {{setter}}(const {{{dataType}}}& value);
+    {{/isPrimitiveType}}
+
+    {{/isInherited}}
+    {{/vars}}
+
+protected:
+    {{#vars}}
+    {{^isInherited}}
+    {{{dataType}}} m_{{name}};
+    {{^required}}bool m_{{name}}IsSet;
+    {{/required}}
+    {{/isInherited}}
+    {{/vars}}
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{modelHeaderGuardPrefix}}_{{classname}}_H_ */
+{{/model}}
+{{/models}}

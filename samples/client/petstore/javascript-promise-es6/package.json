@@ -1,5 +1,5 @@
 {
-  "name": "swagger_petstore",
+  "name": "open_api_petstore",
   "version": "1.0.0",
   "description": "This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters__",
   "license": "Apache-2.0",
@@ -13,7 +13,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
-    "superagent": "3.5.2"
+    "superagent": "3.7.0"
   },
   "devDependencies": {
     "babel-core": "6.26.0",

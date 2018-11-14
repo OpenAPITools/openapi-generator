@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
@@ -32,7 +31,9 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
@@ -126,7 +127,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -198,7 +199,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
     @Override
     protected String getOrGenerateOperationId(Operation operation, String path, String httpMethod) {
-        return super.getOrGenerateOperationId(operation, path, httpMethod.toUpperCase());
+        return super.getOrGenerateOperationId(operation, path, httpMethod.toUpperCase(Locale.ROOT));
     }
 
     public String apiFilename(String templateName, String tag) {
@@ -226,6 +227,6 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             return "DefaultController";
         }
         name = name.replaceAll("[^a-zA-Z0-9]+", "_");
-        return camelize(name) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Controller";
     }
 }

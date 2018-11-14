@@ -17,14 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 
 public class GoServerCodegen extends AbstractGoCodegen {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
     protected String apiVersion = "1.0.0";
     protected int serverPort = 8080;
@@ -110,6 +115,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
          */
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
         supportingFiles.add(new SupportingFile("main.mustache", "", "main.go"));
+        supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", apiPath, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", apiPath, "logger.go"));
         writeOptional(outputFolder, new SupportingFile("README.mustache", apiPath, "README.md"));

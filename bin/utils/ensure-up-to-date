@@ -1,0 +1,63 @@
+#!/bin/bash
+# this bash script run the scripts for the 'mature' generators
+# it ensures that all changes are committed into the 'samples/' folder
+
+echo "# START SCRIPT: $0"
+
+echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
+echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
+
+sleep 5
+
+# LIST OF SCRIPTS:
+declare -a scripts=("./bin/openapi3/ruby-client-petstore.sh"
+"./bin/java-petstore-all.sh"
+"./bin/java-jaxrs-petstore-server-all.sh"
+"./bin/openapi3/jaxrs-jersey-petstore.sh"
+"./bin/spring-all-pestore.sh"
+"./bin/kotlin-client-petstore.sh"
+"./bin/kotlin-client-string.sh"
+"./bin/kotlin-client-threetenbp.sh"
+"./bin/kotlin-server-petstore.sh"
+"./bin/mysql-schema-petstore.sh"
+"./bin/php-petstore.sh"
+"./bin/php-silex-petstore-server.sh"
+"./bin/php-symfony-petstore.sh"
+"./bin/php-lumen-petstore-server.sh"
+"./bin/php-slim-server-petstore.sh"
+"./bin/php-ze-ph-petstore-server.sh"
+"./bin/openapi3/php-petstore.sh"
+"./bin/typescript-angular-petstore-all.sh"
+"./bin/typescript-fetch-petstore-all.sh"
+"./bin/typescript-node-petstore-all.sh"
+"./bin/typescript-inversify-petstore.sh"
+"./bin/rust-server-petstore.sh"
+"./bin/haskell-http-client-petstore.sh"
+"./bin/csharp-petstore.sh"
+"./bin/meta-codegen.sh"
+"./bin/utils/export_docs_generators.sh"
+"./bin/go-petstore.sh"
+"./bin/go-gin-petstore-server.sh")
+
+for script in "${scripts[@]}"; do
+  if eval $script > /dev/null 2>&1; then
+    echo "Executed $script successfully!"
+  else
+    echo "ERROR: Failed to run $script"
+    exit 1
+  fi
+done
+
+# Check:
+if [ -n "$(git status --porcelain)" ]; then
+    echo "UNCOMMITTED CHANGES ERROR"
+    echo "There are uncommitted changes in working tree after execution of 'bin/ensure-up-to-date'"
+    echo "Perform git diff"
+    git --no-pager diff
+    echo "Perform git status"
+    git status
+    echo "Please run 'bin/utils/ensure-up-to-date' locally and commit changes (UNCOMMITTED CHANGES ERROR)"
+    exit 1
+else
+    echo "Git working tree is clean"
+fi

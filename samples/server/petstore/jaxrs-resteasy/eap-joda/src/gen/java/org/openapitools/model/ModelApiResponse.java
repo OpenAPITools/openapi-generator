@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
@@ -13,11 +14,11 @@ import io.swagger.annotations.*;
 public class ModelApiResponse   {
   
 
-  private Integer code = null;
+  private Integer code;
 
-  private String type = null;
+  private String type;
 
-  private String message = null;
+  private String message;
 
   /**
    **/

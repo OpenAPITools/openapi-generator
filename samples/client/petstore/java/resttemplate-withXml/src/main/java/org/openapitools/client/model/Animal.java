@@ -28,7 +28,8 @@ import javax.xml.bind.annotation.*;
 /**
  * Animal
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true )
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
@@ -41,7 +42,7 @@ public class Animal {
   @JsonProperty("className")
   @JacksonXmlProperty(localName = "className")
   @XmlElement(name = "className")
-  private String className = null;
+  private String className;
 
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")

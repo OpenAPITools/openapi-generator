@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
@@ -51,6 +52,12 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
+    public Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
     public Response testBodyWithQueryParams( @NotNull String query, User user, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
@@ -70,6 +77,12 @@ public class FakeApiServiceImpl extends FakeApiService {
     }
     @Override
     public Response testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString,  List<String> enumQueryStringArray,  String enumQueryString,  Integer enumQueryInteger,  Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testGroupParameters( @NotNull Integer requiredStringGroup, Boolean requiredBooleanGroup,  @NotNull Long requiredInt64Group,  Integer stringGroup, Boolean booleanGroup,  Long int64Group, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

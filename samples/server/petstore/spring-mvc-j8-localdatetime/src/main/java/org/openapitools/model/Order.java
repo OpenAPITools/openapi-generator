@@ -7,27 +7,25 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Order
  */
-@Validated
 
 public class Order   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private LocalDateTime shipDate = null;
+  private LocalDateTime shipDate;
 
   /**
    * Order Status
@@ -58,12 +56,12 @@ public class Order   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;
@@ -76,7 +74,7 @@ public class Order   {
   /**
    * Get id
    * @return id
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -96,7 +94,7 @@ public class Order   {
   /**
    * Get petId
    * @return petId
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -116,7 +114,7 @@ public class Order   {
   /**
    * Get quantity
    * @return quantity
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -136,7 +134,7 @@ public class Order   {
   /**
    * Get shipDate
    * @return shipDate
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -157,7 +155,7 @@ public class Order   {
   /**
    * Order Status
    * @return status
-  **/
+  */
   @ApiModelProperty(value = "Order Status")
 
 
@@ -177,11 +175,11 @@ public class Order   {
   /**
    * Get complete
    * @return complete
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
 

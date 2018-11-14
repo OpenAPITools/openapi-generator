@@ -9,9 +9,8 @@
 
 package petstoreserver
 
-// A User who is purchasing from the pet store
+// User - A User who is purchasing from the pet store
 type User struct {
-
 	Id int64 `json:"id,omitempty"`
 
 	Username string `json:"username,omitempty"`

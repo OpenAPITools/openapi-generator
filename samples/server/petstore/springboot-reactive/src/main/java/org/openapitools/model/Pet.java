@@ -10,24 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Pet
  */
-@Validated
 
 public class Pet   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("category")
   private Category category = null;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("photoUrls")
   @Valid
@@ -66,12 +64,12 @@ public class Pet   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;
@@ -81,7 +79,7 @@ public class Pet   {
   /**
    * Get id
    * @return id
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -101,7 +99,7 @@ public class Pet   {
   /**
    * Get category
    * @return category
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -122,7 +120,7 @@ public class Pet   {
   /**
    * Get name
    * @return name
-  **/
+  */
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @NotNull
 
@@ -148,7 +146,7 @@ public class Pet   {
   /**
    * Get photoUrls
    * @return photoUrls
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -177,7 +175,7 @@ public class Pet   {
   /**
    * Get tags
    * @return tags
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -198,7 +196,7 @@ public class Pet   {
   /**
    * pet status in the store
    * @return status
-  **/
+  */
   @ApiModelProperty(value = "pet status in the store")
 
 

@@ -8,14 +8,12 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * ArrayTest
  */
-@Validated
 
 public class ArrayTest   {
   @JsonProperty("array_of_string")
@@ -46,7 +44,7 @@ public class ArrayTest   {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -74,7 +72,7 @@ public class ArrayTest   {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -103,7 +101,7 @@ public class ArrayTest   {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

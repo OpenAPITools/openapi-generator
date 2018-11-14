@@ -1,0 +1,72 @@
+{{>licenseInfo}}
+{{#operations}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+#include <pistache/http.h>
+#include <pistache/router.h>
+#include <pistache/http_headers.h>
+#include <pistache/optional.h>
+{{^hasModelImport}}#include "json.hpp"{{/hasModelImport}}
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
+
+class {{declspec}} {{classname}} {
+public:
+    {{classname}}(std::shared_ptr<Pistache::Rest::Router>);
+    virtual ~{{classname}}() {}
+    void init();
+
+    const std::string base = "{{basePathWithoutHost}}";
+
+private:
+    void setupRoutes();
+
+    {{#operation}}
+    void {{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
+    {{/operation}}
+    void {{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
+
+    std::shared_ptr<Pistache::Rest::Router> router;
+    {{#operation}}
+
+    /// <summary>
+    /// {{summary}}
+    /// </summary>
+    /// <remarks>
+    /// {{notes}}
+    /// </remarks>
+    {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{#allParams}}
+    /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+    {{/allParams}}
+    virtual void {{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) = 0;
+    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    virtual void {{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response) = 0;
+    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{/operation}}
+
+};
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+#endif /* {{classname}}_H_ */
+
+{{/operations}}

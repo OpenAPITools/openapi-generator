@@ -1,0 +1,637 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{classname}}::{{classname}}()
+{
+    {{#vars}}
+    {{^isInherited}}
+    {{#isNotContainer}}
+    {{#isPrimitiveType}}
+    m_{{name}} = {{{defaultValue}}};
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    {{#isString}}
+    m_{{name}} = {{{defaultValue}}};
+    {{/isString}}
+    {{#isDateTime}}
+    m_{{name}} = {{{defaultValue}}};
+    {{/isDateTime}}
+    {{/isPrimitiveType}}
+    {{/isNotContainer}}
+    {{^required}}
+    m_{{name}}IsSet = false;
+    {{/required}}
+    {{/isInherited}}
+    {{/vars}}
+}
+
+{{classname}}::~{{classname}}()
+{
+}
+
+void {{classname}}::validate()
+{
+    // TODO: implement validation
+}
+
+web::json::value {{classname}}::toJson() const
+{
+    {{#parent}}
+    web::json::value val = this->{{{parent}}}::toJson();
+    {{/parent}}
+    {{^parent}}
+    web::json::value val = web::json::value::object();
+    {{/parent}}
+
+    {{#vars}}
+    {{^isInherited}}
+    {{#isPrimitiveType}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{^required}}
+    if(m_{{name}}IsSet)
+    {
+        val[utility::conversions::to_string_t("{{baseName}}")] = ModelBase::toJson(m_{{name}});
+    }
+    {{/required}}
+    {{#required}}
+    val[utility::conversions::to_string_t("{{baseName}}")] = ModelBase::toJson(m_{{name}});
+    {{/required}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/isPrimitiveType}}
+    {{#isListContainer}}
+    {
+        std::vector<web::json::value> jsonArray;
+        for( auto& item : m_{{name}} )
+        {
+            jsonArray.push_back(ModelBase::toJson(item));
+        }
+        {{#required}}
+        val[utility::conversions::to_string_t("{{baseName}}")] = web::json::value::array(jsonArray);
+        {{/required}}
+        {{^required}}
+        if(jsonArray.size() > 0)
+        {
+            val[utility::conversions::to_string_t("{{baseName}}")] = web::json::value::array(jsonArray);
+        }
+        {{/required}}
+    }
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    {
+        std::vector<web::json::value> jsonArray;
+        for( auto& item : m_{{name}} )
+        {
+            web::json::value tmp = web::json::value::object();
+            tmp[utility::conversions::to_string_t("key")] = ModelBase::toJson(item.first);
+            tmp[utility::conversions::to_string_t("value")] = ModelBase::toJson(item.second);
+            jsonArray.push_back(tmp);
+        }
+        {{#required}}
+        val[utility::conversions::to_string_t("{{baseName}}")] = web::json::value::array(jsonArray);
+        {{/required}}
+        {{^required}}
+        if(jsonArray.size() > 0)
+        {
+            val[utility::conversions::to_string_t("{{baseName}}")] = web::json::value::array(jsonArray);
+        }
+        {{/required}}
+    }
+    {{/isMapContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{^isPrimitiveType}}
+    {{^required}}
+    if(m_{{name}}IsSet)
+    {
+        val[utility::conversions::to_string_t("{{baseName}}")] = ModelBase::toJson(m_{{name}});
+    }
+    {{/required}}
+    {{#required}}
+    val[utility::conversions::to_string_t("{{baseName}}")] = ModelBase::toJson(m_{{name}});
+    {{/required}}
+    {{/isPrimitiveType}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/isInherited}}
+    {{/vars}}
+
+    return val;
+}
+
+void {{classname}}::fromJson(const web::json::value& val)
+{
+    {{#parent}}
+    this->{{{parent}}}::fromJson(val);
+
+    {{/parent}}
+    {{#vars}}
+    {{^isInherited}}
+    {{#isPrimitiveType}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{^required}}
+    if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t("{{baseName}}"));
+        if(!fieldValue.is_null())
+        {
+            {{setter}}(ModelBase::{{baseType}}FromJson(fieldValue));
+        }
+    }
+    {{/required}}
+    {{#required}}
+    {{setter}}(ModelBase::{{baseType}}FromJson(val.at(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/required}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/isPrimitiveType}}
+    {{#isListContainer}}
+    {
+        m_{{name}}.clear();
+        std::vector<web::json::value> jsonArray;
+        {{^required}}
+        if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
+        {
+        {{/required}}
+        for( auto& item : val.at(utility::conversions::to_string_t("{{baseName}}")).as_array() )
+        {
+            {{#items.isPrimitiveType}}
+            m_{{name}}.push_back(ModelBase::{{items.baseType}}FromJson(item));
+            {{/items.isPrimitiveType}}
+            {{^items.isPrimitiveType}}
+            {{#items.isString}}
+            m_{{name}}.push_back(ModelBase::stringFromJson(item));
+            {{/items.isString}}
+            {{^items.isString}}
+            {{#items.isDateTime}}
+            m_{{name}}.push_back(ModelBase::dateFromJson(item));
+            {{/items.isDateTime}}
+            {{^items.isDateTime}}
+            if(item.is_null())
+            {
+                m_{{name}}.push_back( {{{items.datatype}}}(nullptr) );
+            }
+            else
+            {
+                {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                newItem->fromJson(item);
+                m_{{name}}.push_back( newItem );
+            }
+            {{/items.isDateTime}}
+            {{/items.isString}}
+            {{/items.isPrimitiveType}}
+        }
+        {{^required}}
+        }
+        {{/required}}
+    }
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    {
+        m_{{name}}.clear();
+        std::vector<web::json::value> jsonArray;
+        {{^required}}
+        if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
+        {
+        {{/required}}
+        for( const auto& item : val.at(utility::conversions::to_string_t("{{baseName}}")).as_array() )
+        {  
+            if(item.has_field(utility::conversions::to_string_t("key")))
+            {
+                utility::string_t key = ModelBase::stringFromJson(item.at(utility::conversions::to_string_t("key")));
+                {{#items.isPrimitiveType}}
+                m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, ModelBase::{{items.baseType}}FromJson(item.at(utility::conversions::to_string_t("value")))));
+                {{/items.isPrimitiveType}}
+                {{^items.isPrimitiveType}}
+                {{#items.isString}}
+                m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, ModelBase::stringFromJson(item.at(utility::conversions::to_string_t("value")))));
+                {{/items.isString}}
+                {{^items.isString}}
+                {{#items.isDateTime}}
+                m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, ModelBase::dateFromJson(item.at(utility::conversions::to_string_t("value")))));
+                {{/items.isDateTime}}
+                {{^items.isDateTime}}
+                if(item.is_null())
+                {
+                    m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, {{{items.datatype}}}(nullptr) ));
+                }
+                else
+                {
+                    {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                    newItem->fromJson(item.at(utility::conversions::to_string_t("value")));
+                    m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, newItem ));
+                }
+                {{/items.isDateTime}}
+                {{/items.isString}}
+                {{/items.isPrimitiveType}}
+            }
+        }
+        {{^required}}
+        }
+        {{/required}}
+    }
+    {{/isMapContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{^isPrimitiveType}}
+    {{^required}}
+    if(val.has_field(utility::conversions::to_string_t("{{baseName}}")))
+    {
+        const web::json::value& fieldValue = val.at(utility::conversions::to_string_t("{{baseName}}"));
+        if(!fieldValue.is_null())
+        {
+            {{#isString}}
+            {{setter}}(ModelBase::stringFromJson(fieldValue));
+            {{/isString}}
+            {{#isByteArray}}
+            {{setter}}(ModelBase::stringFromJson(fieldValue));
+            {{/isByteArray}}
+            {{^isString}}
+            {{#isDateTime}}
+            {{setter}}(ModelBase::dateFromJson(fieldValue));
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{^isByteArray}}
+            {{{dataType}}} newItem({{{defaultValue}}});
+            newItem->fromJson(fieldValue);
+            {{setter}}( newItem );
+            {{/isByteArray}}
+            {{/isDateTime}}
+            {{/isString}}
+        }
+    }
+    {{/required}}
+    {{#required}}
+    {{#isString}}
+    {{setter}}(ModelBase::stringFromJson(val.at(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/isString}}
+    {{#isByteArray}}
+    {{setter}}(ModelBase::stringFromJson(val[utility::conversions::to_string_t("{{baseName}}")]));
+    {{/isByteArray}}
+    {{^isString}}
+    {{^isByteArray}}
+    {{#isDateTime}}
+    {{setter}}
+    (ModelBase::dateFromJson(val.at(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/isDateTime}}
+    {{^isDateTime}}
+    {{#vendorExtensions.x-codegen-file}}
+    {{setter}}(ModelBase::fileFromJson(val.at(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/vendorExtensions.x-codegen-file}}
+    {{^vendorExtensions.x-codegen-file}}
+    {{{dataType}}} new{{name}}({{{defaultValue}}});
+    new{{name}}->fromJson(val.at(utility::conversions::to_string_t("{{baseName}}")));
+    {{setter}}( new{{name}} );
+    {{/vendorExtensions.x-codegen-file}}
+    {{/isDateTime}}
+    {{/isByteArray}}
+    {{/isString}}
+    {{/required}}
+    {{/isPrimitiveType}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/isInherited}}
+    {{/vars}}
+}
+
+void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
+{
+    utility::string_t namePrefix = prefix;
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    {
+        namePrefix += utility::conversions::to_string_t(".");
+    }
+
+    {{#vars}}
+    {{#isPrimitiveType}}
+    {{^isMapContainer}}
+    {{^isListContainer}}
+    {{^required}}
+    if(m_{{name}}IsSet)
+    {
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+    }
+    {{/required}}
+    {{#required}}
+    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+    {{/required}}
+    {{/isListContainer}}
+    {{/isMapContainer}}
+    {{/isPrimitiveType}}
+    {{#isListContainer}}
+    {
+        std::vector<web::json::value> jsonArray;
+        for( auto& item : m_{{name}} )
+        {
+            jsonArray.push_back(ModelBase::toJson(item));
+        }
+        {{#required}}multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+        {{/required}}{{^required}}
+        if(jsonArray.size() > 0)
+        {
+            multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+        }
+        {{/required}}
+    }
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    {
+        std::vector<web::json::value> jsonArray;
+        for( auto& item : m_{{name}} )
+        {
+            web::json::value tmp = web::json::value::object();
+            tmp[utility::conversions::to_string_t("key")] = ModelBase::toJson(item.first);
+            tmp[utility::conversions::to_string_t("value")] = ModelBase::toJson(item.second);
+            jsonArray.push_back(tmp);
+        }
+        {{#required}}multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+        {{/required}}{{^required}}
+        if(jsonArray.size() > 0)
+        {
+            multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), web::json::value::array(jsonArray), utility::conversions::to_string_t("application/json")));
+        }
+        {{/required}}
+    }
+    {{/isMapContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{^isPrimitiveType}}
+    {{^required}}
+    if(m_{{name}}IsSet)
+    {
+        {{#isString}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        {{/isString}}
+        {{#isByteArray}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        {{/isByteArray}}
+        {{^isString}}
+        {{#isDateTime}}
+        multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+        {{/isDateTime}}
+        {{^isDateTime}}
+        {{^isByteArray}}if (m_{{name}}.get())
+        {
+            m_{{name}}->toMultipart(multipart, utility::conversions::to_string_t("{{baseName}}."));
+        }
+        {{/isByteArray}}
+        {{/isDateTime}}
+        {{/isString}}
+    }
+    {{/required}}
+    {{#required}}
+    {{#isString}}
+    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+    {{/isString}}
+    {{#isByteArray}}
+    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+    {{/isByteArray}}
+    {{^isString}}
+    {{#isDateTime}}
+    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+    {{/isDateTime}}
+    {{^isDateTime}}
+    {{^isByteArray}}
+    {{#vendorExtensions.x-codegen-file}}
+    multipart->add(ModelBase::toHttpContent(namePrefix + utility::conversions::to_string_t("{{baseName}}"), m_{{name}}));
+    {{/vendorExtensions.x-codegen-file}}
+    {{^vendorExtensions.x-codegen-file}}
+    m_{{name}}->toMultipart(multipart, utility::conversions::to_string_t("{{baseName}}."));
+    {{/vendorExtensions.x-codegen-file}}
+    {{/isByteArray}}
+    {{/isDateTime}}
+    {{/isString}}
+    {{/required}}
+    {{/isPrimitiveType}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/vars}}
+}
+
+void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix)
+{
+    utility::string_t namePrefix = prefix;
+    if(namePrefix.size() > 0 && namePrefix.substr(namePrefix.size() - 1) != utility::conversions::to_string_t("."))
+    {
+        namePrefix += utility::conversions::to_string_t(".");
+    }
+
+    {{#vars}}
+    {{#isPrimitiveType}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{^required}}
+    if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
+    {
+        {{setter}}(ModelBase::{{baseType}}FromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+    }
+    {{/required}}
+    {{#required}}
+    {{setter}}(ModelBase::{{baseType}}FromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/required}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/isPrimitiveType}}
+    {{#isListContainer}}
+    {
+        m_{{name}}.clear();
+        {{^required}}
+        if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
+        {
+        {{/required}}
+
+        web::json::value jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+        for( auto& item : jsonArray.as_array() )
+        {
+            {{#isPrimitiveType}}
+            m_{{name}}.push_back(ModelBase::{{items.baseType}}FromJson(item));
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{#items.isString}}
+            m_{{name}}.push_back(ModelBase::stringFromJson(item));
+            {{/items.isString}}
+            {{^items.isString}}
+            {{#items.isDateTime}}
+            m_{{name}}.push_back(ModelBase::dateFromJson(item));
+            {{/items.isDateTime}}
+            {{^items.isDateTime}}
+            if(item.is_null())
+            {
+                m_{{name}}.push_back( {{{items.datatype}}}(nullptr) );
+            }
+            else
+            {
+                {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                newItem->fromJson(item);
+                m_{{name}}.push_back( newItem );
+            }
+            {{/items.isDateTime}}
+            {{/items.isString}}
+            {{/isPrimitiveType}}
+        }
+        {{^required}}
+        }
+        {{/required}}
+    }
+    {{/isListContainer}}
+    {{#isMapContainer}}
+    {
+        m_{{name}}.clear();
+        {{^required}}
+        if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
+        {
+        {{/required}}
+
+        web::json::value jsonArray = web::json::value::parse(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+        for( auto& item : jsonArray.as_array() )
+        {
+            utility::string_t key;
+            if(item.has_field(utility::conversions::to_string_t("key")))
+            {
+                key = ModelBase::stringFromJson(item[utility::conversions::to_string_t("key")]);
+            }
+            {{#items.isPrimitiveType}}
+            m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, ModelBase::{{items.baseType}}FromJson(item[utility::conversions::to_string_t("value")])));
+            {{/items.isPrimitiveType}}
+            {{^items.isPrimitiveType}}
+            {{#items.isString}}
+            m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, ModelBase::stringFromJson(item[utility::conversions::to_string_t("value")])));
+            {{/items.isString}}
+            {{^items.isString}}
+            {{#items.isDateTime}}
+            m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, ModelBase::dateFromJson(item[utility::conversions::to_string_t("value")])));
+            {{/items.isDateTime}}
+            {{^items.isDateTime}}
+            if(item.is_null())
+            {
+                m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, {{{items.datatype}}}(nullptr) ));
+            }
+            else
+            {
+                {{{items.datatype}}} newItem({{{items.defaultValue}}});
+                newItem->fromJson(item[utility::conversions::to_string_t("value")]);
+                m_{{name}}.insert(std::pair<utility::string_t,{{{items.datatype}}}>( key, newItem ));
+            }
+            {{/items.isDateTime}}
+            {{/items.isString}}
+            {{/items.isPrimitiveType}}
+        }
+        {{^required}}
+        }
+        {{/required}}
+    }
+    {{/isMapContainer}}
+    {{^isListContainer}}
+    {{^isMapContainer}}
+    {{^isPrimitiveType}}
+    {{^required}}
+    if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
+    {
+        {{#isString}}
+        {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+        {{/isString}}
+        {{#isByteArray}}
+        {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+        {{/isByteArray}}
+        {{^isString}}
+        {{^isByteArray}}
+        {{#isDateTime}}
+        {{setter}}(ModelBase::dateFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+        {{/isDateTime}}
+        {{^isDateTime}}
+        if(multipart->hasContent(utility::conversions::to_string_t("{{baseName}}")))
+        {
+            {{{dataType}}} newItem({{{defaultValue}}});
+            newItem->fromMultiPart(multipart, utility::conversions::to_string_t("{{baseName}}."));
+            {{setter}}( newItem );
+        }
+        {{/isDateTime}}
+        {{/isByteArray}}
+        {{/isString}}
+    }
+    {{/required}}
+    {{#required}}
+    {{#isString}}
+    {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/isString}}
+    {{#isByteArray}}
+    {{setter}}(ModelBase::stringFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/isByteArray}}
+    {{^isString}}
+    {{^isByteArray}}
+    {{#isDateTime}}
+    {{setter}}(ModelBase::dateFromHttpContent(multipart->getContent(utility::conversions::to_string_t("{{baseName}}"))));
+    {{/isDateTime}}
+    {{^isDateTime}}
+    {{#vendorExtensions.x-codegen-file}}
+    {{setter}}(multipart->getContent(utility::conversions::to_string_t("{{baseName}}")));
+    {{/vendorExtensions.x-codegen-file}}
+    {{^vendorExtensions.x-codegen-file}}
+    {{{dataType}}} new{{name}}({{{defaultValue}}});
+    new{{name}}->fromMultiPart(multipart, utility::conversions::to_string_t("{{baseName}}."));
+    {{setter}}( new{{name}} );
+    {{/vendorExtensions.x-codegen-file}}
+    {{/isDateTime}}
+    {{/isByteArray}}
+    {{/isString}}
+    {{/required}}
+    {{/isPrimitiveType}}
+    {{/isMapContainer}}
+    {{/isListContainer}}
+    {{/vars}}
+}
+
+{{#vars}}
+{{^isInherited}}
+{{^isNotContainer}}
+{{{dataType}}}& {{classname}}::{{getter}}()
+{
+    return m_{{name}};
+}
+{{/isNotContainer}}
+{{#isNotContainer}}
+{{{dataType}}} {{classname}}::{{getter}}() const
+{
+    return m_{{name}};
+}
+{{/isNotContainer}}
+
+{{#isPrimitiveType}}
+void {{classname}}::{{setter}}({{{dataType}}} value)
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+void {{classname}}::{{setter}}(const {{{dataType}}}& value)
+{{/isPrimitiveType}}
+{
+    m_{{name}} = value;
+    {{^required}}m_{{name}}IsSet = true;{{/required}}
+}
+
+{{^required}}
+bool {{classname}}::{{nameInCamelCase}}IsSet() const
+{
+    return m_{{name}}IsSet;
+}
+
+void {{classname}}::unset{{name}}()
+{
+    m_{{name}}IsSet = false;
+}
+
+{{/required}}
+{{/isInherited}}
+{{/vars}}
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}

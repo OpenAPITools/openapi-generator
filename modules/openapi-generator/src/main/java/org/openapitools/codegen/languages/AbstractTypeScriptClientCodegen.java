@@ -18,9 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -29,6 +29,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
@@ -48,7 +51,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         importMapping.clear();
 
         supportsInheritance = true;
-        setReservedWordsLowerCase(Arrays.asList(
+
+        // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
+        reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
                 "varLocalPath", "queryParameters", "headerParams", "formParams", "useFormData", "varLocalDeferred",
                 "requestOptions",
@@ -96,6 +101,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("object", "any");
         typeMapping.put("integer", "number");
         typeMapping.put("Map", "any");
+        typeMapping.put("map", "any");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
@@ -112,6 +118,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("TS_POST_PROCESS_FILE"))) {
+            LOGGER.info("Hint: Environment variable 'TS_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export TS_POST_PROCESS_FILE=\"/usr/local/bin/prettier --write\"' (Linux/Mac)");
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
@@ -148,14 +158,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
-    public String toVarName(String name) {
         // sanitize name
-        name = sanitizeName(name);
+        name = sanitizeName(name, "\\W-[\\$]");
 
         if ("_".equals(name)) {
             name = "_u";
@@ -177,6 +181,33 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
+    public String toVarName(String name) {
+        name = this.toParamName(name);
+        
+        // if the proprty name has any breaking characters such as :, ;, . etc.
+        // then wrap the name within single quotes.
+        // my:interface:property: string; => 'my:interface:property': string;
+        if (propertyHasBreakingCharacters(name)) {
+            name = "\'" + name + "\'";
+        }
+
+        return name;
+    }
+
+    /**
+     * Checks whether property names have breaking characters like ':', '-'.
+     * @param str string to check for breaking characters
+     * @return <code>true</code> if breaking characters are present and <code>false</code> if not
+     */
+    private boolean propertyHasBreakingCharacters(String str) {
+        final String regex = "^.*[+*:;,.()-]+.*$";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(str);
+        boolean matches = matcher.matches();
+        return matches;
+    }
+
+    @Override
     public String toModelName(String name) {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
@@ -190,27 +221,27 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String modelName = camelize("model_" + name);
+            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("model_" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(name)) {
-            String modelName = camelize("model_" + name);
+            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("model_" + name);
             LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
             return modelName;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -226,7 +257,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + getTypeDeclaration(inner) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "any";
@@ -245,7 +276,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            inner = (Schema) p.getAdditionalProperties();
+            inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
@@ -325,9 +356,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isIntegerSchema(p)) {
@@ -344,6 +374,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         }
 
+    }
+
+    @Override
+    protected boolean isReservedWord(String word) {
+        // NOTE: This differs from super's implementation in that TypeScript does _not_ want case insensitive matching.
+        return reservedWords.contains(word);
     }
 
     @Override
@@ -369,10 +405,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // method name cannot use reserved keyword, e.g. return
         // append _ at the beginning, e.g. _return
         if (isReservedWord(operationId)) {
-            return escapeReservedWord(camelize(sanitizeName(operationId), true));
+            return escapeReservedWord(org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true));
         }
 
-        return camelize(sanitizeName(operationId), true);
+        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
     }
 
     public void setModelPropertyNaming(String naming) {
@@ -395,11 +431,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
             case PascalCase:
-                return camelize(name);
+                return org.openapitools.codegen.utils.StringUtils.camelize(name);
             case snake_case:
-                return underscore(name);
+                return org.openapitools.codegen.utils.StringUtils.underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
@@ -430,7 +466,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(name));
         }
 
         // number
@@ -450,7 +486,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         // camelize the enum variable name
         // ref: https://basarat.gitbooks.io/typescript/content/docs/enums.html
-        enumName = camelize(enumName);
+        enumName = org.openapitools.codegen.utils.StringUtils.camelize(enumName);
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -552,5 +588,33 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+
+        if (file == null) {
+            return;
+        }
+        String tsPostProcessFile = System.getenv("TS_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(tsPostProcessFile)) {
+            return; // skip if TS_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with ts extension
+        if ("ts".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = tsPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

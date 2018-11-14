@@ -53,7 +53,7 @@ class FakeApi extends Controller
     /**
      * Operation testEndpointParameters
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 .
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
      *
      *
      * @return Http response
@@ -182,6 +182,70 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testEnumParameters as a get method ?');
+    }
+    /**
+     * Operation testGroupParameters
+     *
+     * Fake endpoint to test group parameters (optional).
+     *
+     *
+     * @return Http response
+     */
+    public function testGroupParameters()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['required_string_group'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $required_string_group when calling testGroupParameters');
+        }
+        $required_string_group = $input['required_string_group'];
+
+        if (!isset($input['required_boolean_group'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $required_boolean_group when calling testGroupParameters');
+        }
+        $required_boolean_group = $input['required_boolean_group'];
+
+        if (!isset($input['required_int64_group'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $required_int64_group when calling testGroupParameters');
+        }
+        $required_int64_group = $input['required_int64_group'];
+
+        $string_group = $input['string_group'];
+
+        $boolean_group = $input['boolean_group'];
+
+        $int64_group = $input['int64_group'];
+
+
+        return response('How about implementing testGroupParameters as a delete method ?');
+    }
+    /**
+     * Operation testBodyWithFileSchema
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function testBodyWithFileSchema()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['file_schema_test_class'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $file_schema_test_class when calling testBodyWithFileSchema');
+        }
+        $file_schema_test_class = $input['file_schema_test_class'];
+
+
+        return response('How about implementing testBodyWithFileSchema as a put method ?');
     }
     /**
      * Operation testBodyWithQueryParams

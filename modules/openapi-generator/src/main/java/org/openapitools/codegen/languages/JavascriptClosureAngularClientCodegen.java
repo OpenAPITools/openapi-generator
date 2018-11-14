@@ -37,11 +37,11 @@ import io.swagger.v3.oas.models.info.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.TreeSet;
 import java.util.*;
 import java.io.File;
 
 import org.apache.commons.lang3.StringUtils;
+
 
 public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClosureAngularClientCodegen.class);
@@ -188,7 +188,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         // camelize the variable name
         // pet_id => PetId
-        name = camelize(name, true);
+        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*"))
@@ -215,13 +215,13 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -237,7 +237,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "Object<!string, "+ getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isFileSchema(p)) {
             return "Object";
@@ -285,7 +285,7 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         if (objs.get("imports") instanceof List) {
             List<Map<String, String>> imports = (ArrayList<Map<String, String>>)objs.get("imports");
             Collections.sort(imports, new Comparator<Map<String, String>>() {
@@ -305,11 +305,11 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = camelize(sanitizeName(operationId), true);
+        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = camelize("call_" + operationId, true);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }

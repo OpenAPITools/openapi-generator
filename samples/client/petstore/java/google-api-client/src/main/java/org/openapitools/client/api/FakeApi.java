@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -363,6 +364,90 @@ public class FakeApi {
 
         HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+    }
+
+
+  /**
+    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+    * <p><b>200</b> - Success
+    * @param fileSchemaTestClass The fileSchemaTestClass parameter
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws IOException {
+        testBodyWithFileSchemaForHttpResponse(fileSchemaTestClass);
+    }
+
+  /**
+    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+    * <p><b>200</b> - Success
+    * @param fileSchemaTestClass The fileSchemaTestClass parameter
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Map<String, Object> params) throws IOException {
+        testBodyWithFileSchemaForHttpResponse(fileSchemaTestClass, params);
+    }
+
+    public HttpResponse testBodyWithFileSchemaForHttpResponse(FileSchemaTestClass fileSchemaTestClass) throws IOException {
+        // verify the required parameter 'fileSchemaTestClass' is set
+        if (fileSchemaTestClass == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(fileSchemaTestClass);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+    }
+
+      public HttpResponse testBodyWithFileSchemaForHttpResponse(java.io.InputStream fileSchemaTestClass, String mediaType) throws IOException {
+          // verify the required parameter 'fileSchemaTestClass' is set
+              if (fileSchemaTestClass == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+              }
+              UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
+
+              String url = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(url);
+
+              HttpContent content = fileSchemaTestClass == null ?
+                apiClient.new JacksonJsonHttpContent(null) :
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, fileSchemaTestClass);
+              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+      }
+
+    public HttpResponse testBodyWithFileSchemaForHttpResponse(FileSchemaTestClass fileSchemaTestClass, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'fileSchemaTestClass' is set
+        if (fileSchemaTestClass == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(fileSchemaTestClass);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
 
@@ -791,6 +876,140 @@ public class FakeApi {
 
         HttpContent content = null;
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.GET, genericUrl, content).execute();
+    }
+
+
+  /**
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+    * <p><b>400</b> - Someting wrong
+    * @param requiredStringGroup Required String in group parameters
+    * @param requiredBooleanGroup Required Boolean in group parameters
+    * @param requiredInt64Group Required Integer in group parameters
+    * @param stringGroup String in group parameters
+    * @param booleanGroup Boolean in group parameters
+    * @param int64Group Integer in group parameters
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+    }
+
+  /**
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+    * <p><b>400</b> - Someting wrong
+    * @param requiredStringGroup Required String in group parameters
+    * @param requiredBooleanGroup Required Boolean in group parameters
+    * @param requiredInt64Group Required Integer in group parameters
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+        testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, params);
+    }
+
+    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+        if (requiredStringGroup != null) {
+            String key = "required_string_group";
+            Object value = requiredStringGroup;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (requiredInt64Group != null) {
+            String key = "required_int64_group";
+            Object value = requiredInt64Group;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (stringGroup != null) {
+            String key = "string_group";
+            Object value = stringGroup;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (int64Group != null) {
+            String key = "int64_group";
+            Object value = int64Group;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+    }
+
+    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+        // Add the required query param 'requiredStringGroup' to the map of query params
+        allParams.put("requiredStringGroup", requiredStringGroup);
+        // Add the required query param 'requiredInt64Group' to the map of query params
+        allParams.put("requiredInt64Group", requiredInt64Group);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
     }
 
 

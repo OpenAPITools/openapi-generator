@@ -1,0 +1,41 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Test;
+import org.junit.Ignore;
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * API tests for {{classname}}
+ */
+@Ignore
+public class {{classname}}Test {
+
+    private final {{classname}} api = new {{classname}}();
+
+    {{#operations}}{{#operation}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     */
+    @Test
+    public void {{operationId}}Test()  {
+        {{#allParams}}
+        {{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+        {{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#isListContainer}}.collectList().block(){{/isListContainer}}{{^isListContainer}}.block(){{/isListContainer}};
+
+        // TODO: test validations
+    }
+    {{/operation}}{{/operations}}
+}

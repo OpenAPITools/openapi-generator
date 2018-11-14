@@ -1,0 +1,54 @@
+{{>licenseInfo}}
+#include "{{prefix}}ModelBase.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{prefix}}ModelBase::{{prefix}}ModelBase()
+{
+}
+{{prefix}}ModelBase::~{{prefix}}ModelBase()
+{
+}
+
+std::string {{prefix}}ModelBase::toJson( std::string const& value )
+{
+    return value;
+}
+
+std::string {{prefix}}ModelBase::toJson( std::time_t const& value )
+{
+    char buf[sizeof "2011-10-08T07:07:09Z"];
+    strftime(buf, sizeof buf, "%FT%TZ", gmtime(&value));
+    return buf;
+}
+
+int32_t {{prefix}}ModelBase::toJson( int32_t const value )
+{
+    return value;
+}
+
+int64_t {{prefix}}ModelBase::toJson( int64_t const value )
+{
+    return value;
+}
+
+double {{prefix}}ModelBase::toJson( double const value )
+{
+    return value;
+}
+
+bool {{prefix}}ModelBase::toJson( bool const value )
+{
+    return value;
+}
+
+nlohmann::json {{prefix}}ModelBase::toJson({{prefix}}ModelBase const& content )
+{
+    return content.toJson();
+}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}

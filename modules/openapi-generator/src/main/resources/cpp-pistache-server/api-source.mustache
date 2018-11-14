@@ -1,0 +1,106 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include "{{classname}}.h"
+#include "{{prefix}}Helpers.h"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{helpersNamespace}};
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
+
+{{classname}}::{{classname}}(std::shared_ptr<Pistache::Rest::Router> rtr) { 
+    router = rtr;
+};
+
+void {{classname}}::init() {
+    setupRoutes();
+}
+
+void {{classname}}::setupRoutes() {
+    using namespace Pistache::Rest;
+
+    {{#operation}}
+    Routes::{{httpMethod}}(*router, base + "{{{vendorExtensions.x-codegen-pistache-path}}}", Routes::bind(&{{classname}}::{{operationIdSnakeCase}}_handler, this));
+    {{/operation}}
+
+    // Default handler, called when a route is not found
+    router->addCustomHandler(Routes::bind(&{{classname}}::{{classnameSnakeLowerCase}}_default_handler, this));
+}
+
+{{#operation}}
+void {{classname}}::{{operationIdSnakeCase}}_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    {{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{#hasPathParams}}
+    // Getting the path params
+    {{#pathParams}}
+    auto {{paramName}} = request.param(":{{paramName}}").as<{{dataType}}>();
+    {{/pathParams}}
+    {{/hasPathParams}}{{#hasBodyParam}}
+    // Getting the body param
+    {{#bodyParam}}
+    {{^isPrimitiveType}}{{^isContainer}}
+    {{baseType}} {{paramName}};{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}> {{paramName}};{{/isListContainer}}{{#isMapContainer}}std::map<std::string, {{items.baseType}}> {{paramName}};{{/isMapContainer}}{{/isPrimitiveType}}
+    {{#isPrimitiveType}}
+    {{dataType}} {{paramName}};
+    {{/isPrimitiveType}}
+    {{/bodyParam}}
+    {{/hasBodyParam}}{{#hasQueryParams}}
+    // Getting the query params
+    {{#queryParams}}
+    auto {{paramName}}Query = request.query().get("{{baseName}}");
+    Pistache::Optional<{{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}}> {{paramName}};
+    if(!{{paramName}}Query.isEmpty()){
+        {{^isContainer}}{{dataType}}{{/isContainer}}{{#isListContainer}}std::vector<{{items.baseType}}>{{/isListContainer}} value;
+        if(fromStringValue({{paramName}}Query.get(), value)){
+            {{paramName}} = Pistache::Some(value);
+        }
+    }
+    {{/queryParams}}
+    {{/hasQueryParams}}{{#hasHeaderParams}}
+    // Getting the header params
+    {{#headerParams}}
+    auto {{paramName}} = request.headers().tryGetRaw("{{baseName}}");
+    {{/headerParams}}
+    {{/hasHeaderParams}}
+
+    try {
+    {{#hasBodyParam}}
+    {{#bodyParam}}
+      nlohmann::json request_body = nlohmann::json::parse(request.body());
+    {{^isPrimitiveType}}{{^isContainer}}
+      {{paramName}}.fromJson(request_body);
+    {{/isContainer}}{{/isPrimitiveType}}{{#isContainer}}  {{paramName}} = {{#isListContainer}}  {{prefix}}ArrayHelper{{/isListContainer}}{{#isMapContainer}}  {{prefix}}MapHelper{{/isMapContainer}}::fromJson<{{items.baseType}}>(request_body);{{/isContainer}}
+    {{#isPrimitiveType}}
+      // The conversion is done automatically by the json library
+      {{paramName}} = request_body;
+    {{/isPrimitiveType}}
+    {{/bodyParam}}
+    {{/hasBodyParam}}
+      this->{{operationIdSnakeCase}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}response);
+    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    {{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    try {
+      this->{{operationIdSnakeCase}}(request, response);
+    {{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+    } catch (std::runtime_error & e) {
+      //send a 400 error
+      response.send(Pistache::Http::Code::Bad_Request, e.what());
+      return;
+    }
+
+}
+{{/operation}}
+
+void {{classname}}::{{classnameSnakeLowerCase}}_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
+    response.send(Pistache::Http::Code::Not_Found, "The requested method does not exist");
+}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}

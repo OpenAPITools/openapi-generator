@@ -46,6 +46,8 @@ class ApiClient(object):
         the API.
     :param cookie: a cookie to include in the header when making calls
         to the API
+    :param pool_threads: The number of threads to use for async requests
+        to the API. More threads means more concurrent API requests.
     """
 
     PRIMITIVE_TYPES = (float, bool, bytes, six.text_type) + six.integer_types
@@ -59,14 +61,15 @@ class ApiClient(object):
         'datetime': datetime.datetime,
         'object': object,
     }
+    _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
-                 cookie=None):
+                 cookie=None, pool_threads=None):
         if configuration is None:
             configuration = Configuration()
         self.configuration = configuration
+        self.pool_threads = pool_threads
 
-        self.pool = ThreadPool()
         self.rest_client = rest.RESTClientObject(configuration)
         self.default_headers = {}
         if header_name is not None:
@@ -76,8 +79,19 @@ class ApiClient(object):
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
 
     def __del__(self):
-        self.pool.close()
-        self.pool.join()
+        if self._pool:
+            self._pool.close()
+            self._pool.join()
+            self._pool = None
+
+    @property
+    def pool(self):
+        """Create thread pool on first request
+         avoids instantiating unused threadpool for blocking clients.
+        """
+        if self._pool is None:
+            self._pool = ThreadPool(self.pool_threads)
+        return self._pool
 
     @property
     def user_agent(self):
@@ -246,12 +260,12 @@ class ApiClient(object):
 
         if type(klass) == str:
             if klass.startswith('list['):
-                sub_kls = re.match('list\[(.*)\]', klass).group(1)
+                sub_kls = re.match(r'list\[(.*)\]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
                         for sub_data in data]
 
             if klass.startswith('dict('):
-                sub_kls = re.match('dict\(([^,]*), (.*)\)', klass).group(2)
+                sub_kls = re.match(r'dict\(([^,]*), (.*)\)', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in six.iteritems(data)}
 
@@ -275,12 +289,12 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, async=None,
+                 response_type=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
                  _preload_content=True, _request_timeout=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
-        To make an async request, set the async parameter.
+        To make an async_req request, set the async_req parameter.
 
         :param resource_path: Path to method endpoint.
         :param method: Method to call.
@@ -295,7 +309,7 @@ class ApiClient(object):
         :param response: Response data type.
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
-        :param async bool: execute request asynchronously
+        :param async_req bool: execute request asynchronously
         :param _return_http_data_only: response data without head status code
                                        and headers
         :param collection_formats: dict of collection formats for path, query,
@@ -308,13 +322,13 @@ class ApiClient(object):
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
         :return:
-            If async parameter is True,
+            If async_req parameter is True,
             the request will be called asynchronously.
             The method will return the request thread.
-            If parameter async is False or missing,
+            If parameter async_req is False or missing,
             then the method will return the response directly.
         """
-        if not async:
+        if not async_req:
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
@@ -547,7 +561,7 @@ class ApiClient(object):
             return data
 
     def __deserialize_object(self, value):
-        """Return a original value.
+        """Return an original value.
 
         :return: object.
         """

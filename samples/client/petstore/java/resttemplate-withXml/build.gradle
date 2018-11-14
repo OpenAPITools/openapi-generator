@@ -94,8 +94,9 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.17"
-    jackson_version = "2.8.9"
+    swagger_annotations_version = "1.5.21"
+    jackson_version = "2.8.11"
+    jackson_databind_version = "2.8.11.2"
     spring_web_version = "4.3.9.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
@@ -107,7 +108,7 @@ dependencies {
     compile "org.springframework:spring-web:$spring_web_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"

@@ -19,13 +19,20 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.mustache.IndentedLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.Map;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -129,6 +136,38 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    public String escapeQuotationMark(String input) {
+        // remove " to avoid code injection
+        return input.replace("\"", "");
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public String toApiName(String type) {
+        return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api");
+    }
+
+    @Override
+    public String toModelName(String type) {
+        if (type == null) {
+            LOGGER.warn("Model name can't be null. Default to 'UnknownModel'.");
+            type = "UnknownModel";
+        }
+
+        if (typeMapping.keySet().contains(type) || typeMapping.values().contains(type)
+                || importMapping.values().contains(type) || defaultIncludes.contains(type)
+                || languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1));
+        }
+    }
+
+    @Override
     public String toVarName(String name) {
         if (typeMapping.keySet().contains(name) || typeMapping.values().contains(name)
                 || importMapping.values().contains(name) || defaultIncludes.contains(name)
@@ -136,7 +175,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return sanitizeName(name);
         }
 
-        if (isReservedWord(name)) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
             return escapeReservedWord(name);
         }
 
@@ -173,6 +212,10 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toParamName(String name) {
+        if (isReservedWord(name) || name.matches("^\\d.*")) {
+            return escapeReservedWord(name);
+        }
+
         return sanitizeName(super.toParamName(name));
     }
 
@@ -184,6 +227,9 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));
         } else {
             nameInCamelCase = sanitizeName(nameInCamelCase);
+        }
+        if (isReservedWord(nameInCamelCase) || nameInCamelCase.matches("^\\d.*")) {
+            nameInCamelCase = escapeReservedWord(nameInCamelCase);
         }
         property.nameInCamelCase = nameInCamelCase;
         return property;
@@ -202,5 +248,57 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public String getTypeDeclaration(String str) {
         return "std::shared_ptr<" + toModelName(str) + ">";
+    }
+
+    public void processOpts() {
+        super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("CPP_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
+        addMustacheLambdas(additionalProperties);
+    }
+
+    private void addMustacheLambdas(Map<String, Object> objs) {
+
+        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
+                .put("multiline_comment_4", new IndentedLambda(4, " ", "///"))
+                .build();
+
+        if (objs.containsKey("lambda")) {
+            LOGGER.warn("A property named 'lambda' already exists. Mustache lambdas renamed from 'lambda' to '_lambda'.");
+            objs.put("_lambda", lambdas);
+        } else {
+            objs.put("lambda", lambdas);
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String cppPostProcessFile = System.getenv("CPP_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(cppPostProcessFile)) {
+            return; // skip if CPP_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with cpp extension
+        if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = cppPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

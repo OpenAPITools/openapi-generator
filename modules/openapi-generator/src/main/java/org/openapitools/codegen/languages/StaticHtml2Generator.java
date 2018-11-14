@@ -17,12 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -41,7 +42,9 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
@@ -80,9 +83,9 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC));
 
         additionalProperties.put("appName", "OpenAPI Sample");
-        additionalProperties.put("appDescription", "A sample openapi server");
+        additionalProperties.put("appDescription", "A sample OpenAPI server");
         additionalProperties.put("infoUrl", "https://openapi-generator.tech");
-        additionalProperties.put("infoEmail", "contributors@openapitools.org");
+        additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
@@ -129,18 +132,18 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
             for (CodegenResponse response : op.responses) {
                 if ("0".equals(response.code)) {
                     response.code = "default";
@@ -159,7 +162,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(jsProjectName) && info.getTitle() != null) {
                 // when jsProjectName is not specified, generate it from info.title
-                jsProjectName = sanitizeName(dashize(info.getTitle()));
+                jsProjectName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
             }
         }
 
@@ -168,13 +171,29 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             jsProjectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(jsModuleName)) {
-            jsModuleName = camelize(underscore(jsProjectName));
+            jsModuleName = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(jsProjectName));
         }
 
         additionalProperties.put("jsProjectName", jsProjectName);
         additionalProperties.put("jsModuleName", jsModuleName);
 
         preparHtmlForGlobalDescription(openAPI);
+
+        Map<String, Object> vendorExtensions = openAPI.getExtensions();
+        if (vendorExtensions != null) {
+            for (Map.Entry<String, Object> vendorExtension : vendorExtensions.entrySet()) {
+                // Vendor extensions could be Maps (objects). If we wanted to iterate through them in our template files
+                // without knowing the keys beforehand, the default `toString` method renders them unusable. Instead, we
+                // convert them to JSON strings now, which means we can easily use them later.
+                if (vendorExtension.getValue() instanceof Map) {
+                    this.vendorExtensions().put(vendorExtension.getKey(), Json.mapper().convertValue(vendorExtension.getValue(), JsonNode.class));
+                } else {
+                    this.vendorExtensions().put(vendorExtension.getKey(), vendorExtension.getValue());
+                }
+            }
+        }
+        openAPI.setExtensions(this.vendorExtensions);
+
     }
 
     @Override
@@ -186,7 +205,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
         //path is an unescaped variable in the mustache template api.mustache line 82 '<&path>'
         op.path = sanitizePath(op.path);
-        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", httpMethod.toUpperCase());
+        op.vendorExtensions.put("x-codegen-httpMethodUpperCase", httpMethod.toUpperCase(Locale.ROOT));
 
         return op;
     }

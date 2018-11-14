@@ -9,13 +9,13 @@ lazy val root = (project in file(".")).
     publishArtifact in (Compile, packageDoc) := false,
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
-      "io.swagger" % "swagger-annotations" % "1.5.17",
+      "io.swagger" % "swagger-annotations" % "1.5.21",
       "org.glassfish.jersey.core" % "jersey-client" % "2.25.1",
       "org.glassfish.jersey.media" % "jersey-media-multipart" % "2.25.1",
       "org.glassfish.jersey.media" % "jersey-media-json-jackson" % "2.25.1",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.8.9" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.8.9" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.9" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.8.11" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.8.11" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.11.2" % "compile",
       "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.8.9" % "compile",
       "junit" % "junit" % "4.12" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"

@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.mustache.JoinWithCommaLambda;
 import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
@@ -32,6 +33,7 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
@@ -133,6 +135,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     public void processOpts() {
         super.processOpts();
 
+        additionalProperties.put("joinWithComma", new JoinWithCommaLambda());
+
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
@@ -200,7 +204,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return camelize(name) + '_';
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + '_';
     }
 
     @Override
@@ -226,7 +230,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toParamName(String name) {
-        return camelize(toVarName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name));
     }
 
     @Override
@@ -245,17 +249,17 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toModelName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName + "_" + org.openapitools.codegen.utils.StringUtils.underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
     }
 
     @Override
     public String toApiName(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
+        return this.packageName + "_" + org.openapitools.codegen.utils.StringUtils.underscore(name.replaceAll("-", "_").replaceAll("\\.", "_"));
     }
 
     @Override
     public String toModelFilename(String name) {
-        return this.packageName + "_" + underscore(name.replaceAll("\\.", "_"));
+        return this.packageName + "_" + org.openapitools.codegen.utils.StringUtils.underscore(name.replaceAll("\\.", "_"));
     }
 
     @Override
@@ -265,29 +269,29 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_").replaceAll("\\.", "_");
 
         // e.g. PetApi.erl => pet_api.erl
-        return this.packageName + "_" + underscore(name) + "_api";
+        return this.packageName + "_" + org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
     }
 
     @Override
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)).replaceAll("\\.", "_"));
             operationId = "call_" + operationId;
         }
 
-        return underscore(operationId.replaceAll("\\.", "_"));
+        return org.openapitools.codegen.utils.StringUtils.underscore(operationId.replaceAll("\\.", "_"));
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
         List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
-            o.httpMethod = o.httpMethod.toLowerCase();
+            o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
 
             if (o.isListContainer) {
                 o.returnType = "[" + o.returnBaseType + "]";
@@ -298,7 +302,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             StringBuffer buffer = new StringBuffer();
             while (matcher.find()) {
                 String pathTemplateName = matcher.group(1);
-                matcher.appendReplacement(buffer, "\", " + camelize(pathTemplateName) + ", \"");
+                matcher.appendReplacement(buffer, "\", " + org.openapitools.codegen.utils.StringUtils.camelize(pathTemplateName) + ", \"");
                 pathTemplateNames.add(pathTemplateName);
             }
             matcher.appendTail(buffer);

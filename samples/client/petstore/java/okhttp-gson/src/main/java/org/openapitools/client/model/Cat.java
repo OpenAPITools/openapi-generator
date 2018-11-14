@@ -32,7 +32,7 @@ import org.openapitools.client.model.Animal;
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
-  private Boolean declawed = null;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -44,7 +44,7 @@ public class Cat extends Animal {
    * @return declawed
   **/
   @ApiModelProperty(value = "")
-  public Boolean isDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 

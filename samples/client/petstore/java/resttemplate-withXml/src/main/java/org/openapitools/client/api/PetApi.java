@@ -9,6 +9,7 @@ import org.openapitools.client.model.Pet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,7 +142,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
         
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), "status", status));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "status", status));
 
         final String[] accepts = { 
             "application/xml", "application/json"
@@ -178,7 +179,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
         
-        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase()), "tags", tags));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "tags", tags));
 
         final String[] accepts = { 
             "application/xml", "application/json"
@@ -340,6 +341,57 @@ public class PetApi {
             formParams.add("additionalMetadata", additionalMetadata);
         if (file != null)
             formParams.add("file", new FileSystemResource(file));
+
+        final String[] accepts = { 
+            "application/json"
+        };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { 
+            "multipart/form-data"
+        };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] { "petstore_auth" };
+
+        ParameterizedTypeReference<ModelApiResponse> returnType = new ParameterizedTypeReference<ModelApiResponse>() {};
+        return apiClient.invokeAPI(path, HttpMethod.POST, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
+     * uploads an image (required)
+     * 
+     * <p><b>200</b> - successful operation
+     * @param petId ID of pet to update
+     * @param requiredFile file to upload
+     * @param additionalMetadata Additional data to pass to server
+     * @return ModelApiResponse
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
+        Object postBody = null;
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+        }
+        
+        // verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("petId", petId);
+        String path = UriComponentsBuilder.fromPath("/fake/{petId}/uploadImageWithRequiredFile").buildAndExpand(uriVariables).toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        
+        if (additionalMetadata != null)
+            formParams.add("additionalMetadata", additionalMetadata);
+        if (requiredFile != null)
+            formParams.add("requiredFile", new FileSystemResource(requiredFile));
 
         final String[] accepts = { 
             "application/json"

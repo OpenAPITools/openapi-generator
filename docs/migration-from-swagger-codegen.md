@@ -49,7 +49,7 @@ You can find our released artefact on maven central:
 
 Old:
 
-```
+```xml
 <dependency>
     <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen</artifactId>
@@ -58,7 +58,7 @@ Old:
 
 New:
 
-```
+```xml
 <dependency>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator</artifactId>
@@ -67,7 +67,7 @@ New:
 
 **Cli:**
 
-```
+```xml
 <dependency>
     <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen-cli</artifactId>
@@ -76,7 +76,7 @@ New:
 
 New:
 
-```
+```xml
 <dependency>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-cli</artifactId>
@@ -85,7 +85,7 @@ New:
 
 **Maven plugin:**
 
-```
+```xml
 <dependency>
     <groupId>io.swagger</groupId>
     <artifactId>swagger-codegen-maven-plugin</artifactId>
@@ -94,7 +94,7 @@ New:
 
 New:
 
-```
+```xml
 <dependency>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
@@ -187,7 +187,7 @@ Example: `org.openapitools.codegen.DefaultGenerator`
 In OpenAPI spec v3, there's no body parameter, which is replaced by [Request Body Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#request-body-object). The parameter name for Request Body is named automatically based on the model name (e.g. User). To control how the "Request Body" parmaeter is named, please add the vendor extension `x-codegen-request-body-name` to the operation:
 
 OpenAPI Spec v3:
-```
+```yaml
 paths:
   /pet:
     post:
@@ -209,7 +209,7 @@ paths:
 ```
 
 OpenAPI Spec v2:
-```
+```yaml
 paths:
   /pet:
     post:
@@ -246,10 +246,11 @@ If your API client is using named parameters in the function call (e.g. Perl req
 
 The following gnereators are not yet fully migrated and tested
 
-- `rust-server`
-- `apex`
+- ~~rust-server~~ (migrated)
+- ~~`apex`~~ (migrated)
 
-and we welcome contributions from the community to help with the migration
+and we welcome contributions from the community to help with the migration.
 
+UPDATE: all generators have been successfullly migrated.
 
 [Back to OpenAPI-Generator's README page](../README.md)

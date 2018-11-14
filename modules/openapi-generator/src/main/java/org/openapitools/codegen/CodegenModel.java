@@ -18,16 +18,19 @@
 package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
-import io.swagger.v3.oas.models.media.Discriminator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;
@@ -40,10 +43,11 @@ public class CodegenModel {
     public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
     public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
-    public Discriminator discriminator;
+    public CodegenDiscriminator discriminator;
     public String defaultValue;
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
+    public boolean isString, isInteger;
     public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
@@ -58,7 +62,7 @@ public class CodegenModel {
     public Set<String> allMandatory;
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -76,7 +80,7 @@ public class CodegenModel {
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", name, classname);
+        return String.format(Locale.ROOT, "%s(%s)", name, classname);
     }
 
     @Override
@@ -348,7 +352,7 @@ public class CodegenModel {
         this.unescapedDescription = unescapedDescription;
     }
 
-    public Discriminator getDiscriminator() {
+    public CodegenDiscriminator getDiscriminator() {
         return discriminator;
     }
 
@@ -356,7 +360,7 @@ public class CodegenModel {
         return discriminator == null ? null : discriminator.getPropertyName();
     }
 
-    public void setDiscriminator(Discriminator discriminator) {
+    public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
     }
 

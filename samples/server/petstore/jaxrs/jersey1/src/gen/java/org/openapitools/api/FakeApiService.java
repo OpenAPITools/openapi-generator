@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 
@@ -34,6 +36,8 @@ public abstract class FakeApiService {
       throws NotFoundException;
       public abstract Response fakeOuterStringSerialize(String body,SecurityContext securityContext)
       throws NotFoundException;
+      public abstract Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,SecurityContext securityContext)
+      throws NotFoundException;
       public abstract Response testBodyWithQueryParams( @NotNull String query,User user,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testClientModel(Client client,SecurityContext securityContext)
@@ -42,8 +46,12 @@ public abstract class FakeApiService {
       throws NotFoundException;
       public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext)
       throws NotFoundException;
+      public abstract Response testGroupParameters( @NotNull Integer requiredStringGroup,Boolean requiredBooleanGroup, @NotNull Long requiredInt64Group, Integer stringGroup,Boolean booleanGroup, Long int64Group,SecurityContext securityContext)
+      throws NotFoundException;
       public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext)
+      throws NotFoundException;
+      public abstract Response uploadFileWithRequiredFile(Long petId,InputStream requiredFileInputStream, FormDataContentDisposition requiredFileDetail,String additionalMetadata,SecurityContext securityContext)
       throws NotFoundException;
 }

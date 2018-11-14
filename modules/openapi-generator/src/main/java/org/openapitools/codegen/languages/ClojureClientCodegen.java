@@ -17,6 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -24,16 +29,12 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.info.*;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.util.Map;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 
 public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String PROJECT_NAME = "projectName";
@@ -109,7 +110,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             Info info = openAPI.getInfo();
             if (projectName == null && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = dashize(info.getTitle());
+                projectName = org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle());
             }
             if (projectVersion == null) {
                 // when projectVersion is not specified, use info.version
@@ -148,7 +149,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             projectDescription = "Client library of " + projectName;
         }
         if (baseNamespace == null) {
-            baseNamespace = dashize(projectName);
+            baseNamespace = org.openapitools.codegen.utils.StringUtils.dashize(projectName);
         }
         apiPackage = baseNamespace + ".api";
 
@@ -182,17 +183,17 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        return dashize(sanitizeName(operationId));
+        return org.openapitools.codegen.utils.StringUtils.dashize(sanitizeName(operationId));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return underscore(toApiName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toApiName(name));
     }
 
     @Override
     public String toApiName(String name) {
-        return dashize(name);
+        return org.openapitools.codegen.utils.StringUtils.dashize(name);
     }
 
     @Override
@@ -203,7 +204,7 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     @Override
     public String toVarName(String name) {
         name = name.replaceAll("[^a-zA-Z0-9_-]+", ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        name = dashize(name);
+        name = org.openapitools.codegen.utils.StringUtils.dashize(name);
         return name;
     }
 
@@ -216,12 +217,12 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
         for (CodegenOperation op : ops) {
             // Convert httpMethod to lower case, e.g. "get", "post"
-            op.httpMethod = op.httpMethod.toLowerCase();
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
         }
         return operations;
     }

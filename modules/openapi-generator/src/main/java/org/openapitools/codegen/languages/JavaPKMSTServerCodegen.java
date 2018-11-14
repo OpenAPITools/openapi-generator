@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -39,7 +38,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
 
 /**
  * Created by prokarma on 04/09/17.
@@ -321,7 +322,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -541,11 +542,11 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             // Drop any API suffix
             if (title != null) {
                 title = title.trim().replace(" ", "-");
-                if (title.toUpperCase().endsWith("API")) {
+                if (title.toUpperCase(Locale.ROOT).endsWith("API")) {
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(title), true);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -594,7 +595,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override

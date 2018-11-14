@@ -1,0 +1,120 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+#include "{{classname}}.h"
+
+#include "{{prefix}}Helpers.h"
+
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QObject>
+#include <QDebug>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{classname}}::{{classname}}(QString json) {
+    this->fromJson(json);
+}
+
+{{classname}}::{{classname}}() {
+    this->init();
+}
+
+{{classname}}::~{{classname}}() {
+
+}
+
+void
+{{classname}}::init() {
+    {{#vars}}
+    m_{{name}}_isSet = false;
+    {{/vars}}
+}
+
+void
+{{classname}}::fromJson(QString jsonString) {
+    QByteArray array (jsonString.toStdString().c_str());
+    QJsonDocument doc = QJsonDocument::fromJson(array);
+    QJsonObject jsonObject = doc.object();
+    this->fromJsonObject(jsonObject);
+}
+
+void
+{{classname}}::fromJsonObject(QJsonObject json) {
+    {{#vars}}
+    {{^isContainer}}::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);{{/isContainer}}
+    {{#isContainer}}{{^items.isContainer}}::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);{{/items.isContainer}}{{#items.isContainer}}{{#isListContainer}}
+    if(json["{{baseName}}"].isArray()){
+        auto arr = json["{{baseName}}"].toArray();
+        for (const QJsonValue & jval : arr) {
+            {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
+            ::{{cppNamespace}}::fromJsonValue(item, jval)
+            {{name}}.push_back(item);
+        }
+    }{{/isListContainer}}{{#isMapContainer}}
+    if(json["{{baseName}}"].isObject()){
+        auto varmap = json["{{baseName}}"].toObject().toVariantMap();
+        if(varmap.count() > 0){
+            for(auto val : varmap.keys()){
+                {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
+    		    auto jval = QJsonValue::fromVariant(varmap.value(val));
+                ::{{cppNamespace}}::fromJsonValue(item, jval);
+                {{name}}.insert({{name}}.end(), val, item);
+            }
+        }
+    }{{/isMapContainer}}{{/items.isContainer}}{{/isContainer}}
+    {{/vars}}
+}
+
+QString
+{{classname}}::asJson () const {
+    QJsonObject obj = this->asJsonObject();
+    QJsonDocument doc(obj);
+    QByteArray bytes = doc.toJson();
+    return QString(bytes);
+}
+
+QJsonObject
+{{classname}}::asJsonObject() const {
+    QJsonObject obj;
+    {{#vars}}
+	{{^isContainer}}{{#complexType}}if({{name}}.isSet()){{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{
+        obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue({{name}}));
+    }{{/isContainer}}{{#isContainer}}
+    if({{name}}.size() > 0){
+        {{^items.isContainer}}obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue({{name}}));{{/items.isContainer}}{{#items.isContainer}}
+        obj.insert(QString("{{baseName}}"), toJsonValue({{name}}));{{/items.isContainer}}
+    } {{/isContainer}}
+    {{/vars}}
+    return obj;
+}
+
+{{#vars}}
+{{{dataType}}}
+{{classname}}::{{getter}}() const {
+    return {{name}};
+}
+void
+{{classname}}::{{setter}}(const {{{dataType}}} &{{name}}) {
+    this->{{name}} = {{name}};
+    this->m_{{name}}_isSet = true;
+}
+
+{{/vars}}
+
+bool
+{{classname}}::isSet() const {
+    bool isObjectUpdated = false;
+    do{ {{#vars}}
+        {{#isContainer}}if({{name}}.size() > 0){{/isContainer}}{{^isContainer}}{{#complexType}}if({{name}}.isSet()){{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{{/isContainer}}{ isObjectUpdated = true; break;}
+    {{/vars}}}while(false);
+    return isObjectUpdated;
+}
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}

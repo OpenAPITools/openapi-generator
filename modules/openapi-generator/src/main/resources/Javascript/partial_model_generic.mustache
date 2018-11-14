@@ -1,4 +1,3 @@
-
 {{#models}}{{#model}}
 {{#emitJSDoc}}
   /**
@@ -21,11 +20,28 @@
     var _this = this;
 {{#parent}}{{^parentModel}}{{#vendorExtensions.x-isArray}}    _this = new Array();
     Object.setPrototypeOf(_this, exports);
-{{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}{{#useInheritance}}{{#parentModel}}    {{classname}}.call(_this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/parentModel}}
-{{#interfaceModels}}    {{classname}}.call(_this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});
-{{/interfaceModels}}{{/useInheritance}}{{#vars}}{{#required}}    _this['{{baseName}}'] = {{name}};{{/required}}
-{{/vars}}{{#parent}}{{^parentModel}}    return _this;
-{{/parentModel}}{{/parent}}  };
+{{/vendorExtensions.x-isArray}}{{/parentModel}}{{/parent}}
+    {{#useInheritance}}
+    {{#parentModel}}
+    {{classname}}.call(_this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});
+    {{/parentModel}}
+    {{^parentModel}}
+    {{#interfaceModels}}
+    {{classname}}.call(_this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});
+    {{/interfaceModels}}
+    {{/parentModel}}
+    {{/useInheritance}}
+    {{#vars}}
+    {{#required}}
+    _this['{{baseName}}'] = {{name}};
+    {{/required}}
+    {{/vars}}
+    {{#parent}}
+    {{^parentModel}}
+    return _this;
+    {{/parentModel}}
+    {{/parent}}
+  };
 
 {{#emitJSDoc}}
   /**
@@ -45,13 +61,27 @@
   exports.constructFromObject = function(data, obj) {
     if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
       obj = obj || new exports();
-{{#parent}}{{^parentModel}}      ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-itemType}}');
-{{/parentModel}}{{/parent}}{{#useInheritance}}{{#parentModel}}      {{classname}}.constructFromObject(data, obj);{{/parentModel}}
-{{#interfaces}}      {{.}}.constructFromObject(data, obj);
-{{/interfaces}}{{/useInheritance}}{{#vars}}      if (data.hasOwnProperty('{{baseName}}')) {
+      {{#parent}}
+      {{^parentModel}}
+      ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-itemType}}');
+      {{/parentModel}}
+      {{/parent}}
+      {{#useInheritance}}
+      {{#parentModel}}
+      {{classname}}.constructFromObject(data, obj);
+      {{/parentModel}}
+      {{^parentModel}}
+      {{#interfaces}}
+      {{.}}.constructFromObject(data, obj);
+      {{/interfaces}}
+      {{/parentModel}}
+      {{/useInheritance}}
+      {{#vars}}
+      if (data.hasOwnProperty('{{baseName}}')) {
         obj['{{baseName}}']{{{defaultValueWithParam}}}
       }
-{{/vars}}    }
+      {{/vars}}
+    }
     return obj;
   }
 {{/vendorExtensions.x-isPrimitive}}

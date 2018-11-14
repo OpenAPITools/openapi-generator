@@ -27,6 +27,13 @@ lazy val root = (project in file(".")).
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.7.8" % "compile",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.7.8" % "compile",
       {{/play25}}
+      {{#play26}}
+      "com.typesafe.play" % "play-ahc-ws_2.12" % "2.6.7" % "compile",
+      "javax.validation" % "validation-api" % "1.1.0.Final" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-core" % "2.8.11" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.8.11" % "compile",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.11.2" % "compile",
+      {{/play26}}
       "com.squareup.retrofit2" % "converter-jackson" % "2.3.0" % "compile",
       {{/usePlayWS}}
       {{#useRxJava}}
@@ -37,7 +44,7 @@ lazy val root = (project in file(".")).
       "com.squareup.retrofit2" % "adapter-rxjava2" % "2.3.0" % "compile",
       "io.reactivex.rxjava2" % "rxjava" % "2.1.1" % "compile",
       {{/useRxJava2}}
-      "io.swagger" % "swagger-annotations" % "1.5.17" % "compile",
+      "io.swagger" % "swagger-annotations" % "1.5.21" % "compile",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1" % "compile",
       {{#joda}}
       "joda-time" % "joda-time" % "2.9.9" % "compile",

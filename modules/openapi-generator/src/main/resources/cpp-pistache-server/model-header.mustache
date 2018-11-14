@@ -1,0 +1,68 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef {{classname}}_H_
+#define {{classname}}_H_
+
+{{{defaultInclude}}}
+#include "{{prefix}}ModelBase.h"
+
+{{#imports}}{{{this}}}
+{{/imports}}
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+/// <summary>
+/// {{description}}
+/// </summary>
+class {{declspec}} {{classname}}
+    : public {{prefix}}ModelBase
+{
+public:
+    {{classname}}();
+    virtual ~{{classname}}();
+
+    /////////////////////////////////////////////
+    /// {{prefix}}ModelBase overrides
+
+    void validate() override;
+
+    nlohmann::json toJson() const override;
+    void fromJson(const nlohmann::json& json) override;
+
+    /////////////////////////////////////////////
+    /// {{classname}} members
+
+    {{#vars}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>
+    {{^isNotContainer}}{{{dataType}}}& {{getter}}();
+    {{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{getter}}() const;
+    void {{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value);
+    {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
+    void unset{{name}}();
+    {{/required}}
+    {{/vars}}
+
+protected:
+    {{#vars}}
+    {{{dataType}}} m_{{name}};
+    {{^required}}
+    bool m_{{name}}IsSet;{{/required}}
+    {{/vars}}
+};
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+#endif /* {{classname}}_H_ */
+{{/model}}
+{{/models}}

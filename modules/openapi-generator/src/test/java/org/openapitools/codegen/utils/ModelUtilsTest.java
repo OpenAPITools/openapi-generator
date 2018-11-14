@@ -19,6 +19,7 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -32,7 +33,10 @@ import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ModelUtilsTest {
 
@@ -40,7 +44,7 @@ public class ModelUtilsTest {
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        Assert.assertEquals(allUsedSchemas.size(), 12);
+        Assert.assertEquals(allUsedSchemas.size(), 30);
 
         Assert.assertTrue(allUsedSchemas.contains("SomeObjShared"), "contains 'SomeObjShared'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj1"), "contains 'UnusedObj1'");
@@ -54,6 +58,24 @@ public class ModelUtilsTest {
         Assert.assertTrue(allUsedSchemas.contains("SomeObj10A"), "contains 'SomeObj10A'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj10B"), "contains 'SomeObj10B'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj11"), "contains 'SomeObj11'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeArrayObj12"), "contains 'SomeArrayObj12'");
+        Assert.assertTrue(allUsedSchemas.contains("ArrayItem12"), "contains 'ArrayItem12'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeArrayObj13"), "contains 'SomeArrayObj13'");
+        Assert.assertTrue(allUsedSchemas.contains("ArrayItem13"), "contains 'ArrayItem13'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj14"), "contains 'SomeObj14'");
+        Assert.assertTrue(allUsedSchemas.contains("PropertyObj14"), "contains 'PropertyObj14'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj15"), "contains 'SomeObj15'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeMapObj16"), "contains 'SomeMapObj16'");
+        Assert.assertTrue(allUsedSchemas.contains("MapItem16"), "contains 'MapItem16'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj17"), "contains 'SomeObj17'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj18"), "contains 'SomeObj18'");
+        Assert.assertTrue(allUsedSchemas.contains("Common18"), "contains 'Common18'");
+        Assert.assertTrue(allUsedSchemas.contains("Obj19ByAge"), "contains 'Obj19ByAge'");
+        Assert.assertTrue(allUsedSchemas.contains("Obj19ByType"), "contains 'Obj19ByType'");
+        Assert.assertTrue(allUsedSchemas.contains("SomeObj20"), "contains 'SomeObj20'");
+        Assert.assertTrue(allUsedSchemas.contains("OtherObj20"), "contains 'OtherObj20'");
+        Assert.assertTrue(allUsedSchemas.contains("PingDataInput21"), "contains 'PingDataInput21'");
+        Assert.assertTrue(allUsedSchemas.contains("PingDataOutput21"), "contains 'PingDataOutput21'");
     }
 
     @Test
@@ -76,11 +98,11 @@ public class ModelUtilsTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 3);
-        //SomeObj2 is only used in a 'application/x-www-form-urlencoded' request
+        //SomeObj2 is only used in an 'application/x-www-form-urlencoded' request
         Assert.assertTrue(unusedSchemas.contains("SomeObj2"), "contains 'SomeObj2'");
         //SomeObj3 is only used in a 'multipart/form-data' request
         Assert.assertTrue(unusedSchemas.contains("SomeObj3"), "contains 'SomeObj3'");
-        //SomeObj7 is only used in a 'application/x-www-form-urlencoded' request (with referenced request body)
+        //SomeObj7 is only used in an 'application/x-www-form-urlencoded' request (with referenced request body)
         Assert.assertTrue(unusedSchemas.contains("SomeObj7"), "contains 'SomeObj7'");
     }
 
@@ -156,5 +178,25 @@ public class ModelUtilsTest {
 
         Parameter result2 = ModelUtils.getReferencedParameter(openAPI, new Parameter().$ref("#/components/parameters/OtherParameter"));
         Assert.assertEquals(result2, otherParameter);
+    }
+
+    /**
+     * Issue https://github.com/OpenAPITools/openapi-generator/issues/582.
+     * Composed schemas should not get unaliased when generating model properties, in order to properly
+     * generate the property data type name.
+     */
+    @Test
+    public void testComposedSchemasAreNotUnaliased() {
+        ComposedSchema composedSchema = new ComposedSchema().allOf(Arrays.asList(
+                new Schema<>().$ref("#/components/schemas/SomeSchema"),
+                new ObjectSchema()
+        ));
+        Schema refToComposedSchema = new Schema().$ref("#/components/schemas/SomeComposedSchema");
+
+
+        Map<String, Schema> allSchemas = new HashMap<>();
+        allSchemas.put("SomeComposedSchema", composedSchema);
+
+        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
     }
 }

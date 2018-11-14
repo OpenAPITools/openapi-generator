@@ -5,21 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * ReadOnlyFirst
  */
-@Validated
 
 public class ReadOnlyFirst   {
   @JsonProperty("bar")
-  private String bar = null;
+  private String bar;
 
   @JsonProperty("baz")
-  private String baz = null;
+  private String baz;
 
   public ReadOnlyFirst bar(String bar) {
     this.bar = bar;
@@ -29,7 +27,7 @@ public class ReadOnlyFirst   {
   /**
    * Get bar
    * @return bar
-  **/
+  */
   @ApiModelProperty(readOnly = true, value = "")
 
 
@@ -49,7 +47,7 @@ public class ReadOnlyFirst   {
   /**
    * Get baz
    * @return baz
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

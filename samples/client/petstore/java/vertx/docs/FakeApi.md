@@ -8,10 +8,12 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
@@ -196,6 +198,50 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="testBodyWithFileSchema"></a>
+# **testBodyWithFileSchema**
+> testBodyWithFileSchema(fileSchemaTestClass)
+
+
+
+For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
+try {
+    apiInstance.testBodyWithFileSchema(fileSchemaTestClass);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
 > testBodyWithQueryParams(query, user)
@@ -312,18 +358,18 @@ http_basic_test.setPassword("YOUR PASSWORD");
 FakeApi apiInstance = new FakeApi();
 BigDecimal number = new BigDecimal(); // BigDecimal | None
 Double _double = 3.4D; // Double | None
-String patternWithoutDelimiter = "null"; // String | None
+String patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
 byte[] _byte = null; // byte[] | None
-Integer integer = null; // Integer | None
-Integer int32 = null; // Integer | None
-Long int64 = nullL; // Long | None
-Float _float = nullF; // Float | None
-String string = "null"; // String | None
+Integer integer = 56; // Integer | None
+Integer int32 = 56; // Integer | None
+Long int64 = 56L; // Long | None
+Float _float = 3.4F; // Float | None
+String string = "string_example"; // String | None
 AsyncFile binary = new AsyncFile(); // AsyncFile | None
 LocalDate date = new LocalDate(); // LocalDate | None
 OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
-String password = "null"; // String | None
-String paramCallback = "null"; // String | None
+String password = "password_example"; // String | None
+String paramCallback = "paramCallback_example"; // String | None
 try {
     apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 } catch (ApiException e) {
@@ -336,20 +382,20 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None | [default to null]
- **_double** | **Double**| None | [default to null]
- **patternWithoutDelimiter** | **String**| None | [default to null]
- **_byte** | **byte[]**| None | [default to null]
- **integer** | **Integer**| None | [optional] [default to null]
- **int32** | **Integer**| None | [optional] [default to null]
- **int64** | **Long**| None | [optional] [default to null]
- **_float** | **Float**| None | [optional] [default to null]
- **string** | **String**| None | [optional] [default to null]
- **binary** | **AsyncFile**| None | [optional] [default to null]
- **date** | **LocalDate**| None | [optional] [default to null]
- **dateTime** | **OffsetDateTime**| None | [optional] [default to null]
- **password** | **String**| None | [optional] [default to null]
- **paramCallback** | **String**| None | [optional] [default to null]
+ **number** | **BigDecimal**| None |
+ **_double** | **Double**| None |
+ **patternWithoutDelimiter** | **String**| None |
+ **_byte** | **byte[]**| None |
+ **integer** | **Integer**| None | [optional]
+ **int32** | **Integer**| None | [optional]
+ **int64** | **Long**| None | [optional]
+ **_float** | **Float**| None | [optional]
+ **string** | **String**| None | [optional]
+ **binary** | **AsyncFile**| None | [optional]
+ **date** | **LocalDate**| None | [optional]
+ **dateTime** | **OffsetDateTime**| None | [optional]
+ **password** | **String**| None | [optional]
+ **paramCallback** | **String**| None | [optional]
 
 ### Return type
 
@@ -380,9 +426,9 @@ To test enum parameters
 
 
 FakeApi apiInstance = new FakeApi();
-List<String> enumHeaderStringArray = Arrays.asList("enumHeaderStringArray_example"); // List<String> | Header parameter enum test (string array)
+List<String> enumHeaderStringArray = Arrays.asList("$"); // List<String> | Header parameter enum test (string array)
 String enumHeaderString = "-efg"; // String | Header parameter enum test (string)
-List<String> enumQueryStringArray = Arrays.asList("enumQueryStringArray_example"); // List<String> | Query parameter enum test (string array)
+List<String> enumQueryStringArray = Arrays.asList("$"); // List<String> | Query parameter enum test (string array)
 String enumQueryString = "-efg"; // String | Query parameter enum test (string)
 Integer enumQueryInteger = 56; // Integer | Query parameter enum test (double)
 Double enumQueryDouble = 3.4D; // Double | Query parameter enum test (double)
@@ -406,7 +452,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
  **enumQueryInteger** | **Integer**| Query parameter enum test (double) | [optional] [enum: 1, -2]
  **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] [enum: 1.1, -1.2]
- **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to $] [enum: >, $]
+ **enumFormStringArray** | [**List&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [enum: >, $]
  **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg] [enum: _abc, -efg, (xyz)]
 
 ### Return type
@@ -420,6 +466,60 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+<a name="testGroupParameters"></a>
+# **testGroupParameters**
+> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
+
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiException;
+//import org.openapitools.client.api.FakeApi;
+
+
+FakeApi apiInstance = new FakeApi();
+Integer requiredStringGroup = 56; // Integer | Required String in group parameters
+Boolean requiredBooleanGroup = true; // Boolean | Required Boolean in group parameters
+Long requiredInt64Group = 56L; // Long | Required Integer in group parameters
+Integer stringGroup = 56; // Integer | String in group parameters
+Boolean booleanGroup = true; // Boolean | Boolean in group parameters
+Long int64Group = 56L; // Long | Integer in group parameters
+try {
+    apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+} catch (ApiException e) {
+    System.err.println("Exception when calling FakeApi#testGroupParameters");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requiredStringGroup** | **Integer**| Required String in group parameters |
+ **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
+ **requiredInt64Group** | **Long**| Required Integer in group parameters |
+ **stringGroup** | **Integer**| String in group parameters | [optional]
+ **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
+ **int64Group** | **Long**| Integer in group parameters | [optional]
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 <a name="testInlineAdditionalProperties"></a>
@@ -478,8 +578,8 @@ test json serialization of form data
 
 
 FakeApi apiInstance = new FakeApi();
-String param = "null"; // String | field1
-String param2 = "null"; // String | field2
+String param = "param_example"; // String | field1
+String param2 = "param2_example"; // String | field2
 try {
     apiInstance.testJsonFormData(param, param2);
 } catch (ApiException e) {
@@ -492,8 +592,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | [default to null]
- **param2** | **String**| field2 | [default to null]
+ **param** | **String**| field1 |
+ **param2** | **String**| field2 |
 
 ### Return type
 

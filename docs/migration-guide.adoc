@@ -1,0 +1,68 @@
+== Migration guide between OpenAPI-Generator versions
+
+This page summaries the important changes between major and minor version of OpenAPI-Generator.
+It does not contain a detailed list of changes, for that refer to each individual release notes.
+
+This page is written to help migration by indicating the most impacting changes.
+Do not hesitate to contribute additional notes if you discover something during your migration and think that the information might help other users.
+
+Another approach to find breaking changes is to look at issue and pull requests with following labels:
+
+* link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28with%20fallback%29[Breaking change (with fallback)]
+* link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28without%20fallback%29[Breaking change (without fallback)]
+
+=== From 3.1.x to 3.2.0
+
+Version `3.2.0` is a minor version of OpenAPI-Generator, in comparison to `3.1.x` it contains some breaking changes, but with the possibility to fallback to the old behavior.
+The default value of some options might change.
+Projects relying on generated code might need to be adapted.
+
+==== Validate spec on generation by default
+
+The default is to validate the spec during generation. If the spec has errors,
+they will appear as errors or warnings to the user. This prevent generation of the project.
+
+If you want to switch back to the `3.1.x` behavior you can use:
+
+* Set the `validateSpec` option to `false` if you are using the Maven or Gradle plugin
+* Use the command line option `--skip-validate-spec` if you are using the CLI
+
+
+==== Model (all languages)
+
+In `CodegenModel` and in `CodegenOperation` we use now our own class `org.openapitools.codegen.CodegenDiscriminator` instead of `io.swagger.v3.oas.models.media.Discriminator`.
+
+For the templates, this is not an API change, because the same values are available.
+
+If you have your own `Codegen` class (to support your own generator for example) then you might get some compile error due to the change.
+
+==== Java
+
+Schema with enum values are mapped to java enum in the generated code.
+In previous version, when an unknown value was deserialized, the value was set to `null`.
+
+With `3.2.0` a new option is introduced: `useNullForUnknownEnumValue`.
+
+* When set to `false` (default value), an Exception (`IllegalArgumentException`) is thrown when the value not available in the enum.
+* When set to `true`, unknown values are mapped to `null` as it was the case in previous versions.
+
+
+=== From 3.0.x to 3.1.0
+
+Version `3.1.0` is the first minor version of OpenAPI-Generator, in comparison to `3.0.3` it contains some breaking changes, but with the possibility to fallback to the old behavior.
+The default value of some options might change.
+Projects relying on generated code might need to be adapted.
+
+==== Java
+
+A new option is introduced with link:https://github.com/OpenAPITools/openapi-generator/pull/432[#432] to specify the prefix of boolean getters: `booleanGetterPrefix`.
+Possible values:
+
+* `is`: the value used in `3.0.x`.
+* `get`: the new default value.
+
+If you use the default value you will see your generated code changing from `isActive()` to `getActive()`.
+
+=== Migrating from Swagger-Codegen
+
+Please read the specific migration guide: link:migration-from-swagger-codegen.md[From Swagger-Codegen to OpenAPI-Generator]

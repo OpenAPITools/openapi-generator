@@ -7,15 +7,14 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Animal
  */
-@Validated
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true )
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
@@ -23,7 +22,7 @@ import javax.validation.constraints.*;
 
 public class Animal   {
   @JsonProperty("className")
-  private String className = null;
+  private String className;
 
   @JsonProperty("color")
   private String color = "red";
@@ -36,7 +35,7 @@ public class Animal   {
   /**
    * Get className
    * @return className
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -57,7 +56,7 @@ public class Animal   {
   /**
    * Get color
    * @return color
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

@@ -1,0 +1,34 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include "{{classname}}Impl.h"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+{{#hasModelImport}}
+using namespace {{modelNamespace}};{{/hasModelImport}}
+
+{{classname}}Impl::{{classname}}Impl(std::shared_ptr<Pistache::Rest::Router> rtr)
+    : {{classname}}(rtr)
+    { }
+
+{{#operation}}
+{{#vendorExtensions.x-codegen-pistache-isParsingSupported}}
+void {{classname}}Impl::{{operationIdSnakeCase}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Pistache::Http::ResponseWriter &response) {
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+}
+{{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+{{^vendorExtensions.x-codegen-pistache-isParsingSupported}}
+void {{classname}}Impl::{{operationIdSnakeCase}}(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response){
+    response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+}
+{{/vendorExtensions.x-codegen-pistache-isParsingSupported}}
+{{/operation}}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}

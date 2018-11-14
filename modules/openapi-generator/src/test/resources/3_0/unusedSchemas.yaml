@@ -135,6 +135,134 @@ paths:
         200:
           description: Successful Operation
           content: {}
+  /some/p12:
+    post:
+      operationId: p12
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SomeArrayObj12'
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p13:
+    get:
+      operationId: p13
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeArrayObj13'
+  /some/p14:
+    get:
+      operationId: p14
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeObj14'
+  /some/p15:
+    get:
+      operationId: p15
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SomeObj15'
+  /some/p16:
+    get:
+      operationId: p16
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SomeMapObj16'
+  /some/p17:
+    get:
+      operationId: p17
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                oneOf:
+                  - type: string
+                  - $ref: '#/components/schemas/SomeObj17'
+  /some/p18:
+    get:
+      operationId: p18
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SomeObj18'
+      responses:
+        200:
+          description: Successful Operation
+          content: {}
+  /some/p19:
+    patch:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/Obj19ByAge'
+                - $ref: '#/components/schemas/Obj19ByType'
+      responses:
+        '200':
+          description: Updated
+  /some/p20:
+    get:
+      operationId: op20
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/SomeObj20'
+  /some/p21:
+    post:
+      operationId: op21
+      parameters:
+        - name: callbackUrl
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+            example: https://some-server.com
+      responses:
+        '201':
+          description: OK
+      callbacks:
+        onPing:
+          '{$request.query.callbackUrl}/ping':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/PingDataInput21'
+              responses:
+                '200':
+                  description: Ok
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/PingDataOutput21'
 components:
   schemas:
     UnusedObj1:
@@ -254,6 +382,131 @@ components:
         - v1
         - v2
       default: v1
+    SomeArrayObj12:
+      type: array
+      items:
+        $ref: "#/components/schemas/ArrayItem12"
+    ArrayItem12:
+      type: object
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: integer
+          format: int32
+    SomeArrayObj13:
+      type: array
+      items:
+        type: array
+        items:
+          $ref: "#/components/schemas/ArrayItem13"
+    ArrayItem13:
+      type: object
+      properties:
+        prop1:
+          type: string
+        prop2:
+          type: integer
+          format: int64
+    SomeObj14:
+      type: object
+      properties:
+        obj14:
+          $ref: "#/components/schemas/PropertyObj14"
+    PropertyObj14:
+      type: object
+      properties:
+        prop1:
+          type: string
+    SomeObj15:
+      type: object
+      properties:
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/SomeObj15'
+    SomeMapObj16:
+      type: array
+      items:
+        $ref: "#/components/schemas/MapItem16"
+    MapItem16:
+      type: object
+      properties:
+        prop1:
+          type: integer
+          format: int32
+        prop2:
+          type: integer
+          format: int64
+    SomeObj17:
+      type: object
+      properties:
+        id:
+          type: String
+        message:
+          type: String
+    SomeObj18:
+      allOf: 
+        - $ref: '#/components/schemas/Common18'
+        - type: object
+          properties:
+            firstName:
+              type: String
+            lastName:
+              type: String
+    Common18:
+      type: object
+      properties:
+        id:
+          type: String
+        active:
+          type: boolean
+    Obj19ByAge:
+      type: object
+      properties:
+        age:
+          type: integer
+        firstName:
+          type: String
+        lastName:
+          type: String
+      required:
+        - age
+    Obj19ByType:
+      type: object
+      properties:
+        sometype:
+          type: string
+          enum: [A, B, C]
+        enabled:
+          type: boolean
+      required: 
+        - sometype
+    SomeObj20:
+      type: object
+      properties:
+        other:
+          not:
+            $ref: '#/components/schemas/OtherObj20'
+    OtherObj20:
+      type: string
+      enum: [A, B, C]
+    PingDataInput21:
+      type: object
+      properties:
+        id:
+          type: integer
+        data:
+          type: String
+    PingDataOutput21:
+      type: object
+      properties:
+        id:
+          type: integer
+        reply:
+          type: String
     SomeObjShared:
       type: object
       properties:
@@ -307,3 +560,4 @@ components:
       in: query
       schema:
         $ref: '#/components/schemas/SomeObj11'
+  

@@ -1,0 +1,88 @@
+package {{configPackage}};
+
+{{^useSpringfox}}
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.Resource;
+{{/useSpringfox}}
+import org.springframework.stereotype.Controller;
+{{^useSpringfox}}
+import org.springframework.util.StreamUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+{{/useSpringfox}}
+import org.springframework.web.bind.annotation.RequestMapping;
+{{^useSpringfox}}
+import org.springframework.web.bind.annotation.ResponseBody;
+{{/useSpringfox}}
+{{#reactive}}
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.ServerResponse;
+{{/reactive}}
+
+{{^useSpringfox}}
+import java.io.IOException;
+import java.io.InputStream;
+{{/useSpringfox}}
+{{#reactive}}
+import java.net.URI;
+{{/reactive}}
+{{^useSpringfox}}
+import java.nio.charset.Charset;
+{{/useSpringfox}}
+{{#reactive}}
+
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+{{/reactive}}
+
+/**
+ * Home redirection to OpenAPI api documentation
+ */
+@Controller
+public class HomeController {
+
+{{^useSpringfox}}
+    private static YAMLMapper yamlMapper = new YAMLMapper();
+
+    @Value("classpath:/openapi.yaml")
+    private Resource openapi;
+
+    @Bean
+    public String openapiContent() throws IOException {
+        try(InputStream is = openapi.getInputStream()) {
+            return StreamUtils.copyToString(is, Charset.defaultCharset());
+        }
+    }
+
+    @GetMapping(value = "/openapi.yaml", produces = "application/vnd.oai.openapi")
+    @ResponseBody
+    public String openapiYaml() throws IOException {
+        return openapiContent();
+    }
+
+    @GetMapping(value = "/openapi.json", produces = "application/json")
+    @ResponseBody
+    public Object openapiJson() throws IOException {
+        return yamlMapper.readValue(openapiContent(), Object.class);
+    }
+
+{{/useSpringfox}}
+{{#reactive}}
+    @Bean
+    RouterFunction<ServerResponse> index() {
+        return route(
+            GET("/"),
+            req -> ServerResponse.temporaryRedirect(URI.create("{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}")).build()
+        );
+    }
+{{/reactive}}
+{{^reactive}}
+    @RequestMapping("/")
+    public String index() {
+        return "redirect:{{#useSpringfox}}swagger-ui.html{{/useSpringfox}}{{^useSpringfox}}swagger-ui/index.html?url=../openapi.json{{/useSpringfox}}";
+    }
+{{/reactive}}
+
+
+}

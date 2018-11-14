@@ -16,12 +16,14 @@
         "bluebird": "^3.5.0",
         "request": "^2.81.0",
         "@types/bluebird": "*",
-        "@types/request": "*"
+        "@types/request": "*",
+        "rewire": "^3.0.2"
     },
     "devDependencies": {
-        "typescript": "^2.4.2"
+        "typescript": "^2.4.2",
+        "@types/node": "8.10.34"
     }{{#npmRepository}},
-    "publishConfig":{
-        "registry":"{{npmRepository}}"
+    "publishConfig": {
+        "registry": "{{npmRepository}}"
     }{{/npmRepository}}
 }

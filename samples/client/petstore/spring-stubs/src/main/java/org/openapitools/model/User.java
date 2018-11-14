@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,32 +12,31 @@ import javax.validation.constraints.*;
  * A User who is purchasing from the pet store
  */
 @ApiModel(description = "A User who is purchasing from the pet store")
-@Validated
 
 public class User   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("username")
-  private String username = null;
+  private String username;
 
   @JsonProperty("firstName")
-  private String firstName = null;
+  private String firstName;
 
   @JsonProperty("lastName")
-  private String lastName = null;
+  private String lastName;
 
   @JsonProperty("email")
-  private String email = null;
+  private String email;
 
   @JsonProperty("password")
-  private String password = null;
+  private String password;
 
   @JsonProperty("phone")
-  private String phone = null;
+  private String phone;
 
   @JsonProperty("userStatus")
-  private Integer userStatus = null;
+  private Integer userStatus;
 
   public User id(Long id) {
     this.id = id;
@@ -48,7 +46,7 @@ public class User   {
   /**
    * Get id
    * @return id
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -68,7 +66,7 @@ public class User   {
   /**
    * Get username
    * @return username
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -88,7 +86,7 @@ public class User   {
   /**
    * Get firstName
    * @return firstName
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -108,7 +106,7 @@ public class User   {
   /**
    * Get lastName
    * @return lastName
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -128,7 +126,7 @@ public class User   {
   /**
    * Get email
    * @return email
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -148,7 +146,7 @@ public class User   {
   /**
    * Get password
    * @return password
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -168,7 +166,7 @@ public class User   {
   /**
    * Get phone
    * @return phone
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -188,7 +186,7 @@ public class User   {
   /**
    * User Status
    * @return userStatus
-  **/
+  */
   @ApiModelProperty(value = "User Status")
 
 

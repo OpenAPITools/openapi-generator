@@ -30,9 +30,11 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
 
@@ -191,7 +193,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         if (this.useSwaggerUI) {
             //App/Controllers
             supportingFiles.add(new SupportingFile("openapi.mustache", "public", "openapi.json"));
-            supportingFiles.add(new SupportingFile("apiDocController.mustache", String.format("app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.java"));
+            supportingFiles.add(new SupportingFile("apiDocController.mustache", String.format(Locale.ROOT, "app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.java"));
         }
 
         //We remove the default api.mustache that is used
@@ -278,7 +280,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
@@ -300,7 +302,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
                 Matcher match = pathVariableMatcher.matcher(operation.path);
                 while (match.find()) {
                     String completeMatch = match.group();
-                    String replacement = ":" + camelize(match.group(1), true);
+                    String replacement = ":" + org.openapitools.codegen.utils.StringUtils.camelize(match.group(1), true);
                     operation.path = operation.path.replace(completeMatch, replacement);
                 }
 

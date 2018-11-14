@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 <a name="addPet"></a>
@@ -122,7 +123,7 @@ api.findPetsByStatus()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to new ArrayList&lt;String&gt;()] [enum: available, pending, sold]
 
 ### Return type
 
@@ -164,7 +165,7 @@ api.findPetsByTags()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to new ArrayList&lt;String&gt;()]
 
 ### Return type
 
@@ -287,8 +288,8 @@ api.updatePetWithForm()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **name** | **String**| Updated name of the pet | [optional]
+ **status** | **String**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -329,8 +330,51 @@ api.uploadFile()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **File**| file to upload | [optional] [default to null]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
+ **file** | **File**| file to upload | [optional]
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+<a name="uploadFileWithRequiredFile"></a>
+# **uploadFileWithRequiredFile**
+> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
+
+uploads an image (required)
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+
+api.uploadFileWithRequiredFile()
+    .petIdPath(petId)
+    .requiredFileMultiPart(requiredFile).execute(r -> r.prettyPeek());
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **Long**| ID of pet to update |
+ **requiredFile** | **File**| file to upload |
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
 
 ### Return type
 

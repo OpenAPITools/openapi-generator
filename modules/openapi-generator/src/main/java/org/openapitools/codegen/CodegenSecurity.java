@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.security.Scopes;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class CodegenSecurity {
@@ -30,7 +31,7 @@ public class CodegenSecurity {
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     // ApiKey specific
     public String keyParamName;
-    public Boolean isKeyInQuery, isKeyInHeader;
+    public Boolean isKeyInQuery, isKeyInHeader, isKeyInCookie;
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl;
     public List<Map<String, Object>> scopes;
@@ -38,7 +39,7 @@ public class CodegenSecurity {
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", name, type);
+        return String.format(Locale.ROOT, "%s(%s)", name, type);
     }
 
     @Override

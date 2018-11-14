@@ -18,33 +18,27 @@
 package org.openapitools.codegen.languages;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
-import org.openapitools.codegen.CodegenConfig;
+
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.core.util.Yaml;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenConfig {
+
+public class RubyOnRailsServerCodegen extends AbstractRubyCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyOnRailsServerCodegen.class);
-    private static final SimpleDateFormat MIGRATE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+    private static final SimpleDateFormat MIGRATE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ROOT);
 
     protected String gemName;
     protected String moduleName;
@@ -75,6 +69,8 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
     protected String pidFolder = tmpFolder + File.separator + "pids";
     protected String socketsFolder = tmpFolder + File.separator + "sockets";
     protected String vendorFolder = "vendor";
+    protected String databaseAdapter = "sqlite";
+
 
     public RubyOnRailsServerCodegen() {
         super();
@@ -85,38 +81,22 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         modelPackage = "app/models";
         modelTemplateFiles.put("model.mustache", ".rb");
 
-        embeddedTemplateDir = templateDir = "rails5";
+        embeddedTemplateDir = templateDir = "ruby-on-rails-server";
 
-        typeMapping.clear();
-        languageSpecificPrimitives.clear();
-
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "__FILE__", "and", "def", "end", "in", "or", "self", "unless", "__LINE__",
-                        "begin", "defined?", "ensure", "module", "redo", "super", "until", "BEGIN",
-                        "break", "do", "false", "next", "rescue", "then", "when", "END", "case",
-                        "else", "for", "nil", "retry", "true", "while", "alias", "class", "elsif",
-                        "if", "not", "return", "undef", "yield")
-        );
-
+        // In order to adapt to DB migrate script, overwrite typeMapping
         typeMapping.put("string", "string");
-        typeMapping.put("char", "string");
         typeMapping.put("int", "integer");
         typeMapping.put("integer", "integer");
         typeMapping.put("long", "integer");
         typeMapping.put("short", "integer");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "decimal");
-        typeMapping.put("number", "float");
-        typeMapping.put("date", "date");
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("boolean", "boolean");
-        typeMapping.put("binary", "string");
-        typeMapping.put("ByteArray", "string");
-        typeMapping.put("UUID", "string");
 
         // remove modelPackage and apiPackage added by default
         cliOptions.clear();
+
+        cliOptions.add(new CliOption(CodegenConstants.DATABASE_ADAPTER, CodegenConstants.DATABASE_ADAPTER_DESC).
+                defaultValue("sqlite"));
     }
 
     @Override
@@ -127,7 +107,24 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         //setModelPackage("models");
         setApiPackage("app/controllers");
 
-        supportingFiles.add(new SupportingFile("Gemfile", "", "Gemfile"));
+        // determine which db adapter to use
+        if (additionalProperties.containsKey(CodegenConstants.DATABASE_ADAPTER)) {
+            setDatabaseAdapter((String) additionalProperties.get(CodegenConstants.DATABASE_ADAPTER));
+        } else {
+            // not set, pass the default value to template
+            additionalProperties.put(CodegenConstants.DATABASE_ADAPTER, databaseAdapter);
+        }
+
+        if ("sqlite".equals(databaseAdapter)) {
+            additionalProperties.put("isDBSQLite", Boolean.TRUE);
+        } else if ("mysql".equals(databaseAdapter)) {
+            additionalProperties.put("isDBMySQL", Boolean.TRUE);
+        } else {
+            LOGGER.warn("Unknown database {}. Defaul to 'sqlite'.", databaseAdapter);
+            additionalProperties.put("isDBSQLite", Boolean.TRUE);
+        }
+
+        supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("README.md", "", "README.md"));
         supportingFiles.add(new SupportingFile("Rakefile", "", "Rakefile"));
         supportingFiles.add(new SupportingFile("config.ru", "", "config.ru"));
@@ -160,7 +157,7 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("application.rb", configFolder, "application.rb"));
         supportingFiles.add(new SupportingFile("boot.rb", configFolder, "boot.rb"));
         supportingFiles.add(new SupportingFile("cable.yml", configFolder, "cable.yml"));
-        supportingFiles.add(new SupportingFile("database.yml", configFolder, "database.yml"));
+        supportingFiles.add(new SupportingFile("database.mustache", configFolder, "database.yml"));
         supportingFiles.add(new SupportingFile("environment.rb", configFolder, "environment.rb"));
         supportingFiles.add(new SupportingFile("puma.rb", configFolder, "puma.rb"));
         supportingFiles.add(new SupportingFile("routes.mustache", configFolder, "routes.rb"));
@@ -186,6 +183,8 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile(".keep", socketsFolder, ".keep"));
         supportingFiles.add(new SupportingFile("restart.txt", tmpFolder, "restart.txt"));
         supportingFiles.add(new SupportingFile(".keep", vendorFolder, ".keep"));
+        supportingFiles.add(new SupportingFile("Dockerfile", "", "Dockerfile"));
+        supportingFiles.add(new SupportingFile("docker-entrypoint.sh", "", "docker-entrypoint.sh"));
     }
 
     @Override
@@ -204,56 +203,8 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + apiPackage.replace("/", File.separator);
-    }
-
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        }
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
-    public String toDefaultValue(Schema p) {
-        return "null";
-    }
-
-    @Override
-    public String toVarName(String name) {
-        // replace - with _ e.g. created-at => created_at
-        name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        // if it's all uppper case, convert to lower case
-        if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
-        }
-
-        // camelize (lower first character) the variable name
-        // petId => pet_id
-        name = underscore(name);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
     }
 
     @Override
@@ -267,37 +218,31 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
-    }
-
-    @Override
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String modelName = camelize("Model" + name);
+            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("Model" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String filename = underscore("model_" + name);
+            String filename = org.openapitools.codegen.utils.StringUtils.underscore("model_" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
             return filename;
         }
 
         // underscore the model file name
         // PhoneNumber.rb => phone_number.rb
-        return underscore(name);
+        return org.openapitools.codegen.utils.StringUtils.underscore(name);
     }
 
     @Override
@@ -306,7 +251,17 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. DefaultController => defaults_controller.rb
-        return underscore(name) + "_controller";
+        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_controller";
+    }
+
+    @Override
+    public String toApiVarName(String name) {
+        if (name.length() == 0) {
+            return "api";
+        }
+
+        // e.g. PhoneNumber => phone_number
+        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(name));
     }
 
     @Override
@@ -314,20 +269,8 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         if (name.length() == 0) {
             return "ApiController";
         }
-        // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Controller";
-    }
-
-    @Override
-    public String toOperationId(String operationId) {
-        // method name cannot use reserved keyword, e.g. return
-        if (isReservedWord(operationId)) {
-            String newOperationId = underscore("call_" + operationId);
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
-            return newOperationId;
-        }
-
-        return underscore(operationId);
+        // e.g. phone_number_controller => PhoneNumberController
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Controller";
     }
 
     @Override
@@ -336,14 +279,7 @@ public class RubyOnRailsServerCodegen extends DefaultCodegen implements CodegenC
         return super.postProcessSupportingFileData(objs);
     }
 
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "=_end").replace("=begin", "=_begin");
+    public void setDatabaseAdapter(String databaseAdapter) {
+        this.databaseAdapter = databaseAdapter;
     }
 }

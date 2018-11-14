@@ -51,7 +51,7 @@ def _deserialize_primitive(data, klass):
 
 
 def _deserialize_object(value):
-    """Return a original value.
+    """Return an original value.
 
     :return: object.
     """

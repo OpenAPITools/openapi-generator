@@ -1,0 +1,365 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include "{{classname}}.h"
+#include "IHttpBody.h"
+#include "JsonBody.h"
+#include "MultipartFormData.h"
+
+#include <unordered_set>
+
+#include <boost/algorithm/string/replace.hpp>
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+{{classname}}::{{classname}}( std::shared_ptr<ApiClient> apiClient )
+    : m_ApiClient(apiClient)
+{
+}
+
+{{classname}}::~{{classname}}()
+{
+}
+
+{{#operation}}
+pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+{
+{{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
+    // verify the required parameter '{{paramName}}' is set
+    if ({{paramName}} == nullptr)
+    {
+        throw ApiException(400, utility::conversions::to_string_t("Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}"));
+    }
+{{/isContainer}}{{/isPrimitiveType}}{{/required}}{{/allParams}}
+
+    std::shared_ptr<ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
+    utility::string_t localVarPath = utility::conversions::to_string_t("{{{path}}}");
+    {{#pathParams}}boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("{{baseName}}") + utility::conversions::to_string_t("}"), ApiClient::parameterToString({{{paramName}}}));
+    {{/pathParams}}
+
+    std::map<utility::string_t, utility::string_t> localVarQueryParams;
+    std::map<utility::string_t, utility::string_t> localVarHeaderParams( localVarApiConfiguration->getDefaultHeaders() );
+    std::map<utility::string_t, utility::string_t> localVarFormParams;
+    std::map<utility::string_t, std::shared_ptr<HttpContent>> localVarFileParams;
+
+    std::unordered_set<utility::string_t> localVarResponseHttpContentTypes;
+    {{#produces}}
+    localVarResponseHttpContentTypes.insert( utility::conversions::to_string_t("{{{mediaType}}}") );
+    {{/produces}}
+
+    utility::string_t localVarResponseHttpContentType;
+
+    // use JSON if possible
+    if ( localVarResponseHttpContentTypes.size() == 0 )
+    {
+        {{#vendorExtensions.x-codegen-response.isString}}
+        localVarResponseHttpContentType = utility::conversions::to_string_t("text/plain");
+        {{/vendorExtensions.x-codegen-response.isString}}
+        {{^vendorExtensions.x-codegen-response.isString}}
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+        {{/vendorExtensions.x-codegen-response.isString}}
+    }
+    // JSON
+    else if ( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("application/json");
+    }
+    // multipart formdata
+    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+    }
+    {{#vendorExtensions.x-codegen-response.isString}}
+    // plain text
+    else if( localVarResponseHttpContentTypes.find(utility::conversions::to_string_t("text/plain")) != localVarResponseHttpContentTypes.end() )
+    {
+        localVarResponseHttpContentType = utility::conversions::to_string_t("text/plain");
+    }
+    {{/vendorExtensions.x-codegen-response.isString}}
+    {{#vendorExtensions.x-codegen-response-ishttpcontent}}
+    else
+    {
+        //It's going to be binary, so just use the first one.
+        localVarResponseHttpContentType = *localVarResponseHttpContentTypes.begin();
+    }
+    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+    {{^vendorExtensions.x-codegen-response-ishttpcontent}}
+    else
+    {
+        throw ApiException(400, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not produce any supported media type"));
+    }
+    {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+
+    localVarHeaderParams[utility::conversions::to_string_t("Accept")] = localVarResponseHttpContentType;
+
+    std::unordered_set<utility::string_t> localVarConsumeHttpContentTypes;
+    {{#consumes}}
+    localVarConsumeHttpContentTypes.insert( utility::conversions::to_string_t("{{{mediaType}}}") );
+    {{/consumes}}
+
+    {{#allParams}}
+    {{^isBodyParam}}
+    {{^isPathParam}}
+    {{#required}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
+    if ({{paramName}} != nullptr)
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+    {{/required}}
+    {{^required}}
+        {{^isPrimitiveType}}
+        {{^isContainer}}
+    if ({{paramName}} && *{{paramName}} != nullptr)
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        {{#isFile}}
+    if ({{paramName}} && *{{paramName}} != nullptr)
+        {{/isFile}}
+        {{^isFile}}
+    if ({{paramName}})
+        {{/isFile}}
+        {{/isPrimitiveType}}
+        {{#isContainer}}
+    if ({{paramName}})
+        {{/isContainer}}
+    {{/required}}
+    {
+        {{#isQueryParam}}
+        localVarQueryParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
+        {{/isQueryParam}}
+        {{#isHeaderParam}}
+        localVarHeaderParams[utility::conversions::to_string_t("{{baseName}}")] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
+        {{/isHeaderParam}}
+        {{#isFormParam}}
+        {{#isFile}}
+        localVarFileParams[ utility::conversions::to_string_t("{{baseName}}") ] = {{^required}}*{{/required}}{{paramName}};
+        {{/isFile}}
+        {{^isFile}}
+        localVarFormParams[ utility::conversions::to_string_t("{{baseName}}") ] = ApiClient::parameterToString({{^required}}*{{/required}}{{paramName}});
+        {{/isFile}}
+        {{/isFormParam}}
+    }
+    {{/isPathParam}}
+    {{/isBodyParam}}
+    {{/allParams}}
+
+    std::shared_ptr<IHttpBody> localVarHttpBody;
+    utility::string_t localVarRequestHttpContentType;
+
+    // use JSON if possible
+    if ( localVarConsumeHttpContentTypes.size() == 0 || localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("application/json")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("application/json");
+        {{#bodyParam}}
+        web::json::value localVarJson;
+
+        {{#isPrimitiveType}}
+        localVarJson = ModelBase::toJson({{paramName}});
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isListContainer}}
+        {
+            std::vector<web::json::value> localVarJsonArray;
+            for( auto& localVarItem : {{paramName}} )
+            {
+                {{#items.isPrimitiveType}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isPrimitiveType}}{{^items.isPrimitiveType}}{{#items.isString}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isDateTime}}{{^items.isDateTime}}localVarJsonArray.push_back( localVarItem.get() ? localVarItem->toJson() : web::json::value::null() );
+                {{/items.isDateTime}}{{/items.isString}}{{/items.isPrimitiveType}}
+            }
+            localVarJson = web::json::value::array(localVarJsonArray);
+        }
+        {{/isListContainer}}
+        {{^isListContainer}}{{#required}}localVarJson = ModelBase::toJson({{paramName}});
+        {{/required}}{{^required}}if ({{paramName}})
+            localVarJson = ModelBase::toJson(*{{paramName}});{{/required}}
+        {{/isListContainer}}
+        {{/isPrimitiveType}}
+
+        localVarHttpBody = std::shared_ptr<IHttpBody>( new JsonBody( localVarJson ) );
+        {{/bodyParam}}
+    }
+    // multipart formdata
+    else if( localVarConsumeHttpContentTypes.find(utility::conversions::to_string_t("multipart/form-data")) != localVarConsumeHttpContentTypes.end() )
+    {
+        localVarRequestHttpContentType = utility::conversions::to_string_t("multipart/form-data");
+        {{#bodyParam}}
+        std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
+        {{#isPrimitiveType}}
+        localVarMultipart->add(ModelBase::toHttpContent("{{paramName}}", {{paramName}}));
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isListContainer}}
+        {
+            std::vector<web::json::value> localVarJsonArray;
+            for( auto& localVarItem : {{paramName}} )
+            {
+                {{#items.isPrimitiveType}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isPrimitiveType}}{{^items.isPrimitiveType}}{{#items.isString}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
+                {{/items.isDateTime}}{{^items.isDateTime}}localVarJsonArray.push_back( localVarItem.get() ? localVarItem->toJson() : web::json::value::null() );
+                {{/items.isDateTime}}{{/items.isString}}{{/items.isPrimitiveType}}
+            }
+            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), web::json::value::array(localVarJsonArray), utility::conversions::to_string_t("application/json")));
+        }{{/isListContainer}}
+        {{^isListContainer}}{{#isString}}localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
+        {{/isString}}{{^isString}}if({{^required}}{{paramName}} && (*{{paramName}}){{/required}}{{#required}}{{paramName}}{{/required}}.get())
+        {
+            {{^required}}(*{{/required}}{{paramName}}{{^required}}){{/required}}->toMultipart(localVarMultipart, utility::conversions::to_string_t("{{paramName}}"));
+        }
+        {{/isString}}
+        {{/isListContainer}}
+        {{/isPrimitiveType}}
+
+        localVarHttpBody = localVarMultipart;
+        localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
+        {{/bodyParam}}
+    }
+    else
+    {
+        throw ApiException(415, utility::conversions::to_string_t("{{classname}}->{{operationId}} does not consume any supported media type"));
+    }
+
+    {{#authMethods}}
+    // authentication ({{name}}) required
+    {{#isApiKey}}
+    {{#isKeyInHeader}}
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("{{keyParamName}}"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarHeaderParams[utility::conversions::to_string_t("{{keyParamName}}")] = localVarApiKey;
+        }
+    }
+    {{/isKeyInHeader}}
+    {{#isKeyInQuery}}
+    {
+        utility::string_t localVarApiKey = localVarApiConfiguration->getApiKey(utility::conversions::to_string_t("{{keyParamName}}"));
+        if ( localVarApiKey.size() > 0 )
+        {
+            localVarQueryParams[utility::conversions::to_string_t("{{keyParamName}}")] = localVarApiKey;
+        }
+    }
+    {{/isKeyInQuery}}
+    {{/isApiKey}}
+    {{#isBasic}}
+    // Basic authentication is added automatically as part of the http_client_config
+    {{/isBasic}}
+    {{#isOAuth}}
+    // oauth2 authentication is added automatically as part of the http_client_config
+    {{/isOAuth}}
+    {{/authMethods}}
+
+    return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("{{httpMethod}}"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
+    .then([=](web::http::http_response localVarResponse)
+    {
+        // 1xx - informational : OK
+        // 2xx - successful       : OK
+        // 3xx - redirection   : OK
+        // 4xx - client error  : not OK
+        // 5xx - client error  : not OK
+        if (localVarResponse.status_code() >= 400)
+        {
+            throw ApiException(localVarResponse.status_code()
+                , utility::conversions::to_string_t("error calling {{operationId}}: ") + localVarResponse.reason_phrase()
+                , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+        }
+
+        // check response content type
+        if(localVarResponse.headers().has(utility::conversions::to_string_t("Content-Type")))
+        {
+            utility::string_t localVarContentType = localVarResponse.headers()[utility::conversions::to_string_t("Content-Type")];
+            if( localVarContentType.find(localVarResponseHttpContentType) == std::string::npos )
+            {
+                throw ApiException(500
+                    , utility::conversions::to_string_t("error calling {{operationId}}: unexpected response type: ") + localVarContentType
+                    , std::make_shared<std::stringstream>(localVarResponse.extract_utf8string(true).get()));
+            }
+        }
+
+        {{#vendorExtensions.x-codegen-response-ishttpcontent}}
+        return localVarResponse.extract_vector();
+    })
+    .then([=](std::vector<unsigned char> localVarResponse)
+    {
+        HttpContent localVarResult;
+        std::shared_ptr<std::stringstream> stream = std::make_shared<std::stringstream>(std::string(localVarResponse.begin(), localVarResponse.end()));
+        localVarResult.setData(stream);
+        return localVarResult;
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+        {{^vendorExtensions.x-codegen-response-ishttpcontent}}
+        return localVarResponse.extract_string();
+    })
+    .then([=](utility::string_t localVarResponse)
+    {
+        {{^returnType}}
+        return void();
+        {{/returnType}}
+        {{#returnType}}
+        {{#returnContainer}}
+        {{{returnType}}} localVarResult;
+        {{/returnContainer}}
+        {{^returnContainer}}
+        {{{returnType}}} localVarResult({{{defaultResponse}}});
+        {{/returnContainer}}
+
+        if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
+        {
+            web::json::value localVarJson = web::json::value::parse(localVarResponse);
+
+            {{#isListContainer}}for( auto& localVarItem : localVarJson.as_array() )
+            {
+                {{#vendorExtensions.x-codegen-response.items.isPrimitiveType}}localVarResult.push_back(ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(localVarItem));
+                {{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.isString}}localVarResult.push_back(ModelBase::stringFromJson(localVarItem));
+                {{/vendorExtensions.x-codegen-response.items.isString}}{{^vendorExtensions.x-codegen-response.items.isString}}{{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj({{{vendorExtensions.x-codegen-response.items.defaultValue}}});
+                localVarItemObj->fromJson(localVarItem);
+                localVarResult.push_back(localVarItemObj);
+                {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
+            }
+            {{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}for( auto& localVarItem : localVarJson.as_object() )
+            {
+                {{#vendorExtensions.x-codegen-response.items.isPrimitiveType}}localVarResult[localVarItem.first] = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(localVarItem.second);
+                {{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.isString}}localVarResult[localVarItem.first] = ModelBase::stringFromJson(localVarItem.second);
+                {{/vendorExtensions.x-codegen-response.items.isString}}{{^vendorExtensions.x-codegen-response.items.isString}}{{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj({{{vendorExtensions.x-codegen-response.items.defaultValue}}});
+                localVarItemObj->fromJson(localVarItem.second);
+                localVarResult[localVarItem.first] = localVarItemObj;
+                {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
+            }
+            {{/isMapContainer}}{{^isMapContainer}}{{#vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.datatype}}localVarResult = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(localVarJson);
+            {{/vendorExtensions.x-codegen-response.items.datatype}}{{^vendorExtensions.x-codegen-response.items.datatype}}localVarResult = ModelBase::{{vendorExtensions.x-codegen-response.datatype}}FromJson(localVarJson);
+            {{/vendorExtensions.x-codegen-response.items.datatype}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.isString}}localVarResult = ModelBase::stringFromJson(localVarJson);
+            {{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}localVarResult->fromJson(localVarJson);{{/vendorExtensions.x-codegen-response.isString}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{/isMapContainer}}{{/isListContainer}}
+        }{{#vendorExtensions.x-codegen-response.isString}}
+        else if(localVarResponseHttpContentType == utility::conversions::to_string_t("text/plain"))
+        {
+            localVarResult = localVarResponse;
+        }{{/vendorExtensions.x-codegen-response.isString}}
+        // else if(localVarResponseHttpContentType == utility::conversions::to_string_t("multipart/form-data"))
+        // {
+        // TODO multipart response parsing
+        // }
+        else
+        {
+            throw ApiException(500
+                , utility::conversions::to_string_t("error calling {{operationId}}: unsupported response type"));
+        }
+
+        return localVarResult;
+        {{/returnType}}
+        {{/vendorExtensions.x-codegen-response-ishttpcontent}}
+    });
+}
+{{/operation}}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}

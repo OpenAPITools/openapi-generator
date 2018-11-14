@@ -1,0 +1,45 @@
+/* SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO"; */
+/* SET AUTOCOMMIT = 0; */
+/* START TRANSACTION; */
+/* SET time_zone = "+00:00"; */
+{{#defaultDatabaseName}}
+--
+-- Database: `{{{defaultDatabaseName}}}`
+--
+CREATE DATABASE IF NOT EXISTS `{{{defaultDatabaseName}}}` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+{{/defaultDatabaseName}}
+
+-- --------------------------------------------------------
+
+{{#models}}{{#model}}{{#hasVars}}{{^isArrayModel}}--
+-- Table structure{{#vendorExtensions}}{{#x-mysqlSchema}}{{#tableDefinition}} for table `{{tblName}}`{{/tableDefinition}}{{/x-mysqlSchema}}{{/vendorExtensions}} generated from model '{{classVarName}}'
+{{#description}}
+-- {{description}}
+{{/description}}
+--
+
+{{#vendorExtensions}}
+{{#x-mysqlSchema}}
+{{#tableDefinition}}
+CREATE TABLE IF NOT EXISTS {{#defaultDatabaseName}}`{{{defaultDatabaseName}}}`.{{/defaultDatabaseName}}`{{tblName}}` (
+{{/tableDefinition}}
+{{/x-mysqlSchema}}
+{{/vendorExtensions}}
+  {{#vars}}
+  {{#vendorExtensions}}
+  {{#x-mysqlSchema}}
+  {{#columnDefinition}}
+  `{{colName}}` {{colDataType}}{{#colDataTypeArguments}}{{#-first}}({{/-first}}{{#isString}}'{{/isString}}{{argumentValue}}{{#isString}}'{{/isString}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/colDataTypeArguments}}{{#colUnsigned}} UNSIGNED{{/colUnsigned}}{{#colNotNull}} NOT NULL{{/colNotNull}}{{#colDefault}} DEFAULT {{#isString}}'{{defaultValue}}'{{/isString}}{{^isString}}{{defaultValue}}{{/isString}}{{/colDefault}}{{#colComment}} COMMENT '{{colComment}}'{{/colComment}}{{^-last}},{{/-last}}
+  {{/columnDefinition}}
+  {{/x-mysqlSchema}}
+  {{/vendorExtensions}}
+  {{/vars}}
+{{#vendorExtensions}}
+{{#x-mysqlSchema}}
+{{#tableDefinition}}
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci{{#tblComment}} COMMENT='{{tblComment}}'{{/tblComment}};
+{{/tableDefinition}}
+{{/x-mysqlSchema}}
+{{/vendorExtensions}}
+
+{{/isArrayModel}}{{/hasVars}}{{/model}}{{/models}}

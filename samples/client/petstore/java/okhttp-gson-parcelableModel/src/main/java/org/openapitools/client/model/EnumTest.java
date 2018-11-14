@@ -64,7 +64,7 @@ public class EnumTest implements Parcelable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumStringEnum> {
@@ -83,7 +83,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING)
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -117,7 +117,7 @@ public class EnumTest implements Parcelable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumStringRequiredEnum> {
@@ -136,7 +136,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
   @SerializedName(SERIALIZED_NAME_ENUM_STRING_REQUIRED)
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -168,7 +168,7 @@ public class EnumTest implements Parcelable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumIntegerEnum> {
@@ -187,7 +187,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
   @SerializedName(SERIALIZED_NAME_ENUM_INTEGER)
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -219,7 +219,7 @@ public class EnumTest implements Parcelable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumNumberEnum> {
@@ -238,7 +238,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
   @SerializedName(SERIALIZED_NAME_ENUM_NUMBER)
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)

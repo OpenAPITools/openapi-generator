@@ -20,20 +20,21 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.*;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonFlaskConnexionServerCodegen.class);
@@ -153,6 +154,12 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         //apiTemplateFiles.clear();
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
@@ -246,12 +253,12 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         if (name == null || name.length() == 0) {
             return "DefaultController";
         }
-        return camelize(name, false) + "Controller";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
     }
 
     @Override
     public String toApiFilename(String name) {
-        return underscore(toApiName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toApiName(name));
     }
 
     @Override
@@ -289,7 +296,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -400,12 +407,12 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+            name = name.toLowerCase(Locale.ROOT);
         }
 
         // underscore the variable name
         // petId => pet_id
-        name = underscore(name);
+        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
 
         // remove leading underscore
         name = name.replaceAll("^_*", "");
@@ -433,7 +440,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
     public String toModelFilename(String name) {
         // underscore the model file name
         // PhoneNumber => phone_number
-        return underscore(dropDots(toModelName(name)));
+        return org.openapitools.codegen.utils.StringUtils.underscore(dropDots(toModelName(name)));
     }
 
     @Override
@@ -444,13 +451,13 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -464,7 +471,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
@@ -476,11 +483,11 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return underscore(sanitizeName(operationId));
+        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(operationId));
     }
 
     /**
@@ -688,6 +695,33 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
 
             vendorExtensions.put("x-regex", regex);
             vendorExtensions.put("x-modifiers", modifiers);
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String pythonPostProcessFile = System.getenv("PYTHON_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(pythonPostProcessFile)) {
+            return; // skip if PYTHON_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with py extension
+        if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = pythonPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
         }
     }
 

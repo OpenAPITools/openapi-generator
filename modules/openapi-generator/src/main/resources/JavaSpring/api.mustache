@@ -9,10 +9,17 @@ package {{package}};
 {{/imports}}
 import io.swagger.annotations.*;
 {{#jdk8-no-delegate}}
+{{#virtualService}}
+import io.virtualan.annotation.ApiVirtual;
+import io.virtualan.annotation.VirtualService;
+{{/virtualService}}
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 {{/jdk8-no-delegate}}
 import org.springframework.http.ResponseEntity;
+{{#useBeanValidation}}
+import org.springframework.validation.annotation.Validated;
+{{/useBeanValidation}}
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -50,8 +57,14 @@ import java.util.Optional;
 import java.util.concurrent.{{^jdk8}}Callable{{/jdk8}}{{#jdk8}}CompletableFuture{{/jdk8}};
 {{/async}}
 {{>generatedAnnotation}}
+{{#useBeanValidation}}
+@Validated
+{{/useBeanValidation}}
 @Api(value = "{{{baseName}}}", description = "the {{{baseName}}} API")
 {{#operations}}
+{{#virtualService}}
+@VirtualService
+{{/virtualService}}
 public interface {{classname}} {
 {{#jdk8}}
     {{^isDelegate}}
@@ -71,6 +84,9 @@ public interface {{classname}} {
 {{/jdk8}}
 {{#operation}}
 
+    {{#virtualService}}
+    @ApiVirtual
+    {{/virtualService}}
     @ApiOperation(value = "{{{summary}}}", nickname = "{{{operationId}}}", notes = "{{{notes}}}"{{#returnBaseType}}, response = {{{returnBaseType}}}.class{{/returnBaseType}}{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}{{#hasAuthMethods}}, authorizations = {
         {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
             {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
@@ -105,7 +121,7 @@ public interface {{classname}} {
         {{>methodBody}}
         {{/isDelegate}}
         {{#isDelegate}}
-        return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#reactive}}, exchange{{/reactive}});
+        return getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}});
         {{/isDelegate}}
     }{{/jdk8}}
 

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,11 +12,10 @@ import javax.validation.constraints.*;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-@Validated
 
 public class ModelReturn   {
   @JsonProperty("return")
-  private Integer _return = null;
+  private Integer _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;
@@ -27,7 +25,7 @@ public class ModelReturn   {
   /**
    * Get _return
    * @return _return
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

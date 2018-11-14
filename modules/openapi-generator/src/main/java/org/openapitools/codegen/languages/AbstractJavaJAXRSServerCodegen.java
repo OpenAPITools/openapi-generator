@@ -32,13 +32,14 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URL;
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
@@ -146,7 +147,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         return jaxrsPostProcessOperations(objs);
     }
 
@@ -154,6 +155,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         @SuppressWarnings("unchecked")
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
+            String commonBaseName = null;
+            boolean baseNameEquals = true;
             @SuppressWarnings("unchecked")
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
@@ -219,6 +222,23 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 } else if ("map".equals(operation.returnContainer)) {
                     operation.returnContainer = "Map";
                 }
+                
+                if(commonBaseName == null) {
+                    commonBaseName = operation.baseName;
+                } else if(!commonBaseName.equals(operation.baseName)) {
+                    baseNameEquals = false;
+                }
+            }
+            if(baseNameEquals) {
+                objs.put("commonPath", commonBaseName);
+            } else {
+                for (CodegenOperation operation : ops) {
+                    if(operation.baseName != null) {
+                        operation.path = "/" + operation.baseName + operation.path;
+                        operation.baseName = null;
+                    }
+                }
+                objs.put("commonPath", null);
             }
         }
         return objs;
@@ -231,7 +251,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         computed = sanitizeName(computed);
-        return camelize(computed) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(computed) + "Api";
     }
 
     @Override

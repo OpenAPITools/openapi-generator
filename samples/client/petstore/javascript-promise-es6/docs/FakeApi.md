@@ -1,4 +1,4 @@
-# SwaggerPetstore.FakeApi
+# OpenApiPetstore.FakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -8,6 +8,8 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
+[**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
@@ -17,7 +19,7 @@ Method | HTTP request | Description
 
 <a name="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
-> OuterBoolean fakeOuterBooleanSerialize(opts)
+> Boolean fakeOuterBooleanSerialize(opts)
 
 
 
@@ -25,12 +27,11 @@ Test serialization of outer boolean types
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let opts = { 
-  'body': new SwaggerPetstore.OuterBoolean() // OuterBoolean | Input boolean as post body
+let apiInstance = new OpenApiPetstore.FakeApi();
+let opts = {
+  'body': true // Boolean | Input boolean as post body
 };
 apiInstance.fakeOuterBooleanSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -44,11 +45,11 @@ apiInstance.fakeOuterBooleanSerialize(opts).then((data) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterBoolean**](OuterBoolean.md)| Input boolean as post body | [optional] 
+ **body** | **Boolean**| Input boolean as post body | [optional] 
 
 ### Return type
 
-[**OuterBoolean**](OuterBoolean.md)
+**Boolean**
 
 ### Authorization
 
@@ -57,7 +58,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 <a name="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
@@ -69,12 +70,11 @@ Test serialization of object with outer number type
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let opts = { 
-  'body': new SwaggerPetstore.OuterComposite() // OuterComposite | Input composite as post body
+let apiInstance = new OpenApiPetstore.FakeApi();
+let opts = {
+  'outerComposite': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
 apiInstance.fakeOuterCompositeSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -88,7 +88,7 @@ apiInstance.fakeOuterCompositeSerialize(opts).then((data) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -101,11 +101,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 <a name="fakeOuterNumberSerialize"></a>
 # **fakeOuterNumberSerialize**
-> OuterNumber fakeOuterNumberSerialize(opts)
+> Number fakeOuterNumberSerialize(opts)
 
 
 
@@ -113,12 +113,11 @@ Test serialization of outer number types
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let opts = { 
-  'body': new SwaggerPetstore.OuterNumber() // OuterNumber | Input number as post body
+let apiInstance = new OpenApiPetstore.FakeApi();
+let opts = {
+  'body': 3.4 // Number | Input number as post body
 };
 apiInstance.fakeOuterNumberSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -132,11 +131,11 @@ apiInstance.fakeOuterNumberSerialize(opts).then((data) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterNumber**](OuterNumber.md)| Input number as post body | [optional] 
+ **body** | **Number**| Input number as post body | [optional] 
 
 ### Return type
 
-[**OuterNumber**](OuterNumber.md)
+**Number**
 
 ### Authorization
 
@@ -145,11 +144,11 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: */*
 
 <a name="fakeOuterStringSerialize"></a>
 # **fakeOuterStringSerialize**
-> OuterString fakeOuterStringSerialize(opts)
+> String fakeOuterStringSerialize(opts)
 
 
 
@@ -157,12 +156,11 @@ Test serialization of outer string types
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let opts = { 
-  'body': new SwaggerPetstore.OuterString() // OuterString | Input string as post body
+let apiInstance = new OpenApiPetstore.FakeApi();
+let opts = {
+  'body': "body_example" // String | Input string as post body
 };
 apiInstance.fakeOuterStringSerialize(opts).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
@@ -176,11 +174,11 @@ apiInstance.fakeOuterStringSerialize(opts).then((data) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterString**](OuterString.md)| Input string as post body | [optional] 
+ **body** | **String**| Input string as post body | [optional] 
 
 ### Return type
 
-[**OuterString**](OuterString.md)
+**String**
 
 ### Authorization
 
@@ -189,11 +187,93 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: */*
+
+<a name="testBodyWithFileSchema"></a>
+# **testBodyWithFileSchema**
+> testBodyWithFileSchema(fileSchemaTestClass)
+
+
+
+For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
+### Example
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let fileSchemaTestClass = new OpenApiPetstore.FileSchemaTestClass(); // FileSchemaTestClass | 
+apiInstance.testBodyWithFileSchema(fileSchemaTestClass).then(() => {
+  console.log('API called successfully.');
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+<a name="testBodyWithQueryParams"></a>
+# **testBodyWithQueryParams**
+> testBodyWithQueryParams(query, user)
+
+
+
+### Example
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let query = "query_example"; // String | 
+let user = new OpenApiPetstore.User(); // User | 
+apiInstance.testBodyWithQueryParams(query, user).then(() => {
+  console.log('API called successfully.');
+}, (error) => {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **String**|  | 
+ **user** | [**User**](User.md)|  | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(body)
+> Client testClientModel(client)
 
 To test \&quot;client\&quot; model
 
@@ -201,13 +281,11 @@ To test \&quot;client\&quot; model
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let body = new SwaggerPetstore.Client(); // Client | client model
-
-apiInstance.testClientModel(body).then((data) => {
+let apiInstance = new OpenApiPetstore.FakeApi();
+let client = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.testClientModel(client).then((data) => {
   console.log('API called successfully. Returned data: ' + data);
 }, (error) => {
   console.error(error);
@@ -219,7 +297,7 @@ apiInstance.testClientModel(body).then((data) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -244,31 +322,26 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
-let defaultClient = SwaggerPetstore.ApiClient.instance;
+import OpenApiPetstore from 'open_api_petstore';
+let defaultClient = OpenApiPetstore.ApiClient.instance;
 
 // Configure HTTP basic authorization: http_basic_test
 let http_basic_test = defaultClient.authentications['http_basic_test'];
 http_basic_test.username = 'YOUR USERNAME';
 http_basic_test.password = 'YOUR PASSWORD';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let _number = 8.14; // Number | None
-
-let _double = 1.2; // Number | None
-
+let apiInstance = new OpenApiPetstore.FakeApi();
+let _number = 3.4; // Number | None
+let _double = 3.4; // Number | None
 let patternWithoutDelimiter = "patternWithoutDelimiter_example"; // String | None
-
-let _byte = B; // Blob | None
-
-let opts = { 
+let _byte = null; // Blob | None
+let opts = {
   'integer': 56, // Number | None
   'int32': 56, // Number | None
   'int64': 789, // Number | None
   '_float': 3.4, // Number | None
   '_string': "_string_example", // String | None
-  'binary': B, // Blob | None
+  'binary': "/path/to/file", // File | None
   '_date': new Date("2013-10-20"), // Date | None
   'dateTime': new Date("2013-10-20T19:20:30+01:00"), // Date | None
   'password': "password_example", // String | None
@@ -295,7 +368,7 @@ Name | Type | Description  | Notes
  **int64** | **Number**| None | [optional] 
  **_float** | **Number**| None | [optional] 
  **_string** | **String**| None | [optional] 
- **binary** | **Blob**| None | [optional] 
+ **binary** | **File**| None | [optional] 
  **_date** | **Date**| None | [optional] 
  **dateTime** | **Date**| None | [optional] 
  **password** | **String**| None | [optional] 
@@ -311,8 +384,8 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
- - **Accept**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 <a name="testEnumParameters"></a>
 # **testEnumParameters**
@@ -324,19 +397,18 @@ To test enum parameters
 
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let opts = { 
-  'enumFormStringArray': ["enumFormStringArray_example"], // [String] | Form parameter enum test (string array)
-  'enumFormString': "-efg", // String | Form parameter enum test (string)
-  'enumHeaderStringArray': ["enumHeaderStringArray_example"], // [String] | Header parameter enum test (string array)
-  'enumHeaderString': "-efg", // String | Header parameter enum test (string)
-  'enumQueryStringArray': ["enumQueryStringArray_example"], // [String] | Query parameter enum test (string array)
-  'enumQueryString': "-efg", // String | Query parameter enum test (string)
+let apiInstance = new OpenApiPetstore.FakeApi();
+let opts = {
+  'enumHeaderStringArray': ["'$'"], // [String] | Header parameter enum test (string array)
+  'enumHeaderString': "'-efg'", // String | Header parameter enum test (string)
+  'enumQueryStringArray': ["'$'"], // [String] | Query parameter enum test (string array)
+  'enumQueryString': "'-efg'", // String | Query parameter enum test (string)
   'enumQueryInteger': 56, // Number | Query parameter enum test (double)
-  'enumQueryDouble': 1.2 // Number | Query parameter enum test (double)
+  'enumQueryDouble': 3.4, // Number | Query parameter enum test (double)
+  'enumFormStringArray': "'$'", // [String] | Form parameter enum test (string array)
+  'enumFormString': "'-efg'" // String | Form parameter enum test (string)
 };
 apiInstance.testEnumParameters(opts).then(() => {
   console.log('API called successfully.');
@@ -350,14 +422,14 @@ apiInstance.testEnumParameters(opts).then(() => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] 
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to -efg]
  **enumHeaderStringArray** | [**[String]**](String.md)| Header parameter enum test (string array) | [optional] 
- **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to -efg]
+ **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enumQueryStringArray** | [**[String]**](String.md)| Query parameter enum test (string array) | [optional] 
- **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to -efg]
+ **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enumQueryInteger** | **Number**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **Number**| Query parameter enum test (double) | [optional] 
+ **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
 
@@ -369,26 +441,22 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
- - **Accept**: */*
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(param)
+> testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
 
-
-
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
-let param = null; // Object | request body
-
-apiInstance.testInlineAdditionalProperties(param).then(() => {
+let apiInstance = new OpenApiPetstore.FakeApi();
+let requestBody = {key: "null"}; // {String: String} | request body
+apiInstance.testInlineAdditionalProperties(requestBody).then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -400,7 +468,7 @@ apiInstance.testInlineAdditionalProperties(param).then(() => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **Object**| request body | 
+ **requestBody** | [**{String: String}**](String.md)| request body | 
 
 ### Return type
 
@@ -421,18 +489,13 @@ No authorization required
 
 test json serialization of form data
 
-
-
 ### Example
 ```javascript
-import SwaggerPetstore from 'swagger_petstore';
+import OpenApiPetstore from 'open_api_petstore';
 
-let apiInstance = new SwaggerPetstore.FakeApi();
-
+let apiInstance = new OpenApiPetstore.FakeApi();
 let param = "param_example"; // String | field1
-
 let param2 = "param2_example"; // String | field2
-
 apiInstance.testJsonFormData(param, param2).then(() => {
   console.log('API called successfully.');
 }, (error) => {
@@ -458,6 +521,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 

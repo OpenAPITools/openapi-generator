@@ -63,7 +63,7 @@ public class EnumArrays implements Parcelable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<JustSymbolEnum> {
@@ -82,7 +82,7 @@ public class EnumArrays implements Parcelable {
 
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -114,7 +114,7 @@ public class EnumArrays implements Parcelable {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<ArrayEnumEnum> {

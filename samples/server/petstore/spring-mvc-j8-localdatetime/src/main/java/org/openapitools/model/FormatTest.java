@@ -10,54 +10,52 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.core.io.Resource;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * FormatTest
  */
-@Validated
 
 public class FormatTest   {
   @JsonProperty("integer")
-  private Integer integer = null;
+  private Integer integer;
 
   @JsonProperty("int32")
-  private Integer int32 = null;
+  private Integer int32;
 
   @JsonProperty("int64")
-  private Long int64 = null;
+  private Long int64;
 
   @JsonProperty("number")
-  private BigDecimal number = null;
+  private BigDecimal number;
 
   @JsonProperty("float")
-  private Float _float = null;
+  private Float _float;
 
   @JsonProperty("double")
-  private Double _double = null;
+  private Double _double;
 
   @JsonProperty("string")
-  private String string = null;
+  private String string;
 
   @JsonProperty("byte")
-  private byte[] _byte = null;
+  private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary = null;
+  private Resource binary;
 
   @JsonProperty("date")
-  private LocalDate date = null;
+  private LocalDate date;
 
   @JsonProperty("dateTime")
-  private LocalDateTime dateTime = null;
+  private LocalDateTime dateTime;
 
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("password")
-  private String password = null;
+  private String password;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -69,7 +67,7 @@ public class FormatTest   {
    * minimum: 10
    * maximum: 100
    * @return integer
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @Min(10) @Max(100) 
@@ -91,7 +89,7 @@ public class FormatTest   {
    * minimum: 20
    * maximum: 200
    * @return int32
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @Min(20) @Max(200) 
@@ -111,7 +109,7 @@ public class FormatTest   {
   /**
    * Get int64
    * @return int64
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -133,7 +131,7 @@ public class FormatTest   {
    * minimum: 32.1
    * maximum: 543.2
    * @return number
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -157,7 +155,7 @@ public class FormatTest   {
    * minimum: 54.3
    * maximum: 987.6
    * @return _float
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @DecimalMin("54.3") @DecimalMax("987.6") 
@@ -179,7 +177,7 @@ public class FormatTest   {
    * minimum: 67.8
    * maximum: 123.4
    * @return _double
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @DecimalMin("67.8") @DecimalMax("123.4") 
@@ -199,7 +197,7 @@ public class FormatTest   {
   /**
    * Get string
    * @return string
-  **/
+  */
   @ApiModelProperty(value = "")
 
 @Pattern(regexp="/[a-z]/i") 
@@ -219,7 +217,7 @@ public class FormatTest   {
   /**
    * Get _byte
    * @return _byte
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -240,7 +238,7 @@ public class FormatTest   {
   /**
    * Get binary
    * @return binary
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -261,7 +259,7 @@ public class FormatTest   {
   /**
    * Get date
    * @return date
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -283,7 +281,7 @@ public class FormatTest   {
   /**
    * Get dateTime
    * @return dateTime
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -304,7 +302,7 @@ public class FormatTest   {
   /**
    * Get uuid
    * @return uuid
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -325,7 +323,7 @@ public class FormatTest   {
   /**
    * Get password
    * @return password
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 

@@ -32,6 +32,11 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 23
         }
         compileOptions {
+            {{#supportJava6}}
+            sourceCompatibility JavaVersion.VERSION_1_6
+            targetCompatibility JavaVersion.VERSION_1_6
+            {{/supportJava6}}
+            {{^supportJava6}}
             {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -40,6 +45,7 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
             {{/java8}}
+            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -83,6 +89,11 @@ if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'java'
     apply plugin: 'maven'
+    {{#supportJava6}}
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
+    {{/supportJava6}}
+    {{^supportJava6}}
     {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -91,6 +102,7 @@ if(hasProperty('target') && target == 'android') {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
     {{/java8}}
+    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
@@ -105,12 +117,13 @@ if(hasProperty('target') && target == 'android') {
 }
 
 ext {
-    swagger_annotations_version = "1.5.8"
-    jackson_version = "2.6.4"
-    jersey_version = "2.22.2"
+    swagger_annotations_version = "1.5.21"
+    jackson_version = "2.8.11"
+    jackson_databind_version = "2.8.11.2"
+    threetenbp_version = "2.6.4"
     resteasy_version = "3.1.3.Final"
     {{^java8}}
-    jodatime_version = "2.9.4"
+    jodatime_version = "2.9.9"
     {{/java8}}
     {{#supportJava6}}
     commons_io_version=2.5
@@ -124,13 +137,10 @@ dependencies {
     compile "org.jboss.resteasy:resteasy-client:$resteasy_version"
     compile "org.jboss.resteasy:resteasy-multipart-provider:$resteasy_version"
     compile "org.jboss.resteasy:resteasy-jackson2-provider:$resteasy_version"
-    compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
-    compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
-    compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$threetenbp_version"
     {{#java8}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}

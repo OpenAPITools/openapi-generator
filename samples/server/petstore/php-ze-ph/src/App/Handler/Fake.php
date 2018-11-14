@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @PHA\Route(pattern="/fake")
  */
-class Fake implements Operation\PatchInterface, Operation\PostInterface, Operation\GetInterface
+class Fake implements Operation\PatchInterface, Operation\PostInterface, Operation\GetInterface, Operation\DeleteInterface
 {
     /**
      * To test \&quot;client\&quot; model
@@ -36,7 +36,7 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
         throw new PHException\HttpCode(500, "Not implemented");
     }
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 500 if the method is not implemented
@@ -53,6 +53,17 @@ class Fake implements Operation\PatchInterface, Operation\PostInterface, Operati
      * @throws PHException\HttpCode 500 if the method is not implemented
      */
     public function handleGet(ServerRequestInterface $request)
+    {
+        //TODO implement method
+        throw new PHException\HttpCode(500, "Not implemented");
+    }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * @param ServerRequestInterface $request
+     *
+     * @throws PHException\HttpCode 500 if the method is not implemented
+     */
+    public function handleDelete(ServerRequestInterface $request)
     {
         //TODO implement method
         throw new PHException\HttpCode(500, "Not implemented");

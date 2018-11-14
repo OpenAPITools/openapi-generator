@@ -1,0 +1,12 @@
+{{#useSpringfox}}
+springfox.documentation.swagger.v2.path=/api-docs
+{{/useSpringfox}}
+server.port={{serverPort}}
+spring.jackson.date-format={{basePackage}}.RFC3339DateFormat
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS=false
+{{#virtualService}}
+virtual.datasource.driver-class-name=org.hsqldb.jdbcDriver
+virtual.datasource.jdbcurl=jdbc:hsqldb:mem:dataSource
+virtual.datasource.username=sa
+virtual.datasource.password=
+{{/virtualService}}

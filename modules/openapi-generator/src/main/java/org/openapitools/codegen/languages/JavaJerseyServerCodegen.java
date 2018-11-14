@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.*;
-
-import java.util.*;
-
+import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+
+import java.util.*;
 
 public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
@@ -31,7 +30,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     protected static final String LIBRARY_JERSEY2 = "jersey2";
 
     /**
-     * Default library template to use. (Default:{@value #DEFAULT_JERSEY_LIBRARY})
+     * Default library template to use. (Default: jersey2)
      */
     public static final String DEFAULT_JERSEY_LIBRARY = LIBRARY_JERSEY2;
     public static final String USE_TAGS = "useTags";
@@ -159,7 +158,26 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
         if (useTags) {
+            String basePath = tag.toLowerCase(Locale.ROOT);
+            if (basePath.startsWith("/")) {
+                basePath = basePath.substring(1);
+            }
+            int pos = basePath.indexOf("/");
+            if (pos > 0) {
+                basePath = basePath.substring(0, pos);
+            }
+
+            boolean pathStartsWithBasePath = co.path.startsWith("/" + basePath);
+            if (pathStartsWithBasePath) {
+                co.path = co.path.substring(("/" + basePath).length());
+            }
+            co.subresourceOperation = !co.path.isEmpty();
             super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            if (pathStartsWithBasePath) {
+                co.baseName = basePath;
+            } else {
+                co.baseName = null;
+            }
         } else {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {

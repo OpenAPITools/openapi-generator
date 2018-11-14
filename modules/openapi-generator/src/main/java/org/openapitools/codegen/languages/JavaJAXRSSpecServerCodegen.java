@@ -18,13 +18,13 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
@@ -33,15 +33,22 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String RETURN_RESPONSE = "returnResponse";
     public static final String GENERATE_POM = "generatePom";
+    public static final String USE_SWAGGER_ANNOTATIONS = "useSwaggerAnnotations";
+    public static final String JACKSON = "jackson";
 
     private boolean interfaceOnly = false;
     private boolean returnResponse = false;
     private boolean generatePom = true;
+    private boolean useSwaggerAnnotations = true;
+    private boolean useJackson = false;
+
+    private String primaryResourceName;
 
     public JavaJAXRSSpecServerCodegen() {
         super();
@@ -90,6 +97,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_POM, "Whether to generate pom.xml if the file does not already exist.").defaultValue(String.valueOf(generatePom)));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.").defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
+        cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
     }
 
     @Override
@@ -109,6 +117,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 additionalProperties.remove(RETURN_RESPONSE);
             }
         }
+        if (additionalProperties.containsKey(USE_SWAGGER_ANNOTATIONS)) {
+            useSwaggerAnnotations = Boolean.valueOf(additionalProperties.get(USE_SWAGGER_ANNOTATIONS).toString());
+        }
+        writePropertyBack(USE_SWAGGER_ANNOTATIONS, useSwaggerAnnotations);
+
+        useJackson = convertPropertyToBoolean(JACKSON);
+
         if (interfaceOnly) {
             // Change default artifactId if genereating interfaces only, before command line options are applied in base class.
             artifactId = "openapi-jaxrs-client";
@@ -117,6 +132,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         super.processOpts();
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
         if (generatePom) {
             writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
         }
@@ -148,42 +164,64 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             basePath = basePath.substring(0, pos);
         }
 
+        String operationKey = basePath;
         if (StringUtils.isEmpty(basePath)) {
-            basePath = "default";
+            basePath = tag;
+            operationKey = "";
+            primaryResourceName = tag;
+        } else if (basePath.matches("\\{.*\\}")) {
+            basePath = tag;
+            operationKey = "";
+            co.subresourceOperation = true;
         } else {
             if (co.path.startsWith("/" + basePath)) {
                 co.path = co.path.substring(("/" + basePath).length());
             }
             co.subresourceOperation = !co.path.isEmpty();
         }
-        List<CodegenOperation> opList = operations.get(basePath);
+        List<CodegenOperation> opList = operations.get(operationKey);
         if (opList == null || opList.isEmpty()) {
             opList = new ArrayList<CodegenOperation>();
-            operations.put(basePath, opList);
+            operations.put(operationKey, opList);
         }
         opList.add(co);
         co.baseName = basePath;
     }
 
     @Override
-    public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        super.postProcessModelProperty(model, property);
-        model.imports.remove("ApiModelProperty");
-        model.imports.remove("ApiModel");
-        model.imports.remove("JsonSerialize");
-        model.imports.remove("ToStringSerializer");
-        model.imports.remove("JsonValue");
-        model.imports.remove("JsonProperty");
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+        if (!useSwaggerAnnotations) {
+            codegenModel.imports.remove("ApiModelProperty");
+            codegenModel.imports.remove("ApiModel");
+        }
+        if (!useJackson) {
+            codegenModel.imports.remove("JsonSerialize");
+            codegenModel.imports.remove("ToStringSerializer");
+            codegenModel.imports.remove("JsonValue");
+            codegenModel.imports.remove("JsonProperty");
+        }
+        return codegenModel;
     }
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
-        generateJSONSpecFile(objs);
+        generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
     }
 
     @Override
     public String getHelp() {
         return "Generates a Java JAXRS Server according to JAXRS 2.0 specification.";
+    }
+
+    @Override
+    public String toApiName(final String name) {
+        String computed = name;
+        if (computed.length() == 0) {
+            return primaryResourceName + "Api";
+        }
+        computed = sanitizeName(computed);
+        return org.openapitools.codegen.utils.StringUtils.camelize(computed) + "Api";
     }
 }

@@ -36,14 +36,14 @@ class User(Model):
         :type user_status: int
         """
         self.openapi_types = {
-            'id': long,
-            'username': str,
-            'first_name': str,
-            'last_name': str,
-            'email': str,
-            'password': str,
-            'phone': str,
-            'user_status': int
+            'id': 'long',
+            'username': 'str',
+            'first_name': 'str',
+            'last_name': 'str',
+            'email': 'str',
+            'password': 'str',
+            'phone': 'str',
+            'user_status': 'int'
         }
 
         self.attribute_map = {

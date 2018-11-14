@@ -166,7 +166,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{#discriminator}}
 
         // Initialize discriminator property with the model name.
-        $discriminator = array_search('{{discriminatorName}}', self::$attributeMap);
+        $discriminator = array_search('{{discriminatorName}}', self::$attributeMap, true);
         $this->container[$discriminator] = static::$openAPIModelName;
         {{/discriminator}}
     }
@@ -406,13 +406,9 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
      */
     public function __toString()
     {
-        if (defined('JSON_PRETTY_PRINT')) { // use JSON pretty print
-            return json_encode(
-                ObjectSerializer::sanitizeForSerialization($this),
-                JSON_PRETTY_PRINT
-            );
-        }
-
-        return json_encode(ObjectSerializer::sanitizeForSerialization($this));
+        return json_encode(
+            ObjectSerializer::sanitizeForSerialization($this),
+            JSON_PRETTY_PRINT
+        );
     }
 }

@@ -1,6 +1,6 @@
 # \FakeApi
 
-All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *http://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,6 +9,8 @@ Method | HTTP request | Description
 
 # **TestCodeInjectEndRnNR**
 > TestCodeInjectEndRnNR(ctx, optional)
+To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
+
 To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
 ### Required Parameters
@@ -23,7 +25,7 @@ Optional parameters are passed through a pointer to a TestCodeInjectEndRnNROpts 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **uNKNOWNBASETYPE** | [**optional.Interface of interface{}**](UNKNOWN_BASE_TYPE.md)|  | 
+ **uNKNOWNBASETYPE** | [**optional.Interface of UNKNOWN_BASE_TYPE**](UNKNOWN_BASE_TYPE.md)|  | 
 
 ### Return type
 

@@ -24,7 +24,7 @@ class PetstoreProfiling
     pet.status = "available"
     pet.photo_urls = ["http://profiler.com"]
     # new tag
-    tag= Petstore::Tag.new
+    tag = Petstore::Tag.new
     tag.id = new_pet_id # use the same id as pet
     tag.name = "profile tag 1"
     # new category

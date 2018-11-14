@@ -28,7 +28,7 @@ import org.openapitools.client.model.Animal;
 
 public class Cat extends Animal {
   @JsonProperty("declawed")
-  private Boolean declawed = null;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
@@ -40,7 +40,7 @@ public class Cat extends Animal {
    * @return declawed
   **/
   @ApiModelProperty(value = "")
-  public Boolean isDeclawed() {
+  public Boolean getDeclawed() {
     return declawed;
   }
 

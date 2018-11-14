@@ -31,6 +31,11 @@ if(hasProperty('target') && target == 'android') {
             targetSdkVersion 25
         }
         compileOptions {
+            {{#supportJava6}}
+            sourceCompatibility JavaVersion.VERSION_1_6
+            targetCompatibility JavaVersion.VERSION_1_6
+            {{/supportJava6}}
+            {{^supportJava6}}
             {{#java8}}
             sourceCompatibility JavaVersion.VERSION_1_8
             targetCompatibility JavaVersion.VERSION_1_8
@@ -39,6 +44,7 @@ if(hasProperty('target') && target == 'android') {
             sourceCompatibility JavaVersion.VERSION_1_7
             targetCompatibility JavaVersion.VERSION_1_7
             {{/java8}}
+            {{/supportJava6}}
         }
 
         // Rename the aar correctly
@@ -83,6 +89,11 @@ if(hasProperty('target') && target == 'android') {
     apply plugin: 'java'
     apply plugin: 'maven'
 
+    {{#supportJava6}}
+    sourceCompatibility = JavaVersion.VERSION_1_6
+    targetCompatibility = JavaVersion.VERSION_1_6
+    {{/supportJava6}}
+    {{^supportJava6}}
     {{#java8}}
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
@@ -91,6 +102,7 @@ if(hasProperty('target') && target == 'android') {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
     {{/java8}}
+    {{/supportJava6}}
 
     install {
         repositories.mavenInstaller {
@@ -121,7 +133,8 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.17"
-    jackson_version = "{{^threetenbp}}2.8.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
+    jackson_version = "{{^threetenbp}}2.8.11{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
+    jackson_databind_version = "{{^threetenbp}}2.8.11.2{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
@@ -133,7 +146,7 @@ dependencies {
     compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"

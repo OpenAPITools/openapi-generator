@@ -1,0 +1,200 @@
+{{>licenseInfo}}
+{{#operations}}
+
+#include <corvusoft/restbed/byte.hpp>
+#include <corvusoft/restbed/string.hpp>
+#include <corvusoft/restbed/settings.hpp>
+#include <corvusoft/restbed/request.hpp>
+
+#include "{{classname}}.h"
+
+{{#apiNamespaceDeclarations}}
+namespace {{this}} {
+{{/apiNamespaceDeclarations}}
+
+using namespace {{modelNamespace}};
+
+{{classname}}::{{classname}}() {
+	{{#operation}}
+	std::shared_ptr<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource> sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource = std::make_shared<{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource>();
+	this->publish(sp{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource);
+	
+	{{/operation}}
+}
+
+{{classname}}::~{{classname}}() {}
+
+void {{classname}}::startService(int const& port) {
+	std::shared_ptr<restbed::Settings> settings = std::make_shared<restbed::Settings>();
+	settings->set_port(port);
+	settings->set_root("{{contextPath}}");
+	
+	this->start(settings);
+}
+
+void {{classname}}::stopService() {
+	this->stop();
+}
+
+{{#operation}}
+{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()
+{
+	this->set_path("{{path}}");
+	this->set_method_handler("{{httpMethod}}",
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
+			std::placeholders::_1));
+	{{#vendorExtensions.x-codegen-otherMethods}}
+	this->set_method_handler("{{httpMethod}}",
+		std::bind(&{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler, this,
+			std::placeholders::_1));
+	{{/vendorExtensions.x-codegen-otherMethods}}
+}
+
+{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::~{{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource()
+{
+}
+
+void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
+
+	const auto request = session->get_request();
+	{{#hasBodyParam}}
+	// Body params are present, therefore we have to fetch them
+	int content_length = request->get_header("Content-Length", 0);
+	session->fetch(content_length,
+		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
+		{
+
+			const auto request = session->get_request();
+			std::string requestBody = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
+			/**
+			 * Get body params or form params here from the requestBody string
+			 */
+	{{/hasBodyParam}}
+			
+			{{#hasPathParams}}
+			// Getting the path params
+			{{#pathParams}}
+			{{#isPrimitiveType}}
+			const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isPrimitiveType}}
+			{{/pathParams}}
+			{{/hasPathParams}}
+			
+			{{#hasQueryParams}}
+			// Getting the query params
+			{{#queryParams}}
+			{{#isPrimitiveType}}
+			const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isPrimitiveType}}
+			{{/queryParams}}
+			{{/hasQueryParams}}
+
+			{{#hasHeaderParams}}
+			// Getting the headers
+			{{#headerParams}}
+			{{#isPrimitiveType}}
+			const {{{dataType}}} {{{paramName}}} = request->get_header("{{paramName}}", {{{defaultValue}}});
+			{{/isPrimitiveType}}
+			{{/headerParams}}
+			{{/hasHeaderParams}}
+			
+			// Change the value of this variable to the appropriate response before sending the response
+			int status_code = 200;
+			
+			/**
+			 * Process the received information here
+			 */
+			
+			{{#responses}}
+			if (status_code == {{code}}) {
+				{{#headers}}
+				// Description: {{description}}
+				session->set_header("{{baseName}}", ""); // Change second param to your header value
+				{{/headers}}
+				session->close({{code}}, "{{message}}", { {"Connection", "close"} });
+				return;
+			}
+			{{/responses}}
+
+	{{#hasBodyParam}}
+		});
+	{{/hasBodyParam}}
+}
+
+{{#vendorExtensions.x-codegen-otherMethods}}
+void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
+
+	const auto request = session->get_request();
+	{{#hasBodyParam}}
+	// Body params are present, therefore we have to fetch them
+	int content_length = request->get_header("Content-Length", 0);
+	session->fetch(content_length,
+		[ this ]( const std::shared_ptr<restbed::Session> session, const restbed::Bytes & body )
+		{
+
+			const auto request = session->get_request();
+			std::string requestBody = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
+	{{/hasBodyParam}}
+
+			{{#hasPathParams}}
+			// Getting the path params
+			{{#pathParams}}
+			{{#isPrimitiveType}}
+			const {{{dataType}}} {{{paramName}}} = request->get_path_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isPrimitiveType}}
+			{{/pathParams}}
+			{{/hasPathParams}}
+			
+			{{#hasQueryParams}}
+			// Getting the query params
+			{{#queryParams}}
+			{{#isPrimitiveType}}
+			const {{{dataType}}} {{{paramName}}} = request->get_query_parameter("{{paramName}}", {{{defaultValue}}});
+			{{/isPrimitiveType}}
+			{{/queryParams}}
+			{{/hasQueryParams}}
+
+			{{#hasHeaderParams}}
+			// Getting the headers
+			{{#headerParams}}
+			{{#isPrimitiveType}}
+			const {{{dataType}}} {{{paramName}}} = request->get_header("{{paramName}}", {{{defaultValue}}});
+			{{/isPrimitiveType}}
+			{{/headerParams}}
+			{{/hasHeaderParams}}
+			
+			// Change the value of this variable to the appropriate response before sending the response
+			int status_code = 200;
+			
+			/**
+			 * Process the received information here
+			 */
+			
+			{{#responses}}
+			if (status_code == {{code}}) {
+				{{#baseType}}
+				std::shared_ptr<{{.}}> response = NULL;
+				{{/baseType}}
+				{{#headers}}
+				// Description: {{description}}
+				session->set_header("{{baseName}}", ""); // Change second param to your header value
+				{{/headers}}
+				session->close({{code}}, "{{message}}", { {"Connection", "close"} });
+				return;
+			}
+			{{/responses}}
+
+	{{#hasBodyParam}}
+		});
+	{{/hasBodyParam}}
+}
+{{/vendorExtensions.x-codegen-otherMethods}}  
+
+
+{{/operation}}
+
+{{#apiNamespaceDeclarations}}
+}
+{{/apiNamespaceDeclarations}}
+
+{{/operations}}

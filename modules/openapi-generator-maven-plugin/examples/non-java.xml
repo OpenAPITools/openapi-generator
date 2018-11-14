@@ -12,14 +12,14 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>3.0.1-SNAPSHOT</version>
+                <version>3.3.2</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>swagger.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/swagger.yaml</inputSpec>
                             <generatorName>aspnetcore</generatorName>
                             <configOptions>
                                 <additional-properties>optionalProjectFile=true</additional-properties>

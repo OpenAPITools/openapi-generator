@@ -20,6 +20,8 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.callbacks.Callback;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.BooleanSchema;
@@ -90,15 +92,16 @@ public class ModelUtils {
 
     /**
      * Return the list of all schemas in the 'components/schemas' section used in the openAPI specification
+     *
      * @param openAPI specification
      * @return schemas a list of used schemas
      */
     public static List<String> getAllUsedSchemas(OpenAPI openAPI) {
         List<String> allUsedSchemas = new ArrayList<String>();
         visitOpenAPI(openAPI, (s, t) -> {
-            if(s.get$ref() != null) {
+            if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
-                if(!allUsedSchemas.contains(ref)) {
+                if (!allUsedSchemas.contains(ref)) {
                     allUsedSchemas.add(ref);
                 }
             }
@@ -108,6 +111,7 @@ public class ModelUtils {
 
     /**
      * Return the list of unused schemas in the 'components/schemas' section of an openAPI specification
+     *
      * @param openAPI specification
      * @return schemas a list of unused schemas
      */
@@ -118,7 +122,7 @@ public class ModelUtils {
         unusedSchemas.addAll(schemas.keySet());
 
         visitOpenAPI(openAPI, (s, t) -> {
-            if(s.get$ref() != null) {
+            if (s.get$ref() != null) {
                 unusedSchemas.remove(getSimpleRef(s.get$ref()));
             }
         });
@@ -127,6 +131,7 @@ public class ModelUtils {
 
     /**
      * Return the list of schemas in the 'components/schemas' used only in a 'application/x-www-form-urlencoded' or 'multipart/form-data' mime time
+     *
      * @param openAPI specification
      * @return schemas a list of schemas
      */
@@ -135,9 +140,9 @@ public class ModelUtils {
         List<String> schemasUsedInOtherCases = new ArrayList<String>();
 
         visitOpenAPI(openAPI, (s, t) -> {
-            if(s.get$ref() != null) {
+            if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
-                if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) || 
+                if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) ||
                         "multipart/form-data".equalsIgnoreCase(t)) {
                     schemasUsedInFormParam.add(ref);
                 } else {
@@ -153,53 +158,123 @@ public class ModelUtils {
      * {@link #getUnusedSchemas(OpenAPI)},
      * {@link #getSchemasUsedOnlyInFormParam(OpenAPI)}, ...) to traverse all paths of an
      * OpenAPI instance and call the visitor functional interface when a schema is found.
-     * 
+     *
      * @param openAPI specification
      * @param visitor functional interface (can be defined as a lambda) called each time a schema is found.
      */
     private static void visitOpenAPI(OpenAPI openAPI, OpenAPISchemaVisitor visitor) {
         Map<String, PathItem> paths = openAPI.getPaths();
+        List<String> visitedSchemas = new ArrayList<>();
 
         if (paths != null) {
             for (PathItem path : paths.values()) {
-                List<Operation> allOperations = path.readOperations();
-                if (allOperations != null) {
-                    for (Operation operation : allOperations) {
-                        //Params:
-                        if(operation.getParameters() != null) {
-                            for (Parameter p : operation.getParameters()) {
-                                Parameter parameter = getReferencedParameter(openAPI, p);
-                                if (parameter.getSchema() != null) {
-                                    visitor.visit(parameter.getSchema(), null);
-                                }
-                            }
-                        }
+                visitPathItem(path, openAPI, visitor, visitedSchemas);
+            }
+        }
+    }
 
-                        //RequestBody:
-                        RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
-                        if (requestBody != null && requestBody.getContent() != null) {
-                            for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
+    private static void visitPathItem(PathItem pathItem, OpenAPI openAPI, OpenAPISchemaVisitor visitor, List<String> visitedSchemas) {
+        List<Operation> allOperations = pathItem.readOperations();
+        if (allOperations != null) {
+            for (Operation operation : allOperations) {
+                //Params:
+                if (operation.getParameters() != null) {
+                    for (Parameter p : operation.getParameters()) {
+                        Parameter parameter = getReferencedParameter(openAPI, p);
+                        if (parameter.getSchema() != null) {
+                            visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
+                        }
+                    }
+                }
+
+                //RequestBody:
+                RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
+                if (requestBody != null && requestBody.getContent() != null) {
+                    for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
+                        if (e.getValue().getSchema() != null) {
+                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
+                        }
+                    }
+                }
+
+                //Responses:
+                if (operation.getResponses() != null) {
+                    for (ApiResponse r : operation.getResponses().values()) {
+                        ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
+                        if (apiResponse != null && apiResponse.getContent() != null) {
+                            for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
                                 if (e.getValue().getSchema() != null) {
-                                    visitor.visit(e.getValue().getSchema(), e.getKey());
-                                }
-                            }
-                        }
-
-                        //Responses:
-                        if(operation.getResponses() != null) {
-                            for (ApiResponse r : operation.getResponses().values()) {
-                                ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
-                                if (apiResponse != null && apiResponse.getContent() != null) {
-                                    for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
-                                        if (e.getValue().getSchema() != null) {
-                                            visitor.visit(e.getValue().getSchema(), e.getKey());
-                                        }
-                                    }
+                                    visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                                 }
                             }
                         }
                     }
                 }
+
+                //Callbacks:
+                if (operation.getCallbacks() != null) {
+                    for (Callback c : operation.getCallbacks().values()) {
+                        Callback callback = getReferencedCallback(openAPI, c);
+                        if (callback != null) {
+                            for (PathItem p : callback.values()) {
+                                visitPathItem(p, openAPI, visitor, visitedSchemas);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void visitSchema(OpenAPI openAPI, Schema schema, String mimeType, List<String> visitedSchemas, OpenAPISchemaVisitor visitor) {
+        visitor.visit(schema, mimeType);
+        if (schema.get$ref() != null) {
+            String ref = getSimpleRef(schema.get$ref());
+            if (!visitedSchemas.contains(ref)) {
+                visitedSchemas.add(ref);
+                Schema referencedSchema = getSchemas(openAPI).get(ref);
+                if (referencedSchema != null) {
+                    visitSchema(openAPI, referencedSchema, mimeType, visitedSchemas, visitor);
+                }
+            }
+        }
+        if (schema instanceof ComposedSchema) {
+            List<Schema> oneOf = ((ComposedSchema) schema).getOneOf();
+            if (oneOf != null) {
+                for (Schema s : oneOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+            List<Schema> allOf = ((ComposedSchema) schema).getAllOf();
+            if (allOf != null) {
+                for (Schema s : allOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+            List<Schema> anyOf = ((ComposedSchema) schema).getAnyOf();
+            if (anyOf != null) {
+                for (Schema s : anyOf) {
+                    visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
+                }
+            }
+        } else if (schema instanceof ArraySchema) {
+            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            if (itemsSchema != null) {
+                visitSchema(openAPI, itemsSchema, mimeType, visitedSchemas, visitor);
+            }
+        } else if (isMapSchema(schema)) {
+            Object additionalProperties = schema.getAdditionalProperties();
+            if (additionalProperties instanceof Schema) {
+                visitSchema(openAPI, (Schema) additionalProperties, mimeType, visitedSchemas, visitor);
+            }
+        }
+        if (schema.getNot() != null) {
+            visitSchema(openAPI, schema.getNot(), mimeType, visitedSchemas, visitor);
+        }
+        Map<String, Schema> properties = schema.getProperties();
+        if (properties != null) {
+            for (Schema property : properties.values()) {
+                visitSchema(openAPI, property, mimeType, visitedSchemas, visitor);
             }
         }
     }
@@ -215,7 +290,7 @@ public class ModelUtils {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else if (ref.startsWith("#/definitions/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
-        } else  {
+        } else {
             LOGGER.warn("Failed to get the schema name: {}", ref);
             return null;
         }
@@ -247,7 +322,10 @@ public class ModelUtils {
         if (schema instanceof MapSchema) {
             return true;
         }
-        if (schema.getAdditionalProperties() != null) {
+        if (schema.getAdditionalProperties() instanceof Schema) {
+            return true;
+        }
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
             return true;
         }
         return false;
@@ -424,21 +502,22 @@ public class ModelUtils {
 
     /**
      * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
+     *
      * @param openAPI specification being checked
-     * @param schema potentially containing a '$ref'
+     * @param schema  potentially containing a '$ref'
      * @return schema without '$ref'
      */
     public static Schema getReferencedSchema(OpenAPI openAPI, Schema schema) {
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String name = getSimpleRef(schema.get$ref());
             Schema referencedSchema = getSchema(openAPI, name);
-            if(referencedSchema != null) {
+            if (referencedSchema != null) {
                 return referencedSchema;
             }
         }
         return schema;
     }
-    
+
     public static Schema getSchema(OpenAPI openAPI, String name) {
         if (name == null) {
             return null;
@@ -456,7 +535,8 @@ public class ModelUtils {
 
     /**
      * If a RequestBody contains a reference to an other RequestBody with '$ref', returns the referenced RequestBody if it is found or the actual RequestBody in the other cases.
-     * @param openAPI specification being checked
+     *
+     * @param openAPI     specification being checked
      * @param requestBody potentially containing a '$ref'
      * @return requestBody without '$ref'
      */
@@ -464,7 +544,7 @@ public class ModelUtils {
         if (requestBody != null && StringUtils.isNotEmpty(requestBody.get$ref())) {
             String name = getSimpleRef(requestBody.get$ref());
             RequestBody referencedRequestBody = getRequestBody(openAPI, name);
-            if(referencedRequestBody != null) {
+            if (referencedRequestBody != null) {
                 return referencedRequestBody;
             }
         }
@@ -484,7 +564,8 @@ public class ModelUtils {
 
     /**
      * If a ApiResponse contains a reference to an other ApiResponse with '$ref', returns the referenced ApiResponse if it is found or the actual ApiResponse in the other cases.
-     * @param openAPI specification being checked
+     *
+     * @param openAPI     specification being checked
      * @param apiResponse potentially containing a '$ref'
      * @return apiResponse without '$ref'
      */
@@ -492,7 +573,7 @@ public class ModelUtils {
         if (apiResponse != null && StringUtils.isNotEmpty(apiResponse.get$ref())) {
             String name = getSimpleRef(apiResponse.get$ref());
             ApiResponse referencedApiResponse = getApiResponse(openAPI, name);
-            if(referencedApiResponse != null) {
+            if (referencedApiResponse != null) {
                 return referencedApiResponse;
             }
         }
@@ -512,7 +593,8 @@ public class ModelUtils {
 
     /**
      * If a Parameter contains a reference to an other Parameter with '$ref', returns the referenced Parameter if it is found or the actual Parameter in the other cases.
-     * @param openAPI specification being checked
+     *
+     * @param openAPI   specification being checked
      * @param parameter potentially containing a '$ref'
      * @return parameter without '$ref'
      */
@@ -520,7 +602,7 @@ public class ModelUtils {
         if (parameter != null && StringUtils.isNotEmpty(parameter.get$ref())) {
             String name = getSimpleRef(parameter.get$ref());
             Parameter referencedParameter = getParameter(openAPI, name);
-            if(referencedParameter != null) {
+            if (referencedParameter != null) {
                 return referencedParameter;
             }
         }
@@ -539,7 +621,37 @@ public class ModelUtils {
     }
 
     /**
+     * If a Callback contains a reference to an other Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
+     *
+     * @param openAPI   specification being checked
+     * @param callback potentially containing a '$ref'
+     * @return callback without '$ref'
+     */
+    public static Callback getReferencedCallback(OpenAPI openAPI, Callback callback) {
+        if (callback != null && StringUtils.isNotEmpty(callback.get$ref())) {
+            String name = getSimpleRef(callback.get$ref());
+            Callback referencedCallback = getCallback(openAPI, name);
+            if (referencedCallback != null) {
+                return referencedCallback;
+            }
+        }
+        return callback;
+    }
+
+    public static Callback getCallback(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+        
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
+            return openAPI.getComponents().getCallbacks().get(name);
+        }
+        return null;
+    }
+
+    /**
      * Return the first defined Schema for a RequestBody
+     *
      * @param requestBody request body of the operation
      * @return firstSchema
      */
@@ -549,6 +661,7 @@ public class ModelUtils {
 
     /**
      * Return the first defined Schema for a ApiResponse
+     *
      * @param response api response of the operation
      * @return firstSchema
      */
@@ -560,10 +673,90 @@ public class ModelUtils {
         if (content == null || content.isEmpty()) {
             return null;
         }
-        if(content.size() > 1) {
+        if (content.size() > 1) {
             LOGGER.warn("Multiple schemas found, returning only the first one");
         }
         MediaType mediaType = content.values().iterator().next();
         return mediaType.getSchema();
+    }
+
+    /**
+     * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
+     *
+     * @param allSchemas all schemas
+     * @param schema     schema (alias or direct reference)
+     * @return actual schema
+     */
+    public static Schema unaliasSchema(Map<String, Schema> allSchemas, Schema schema) {
+        if (allSchemas == null || allSchemas.isEmpty()) {
+            LOGGER.warn("allSchemas cann't be null/empty in unaliasSchema. Returned 'schema'");
+            return schema;
+        }
+
+        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
+            Schema ref = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
+            if (ref == null) {
+                LOGGER.warn("{} is not defined", schema.get$ref());
+                return schema;
+            } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
+                // top-level enum class
+                return schema;
+            } else if (isArraySchema(ref) || isComposedSchema(ref)) { // array def should be created as models
+                return schema;
+            } else if (isMapSchema(ref)) {
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has properties
+                    return schema; // treat it as model
+                else {
+                    // treat it as a typical map
+                    /* TODO unalias the map item if it's an alias
+                    if (ref.getAdditionalProperties() != null) {
+
+                        Schema innerSchema = (Schema) ref.getAdditionalProperties();
+                        if (StringUtils.isNotEmpty(innerSchema.get$ref())) { // map item is a ref to something else
+                            //Schema unaliasInnerSchema = unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(innerSchema.get$ref())));
+                            //ref.setAdditionalProperties(unaliasInnerSchema);
+                        }
+                    }*/
+                    return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                }
+            } else if (isObjectSchema(ref)) { // model
+                return schema;
+            } else {
+                return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+            }
+        }
+        return schema;
+    }
+
+    public static Schema getAdditionalProperties(Schema schema) {
+        if (schema.getAdditionalProperties() instanceof Schema) {
+            return (Schema) schema.getAdditionalProperties();
+        }
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
+            return new ObjectSchema();
+        }
+        return null;
+    }
+
+    public static Header getReferencedHeader(OpenAPI openAPI, Header header) {
+        if (header != null && StringUtils.isNotEmpty(header.get$ref())) {
+            String name = getSimpleRef(header.get$ref());
+            Header referencedheader = getHeader(openAPI, name);
+            if (referencedheader != null) {
+                return referencedheader;
+            }
+        }
+        return header;
+    }
+
+    public static Header getHeader(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getHeaders() != null) {
+            return openAPI.getComponents().getHeaders().get(name);
+        }
+        return null;
     }
 }

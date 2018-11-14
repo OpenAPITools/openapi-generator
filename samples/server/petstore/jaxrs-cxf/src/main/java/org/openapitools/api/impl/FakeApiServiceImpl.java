@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
@@ -54,6 +55,12 @@ public class FakeApiServiceImpl implements FakeApi {
         return null;
     }
     
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+        // TODO: Implement...
+        
+        
+    }
+    
     public void testBodyWithQueryParams(String query, User user) {
         // TODO: Implement...
         
@@ -91,6 +98,18 @@ public class FakeApiServiceImpl implements FakeApi {
      *
      */
     public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     */
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) {
         // TODO: Implement...
         
         

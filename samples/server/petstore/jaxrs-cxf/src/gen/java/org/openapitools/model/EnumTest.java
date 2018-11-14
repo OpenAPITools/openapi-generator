@@ -44,12 +44,12 @@ public enum EnumStringEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
   @ApiModelProperty(value = "")
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
 @XmlType(name="EnumStringRequiredEnum")
 @XmlEnum(String.class)
@@ -79,12 +79,12 @@ public enum EnumStringRequiredEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
   @ApiModelProperty(required = true, value = "")
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
 @XmlType(name="EnumIntegerEnum")
 @XmlEnum(Integer.class)
@@ -114,12 +114,12 @@ public enum EnumIntegerEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
   @ApiModelProperty(value = "")
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
 @XmlType(name="EnumNumberEnum")
 @XmlEnum(Double.class)
@@ -149,12 +149,12 @@ public enum EnumNumberEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
   @ApiModelProperty(value = "")
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   @ApiModelProperty(value = "")
   @Valid

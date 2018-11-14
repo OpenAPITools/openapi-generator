@@ -36,6 +36,7 @@
                     <webAppSourceDirectory>target/${project.artifactId}-${project.version}</webAppSourceDirectory>
                     <stopPort>8079</stopPort>
                     <stopKey>stopit</stopKey>
+                    <stopWait>10</stopWait>
                     <httpConnector>
                         <port>8002</port>
                         <idleTimeout>60000</idleTimeout>
@@ -94,7 +95,6 @@
             <artifactId>spring-web</artifactId>
             <version>${spring-version}</version>
         </dependency>
-
         <!--SpringFox dependencies-->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -112,13 +112,11 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -130,13 +128,13 @@
             <artifactId>servlet-api</artifactId>
             <version>${servlet-api-version}</version>
         </dependency>
-    <!-- Bean Validation API support -->
-    <dependency>
-        <groupId>javax.validation</groupId>
-        <artifactId>validation-api</artifactId>
-        <version>${beanvalidation-version}</version>
-        <scope>provided</scope>
-    </dependency>
+        <!-- Bean Validation API support -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${beanvalidation-version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <properties>
         <java.version>1.8</java.version>
@@ -146,10 +144,10 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.12</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
-        <springfox-version>2.7.0</springfox-version>
-        <jackson-version>2.8.9</jackson-version>
-        <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
+        <springfox-version>2.8.0</springfox-version>
+        <jackson-version>2.9.5</jackson-version>
+        <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
-        <spring-version>4.3.9.RELEASE</spring-version>
+        <spring-version>4.3.20.RELEASE</spring-version>
     </properties>
 </project>

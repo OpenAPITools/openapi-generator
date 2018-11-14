@@ -167,8 +167,8 @@ public interface PetApi {
    * Sync method
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @return Void
    */
   
@@ -182,8 +182,8 @@ public interface PetApi {
    * Updates a pet in the store with form data
    * Async method
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @param cb callback method
    */
   
@@ -197,8 +197,8 @@ public interface PetApi {
    * Sync method
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ModelApiResponse
    */
   
@@ -212,8 +212,8 @@ public interface PetApi {
    * uploads an image
    * Async method
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @param cb callback method
    */
   
@@ -221,5 +221,35 @@ public interface PetApi {
   @POST("/pet/{petId}/uploadImage")
   void uploadFile(
     @retrofit.http.Path("petId") Long petId, @retrofit.http.Part("additionalMetadata") String additionalMetadata, @retrofit.http.Part("file") TypedFile file, Callback<ModelApiResponse> cb
+  );
+  /**
+   * uploads an image (required)
+   * Sync method
+   * 
+   * @param petId ID of pet to update (required)
+   * @param requiredFile file to upload (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @return ModelApiResponse
+   */
+  
+  @retrofit.http.Multipart
+  @POST("/fake/{petId}/uploadImageWithRequiredFile")
+  ModelApiResponse uploadFileWithRequiredFile(
+    @retrofit.http.Path("petId") Long petId, @retrofit.http.Part("requiredFile") TypedFile requiredFile, @retrofit.http.Part("additionalMetadata") String additionalMetadata
+  );
+
+  /**
+   * uploads an image (required)
+   * Async method
+   * @param petId ID of pet to update (required)
+   * @param requiredFile file to upload (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param cb callback method
+   */
+  
+  @retrofit.http.Multipart
+  @POST("/fake/{petId}/uploadImageWithRequiredFile")
+  void uploadFileWithRequiredFile(
+    @retrofit.http.Path("petId") Long petId, @retrofit.http.Part("requiredFile") TypedFile requiredFile, @retrofit.http.Part("additionalMetadata") String additionalMetadata, Callback<ModelApiResponse> cb
   );
 }

@@ -2,7 +2,7 @@
 
 ### Building
 
-To build an compile the typescript sources to javascript use:
+To build and compile the typescript sources to javascript use:
 ```
 npm install
 npm run build

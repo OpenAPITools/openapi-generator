@@ -1,0 +1,178 @@
+{{>licenseInfo}}
+{{#models}}{{#model}}
+
+#include "{{classname}}.h"
+
+{{#modelNamespaceDeclarations}}
+namespace {{this}} {
+{{/modelNamespaceDeclarations}}
+
+{{classname}}::{{classname}}()
+{
+    {{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
+    {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
+    {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
+    {{/isDateTime}}{{/isPrimitiveType}}{{/isNotContainer}}{{^required}}m_{{name}}IsSet = false;
+    {{/required}}{{/vars}}
+}
+
+{{classname}}::~{{classname}}()
+{
+}
+
+void {{classname}}::validate()
+{
+    // TODO: implement validation
+}
+
+nlohmann::json {{classname}}::toJson() const
+{
+    nlohmann::json val = nlohmann::json::object();
+
+    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(m_{{name}}IsSet)
+    {
+        val["{{baseName}}"] = m_{{name}};
+    }
+    {{/required}}{{#required}}val["{{baseName}}"] = m_{{name}};
+    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
+        nlohmann::json jsonArray;
+        for( auto& item : m_{{name}} )
+        {
+            jsonArray.push_back({{prefix}}ModelBase::toJson(item));
+        }
+        {{#required}}val["{{baseName}}"] = jsonArray;
+        {{/required}}{{^required}}
+        if(jsonArray.size() > 0)
+        {
+            val["{{baseName}}"] = jsonArray;
+        } {{/required}}
+    }
+    {{/isListContainer}}{{#isMapContainer}}{
+        nlohmann::json jsonObj;
+        for( auto const& item : m_{{name}} )
+        {   {{^items.isContainer}} 
+            jsonObj[item.first] = {{prefix}}ModelBase::toJson(item.second);{{/items.isContainer}} {{#items.isListContainer}} 
+            jsonObj[item.first] = {{prefix}}ArrayHelper::toJson<{{{items.items.datatype}}}>(item.second);
+            {{/items.isListContainer}} {{#items.isMapContainer}} 
+            jsonObj[item.first] = {{prefix}}MapHelper::toJson<{{{items.items.datatype}}}>(item.second); {{/items.isMapContainer}} 
+        }
+        {{#required}}val["{{baseName}}"] = jsonObj; {{/required}}{{^required}}
+        if(jsonObj.size() > 0)
+        {
+            val["{{baseName}}"] = jsonObj;
+        } {{/required}}
+    }
+    {{/isMapContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^required}}if(m_{{name}}IsSet)
+    {
+        val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
+    }
+    {{/required}}{{#required}}val["{{baseName}}"] = {{prefix}}ModelBase::toJson(m_{{name}});
+    {{/required}}{{/isPrimitiveType}}{{/isContainer}}{{/vars}}
+
+    return val;
+}
+
+void {{classname}}::fromJson(const nlohmann::json& val)
+{
+    {{#vars}}{{#isPrimitiveType}}{{^isListContainer}}{{^required}}if(val.find("{{baseName}}") != val.end())
+    {
+        {{setter}}(val.at("{{baseName}}"));
+    }
+    {{/required}}{{#required}}{{setter}}(val.at("{{baseName}}"));
+    {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
+        m_{{name}}.clear();
+        {{^required}}if(val.find("{{baseName}}") != val.end())
+        {
+        {{/required}}
+            for( auto& item : val["{{baseName}}"] )
+            {
+                {{#isPrimitiveType}}m_{{name}}.push_back(item);
+                {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(item);
+                {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}m_{{name}}.push_back(item);
+                {{/items.isDateTime}}{{^items.isDateTime}}
+                if(item.is_null())
+                {
+                    m_{{name}}.push_back( {{{items.datatype}}}() );
+                }
+                else
+                {
+                    {{{items.datatype}}} newItem;
+                    newItem.fromJson(item);
+                    m_{{name}}.push_back( newItem );
+                }
+                {{/items.isDateTime}}{{/items.isString}}{{/isPrimitiveType}}
+            }
+        {{^required}}
+        }
+        {{/required}}
+    }
+    {{/isListContainer}}{{#isMapContainer}}{
+        m_{{name}}.clear();
+        {{^required}}if(val.find("{{baseName}}") != val.end())
+        {
+        {{/required}}
+            if(val["{{baseName}}"].is_object()) { {{^items.isContainer}}
+                m_{{name}} = {{prefix}}MapHelper::fromJson<{{{items.datatype}}}>(val["{{baseName}}"]);
+                {{/items.isContainer}} {{#items.isContainer}}
+                for( auto& item : val["{{baseName}}"].items() )
+                {   {{#items.isMapContainer}}
+                    {{{items.datatype}}} newItem = {{prefix}}MapHelper::fromJson<{{{items.items.datatype}}}>(item.value());
+                    {{/items.isMapContainer}}{{#items.isListContainer}} 
+                    {{{items.datatype}}} newItem = {{prefix}}ArrayHelper::fromJson<{{{items.items.datatype}}}>(item.value());
+                    {{/items.isListContainer}}
+                    m_{{name}}.insert(m_{{name}}.end(), std::pair< std::string, {{{items.datatype}}} >(item.key(), newItem));
+                } {{/items.isContainer}}
+            }
+        {{^required}}
+        }
+        {{/required}}
+    }
+    {{/isMapContainer}}{{^isContainer}}{{^isPrimitiveType}}{{^required}}if(val.find("{{baseName}}") != val.end())
+    {
+        {{#isString}}{{setter}}(val.at("{{baseName}}"));{{/isString}}{{#isByteArray}}{{setter}}(val.at("{{baseName}}"));{{/isByteArray}}{{#isBinary}}{{setter}}(val.at("{{baseName}}"));
+        {{/isBinary}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
+        {{/isDateTime}}{{^isDateTime}}{{^isByteArray}}{{^isBinary}}if(!val["{{baseName}}"].is_null())
+        {
+            {{{dataType}}} newItem;
+            newItem.fromJson(val["{{baseName}}"]);
+            {{setter}}( newItem );
+        }
+        {{/isBinary}}{{/isByteArray}}{{/isDateTime}}{{/isString}}
+    }
+    {{/required}}{{#required}}{{#isString}}{{setter}}(val.at("{{baseName}}"));
+    {{/isString}}{{^isString}}{{#isDateTime}}{{setter}}(val.at("{{baseName}}"));
+    {{/isDateTime}}{{/isString}}{{/required}}{{/isPrimitiveType}}{{/isContainer}}{{/vars}}
+}
+
+
+{{#vars}}{{^isNotContainer}}{{{dataType}}}& {{classname}}::{{getter}}()
+{
+    return m_{{name}};
+}
+{{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{classname}}::{{getter}}() const
+{
+    return m_{{name}};
+}
+void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value)
+{
+    m_{{name}} = value;
+    {{^required}}m_{{name}}IsSet = true;{{/required}}
+}
+{{/isNotContainer}}
+{{^required}}bool {{classname}}::{{nameInCamelCase}}IsSet() const
+{
+    return m_{{name}}IsSet;
+}
+void {{classname}}::unset{{name}}()
+{
+    m_{{name}}IsSet = false;
+}
+{{/required}}
+{{/vars}}
+
+{{#modelNamespaceDeclarations}}
+}
+{{/modelNamespaceDeclarations}}
+
+{{/model}}
+{{/models}}

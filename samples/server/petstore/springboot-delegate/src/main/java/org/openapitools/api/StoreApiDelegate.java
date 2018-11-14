@@ -19,7 +19,7 @@ public interface StoreApiDelegate {
     /**
      * @see StoreApi#deleteOrder
      */
-    ResponseEntity<Void> deleteOrder( String  orderId);
+    ResponseEntity<Void> deleteOrder(String orderId);
 
     /**
      * @see StoreApi#getInventory
@@ -29,11 +29,11 @@ public interface StoreApiDelegate {
     /**
      * @see StoreApi#getOrderById
      */
-    ResponseEntity<Order> getOrderById( Long  orderId);
+    ResponseEntity<Order> getOrderById(Long orderId);
 
     /**
      * @see StoreApi#placeOrder
      */
-    ResponseEntity<Order> placeOrder( Order  order);
+    ResponseEntity<Order> placeOrder(Order order);
 
 }

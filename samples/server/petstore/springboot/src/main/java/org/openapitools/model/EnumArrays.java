@@ -8,14 +8,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * EnumArrays
  */
-@Validated
 
 public class EnumArrays   {
   /**
@@ -45,12 +43,12 @@ public class EnumArrays   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -79,7 +77,7 @@ public class EnumArrays   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
@@ -95,7 +93,7 @@ public class EnumArrays   {
   /**
    * Get justSymbol
    * @return justSymbol
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -123,7 +121,7 @@ public class EnumArrays   {
   /**
    * Get arrayEnum
    * @return arrayEnum
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

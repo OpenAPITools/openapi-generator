@@ -252,8 +252,8 @@ public class PetApiImpl implements PetApi {
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> resultHandler) {
@@ -290,8 +290,8 @@ if (status != null) localVarFormParams.put("status", status);
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
@@ -317,6 +317,50 @@ if (status != null) localVarFormParams.put("status", status);
         Map<String, Object> localVarFormParams = new HashMap<>();
         if (additionalMetadata != null) localVarFormParams.put("additionalMetadata", additionalMetadata);
 if (file != null) localVarFormParams.put("file", file);
+
+        String[] localVarAccepts = { "application/json" };
+        String[] localVarContentTypes = { "multipart/form-data" };
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
+        TypeReference<ModelApiResponse> localVarReturnType = new TypeReference<ModelApiResponse>() {};
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+    }
+    /**
+     * uploads an image (required)
+     * 
+     * @param petId ID of pet to update (required)
+     * @param requiredFile file to upload (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        Object localVarBody = null;
+        
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'petId' when calling uploadFileWithRequiredFile"));
+            return;
+        }
+        
+        // verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        if (additionalMetadata != null) localVarFormParams.put("additionalMetadata", additionalMetadata);
+if (requiredFile != null) localVarFormParams.put("requiredFile", requiredFile);
 
         String[] localVarAccepts = { "application/json" };
         String[] localVarContentTypes = { "multipart/form-data" };
