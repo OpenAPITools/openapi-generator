@@ -8,9 +8,10 @@
 {{#vendorExtensions.x-is-mutation}}{{#hasParams}}
 input {{operationId}}Input {
     {{#allParams}}
-    {{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}
+    {{paramName}}: {{#isContainer}}[{{/isContainer}}{{dataType}}{{#isListContainer}}Input{{/isListContainer}}{{#isModel}}Input{{/isModel}}{{#isContainer}}]{{/isContainer}}{{#hasMore}}, {{/hasMore}}
     {{/allParams}}
 }
+
 {{/hasParams}}{{/vendorExtensions.x-is-mutation}}{{/operation}}
 
 type Mutation {

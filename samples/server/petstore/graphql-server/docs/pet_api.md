@@ -26,14 +26,14 @@ Add a new pet to the store
 Deletes a pet
 <a name="FindPetsByStatus"></a>
 # **FindPetsByStatus**
-> [Pet] FindPetsByStatus(status)
+> Pet FindPetsByStatus(status)
 
 Finds Pets by status
 
 Multiple status values can be provided with comma separated strings
 <a name="FindPetsByTags"></a>
 # **FindPetsByTags**
-> [Pet] FindPetsByTags(tags)
+> Pet FindPetsByTags(tags)
 
 Finds Pets by tags
 

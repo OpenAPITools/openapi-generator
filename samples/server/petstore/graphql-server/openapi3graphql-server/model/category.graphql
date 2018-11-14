@@ -12,9 +12,11 @@
 
 # A category for a pet
 type Category {
-
   id: Int!
-
   name: String!
+}
 
+input CategoryInput {
+    id: Int!
+    name: String!
 }

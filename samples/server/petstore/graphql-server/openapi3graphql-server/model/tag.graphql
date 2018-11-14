@@ -12,9 +12,11 @@
 
 # A tag for a pet
 type Tag {
-
   id: Int!
-
   name: String!
+}
 
+input TagInput {
+    id: Int!
+    name: String!
 }
