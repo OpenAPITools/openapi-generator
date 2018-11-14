@@ -1,7 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api
- * key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -19,11 +18,12 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_Pet_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_Pet_H_
 
+
 #include "../ModelBase.h"
 
-#include "Category.h"
 #include "Tag.h"
 #include <cpprest/details/basic_types.h>
+#include "Category.h"
 #include <vector>
 
 namespace org {
@@ -34,93 +34,94 @@ namespace model {
 /// <summary>
 /// A pet for sale in the pet store
 /// </summary>
-class Pet : public ModelBase {
+class  Pet
+    : public ModelBase
+{
 public:
-  Pet();
-  virtual ~Pet();
+    Pet();
+    virtual ~Pet();
 
-  /////////////////////////////////////////////
-  /// ModelBase overrides
+    /////////////////////////////////////////////
+    /// ModelBase overrides
 
-  void validate() override;
+    void validate() override;
 
-  web::json::value toJson() const override;
-  void fromJson(const web::json::value &json) override;
+    web::json::value toJson() const override;
+    void fromJson(const web::json::value& json) override;
 
-  void toMultipart(std::shared_ptr<MultipartFormData> multipart,
-                   const utility::string_t &namePrefix) const override;
-  void fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
-                     const utility::string_t &namePrefix) override;
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
-  /////////////////////////////////////////////
-  /// Pet members
+    /////////////////////////////////////////////
+    /// Pet members
 
-  /// <summary>
-  ///
-  /// </summary>
-  int64_t getId() const;
-  bool idIsSet() const;
-  void unsetId();
+    /// <summary>
+    /// 
+    /// </summary>
+    int64_t getId() const;
+    bool idIsSet() const;
+    void unsetId();
 
-  void setId(int64_t value);
+    void setId(int64_t value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  std::shared_ptr<Category> getCategory() const;
-  bool categoryIsSet() const;
-  void unsetCategory();
+    /// <summary>
+    /// 
+    /// </summary>
+    std::shared_ptr<Category> getCategory() const;
+    bool categoryIsSet() const;
+    void unsetCategory();
 
-  void setCategory(const std::shared_ptr<Category> &value);
+    void setCategory(const std::shared_ptr<Category>& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  utility::string_t getName() const;
+    /// <summary>
+    /// 
+    /// </summary>
+    utility::string_t getName() const;
+    
+    void setName(const utility::string_t& value);
 
-  void setName(const utility::string_t &value);
+    /// <summary>
+    /// 
+    /// </summary>
+    std::vector<utility::string_t>& getPhotoUrls();
+    
+    void setPhotoUrls(const std::vector<utility::string_t>& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  std::vector<utility::string_t> &getPhotoUrls();
+    /// <summary>
+    /// 
+    /// </summary>
+    std::vector<std::shared_ptr<Tag>>& getTags();
+    bool tagsIsSet() const;
+    void unsetTags();
 
-  void setPhotoUrls(const std::vector<utility::string_t> &value);
+    void setTags(const std::vector<std::shared_ptr<Tag>>& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  std::vector<std::shared_ptr<Tag>> &getTags();
-  bool tagsIsSet() const;
-  void unsetTags();
+    /// <summary>
+    /// pet status in the store
+    /// </summary>
+    utility::string_t getStatus() const;
+    bool statusIsSet() const;
+    void unsetStatus();
 
-  void setTags(const std::vector<std::shared_ptr<Tag>> &value);
+    void setStatus(const utility::string_t& value);
 
-  /// <summary>
-  /// pet status in the store
-  /// </summary>
-  utility::string_t getStatus() const;
-  bool statusIsSet() const;
-  void unsetStatus();
-
-  void setStatus(const utility::string_t &value);
 
 protected:
-  int64_t m_Id;
-  bool m_IdIsSet;
-  std::shared_ptr<Category> m_Category;
-  bool m_CategoryIsSet;
-  utility::string_t m_Name;
-  std::vector<utility::string_t> m_PhotoUrls;
-  std::vector<std::shared_ptr<Tag>> m_Tags;
-  bool m_TagsIsSet;
-  utility::string_t m_Status;
-  bool m_StatusIsSet;
+    int64_t m_Id;
+    bool m_IdIsSet;
+    std::shared_ptr<Category> m_Category;
+    bool m_CategoryIsSet;
+    utility::string_t m_Name;
+        std::vector<utility::string_t> m_PhotoUrls;
+        std::vector<std::shared_ptr<Tag>> m_Tags;
+    bool m_TagsIsSet;
+    utility::string_t m_Status;
+    bool m_StatusIsSet;
 };
 
-} // namespace model
-} // namespace client
-} // namespace openapitools
-} // namespace org
+}
+}
+}
+}
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_Pet_H_ */

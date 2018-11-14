@@ -1,7 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api
- * key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -19,37 +18,44 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_API_ApiException_H_
 #define ORG_OPENAPITOOLS_CLIENT_API_ApiException_H_
 
-#include <map>
+
+
 #include <memory>
+#include <map>
 
 #include <cpprest/details/basic_types.h>
 #include <cpprest/http_msg.h>
+
 
 namespace org {
 namespace openapitools {
 namespace client {
 namespace api {
 
-class ApiException : public web::http::http_exception {
+class  ApiException
+    : public web::http::http_exception
+{
 public:
-  ApiException(int errorCode, const utility::string_t &message,
-               std::shared_ptr<std::istream> content = nullptr);
-  ApiException(int errorCode, const utility::string_t &message,
-               std::map<utility::string_t, utility::string_t> &headers,
-               std::shared_ptr<std::istream> content = nullptr);
-  virtual ~ApiException();
+    ApiException( int errorCode
+        , const utility::string_t& message
+        , std::shared_ptr<std::istream> content = nullptr );
+    ApiException( int errorCode
+        , const utility::string_t& message
+        , std::map<utility::string_t, utility::string_t>& headers
+        , std::shared_ptr<std::istream> content = nullptr );
+    virtual ~ApiException();
 
-  std::map<utility::string_t, utility::string_t> &getHeaders();
-  std::shared_ptr<std::istream> getContent() const;
+    std::map<utility::string_t, utility::string_t>& getHeaders();
+    std::shared_ptr<std::istream> getContent() const;
 
 protected:
-  std::shared_ptr<std::istream> m_Content;
-  std::map<utility::string_t, utility::string_t> m_Headers;
+    std::shared_ptr<std::istream> m_Content;
+    std::map<utility::string_t, utility::string_t> m_Headers;
 };
 
-} // namespace api
-} // namespace client
-} // namespace openapitools
-} // namespace org
+}
+}
+}
+}
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_API_ApiBase_H_ */

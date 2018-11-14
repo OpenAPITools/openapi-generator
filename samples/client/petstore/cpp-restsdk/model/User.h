@@ -1,7 +1,6 @@
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api
- * key `special-key` to test the authorization filters.
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  *
@@ -19,6 +18,7 @@
 #ifndef ORG_OPENAPITOOLS_CLIENT_MODEL_User_H_
 #define ORG_OPENAPITOOLS_CLIENT_MODEL_User_H_
 
+
 #include "../ModelBase.h"
 
 #include <cpprest/details/basic_types.h>
@@ -31,121 +31,122 @@ namespace model {
 /// <summary>
 /// A User who is purchasing from the pet store
 /// </summary>
-class User : public ModelBase {
+class  User
+    : public ModelBase
+{
 public:
-  User();
-  virtual ~User();
+    User();
+    virtual ~User();
 
-  /////////////////////////////////////////////
-  /// ModelBase overrides
+    /////////////////////////////////////////////
+    /// ModelBase overrides
 
-  void validate() override;
+    void validate() override;
 
-  web::json::value toJson() const override;
-  void fromJson(const web::json::value &json) override;
+    web::json::value toJson() const override;
+    void fromJson(const web::json::value& json) override;
 
-  void toMultipart(std::shared_ptr<MultipartFormData> multipart,
-                   const utility::string_t &namePrefix) const override;
-  void fromMultiPart(std::shared_ptr<MultipartFormData> multipart,
-                     const utility::string_t &namePrefix) override;
+    void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
+    void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
 
-  /////////////////////////////////////////////
-  /// User members
+    /////////////////////////////////////////////
+    /// User members
 
-  /// <summary>
-  ///
-  /// </summary>
-  int64_t getId() const;
-  bool idIsSet() const;
-  void unsetId();
+    /// <summary>
+    /// 
+    /// </summary>
+    int64_t getId() const;
+    bool idIsSet() const;
+    void unsetId();
 
-  void setId(int64_t value);
+    void setId(int64_t value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  utility::string_t getUsername() const;
-  bool usernameIsSet() const;
-  void unsetUsername();
+    /// <summary>
+    /// 
+    /// </summary>
+    utility::string_t getUsername() const;
+    bool usernameIsSet() const;
+    void unsetUsername();
 
-  void setUsername(const utility::string_t &value);
+    void setUsername(const utility::string_t& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  utility::string_t getFirstName() const;
-  bool firstNameIsSet() const;
-  void unsetFirstName();
+    /// <summary>
+    /// 
+    /// </summary>
+    utility::string_t getFirstName() const;
+    bool firstNameIsSet() const;
+    void unsetFirstName();
 
-  void setFirstName(const utility::string_t &value);
+    void setFirstName(const utility::string_t& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  utility::string_t getLastName() const;
-  bool lastNameIsSet() const;
-  void unsetLastName();
+    /// <summary>
+    /// 
+    /// </summary>
+    utility::string_t getLastName() const;
+    bool lastNameIsSet() const;
+    void unsetLastName();
 
-  void setLastName(const utility::string_t &value);
+    void setLastName(const utility::string_t& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  utility::string_t getEmail() const;
-  bool emailIsSet() const;
-  void unsetEmail();
+    /// <summary>
+    /// 
+    /// </summary>
+    utility::string_t getEmail() const;
+    bool emailIsSet() const;
+    void unsetEmail();
 
-  void setEmail(const utility::string_t &value);
+    void setEmail(const utility::string_t& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  utility::string_t getPassword() const;
-  bool passwordIsSet() const;
-  void unsetPassword();
+    /// <summary>
+    /// 
+    /// </summary>
+    utility::string_t getPassword() const;
+    bool passwordIsSet() const;
+    void unsetPassword();
 
-  void setPassword(const utility::string_t &value);
+    void setPassword(const utility::string_t& value);
 
-  /// <summary>
-  ///
-  /// </summary>
-  utility::string_t getPhone() const;
-  bool phoneIsSet() const;
-  void unsetPhone();
+    /// <summary>
+    /// 
+    /// </summary>
+    utility::string_t getPhone() const;
+    bool phoneIsSet() const;
+    void unsetPhone();
 
-  void setPhone(const utility::string_t &value);
+    void setPhone(const utility::string_t& value);
 
-  /// <summary>
-  /// User Status
-  /// </summary>
-  int32_t getUserStatus() const;
-  bool userStatusIsSet() const;
-  void unsetUserStatus();
+    /// <summary>
+    /// User Status
+    /// </summary>
+    int32_t getUserStatus() const;
+    bool userStatusIsSet() const;
+    void unsetUserStatus();
 
-  void setUserStatus(int32_t value);
+    void setUserStatus(int32_t value);
+
 
 protected:
-  int64_t m_Id;
-  bool m_IdIsSet;
-  utility::string_t m_Username;
-  bool m_UsernameIsSet;
-  utility::string_t m_FirstName;
-  bool m_FirstNameIsSet;
-  utility::string_t m_LastName;
-  bool m_LastNameIsSet;
-  utility::string_t m_Email;
-  bool m_EmailIsSet;
-  utility::string_t m_Password;
-  bool m_PasswordIsSet;
-  utility::string_t m_Phone;
-  bool m_PhoneIsSet;
-  int32_t m_UserStatus;
-  bool m_UserStatusIsSet;
+    int64_t m_Id;
+    bool m_IdIsSet;
+    utility::string_t m_Username;
+    bool m_UsernameIsSet;
+    utility::string_t m_FirstName;
+    bool m_FirstNameIsSet;
+    utility::string_t m_LastName;
+    bool m_LastNameIsSet;
+    utility::string_t m_Email;
+    bool m_EmailIsSet;
+    utility::string_t m_Password;
+    bool m_PasswordIsSet;
+    utility::string_t m_Phone;
+    bool m_PhoneIsSet;
+    int32_t m_UserStatus;
+    bool m_UserStatusIsSet;
 };
 
-} // namespace model
-} // namespace client
-} // namespace openapitools
-} // namespace org
+}
+}
+}
+}
 
 #endif /* ORG_OPENAPITOOLS_CLIENT_MODEL_User_H_ */
