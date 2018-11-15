@@ -2,15 +2,15 @@
 {{#model}}
 {{>partial_header}}
 {{#description}}
-# {{{description}}}
+# {{description}}
 {{/description}}
 type {{classname}} {
 
 {{#vars}}
   {{#description}}
-  # {{{description}}}
+  # {{description}}
   {{/description}}
-  {{baseName}}: {{{datatypeWithEnum}}}
+  {{baseName}}: {{datatypeWithEnum}}
 
 {{/vars}}
 }
@@ -18,12 +18,12 @@ type {{classname}} {
 {{#isEnum}}
 
 {{#description}}
-# {{{description}}}
+# {{description}}
 {{/description}}
 enum {{enumName}} {
   {{#allowableValues}}
   {{#values}}
-  {{{.}}}
+  {{.}}
   {{/values}}
   {{/allowableValues}}
 }
