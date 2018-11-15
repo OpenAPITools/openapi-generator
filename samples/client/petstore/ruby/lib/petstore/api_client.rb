@@ -143,7 +143,7 @@ module Petstore
     # Deserialize the response to the given return type.
     #
     # @param [Response] response HTTP response
-    # @param [String] return_type some examples: "User", "Array[User]", "Hash[String,Integer]"
+    # @param [String] return_type some examples: "User", "Array<User>", "Hash<String, Integer>"
     def deserialize(response, return_type)
       body = response.body
 

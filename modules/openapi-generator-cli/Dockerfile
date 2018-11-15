@@ -1,7 +1,11 @@
 FROM java:8-jre-alpine
 
-ADD target/openapi-generator-cli.jar /opt/openapi-generator-cli/openapi-generator-cli.jar
+RUN apk add --no-cache bash
 
-ENTRYPOINT ["java", "-jar", "/opt/openapi-generator-cli/openapi-generator-cli.jar"]
+ADD target/openapi-generator-cli.jar /opt/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar
+
+COPY docker-entrypoint.sh /usr/local/bin/
+
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["help"]

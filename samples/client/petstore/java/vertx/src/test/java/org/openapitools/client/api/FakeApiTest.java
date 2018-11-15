@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -129,6 +130,22 @@ public class FakeApiTest {
     
     /**
      * 
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testBodyWithFileSchemaTest(TestContext context) {
+        Async async = context.async();
+        FileSchemaTestClass fileSchemaTestClass = null;
+        api.testBodyWithFileSchema(fileSchemaTestClass, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
+     * 
      * 
      *
      * @param context Vertx test context for doing assertions
@@ -207,6 +224,27 @@ public class FakeApiTest {
         List<String> enumFormStringArray = null;
         String enumFormString = null;
         api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testGroupParametersTest(TestContext context) {
+        Async async = context.async();
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, result -> {
             // TODO: test validations
             async.complete();
         });
