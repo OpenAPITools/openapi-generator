@@ -93,16 +93,10 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         additionalProperties.put("modelDocPath", modelDocPath);
     }
 
-    /**
-     * @param packageName The new package name
-     */
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
 
-    /**
-     * @param packageVersion Update package version
-     */
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
@@ -212,16 +206,8 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         return toModelFilename(name) + "_spec";
     }
 
-    /**
-     * Overrides postProcessParameter to add a vendor extension "x-exportParamName".
-     * This is useful when paramName starts with a lowercase letter, but we need that
-     * param to be exportable (starts with an Uppercase letter).
-     *
-     * @param parameter CodegenParameter object to be processed.
-     */
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-
     }
 
     @Override
@@ -435,25 +421,14 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         return objs;
     }
 
-    /**
-     * @return String
-     */
     public String graphQlInputsPackage() {
         return graphQlInputsPackage;
     }
 
-    /**
-     * @return String
-     */
     public String graphQlInputsFileFolder() {
         return outputFolder + "/" + graphQlInputsPackage().replace('.', '/');
     }
 
-    /**
-     * @param templateName
-     * @param tag
-     * @return String
-     */
     public String graphQlInputsFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         return graphQlInputsFileFolder() + File.separator + tographQlInputsFilename(tag) + suffix;
@@ -463,10 +438,6 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         return tographQlInputsName(name);
     }
 
-    /**
-     * @param name
-     * @return String The input name
-     */
     public String tographQlInputsName(String name) {
         if (name.length() == 0) {
             return "EmptyInput";
