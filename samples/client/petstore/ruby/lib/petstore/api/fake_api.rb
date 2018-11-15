@@ -627,37 +627,58 @@ module Petstore
 
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
+    # @param required_string_group Required String in group parameters
+    # @param required_boolean_group Required Boolean in group parameters
+    # @param required_int64_group Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
     # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
     # @return [nil]
-    def test_group_parameters(opts = {})
-      test_group_parameters_with_http_info(opts)
+    def test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts = {})
+      test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts)
       nil
     end
 
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
+    # @param required_string_group Required String in group parameters
+    # @param required_boolean_group Required Boolean in group parameters
+    # @param required_int64_group Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
     # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_group_parameters_with_http_info(opts = {})
+    def test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_group_parameters ...'
+      end
+      # verify the required parameter 'required_string_group' is set
+      if @api_client.config.client_side_validation && required_string_group.nil?
+        fail ArgumentError, "Missing the required parameter 'required_string_group' when calling FakeApi.test_group_parameters"
+      end
+      # verify the required parameter 'required_boolean_group' is set
+      if @api_client.config.client_side_validation && required_boolean_group.nil?
+        fail ArgumentError, "Missing the required parameter 'required_boolean_group' when calling FakeApi.test_group_parameters"
+      end
+      # verify the required parameter 'required_int64_group' is set
+      if @api_client.config.client_side_validation && required_int64_group.nil?
+        fail ArgumentError, "Missing the required parameter 'required_int64_group' when calling FakeApi.test_group_parameters"
       end
       # resource path
       local_var_path = '/fake'
 
       # query parameters
       query_params = {}
+      query_params[:'required_string_group'] = required_string_group
+      query_params[:'required_int64_group'] = required_int64_group
       query_params[:'string_group'] = opts[:'string_group'] if !opts[:'string_group'].nil?
       query_params[:'int64_group'] = opts[:'int64_group'] if !opts[:'int64_group'].nil?
 
       # header parameters
       header_params = {}
+      header_params[:'required_boolean_group'] = required_boolean_group
       header_params[:'boolean_group'] = opts[:'boolean_group'] if !opts[:'boolean_group'].nil?
 
       # form parameters

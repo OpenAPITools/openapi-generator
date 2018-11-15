@@ -197,11 +197,12 @@ public interface FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong") })
     @ApiImplicitParams({
+    @ApiImplicitParam(name = "requiredBooleanGroup", value = "Required Boolean in group parameters", required=true, dataType = "Boolean", paramType = "header"),
     @ApiImplicitParam(name = "booleanGroup", value = "Boolean in group parameters",  dataType = "Boolean", paramType = "header")
     })
     @RequestMapping(value = "/fake",
         method = RequestMethod.DELETE)
-    default ResponseEntity<Void> testGroupParameters(@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group) {
+    default ResponseEntity<Void> testGroupParameters(@NotNull @ApiParam(value = "Required String in group parameters", required = true) @Valid @RequestParam(value = "required_string_group", required = true) Integer requiredStringGroup,@NotNull @ApiParam(value = "Required Integer in group parameters", required = true) @Valid @RequestParam(value = "required_int64_group", required = true) Long requiredInt64Group,@ApiParam(value = "String in group parameters") @Valid @RequestParam(value = "string_group", required = false) Integer stringGroup,@ApiParam(value = "Integer in group parameters") @Valid @RequestParam(value = "int64_group", required = false) Long int64Group) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

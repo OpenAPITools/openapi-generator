@@ -470,7 +470,7 @@ No authorization required
 
 <a name="testGroupParameters"></a>
 # **testGroupParameters**
-> testGroupParameters(stringGroup, booleanGroup, int64Group)
+> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
 
 Fake endpoint to test group parameters (optional)
 
@@ -484,11 +484,14 @@ Fake endpoint to test group parameters (optional)
 
 
 FakeApi apiInstance = new FakeApi();
+Integer requiredStringGroup = 56; // Integer | Required String in group parameters
+Boolean requiredBooleanGroup = true; // Boolean | Required Boolean in group parameters
+Long requiredInt64Group = 56L; // Long | Required Integer in group parameters
 Integer stringGroup = 56; // Integer | String in group parameters
 Boolean booleanGroup = true; // Boolean | Boolean in group parameters
 Long int64Group = 56L; // Long | Integer in group parameters
 try {
-    apiInstance.testGroupParameters(stringGroup, booleanGroup, int64Group);
+    apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testGroupParameters");
     e.printStackTrace();
@@ -499,6 +502,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **requiredStringGroup** | **Integer**| Required String in group parameters |
+ **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
+ **requiredInt64Group** | **Long**| Required Integer in group parameters |
  **stringGroup** | **Integer**| String in group parameters | [optional]
  **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
  **int64Group** | **Long**| Integer in group parameters | [optional]
