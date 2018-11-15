@@ -16,11 +16,11 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Date;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -29,122 +29,339 @@ import javax.validation.Valid;
  */
 
 public class InlineObject2   {
-  /**
-   * Gets or Sets enumFormStringArray
-   */
-  public enum EnumFormStringArrayEnum {
-    GREATER_THAN(">"),
-    
-    DOLLAR("$");
+  @JsonProperty("integer")
+  private Integer integer;
 
-    private String value;
+  @JsonProperty("int32")
+  private Integer int32;
 
-    EnumFormStringArrayEnum(String value) {
-      this.value = value;
-    }
+  @JsonProperty("int64")
+  private Long int64;
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+  @JsonProperty("number")
+  private BigDecimal number;
 
-    @JsonCreator
-    public static EnumFormStringArrayEnum fromValue(String text) {
-      for (EnumFormStringArrayEnum b : EnumFormStringArrayEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
-    }
-  }
- 
-  @JsonProperty("enum_form_string_array")
-  private List<EnumFormStringArrayEnum> enumFormStringArray = null;
+  @JsonProperty("float")
+  private Float _float;
 
-  /**
-   * Form parameter enum test (string)
-   */
-  public enum EnumFormStringEnum {
-    _ABC("_abc"),
-    
-    _EFG("-efg"),
-    
-    _XYZ_("(xyz)");
+  @JsonProperty("double")
+  private Double _double;
 
-    private String value;
+  @JsonProperty("string")
+  private String string;
 
-    EnumFormStringEnum(String value) {
-      this.value = value;
-    }
+  @JsonProperty("pattern_without_delimiter")
+  private String patternWithoutDelimiter;
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+  @JsonProperty("byte")
+  private byte[] _byte;
 
-    @JsonCreator
-    public static EnumFormStringEnum fromValue(String text) {
-      for (EnumFormStringEnum b : EnumFormStringEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
-    }
-  }
+  @JsonProperty("binary")
+  private File binary;
 
-  @JsonProperty("enum_form_string")
-  private EnumFormStringEnum enumFormString = EnumFormStringEnum._EFG;
+  @JsonProperty("date")
+  private Date date;
 
-  public InlineObject2 enumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
-    this.enumFormStringArray = enumFormStringArray;
-    return this;
-  }
+  @JsonProperty("dateTime")
+  private Date dateTime;
 
-  public InlineObject2 addEnumFormStringArrayItem(EnumFormStringArrayEnum enumFormStringArrayItem) {
-    if (this.enumFormStringArray == null) {
-      this.enumFormStringArray = new ArrayList<EnumFormStringArrayEnum>();
-    }
-    this.enumFormStringArray.add(enumFormStringArrayItem);
+  @JsonProperty("password")
+  private String password;
+
+  @JsonProperty("callback")
+  private String callback;
+
+  public InlineObject2 integer(Integer integer) {
+    this.integer = integer;
     return this;
   }
 
   /**
-   * Form parameter enum test (string array)
-   * @return enumFormStringArray
+   * None
+   * minimum: 10
+   * maximum: 100
+   * @return integer
    **/
-  @JsonProperty("enum_form_string_array")
-  @ApiModelProperty(value = "Form parameter enum test (string array)")
-  
-  public List<EnumFormStringArrayEnum> getEnumFormStringArray() {
-    return enumFormStringArray;
+  @JsonProperty("integer")
+  @ApiModelProperty(value = "None")
+   @Min(10) @Max(100)
+  public Integer getInteger() {
+    return integer;
   }
 
-  public void setEnumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
-    this.enumFormStringArray = enumFormStringArray;
+  public void setInteger(Integer integer) {
+    this.integer = integer;
   }
 
-  public InlineObject2 enumFormString(EnumFormStringEnum enumFormString) {
-    this.enumFormString = enumFormString;
+  public InlineObject2 int32(Integer int32) {
+    this.int32 = int32;
     return this;
   }
 
   /**
-   * Form parameter enum test (string)
-   * @return enumFormString
+   * None
+   * minimum: 20
+   * maximum: 200
+   * @return int32
    **/
-  @JsonProperty("enum_form_string")
-  @ApiModelProperty(value = "Form parameter enum test (string)")
-  
-  public EnumFormStringEnum getEnumFormString() {
-    return enumFormString;
+  @JsonProperty("int32")
+  @ApiModelProperty(value = "None")
+   @Min(20) @Max(200)
+  public Integer getInt32() {
+    return int32;
   }
 
-  public void setEnumFormString(EnumFormStringEnum enumFormString) {
-    this.enumFormString = enumFormString;
+  public void setInt32(Integer int32) {
+    this.int32 = int32;
+  }
+
+  public InlineObject2 int64(Long int64) {
+    this.int64 = int64;
+    return this;
+  }
+
+  /**
+   * None
+   * @return int64
+   **/
+  @JsonProperty("int64")
+  @ApiModelProperty(value = "None")
+  
+  public Long getInt64() {
+    return int64;
+  }
+
+  public void setInt64(Long int64) {
+    this.int64 = int64;
+  }
+
+  public InlineObject2 number(BigDecimal number) {
+    this.number = number;
+    return this;
+  }
+
+  /**
+   * None
+   * minimum: 32.1
+   * maximum: 543.2
+   * @return number
+   **/
+  @JsonProperty("number")
+  @ApiModelProperty(required = true, value = "None")
+    @NotNull
+ @DecimalMin("32.1") @DecimalMax("543.2")@Valid
+  public BigDecimal getNumber() {
+    return number;
+  }
+
+  public void setNumber(BigDecimal number) {
+    this.number = number;
+  }
+
+  public InlineObject2 _float(Float _float) {
+    this._float = _float;
+    return this;
+  }
+
+  /**
+   * None
+   * maximum: 987.6
+   * @return _float
+   **/
+  @JsonProperty("float")
+  @ApiModelProperty(value = "None")
+   @DecimalMax("987.6")
+  public Float getFloat() {
+    return _float;
+  }
+
+  public void setFloat(Float _float) {
+    this._float = _float;
+  }
+
+  public InlineObject2 _double(Double _double) {
+    this._double = _double;
+    return this;
+  }
+
+  /**
+   * None
+   * minimum: 67.8
+   * maximum: 123.4
+   * @return _double
+   **/
+  @JsonProperty("double")
+  @ApiModelProperty(required = true, value = "None")
+    @NotNull
+ @DecimalMin("67.8") @DecimalMax("123.4")
+  public Double getDouble() {
+    return _double;
+  }
+
+  public void setDouble(Double _double) {
+    this._double = _double;
+  }
+
+  public InlineObject2 string(String string) {
+    this.string = string;
+    return this;
+  }
+
+  /**
+   * None
+   * @return string
+   **/
+  @JsonProperty("string")
+  @ApiModelProperty(value = "None")
+   @Pattern(regexp="/[a-z]/i")
+  public String getString() {
+    return string;
+  }
+
+  public void setString(String string) {
+    this.string = string;
+  }
+
+  public InlineObject2 patternWithoutDelimiter(String patternWithoutDelimiter) {
+    this.patternWithoutDelimiter = patternWithoutDelimiter;
+    return this;
+  }
+
+  /**
+   * None
+   * @return patternWithoutDelimiter
+   **/
+  @JsonProperty("pattern_without_delimiter")
+  @ApiModelProperty(required = true, value = "None")
+    @NotNull
+ @Pattern(regexp="^[A-Z].*")
+  public String getPatternWithoutDelimiter() {
+    return patternWithoutDelimiter;
+  }
+
+  public void setPatternWithoutDelimiter(String patternWithoutDelimiter) {
+    this.patternWithoutDelimiter = patternWithoutDelimiter;
+  }
+
+  public InlineObject2 _byte(byte[] _byte) {
+    this._byte = _byte;
+    return this;
+  }
+
+  /**
+   * None
+   * @return _byte
+   **/
+  @JsonProperty("byte")
+  @ApiModelProperty(required = true, value = "None")
+    @NotNull
+
+  public byte[] getByte() {
+    return _byte;
+  }
+
+  public void setByte(byte[] _byte) {
+    this._byte = _byte;
+  }
+
+  public InlineObject2 binary(File binary) {
+    this.binary = binary;
+    return this;
+  }
+
+  /**
+   * None
+   * @return binary
+   **/
+  @JsonProperty("binary")
+  @ApiModelProperty(value = "None")
+  
+  public File getBinary() {
+    return binary;
+  }
+
+  public void setBinary(File binary) {
+    this.binary = binary;
+  }
+
+  public InlineObject2 date(Date date) {
+    this.date = date;
+    return this;
+  }
+
+  /**
+   * None
+   * @return date
+   **/
+  @JsonProperty("date")
+  @ApiModelProperty(value = "None")
+  
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
+  public InlineObject2 dateTime(Date dateTime) {
+    this.dateTime = dateTime;
+    return this;
+  }
+
+  /**
+   * None
+   * @return dateTime
+   **/
+  @JsonProperty("dateTime")
+  @ApiModelProperty(value = "None")
+  
+  public Date getDateTime() {
+    return dateTime;
+  }
+
+  public void setDateTime(Date dateTime) {
+    this.dateTime = dateTime;
+  }
+
+  public InlineObject2 password(String password) {
+    this.password = password;
+    return this;
+  }
+
+  /**
+   * None
+   * @return password
+   **/
+  @JsonProperty("password")
+  @ApiModelProperty(value = "None")
+   @Size(min=10,max=64)
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public InlineObject2 callback(String callback) {
+    this.callback = callback;
+    return this;
+  }
+
+  /**
+   * None
+   * @return callback
+   **/
+  @JsonProperty("callback")
+  @ApiModelProperty(value = "None")
+  
+  public String getCallback() {
+    return callback;
+  }
+
+  public void setCallback(String callback) {
+    this.callback = callback;
   }
 
 
@@ -157,13 +374,25 @@ public class InlineObject2   {
       return false;
     }
     InlineObject2 inlineObject2 = (InlineObject2) o;
-    return Objects.equals(this.enumFormStringArray, inlineObject2.enumFormStringArray) &&
-        Objects.equals(this.enumFormString, inlineObject2.enumFormString);
+    return Objects.equals(this.integer, inlineObject2.integer) &&
+        Objects.equals(this.int32, inlineObject2.int32) &&
+        Objects.equals(this.int64, inlineObject2.int64) &&
+        Objects.equals(this.number, inlineObject2.number) &&
+        Objects.equals(this._float, inlineObject2._float) &&
+        Objects.equals(this._double, inlineObject2._double) &&
+        Objects.equals(this.string, inlineObject2.string) &&
+        Objects.equals(this.patternWithoutDelimiter, inlineObject2.patternWithoutDelimiter) &&
+        Objects.equals(this._byte, inlineObject2._byte) &&
+        Objects.equals(this.binary, inlineObject2.binary) &&
+        Objects.equals(this.date, inlineObject2.date) &&
+        Objects.equals(this.dateTime, inlineObject2.dateTime) &&
+        Objects.equals(this.password, inlineObject2.password) &&
+        Objects.equals(this.callback, inlineObject2.callback);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(enumFormStringArray, enumFormString);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, patternWithoutDelimiter, _byte, binary, date, dateTime, password, callback);
   }
 
 
@@ -172,8 +401,20 @@ public class InlineObject2   {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineObject2 {\n");
     
-    sb.append("    enumFormStringArray: ").append(toIndentedString(enumFormStringArray)).append("\n");
-    sb.append("    enumFormString: ").append(toIndentedString(enumFormString)).append("\n");
+    sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
+    sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
+    sb.append("    int64: ").append(toIndentedString(int64)).append("\n");
+    sb.append("    number: ").append(toIndentedString(number)).append("\n");
+    sb.append("    _float: ").append(toIndentedString(_float)).append("\n");
+    sb.append("    _double: ").append(toIndentedString(_double)).append("\n");
+    sb.append("    string: ").append(toIndentedString(string)).append("\n");
+    sb.append("    patternWithoutDelimiter: ").append(toIndentedString(patternWithoutDelimiter)).append("\n");
+    sb.append("    _byte: ").append(toIndentedString(_byte)).append("\n");
+    sb.append("    binary: ").append(toIndentedString(binary)).append("\n");
+    sb.append("    date: ").append(toIndentedString(date)).append("\n");
+    sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    callback: ").append(toIndentedString(callback)).append("\n");
     sb.append("}");
     return sb.toString();
   }

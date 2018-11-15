@@ -16,8 +16,10 @@ import {{package}}.NotFoundException;
 
 import java.io.InputStream;
 
+{{#needMultipartImport}}
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+{{/needMultipartImport}}
 
 import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;

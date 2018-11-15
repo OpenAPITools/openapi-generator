@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.File;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -26,52 +27,51 @@ import javax.validation.Valid;
  */
 
 public class InlineObject4   {
-  @JsonProperty("param")
-  private String param;
+  @JsonProperty("additionalMetadata")
+  private String additionalMetadata;
 
-  @JsonProperty("param2")
-  private String param2;
+  @JsonProperty("requiredFile")
+  private File requiredFile;
 
-  public InlineObject4 param(String param) {
-    this.param = param;
+  public InlineObject4 additionalMetadata(String additionalMetadata) {
+    this.additionalMetadata = additionalMetadata;
     return this;
   }
 
   /**
-   * field1
-   * @return param
+   * Additional data to pass to server
+   * @return additionalMetadata
    **/
-  @JsonProperty("param")
-  @ApiModelProperty(required = true, value = "field1")
-    @NotNull
-
-  public String getParam() {
-    return param;
+  @JsonProperty("additionalMetadata")
+  @ApiModelProperty(value = "Additional data to pass to server")
+  
+  public String getAdditionalMetadata() {
+    return additionalMetadata;
   }
 
-  public void setParam(String param) {
-    this.param = param;
+  public void setAdditionalMetadata(String additionalMetadata) {
+    this.additionalMetadata = additionalMetadata;
   }
 
-  public InlineObject4 param2(String param2) {
-    this.param2 = param2;
+  public InlineObject4 requiredFile(File requiredFile) {
+    this.requiredFile = requiredFile;
     return this;
   }
 
   /**
-   * field2
-   * @return param2
+   * file to upload
+   * @return requiredFile
    **/
-  @JsonProperty("param2")
-  @ApiModelProperty(required = true, value = "field2")
+  @JsonProperty("requiredFile")
+  @ApiModelProperty(required = true, value = "file to upload")
     @NotNull
 
-  public String getParam2() {
-    return param2;
+  public File getRequiredFile() {
+    return requiredFile;
   }
 
-  public void setParam2(String param2) {
-    this.param2 = param2;
+  public void setRequiredFile(File requiredFile) {
+    this.requiredFile = requiredFile;
   }
 
 
@@ -84,13 +84,13 @@ public class InlineObject4   {
       return false;
     }
     InlineObject4 inlineObject4 = (InlineObject4) o;
-    return Objects.equals(this.param, inlineObject4.param) &&
-        Objects.equals(this.param2, inlineObject4.param2);
+    return Objects.equals(this.additionalMetadata, inlineObject4.additionalMetadata) &&
+        Objects.equals(this.requiredFile, inlineObject4.requiredFile);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(param, param2);
+    return Objects.hash(additionalMetadata, requiredFile);
   }
 
 
@@ -99,8 +99,8 @@ public class InlineObject4   {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineObject4 {\n");
     
-    sb.append("    param: ").append(toIndentedString(param)).append("\n");
-    sb.append("    param2: ").append(toIndentedString(param2)).append("\n");
+    sb.append("    additionalMetadata: ").append(toIndentedString(additionalMetadata)).append("\n");
+    sb.append("    requiredFile: ").append(toIndentedString(requiredFile)).append("\n");
     sb.append("}");
     return sb.toString();
   }

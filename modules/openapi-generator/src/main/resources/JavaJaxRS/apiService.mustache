@@ -3,7 +3,9 @@ package {{package}};
 import {{package}}.*;
 import {{modelPackage}}.*;
 
+{{#needMultipartImport}}
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+{{/needMultipartImport}}
 
 {{#imports}}import {{import}};
 {{/imports}}

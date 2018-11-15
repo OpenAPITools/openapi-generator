@@ -112,6 +112,27 @@ public class FakeApi  {
         return delegate.fakeOuterStringSerialize(body,securityContext);
     }
     @PUT
+    @Path("/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "replaces an image (required)", notes = "", response = ModelApiResponse.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+            @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
+        })
+    }, tags={ "pet", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    public Response replaceFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
+,
+            @FormDataParam("requiredFile") InputStream requiredFileInputStream,
+            @FormDataParam("requiredFile") FormDataContentDisposition requiredFileDetail
+,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.replaceFileWithRequiredFile(petId,requiredFileInputStream, requiredFileDetail,additionalMetadata,securityContext);
+    }
+    @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     
@@ -181,7 +202,7 @@ public class FakeApi  {
     }
     @GET
     
-    @Consumes({ "application/x-www-form-urlencoded" })
+    
     
     @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -194,11 +215,9 @@ public class FakeApi  {
 ,@ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @QueryParam("enum_query_string") String enumQueryString
 ,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer") Integer enumQueryInteger
 ,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double") Double enumQueryDouble
-,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$")  @DefaultValue("$") @FormParam("enum_form_string_array")  List<String> enumFormStringArray
-,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,enumFormStringArray,enumFormString,securityContext);
+        return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,securityContext);
     }
     @DELETE
     
@@ -231,16 +250,14 @@ public class FakeApi  {
     }
     @GET
     @Path("/jsonFormData")
-    @Consumes({ "application/x-www-form-urlencoded" })
+    
     
     @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response testJsonFormData(@ApiParam(value = "field1", required=true)  @FormParam("param")  String param
-,@ApiParam(value = "field2", required=true)  @FormParam("param2")  String param2
-,@Context SecurityContext securityContext)
+    public Response testJsonFormData(@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testJsonFormData(param,param2,securityContext);
+        return delegate.testJsonFormData(securityContext);
     }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")

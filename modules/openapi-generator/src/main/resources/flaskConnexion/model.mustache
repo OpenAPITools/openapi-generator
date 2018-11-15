@@ -35,7 +35,7 @@ class {{classname}}(Model):
         """
         self.openapi_types = {
 {{#vars}}
-            '{{name}}': {{{dataType}}}{{#hasMore}},{{/hasMore}}
+            '{{name}}': '{{{dataType}}}'{{#hasMore}},{{/hasMore}}
 {{/vars}}
         }
 

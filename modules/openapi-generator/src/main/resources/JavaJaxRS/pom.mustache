@@ -137,11 +137,13 @@
       <artifactId>jersey-container-servlet-core</artifactId>
       <version>${jersey2-version}</version>
     </dependency>
+  {{#useMultipartFeature}}
     <dependency>
       <groupId>org.glassfish.jersey.media</groupId>
       <artifactId>jersey-media-multipart</artifactId>
       <version>${jersey2-version}</version>
     </dependency>
+  {{/useMultipartFeature}}
   {{#java8}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>

@@ -14,10 +14,12 @@
                 {{apiPackage}}
             </param-value>
         </init-param>
+      {{#useMultipartFeature}}
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>
             <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
         </init-param>
+      {{/useMultipartFeature}}
         <init-param>
             <param-name>jersey.config.server.wadl.disableWadl</param-name>
             <param-value>true</param-value>
