@@ -642,7 +642,7 @@ public class ModelUtils {
         if (name == null) {
             return null;
         }
-        
+
         if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
             return openAPI.getComponents().getCallbacks().get(name);
         }
@@ -758,5 +758,26 @@ public class ModelUtils {
             return openAPI.getComponents().getHeaders().get(name);
         }
         return null;
+    }
+
+    /**
+     * 
+     * @param schema
+     * @return
+     */
+    public static boolean isNullable(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        if (Boolean.TRUE.equals(schema.getNullable())) {
+            return true;
+        }
+
+        if (schema.getExtensions() != null && schema.getExtensions().get("x-nullable") != null) {
+            return Boolean.valueOf(schema.getExtensions().get("x-nullable").toString());
+        }
+
+        return false;
     }
 }
