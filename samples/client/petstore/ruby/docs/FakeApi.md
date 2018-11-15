@@ -472,7 +472,7 @@ No authorization required
 
 
 # **test_group_parameters**
-> test_group_parameters(opts)
+> test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts)
 
 Fake endpoint to test group parameters (optional)
 
@@ -484,6 +484,9 @@ Fake endpoint to test group parameters (optional)
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
+required_string_group = 56 # Integer | Required String in group parameters
+required_boolean_group = true # BOOLEAN | Required Boolean in group parameters
+required_int64_group = 56 # Integer | Required Integer in group parameters
 opts = {
   string_group: 56, # Integer | String in group parameters
   boolean_group: true, # BOOLEAN | Boolean in group parameters
@@ -492,7 +495,7 @@ opts = {
 
 begin
   #Fake endpoint to test group parameters (optional)
-  api_instance.test_group_parameters(opts)
+  api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_group_parameters: #{e}"
 end
@@ -502,6 +505,9 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **required_string_group** | **Integer**| Required String in group parameters | 
+ **required_boolean_group** | **BOOLEAN**| Required Boolean in group parameters | 
+ **required_int64_group** | **Integer**| Required Integer in group parameters | 
  **string_group** | **Integer**| String in group parameters | [optional] 
  **boolean_group** | **BOOLEAN**| Boolean in group parameters | [optional] 
  **int64_group** | **Integer**| Integer in group parameters | [optional] 

@@ -135,6 +135,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isEmpty(System.getenv("PERL_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PERL_POST_PROCESS_FILE not defined so the Perl code may not be properly formatted. To define it, try 'export PERL_POST_PROCESS_FILE=/usr/local/bin/perltidy -b -bext=\"/\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(MODULE_VERSION)) {
