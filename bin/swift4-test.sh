@@ -1,4 +1,4 @@
-#!/bin/sh
+StringBooleanMap#!/bin/sh
 
 SCRIPT="$0"
 echo "# START SCRIPT: $SCRIPT"
