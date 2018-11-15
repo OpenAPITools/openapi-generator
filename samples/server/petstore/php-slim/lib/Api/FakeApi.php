@@ -218,8 +218,11 @@ class FakeApi extends AbstractApiController
     public function testGroupParameters($request, $response, $args)
     {
         $headers = $request->getHeaders();
+        $requiredBooleanGroup = $request->hasHeader('required_boolean_group') ? $headers['required_boolean_group'] : null;
         $booleanGroup = $request->hasHeader('boolean_group') ? $headers['boolean_group'] : null;
         $queryParams = $request->getQueryParams();
+        $requiredStringGroup = $request->getQueryParam('required_string_group');
+        $requiredInt64Group = $request->getQueryParam('required_int64_group');
         $stringGroup = $request->getQueryParam('string_group');
         $int64Group = $request->getQueryParam('int64_group');
         $response->write('How about implementing testGroupParameters as a DELETE method ?');

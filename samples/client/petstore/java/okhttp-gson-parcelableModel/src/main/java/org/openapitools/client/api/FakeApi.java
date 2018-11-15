@@ -1307,6 +1307,9 @@ public class FakeApi {
     }
     /**
      * Build call for testGroupParameters
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
@@ -1315,7 +1318,7 @@ public class FakeApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call testGroupParametersCall(Integer stringGroup, Boolean booleanGroup, Long int64Group, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call testGroupParametersCall(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -1323,6 +1326,14 @@ public class FakeApi {
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (requiredStringGroup != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("required_string_group", requiredStringGroup));
+        }
+
+        if (requiredInt64Group != null) {
+            localVarQueryParams.addAll(apiClient.parameterToPair("required_int64_group", requiredInt64Group));
+        }
+
         if (stringGroup != null) {
             localVarQueryParams.addAll(apiClient.parameterToPair("string_group", stringGroup));
         }
@@ -1332,6 +1343,10 @@ public class FakeApi {
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        if (requiredBooleanGroup != null) {
+            localVarHeaderParams.put("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
+        }
+
         if (booleanGroup != null) {
             localVarHeaderParams.put("boolean_group", apiClient.parameterToString(booleanGroup));
         }
@@ -1368,10 +1383,25 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call testGroupParametersValidateBeforeCall(Integer stringGroup, Boolean booleanGroup, Long int64Group, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call testGroupParametersValidateBeforeCall(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new ApiException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters(Async)");
+        }
+        
+        // verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new ApiException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters(Async)");
+        }
+        
+        // verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new ApiException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters(Async)");
+        }
         
 
-        com.squareup.okhttp.Call call = testGroupParametersCall(stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
         return call;
 
     }
@@ -1379,32 +1409,41 @@ public class FakeApi {
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void testGroupParameters(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
-        testGroupParametersWithHttpInfo(stringGroup, booleanGroup, int64Group);
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+        testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
     }
 
     /**
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> testGroupParametersWithHttpInfo(Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
-        com.squareup.okhttp.Call call = testGroupParametersValidateBeforeCall(stringGroup, booleanGroup, int64Group, null, null);
+    public ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+        com.squareup.okhttp.Call call = testGroupParametersValidateBeforeCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, null, null);
         return apiClient.execute(call);
     }
 
     /**
      * Fake endpoint to test group parameters (optional) (asynchronously)
      * Fake endpoint to test group parameters (optional)
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
      * @param stringGroup String in group parameters (optional)
      * @param booleanGroup Boolean in group parameters (optional)
      * @param int64Group Integer in group parameters (optional)
@@ -1412,7 +1451,7 @@ public class FakeApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call testGroupParametersAsync(Integer stringGroup, Boolean booleanGroup, Long int64Group, final ApiCallback<Void> callback) throws ApiException {
+    public com.squareup.okhttp.Call testGroupParametersAsync(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ApiCallback<Void> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1433,7 +1472,7 @@ public class FakeApi {
             };
         }
 
-        com.squareup.okhttp.Call call = testGroupParametersValidateBeforeCall(stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testGroupParametersValidateBeforeCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
         apiClient.executeAsync(call, callback);
         return call;
     }
