@@ -183,18 +183,18 @@ list_t *PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status) {
 		return 0; // nonprimitive container
 	}
 	list_t *elementToReturn = list_create();
-	cJSON *PetVarJSON;
-	cJSON_ArrayForEach(PetVarJSON, PetAPIlocalVarJSON)
+	cJSON *VarJSON;
+	cJSON_ArrayForEach(VarJSON, PetAPIlocalVarJSON)
 	{
-		if(!cJSON_IsObject(PetVarJSON)) {
+		if(!cJSON_IsObject(VarJSON)) {
 			// return 0;
 		}
-		char *localVarJSONToChar = cJSON_Print(PetVarJSON);
+		char *localVarJSONToChar = cJSON_Print(VarJSON);
 		list_addElement(elementToReturn, localVarJSONToChar);
 	}
 
 	cJSON_Delete(PetAPIlocalVarJSON);
-	cJSON_Delete(PetVarJSON);
+	cJSON_Delete(VarJSON);
 	// return type
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);
@@ -254,18 +254,18 @@ list_t *PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags) {
 		return 0; // nonprimitive container
 	}
 	list_t *elementToReturn = list_create();
-	cJSON *PetVarJSON;
-	cJSON_ArrayForEach(PetVarJSON, PetAPIlocalVarJSON)
+	cJSON *VarJSON;
+	cJSON_ArrayForEach(VarJSON, PetAPIlocalVarJSON)
 	{
-		if(!cJSON_IsObject(PetVarJSON)) {
+		if(!cJSON_IsObject(VarJSON)) {
 			// return 0;
 		}
-		char *localVarJSONToChar = cJSON_Print(PetVarJSON);
+		char *localVarJSONToChar = cJSON_Print(VarJSON);
 		list_addElement(elementToReturn, localVarJSONToChar);
 	}
 
 	cJSON_Delete(PetAPIlocalVarJSON);
-	cJSON_Delete(PetVarJSON);
+	cJSON_Delete(VarJSON);
 	// return type
 	apiClient_free(apiClient);
 	list_free(localVarQueryParameters);

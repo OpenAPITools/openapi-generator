@@ -60,8 +60,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         //apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "C-libcurl";
 
-        modelTestTemplateFiles.put("model_test.mustache", ".c");
-        apiTestTemplateFiles.put("api_test.mustache", ".c");
+        // TODO add auto-generated test files
+        //modelTestTemplateFiles.put("model_test.mustache", ".c");
+        //apiTestTemplateFiles.put("api_test.mustache", ".c");
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
