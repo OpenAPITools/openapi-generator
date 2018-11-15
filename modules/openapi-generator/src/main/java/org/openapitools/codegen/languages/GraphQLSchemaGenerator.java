@@ -21,8 +21,12 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GraphQLSchemaGenerator extends AbstractGraphQLCodegen implements CodegenConfig {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaGenerator.class);
 
     @Override
     public CodegenType getTag() {
