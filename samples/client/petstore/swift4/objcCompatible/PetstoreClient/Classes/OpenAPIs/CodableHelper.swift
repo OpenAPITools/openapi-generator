@@ -11,6 +11,50 @@ public typealias EncodeResult = (data: Data?, error: Error?)
 
 open class CodableHelper {
 
+    /// OpenAPI's "date-time" compatible DateFormater.
+    /// Supports both OpenAPI's "date-time" formats (with/-out fractional secs) for deserialize dates from JSON format and `Configuration.dateFormat` for serialize dates into JSON format.
+    /// - SeeAlso:
+    /// [stackoverflow.com: How to convert a date string with optional fractional seconds using Codable in Swift4](https://stackoverflow.com/questions/46458487/)
+    class OpenApiIso8601DateFormatter: DateFormatter {
+        static let formatters: [DateFormatter] = [
+            iso8601Formatter(withFractionalSeconds: true),
+            iso8601Formatter(withFractionalSeconds: false)
+        ]
+
+        static func iso8601Formatter(withFractionalSeconds fractional: Bool) -> DateFormatter {
+            let formatter = DateFormatter()
+            formatter.calendar = Calendar(identifier: .iso8601)
+            formatter.locale = Locale(identifier: "en_US_POSIX")
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            formatter.dateFormat = Configuration.getDateFormat(withFractionalSeconds: fractional)
+            return formatter
+        }
+
+        override public func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?,
+                                            for string: String,
+                                            errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
+            // using flatMap instead of compactMap for backward-comp.
+            guard let date = (type(of: self).formatters.flatMap { $0.date(from: string) }).first else {
+                error?.pointee = "Invalid ISO8601 date: \(string)" as NSString
+                return false
+            }
+
+            obj?.pointee = date as NSDate
+            return true
+        }
+
+        override public func string(for obj: Any?) -> String? {
+            guard let date = obj as? Date else {
+                return nil
+            }
+
+            // create new formatter, which is considering dateFormat config
+            let newFormatter = self.copy() as! DateFormatter
+            newFormatter.dateFormat = Configuration.dateFormat
+            return newFormatter.string(from: date)
+        }
+    }
+
     public static var dateformatter: DateFormatter?
 
     open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
@@ -22,11 +66,7 @@ open class CodableHelper {
             decoder.dateDecodingStrategy = .formatted(df)
         } else {
             decoder.dataDecodingStrategy = .base64
-            let formatter = DateFormatter()
-            formatter.calendar = Calendar(identifier: .iso8601)
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.dateFormat = Configuration.dateFormat
+            let formatter = OpenApiIso8601DateFormatter()
             decoder.dateDecodingStrategy = .formatted(formatter)
         }
 
@@ -51,11 +91,7 @@ open class CodableHelper {
             encoder.dateEncodingStrategy = .formatted(df)
         } else {
             encoder.dataEncodingStrategy = .base64
-            let formatter = DateFormatter()
-            formatter.calendar = Calendar(identifier: .iso8601)
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.dateFormat = Configuration.dateFormat
+            let formatter = OpenApiIso8601DateFormatter()
             encoder.dateEncodingStrategy = .formatted(formatter)
         }
 

@@ -10,6 +10,14 @@ open class Configuration {
 	
 	// This value is used to configure the date formatter that is used to serialize dates into JSON format. 
 	// You must set it prior to encoding any dates, and it will only be read once. 
-    public static var dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+    public static var dateFormat = Configuration.getDateFormat(withFractionalSeconds: true)
     
+
+    /// Get one of the two OpenAPI compatible "date-time" formats. Either with or without fractional seconds, which are optional by the OpenAPI specification.
+    ///
+    /// - Parameter withFractionalSeconds: use true to get format with fractional seconds and use false to get format without them.
+    /// - Returns: OpenAPI compatible "date-time" format
+    public static func getDateFormat(withFractionalSeconds fractional: Bool) -> String {
+        return "yyyy-MM-dd'T'HH:mm:ss\(fractional ? ".SSS" : "")ZZZZZ"
+    }
 }
