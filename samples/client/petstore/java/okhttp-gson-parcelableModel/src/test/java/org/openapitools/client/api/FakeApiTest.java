@@ -220,7 +220,11 @@ public class FakeApiTest {
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
-        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group)
+                .stringGroup(stringGroup)
+                .booleanGroup(booleanGroup)
+                .int64Group(int64Group)
+                .execute();
 
         // TODO: test validations
     }
