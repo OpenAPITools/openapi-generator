@@ -115,18 +115,19 @@ install:
 script:
   # fail fast
   - set -e
-  # fail if templates/generators contain carriage return '\r'
-  - /bin/bash ./bin/utils/detect_carriage_return.sh
-  # fail if generators contain merge conflicts
-  - /bin/bash ./bin/utils/detect_merge_conflict.sh
-  # fail if generators contain tab '\t'
-  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
-  # run integration tests defined in maven pom.xml
-  - ./run-in-docker.sh mvn --quiet --batch-mode clean install
-  - mvn --quiet --batch-mode verify -Psamples
+    #  # fail if templates/generators contain carriage return '\r'
+    #  - /bin/bash ./bin/utils/detect_carriage_return.sh
+    #  # fail if generators contain merge conflicts
+    #  - /bin/bash ./bin/utils/detect_merge_conflict.sh
+    #  # fail if generators contain tab '\t'
+    #  - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
+    #  # run integration tests defined in maven pom.xml
+    #  - ./run-in-docker.sh mvn --quiet --batch-mode clean install
+    #  - mvn --quiet --batch-mode verify -Psamples
 after_success:
   # push to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  - echo "SONATYPE_USERNAME=$SONATYPE_USERNAME, TRAVIS_TAG=$TRAVIS_TAG, TRAVIS_PULL_REQUEST=$TRAVIS_PULL_REQUEST"
+  - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       if [ "$TRAVIS_BRANCH" = "master" ]; then
         mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
