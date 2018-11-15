@@ -170,7 +170,7 @@
 		08BDFE9C9E9365771FF2D47928E3E79A /* Pods-SwaggerClient-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-SwaggerClient-acknowledgements.plist"; sourceTree = "<group>"; };
 		0AD61F8554C909A3AFA66AD9ECCB5F23 /* Pods-SwaggerClient-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-SwaggerClient-frameworks.sh"; sourceTree = "<group>"; };
 		0B30B9F0FA3EB01FFACD8AF1A5E3C02A /* Client.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		0B4A4A4EB2DBD6F56B1383E53763FD1B /* PetstoreClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PetstoreClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B4A4A4EB2DBD6F56B1383E53763FD1B /* PetstoreClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PetstoreClient.framework; path = PetstoreClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0B75FBDF2B74DA3B74C5F0ADD20F42A2 /* DispatchQueue+Promise.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DispatchQueue+Promise.swift"; path = "Sources/DispatchQueue+Promise.swift"; sourceTree = "<group>"; };
 		14B3C282191A88FADAB9CC2C684F72AA /* SpecialModelName.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpecialModelName.swift; sourceTree = "<group>"; };
 		18B675845795AE8F97C41BFE1B734DF3 /* EnumArrays.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EnumArrays.swift; sourceTree = "<group>"; };
@@ -205,14 +205,14 @@
 		451D13FDA61BDE9EB91BBC6CEA52AED4 /* PromiseKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PromiseKit.xcconfig; sourceTree = "<group>"; };
 		45FB2502919E80623D265FE19C0A8FC4 /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
 		4667C7609366DAC2FC770F6565F7F2A2 /* PromiseKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PromiseKit-dummy.m"; sourceTree = "<group>"; };
-		46A00B403166BEF9EE215F6CB59BE9A6 /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		46A00B403166BEF9EE215F6CB59BE9A6 /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SwaggerClient.framework; path = "Pods-SwaggerClient.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47F1D5162720B2001CA614017A1ACE90 /* join.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = join.m; path = Sources/join.m; sourceTree = "<group>"; };
 		48B406C5392E8AC40762B8EDE6DF1FE8 /* PromiseKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PromiseKit-prefix.pch"; sourceTree = "<group>"; };
 		49A545F954B2A10B0D26618084D1FF73 /* Tag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		4DD27DB5AB64425B97113FA8D5A10F19 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EB7BF4F57FA381E9DA7A1AA9B04857D /* PetstoreClient.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PetstoreClient.modulemap; sourceTree = "<group>"; };
 		4F8D293ABA4E6DE8B257C7E9899F1B08 /* TaskDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TaskDelegate.swift; path = Source/TaskDelegate.swift; sourceTree = "<group>"; };
-		501C268D3DC431E81C876F4F7EE389C6 /* PetstoreClient.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = PetstoreClient.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		501C268D3DC431E81C876F4F7EE389C6 /* PetstoreClient.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = PetstoreClient.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		53DCDFCEE59497257D4D8E5C61AC1BF6 /* APIHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = APIHelper.swift; path = PetstoreClient/Classes/OpenAPIs/APIHelper.swift; sourceTree = "<group>"; };
 		54DD29EE59FE04DF98E96700B3A276DB /* join.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = join.swift; path = Sources/join.swift; sourceTree = "<group>"; };
 		5D9E3149DFEE7783ACEC1596236B2268 /* Return.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Return.swift; sourceTree = "<group>"; };
@@ -237,10 +237,10 @@
 		80933905730AC186F9CA86852B3817E6 /* AnyPromise.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AnyPromise.h; path = Sources/AnyPromise.h; sourceTree = "<group>"; };
 		814471C0F27B39D751143F0CD53670BD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88B5354642428AF26C69F2155FEBFA4B /* OuterEnum.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OuterEnum.swift; sourceTree = "<group>"; };
-		8BBF3490280C4ED53738743F84C890BC /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BBF3490280C4ED53738743F84C890BC /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SwaggerClientTests.framework; path = "Pods-SwaggerClientTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C249F0D3A4AFFFC155DEC2FBB68F0CC /* Capitalization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Capitalization.swift; sourceTree = "<group>"; };
 		8FB2BB634F7165B7E02CB903C153DD5F /* StoreAPI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StoreAPI.swift; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		947066689D96D035F88E7408FA47E193 /* Promise+AnyPromise.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Promise+AnyPromise.swift"; path = "Sources/Promise+AnyPromise.swift"; sourceTree = "<group>"; };
 		948BFEDB052F09AD8DAE3BD3CB286673 /* ResponseSerialization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ResponseSerialization.swift; path = Source/ResponseSerialization.swift; sourceTree = "<group>"; };
 		9585493102C1567226760B6BACFDF648 /* SessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = Source/SessionManager.swift; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 		A16286911EF2D17072D77A2B43E34006 /* Alamofire-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Alamofire-umbrella.h"; sourceTree = "<group>"; };
 		AAFFDA41414FACE0139A3B1F22FB6717 /* EnumTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EnumTest.swift; sourceTree = "<group>"; };
 		ACDBB9A0818694ED3F5545A2102E7624 /* dispatch_promise.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = dispatch_promise.m; path = Sources/dispatch_promise.m; sourceTree = "<group>"; };
-		AD3B511F5C43568AAFBA2714468F9FD5 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD3B511F5C43568AAFBA2714468F9FD5 /* PromiseKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PromiseKit.framework; path = PromiseKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE6E736FF5D4320FE1647DB1724C14B8 /* Timeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Timeline.swift; path = Source/Timeline.swift; sourceTree = "<group>"; };
 		AE8315D9D127E9BAC2C7256DB40D1D6D /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
 		B40D76A0512402285DC5FCF2795D7926 /* APIs.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = APIs.swift; path = PetstoreClient/Classes/OpenAPIs/APIs.swift; sourceTree = "<group>"; };
@@ -289,7 +289,7 @@
 		E72DCDE9F2C72B8A7CC6C951429DE6EF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		E775A7621846699F1A762DB966B3DC48 /* State.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = State.swift; path = Sources/State.swift; sourceTree = "<group>"; };
 		E7FFC55F1307BC98855D3D546660D4F2 /* OuterComposite.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = OuterComposite.swift; sourceTree = "<group>"; };
-		E80A16C989615AAE419866DB4FD10185 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E80A16C989615AAE419866DB4FD10185 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E81223B1EAA15A1063FABA2C1F83FD46 /* NumberOnly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NumberOnly.swift; sourceTree = "<group>"; };
 		EEA7D6AB49001069ED310CBCA8FCBB44 /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
 		F388A1ADD212030D9542E86628F22BD6 /* Pods-SwaggerClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-SwaggerClient.release.xcconfig"; sourceTree = "<group>"; };
@@ -356,6 +356,7 @@
 				15CB611E37F9E1F821FFD8B29C385FF9 /* CorePromise */,
 				63AC42361BEBCC6C083B9575B72D40DE /* Support Files */,
 			);
+			name = PromiseKit;
 			path = PromiseKit;
 			sourceTree = "<group>";
 		};
@@ -411,6 +412,7 @@
 				08A7F97EB8AC32E44E21839FA607D2CE /* Validation.swift */,
 				699F78D1F95BB0051EF9E96BA468FBDD /* Support Files */,
 			);
+			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -1031,7 +1033,39 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		052C9C12EED366CB4F04F8485EA47C86 /* Release */ = {
+		0A5EDEB5E747FB5A3C01A8A74E768F19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 45FB2502919E80623D265FE19C0A8FC4 /* Alamofire.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Alamofire/Alamofire-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Alamofire/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Alamofire/Alamofire.modulemap";
+				PRODUCT_MODULE_NAME = Alamofire;
+				PRODUCT_NAME = Alamofire;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		1C4D9D8B4B0B58B9CE50A2EC57763147 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 451D13FDA61BDE9EB91BBC6CEA52AED4 /* PromiseKit.xcconfig */;
 			buildSettings = {
@@ -1124,12 +1158,12 @@
 				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		2A03D91D951518C100A4931F749127B5 /* Debug */ = {
+		2E9278E2913BC2126BC29FBE78815918 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45FB2502919E80623D265FE19C0A8FC4 /* Alamofire.xcconfig */;
 			buildSettings = {
@@ -1160,40 +1194,9 @@
 			};
 			name = Debug;
 		};
-		2A04246FBBB293C6F48F301C8DD3FF93 /* Debug */ = {
+		38B6E741CA9DFA14FC1A0E5C462C1514 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4C5C74CD00CFB8204601915777CDAD8 /* PetstoreClient.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/PetstoreClient/PetstoreClient-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/PetstoreClient/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/PetstoreClient/PetstoreClient.modulemap";
-				PRODUCT_MODULE_NAME = PetstoreClient;
-				PRODUCT_NAME = PetstoreClient;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		379E046DD66C31EEA4465CA8FD4C27A6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F388A1ADD212030D9542E86628F22BD6 /* Pods-SwaggerClient.release.xcconfig */;
+			baseConfigurationReference = FDBB687EF1CAF131DB3DDD99AAE54AB6 /* Pods-SwaggerClientTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1205,12 +1208,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SwaggerClient/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-SwaggerClientTests/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1218,7 +1221,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1226,72 +1228,7 @@
 			};
 			name = Release;
 		};
-		4D647D2C16E6372610D86270DE144A26 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 451D13FDA61BDE9EB91BBC6CEA52AED4 /* PromiseKit.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/PromiseKit/PromiseKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/PromiseKit/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/PromiseKit/PromiseKit.modulemap";
-				PRODUCT_MODULE_NAME = PromiseKit;
-				PRODUCT_NAME = PromiseKit;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		4FD12277BD1F25FBFC02017B06308535 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE8315D9D127E9BAC2C7256DB40D1D6D /* Pods-SwaggerClient.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SwaggerClient/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		60044B7EC75FE1C4EC53B4CF68EFE151 /* Debug */ = {
+		500E98573558DDE71480CACA286F49F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1ACCB3378E1513AEAADC85C4036257E4 /* Pods-SwaggerClientTests.debug.xcconfig */;
 			buildSettings = {
@@ -1318,16 +1255,15 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		9446F1DF032A0B2E0A647898F1B3034E /* Release */ = {
+		535CAE19B0A36EE9C78D852501067528 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 45FB2502919E80623D265FE19C0A8FC4 /* Alamofire.xcconfig */;
+			baseConfigurationReference = B4C5C74CD00CFB8204601915777CDAD8 /* PetstoreClient.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1338,14 +1274,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Alamofire/Alamofire-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Alamofire/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/PetstoreClient/PetstoreClient-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/PetstoreClient/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Alamofire/Alamofire.modulemap";
-				PRODUCT_MODULE_NAME = Alamofire;
-				PRODUCT_NAME = Alamofire;
+				MODULEMAP_FILE = "Target Support Files/PetstoreClient/PetstoreClient.modulemap";
+				PRODUCT_MODULE_NAME = PetstoreClient;
+				PRODUCT_NAME = PetstoreClient;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -1356,6 +1292,39 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		A0782DA178B083E1071268C8AE32EE5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AE8315D9D127E9BAC2C7256DB40D1D6D /* Pods-SwaggerClient.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-SwaggerClient/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		AA132D0D9F065373411EBFA7A6B7A947 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1412,48 +1381,14 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
 		};
-		AF43F1EC954C5BA3BE8C4339F5677A88 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FDBB687EF1CAF131DB3DDD99AAE54AB6 /* Pods-SwaggerClientTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-SwaggerClientTests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		DEF684C66033084509612D866039F419 /* Release */ = {
+		B5342C9885B636CE0CEA3E231A86AA4C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B4C5C74CD00CFB8204601915777CDAD8 /* PetstoreClient.xcconfig */;
 			buildSettings = {
@@ -1479,6 +1414,70 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B892647419E33B104186B6C57EE229D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 451D13FDA61BDE9EB91BBC6CEA52AED4 /* PromiseKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/PromiseKit/PromiseKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/PromiseKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/PromiseKit/PromiseKit.modulemap";
+				PRODUCT_MODULE_NAME = PromiseKit;
+				PRODUCT_NAME = PromiseKit;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		DBB468A0027CA362D8D7951C55840E31 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F388A1ADD212030D9542E86628F22BD6 /* Pods-SwaggerClient.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-SwaggerClient/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1491,8 +1490,8 @@
 		2B2CBC0406D06EB33EEA41A284879F46 /* Build configuration list for PBXNativeTarget "Pods-SwaggerClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4FD12277BD1F25FBFC02017B06308535 /* Debug */,
-				379E046DD66C31EEA4465CA8FD4C27A6 /* Release */,
+				A0782DA178B083E1071268C8AE32EE5E /* Debug */,
+				DBB468A0027CA362D8D7951C55840E31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1509,8 +1508,8 @@
 		3274FB8E04EC2FA338B7782D4F392D13 /* Build configuration list for PBXNativeTarget "PetstoreClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A04246FBBB293C6F48F301C8DD3FF93 /* Debug */,
-				DEF684C66033084509612D866039F419 /* Release */,
+				B5342C9885B636CE0CEA3E231A86AA4C /* Debug */,
+				535CAE19B0A36EE9C78D852501067528 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1518,8 +1517,8 @@
 		427F0F003A1AD80AE00155AFCDEFAC20 /* Build configuration list for PBXNativeTarget "Alamofire" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A03D91D951518C100A4931F749127B5 /* Debug */,
-				9446F1DF032A0B2E0A647898F1B3034E /* Release */,
+				2E9278E2913BC2126BC29FBE78815918 /* Debug */,
+				0A5EDEB5E747FB5A3C01A8A74E768F19 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1527,8 +1526,8 @@
 		7DFD16CAA839D5E2607A2D7700691018 /* Build configuration list for PBXNativeTarget "Pods-SwaggerClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				60044B7EC75FE1C4EC53B4CF68EFE151 /* Debug */,
-				AF43F1EC954C5BA3BE8C4339F5677A88 /* Release */,
+				500E98573558DDE71480CACA286F49F5 /* Debug */,
+				38B6E741CA9DFA14FC1A0E5C462C1514 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1536,8 +1535,8 @@
 		B4D6ACD959AB5AE83A80961D086A68E9 /* Build configuration list for PBXNativeTarget "PromiseKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4D647D2C16E6372610D86270DE144A26 /* Debug */,
-				052C9C12EED366CB4F04F8485EA47C86 /* Release */,
+				B892647419E33B104186B6C57EE229D4 /* Debug */,
+				1C4D9D8B4B0B58B9CE50A2EC57763147 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

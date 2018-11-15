@@ -442,7 +442,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A638467ACFB30852DEA51F7A /* Pods-SwaggerClient.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SwaggerClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -455,7 +454,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC60BDC7328C2AA916F25840 /* Pods-SwaggerClient.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SwaggerClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -337,7 +337,7 @@
 		14B3C282191A88FADAB9CC2C684F72AA /* SpecialModelName.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SpecialModelName.swift; sourceTree = "<group>"; };
 		14ECE86EF7E19B1B7E97C070CC6BF34A /* SerialDisposable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SerialDisposable.swift; path = RxSwift/Disposables/SerialDisposable.swift; sourceTree = "<group>"; };
 		16FCB507A3FA489F663DC7D002325839 /* GroupBy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GroupBy.swift; path = RxSwift/Observables/GroupBy.swift; sourceTree = "<group>"; };
-		17C72882D5F578CFBC52EE6EED3D871B /* RxAtomic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxAtomic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		17C72882D5F578CFBC52EE6EED3D871B /* RxAtomic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = RxAtomic.framework; path = RxAtomic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		184177FFE14520003E3576223CB74A9F /* RxAtomic.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RxAtomic.h; path = RxAtomic/include/RxAtomic.h; sourceTree = "<group>"; };
 		1887B771AE7974C7BD30EC913AAB1F46 /* Errors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = RxSwift/Errors.swift; sourceTree = "<group>"; };
 		18B675845795AE8F97C41BFE1B734DF3 /* EnumArrays.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EnumArrays.swift; sourceTree = "<group>"; };
@@ -403,7 +403,7 @@
 		4DD24A13C40FA74505FB3929F63A4396 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EB7BF4F57FA381E9DA7A1AA9B04857D /* PetstoreClient.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = PetstoreClient.modulemap; sourceTree = "<group>"; };
 		4F7F5C940BBCAC29EB96D076E339B4A6 /* Do.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Do.swift; path = RxSwift/Observables/Do.swift; sourceTree = "<group>"; };
-		501C268D3DC431E81C876F4F7EE389C6 /* PetstoreClient.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = PetstoreClient.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		501C268D3DC431E81C876F4F7EE389C6 /* PetstoreClient.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = PetstoreClient.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		50412DC769ED9F64828FBE62B247E46B /* ScheduledItemType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScheduledItemType.swift; path = RxSwift/Schedulers/Internal/ScheduledItemType.swift; sourceTree = "<group>"; };
 		50944B5CEDCB1CD89E302F0EC2E91192 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Result.swift; sourceTree = "<group>"; };
 		509B43E693D48C812F2574A086894CCC /* First.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = First.swift; path = RxSwift/Observables/First.swift; sourceTree = "<group>"; };
@@ -424,7 +424,7 @@
 		61179CE650778B2A5C39664F0A792B5C /* List.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 		624138DD4F5061C01B2B15E6DEE6A5B1 /* ScheduledDisposable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScheduledDisposable.swift; path = RxSwift/Disposables/ScheduledDisposable.swift; sourceTree = "<group>"; };
 		628ACCA352429B0E67A556C3EAE3D6BF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6306133179CC6DE689021E70C558607F /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6306133179CC6DE689021E70C558607F /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = RxSwift.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		647C9A78AC3A206D422DCCE925421541 /* ParameterEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParameterEncoding.swift; path = Source/ParameterEncoding.swift; sourceTree = "<group>"; };
 		65AEDDCD78284D4EB9977F3125AD411A /* Response.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Response.swift; path = Source/Response.swift; sourceTree = "<group>"; };
 		664DFCC8F8B25AC2C0F124826FDC13DD /* AFError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AFError.swift; path = Source/AFError.swift; sourceTree = "<group>"; };
@@ -475,7 +475,7 @@
 		90F8739B7B5D5F8F000FEC5FDAFD30B3 /* SingleAsync.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SingleAsync.swift; path = RxSwift/Observables/SingleAsync.swift; sourceTree = "<group>"; };
 		92BDA682FD29ED3470519B761C6BCBEE /* Platform.Linux.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Platform.Linux.swift; path = Platform/Platform.Linux.swift; sourceTree = "<group>"; };
 		92D7249D4FDF4529B8F5604A897878A3 /* Sample.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Sample.swift; path = RxSwift/Observables/Sample.swift; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		94B3FC47FE1246D199ED30F899FEAE38 /* Debounce.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Debounce.swift; path = RxSwift/Observables/Debounce.swift; sourceTree = "<group>"; };
 		95191617864DB139A0C0C832781CCFA2 /* BooleanDisposable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BooleanDisposable.swift; path = RxSwift/Disposables/BooleanDisposable.swift; sourceTree = "<group>"; };
 		9554645C8D016F765E3E070442DCA090 /* Just.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Just.swift; path = RxSwift/Observables/Just.swift; sourceTree = "<group>"; };
@@ -483,7 +483,7 @@
 		974697BA63D3232B3CBCF781253D6FD8 /* PetstoreClient-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PetstoreClient-umbrella.h"; sourceTree = "<group>"; };
 		979D8AD838652BF7D9424E2151C79C74 /* WithLatestFrom.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WithLatestFrom.swift; path = RxSwift/Observables/WithLatestFrom.swift; sourceTree = "<group>"; };
 		97ED6EBFC1385B7F45250F5C2F5F1AC2 /* ConnectableObservableType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConnectableObservableType.swift; path = RxSwift/ConnectableObservableType.swift; sourceTree = "<group>"; };
-		983B7F0069F6EA0BD1F79B633452A7FB /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		983B7F0069F6EA0BD1F79B633452A7FB /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SwaggerClientTests.framework; path = "Pods-SwaggerClientTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98D8CFD3F0776AAA45863EE9A39E8C7F /* PublishSubject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PublishSubject.swift; path = RxSwift/Subjects/PublishSubject.swift; sourceTree = "<group>"; };
 		99DF44C1F5C22BD3DA5F4F76B96327FB /* SynchronizedOnType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SynchronizedOnType.swift; path = RxSwift/Concurrency/SynchronizedOnType.swift; sourceTree = "<group>"; };
 		99F9BCF8CA1D20373C9E38F922ED13BC /* ElementAt.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ElementAt.swift; path = RxSwift/Observables/ElementAt.swift; sourceTree = "<group>"; };
@@ -505,7 +505,7 @@
 		A4810EBF55051A5DC31D543402ABA077 /* ToArray.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToArray.swift; path = RxSwift/Observables/ToArray.swift; sourceTree = "<group>"; };
 		A8E1B9393D5148667FDA9BA056A3BC93 /* Using.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Using.swift; path = RxSwift/Observables/Using.swift; sourceTree = "<group>"; };
 		A96A149BEF2050A37CD9A96E57AF2FE2 /* Alamofire.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Alamofire.xcconfig; sourceTree = "<group>"; };
-		A9BE9E4EC3C181F7F793F96B3BE8F86C /* PetstoreClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PetstoreClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9BE9E4EC3C181F7F793F96B3BE8F86C /* PetstoreClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = PetstoreClient.framework; path = PetstoreClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA2852020F927816CCDE72C6511D2E4F /* ConcurrentMainScheduler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConcurrentMainScheduler.swift; path = RxSwift/Schedulers/ConcurrentMainScheduler.swift; sourceTree = "<group>"; };
 		AADF426E4B27104D1C0E8E12CB955499 /* Materialize.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Materialize.swift; path = RxSwift/Observables/Materialize.swift; sourceTree = "<group>"; };
 		AAFFDA41414FACE0139A3B1F22FB6717 /* EnumTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EnumTest.swift; sourceTree = "<group>"; };
@@ -531,7 +531,7 @@
 		C35FA7574B8867FB7DA037AB7C30F82B /* VirtualTimeConverterType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = VirtualTimeConverterType.swift; path = RxSwift/Schedulers/VirtualTimeConverterType.swift; sourceTree = "<group>"; };
 		C472BBCF4E7828F9351794304E35DAB5 /* Disposable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Disposable.swift; path = RxSwift/Disposable.swift; sourceTree = "<group>"; };
 		C4A0C6506BBE76189174FFF1C0ECCFB4 /* Empty.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Empty.swift; path = RxSwift/Observables/Empty.swift; sourceTree = "<group>"; };
-		C59929454AF9BAB3E825AB4632A4963B /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C59929454AF9BAB3E825AB4632A4963B /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_SwaggerClient.framework; path = "Pods-SwaggerClient.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6E49082BB281EDC5D7B6E76772E87CF /* FormatTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FormatTest.swift; sourceTree = "<group>"; };
 		C7646978EDF8E84559E93D30EFE59CF1 /* Repeat.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Repeat.swift; path = RxSwift/Observables/Repeat.swift; sourceTree = "<group>"; };
 		C78EABFE61E6B1A811A930550037EC14 /* DisposeBase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DisposeBase.swift; path = RxSwift/Disposables/DisposeBase.swift; sourceTree = "<group>"; };
@@ -544,7 +544,7 @@
 		D0C0EB5B01F72A9A45B1BA302716832A /* DisposeBag.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DisposeBag.swift; path = RxSwift/Disposables/DisposeBag.swift; sourceTree = "<group>"; };
 		D17862ECB73D530AB2CB1BB84C30B7FB /* Switch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Switch.swift; path = RxSwift/Observables/Switch.swift; sourceTree = "<group>"; };
 		D181D395BCD88FFF4CDF8C79D9029352 /* Multicast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Multicast.swift; path = RxSwift/Observables/Multicast.swift; sourceTree = "<group>"; };
-		D1903E9147683D5A20200EB371B1F05A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1903E9147683D5A20200EB371B1F05A /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Alamofire.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2440DF1256E6178508CDE576FF05C58 /* RxSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RxSwift-dummy.m"; sourceTree = "<group>"; };
 		D2DDAE4995DB14893EA47ED21E6742BA /* ReadOnlyFirst.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReadOnlyFirst.swift; sourceTree = "<group>"; };
 		D3E976E4111B5963B6A10C1115A2B7F3 /* RxSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = RxSwift.modulemap; sourceTree = "<group>"; };
@@ -585,7 +585,7 @@
 		F6895FB2CB932892FC0A63C5A2ED5707 /* Skip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Skip.swift; path = RxSwift/Observables/Skip.swift; sourceTree = "<group>"; };
 		F74D23F29997DBC2D8D3E877067A6575 /* AsyncSubject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AsyncSubject.swift; path = RxSwift/Subjects/AsyncSubject.swift; sourceTree = "<group>"; };
 		F8FCC3BC0A0823C3FF68C4E1EF67B2FD /* Pods-SwaggerClient-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-SwaggerClient-dummy.m"; sourceTree = "<group>"; };
-		F91A5F83D79D90843B8E0DF27F74DC94 /* RxAtomic.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = RxAtomic.c; path = RxAtomic/RxAtomic.c; sourceTree = "<group>"; };
+		F91A5F83D79D90843B8E0DF27F74DC94 /* RxAtomic.c */ = {isa = PBXFileReference; includeInIndex = 1; name = RxAtomic.c; path = RxAtomic/RxAtomic.c; sourceTree = "<group>"; };
 		FD06CCCAF7E011CE929AA102BE4ADD5B /* Zip.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Zip.swift; path = RxSwift/Observables/Zip.swift; sourceTree = "<group>"; };
 		FDAB71F06CE94B9B9AD9438DAC00B6D2 /* AnimalFarm.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AnimalFarm.swift; sourceTree = "<group>"; };
 		FDB3743CD667A907E68D4B1C8BA7F8C2 /* Reduce.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Reduce.swift; path = RxSwift/Observables/Reduce.swift; sourceTree = "<group>"; };
@@ -993,6 +993,7 @@
 				08ACF082BFEB70DAD261BE2F71B5CD64 /* Zip+Collection.swift */,
 				1FFA4AFD35DACDDB13209BEA81BAE0C8 /* Support Files */,
 			);
+			name = RxSwift;
 			path = RxSwift;
 			sourceTree = "<group>";
 		};
@@ -1014,6 +1015,7 @@
 				184177FFE14520003E3576223CB74A9F /* RxAtomic.h */,
 				158FC80F4FB85F98568F2BB120712505 /* Support Files */,
 			);
+			name = RxAtomic;
 			path = RxAtomic;
 			sourceTree = "<group>";
 		};
@@ -1048,6 +1050,7 @@
 				26C36785784D4AC1D25E99C0A048A97C /* Validation.swift */,
 				0A77CD901D4C20ABDDC29323D948B813 /* Support Files */,
 			);
+			name = Alamofire;
 			path = Alamofire;
 			sourceTree = "<group>";
 		};
@@ -1738,7 +1741,7 @@
 			};
 			name = Debug;
 		};
-		2A03D91D951518C100A4931F749127B5 /* Debug */ = {
+		1EAFDB7DE59A16060DF36FC40DC2E750 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A96A149BEF2050A37CD9A96E57AF2FE2 /* Alamofire.xcconfig */;
 			buildSettings = {
@@ -1764,10 +1767,43 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
+		};
+		3A97A30AD22F3F0ED62BD32A51C530C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4C5C74CD00CFB8204601915777CDAD8 /* PetstoreClient.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/PetstoreClient/PetstoreClient-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/PetstoreClient/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/PetstoreClient/PetstoreClient.modulemap";
+				PRODUCT_MODULE_NAME = PetstoreClient;
+				PRODUCT_NAME = PetstoreClient;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		50646285DD9FD95AF390BDA3FB1948EA /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1890,13 +1926,77 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
 		};
-		70F058B87C5BAFF59D638C33F3A28CF2 /* Debug */ = {
+		6076997D534588D07B9C1B1B323EF999 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B3A3E4A7CB12148CAB2026BEC41959F /* RxSwift.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RxSwift/RxSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RxSwift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/RxSwift/RxSwift.modulemap";
+				PRODUCT_MODULE_NAME = RxSwift;
+				PRODUCT_NAME = RxSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		7C99284BFB164E1BC479CF3C336FD072 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B4C5C74CD00CFB8204601915777CDAD8 /* PetstoreClient.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/PetstoreClient/PetstoreClient-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/PetstoreClient/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/PetstoreClient/PetstoreClient.modulemap";
+				PRODUCT_MODULE_NAME = PetstoreClient;
+				PRODUCT_NAME = PetstoreClient;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8D1A76DCD4BB50EF0A50E3E1AF55E09E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 90B48B645BDF3791D23C1848534FAA41 /* RxAtomic.xcconfig */;
 			buildSettings = {
@@ -1926,132 +2026,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		72AA3BF09D5DB329EE836D48A41A5FDA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B3A3E4A7CB12148CAB2026BEC41959F /* RxSwift.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RxSwift/RxSwift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RxSwift/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/RxSwift/RxSwift.modulemap";
-				PRODUCT_MODULE_NAME = RxSwift;
-				PRODUCT_NAME = RxSwift;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		9446F1DF032A0B2E0A647898F1B3034E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A96A149BEF2050A37CD9A96E57AF2FE2 /* Alamofire.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Alamofire/Alamofire-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Alamofire/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Alamofire/Alamofire.modulemap";
-				PRODUCT_MODULE_NAME = Alamofire;
-				PRODUCT_NAME = Alamofire;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		A7F1D77BC7C53F2795965F237B26F7E2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4C5C74CD00CFB8204601915777CDAD8 /* PetstoreClient.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/PetstoreClient/PetstoreClient-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/PetstoreClient/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/PetstoreClient/PetstoreClient.modulemap";
-				PRODUCT_MODULE_NAME = PetstoreClient;
-				PRODUCT_NAME = PetstoreClient;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		BE357B4EA700CA7AB1DD369E5339FBBD /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4C5C74CD00CFB8204601915777CDAD8 /* PetstoreClient.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/PetstoreClient/PetstoreClient-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/PetstoreClient/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/PetstoreClient/PetstoreClient.modulemap";
-				PRODUCT_MODULE_NAME = PetstoreClient;
-				PRODUCT_NAME = PetstoreClient;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
 		};
 		BF40C45D527467C3DC0BEABE2E2471C9 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2087,7 +2061,7 @@
 			};
 			name = Release;
 		};
-		D26DCA99F3B64C9E70BE44606FD6A2CB /* Release */ = {
+		CB319D268B958318323DE1F967B3142E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9B3A3E4A7CB12148CAB2026BEC41959F /* RxSwift.xcconfig */;
 			buildSettings = {
@@ -2108,6 +2082,37 @@
 				MODULEMAP_FILE = "Target Support Files/RxSwift/RxSwift.modulemap";
 				PRODUCT_MODULE_NAME = RxSwift;
 				PRODUCT_NAME = RxSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F67E9C643A39F31BBB34CE20D7DB5505 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 90B48B645BDF3791D23C1848534FAA41 /* RxAtomic.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RxAtomic/RxAtomic-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RxAtomic/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/RxAtomic/RxAtomic.modulemap";
+				PRODUCT_MODULE_NAME = RxAtomic;
+				PRODUCT_NAME = RxAtomic;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -2152,9 +2157,9 @@
 			};
 			name = Debug;
 		};
-		FF2D9CD77618D3DCD23212A6F62F1700 /* Release */ = {
+		F9711F223F590669E94B504F3CC44301 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 90B48B645BDF3791D23C1848534FAA41 /* RxAtomic.xcconfig */;
+			baseConfigurationReference = A96A149BEF2050A37CD9A96E57AF2FE2 /* Alamofire.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -2165,24 +2170,23 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RxAtomic/RxAtomic-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RxAtomic/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/Alamofire/Alamofire-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Alamofire/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/RxAtomic/RxAtomic.modulemap";
-				PRODUCT_MODULE_NAME = RxAtomic;
-				PRODUCT_NAME = RxAtomic;
+				MODULEMAP_FILE = "Target Support Files/Alamofire/Alamofire.modulemap";
+				PRODUCT_MODULE_NAME = Alamofire;
+				PRODUCT_NAME = Alamofire;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2199,8 +2203,8 @@
 		3FD527BEA374E1B650791BCDB0CD8FD8 /* Build configuration list for PBXNativeTarget "PetstoreClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A7F1D77BC7C53F2795965F237B26F7E2 /* Debug */,
-				BE357B4EA700CA7AB1DD369E5339FBBD /* Release */,
+				7C99284BFB164E1BC479CF3C336FD072 /* Debug */,
+				3A97A30AD22F3F0ED62BD32A51C530C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2208,8 +2212,8 @@
 		427F0F003A1AD80AE00155AFCDEFAC20 /* Build configuration list for PBXNativeTarget "Alamofire" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A03D91D951518C100A4931F749127B5 /* Debug */,
-				9446F1DF032A0B2E0A647898F1B3034E /* Release */,
+				F9711F223F590669E94B504F3CC44301 /* Debug */,
+				1EAFDB7DE59A16060DF36FC40DC2E750 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2226,8 +2230,8 @@
 		76B13691DB32711A6B8BBD77E07FDA57 /* Build configuration list for PBXNativeTarget "RxAtomic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				70F058B87C5BAFF59D638C33F3A28CF2 /* Debug */,
-				FF2D9CD77618D3DCD23212A6F62F1700 /* Release */,
+				8D1A76DCD4BB50EF0A50E3E1AF55E09E /* Debug */,
+				F67E9C643A39F31BBB34CE20D7DB5505 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2244,8 +2248,8 @@
 		ADAF7919989331C2B58E796ABE9FC08F /* Build configuration list for PBXNativeTarget "RxSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				72AA3BF09D5DB329EE836D48A41A5FDA /* Debug */,
-				D26DCA99F3B64C9E70BE44606FD6A2CB /* Release */,
+				CB319D268B958318323DE1F967B3142E /* Debug */,
+				6076997D534588D07B9C1B1B323EF999 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

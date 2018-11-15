@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		54DA06C1D70D78EC0EC72B61 /* Pods_SwaggerClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F65B6638217EDDC99D103B16 /* Pods_SwaggerClientTests.framework */; };
 		6D4EFB951C692C6300B96B06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFB941C692C6300B96B06 /* AppDelegate.swift */; };
 		6D4EFB971C692C6300B96B06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFB961C692C6300B96B06 /* ViewController.swift */; };
 		6D4EFB9A1C692C6300B96B06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6D4EFB981C692C6300B96B06 /* Main.storyboard */; };
@@ -16,7 +15,8 @@
 		6D4EFBB51C693BE200B96B06 /* PetAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */; };
 		6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */; };
 		6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */; };
-		751C65B82F596107A3DC8ED9 /* Pods_SwaggerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F60AECFF321A25553B6A5B0 /* Pods_SwaggerClient.framework */; };
+		7FB770859FB736C5F26B5584 /* Pods_SwaggerClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557897B1B6F1B9782541661C /* Pods_SwaggerClientTests.framework */; };
+		964BB70C4D910EAF53AC1FA3 /* Pods_SwaggerClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86BFFBCD1BA8D9302F21F26F /* Pods_SwaggerClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		289E8A9E9C0BB66AD190C7C6 /* Pods-SwaggerClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.debug.xcconfig"; sourceTree = "<group>"; };
+		29178114B1FA748B08DE48CB /* Pods-SwaggerClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.debug.xcconfig"; sourceTree = "<group>"; };
+		557897B1B6F1B9782541661C /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D4EFB911C692C6300B96B06 /* SwaggerClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwaggerClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D4EFB941C692C6300B96B06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6D4EFB961C692C6300B96B06 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -43,12 +44,11 @@
 		6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PetAPITests.swift; sourceTree = "<group>"; };
 		6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreAPITests.swift; sourceTree = "<group>"; };
 		6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAPITests.swift; sourceTree = "<group>"; };
-		8F60AECFF321A25553B6A5B0 /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A638467ACFB30852DEA51F7A /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
-		B4B2BEC2ECA535C616F2F3FE /* Pods-SwaggerClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.release.xcconfig"; sourceTree = "<group>"; };
+		7E278E7B05E3573F2A0EC82B /* Pods-SwaggerClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.debug.xcconfig"; sourceTree = "<group>"; };
+		86BFFBCD1BA8D9302F21F26F /* Pods_SwaggerClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A99553405A0930EEAAD3A0A9 /* Pods-SwaggerClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.release.xcconfig"; sourceTree = "<group>"; };
+		AFEEE9600B9017B0583B3B18 /* Pods-SwaggerClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.release.xcconfig"; sourceTree = "<group>"; };
 		C07EC0A94AA0F86D60668B32 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F65B6638217EDDC99D103B16 /* Pods_SwaggerClientTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwaggerClientTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC60BDC7328C2AA916F25840 /* Pods-SwaggerClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				751C65B82F596107A3DC8ED9 /* Pods_SwaggerClient.framework in Frameworks */,
+				964BB70C4D910EAF53AC1FA3 /* Pods_SwaggerClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,32 +64,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				54DA06C1D70D78EC0EC72B61 /* Pods_SwaggerClientTests.framework in Frameworks */,
+				7FB770859FB736C5F26B5584 /* Pods_SwaggerClientTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0CAA98BEFA303B94D3664C7D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A638467ACFB30852DEA51F7A /* Pods-SwaggerClient.debug.xcconfig */,
-				FC60BDC7328C2AA916F25840 /* Pods-SwaggerClient.release.xcconfig */,
-				289E8A9E9C0BB66AD190C7C6 /* Pods-SwaggerClientTests.debug.xcconfig */,
-				B4B2BEC2ECA535C616F2F3FE /* Pods-SwaggerClientTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		3FABC56EC0BA84CBF4F99564 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				C07EC0A94AA0F86D60668B32 /* Pods.framework */,
-				8F60AECFF321A25553B6A5B0 /* Pods_SwaggerClient.framework */,
-				F65B6638217EDDC99D103B16 /* Pods_SwaggerClientTests.framework */,
+				86BFFBCD1BA8D9302F21F26F /* Pods_SwaggerClient.framework */,
+				557897B1B6F1B9782541661C /* Pods_SwaggerClientTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5E3EB7821B4B3C5BE78CEE27 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7E278E7B05E3573F2A0EC82B /* Pods-SwaggerClient.debug.xcconfig */,
+				AFEEE9600B9017B0583B3B18 /* Pods-SwaggerClient.release.xcconfig */,
+				29178114B1FA748B08DE48CB /* Pods-SwaggerClientTests.debug.xcconfig */,
+				A99553405A0930EEAAD3A0A9 /* Pods-SwaggerClientTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		6D4EFB881C692C6300B96B06 = {
@@ -99,7 +99,7 @@
 				6D4EFBA81C692C6300B96B06 /* SwaggerClientTests */,
 				6D4EFB921C692C6300B96B06 /* Products */,
 				3FABC56EC0BA84CBF4F99564 /* Frameworks */,
-				0CAA98BEFA303B94D3664C7D /* Pods */,
+				5E3EB7821B4B3C5BE78CEE27 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,13 +143,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D4EFBAE1C692C6300B96B06 /* Build configuration list for PBXNativeTarget "SwaggerClient" */;
 			buildPhases = (
-				CF310079E3CB0BE5BE604471 /* [CP] Check Pods Manifest.lock */,
-				1F03F780DC2D9727E5E64BA9 /* [CP] Check Pods Manifest.lock */,
+				8F8F24C45FBB6CFB442EFF58 /* [CP] Check Pods Manifest.lock */,
 				6D4EFB8D1C692C6300B96B06 /* Sources */,
 				6D4EFB8E1C692C6300B96B06 /* Frameworks */,
 				6D4EFB8F1C692C6300B96B06 /* Resources */,
-				4485A75250058E2D5BBDF63F /* [CP] Embed Pods Frameworks */,
-				3D9471620628F03313096EB2 /* 📦 Embed Pods Frameworks */,
+				F270C330435D1A2683E37EAB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -164,8 +162,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6D4EFBB11C692C6300B96B06 /* Build configuration list for PBXNativeTarget "SwaggerClientTests" */;
 			buildPhases = (
-				B4DB169E5F018305D6759D34 /* [CP] Check Pods Manifest.lock */,
-				79FE27B09B2DD354C831BD49 /* [CP] Check Pods Manifest.lock */,
+				A5A23F7B6767E2A2D72AA058 /* [CP] Check Pods Manifest.lock */,
 				6D4EFBA11C692C6300B96B06 /* Sources */,
 				6D4EFBA21C692C6300B96B06 /* Frameworks */,
 				6D4EFBA31C692C6300B96B06 /* Resources */,
@@ -241,81 +238,42 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1F03F780DC2D9727E5E64BA9 /* [CP] Check Pods Manifest.lock */ = {
+		8F8F24C45FBB6CFB442EFF58 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		3D9471620628F03313096EB2 /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4485A75250058E2D5BBDF63F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/PetstoreClient/PetstoreClient.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PetstoreClient.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		79FE27B09B2DD354C831BD49 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		B4DB169E5F018305D6759D34 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SwaggerClient-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A5A23F7B6767E2A2D72AA058 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-SwaggerClientTests-checkManifestLockResult.txt",
 			);
@@ -324,22 +282,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CF310079E3CB0BE5BE604471 /* [CP] Check Pods Manifest.lock */ = {
+		F270C330435D1A2683E37EAB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+			inputFileListPaths = (
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/PetstoreClient/PetstoreClient.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SwaggerClient-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PetstoreClient.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -481,7 +445,7 @@
 		};
 		6D4EFBAF1C692C6300B96B06 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A638467ACFB30852DEA51F7A /* Pods-SwaggerClient.debug.xcconfig */;
+			baseConfigurationReference = 7E278E7B05E3573F2A0EC82B /* Pods-SwaggerClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SwaggerClient/Info.plist;
@@ -493,7 +457,7 @@
 		};
 		6D4EFBB01C692C6300B96B06 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC60BDC7328C2AA916F25840 /* Pods-SwaggerClient.release.xcconfig */;
+			baseConfigurationReference = AFEEE9600B9017B0583B3B18 /* Pods-SwaggerClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SwaggerClient/Info.plist;
@@ -505,7 +469,7 @@
 		};
 		6D4EFBB21C692C6300B96B06 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 289E8A9E9C0BB66AD190C7C6 /* Pods-SwaggerClientTests.debug.xcconfig */;
+			baseConfigurationReference = 29178114B1FA748B08DE48CB /* Pods-SwaggerClientTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = SwaggerClientTests/Info.plist;
@@ -518,7 +482,7 @@
 		};
 		6D4EFBB31C692C6300B96B06 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4B2BEC2ECA535C616F2F3FE /* Pods-SwaggerClientTests.release.xcconfig */;
+			baseConfigurationReference = A99553405A0930EEAAD3A0A9 /* Pods-SwaggerClientTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = SwaggerClientTests/Info.plist;
