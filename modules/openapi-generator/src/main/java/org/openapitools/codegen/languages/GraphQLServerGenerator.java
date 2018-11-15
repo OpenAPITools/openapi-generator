@@ -22,10 +22,14 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
 public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements CodegenConfig {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLServerGenerator.class);
 
     @Override
     public CodegenType getTag() {
