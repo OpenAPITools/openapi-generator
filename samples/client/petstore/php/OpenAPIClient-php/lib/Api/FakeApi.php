@@ -2524,6 +2524,9 @@ class FakeApi
      *
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
+     * @param  int $required_string_group Required String in group parameters (required)
+     * @param  bool $required_boolean_group Required Boolean in group parameters (required)
+     * @param  int $required_int64_group Required Integer in group parameters (required)
      * @param  int $string_group String in group parameters (optional)
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
@@ -2544,6 +2547,9 @@ class FakeApi
      *
      * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
      *
+     * @param  int $required_string_group Required String in group parameters (required)
+     * @param  bool $required_boolean_group Required Boolean in group parameters (required)
+     * @param  int $required_int64_group Required Integer in group parameters (required)
      * @param  int $string_group String in group parameters (optional)
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
@@ -2554,7 +2560,7 @@ class FakeApi
      */
     public function testGroupParametersWithHttpInfo($associative_array)
     {
-        $request = $this->testGroupParametersRequest($associative_array['string_group'], $associative_array['boolean_group'], $associative_array['int64_group']);
+        $request = $this->testGroupParametersRequest($associative_array['required_string_group'], $associative_array['required_boolean_group'], $associative_array['required_int64_group'], $associative_array['string_group'], $associative_array['boolean_group'], $associative_array['int64_group']);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2600,6 +2606,9 @@ class FakeApi
      *
      * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
      *
+     * @param  int $required_string_group Required String in group parameters (required)
+     * @param  bool $required_boolean_group Required Boolean in group parameters (required)
+     * @param  int $required_int64_group Required Integer in group parameters (required)
      * @param  int $string_group String in group parameters (optional)
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
@@ -2624,6 +2633,9 @@ class FakeApi
      *
      * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
      *
+     * @param  int $required_string_group Required String in group parameters (required)
+     * @param  bool $required_boolean_group Required Boolean in group parameters (required)
+     * @param  int $required_int64_group Required Integer in group parameters (required)
      * @param  int $string_group String in group parameters (optional)
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
@@ -2664,6 +2676,9 @@ class FakeApi
      *
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
+     * @param  int $required_string_group Required String in group parameters (required)
+     * @param  bool $required_boolean_group Required Boolean in group parameters (required)
+     * @param  int $required_int64_group Required Integer in group parameters (required)
      * @param  int $string_group String in group parameters (optional)
      * @param  bool $boolean_group Boolean in group parameters (optional)
      * @param  int $int64_group Integer in group parameters (optional)
@@ -2674,10 +2689,31 @@ class FakeApi
     protected function testGroupParametersRequest($associative_array)
     {
         // unbox the parameters from the associative array
+        $required_string_group = array_key_exists('required_string_group', $associative_array) ? $associative_array['required_string_group'] : null;
+        $required_boolean_group = array_key_exists('required_boolean_group', $associative_array) ? $associative_array['required_boolean_group'] : null;
+        $required_int64_group = array_key_exists('required_int64_group', $associative_array) ? $associative_array['required_int64_group'] : null;
         $string_group = array_key_exists('string_group', $associative_array) ? $associative_array['string_group'] : null;
         $boolean_group = array_key_exists('boolean_group', $associative_array) ? $associative_array['boolean_group'] : null;
         $int64_group = array_key_exists('int64_group', $associative_array) ? $associative_array['int64_group'] : null;
 
+        // verify the required parameter 'required_string_group' is set
+        if ($required_string_group === null || (is_array($required_string_group) && count($required_string_group) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $required_string_group when calling testGroupParameters'
+            );
+        }
+        // verify the required parameter 'required_boolean_group' is set
+        if ($required_boolean_group === null || (is_array($required_boolean_group) && count($required_boolean_group) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $required_boolean_group when calling testGroupParameters'
+            );
+        }
+        // verify the required parameter 'required_int64_group' is set
+        if ($required_int64_group === null || (is_array($required_int64_group) && count($required_int64_group) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $required_int64_group when calling testGroupParameters'
+            );
+        }
 
         $resourcePath = '/fake';
         $formParams = [];
@@ -2687,12 +2723,24 @@ class FakeApi
         $multipart = false;
 
         // query params
+        if ($required_string_group !== null) {
+            $queryParams['required_string_group'] = ObjectSerializer::toQueryValue($required_string_group);
+        }
+        // query params
+        if ($required_int64_group !== null) {
+            $queryParams['required_int64_group'] = ObjectSerializer::toQueryValue($required_int64_group);
+        }
+        // query params
         if ($string_group !== null) {
             $queryParams['string_group'] = ObjectSerializer::toQueryValue($string_group);
         }
         // query params
         if ($int64_group !== null) {
             $queryParams['int64_group'] = ObjectSerializer::toQueryValue($int64_group);
+        }
+        // header params
+        if ($required_boolean_group !== null) {
+            $headerParams['required_boolean_group'] = ObjectSerializer::toHeaderValue($required_boolean_group);
         }
         // header params
         if ($boolean_group !== null) {

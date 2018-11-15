@@ -180,8 +180,17 @@ newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
 -- ** RequestBody
 newtype RequestBody = RequestBody { unRequestBody :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
 
+-- ** RequiredBooleanGroup
+newtype RequiredBooleanGroup = RequiredBooleanGroup { unRequiredBooleanGroup :: Bool } deriving (P.Eq, P.Show)
+
 -- ** RequiredFile
 newtype RequiredFile = RequiredFile { unRequiredFile :: FilePath } deriving (P.Eq, P.Show)
+
+-- ** RequiredInt64Group
+newtype RequiredInt64Group = RequiredInt64Group { unRequiredInt64Group :: Integer } deriving (P.Eq, P.Show)
+
+-- ** RequiredStringGroup
+newtype RequiredStringGroup = RequiredStringGroup { unRequiredStringGroup :: Int } deriving (P.Eq, P.Show)
 
 -- ** Status
 newtype Status = Status { unStatus :: [E'Status2] } deriving (P.Eq, P.Show)

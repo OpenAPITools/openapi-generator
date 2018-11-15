@@ -170,7 +170,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
         }
 
-
         if (System.getProperty("debugOpenAPI") != null) {
             Json.prettyPrint(openAPI);
         } else if (System.getProperty("debugSwagger") != null) {
@@ -524,8 +523,29 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 operation.put("importPath", config.toApiImport(tag));
                 operation.put("classFilename", config.toApiFilename(tag));
 
+                if (allModels == null || allModels.isEmpty()) {
+                    operation.put("hasModel", false);
+                } else {
+                    operation.put("hasModel", true);
+                }
+
                 if (!config.vendorExtensions().isEmpty()) {
                     operation.put("vendorExtensions", config.vendorExtensions());
+                }
+
+                // process top-level x-group-parameters
+                if (config.vendorExtensions().containsKey("x-group-parameters")) {
+                    Boolean isGroupParameters = Boolean.valueOf(config.vendorExtensions().get("x-group-parameters").toString());
+
+                    Map<String, Object> objectMap = (Map<String, Object>) operation.get("operations");
+                    @SuppressWarnings("unchecked")
+                    List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+                    for (CodegenOperation op : operations) {
+                        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
+                        if (!op.vendorExtensions.containsKey("x-group-parameters")) {
+                            op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+                        }
+                    }
                 }
 
                 // Pass sortParamsByRequiredFlag through to the Mustache template...
@@ -1032,13 +1052,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
+        Set<String> mappingSet = new TreeSet<>();
         for (String nextImport : allImports) {
             Map<String, String> im = new LinkedHashMap<String, String>();
             String mapping = config.importMapping().get(nextImport);
             if (mapping == null) {
                 mapping = config.toModelImport(nextImport);
             }
-            if (mapping != null) {
+
+            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
+                mappingSet.add(mapping);
                 im.put("import", mapping);
                 im.put("classname", nextImport);
                 if (!imports.contains(im)) { // avoid duplicates
@@ -1053,6 +1076,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (imports.size() > 0) {
             operations.put("hasImport", true);
         }
+
         config.postProcessOperations(operations);
         config.postProcessOperationsWithModels(operations, allModels);
         if (objs.size() > 0) {
