@@ -14,7 +14,7 @@ import java.util.*;
 
 public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements CodegenConfig {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGraphQLCodegen.class);
 
     protected String specFolder = "spec";
     protected String packageName = "openapi2graphql";
