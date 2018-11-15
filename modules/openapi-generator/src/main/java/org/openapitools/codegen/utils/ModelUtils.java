@@ -823,11 +823,6 @@ public class ModelUtils {
         return null;
     }
 
-    /**
-     *
-     * @param schema
-     * @return
-     */
     public static boolean isNullable(Schema schema) {
         if (schema == null) {
             return false;
