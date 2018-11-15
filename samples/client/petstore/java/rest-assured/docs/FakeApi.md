@@ -416,7 +416,7 @@ No authorization required
 
 <a name="testGroupParameters"></a>
 # **testGroupParameters**
-> testGroupParameters(stringGroup, booleanGroup, int64Group)
+> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
 
 Fake endpoint to test group parameters (optional)
 
@@ -433,13 +433,19 @@ FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
 
-api.testGroupParameters().execute(r -> r.prettyPeek());
+api.testGroupParameters()
+    .requiredStringGroupQuery(requiredStringGroup)
+    .requiredBooleanGroupHeader(requiredBooleanGroup)
+    .requiredInt64GroupQuery(requiredInt64Group).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **requiredStringGroup** | **Integer**| Required String in group parameters |
+ **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
+ **requiredInt64Group** | **Long**| Required Integer in group parameters |
  **stringGroup** | **Integer**| String in group parameters | [optional]
  **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
  **int64Group** | **Long**| Integer in group parameters | [optional]

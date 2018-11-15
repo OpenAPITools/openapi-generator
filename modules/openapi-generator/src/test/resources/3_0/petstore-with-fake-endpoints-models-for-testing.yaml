@@ -773,6 +773,25 @@ paths:
       operationId: testGroupParameters
       x-group-parameters: true
       parameters:
+        - name: required_string_group
+          in: query
+          description: Required String in group parameters
+          required: true
+          schema:
+            type: integer
+        - name: required_boolean_group
+          in: header
+          description: Required Boolean in group parameters
+          required: true
+          schema:
+            type: boolean
+        - name: required_int64_group
+          in: query
+          description: Required Integer in group parameters
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: string_group
           in: query
           description: String in group parameters

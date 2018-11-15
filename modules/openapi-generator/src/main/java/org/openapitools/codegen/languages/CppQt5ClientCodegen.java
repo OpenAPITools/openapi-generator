@@ -160,7 +160,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + initialCaps(name) + "Api";
+        return modelNamePrefix + sanitizeName(initialCaps(name)) + "Api";
     }
 
     public void setOptionalProjectFileFlag(boolean flag) {
