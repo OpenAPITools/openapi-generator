@@ -621,7 +621,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     rsp.vendorExtensions.put("producesPlainText", true);
                 } else {
                     rsp.vendorExtensions.put("producesJson", true);
-                    // If the data type is just "object", then ensure that the Rust data type is "serde_json::Value"
+                    // If the data type is just "object", then ensure that the Rust data type
+                    // is "serde_json::Value".  This allows us to define APIs that
+                    // can return arbitrary JSON bodies.
                     if (rsp.dataType.equals("object")) {
                         rsp.dataType = "serde_json::Value";
                     }

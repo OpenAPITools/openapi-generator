@@ -37,11 +37,38 @@ paths:
   /file_response:
     get:
       summary: Get a file
+      produces:
+        - application/json
       responses:
         200:
           description: Success
           schema:
             type: file
+  /raw_json:
+    get:
+      summary: Get an arbitrary JSON blob.
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+    # Requests with arbitrary JSON currently fail.
+    # post:
+    #   summary: Send an arbitrary JSON blob
+    #   consumes:
+    #     - application/json
+    #   parameters:
+    #   - in: body
+    #     name: body
+    #     required: true
+    #     schema:
+    #       type: object
+    #   responses:
+    #     200:
+    #       description: Success
+    #       schema:
+    #         type: string
+
 parameters:
   nested_response:
     name: nested_response

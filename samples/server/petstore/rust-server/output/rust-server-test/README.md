@@ -59,6 +59,7 @@ cargo run --example client DummyGet
 cargo run --example client DummyPut
 cargo run --example client FileResponseGet
 cargo run --example client HtmlPost
+cargo run --example client RawJsonGet
 ```
 
 ### HTTPS

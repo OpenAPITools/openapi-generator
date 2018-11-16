@@ -63,6 +63,12 @@ pub enum HtmlPostResponse {
     Success ( String ) ,
 }
 
+#[derive(Debug, PartialEq)]
+pub enum RawJsonGetResponse {
+    /// Success
+    Success ( serde_json::Value ) ,
+}
+
 
 /// API
 pub trait Api<C> {
@@ -78,6 +84,9 @@ pub trait Api<C> {
 
     /// Test HTML handling
     fn html_post(&self, body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>>;
+
+    /// Get an arbitrary JSON blob.
+    fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>>;
 
 }
 
@@ -95,6 +104,9 @@ pub trait ApiNoContext {
 
     /// Test HTML handling
     fn html_post(&self, body: String) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>>;
+
+    /// Get an arbitrary JSON blob.
+    fn raw_json_get(&self) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>>;
 
 }
 
@@ -130,6 +142,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     /// Test HTML handling
     fn html_post(&self, body: String) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
         self.api().html_post(body, &self.context())
+    }
+
+    /// Get an arbitrary JSON blob.
+    fn raw_json_get(&self) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>> {
+        self.api().raw_json_get(&self.context())
     }
 
 }
