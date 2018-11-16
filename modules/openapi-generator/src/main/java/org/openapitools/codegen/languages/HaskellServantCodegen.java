@@ -179,12 +179,13 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("char", "Char");
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
-        typeMapping.put("DateTime", "Integer");
+        typeMapping.put("DateTime", "UTCTime");
+        typeMapping.put("Date", "Day");
         typeMapping.put("file", "FilePath");
         typeMapping.put("binary", "FilePath");
         typeMapping.put("number", "Double");
         typeMapping.put("any", "Value");
-        typeMapping.put("UUID", "Text");
+        typeMapping.put("UUID", "UUID");
         typeMapping.put("ByteArray", "Text");
         typeMapping.put("object", "Value");
 
@@ -312,7 +313,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return "Map.Map String " + getTypeDeclaration(inner);
+            return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return fixModelChars(super.getTypeDeclaration(p));
     }

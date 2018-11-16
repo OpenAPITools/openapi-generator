@@ -1,5 +1,6 @@
-{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE DeriveDataTypeable         #-}
+{-# LANGUAGE DeriveGeneric              #-}
 {-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
 module {{title}}.Types (
@@ -10,11 +11,17 @@ module {{title}}.Types (
 {{/models}}
   ) where
 
+import Data.Data (Data)
+import Data.UUID (UUID)
 import Data.List (stripPrefix)
 import Data.Maybe (fromMaybe)
 import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Types (Options(..), defaultOptions)
 import Data.Text (Text)
+import Data.Time
+import Data.Swagger (ToSchema, declareNamedSchema)
+import qualified Data.Swagger as Swagger
+import qualified Data.Char as Char
 import qualified Data.Text as T
 import qualified Data.Map as Map
 import GHC.Generics (Generic)
@@ -29,18 +36,23 @@ import Data.Function ((&))
 {{^vendorExtensions.x-customNewtype}}
 {{^parent}}
 {{vendorExtensions.x-data}} {{classname}} = {{classname}}
-  { {{#vars}}{{& name}} :: {{dataType}} -- ^ {{& description}}{{#hasMore}}
+  { {{#vars}}{{& name}} :: {{^required}}Maybe {{/required}}{{dataType}} -- ^ {{& description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
-  } deriving (Show, Eq, Generic)
+  } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON {{classname}} where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "{{vendorExtensions.x-prefix}}")
 instance ToJSON {{classname}} where
   toJSON = genericToJSON (removeFieldLabelPrefix False "{{vendorExtensions.x-prefix}}")
+instance ToSchema {{classname}} where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ removeFieldLabelPrefix False "{{vendorExtensions.x-prefix}}"
+
 {{/parent}}
 {{#parent}}
 newtype {{classname}} = {{classname}} { un{{classname}} :: {{parent}} }
-  deriving (Show, Eq, FromJSON, ToJSON, Generic)
+  deriving (Show, Eq, FromJSON, ToJSON, Generic, Data)
 {{/parent}}
 {{/vendorExtensions.x-customNewtype}}
 {{#vendorExtensions.x-customNewtype}}
@@ -49,12 +61,18 @@ newtype {{classname}} = {{classname}} {{vendorExtensions.x-customNewtype}} deriv
 {{/model}}
 {{/models}}
 
+uncapitalize :: String -> String
+uncapitalize (first:rest) = Char.toLower first : rest
+uncapitalize [] = []
+
 -- Remove a field label prefix during JSON parsing.
 -- Also perform any replacements for special characters.
 removeFieldLabelPrefix :: Bool -> String -> Options
 removeFieldLabelPrefix forParsing prefix =
   defaultOptions
-  {fieldLabelModifier = fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars}
+    { omitNothingFields  = True
+    , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
+    }
   where
     replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
     specialChars =

@@ -1,53 +1,62 @@
-{-# LANGUAGE DataKinds #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DeriveTraversable #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE DataKinds                  #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE DeriveTraversable          #-}
+{-# LANGUAGE FlexibleContexts           #-}
+{-# LANGUAGE FlexibleInstances          #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE TypeFamilies #-}
-{-# LANGUAGE TypeOperators #-}
-{-# LANGUAGE ViewPatterns #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE RecordWildCards            #-}
+{-# LANGUAGE TypeFamilies               #-}
+{-# LANGUAGE TypeOperators              #-}
+{-# LANGUAGE ViewPatterns               #-}
 {-# OPTIONS_GHC
--fno-warn-unused-binds -fno-warn-unused-imports -fcontext-stack=328 #-}
+-fno-warn-unused-binds -fno-warn-unused-imports -freduction-depth=328 #-}
 
 module {{title}}.API
   -- * Client and Server
-  ( ServerConfig(..)
-  , {{title}}Backend
+  ( Config(..)
+  , {{title}}Backend(..)
   , create{{title}}Client
   , run{{title}}Server
   , run{{title}}Client
   , run{{title}}ClientWithManager
+  , call{{title}}
   , {{title}}Client
+  , {{title}}ClientError(..)
   -- ** Servant
   , {{title}}API
   ) where
 
-import {{title}}.Types
+import           {{title}}.Types
 
-import Control.Monad.Except (ExceptT)
-import Control.Monad.IO.Class
-import Data.Aeson (Value)
-import Data.Coerce (coerce)
-import Data.Function ((&))
-import qualified Data.Map as Map
-import Data.Monoid ((<>))
-import Data.Proxy (Proxy(..))
-import Data.Text (Text)
-import qualified Data.Text as T
-import GHC.Exts (IsString(..))
-import GHC.Generics (Generic)
-import Network.HTTP.Client (Manager, defaultManagerSettings, newManager)
-import Network.HTTP.Types.Method (methodOptions)
-import qualified Network.Wai.Handler.Warp as Warp
-import Servant (ServantErr, serve)
-import Servant.API
-import Servant.API.Verbs (StdMethod(..), Verb)
-import Servant.Client (Scheme(Http), ServantError, client)
-import Servant.Common.BaseUrl (BaseUrl(..))
-import Web.HttpApiData
+import           Control.Monad.Catch                (Exception, MonadThrow, throwM)
+import           Control.Monad.Except               (ExceptT, runExceptT)
+import           Control.Monad.IO.Class
+import           Control.Monad.Trans.Reader         (ReaderT (..))
+import           Data.Aeson                         (Value)
+import           Data.Coerce                        (coerce)
+import           Data.Function                      ((&))
+import qualified Data.Map                           as Map
+import           Data.Monoid                        ((<>))
+import           Data.Proxy                         (Proxy (..))
+import           Data.Text                          (Text)
+import qualified Data.Text                          as T
+import           Data.UUID                          (UUID)
+import           GHC.Exts                           (IsString (..))
+import           GHC.Generics                       (Generic)
+import           Network.HTTP.Client                (Manager, newManager)
+import           Network.HTTP.Client.TLS            (tlsManagerSettings)
+import           Network.HTTP.Types.Method          (methodOptions)
+import qualified Network.Wai.Handler.Warp           as Warp
+import           Servant                            (ServantErr, serve)
+import           Servant.API
+import           Servant.API.Verbs                  (StdMethod (..), Verb)
+import           Servant.Client                     (ClientEnv, Scheme (Http), ServantError, client,
+                                                     mkClientEnv, parseBaseUrl)
+import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
+import           Servant.Client.Internal.HttpClient (ClientM (..))
+import           Servant.Server                     (Handler (..))
+import           Web.HttpApiData
 
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{#hasFormParams}}
@@ -72,22 +81,8 @@ lookupEither key assocs =
     Nothing -> Left $ "Could not find parameter " <> (T.unpack key) <> " in form data"
     Just value ->
       case parseQueryParam value of
-        Left result -> Left $ T.unpack result
+        Left  result -> Left $ T.unpack result
         Right result -> Right $ result
-
-{{#apiInfo}}
--- | Servant type-level API, generated from the OpenAPI spec for {{title}}.
-type {{title}}API
-    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
-    :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
-    :<|> {{/hasMore}}{{/apis}}
-{{/apiInfo}}
-
--- | Server or client configuration, specifying the host and port to query or serve on.
-data ServerConfig = ServerConfig
-  { configHost :: String  -- ^ Hostname to serve on, e.g. "127.0.0.1"
-  , configPort :: Int      -- ^ Port to serve on, e.g. 8080
-  } deriving (Eq, Ord, Show, Read)
 
 -- | List of elements parsed from a query.
 newtype QueryList (p :: CollectionFormat) a = QueryList
@@ -140,6 +135,27 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 
 
 {{#apiInfo}}
+-- | Servant type-level API, generated from the OpenAPI spec for {{title}}.
+type {{title}}API
+    =    {{#apis}}{{#operations}}{{#operation}}{{& vendorExtensions.x-routeType}} -- '{{operationId}}' route{{#hasMore}}
+    :<|> {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}}
+    :<|> {{/hasMore}}{{/apis}}
+{{/apiInfo}}
+
+
+-- | Server or client configuration, specifying the host and port to query or serve on.
+data Config = Config
+  { configUrl :: String  -- ^ scheme://hostname:port/path, e.g. "http://localhost:8080/"
+  } deriving (Eq, Ord, Show, Read)
+
+
+-- | Custom exception type for our errors.
+newtype {{title}}ClientError = {{title}}ClientError ServantError
+  deriving (Show, Exception)
+-- | Configuration, specifying the full url of the service.
+
+
+{{#apiInfo}}
 -- | Backend for {{title}}.
 -- The backend can be used both for the client and the server. The client generated from the {{title}} OpenAPI spec
 -- is a backend that executes actions by sending HTTP requests (see @create{{title}}Client@). Alternatively, provided
@@ -151,22 +167,22 @@ data {{title}}Backend m = {{title}}Backend
   }
 
 newtype {{title}}Client a = {{title}}Client
-  { runClient :: Manager -> BaseUrl -> ExceptT ServantError IO a
+  { runClient :: ClientEnv -> ExceptT ServantError IO a
   } deriving Functor
 
 instance Applicative {{title}}Client where
-  pure x = {{title}}Client (\_ _ -> pure x)
+  pure x = {{title}}Client (\_ -> pure x)
   ({{title}}Client f) <*> ({{title}}Client x) =
-    {{title}}Client (\manager url -> f manager url <*> x manager url)
+    {{title}}Client (\env -> f env <*> x env)
 
 instance Monad {{title}}Client where
   ({{title}}Client a) >>= f =
-    {{title}}Client (\manager url -> do
-      value <- a manager url
-      runClient (f value) manager url)
+    {{title}}Client (\env -> do
+      value <- a env
+      runClient (f value) env)
 
 instance MonadIO {{title}}Client where
-  liftIO io = {{title}}Client (\_ _ -> liftIO io)
+  liftIO io = {{title}}Client (\_ -> liftIO io)
 {{/apiInfo}}
 
 {{#apiInfo}}
@@ -178,24 +194,41 @@ create{{title}}Client = {{title}}Backend{..}
      {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API)
 
 -- | Run requests in the {{title}}Client monad.
-run{{title}}Client :: ServerConfig -> {{title}}Client a -> ExceptT ServantError IO a
+run{{title}}Client :: Config -> {{title}}Client a -> ExceptT ServantError IO a
 run{{title}}Client clientConfig cl = do
-  manager <- liftIO $ newManager defaultManagerSettings
+  manager <- liftIO $ newManager tlsManagerSettings
   run{{title}}ClientWithManager manager clientConfig cl
 
 -- | Run requests in the {{title}}Client monad using a custom manager.
-run{{title}}ClientWithManager :: Manager -> ServerConfig -> {{title}}Client a -> ExceptT ServantError IO a
-run{{title}}ClientWithManager manager clientConfig cl =
-  runClient cl manager $ BaseUrl Http (configHost clientConfig) (configPort clientConfig) ""
+run{{title}}ClientWithManager :: Manager -> Config -> {{title}}Client a -> ExceptT ServantError IO a
+run{{title}}ClientWithManager manager Config{..} cl = do
+  url <- parseBaseUrl configUrl
+  runClient cl $ mkClientEnv manager url
+
+-- | Like @runClient@, but returns the response or throws
+--   a {{title}}ClientError
+call{{title}}
+  :: (MonadIO m, MonadThrow m)
+  => ClientEnv -> {{title}}Client a -> m a
+call{{title}} env f = do
+  res <- liftIO $ runExceptT $ runClient f env
+  case res of
+    Left err       -> throwM ({{title}}ClientError err)
+    Right response -> pure response
 {{/apiInfo}}
 
 {{#apiInfo}}
 -- | Run the {{title}} server at the provided host and port.
-run{{title}}Server :: MonadIO m => ServerConfig -> {{title}}Backend (ExceptT ServantErr IO)  -> m ()
-run{{title}}Server ServerConfig{..} backend =
+run{{title}}Server
+  :: (MonadIO m, MonadThrow m)
+  => Config -> {{title}}Backend (ExceptT ServantErr IO) -> m ()
+run{{title}}Server Config{..} backend = do
+  url <- parseBaseUrl configUrl
+  let warpSettings = Warp.defaultSettings
+        & Warp.setPort (baseUrlPort url)
+        & Warp.setHost (fromString $ baseUrlHost url)
   liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy {{title}}API) (serverFromBackend backend)
   where
-    warpSettings = Warp.defaultSettings & Warp.setPort configPort & Warp.setHost (fromString configHost)
     serverFromBackend {{title}}Backend{..} =
       ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>
        {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
