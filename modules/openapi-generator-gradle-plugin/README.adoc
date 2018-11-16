@@ -48,7 +48,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.3"
   }
 }
 
@@ -276,6 +276,32 @@ Configuring any one of `apiFilesConstrainedTo`, `modelFilesConstrainedTo`, or `s
 in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
 
 For more control over generation of individual files, configure an ignore file and refer to it via `ignoreFileOverride`.
+====
+
+[NOTE]
+====
+When configuring `systemProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
+[source,groovy]
+----
+openApiGenerate {
+    // other settings omitted
+    systemProperties = [
+        modelDocs: "false",
+        apis: "false"
+    ]
+}
+----
+When enabling generation of only specific parts you either have to provide CSV list of what you particularly are generating or provide an empty string `""` to generate everything. If you provide `"true"` it will be treated as a specific name of model or api you want to generate.
+[source,groovy]
+----
+openApiGenerate {
+    // other settings omitted
+    systemProperties = [
+        apis: "",
+        models: "User,Pet"
+    ]
+}
+----
 ====
 
 === openApiValidate

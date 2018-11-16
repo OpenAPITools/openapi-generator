@@ -48,11 +48,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(LuaClientCodegen.class);
 
     protected String specFolder = "spec";
-    protected String packageName = "openapi-client";
+    protected String packageName = "openapiclient";
     protected String packageVersion = "1.0.0-1";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    protected String luaRocksFilename = "openapi-client-1.0.0-1.rockspec";
+    protected String luaRocksFilename = "openapiclient-1.0.0-1.rockspec";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -138,8 +138,8 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         importMapping.put("os", "io/ioutil");
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Lua package name (convention: lowercase).")
-                .defaultValue("swagger-client"));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Lua package name (convention: single word).")
+                .defaultValue("openapiclient"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Lua package version.")
                 .defaultValue("1.0.0-1"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)

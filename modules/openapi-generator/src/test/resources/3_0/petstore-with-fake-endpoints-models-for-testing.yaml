@@ -17,6 +17,18 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /foo:
+    get:
+      responses:
+        default:
+          description: response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  string:
+                    $ref: '#/components/schemas/Foo'
   /pet:
     post:
       tags:
@@ -753,6 +765,52 @@ paths:
                 - double
                 - pattern_without_delimiter
                 - byte
+    delete:
+      tags:
+        - fake
+      summary: Fake endpoint to test group parameters (optional)
+      description: Fake endpoint to test group parameters (optional)
+      operationId: testGroupParameters
+      x-group-parameters: true
+      parameters:
+        - name: required_string_group
+          in: query
+          description: Required String in group parameters
+          required: true
+          schema:
+            type: integer
+        - name: required_boolean_group
+          in: header
+          description: Required Boolean in group parameters
+          required: true
+          schema:
+            type: boolean
+        - name: required_int64_group
+          in: query
+          description: Required Integer in group parameters
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: string_group
+          in: query
+          description: String in group parameters
+          schema:
+            type: integer
+        - name: boolean_group
+          in: header
+          description: Boolean in group parameters
+          schema:
+            type: boolean
+        - name: int64_group
+          in: query
+          description: Integer in group parameters
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Someting wrong
   /fake/outer/number:
     post:
       tags:
@@ -899,7 +957,7 @@ paths:
         - $another-fake?
       summary: To test special tags
       description: To test special tags and operation ID starting with number
-      operationId: 123_test_@#$%_special_tags
+      operationId: '123_test_@#$%_special_tags'
       responses:
         '200':
           description: successful operation
@@ -968,7 +1026,28 @@ paths:
               required:
                 - requiredFile
 servers:
-  - url: 'http://petstore.swagger.io:80/v2'
+  - url: 'http://{server}.swagger.io:{port}/v2'
+    description: petstore server
+    variables:
+      server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+      port:
+        enum:
+          - 80
+          - 8080
+        default: 80
+  - url: https://localhost:8080/{version}
+    description: The local server
+    variables:
+      version:
+        enum:
+          - 'v1'
+          - 'v2'
+        default: 'v2'
 components:
   requestBodies:
     UserArray:
@@ -1018,6 +1097,14 @@ components:
       type: http
       scheme: basic
   schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: string
+      default: bar
     Order:
       type: object
       properties:
@@ -1047,12 +1134,15 @@ components:
         name: Order
     Category:
       type: object
+      required:
+        - name
       properties:
         id:
           type: integer
           format: int64
         name:
           type: string
+          default: default-name
       xml:
         name: Category
     User:
@@ -1267,6 +1357,14 @@ components:
           format: password
           maxLength: 64
           minLength: 10
+        pattern_with_digits:
+          description: A string that is a 10 digit number. Can have leading zeros. 
+          type: string
+          pattern: '^\d{10}$'
+        pattern_with_digits_and_delimiter:
+          description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+          type: string
+          pattern: '/^image_\d{1,3}$/i'
     EnumClass:
       type: string
       default: '-efg'

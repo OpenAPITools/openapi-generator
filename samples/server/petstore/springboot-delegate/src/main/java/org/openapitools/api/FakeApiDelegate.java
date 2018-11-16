@@ -91,6 +91,16 @@ public interface FakeApiDelegate {
         String enumFormString);
 
     /**
+     * @see FakeApi#testGroupParameters
+     */
+    ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
+        Boolean requiredBooleanGroup,
+        Long requiredInt64Group,
+        Integer stringGroup,
+        Boolean booleanGroup,
+        Long int64Group);
+
+    /**
      * @see FakeApi#testInlineAdditionalProperties
      */
     ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody);

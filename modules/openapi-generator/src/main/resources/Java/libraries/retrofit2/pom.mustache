@@ -13,6 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
 
     <licenses>
         <license>
@@ -356,7 +363,7 @@
         <play-version>2.5.15</play-version>
         {{/play25}}
         {{#play26}}
-        <jackson-version>2.8.10</jackson-version>
+        <jackson-version>2.8.11</jackson-version>
         <play-version>2.6.7</play-version>
         {{/play26}}
         {{/usePlayWS}}

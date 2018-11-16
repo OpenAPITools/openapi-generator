@@ -19,12 +19,11 @@
 #define PetApi_H_
 
 
-#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-
 #include <pistache/optional.h>
+
 
 #include "ApiResponse.h"
 #include "Pet.h"
@@ -39,11 +38,9 @@ using namespace org::openapitools::server::model;
 
 class  PetApi {
 public:
-    PetApi(Pistache::Address addr);
+    PetApi(std::shared_ptr<Pistache::Rest::Router>);
     virtual ~PetApi() {}
-    void init(size_t thr);
-    void start();
-    void shutdown();
+    void init();
 
     const std::string base = "/v2";
 
@@ -60,9 +57,7 @@ private:
     void upload_file_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void pet_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    Pistache::Http::Endpoint httpEndpoint;
-    Pistache::Rest::Router router;
-
+    std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Add a new pet to the store
@@ -80,7 +75,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="petId">Pet id to delete</param>
-    /// <param name="apiKey"> (optional)</param>
+    /// <param name="apiKey"> (optional, default to &quot;&quot;)</param>
     virtual void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>

@@ -16,8 +16,10 @@ public class ApiUtil {
 {{^reactive}}
     public static void setExampleResponse(NativeWebRequest req, String contentType, String example) {
         try {
-            req.getNativeResponse(HttpServletResponse.class).addHeader("Content-Type", contentType);
-            req.getNativeResponse(HttpServletResponse.class).getOutputStream().print(example);
+            HttpServletResponse res = req.getNativeResponse(HttpServletResponse.class);
+            res.setCharacterEncoding("UTF-8");
+            res.addHeader("Content-Type", contentType);
+            res.getWriter().print(example);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

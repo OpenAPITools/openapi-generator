@@ -13,6 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
 
     <licenses>
         <license>
@@ -306,6 +313,14 @@
                 <scope>provided</scope>
             </dependency>
         {{/useBeanValidation}}
+        {{#performBeanValidation}}
+            <!-- Bean Validation Impl. used to perform BeanValidation -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>5.4.1.Final</version>
+            </dependency>
+        {{/performBeanValidation}}
         {{#parcelableModel}}
             <!-- Needed for Parcelable support-->
             <dependency>

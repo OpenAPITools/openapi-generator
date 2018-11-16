@@ -19,8 +19,8 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-PetApiImpl::PetApiImpl(Pistache::Address addr)
-    : PetApi(addr)
+PetApiImpl::PetApiImpl(std::shared_ptr<Pistache::Rest::Router> rtr)
+    : PetApi(rtr)
     { }
 
 void PetApiImpl::add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response) {

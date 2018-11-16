@@ -34,6 +34,8 @@ public interface FakeApi {
 
     void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> handler);
 
+    void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, Handler<AsyncResult<Void>> handler);
+
     void testInlineAdditionalProperties(Map<String, String> requestBody, Handler<AsyncResult<Void>> handler);
 
     void testJsonFormData(String param, String param2, Handler<AsyncResult<Void>> handler);

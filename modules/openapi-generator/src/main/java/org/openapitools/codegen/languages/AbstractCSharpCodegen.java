@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.core.util.Json;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
@@ -159,21 +160,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
-        typeMapping.put("bytearray", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("boolean", "bool?");
         typeMapping.put("integer", "int?");
         typeMapping.put("float", "float?");
         typeMapping.put("long", "long?");
         typeMapping.put("double", "double?");
         typeMapping.put("number", "decimal?");
-        typeMapping.put("datetime", "DateTime?");
+        typeMapping.put("DateTime", "DateTime?");
         typeMapping.put("date", "DateTime?");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
-        typeMapping.put("uuid", "Guid?");
+        typeMapping.put("UUID", "Guid?");
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -212,6 +213,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         // {{packageVersion}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -421,8 +427,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         CodegenModel refModel = enumRefs.get(var.dataType);
                         var.allowableValues = refModel.allowableValues;
                         var.isEnum = true;
-
-                        updateCodegenPropertyEnum(var);
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
@@ -763,20 +767,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         String type;
 
         if (openAPIType == null) {
-            openAPIType = ""; // set swagger type to empty string if null
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
-        // NOTE: typeMapping here supports things like string/String, long/Long, datetime/DateTime as lowercase keys.
-        //       Should we require explicit casing here (values are not insensitive).
-        // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(openAPIType.toLowerCase(Locale.ROOT))) {
-            type = typeMapping.get(openAPIType.toLowerCase(Locale.ROOT));
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
             type = openAPIType;
         }
+
         return toModelName(type);
     }
 
@@ -1015,6 +1018,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
         }
+    }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String csharpPostProcessFile = System.getenv("CSHARP_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(csharpPostProcessFile)) {
+            return; // skip if CSHARP_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with .cs extension
+        if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = csharpPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

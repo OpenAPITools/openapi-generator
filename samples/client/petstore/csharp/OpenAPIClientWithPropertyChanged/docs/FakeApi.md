@@ -8,10 +8,12 @@ Method | HTTP request | Description
 [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+[**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+[**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 
@@ -159,7 +161,7 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = 1.2;  // decimal? | Input number as post body (optional) 
+            var body = 1.2D;  // decimal? | Input number as post body (optional) 
 
             try
             {
@@ -253,6 +255,65 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="testbodywithfileschema"></a>
+# **TestBodyWithFileSchema**
+> void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
+
+
+
+For this test, the body for this request much reference a schema named `File`.
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestBodyWithFileSchemaExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
+
+            try
+            {
+                apiInstance.TestBodyWithFileSchema(fileSchemaTestClass);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestBodyWithFileSchema: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -404,13 +465,13 @@ namespace Example
 
             var apiInstance = new FakeApi();
             var number = 8.14;  // decimal? | None
-            var _double = 1.2;  // double? | None
+            var _double = 1.2D;  // double? | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
             var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
             var integer = 56;  // int? | None (optional) 
             var int32 = 56;  // int? | None (optional) 
             var int64 = 789;  // long? | None (optional) 
-            var _float = 3.4;  // float? | None (optional) 
+            var _float = 3.4F;  // float? | None (optional) 
             var _string = _string_example;  // string | None (optional) 
             var binary = BINARY_DATA_HERE;  // System.IO.Stream | None (optional) 
             var date = 2013-10-20;  // DateTime? | None (optional) 
@@ -494,8 +555,8 @@ namespace Example
             var enumQueryStringArray = enumQueryStringArray_example;  // List<string> | Query parameter enum test (string array) (optional) 
             var enumQueryString = enumQueryString_example;  // string | Query parameter enum test (string) (optional)  (default to -efg)
             var enumQueryInteger = 56;  // int? | Query parameter enum test (double) (optional) 
-            var enumQueryDouble = 1.2;  // double? | Query parameter enum test (double) (optional) 
-            var enumFormStringArray = enumFormStringArray_example;  // List<string> | Form parameter enum test (string array) (optional)  (default to $)
+            var enumQueryDouble = 1.2D;  // double? | Query parameter enum test (double) (optional) 
+            var enumFormStringArray = new List<string>(); // List<string> | Form parameter enum test (string array) (optional)  (default to $)
             var enumFormString = enumFormString_example;  // string | Form parameter enum test (string) (optional)  (default to -efg)
 
             try
@@ -522,7 +583,7 @@ Name | Type | Description  | Notes
  **enumQueryString** | **string**| Query parameter enum test (string) | [optional] [default to -efg]
  **enumQueryInteger** | **int?**| Query parameter enum test (double) | [optional] 
  **enumQueryDouble** | **double?**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | **List&lt;string&gt;**| Form parameter enum test (string array) | [optional] [default to $]
+ **enumFormStringArray** | [**List&lt;string&gt;**](string.md)| Form parameter enum test (string array) | [optional] [default to $]
  **enumFormString** | **string**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type
@@ -536,6 +597,76 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="testgroupparameters"></a>
+# **TestGroupParameters**
+> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestGroupParametersExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var requiredStringGroup = 56;  // int? | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
+            var requiredInt64Group = 789;  // long? | Required Integer in group parameters
+            var stringGroup = 56;  // int? | String in group parameters (optional) 
+            var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
+            var int64Group = 789;  // long? | Integer in group parameters (optional) 
+
+            try
+            {
+                // Fake endpoint to test group parameters (optional)
+                apiInstance.TestGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestGroupParameters: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requiredStringGroup** | **int?**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool?**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **long?**| Required Integer in group parameters | 
+ **stringGroup** | **int?**| String in group parameters | [optional] 
+ **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
+ **int64Group** | **long?**| Integer in group parameters | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

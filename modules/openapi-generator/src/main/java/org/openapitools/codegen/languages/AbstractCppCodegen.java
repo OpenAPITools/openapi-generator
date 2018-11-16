@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.Schema;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CodegenConfig;
@@ -28,6 +30,7 @@ import org.openapitools.codegen.mustache.IndentedLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -226,8 +229,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             nameInCamelCase = sanitizeName(nameInCamelCase);
         }
         if (isReservedWord(nameInCamelCase) || nameInCamelCase.matches("^\\d.*")) {
-            nameInCamelCase =  escapeReservedWord(nameInCamelCase);
-        }        
+            nameInCamelCase = escapeReservedWord(nameInCamelCase);
+        }
         property.nameInCamelCase = nameInCamelCase;
         return property;
     }
@@ -249,6 +252,12 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("CPP_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         addMustacheLambdas(additionalProperties);
     }
 
@@ -263,6 +272,33 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             objs.put("_lambda", lambdas);
         } else {
             objs.put("lambda", lambdas);
+        }
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String cppPostProcessFile = System.getenv("CPP_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(cppPostProcessFile)) {
+            return; // skip if CPP_POST_PROCESS_FILE env variable is not defined
+        }
+        // only process files with cpp extension
+        if ("cpp".equals(FilenameUtils.getExtension(file.toString())) || "h".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = cppPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
         }
     }
 }

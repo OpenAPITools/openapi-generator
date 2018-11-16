@@ -1,5 +1,4 @@
-# Install flask-connexion from git branch dev-2.0. Change when connexion 2.0 is released
-git+https://github.com/zalando/connexion.git@35e4e678ef69e703eaf84a48126049808c73b17c#egg=connexion
-swagger-ui-bundle
+connexion == 2.0.0
+swagger-ui-bundle == 0.0.2
 python_dateutil == 2.6.0
 setuptools >= 21.0.0

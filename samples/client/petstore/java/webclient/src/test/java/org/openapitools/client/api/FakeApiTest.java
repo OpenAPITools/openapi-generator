@@ -13,10 +13,10 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -42,12 +42,9 @@ public class FakeApiTest {
      * 
      *
      * Test serialization of outer boolean types
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void fakeOuterBooleanSerializeTest() throws ApiException {
+    public void fakeOuterBooleanSerializeTest()  {
         Boolean body = null;
         Boolean response = api.fakeOuterBooleanSerialize(body).block();
 
@@ -58,12 +55,9 @@ public class FakeApiTest {
      * 
      *
      * Test serialization of object with outer number type
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void fakeOuterCompositeSerializeTest() throws ApiException {
+    public void fakeOuterCompositeSerializeTest()  {
         OuterComposite outerComposite = null;
         OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite).block();
 
@@ -74,12 +68,9 @@ public class FakeApiTest {
      * 
      *
      * Test serialization of outer number types
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void fakeOuterNumberSerializeTest() throws ApiException {
+    public void fakeOuterNumberSerializeTest()  {
         BigDecimal body = null;
         BigDecimal response = api.fakeOuterNumberSerialize(body).block();
 
@@ -90,12 +81,9 @@ public class FakeApiTest {
      * 
      *
      * Test serialization of outer string types
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void fakeOuterStringSerializeTest() throws ApiException {
+    public void fakeOuterStringSerializeTest()  {
         String body = null;
         String response = api.fakeOuterStringSerialize(body).block();
 
@@ -105,13 +93,23 @@ public class FakeApiTest {
     /**
      * 
      *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      */
     @Test
-    public void testBodyWithQueryParamsTest() throws ApiException {
+    public void testBodyWithFileSchemaTest()  {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        api.testBodyWithFileSchema(fileSchemaTestClass).block();
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * 
+     */
+    @Test
+    public void testBodyWithQueryParamsTest()  {
         String query = null;
         User user = null;
         api.testBodyWithQueryParams(query, user).block();
@@ -123,12 +121,9 @@ public class FakeApiTest {
      * To test \&quot;client\&quot; model
      *
      * To test \&quot;client\&quot; model
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void testClientModelTest() throws ApiException {
+    public void testClientModelTest()  {
         Client client = null;
         Client response = api.testClientModel(client).block();
 
@@ -139,12 +134,9 @@ public class FakeApiTest {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void testEndpointParametersTest() throws ApiException {
+    public void testEndpointParametersTest()  {
         BigDecimal number = null;
         Double _double = null;
         String patternWithoutDelimiter = null;
@@ -168,12 +160,9 @@ public class FakeApiTest {
      * To test enum parameters
      *
      * To test enum parameters
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void testEnumParametersTest() throws ApiException {
+    public void testEnumParametersTest()  {
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
@@ -188,15 +177,30 @@ public class FakeApiTest {
     }
     
     /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     */
+    @Test
+    public void testGroupParametersTest()  {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group).block();
+
+        // TODO: test validations
+    }
+    
+    /**
      * test inline additionalProperties
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void testInlineAdditionalPropertiesTest() throws ApiException {
+    public void testInlineAdditionalPropertiesTest()  {
         Map<String, String> requestBody = null;
         api.testInlineAdditionalProperties(requestBody).block();
 
@@ -207,12 +211,9 @@ public class FakeApiTest {
      * test json serialization of form data
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void testJsonFormDataTest() throws ApiException {
+    public void testJsonFormDataTest()  {
         String param = null;
         String param2 = null;
         api.testJsonFormData(param, param2).block();
