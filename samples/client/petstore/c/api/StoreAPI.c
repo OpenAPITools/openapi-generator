@@ -102,16 +102,17 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 		printf("%s\n", "successful operation");
 	}
 	// primitive reutrn type not simple
-	cJSON *StorelocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-	cJSON *StoreVarJSON;
+	cJSON *localVarJSON = cJSON_Parse(apiClient->dataReceived);
+	cJSON *VarJSON;
 	list_t *elementToReturn = list_create();
-	cJSON_ArrayForEach(StoreVarJSON, StorelocalVarJSON) {
+	cJSON_ArrayForEach(VarJSON, localVarJSON) {
 		keyValuePair_t *keyPair =
-			keyValuePair_create(strdup(StoreVarJSON->string),
-			                    cJSON_Print(StoreVarJSON));
+			keyValuePair_create(strdup(
+						    VarJSON->string), cJSON_Print(
+						    VarJSON));
 		list_addElement(elementToReturn, keyPair);
 	}
-	cJSON_Delete(StorelocalVarJSON);
+	cJSON_Delete(localVarJSON);
 
 	apiClient_free(apiClient);
 

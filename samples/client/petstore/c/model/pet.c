@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "cJSON.h"
 #include "list.h"
+#include "keyValuePair.h"
 #include "pet.h"
 #include "category.h"
 #include "list.h"
@@ -86,7 +87,8 @@ cJSON *pet_convertToJSON(pet_t *pet) {
 	listEntry_t *photo_urlsListEntry;
 	list_ForEach(photo_urlsListEntry, pet->photoUrls) {
 		if(cJSON_AddStringToObject(photo_urls, "",
-		                           photo_urlsListEntry->data) == NULL)
+		                           (char *) photo_urlsListEntry->data)
+		   == NULL)
 		{
 			goto fail;
 		}
