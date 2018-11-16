@@ -11,12 +11,12 @@ command(State) ->
                  erlang:function_exported(?MODULE, FArgs, 1)
           ],
 
-  WeightFun = case erlang:function_exported(?MODULE, weight, 2) of
-                true  -> fun ?MODULE:weight/2;
-                false -> fun(_, _) -> 1 end
+  WeightFun = case erlang:function_exported(?MODULE, weight, 1) of
+                true  -> fun ?MODULE:weight/1;
+                false -> fun(_) -> 1 end
               end,
 
-  proper_types:frequency([ { WeightFun(State, F)
+  proper_types:frequency([ { WeightFun(F)
                            , {call, ?MODULE, F, ?MODULE:FArgs(State)}
                            }
                            || {F, FArgs} <- Funs1
