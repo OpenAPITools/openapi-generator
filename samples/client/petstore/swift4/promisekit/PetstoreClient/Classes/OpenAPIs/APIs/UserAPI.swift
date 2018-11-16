@@ -16,10 +16,11 @@ open class UserAPI {
      Create user
      
      - parameter user: (body) Created user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUser(user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
+    open class func createUser(user: User, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        createUserWithRequestBuilder(user: user).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -32,11 +33,12 @@ open class UserAPI {
      Create user
      
      - parameter user: (body) Created user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<Void>
      */
-    open class func createUser( user: User) -> Promise<Void> {
+    open class func createUser( user: User, queue: DispatchQueue? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUser(user: user) { data, error in
+        createUser(user: user, queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -69,10 +71,11 @@ open class UserAPI {
      Creates list of users with given input array
      
      - parameter user: (body) List of user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUsersWithArrayInput(user: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+    open class func createUsersWithArrayInput(user: [User], queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        createUsersWithArrayInputWithRequestBuilder(user: user).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -85,11 +88,12 @@ open class UserAPI {
      Creates list of users with given input array
      
      - parameter user: (body) List of user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<Void>
      */
-    open class func createUsersWithArrayInput( user: [User]) -> Promise<Void> {
+    open class func createUsersWithArrayInput( user: [User], queue: DispatchQueue? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithArrayInput(user: user) { data, error in
+        createUsersWithArrayInput(user: user, queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -121,10 +125,11 @@ open class UserAPI {
      Creates list of users with given input array
      
      - parameter user: (body) List of user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func createUsersWithListInput(user: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+    open class func createUsersWithListInput(user: [User], queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        createUsersWithListInputWithRequestBuilder(user: user).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -137,11 +142,12 @@ open class UserAPI {
      Creates list of users with given input array
      
      - parameter user: (body) List of user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<Void>
      */
-    open class func createUsersWithListInput( user: [User]) -> Promise<Void> {
+    open class func createUsersWithListInput( user: [User], queue: DispatchQueue? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        createUsersWithListInput(user: user) { data, error in
+        createUsersWithListInput(user: user, queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -173,10 +179,11 @@ open class UserAPI {
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteUser(username: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
+    open class func deleteUser(username: String, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        deleteUserWithRequestBuilder(username: username).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -189,11 +196,12 @@ open class UserAPI {
      Delete user
      
      - parameter username: (path) The name that needs to be deleted 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<Void>
      */
-    open class func deleteUser( username: String) -> Promise<Void> {
+    open class func deleteUser( username: String, queue: DispatchQueue? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deleteUser(username: username) { data, error in
+        deleteUser(username: username, queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -229,10 +237,11 @@ open class UserAPI {
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
-        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
+    open class func getUserByName(username: String, queue: DispatchQueue? = nil, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
+        getUserByNameWithRequestBuilder(username: username).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -241,11 +250,12 @@ open class UserAPI {
      Get user by user name
      
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<User>
      */
-    open class func getUserByName( username: String) -> Promise<User> {
+    open class func getUserByName( username: String, queue: DispatchQueue? = nil) -> Promise<User> {
         let deferred = Promise<User>.pending()
-        getUserByName(username: username) { data, error in
+        getUserByName(username: username, queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -281,10 +291,11 @@ open class UserAPI {
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
-        loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
+    open class func loginUser(username: String, password: String, queue: DispatchQueue? = nil, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
+        loginUserWithRequestBuilder(username: username, password: password).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -294,11 +305,12 @@ open class UserAPI {
      
      - parameter username: (query) The user name for login 
      - parameter password: (query) The password for login in clear text 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<String>
      */
-    open class func loginUser( username: String,  password: String) -> Promise<String> {
+    open class func loginUser( username: String,  password: String, queue: DispatchQueue? = nil) -> Promise<String> {
         let deferred = Promise<String>.pending()
-        loginUser(username: username, password: password) { data, error in
+        loginUser(username: username, password: password, queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -335,10 +347,11 @@ open class UserAPI {
     /**
      Logs out current logged in user session
      
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func logoutUser(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
+    open class func logoutUser(queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        logoutUserWithRequestBuilder().execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -350,11 +363,12 @@ open class UserAPI {
     /**
      Logs out current logged in user session
      
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<Void>
      */
-    open class func logoutUser() -> Promise<Void> {
+    open class func logoutUser(queue: DispatchQueue? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        logoutUser() { data, error in
+        logoutUser(queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -386,10 +400,11 @@ open class UserAPI {
      
      - parameter username: (path) name that need to be deleted 
      - parameter user: (body) Updated user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updateUser(username: String, user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
+    open class func updateUser(username: String, user: User, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        updateUserWithRequestBuilder(username: username, user: user).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -403,11 +418,12 @@ open class UserAPI {
      
      - parameter username: (path) name that need to be deleted 
      - parameter user: (body) Updated user object 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Promise<Void>
      */
-    open class func updateUser( username: String,  user: User) -> Promise<Void> {
+    open class func updateUser( username: String,  user: User, queue: DispatchQueue? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updateUser(username: username, user: user) { data, error in
+        updateUser(username: username, user: user, queue: queue) { data, error in
             if let error = error {
                 deferred.reject(error)
             } else {

@@ -16,10 +16,11 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addPet(pet: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    open class func addPet(pet: Pet, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        addPetWithRequestBuilder(pet: pet).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -32,11 +33,12 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Void>
      */
-    open class func addPet(pet: Pet) -> Observable<Void> {
+    open class func addPet(pet: Pet, queue: DispatchQueue? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            addPet(pet: pet) { data, error in
+            addPet(pet: pet, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -74,10 +76,11 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
+    open class func deletePet(petId: Int64, apiKey: String? = nil, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -91,11 +94,12 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Void>
      */
-    open class func deletePet(petId: Int64, apiKey: String? = nil) -> Observable<Void> {
+    open class func deletePet(petId: Int64, apiKey: String? = nil, queue: DispatchQueue? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deletePet(petId: petId, apiKey: apiKey) { data, error in
+            deletePet(petId: petId, apiKey: apiKey, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -149,10 +153,11 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func findPetsByStatus(status: [String], completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
-        findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
+    open class func findPetsByStatus(status: [String], queue: DispatchQueue? = nil, completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
+        findPetsByStatusWithRequestBuilder(status: status).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -161,11 +166,12 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<[Pet]>
      */
-    open class func findPetsByStatus(status: [String]) -> Observable<[Pet]> {
+    open class func findPetsByStatus(status: [String], queue: DispatchQueue? = nil) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByStatus(status: status) { data, error in
+            findPetsByStatus(status: status, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -206,10 +212,11 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func findPetsByTags(tags: [String], completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
-        findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
+    open class func findPetsByTags(tags: [String], queue: DispatchQueue? = nil, completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
+        findPetsByTagsWithRequestBuilder(tags: tags).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -218,11 +225,12 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<[Pet]>
      */
-    open class func findPetsByTags(tags: [String]) -> Observable<[Pet]> {
+    open class func findPetsByTags(tags: [String], queue: DispatchQueue? = nil) -> Observable<[Pet]> {
         return Observable.create { observer -> Disposable in
-            findPetsByTags(tags: tags) { data, error in
+            findPetsByTags(tags: tags, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -263,10 +271,11 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getPetById(petId: Int64, completion: @escaping ((_ data: Pet?,_ error: Error?) -> Void)) {
-        getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
+    open class func getPetById(petId: Int64, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Pet?,_ error: Error?) -> Void)) {
+        getPetByIdWithRequestBuilder(petId: petId).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -275,11 +284,12 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Pet>
      */
-    open class func getPetById(petId: Int64) -> Observable<Pet> {
+    open class func getPetById(petId: Int64, queue: DispatchQueue? = nil) -> Observable<Pet> {
         return Observable.create { observer -> Disposable in
-            getPetById(petId: petId) { data, error in
+            getPetById(petId: petId, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -320,10 +330,11 @@ open class PetAPI {
      Update an existing pet
      
      - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updatePet(pet: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    open class func updatePet(pet: Pet, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        updatePetWithRequestBuilder(pet: pet).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -336,11 +347,12 @@ open class PetAPI {
      Update an existing pet
      
      - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Void>
      */
-    open class func updatePet(pet: Pet) -> Observable<Void> {
+    open class func updatePet(pet: Pet, queue: DispatchQueue? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePet(pet: pet) { data, error in
+            updatePet(pet: pet, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -379,10 +391,11 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -397,11 +410,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Void>
      */
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil) -> Observable<Void> {
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, queue: DispatchQueue? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePetWithForm(petId: petId, name: name, status: status) { data, error in
+            updatePetWithForm(petId: petId, name: name, status: status, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -451,10 +465,11 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, queue: DispatchQueue? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -465,11 +480,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<ApiResponse>
      */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil) -> Observable<ApiResponse> {
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, queue: DispatchQueue? = nil) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { data, error in
+            uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -519,10 +535,11 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, queue: DispatchQueue? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -533,11 +550,12 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<ApiResponse>
      */
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil) -> Observable<ApiResponse> {
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, queue: DispatchQueue? = nil) -> Observable<ApiResponse> {
         return Observable.create { observer -> Disposable in
-            uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata) { data, error in
+            uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {

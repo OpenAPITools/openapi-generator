@@ -15,10 +15,11 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter client: (body) client model 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func testClassname(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        testClassnameWithRequestBuilder(client: client).execute { (response, error) -> Void in
+    open class func testClassname(client: Client, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+        testClassnameWithRequestBuilder(client: client).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }

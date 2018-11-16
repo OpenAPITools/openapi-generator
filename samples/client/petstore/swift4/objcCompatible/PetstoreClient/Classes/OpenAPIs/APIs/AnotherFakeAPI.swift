@@ -15,10 +15,11 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter client: (body) client model 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func call123testSpecialTags(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
+    open class func call123testSpecialTags(client: Client, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
+        call123testSpecialTagsWithRequestBuilder(client: client).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }

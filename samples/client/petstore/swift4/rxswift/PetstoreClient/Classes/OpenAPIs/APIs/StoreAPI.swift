@@ -16,10 +16,11 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deleteOrderWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
+    open class func deleteOrder(orderId: String, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        deleteOrderWithRequestBuilder(orderId: orderId).execute(queue: queue) { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -32,11 +33,12 @@ open class StoreAPI {
      Delete purchase order by ID
      
      - parameter orderId: (path) ID of the order that needs to be deleted 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Void>
      */
-    open class func deleteOrder(orderId: String) -> Observable<Void> {
+    open class func deleteOrder(orderId: String, queue: DispatchQueue? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteOrder(orderId: orderId) { data, error in
+            deleteOrder(orderId: orderId, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -73,10 +75,11 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getInventory(completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void)) {
-        getInventoryWithRequestBuilder().execute { (response, error) -> Void in
+    open class func getInventory(queue: DispatchQueue? = nil, completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void)) {
+        getInventoryWithRequestBuilder().execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -84,11 +87,12 @@ open class StoreAPI {
     /**
      Returns pet inventories by status
      
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<[String:Int]>
      */
-    open class func getInventory() -> Observable<[String:Int]> {
+    open class func getInventory(queue: DispatchQueue? = nil) -> Observable<[String:Int]> {
         return Observable.create { observer -> Disposable in
-            getInventory() { data, error in
+            getInventory(queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -125,10 +129,11 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
-        getOrderByIdWithRequestBuilder(orderId: orderId).execute { (response, error) -> Void in
+    open class func getOrderById(orderId: Int64, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
+        getOrderByIdWithRequestBuilder(orderId: orderId).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -137,11 +142,12 @@ open class StoreAPI {
      Find purchase order by ID
      
      - parameter orderId: (path) ID of pet that needs to be fetched 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Order>
      */
-    open class func getOrderById(orderId: Int64) -> Observable<Order> {
+    open class func getOrderById(orderId: Int64, queue: DispatchQueue? = nil) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            getOrderById(orderId: orderId) { data, error in
+            getOrderById(orderId: orderId, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
@@ -179,10 +185,11 @@ open class StoreAPI {
      Place an order for a pet
      
      - parameter order: (body) order placed for purchasing the pet 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func placeOrder(order: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
-        placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
+    open class func placeOrder(order: Order, queue: DispatchQueue? = nil, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
+        placeOrderWithRequestBuilder(order: order).execute(queue: queue) { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
@@ -191,11 +198,12 @@ open class StoreAPI {
      Place an order for a pet
      
      - parameter order: (body) order placed for purchasing the pet 
+     - parameter queue: The queue on which the completion handler is dispatched.
      - returns: Observable<Order>
      */
-    open class func placeOrder(order: Order) -> Observable<Order> {
+    open class func placeOrder(order: Order, queue: DispatchQueue? = nil) -> Observable<Order> {
         return Observable.create { observer -> Disposable in
-            placeOrder(order: order) { data, error in
+            placeOrder(order: order, queue: queue) { data, error in
                 if let error = error {
                     observer.on(.error(error))
                 } else {
