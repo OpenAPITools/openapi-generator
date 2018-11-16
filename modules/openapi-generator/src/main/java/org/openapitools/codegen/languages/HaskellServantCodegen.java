@@ -82,7 +82,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      * @return A string value for the help message
      */
     public String getHelp() {
-        return "Generates a Haskell server and client library.";
+        return "Generates a Haskell Servant server and client library.";
     }
 
     public HaskellServantCodegen() {
@@ -98,6 +98,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         specialCharReplacements.remove("\"");
         specialCharReplacements.put("\\\\", "Back_Slash");
         specialCharReplacements.put("\\\"", "Double_Quote");
+
+        // Allow underscores?
+        specialCharReplacements.remove("_");
 
         // set the output folder here
         outputFolder = "generated-code/haskell-servant";
@@ -179,7 +182,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("char", "Char");
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
-        typeMapping.put("DateTime", "Integer");
+        typeMapping.put("date-time", "LocalTime");
+        typeMapping.put("datetime", "LocalTime");
+        typeMapping.put("dateTime", "LocalTime");
+        typeMapping.put("DateTime", "LocalTime");
+        typeMapping.put("date", "Day");
         typeMapping.put("file", "FilePath");
         typeMapping.put("binary", "FilePath");
         typeMapping.put("number", "Double");
