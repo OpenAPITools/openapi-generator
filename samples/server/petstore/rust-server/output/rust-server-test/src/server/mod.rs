@@ -405,6 +405,9 @@ impl RequestParser for ApiRequestParser {
             // DummyPut - PUT /dummy
             &hyper::Method::Put if path.matched(paths::ID_DUMMY) => Ok("DummyPut"),
 
+            // FileResponseGet - GET /file_response
+            &hyper::Method::Get if path.matched(paths::ID_FILE_RESPONSE) => Ok("FileResponseGet"),
+
             // HtmlPost - POST /html
             &hyper::Method::Post if path.matched(paths::ID_HTML) => Ok("HtmlPost"),
             _ => Err(()),
