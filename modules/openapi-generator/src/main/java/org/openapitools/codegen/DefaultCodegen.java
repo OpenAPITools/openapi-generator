@@ -2321,7 +2321,13 @@ public class DefaultCodegen implements CodegenConfig {
                     }
 
                     // generate examples
-                    op.examples = new ExampleGenerator(schemas, openAPI).generateFromResponseSchema(responseSchema, getProducesInfo(openAPI, operation));
+                    String exampleStatusCode = "200";
+                    for (String key : operation.getResponses().keySet()) {
+                        if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
+                            exampleStatusCode = key;
+                        }
+                    }
+                    op.examples = new ExampleGenerator(schemas, openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(openAPI, operation));
                     op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.dataType;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);

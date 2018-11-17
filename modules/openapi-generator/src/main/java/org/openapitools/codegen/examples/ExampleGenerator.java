@@ -42,6 +42,7 @@ public class ExampleGenerator {
     private static final String NONE = "none";
     private static final String URL = "url";
     private static final String URI = "uri";
+    private static final String STATUS_CODE = "statusCode";
 
     protected Map<String, Schema> examples;
     private OpenAPI openAPI;
@@ -54,7 +55,20 @@ public class ExampleGenerator {
         this.random = new Random("ExampleGenerator".hashCode());
     }
 
-    public List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
+    public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
+        List<Map<String, String>> examples = generateFromResponseSchema(responseSchema, producesInfo);
+        if (examples == null) {
+            return null;
+        }
+
+        for (Map<String, String> example : examples) {
+            example.put(STATUS_CODE, statusCode);
+        }
+
+        return examples;
+    }
+
+    private List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
         if (responseSchema.getExample() == null && StringUtils.isEmpty(responseSchema.get$ref()) && !ModelUtils.isArraySchema(responseSchema)) {
             // no example provided
             return null;
