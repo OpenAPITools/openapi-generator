@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "petstore"
+
+# You can add fixtures and/or initialization code here to make experimenting
+# with your gem easier. You can also use a different console, if you like.
+api = Petstore::PetApi.new
+api.api_client.config.debugging = true
+pet = api.get_pet_by_id(545646631)
+new_pet = pet.dup
+new_pet.id = nil
+
+res = api.add_pet(new_pet)
+
+require "pry"
+Pry.start
