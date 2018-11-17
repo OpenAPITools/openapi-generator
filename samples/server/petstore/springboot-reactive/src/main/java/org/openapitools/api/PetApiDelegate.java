@@ -34,7 +34,7 @@ public interface PetApiDelegate {
     default Mono<ResponseEntity<Void>> addPet(Mono<Pet> pet,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -46,7 +46,7 @@ public interface PetApiDelegate {
         String apiKey,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -120,7 +120,7 @@ public interface PetApiDelegate {
     default Mono<ResponseEntity<Void>> updatePet(Mono<Pet> pet,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -133,7 +133,7 @@ public interface PetApiDelegate {
         String status,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }

@@ -41,7 +41,7 @@ public interface FakeApiDelegate {
     default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(Mono<Boolean> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -69,7 +69,7 @@ public interface FakeApiDelegate {
     default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(Mono<BigDecimal> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -80,7 +80,7 @@ public interface FakeApiDelegate {
     default Mono<ResponseEntity<String>> fakeOuterStringSerialize(Mono<String> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -91,7 +91,7 @@ public interface FakeApiDelegate {
     default Mono<ResponseEntity<Void>> testBodyWithFileSchema(Mono<FileSchemaTestClass> fileSchemaTestClass,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -103,7 +103,7 @@ public interface FakeApiDelegate {
         Mono<User> user,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -144,7 +144,7 @@ public interface FakeApiDelegate {
         String paramCallback,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -162,7 +162,7 @@ public interface FakeApiDelegate {
         String enumFormString,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -178,7 +178,7 @@ public interface FakeApiDelegate {
         Long int64Group,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -189,7 +189,7 @@ public interface FakeApiDelegate {
     default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> requestBody,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -201,7 +201,7 @@ public interface FakeApiDelegate {
         String param2,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }

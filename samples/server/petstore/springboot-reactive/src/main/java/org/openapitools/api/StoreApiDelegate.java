@@ -33,7 +33,7 @@ public interface StoreApiDelegate {
     default Mono<ResponseEntity<Void>> deleteOrder(String orderId,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }
@@ -43,7 +43,7 @@ public interface StoreApiDelegate {
      */
     default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
         return result.then(Mono.empty());
 
     }

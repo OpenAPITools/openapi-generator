@@ -38,7 +38,7 @@ public class FakeClassnameTestApiController implements FakeClassnameTestApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 

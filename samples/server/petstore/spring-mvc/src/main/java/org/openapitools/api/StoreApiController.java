@@ -53,7 +53,7 @@ public class StoreApiController implements StoreApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -68,7 +68,7 @@ public class StoreApiController implements StoreApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 

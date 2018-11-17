@@ -35,7 +35,7 @@ public interface AnotherFakeApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 

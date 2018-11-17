@@ -101,7 +101,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -132,7 +132,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -161,7 +161,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -226,7 +226,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 

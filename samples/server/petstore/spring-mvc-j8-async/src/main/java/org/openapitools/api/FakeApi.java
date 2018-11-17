@@ -73,7 +73,7 @@ public interface FakeApi {
                     }
                 }
             });
-            return new ResponseEntity<>(HttpStatus.valueOf(200);
+            return new ResponseEntity<>(HttpStatus.valueOf(200));
         }, Runnable::run);
 
     }
@@ -144,7 +144,7 @@ public interface FakeApi {
                     }
                 }
             });
-            return new ResponseEntity<>(HttpStatus.valueOf(200);
+            return new ResponseEntity<>(HttpStatus.valueOf(200));
         }, Runnable::run);
 
     }
@@ -235,7 +235,7 @@ public interface FakeApi {
                     }
                 }
             });
-            return new ResponseEntity<>(HttpStatus.valueOf(200);
+            return new ResponseEntity<>(HttpStatus.valueOf(200));
         }, Runnable::run);
 
     }

@@ -63,7 +63,7 @@ public class UserApiController implements UserApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
