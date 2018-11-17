@@ -464,7 +464,7 @@ Other languages have petstore samples, too:
 ./bin/objc-petstore.sh
 ```
 
-... and others. [Here is a list of all scripts.](wiki/Samples-folder#scripts)
+... and others. [Here is a list of all scripts.](https://github.com/OpenAPITools/openapi-generator/wiki/Samples-folder#scripts)
 
 ### [3.1 - Customization](#table-of-contents)
 
