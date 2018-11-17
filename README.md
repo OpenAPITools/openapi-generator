@@ -502,6 +502,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [REST United](https://restunited.com)
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
+- [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [unblu inc.](https://www.unblu.com/)
 - [Zalando](https://www.zalando.com)
 
