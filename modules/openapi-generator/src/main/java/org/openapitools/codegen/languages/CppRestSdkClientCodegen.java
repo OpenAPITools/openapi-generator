@@ -285,8 +285,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
-            for(String hdr : op.imports) {
-                if(importMapping.containsKey(hdr)) {
+            for (String hdr : op.imports) {
+                if (importMapping.containsKey(hdr)) {
                     continue;
                 }
                 operations.put("hasModelImport", true);
@@ -295,7 +295,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         }
         return objs;
     }
-    
+
     protected boolean isFileSchema(CodegenProperty property) {
         return property.baseType.equals("HttpContent");
     }
@@ -432,13 +432,20 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      */
     private void processParentPropertiesInChildModel(final CodegenModel parent, final CodegenModel child) {
         final Map<String, CodegenProperty> childPropertiesByName = new HashMap<>(child.vars.size());
-        for (final CodegenProperty childSchema : child.vars) {
-            childPropertiesByName.put(childSchema.name, childSchema);
+        if (child != null && child.vars != null && !child.vars.isEmpty()) {
+            for (final CodegenProperty childSchema : child.vars) {
+                childPropertiesByName.put(childSchema.name, childSchema);
+            }
         }
-        for (final CodegenProperty parentSchema : parent.vars) {
-            final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentSchema.name);
-            if (duplicatedByParent != null) {
-                duplicatedByParent.isInherited = true;
+
+        if (parent != null && parent.vars != null && !parent.vars.isEmpty())
+
+        {
+            for (final CodegenProperty parentSchema : parent.vars) {
+                final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentSchema.name);
+                if (duplicatedByParent != null) {
+                    duplicatedByParent.isInherited = true;
+                }
             }
         }
     }
