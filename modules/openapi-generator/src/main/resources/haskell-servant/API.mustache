@@ -26,7 +26,6 @@ import {{title}}.Types
 import Control.Monad.Except (ExceptT)
 import Control.Monad.IO.Class
 import Data.Aeson (Value)
-import Data.Coerce (coerce)
 import Data.Function ((&))
 import qualified Data.Map as Map
 import Data.Monoid ((<>))
@@ -164,7 +163,7 @@ run{{title}}Server ServerConfig{..} backend =
   where
     warpSettings = Warp.defaultSettings & Warp.setPort configPort & Warp.setHost (fromString configHost)
     serverFromBackend {{title}}Backend{..} =
-      ({{#apis}}{{#operations}}{{#operation}}coerce {{operationId}}{{#hasMore}} :<|>
+      ({{#apis}}{{#operations}}{{#operation}}{{operationId}}{{#hasMore}} :<|>
        {{/hasMore}}{{/operation}}{{/operations}}{{#hasMore}} :<|>
        {{/hasMore}}{{/apis}})
 {{/apiInfo}}
