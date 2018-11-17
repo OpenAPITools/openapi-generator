@@ -411,7 +411,6 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
-
         final Map<String, Object> processed = super.postProcessAllModels(models);
         postProcessParentModels(models);
         return processed;
@@ -438,9 +437,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
             }
         }
 
-        if (parent != null && parent.vars != null && !parent.vars.isEmpty())
-
-        {
+        if (parent != null && parent.vars != null && !parent.vars.isEmpty()) {
             for (final CodegenProperty parentSchema : parent.vars) {
                 final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentSchema.name);
                 if (duplicatedByParent != null) {
