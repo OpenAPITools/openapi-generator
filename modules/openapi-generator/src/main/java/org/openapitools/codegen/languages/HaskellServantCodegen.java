@@ -459,7 +459,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             path.add("QueryParam \"" + param.baseName + "\" " + paramType);
-            type.add("Maybe " + param.dataType);
+            type.add("Maybe " + paramType);
         }
 
         // Either body or form data parameters appended to route
