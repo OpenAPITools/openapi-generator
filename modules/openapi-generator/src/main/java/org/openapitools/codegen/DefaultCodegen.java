@@ -3962,11 +3962,28 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
-        if (vendorExtensions != null && vendorExtensions.containsKey("x-enum-varnames")) {
+        if (null == vendorExtensions) {
+            return;
+        }
+
+        if (vendorExtensions.containsKey("x-enum-varnames")) {
             List<String> alias = (List<String>) vendorExtensions.get("x-enum-varnames");
             int size = Math.min(enumVars.size(), alias.size());
             for (int i = 0; i < size; i++) {
                 enumVars.get(i).put("name", alias.get(i));
+            }
+        }
+
+        if (vendorExtensions.containsKey("x-enum-values")) {
+            List<Map<String, String>> enumValues = (List<Map<String, String>>) vendorExtensions.get("x-enum-values");
+
+            for (Map<String, String> enumValue : enumValues) {
+                for (Map<String, Object> enumVar : enumVars) {
+                    if (enumValue.get("numericValue").equals(enumVar.get("value"))) {
+                        enumVar.put("name", enumValue.get("identifier").toUpperCase());
+                        break;
+                    }
+                }
             }
         }
     }
