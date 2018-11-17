@@ -128,7 +128,7 @@ module Petstore
     attr_accessor :force_ending_format
 
     def initialize
-      @scheme = 'http'
+      @scheme = 'https'
       @host = 'petstore.swagger.io'
       @base_path = '/v2'
       @api_key = {}
