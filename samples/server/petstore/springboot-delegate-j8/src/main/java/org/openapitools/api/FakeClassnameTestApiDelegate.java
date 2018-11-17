@@ -27,7 +27,6 @@ public interface FakeClassnameTestApiDelegate {
      * @see FakeClassnameTestApi#testClassname
      */
     default ResponseEntity<Client> testClassname(Client client) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -36,7 +35,7 @@ public interface FakeClassnameTestApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

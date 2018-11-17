@@ -43,8 +43,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -58,8 +57,7 @@ public interface StoreApi {
         produces = "application/json", 
         method = RequestMethod.GET)
     default ResponseEntity<Map<String, Integer>> getInventory() {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -73,7 +71,6 @@ public interface StoreApi {
         produces = "application/json", 
         method = RequestMethod.GET)
     default ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -86,7 +83,7 @@ public interface StoreApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -99,7 +96,6 @@ public interface StoreApi {
         produces = "application/json", 
         method = RequestMethod.POST)
     default ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -112,7 +108,7 @@ public interface StoreApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

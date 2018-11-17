@@ -53,7 +53,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
     default ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -70,7 +70,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -101,7 +101,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -132,7 +132,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -161,7 +161,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -181,7 +181,7 @@ public interface PetApi {
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
     default ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -199,7 +199,7 @@ public interface PetApi {
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
     default ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false)  String status) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -226,7 +226,7 @@ public interface PetApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

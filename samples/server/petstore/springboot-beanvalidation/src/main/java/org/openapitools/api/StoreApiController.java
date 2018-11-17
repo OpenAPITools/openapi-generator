@@ -33,19 +33,16 @@ public class StoreApiController implements StoreApi {
     }
 
     public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
     public ResponseEntity<Map<String, Integer>> getInventory() {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
     public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
-        int statusCode = 200;
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 ApiUtil.setExampleResponse(request, "application/json", "{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}");
@@ -56,12 +53,11 @@ public class StoreApiController implements StoreApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
     public ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
-        int statusCode = 200;
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 ApiUtil.setExampleResponse(request, "application/json", "{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}");
@@ -72,7 +68,7 @@ public class StoreApiController implements StoreApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

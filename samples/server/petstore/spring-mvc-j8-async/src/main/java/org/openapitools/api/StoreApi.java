@@ -44,8 +44,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{order_id}",
         method = RequestMethod.DELETE)
     default CompletableFuture<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
-        int statusCode = 400;
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(statusCode)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
 
     }
 
@@ -59,8 +58,7 @@ public interface StoreApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory() {
-        int statusCode = 200;
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(statusCode)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
 
     }
 
@@ -74,7 +72,6 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
-        int statusCode = 200;
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -88,7 +85,7 @@ public interface StoreApi {
                     }
                 }
             });
-            return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+            return new ResponseEntity<>(HttpStatus.valueOf(200);
         }, Runnable::run);
 
     }
@@ -102,7 +99,6 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
-        int statusCode = 200;
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -116,7 +112,7 @@ public interface StoreApi {
                     }
                 }
             });
-            return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+            return new ResponseEntity<>(HttpStatus.valueOf(200);
         }, Runnable::run);
 
     }

@@ -46,7 +46,6 @@ public interface FakeClassnameTestApi {
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
     default CompletableFuture<ResponseEntity<Client>> testClassname(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-        int statusCode = 200;
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -56,7 +55,7 @@ public interface FakeClassnameTestApi {
                     }
                 }
             });
-            return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+            return new ResponseEntity<>(HttpStatus.valueOf(200);
         }, Runnable::run);
 
     }

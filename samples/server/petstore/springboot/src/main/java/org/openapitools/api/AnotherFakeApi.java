@@ -43,7 +43,6 @@ public interface AnotherFakeApi {
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
     default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -52,7 +51,7 @@ public interface AnotherFakeApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

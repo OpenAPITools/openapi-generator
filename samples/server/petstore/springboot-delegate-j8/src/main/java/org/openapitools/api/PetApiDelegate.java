@@ -29,8 +29,7 @@ public interface PetApiDelegate {
      * @see PetApi#addPet
      */
     default ResponseEntity<Void> addPet(Pet pet) {
-        int statusCode = 405;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -39,8 +38,7 @@ public interface PetApiDelegate {
      */
     default ResponseEntity<Void> deletePet(Long petId,
         String apiKey) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -48,7 +46,6 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByStatus
      */
     default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -61,7 +58,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -69,7 +66,6 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -82,7 +78,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -90,7 +86,6 @@ public interface PetApiDelegate {
      * @see PetApi#getPetById
      */
     default ResponseEntity<Pet> getPetById(Long petId) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -103,7 +98,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -111,8 +106,7 @@ public interface PetApiDelegate {
      * @see PetApi#updatePet
      */
     default ResponseEntity<Void> updatePet(Pet pet) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -122,8 +116,7 @@ public interface PetApiDelegate {
     default ResponseEntity<Void> updatePetWithForm(Long petId,
         String name,
         String status) {
-        int statusCode = 405;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -133,7 +126,6 @@ public interface PetApiDelegate {
     default ResponseEntity<ModelApiResponse> uploadFile(Long petId,
         String additionalMetadata,
         MultipartFile file) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -142,7 +134,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

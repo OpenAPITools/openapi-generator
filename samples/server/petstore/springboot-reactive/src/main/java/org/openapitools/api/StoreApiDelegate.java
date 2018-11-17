@@ -32,8 +32,8 @@ public interface StoreApiDelegate {
      */
     default Mono<ResponseEntity<Void>> deleteOrder(String orderId,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -42,8 +42,8 @@ public interface StoreApiDelegate {
      * @see StoreApi#getInventory
      */
     default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -53,8 +53,8 @@ public interface StoreApiDelegate {
      */
     default Mono<ResponseEntity<Order>> getOrderById(Long orderId,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(200);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 result = ApiUtil.getExampleResponse(exchange, "{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}");
@@ -74,8 +74,8 @@ public interface StoreApiDelegate {
      */
     default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(200);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 result = ApiUtil.getExampleResponse(exchange, "{  \"petId\" : 6,  \"quantity\" : 1,  \"id\" : 0,  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",  \"complete\" : false,  \"status\" : \"placed\"}");

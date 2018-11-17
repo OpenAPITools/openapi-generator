@@ -36,8 +36,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterBooleanSerialize
      */
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -45,7 +44,6 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterCompositeSerialize
      */
     default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
@@ -54,7 +52,7 @@ public interface FakeApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -62,8 +60,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterNumberSerialize
      */
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -71,8 +68,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterStringSerialize
      */
     default ResponseEntity<String> fakeOuterStringSerialize(String body) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -80,8 +76,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#testBodyWithFileSchema
      */
     default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -90,8 +85,7 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testBodyWithQueryParams(String query,
         User user) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -99,7 +93,6 @@ public interface FakeApiDelegate {
      * @see FakeApi#testClientModel
      */
     default ResponseEntity<Client> testClientModel(Client client) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -108,7 +101,7 @@ public interface FakeApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -129,8 +122,7 @@ public interface FakeApiDelegate {
         OffsetDateTime dateTime,
         String password,
         String paramCallback) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -145,8 +137,7 @@ public interface FakeApiDelegate {
         Double enumQueryDouble,
         List<String> enumFormStringArray,
         String enumFormString) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -159,7 +150,7 @@ public interface FakeApiDelegate {
         Integer stringGroup,
         Boolean booleanGroup,
         Long int64Group) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -167,8 +158,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#testInlineAdditionalProperties
      */
     default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -177,8 +167,7 @@ public interface FakeApiDelegate {
      */
     default ResponseEntity<Void> testJsonFormData(String param,
         String param2) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -188,7 +177,6 @@ public interface FakeApiDelegate {
     default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
         String additionalMetadata) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -197,7 +185,7 @@ public interface FakeApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

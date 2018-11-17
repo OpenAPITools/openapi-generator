@@ -40,8 +40,8 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(Mono<Boolean> body,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -51,8 +51,8 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(Mono<OuterComposite> outerComposite,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(200);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
                 result = ApiUtil.getExampleResponse(exchange, "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
@@ -68,8 +68,8 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(Mono<BigDecimal> body,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -79,8 +79,8 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseEntity<String>> fakeOuterStringSerialize(Mono<String> body,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -90,8 +90,8 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseEntity<Void>> testBodyWithFileSchema(Mono<FileSchemaTestClass> fileSchemaTestClass,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -102,8 +102,8 @@ public interface FakeApiDelegate {
     default Mono<ResponseEntity<Void>> testBodyWithQueryParams(String query,
         Mono<User> user,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -113,8 +113,8 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseEntity<Client>> testClientModel(Mono<Client> client,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(200);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 result = ApiUtil.getExampleResponse(exchange, "{  \"client\" : \"client\"}");
@@ -143,8 +143,8 @@ public interface FakeApiDelegate {
         String password,
         String paramCallback,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -161,8 +161,8 @@ public interface FakeApiDelegate {
         List<String> enumFormStringArray,
         String enumFormString,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -177,8 +177,8 @@ public interface FakeApiDelegate {
         Boolean booleanGroup,
         Long int64Group,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -188,8 +188,8 @@ public interface FakeApiDelegate {
      */
     default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> requestBody,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -200,8 +200,8 @@ public interface FakeApiDelegate {
     default Mono<ResponseEntity<Void>> testJsonFormData(String param,
         String param2,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
         return result.then(Mono.empty());
 
     }
@@ -213,8 +213,8 @@ public interface FakeApiDelegate {
         MultipartFile requiredFile,
         String additionalMetadata,
         ServerWebExchange exchange) {
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(statusCode));
         Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(200);
         for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 result = ApiUtil.getExampleResponse(exchange, "{  \"code\" : 0,  \"type\" : \"type\",  \"message\" : \"message\"}");

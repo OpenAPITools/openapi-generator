@@ -28,8 +28,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#deleteOrder
      */
     default ResponseEntity<Void> deleteOrder(String orderId) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -37,8 +36,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#getInventory
      */
     default ResponseEntity<Map<String, Integer>> getInventory() {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -46,7 +44,6 @@ public interface StoreApiDelegate {
      * @see StoreApi#getOrderById
      */
     default ResponseEntity<Order> getOrderById(Long orderId) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -59,7 +56,7 @@ public interface StoreApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -67,7 +64,6 @@ public interface StoreApiDelegate {
      * @see StoreApi#placeOrder
      */
     default ResponseEntity<Order> placeOrder(Order order) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -80,7 +76,7 @@ public interface StoreApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

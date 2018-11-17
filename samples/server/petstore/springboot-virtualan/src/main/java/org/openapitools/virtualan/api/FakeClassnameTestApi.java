@@ -57,7 +57,7 @@ public interface FakeClassnameTestApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 

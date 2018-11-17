@@ -28,8 +28,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUser
      */
     default ResponseEntity<Void> createUser(User user) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -37,8 +36,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithArrayInput
      */
     default ResponseEntity<Void> createUsersWithArrayInput(List<User> user) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -46,8 +44,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithListInput
      */
     default ResponseEntity<Void> createUsersWithListInput(List<User> user) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -55,8 +52,7 @@ public interface UserApiDelegate {
      * @see UserApi#deleteUser
      */
     default ResponseEntity<Void> deleteUser(String username) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -64,7 +60,6 @@ public interface UserApiDelegate {
      * @see UserApi#getUserByName
      */
     default ResponseEntity<User> getUserByName(String username) {
-        int statusCode = 200;
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -77,7 +72,7 @@ public interface UserApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200);
 
     }
 
@@ -86,8 +81,7 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<String> loginUser(String username,
         String password) {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -95,8 +89,7 @@ public interface UserApiDelegate {
      * @see UserApi#logoutUser
      */
     default ResponseEntity<Void> logoutUser() {
-        int statusCode = 200;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
@@ -105,8 +98,7 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> updateUser(String username,
         User user) {
-        int statusCode = 400;
-        return new ResponseEntity<>(HttpStatus.valueOf(statusCode));
+        return new ResponseEntity<>(HttpStatus.valueOf(200));
 
     }
 
