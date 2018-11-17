@@ -16,7 +16,7 @@ return CompletableFuture.supplyAsync(()-> {
         {{#jdk8}}
 {{#async}}    {{/async}}        });
         {{/jdk8}}
-{{#async}}    {{/async}}        return new ResponseEntity<>(HttpStatus.valueOf({{{statusCode}}});
+{{#async}}    {{/async}}        return new ResponseEntity<>(HttpStatus.valueOf({{{statusCode}}}));
         {{#jdk8}}
             {{#async}}
         }, Runnable::run);
@@ -44,7 +44,7 @@ Mono<Void> result = Mono.empty();
         {{/-last}}
     {{/examples}}
 {{^examples}}
-        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200));
+        exchange.getResponse().setStatusCode(HttpStatus.valueOf(200);
 {{/examples}}
         return result.then(Mono.empty());
 {{/reactive}}
