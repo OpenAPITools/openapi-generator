@@ -6,7 +6,8 @@
         "sourceMap": false,
         "outDir": "dist",
         "types": [
-            "mocha"
+            "mocha",
+            "node"
         ],
         "lib": [
             "es6",

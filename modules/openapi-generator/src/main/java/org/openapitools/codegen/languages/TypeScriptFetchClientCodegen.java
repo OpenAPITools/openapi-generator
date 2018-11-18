@@ -22,12 +22,17 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.utils.ModelUtils;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
+import java.util.List;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
@@ -51,6 +56,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
         outputFolder = "generated-code/typescript-fetch";
         embeddedTemplateDir = templateDir = "typescript-fetch";
+
+        this.apiPackage = "apis";
+        this.apiTemplateFiles.put("apis.mustache", ".ts");
+        this.modelPackage = "models";
+        this.modelTemplateFiles.put("models.mustache", ".ts");
+        this.addExtraReservedWords();
 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
         this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
@@ -96,13 +107,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public void processOpts() {
         super.processOpts();
+        additionalProperties.put("isOriginalModelPropertyNaming", getModelPropertyNaming().equals("original"));
+        additionalProperties.put("modelPropertyNaming", getModelPropertyNaming());
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
-        supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
-        supportingFiles.add(new SupportingFile("custom.d.mustache", "", "custom.d.ts"));
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
-
+        supportingFiles.add(new SupportingFile("runtime.mustache", "", "runtime.ts"));
+        supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
+        supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
+        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -118,9 +129,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
-            return "any";
+            return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
-            return "any";
+            return "Blob";
         } else {
             return super.getTypeDeclaration(p);
         }
@@ -130,6 +141,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        Map<String, Object> result = super.postProcessAllModels(objs);
+        for (Map.Entry<String, Object> entry : result.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> model : models) {
+                CodegenModel codegenModel = (CodegenModel) model.get("model");
+                model.put("hasImports", codegenModel.imports.size() > 0);
+            }
+        }
+        return result;
     }
 
     private void addNpmPackageGeneration() {
@@ -153,7 +178,48 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
-        supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
 
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+        this.addOperationModelImportInfomation(operations);
+        return operations;
+    }
+
+    private void addOperationModelImportInfomation(Map<String, Object> operations) {
+        // This method will add extra infomation to the operations.imports array.
+        // The api template uses this infomation to import all the required
+        // models for a given operation.
+        List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
+        for (Map<String, Object> im : imports) {
+            im.put("className", im.get("import").toString().replace("models.", ""));
+        }
+    }
+
+    private void addExtraReservedWords() {
+        this.reservedWords.add("BASE_PATH");
+        this.reservedWords.add("BaseAPI");
+        this.reservedWords.add("RequiredError");
+        this.reservedWords.add("COLLECTION_FORMATS");
+        this.reservedWords.add("FetchAPI");
+        this.reservedWords.add("ConfigurationParameters");
+        this.reservedWords.add("Configuration");
+        this.reservedWords.add("HTTPMethod");
+        this.reservedWords.add("HTTPHeaders");
+        this.reservedWords.add("HTTPQuery");
+        this.reservedWords.add("HTTPBody");
+        this.reservedWords.add("ModelPropertyNaming");
+        this.reservedWords.add("FetchParams");
+        this.reservedWords.add("RequestOpts");
+        this.reservedWords.add("exists");
+        this.reservedWords.add("RequestContext");
+        this.reservedWords.add("ResponseContext");
+        this.reservedWords.add("Middleware");
+        this.reservedWords.add("ApiResponse");
+        this.reservedWords.add("ResponseTransformer");
+        this.reservedWords.add("JSONApiResponse");
+        this.reservedWords.add("VoidApiResponse");
+        this.reservedWords.add("BlobApiResponse");
+        this.reservedWords.add("TextApiResponse");
+    }
 }

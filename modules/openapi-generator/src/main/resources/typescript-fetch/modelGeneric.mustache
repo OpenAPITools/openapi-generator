@@ -1,3 +1,14 @@
+import { exists } from '../runtime';
+{{#hasImports}}
+import {
+    {{#imports}}
+    {{{.}}},
+    {{.}}FromJSON,
+    {{.}}ToJSON,
+    {{/imports}}
+} from './';
+
+{{/hasImports}}
 /**
  * {{{description}}}
  * @export
@@ -6,7 +17,6 @@
 export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
-
 {{/additionalPropertiesType}}
 {{#vars}}
     /**
@@ -14,9 +24,69 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */
-    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
-}{{#hasEnums}}
+}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    {{#hasVars}}
+    return {
+        {{#vars}}
+        {{#isPrimitiveType}}
+        {{#isDate}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
+        {{/isDate}}
+        {{#isDateTime}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
+        {{/isDateTime}}
+        {{^isDate}}
+        {{^isDateTime}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
+        {{/isDateTime}}
+        {{/isDate}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isContainer}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
+        {{/isContainer}}
+        {{^isContainer}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{/vars}}
+    };
+    {{/hasVars}}
+    {{^hasVars}}
+    return json;
+    {{/hasVars}}
+}
+
+export function {{classname}}ToJSON(value?: {{classname}}): any {
+    {{#hasVars}}
+    if (value === undefined) {
+        return undefined;
+    }
+    return {
+        {{#vars}}
+        {{#isPrimitiveType}}
+        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isContainer}}
+        '{{baseName}}': (value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        {{/isContainer}}
+        {{^isContainer}}
+        '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
+        {{/isContainer}}
+        {{/isPrimitiveType}}
+        {{/vars}}
+    };
+    {{/hasVars}}
+    {{^hasVars}}
+    return value;
+    {{/hasVars}}
+}
+{{#hasEnums}}
 
 /**
  * @export

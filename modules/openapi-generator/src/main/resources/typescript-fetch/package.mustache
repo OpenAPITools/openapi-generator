@@ -2,26 +2,14 @@
   "name": "{{npmName}}",
   "version": "{{npmVersion}}",
   "description": "OpenAPI client for {{npmName}}",
-  "author": "OpenAPI-Generator Contributors",
-  "keywords": [
-    "fetch",
-    "typescript",
-    "openapi-client",
-    "openapi-generator",
-    "{{npmName}}"
-  ],
-  "license": "Unlicense",
+  "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts" : {
     "build": "tsc --outDir dist/",
-    "prepublishOnly": "npm run build"
-  },
-  "dependencies": {
-    "portable-fetch": "^3.0.0"
+    "prepare": "npm run build"
   },
   "devDependencies": {
-    "@types/node": "^8.0.9",
     "typescript": "^2.4"
   }{{#npmRepository}},{{/npmRepository}}
 {{#npmRepository}}

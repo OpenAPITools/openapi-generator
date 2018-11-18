@@ -1,19 +1,20 @@
 import { expect } from 'chai';
 import { StoreApi } from '@swagger/typescript-fetch-petstore';
+import { config } from '../configuration';
 
 describe('StoreApi', function () {
 
-    function runSuite(description: string, requestOptions?: any): void {
+    function runSuite(description: string): void {
 
         describe(description, () => {
             let api: StoreApi;
 
             beforeEach(function () {
-                api = new StoreApi();
+                api = new StoreApi(config);
             });
 
             it('should get inventory', function () {
-                return api.getInventory(requestOptions).then((result: { [key: string]: number }) => {
+                return api.getInventory().then((result: { [key: string]: number }) => {
                     expect(Object.keys(result)).to.not.be.empty;
                 });
             });
@@ -22,10 +23,5 @@ describe('StoreApi', function () {
     }
 
     runSuite('without custom request options');
-
-    runSuite('with custom request options', {
-        credentials: 'include',
-        mode: 'cors'
-    });
 
 });
