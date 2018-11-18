@@ -553,6 +553,85 @@ export default class FakeApi {
 
 
     /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param {Number} requiredStringGroup Required String in group parameters
+     * @param {Boolean} requiredBooleanGroup Required Boolean in group parameters
+     * @param {Number} requiredInt64Group Required Integer in group parameters
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.stringGroup String in group parameters
+     * @param {Boolean} opts.booleanGroup Boolean in group parameters
+     * @param {Number} opts.int64Group Integer in group parameters
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts) {
+      opts = opts || {};
+      let postBody = null;
+
+      // verify the required parameter 'requiredStringGroup' is set
+      if (requiredStringGroup === undefined || requiredStringGroup === null) {
+        throw new Error("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+      }
+
+      // verify the required parameter 'requiredBooleanGroup' is set
+      if (requiredBooleanGroup === undefined || requiredBooleanGroup === null) {
+        throw new Error("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+      }
+
+      // verify the required parameter 'requiredInt64Group' is set
+      if (requiredInt64Group === undefined || requiredInt64Group === null) {
+        throw new Error("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'required_string_group': requiredStringGroup,
+        'required_int64_group': requiredInt64Group,
+        'string_group': opts['stringGroup'],
+        'int64_group': opts['int64Group']
+      };
+      let headerParams = {
+        'required_boolean_group': requiredBooleanGroup,
+        'boolean_group': opts['booleanGroup']
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param {Number} requiredStringGroup Required String in group parameters
+     * @param {Boolean} requiredBooleanGroup Required Boolean in group parameters
+     * @param {Number} requiredInt64Group Required Integer in group parameters
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.stringGroup String in group parameters
+     * @param {Boolean} opts.booleanGroup Boolean in group parameters
+     * @param {Number} opts.int64Group Integer in group parameters
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts) {
+      return this.testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * test inline additionalProperties
      * @param {Object.<String, {String: String}>} requestBody request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response

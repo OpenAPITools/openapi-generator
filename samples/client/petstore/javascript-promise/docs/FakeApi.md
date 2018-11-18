@@ -13,6 +13,7 @@ Method | HTTP request | Description
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
@@ -442,6 +443,59 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+<a name="testGroupParameters"></a>
+# **testGroupParameters**
+> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts)
+
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
+
+### Example
+```javascript
+var OpenApiPetstore = require('open_api_petstore');
+
+var apiInstance = new OpenApiPetstore.FakeApi();
+var requiredStringGroup = 56; // Number | Required String in group parameters
+var requiredBooleanGroup = true; // Boolean | Required Boolean in group parameters
+var requiredInt64Group = 789; // Number | Required Integer in group parameters
+var opts = {
+  'stringGroup': 56, // Number | String in group parameters
+  'booleanGroup': true, // Boolean | Boolean in group parameters
+  'int64Group': 789 // Number | Integer in group parameters
+};
+apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts).then(function() {
+  console.log('API called successfully.');
+}, function(error) {
+  console.error(error);
+});
+
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requiredStringGroup** | **Number**| Required String in group parameters | 
+ **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **Number**| Required Integer in group parameters | 
+ **stringGroup** | **Number**| String in group parameters | [optional] 
+ **booleanGroup** | **Boolean**| Boolean in group parameters | [optional] 
+ **int64Group** | **Number**| Integer in group parameters | [optional] 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 <a name="testInlineAdditionalProperties"></a>
