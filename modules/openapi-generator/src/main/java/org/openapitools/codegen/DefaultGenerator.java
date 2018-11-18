@@ -21,10 +21,8 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -936,7 +934,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 for (String tagName : tagNames) {
                     boolean foundTag = false;
                     for (Tag tag : swaggerTags) {
-                        if (tag.getName().equals(tagName)) {
+                        String name = tag.getName();
+                        if (null != name && name.equals(tagName)) {
                             tags.add(tag);
                             foundTag = true;
                             break;
@@ -1136,18 +1135,33 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     private Map<String, SecurityScheme> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
-        if (securities == null || (securitySchemes == null || securitySchemes.isEmpty())) {
+        if (securitySchemes == null || securitySchemes.isEmpty()) {
             return null;
         }
+
         final Map<String, SecurityScheme> authMethods = new HashMap<>();
-        for (SecurityRequirement requirement : securities) {
-            for (String key : requirement.keySet()) {
-                SecurityScheme securityScheme = securitySchemes.get(key);
-                if (securityScheme != null) {
-                    authMethods.put(key, securityScheme);
+
+        Components components       = openAPI.getComponents();
+        Map<String, Header> headers = null != components ? components.getHeaders() : null;
+
+        for (String key : securitySchemes.keySet()) {
+            SecurityScheme securityScheme = securitySchemes.get(key);
+            Header header                 = null != headers ? headers.get(securityScheme.getName()) : null;
+
+            if (null != header && header.getRequired()) {
+                // If the security scheme is required in the headers, always add it.
+                authMethods.put(key, securityScheme);
+            } else if (null != securities) {
+                // Otherwise, check if it is set in the securities.
+                for (SecurityRequirement requirement : securities) {
+                    if (requirement.get(key) != null) {
+                        authMethods.put(key, securityScheme);
+                        break;
+                    }
                 }
             }
         }
+
         return authMethods;
     }
 }
