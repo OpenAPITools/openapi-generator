@@ -21,6 +21,7 @@ use rust_server_test::{ApiNoContext, ContextWrapperExt,
                       ApiError,
                       DummyGetResponse,
                       DummyPutResponse,
+                      FileResponseGetResponse,
                       HtmlPostResponse
                      };
 use clap::{App, Arg};
@@ -32,6 +33,7 @@ fn main() {
             .possible_values(&[
     "DummyGet",
     "DummyPut",
+    "FileResponseGet",
     "HtmlPost",
 ])
             .required(true)
@@ -80,6 +82,11 @@ fn main() {
 
         Some("DummyPut") => {
             let result = core.run(client.dummy_put(None));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("FileResponseGet") => {
+            let result = core.run(client.file_response_get());
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
