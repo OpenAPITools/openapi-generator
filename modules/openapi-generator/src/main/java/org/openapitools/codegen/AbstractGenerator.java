@@ -43,12 +43,14 @@ public abstract class AbstractGenerator {
     
     /**
      * Is the minimal-file-update option enabled?
+	 * 
      * @return Option value
      */
     public abstract boolean getEnableMinimalUpdate();
 
     /**
      * Write String to a file, formatting as UTF-8
+	 * 
      * @param filename The name of file to write
      * @param contents The contents string.
      * @return File representing the written file.
@@ -60,6 +62,7 @@ public abstract class AbstractGenerator {
 
     /**
      * Write bytes to a file
+	 * 
      * @param filename The name of file to write
      * @param contents The contents bytes.  Typically this is a UTF-8 formatted string.
      * @return File representing the written file.
