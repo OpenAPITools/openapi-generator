@@ -1,6 +1,6 @@
 {
     "name": "GIT_USER_ID/GIT_REPO_ID",
-    "description": "",
+    "description": "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\  *_/ &#39; \&quot; &#x3D;end --",
     "keywords": [
         "openapitools",
         "openapi-generator",
