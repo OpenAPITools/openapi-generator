@@ -424,6 +424,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                     var.vendorExtensions.put("x-parameterType", typeHint);
                 }
 
+                if (var.isContainer) {
+                    var.vendorExtensions.put("x-parameterType", getTypeHint(var.dataType + "[]"));
+                }
+
                 // Create a variable to display the correct data type in comments for models
                 var.vendorExtensions.put("x-commentType", var.dataType);
                 if (var.isContainer) {
