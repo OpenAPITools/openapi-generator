@@ -1,4 +1,2 @@
 import './PetApi';
-import './StoreApi'; 
-import './PetApiFactory';
-import './StoreApiFactory';
+import './StoreApi';
