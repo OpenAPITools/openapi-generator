@@ -70,6 +70,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
 
     @Override
+    public boolean getEnableMinimalUpdate() {
+        return config.isEnableMinimalUpdate();
+    }
+
+    @Override
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
         this.openAPI = opts.getOpenAPI();
@@ -768,16 +773,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws FileNotFoundException, IOException {
-        File outputFile = new File(filename);
         if (in != null) {
-            OutputStream out = new FileOutputStream(outputFile, false);
-            LOGGER.info("writing file " + outputFile);
-            IOUtils.copy(in, out);
-            out.close();
+            byte bytes[] = IOUtils.toByteArray(in);
+            return writeToFile(filename, bytes);
         } else {
             LOGGER.error("can't open '" + templateFile + "' for input; cannot write '" + filename + "'");
+            return null;
         }
-        return outputFile;
     }
 
     private Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {

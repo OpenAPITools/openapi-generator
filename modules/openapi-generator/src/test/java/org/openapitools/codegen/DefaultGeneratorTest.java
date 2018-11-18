@@ -9,12 +9,16 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import java.io.File;
+import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DefaultGeneratorTest {
 
@@ -46,5 +50,33 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(defaultList.get(2).allParams.size(), 2);
         Assert.assertEquals(defaultList.get(3).path, "/path4");
         Assert.assertEquals(defaultList.get(3).allParams.size(), 1);
+    }
+    
+    @Test
+    public void minimalUpdateTest() throws IOException {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        ClientOptInput opts = new ClientOptInput();
+        opts.setOpenAPI(openAPI);
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setEnableMinimalUpdate(true);
+        opts.setConfig(codegen);
+        opts.setOpts(new ClientOpts());
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        File testPath = new File("temp/overwrite.test");
+        if (testPath.exists()) {
+            testPath.delete();
+        }
+        generator.writeToFile(testPath.toString(), "some file contents");
+        long createTime = testPath.lastModified();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ex) {
+        }
+        generator.writeToFile(testPath.toString(), "some file contents");
+        Assert.assertEquals(createTime, testPath.lastModified());
+        File testPathTmp = new File("temp/overwrite.test.tmp");
+        Assert.assertFalse(testPathTmp.exists());
+        testPath.delete();
     }
 }
