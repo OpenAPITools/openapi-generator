@@ -1142,11 +1142,15 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         final Map<String, SecurityScheme> authMethods = new HashMap<>();
 
         Components components       = openAPI.getComponents();
-        Map<String, Header> headers = null != components ? components.getHeaders() : null;
+        Map<String, Header> headers = (null != components) ? components.getHeaders() : null;
 
         for (String key : securitySchemes.keySet()) {
             SecurityScheme securityScheme = securitySchemes.get(key);
-            Header header                 = null != headers ? headers.get(securityScheme.getName()) : null;
+            Header header                 = null;
+
+            if (securityScheme.getIn() == SecurityScheme.In.HEADER) {
+                header = (null != headers) ? headers.get(securityScheme.getName()) : null;
+            }
 
             if (null != header && header.getRequired()) {
                 // If the security scheme is required in the headers, always add it.
