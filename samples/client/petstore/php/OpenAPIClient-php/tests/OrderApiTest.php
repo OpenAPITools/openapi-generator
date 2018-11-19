@@ -2,7 +2,9 @@
 
 namespace OpenAPI\Client;
 
-class OrderApiTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class OrderApiTest extends TestCase
 {
 
     // add a new pet (id 10005) to ensure the pet object is available for all the tests

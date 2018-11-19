@@ -3,8 +3,9 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\FormatTest;
+use PHPUnit\Framework\TestCase;
 
-class DateTimeSerializerTest extends \PHPUnit_Framework_TestCase
+class DateTimeSerializerTest extends TestCase
 {
     public function testDateTimeSanitazion()
     {

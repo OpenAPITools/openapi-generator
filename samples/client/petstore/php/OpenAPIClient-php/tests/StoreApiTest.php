@@ -7,8 +7,9 @@ use OpenAPI\Client\Api\StoreApi;
 use OpenAPI\Client\Model\Category;
 use OpenAPI\Client\Model\Pet;
 use OpenAPI\Client\Model\Tag;
+use PHPUnit\Framework\TestCase;
 
-class StoreApiTest extends \PHPUnit_Framework_TestCase
+class StoreApiTest extends TestCase
 {
     /** @var  StoreApi */
     private $api;

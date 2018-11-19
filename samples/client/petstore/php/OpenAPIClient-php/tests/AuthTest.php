@@ -5,10 +5,11 @@ namespace OpenAPI\Client;
 use OpenAPI\Client\Api\FakeApi;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\Pet;
+use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/FakeHttpClient.php';
 
-class AuthTest extends \PHPUnit_Framework_TestCase
+class AuthTest extends TestCase
 {
     public function testCustomApiKeyHeader()
     {

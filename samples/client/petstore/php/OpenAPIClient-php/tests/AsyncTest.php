@@ -4,8 +4,9 @@ namespace OpenAPI\Client;
 
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\Pet;
+use PHPUnit\Framework\TestCase;
 
-class AsyncTest extends \PHPUnit_Framework_TestCase
+class AsyncTest extends TestCase
 {
     /** @var PetApi */
     private $api;
@@ -61,24 +62,29 @@ class AsyncTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Pet::class, $pet);
     }
 
+    /**
+     * @expectedException \OpenAPI\Client\ApiException
+     */
     public function testAsyncThrowingException()
     {
-        $this->setExpectedException(ApiException::class);
-
         $promise = $this->api->getPetByIdAsync(0);
         $promise->wait();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testAsyncApiExceptionWithoutWaitIsNotThrown()
     {
         $promise = $this->api->getPetByIdAsync(0);
         sleep(1);
     }
 
+    /**
+     * @expectedException \OpenAPI\Client\ApiException
+     */
     public function testAsyncHttpInfoThrowingException()
     {
-        $this->setExpectedException(ApiException::class);
-
         $promise = $this->api->getPetByIdAsyncWithHttpInfo(0);
         $promise->wait();
     }

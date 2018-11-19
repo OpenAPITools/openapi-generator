@@ -3,8 +3,9 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\Pet;
+use PHPUnit\Framework\TestCase;
 
-class PetTest extends \PHPUnit_Framework_TestCase
+class PetTest extends TestCase
 {
     /**
      * test empty object serialization
