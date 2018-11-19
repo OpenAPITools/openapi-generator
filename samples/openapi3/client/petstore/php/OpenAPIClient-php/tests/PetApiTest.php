@@ -6,6 +6,7 @@ use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\ApiResponse;
 use OpenAPI\Client\Model\Pet;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Assert;
 
 class PetApiTest extends TestCase
 {
@@ -46,7 +47,7 @@ class PetApiTest extends TestCase
 
         // add a new pet (model)
         list(, $status) = $petApi->addPetWithHttpInfo($newPet);
-        \PHPUnit_Framework_Assert::assertEquals(200, $status);
+        Assert::assertEquals(200, $status);
     }
 
     public function setUp()
