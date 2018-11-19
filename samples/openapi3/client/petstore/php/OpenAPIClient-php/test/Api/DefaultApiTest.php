@@ -31,6 +31,7 @@ namespace OpenAPI\Client;
 use \OpenAPI\Client\Configuration;
 use \OpenAPI\Client\ApiException;
 use \OpenAPI\Client\ObjectSerializer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * DefaultApiTest Class Doc Comment
@@ -40,7 +41,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class DefaultApiTest extends \PHPUnit_Framework_TestCase
+class DefaultApiTest extends TestCase
 {
 
     /**
