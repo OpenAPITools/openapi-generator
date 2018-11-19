@@ -19,10 +19,12 @@ class OuterEnumTest extends TestCase
         $this->assertEquals('placed', $result);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid value for enum
+     */
     public function testDeserializeInvalidValue()
     {
-        $this->setExpectedException(\InvalidArgumentException::class, 'Invalid value for enum');
-
         ObjectSerializer::deserialize(
             "lkjfalgkdfjg",
             OuterEnum::class
@@ -79,10 +81,12 @@ class OuterEnumTest extends TestCase
         $this->assertEquals('approved', $result->outerEnum);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid value for enum
+     */
     public function testSanitizeNestedInvalidValue()
     {
-        $this->setExpectedException(\InvalidArgumentException::class, 'Invalid value for enum');
-
         $input = new EnumTest([
             'enum_string' => 'UPPER',
             'enum_integer' => -1,
