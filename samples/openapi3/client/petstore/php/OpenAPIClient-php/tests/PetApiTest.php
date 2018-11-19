@@ -5,8 +5,9 @@ namespace OpenAPI\Client;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\ApiResponse;
 use OpenAPI\Client\Model\Pet;
+use PHPUnit\Framework\TestCase;
 
-class PetApiTest extends \PHPUnit_Framework_TestCase
+class PetApiTest extends TestCase
 {
 
     /** @var  PetApi */

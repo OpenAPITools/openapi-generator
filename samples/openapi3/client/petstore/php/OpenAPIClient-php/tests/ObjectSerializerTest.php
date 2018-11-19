@@ -2,8 +2,10 @@
 
 namespace OpenAPI\Client;
 
+use PHPUnit\Framework\TestCase;
+
 // test object serializer
-class ObjectSerializerTest extends \PHPUnit_Framework_TestCase
+class ObjectSerializerTest extends TestCase
 {
     // test sanitizeFilename
     public function testSanitizeFilename()

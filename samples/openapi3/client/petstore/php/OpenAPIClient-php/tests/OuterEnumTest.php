@@ -4,8 +4,9 @@ namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\EnumTest;
 use OpenAPI\Client\Model\OuterEnum;
+use PHPUnit\Framework\TestCase;
 
-class OuterEnumTest extends \PHPUnit_Framework_TestCase
+class OuterEnumTest extends TestCase
 {
     public function testDeserialize()
     {

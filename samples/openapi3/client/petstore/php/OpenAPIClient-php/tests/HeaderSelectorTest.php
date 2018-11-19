@@ -2,7 +2,9 @@
 
 namespace OpenAPI\Client;
 
-class HeaderSelectorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class HeaderSelectorTest extends TestCase
 {
     public function testSelectingHeaders()
     {

@@ -4,8 +4,9 @@ namespace OpenAPI\Client;
 
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\Pet;
+use PHPUnit\Framework\TestCase;
 
-class AsyncTest extends \PHPUnit_Framework_TestCase
+class AsyncTest extends TestCase
 {
     /** @var PetApi */
     private $api;

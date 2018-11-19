@@ -3,8 +3,9 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\EnumTest;
+use PHPUnit\Framework\TestCase;
 
-class EnumTestTest extends \PHPUnit_Framework_TestCase
+class EnumTestTest extends TestCase
 {
     public function testPossibleValues()
     {
