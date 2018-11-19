@@ -135,6 +135,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         languageSpecificPrimitives.add("FILE");
         languageSpecificPrimitives.add("Object");
         languageSpecificPrimitives.add("list_t*");
+        languageSpecificPrimitives.add("list");
 
         typeMapping.put("string", "char");
         typeMapping.put("char", "char");
@@ -200,8 +201,8 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("list.h.mustache", "include", "list.h"));
         // external folder
         supportingFiles.add(new SupportingFile("cJSON.licence.mustache", "external", "cJSON.licence"));
-        supportingFiles.add(new SupportingFile("cJSON.c.mustache", "external" + File.separator + "src", "cJSON.c"));
-        supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external" + File.separator + "include", "cJSON.h"));
+        supportingFiles.add(new SupportingFile("cJSON.c.mustache", "external", "cJSON.c"));
+        supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external", "cJSON.h"));
 
     }
 
@@ -500,7 +501,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        return "#include \"" + name + ".h\"";
+        return "#include \"" +"../model/" + name + ".h\"";
     }
 
     @Override
