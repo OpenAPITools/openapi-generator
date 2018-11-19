@@ -456,10 +456,13 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 if (StringUtils.isEmpty(param.collectionFormat)) {
                     param.collectionFormat = "csv";
                 }
-                paramType = makeQueryListType(paramType, param.collectionFormat);
+                String innerType = paramType.substring(1, paramType.length() - 1);
+                path.add("QueryParams \"" + param.baseName + "\" " + innerType);
+                type.add(paramType);
+            } else {
+                path.add("QueryParam \"" + param.baseName + "\" " + paramType);
+                type.add("Maybe " + paramType);
             }
-            path.add("QueryParam \"" + param.baseName + "\" " + paramType);
-            type.add("Maybe " + paramType);
         }
 
         // Either body or form data parameters appended to route
@@ -491,7 +494,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                 if (StringUtils.isEmpty(param.collectionFormat)) {
                     param.collectionFormat = "csv";
                 }
-                paramType = makeQueryListType(paramType, param.collectionFormat);
+                //paramType = makeQueryListType(paramType, param.collectionFormat);
             }
             type.add("Maybe " + paramType);
         }
@@ -579,9 +582,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = org.openapitools.codegen.utils.StringUtils.camelize(model.classname, true);
+        String prefix = org.openapitools.codegen.utils.StringUtils.camelize(model.classname, true) + "_";
         for (CodegenProperty prop : model.vars) {
-            prop.name = toVarName(prefix + org.openapitools.codegen.utils.StringUtils.camelize(fixOperatorChars(prop.name)));
+            prop.name = toVarName(prefix + fixOperatorChars(prop.name));
         }
 
         // Create newtypes for things with non-object types
