@@ -71,6 +71,9 @@ class AsyncTest extends TestCase
         $promise->wait();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testAsyncApiExceptionWithoutWaitIsNotThrown()
     {
         $promise = $this->api->getPetByIdAsync(0);
