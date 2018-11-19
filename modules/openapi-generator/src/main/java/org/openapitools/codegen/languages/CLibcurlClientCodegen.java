@@ -18,6 +18,8 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -38,7 +40,10 @@ import java.util.Set;
 public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(CLibcurlClientCodegen.class);
 
+    public static final String PROJECT_NAME = "projectName";
     protected String moduleName;
+    protected String projectName;
+    protected static final String defaultProjectName = "openapi_client";
     protected String specFolder = "spec";
     protected String libFolder = "lib";
     protected String apiDocPath = "docs/";
@@ -566,6 +571,23 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         }
 
         p.example = example;
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+
+            if (openAPI.getInfo() != null) {
+                Info info = openAPI.getInfo();
+
+                setProjectName((escapeText(info.getTitle())));
+            } else {
+                setProjectName(defaultProjectName);
+            }
+        additionalProperties.put(PROJECT_NAME, projectName);
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = underscore(projectName.toLowerCase(Locale.ROOT));
     }
 
     @Override
