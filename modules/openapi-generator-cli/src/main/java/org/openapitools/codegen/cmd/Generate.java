@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -246,6 +247,11 @@ public class Generate implements Runnable {
         }
 
         if (isNotEmpty(spec)) {
+            if (!spec.matches("^http(s)?://.*") && !new File(spec).exists()) {
+                System.out.println("[error] The spec file is not found: " + spec);
+                System.err.println("[error] Check the path of the OpenAPI spec and try again.");
+                System.exit(1);
+            }
             configurator.setInputSpec(spec);
         }
 
