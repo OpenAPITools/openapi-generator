@@ -23,6 +23,7 @@
 namespace OpenAPI {
 
 OAIUser::OAIUser(QString json) {
+    this->init();
     this->fromJson(json);
 }
 

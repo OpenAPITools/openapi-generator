@@ -14,6 +14,7 @@ namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
 {{classname}}::{{classname}}(QString json) {
+    this->init();
     this->fromJson(json);
 }
 

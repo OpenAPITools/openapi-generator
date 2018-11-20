@@ -23,6 +23,7 @@
 namespace OpenAPI {
 
 OAIPet::OAIPet(QString json) {
+    this->init();
     this->fromJson(json);
 }
 

@@ -23,6 +23,7 @@
 namespace OpenAPI {
 
 OAICategory::OAICategory(QString json) {
+    this->init();
     this->fromJson(json);
 }
 

@@ -23,6 +23,7 @@
 namespace OpenAPI {
 
 OAIApiResponse::OAIApiResponse(QString json) {
+    this->init();
     this->fromJson(json);
 }
 

@@ -56,7 +56,7 @@ toStringValue(const bool &value) {
 
 QString
 toStringValue(const float &value){
-    return QString::number(value);
+    return QString::number(static_cast<double>(value));
 }
 
 QString
@@ -101,7 +101,7 @@ toJsonValue(const bool &value){
 
 QJsonValue
 toJsonValue(const float &value){
-    return QJsonValue(value);
+    return QJsonValue(static_cast<double>(value));
 }
 
 QJsonValue
@@ -224,7 +224,7 @@ fromJsonValue(QString &value, const QJsonValue &jval){
 bool
 fromJsonValue(QDateTime &value, const QJsonValue &jval){
     bool ok = true;    
-    if(!jval.isUndefined() && !jval.isNull()){
+    if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDateTime::fromString(jval.toString(), Qt::ISODate);
         ok = value.isValid();
     } else {
@@ -236,7 +236,7 @@ fromJsonValue(QDateTime &value, const QJsonValue &jval){
 bool
 fromJsonValue(QByteArray &value, const QJsonValue &jval){
     bool ok = true;
-    if(!jval.isUndefined() && !jval.isNull()){
+    if(!jval.isUndefined() && !jval.isNull() && jval.isString()) {
         value = QByteArray::fromBase64(QByteArray::fromStdString(jval.toString().toStdString()));
         ok = value.size() > 0 ;
     } else {
@@ -248,7 +248,7 @@ fromJsonValue(QByteArray &value, const QJsonValue &jval){
 bool
 fromJsonValue(QDate &value, const QJsonValue &jval){
     bool ok = true;    
-    if(!jval.isUndefined() && !jval.isNull()){
+    if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDate::fromString(jval.toString(), Qt::ISODate);
         ok = value.isValid();
     } else {

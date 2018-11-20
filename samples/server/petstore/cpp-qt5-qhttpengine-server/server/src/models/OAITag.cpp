@@ -23,6 +23,7 @@
 namespace OpenAPI {
 
 OAITag::OAITag(QString json) {
+    this->init();
     this->fromJson(json);
 }
 

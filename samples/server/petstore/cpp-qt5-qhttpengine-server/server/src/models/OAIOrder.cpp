@@ -23,6 +23,7 @@
 namespace OpenAPI {
 
 OAIOrder::OAIOrder(QString json) {
+    this->init();
     this->fromJson(json);
 }
 
