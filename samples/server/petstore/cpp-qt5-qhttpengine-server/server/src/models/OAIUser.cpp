@@ -37,13 +37,21 @@ OAIUser::~OAIUser() {
 void
 OAIUser::init() {
     m_id_isSet = false;
+    m_id_isValid = false;
     m_username_isSet = false;
+    m_username_isValid = false;
     m_first_name_isSet = false;
+    m_first_name_isValid = false;
     m_last_name_isSet = false;
+    m_last_name_isValid = false;
     m_email_isSet = false;
+    m_email_isValid = false;
     m_password_isSet = false;
+    m_password_isValid = false;
     m_phone_isSet = false;
+    m_phone_isValid = false;
     m_user_status_isSet = false;
+    m_user_status_isValid = false;
 }
 
 void
@@ -56,21 +64,21 @@ OAIUser::fromJson(QString jsonString) {
 
 void
 OAIUser::fromJsonObject(QJsonObject json) {
-    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::fromJsonValue(username, json[QString("username")]);
+    m_username_isValid = ::OpenAPI::fromJsonValue(username, json[QString("username")]);
     
-    ::OpenAPI::fromJsonValue(first_name, json[QString("firstName")]);
+    m_first_name_isValid = ::OpenAPI::fromJsonValue(first_name, json[QString("firstName")]);
     
-    ::OpenAPI::fromJsonValue(last_name, json[QString("lastName")]);
+    m_last_name_isValid = ::OpenAPI::fromJsonValue(last_name, json[QString("lastName")]);
     
-    ::OpenAPI::fromJsonValue(email, json[QString("email")]);
+    m_email_isValid = ::OpenAPI::fromJsonValue(email, json[QString("email")]);
     
-    ::OpenAPI::fromJsonValue(password, json[QString("password")]);
+    m_password_isValid = ::OpenAPI::fromJsonValue(password, json[QString("password")]);
     
-    ::OpenAPI::fromJsonValue(phone, json[QString("phone")]);
+    m_phone_isValid = ::OpenAPI::fromJsonValue(phone, json[QString("phone")]);
     
-    ::OpenAPI::fromJsonValue(user_status, json[QString("userStatus")]);
+    m_user_status_isValid = ::OpenAPI::fromJsonValue(user_status, json[QString("userStatus")]);
     
 }
 
@@ -192,7 +200,6 @@ OAIUser::setUserStatus(const qint32 &user_status) {
     this->m_user_status_isSet = true;
 }
 
-
 bool
 OAIUser::isSet() const {
     bool isObjectUpdated = false;
@@ -214,6 +221,12 @@ OAIUser::isSet() const {
         if(m_user_status_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
+}
+
+bool
+OAIUser::isValid() const {
+    // only required properties are required for the object to be considered valid
+    return true;
 }
 
 }

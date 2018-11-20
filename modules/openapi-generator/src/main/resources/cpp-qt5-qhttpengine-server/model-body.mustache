@@ -29,6 +29,7 @@ void
 {{classname}}::init() {
     {{#vars}}
     m_{{name}}_isSet = false;
+    m_{{name}}_isValid = false;
     {{/vars}}
 }
 
@@ -43,23 +44,25 @@ void
 void
 {{classname}}::fromJsonObject(QJsonObject json) {
     {{#vars}}
-    {{^isContainer}}::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);{{/isContainer}}
-    {{#isContainer}}{{^items.isContainer}}::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);{{/items.isContainer}}{{#items.isContainer}}{{#isListContainer}}
+    {{^isContainer}}m_{{name}}_isValid = ::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);{{/isContainer}}
+    {{#isContainer}}{{^items.isContainer}}m_{{name}}_isValid = ::{{cppNamespace}}::fromJsonValue({{name}}, json[QString("{{baseName}}")]);{{/items.isContainer}}{{#items.isContainer}}{{#isListContainer}}
     if(json["{{baseName}}"].isArray()){
         auto arr = json["{{baseName}}"].toArray();
+        m_{{name}}_isValid = true;
         for (const QJsonValue & jval : arr) {
             {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
-            ::{{cppNamespace}}::fromJsonValue(item, jval)
+            m_{{name}}_isValid &=  ::{{cppNamespace}}::fromJsonValue(item, jval)
             {{name}}.push_back(item);
         }
     }{{/isListContainer}}{{#isMapContainer}}
     if(json["{{baseName}}"].isObject()){
         auto varmap = json["{{baseName}}"].toObject().toVariantMap();
+        m_{{name}}_isValid = true;
         if(varmap.count() > 0){
             for(auto val : varmap.keys()){
                 {{^items.isContainer}}{{items.baseType}}{{/items.isContainer}}{{#items.isListContainer}}QList<{{items.items.baseType}}>{{/items.isListContainer}}{{#items.isMapContainer}}QMap<QString, {{items.items.baseType}}>{{/items.isMapContainer}} item;
     		    auto jval = QJsonValue::fromVariant(varmap.value(val));
-                ::{{cppNamespace}}::fromJsonValue(item, jval);
+                m_{{name}}_isValid &= ::{{cppNamespace}}::fromJsonValue(item, jval);
                 {{name}}.insert({{name}}.end(), val, item);
             }
         }
@@ -102,7 +105,6 @@ void
 }
 
 {{/vars}}
-
 bool
 {{classname}}::isSet() const {
     bool isObjectUpdated = false;
@@ -110,6 +112,12 @@ bool
         {{#isContainer}}if({{name}}.size() > 0){{/isContainer}}{{^isContainer}}{{#complexType}}if({{name}}.isSet()){{/complexType}}{{^complexType}}if(m_{{name}}_isSet){{/complexType}}{{/isContainer}}{ isObjectUpdated = true; break;}
     {{/vars}}}while(false);
     return isObjectUpdated;
+}
+
+bool
+{{classname}}::isValid() const {
+    // only required properties are required for the object to be considered valid
+    return {{#vars}}{{#required}}m_{{name}}_isValid && {{/required}}{{/vars}}true;
 }
 
 {{#cppNamespaceDeclarations}}

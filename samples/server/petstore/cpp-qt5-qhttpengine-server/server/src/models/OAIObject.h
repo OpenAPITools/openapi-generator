@@ -45,6 +45,10 @@ class OAIObject {
     virtual bool isSet() const {
         return false;
     }
+
+    virtual bool isValid() const {
+        return true;
+    }
 private :
    QJsonObject jObj;
 };

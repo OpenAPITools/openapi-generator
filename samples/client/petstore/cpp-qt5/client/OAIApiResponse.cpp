@@ -37,8 +37,11 @@ OAIApiResponse::~OAIApiResponse() {
 void
 OAIApiResponse::init() {
     m_code_isSet = false;
+    m_code_isValid = false;
     m_type_isSet = false;
+    m_type_isValid = false;
     m_message_isSet = false;
+    m_message_isValid = false;
 }
 
 void
@@ -51,11 +54,11 @@ OAIApiResponse::fromJson(QString jsonString) {
 
 void
 OAIApiResponse::fromJsonObject(QJsonObject json) {
-    ::OpenAPI::fromJsonValue(code, json[QString("code")]);
+    m_code_isValid = ::OpenAPI::fromJsonValue(code, json[QString("code")]);
     
-    ::OpenAPI::fromJsonValue(type, json[QString("type")]);
+    m_type_isValid = ::OpenAPI::fromJsonValue(type, json[QString("type")]);
     
-    ::OpenAPI::fromJsonValue(message, json[QString("message")]);
+    m_message_isValid = ::OpenAPI::fromJsonValue(message, json[QString("message")]);
     
 }
 
@@ -112,7 +115,6 @@ OAIApiResponse::setMessage(const QString &message) {
     this->m_message_isSet = true;
 }
 
-
 bool
 OAIApiResponse::isSet() const {
     bool isObjectUpdated = false;
@@ -124,6 +126,12 @@ OAIApiResponse::isSet() const {
         if(m_message_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
+}
+
+bool
+OAIApiResponse::isValid() const {
+    // only required properties are required for the object to be considered valid
+    return true;
 }
 
 }

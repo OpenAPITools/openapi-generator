@@ -62,6 +62,10 @@ OAIHttpRequestWorker::OAIHttpRequestWorker(QObject *parent)
 OAIHttpRequestWorker::~OAIHttpRequestWorker() {
 }
 
+QMap<QByteArray, QByteArray> OAIHttpRequestWorker::getResponseHeaders() const {
+    return headers;
+}
+
 QString OAIHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
     bool need_utf_encoding = false;
@@ -314,7 +318,11 @@ void OAIHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     error_type = reply->error();
     response = reply->readAll();
     error_str = reply->errorString();
-
+    if(reply->rawHeaderPairs().count() > 0){
+        for(const auto& item: reply->rawHeaderPairs()){
+            headers.insert(item.first, item.second);
+        }
+    }
     reply->deleteLater();
 
     emit on_execution_finished(this);

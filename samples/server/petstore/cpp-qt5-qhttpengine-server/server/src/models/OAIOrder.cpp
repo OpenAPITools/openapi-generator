@@ -37,11 +37,17 @@ OAIOrder::~OAIOrder() {
 void
 OAIOrder::init() {
     m_id_isSet = false;
+    m_id_isValid = false;
     m_pet_id_isSet = false;
+    m_pet_id_isValid = false;
     m_quantity_isSet = false;
+    m_quantity_isValid = false;
     m_ship_date_isSet = false;
+    m_ship_date_isValid = false;
     m_status_isSet = false;
+    m_status_isValid = false;
     m_complete_isSet = false;
+    m_complete_isValid = false;
 }
 
 void
@@ -54,17 +60,17 @@ OAIOrder::fromJson(QString jsonString) {
 
 void
 OAIOrder::fromJsonObject(QJsonObject json) {
-    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::fromJsonValue(pet_id, json[QString("petId")]);
+    m_pet_id_isValid = ::OpenAPI::fromJsonValue(pet_id, json[QString("petId")]);
     
-    ::OpenAPI::fromJsonValue(quantity, json[QString("quantity")]);
+    m_quantity_isValid = ::OpenAPI::fromJsonValue(quantity, json[QString("quantity")]);
     
-    ::OpenAPI::fromJsonValue(ship_date, json[QString("shipDate")]);
+    m_ship_date_isValid = ::OpenAPI::fromJsonValue(ship_date, json[QString("shipDate")]);
     
-    ::OpenAPI::fromJsonValue(status, json[QString("status")]);
+    m_status_isValid = ::OpenAPI::fromJsonValue(status, json[QString("status")]);
     
-    ::OpenAPI::fromJsonValue(complete, json[QString("complete")]);
+    m_complete_isValid = ::OpenAPI::fromJsonValue(complete, json[QString("complete")]);
     
 }
 
@@ -160,7 +166,6 @@ OAIOrder::setComplete(const bool &complete) {
     this->m_complete_isSet = true;
 }
 
-
 bool
 OAIOrder::isSet() const {
     bool isObjectUpdated = false;
@@ -178,6 +183,12 @@ OAIOrder::isSet() const {
         if(m_complete_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
+}
+
+bool
+OAIOrder::isValid() const {
+    // only required properties are required for the object to be considered valid
+    return true;
 }
 
 }

@@ -40,12 +40,13 @@ public:
 
     {{/vars}}
     virtual bool isSet() const override;
+    virtual bool isValid() const override;
 
 private:
     {{#vars}}
     {{{dataType}}} {{name}};
     bool m_{{name}}_isSet;
-
+    bool m_{{name}}_isValid;
     {{/vars}}
 };
 

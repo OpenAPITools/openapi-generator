@@ -37,7 +37,9 @@ OAICategory::~OAICategory() {
 void
 OAICategory::init() {
     m_id_isSet = false;
+    m_id_isValid = false;
     m_name_isSet = false;
+    m_name_isValid = false;
 }
 
 void
@@ -50,9 +52,9 @@ OAICategory::fromJson(QString jsonString) {
 
 void
 OAICategory::fromJsonObject(QJsonObject json) {
-    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::fromJsonValue(name, json[QString("name")]);
+    m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
     
 }
 
@@ -96,7 +98,6 @@ OAICategory::setName(const QString &name) {
     this->m_name_isSet = true;
 }
 
-
 bool
 OAICategory::isSet() const {
     bool isObjectUpdated = false;
@@ -106,6 +107,12 @@ OAICategory::isSet() const {
         if(m_name_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
+}
+
+bool
+OAICategory::isValid() const {
+    // only required properties are required for the object to be considered valid
+    return true;
 }
 
 }

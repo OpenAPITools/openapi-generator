@@ -37,11 +37,17 @@ OAIPet::~OAIPet() {
 void
 OAIPet::init() {
     m_id_isSet = false;
+    m_id_isValid = false;
     m_category_isSet = false;
+    m_category_isValid = false;
     m_name_isSet = false;
+    m_name_isValid = false;
     m_photo_urls_isSet = false;
+    m_photo_urls_isValid = false;
     m_tags_isSet = false;
+    m_tags_isValid = false;
     m_status_isSet = false;
+    m_status_isValid = false;
 }
 
 void
@@ -54,17 +60,17 @@ OAIPet::fromJson(QString jsonString) {
 
 void
 OAIPet::fromJsonObject(QJsonObject json) {
-    ::OpenAPI::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
-    ::OpenAPI::fromJsonValue(category, json[QString("category")]);
+    m_category_isValid = ::OpenAPI::fromJsonValue(category, json[QString("category")]);
     
-    ::OpenAPI::fromJsonValue(name, json[QString("name")]);
+    m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
     
     
-    ::OpenAPI::fromJsonValue(photo_urls, json[QString("photoUrls")]);
+    m_photo_urls_isValid = ::OpenAPI::fromJsonValue(photo_urls, json[QString("photoUrls")]);
     
-    ::OpenAPI::fromJsonValue(tags, json[QString("tags")]);
-    ::OpenAPI::fromJsonValue(status, json[QString("status")]);
+    m_tags_isValid = ::OpenAPI::fromJsonValue(tags, json[QString("tags")]);
+    m_status_isValid = ::OpenAPI::fromJsonValue(status, json[QString("status")]);
     
 }
 
@@ -162,7 +168,6 @@ OAIPet::setStatus(const QString &status) {
     this->m_status_isSet = true;
 }
 
-
 bool
 OAIPet::isSet() const {
     bool isObjectUpdated = false;
@@ -180,6 +185,12 @@ OAIPet::isSet() const {
         if(m_status_isSet){ isObjectUpdated = true; break;}
     }while(false);
     return isObjectUpdated;
+}
+
+bool
+OAIPet::isValid() const {
+    // only required properties are required for the object to be considered valid
+    return m_name_isValid && m_photo_urls_isValid && true;
 }
 
 }
