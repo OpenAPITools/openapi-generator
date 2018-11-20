@@ -260,6 +260,11 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("{{httpMethod}}"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
+        if (m_ApiClient->getResponseHeadersHandler())
+        {
+            m_ApiClient->getResponseHeadersHandler()(response.headers());
+        }
+
         // 1xx - informational : OK
         // 2xx - successful       : OK
         // 3xx - redirection   : OK
