@@ -21,6 +21,9 @@ apiClient_t *apiClient_create() {
     {{#isOAuth}}
     apiClient->accessToken = NULL;
     {{/isOAuth}}
+    {{#isApiKey}}
+    apiClient->apiKeys = NULL;
+    {{/isApiKey}}
     {{/authMethods}}
     {{/hasAuthMethods}}
 
