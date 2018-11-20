@@ -1,4 +1,5 @@
 {-# LANGUAGE DataKinds                  #-}
+{-# LANGUAGE DeriveDataTypeable         #-}
 {-# LANGUAGE DeriveGeneric              #-}
 {-# LANGUAGE DeriveTraversable          #-}
 {-# LANGUAGE FlexibleContexts           #-}
@@ -35,6 +36,7 @@ import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Reader         (ReaderT (..))
 import           Data.Aeson                         (Value)
 import           Data.Coerce                        (coerce)
+import           Data.Data                          (Data)
 import           Data.Function                      ((&))
 import qualified Data.Map                           as Map
 import           Data.Monoid                        ((<>))
@@ -56,6 +58,7 @@ import           Servant.Client                     (ClientEnv, Scheme (Http), S
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
 import           Servant.Server                     (Handler (..))
+import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
 
@@ -63,39 +66,19 @@ import           Web.HttpApiData
 data FormUpdatePetWithForm = FormUpdatePetWithForm
   { updatePetWithFormName :: Text
   , updatePetWithFormStatus :: Text
-  } deriving (Show, Eq, Generic)
+  } deriving (Show, Eq, Generic, Data)
 
-instance FromFormUrlEncoded FormUpdatePetWithForm where
-  fromFormUrlEncoded inputs = FormUpdatePetWithForm <$> lookupEither "name" inputs <*> lookupEither "status" inputs
+instance FromForm FormUpdatePetWithForm
+instance ToForm FormUpdatePetWithForm
 
-instance ToFormUrlEncoded FormUpdatePetWithForm where
-  toFormUrlEncoded value =
-    [ ("name", toQueryParam $ updatePetWithFormName value)
-    , ("status", toQueryParam $ updatePetWithFormStatus value)
-    ]
 data FormUploadFile = FormUploadFile
   { uploadFileAdditionalMetadata :: Text
   , uploadFileFile :: FilePath
-  } deriving (Show, Eq, Generic)
+  } deriving (Show, Eq, Generic, Data)
 
-instance FromFormUrlEncoded FormUploadFile where
-  fromFormUrlEncoded inputs = FormUploadFile <$> lookupEither "additionalMetadata" inputs <*> lookupEither "file" inputs
+instance FromForm FormUploadFile
+instance ToForm FormUploadFile
 
-instance ToFormUrlEncoded FormUploadFile where
-  toFormUrlEncoded value =
-    [ ("additionalMetadata", toQueryParam $ uploadFileAdditionalMetadata value)
-    , ("file", toQueryParam $ uploadFileFile value)
-    ]
-
--- For the form data code generation.
-lookupEither :: FromHttpApiData b => Text -> [(Text, Text)] -> Either String b
-lookupEither key assocs =
-  case lookup key assocs of
-    Nothing -> Left $ "Could not find parameter " <> (T.unpack key) <> " in form data"
-    Just value ->
-      case parseQueryParam value of
-        Left  result -> Left $ T.unpack result
-        Right result -> Right $ result
 
 -- | List of elements parsed from a query.
 newtype QueryList (p :: CollectionFormat) a = QueryList

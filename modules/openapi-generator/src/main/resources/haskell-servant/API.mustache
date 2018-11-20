@@ -1,4 +1,5 @@
 {-# LANGUAGE DataKinds                  #-}
+{-# LANGUAGE DeriveDataTypeable         #-}
 {-# LANGUAGE DeriveGeneric              #-}
 {-# LANGUAGE DeriveTraversable          #-}
 {-# LANGUAGE FlexibleContexts           #-}
@@ -35,6 +36,7 @@ import           Control.Monad.IO.Class
 import           Control.Monad.Trans.Reader         (ReaderT (..))
 import           Data.Aeson                         (Value)
 import           Data.Coerce                        (coerce)
+import           Data.Data                          (Data)
 import           Data.Function                      ((&))
 import qualified Data.Map                           as Map
 import           Data.Monoid                        ((<>))
@@ -56,6 +58,7 @@ import           Servant.Client                     (ClientEnv, Scheme (Http), S
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
 import           Servant.Server                     (Handler (..))
+import           Web.FormUrlEncoded
 import           Web.HttpApiData
 
 
@@ -63,26 +66,11 @@ import           Web.HttpApiData
 data {{vendorExtensions.x-formName}} = {{vendorExtensions.x-formName}}
   { {{#formParams}}{{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} :: {{dataType}}{{#hasMore}}
   , {{/hasMore}}{{/formParams}}
-  } deriving (Show, Eq, Generic)
+  } deriving (Show, Eq, Generic, Data)
 
-instance FromFormUrlEncoded {{vendorExtensions.x-formName}} where
-  fromFormUrlEncoded inputs = {{vendorExtensions.x-formName}} <$> {{#formParams}}lookupEither "{{baseName}}" inputs{{#hasMore}} <*> {{/hasMore}}{{/formParams}}
-
-instance ToFormUrlEncoded {{vendorExtensions.x-formName}} where
-  toFormUrlEncoded value =
-    [ {{#formParams}}("{{baseName}}", toQueryParam $ {{vendorExtensions.x-formPrefix}}{{vendorExtensions.x-formParamName}} value){{#hasMore}}
-    , {{/hasMore}}{{/formParams}}
-    ]{{/hasFormParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-
--- For the form data code generation.
-lookupEither :: FromHttpApiData b => Text -> [(Text, Text)] -> Either String b
-lookupEither key assocs =
-  case lookup key assocs of
-    Nothing -> Left $ "Could not find parameter " <> (T.unpack key) <> " in form data"
-    Just value ->
-      case parseQueryParam value of
-        Left  result -> Left $ T.unpack result
-        Right result -> Right $ result
+instance FromForm {{vendorExtensions.x-formName}}
+instance ToForm {{vendorExtensions.x-formName}}
+{{/hasFormParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 
 -- | List of elements parsed from a query.
 newtype QueryList (p :: CollectionFormat) a = QueryList
