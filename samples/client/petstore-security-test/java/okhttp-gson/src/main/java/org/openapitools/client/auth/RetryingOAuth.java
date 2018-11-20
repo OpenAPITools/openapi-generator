@@ -162,4 +162,10 @@ public class RetryingOAuth extends OAuth implements Interceptor {
     public void setTokenRequestBuilder(TokenRequestBuilder tokenRequestBuilder) {
         this.tokenRequestBuilder = tokenRequestBuilder;
     }
+
+    // Applying authorization to parameters is performed in the retryingIntercept method
+    @Override
+    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+        // No implementation necessary
+    }
 }
