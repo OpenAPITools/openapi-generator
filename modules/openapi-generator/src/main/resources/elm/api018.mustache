@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+
+module Request.{{classname}} exposing ({{#operations}}{{#operation}}{{^-first}}, {{/-first}}{{operationId}}{{/operation}}{{/operations}})
+
+{{>imports}}import Dict
+import Http
+import Json.Decode as Decode
+
+
+basePath : String
+basePath =
+    "{{basePath}}"
+{{#operations}}
+  {{#operation}}
+
+
+{{#notes}}
+{-| {{{notes}}}
+-}
+{{/notes}}
+{{operationId}} : {{#pathParams}}{{dataType}} -> {{/pathParams}}{{#bodyParam}}{{dataType}} -> {{/bodyParam}}Http.Request {{^responses}}(){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/-first}}{{/responses}}
+{{operationId}} {{#pathParams}}{{paramName}} {{/pathParams}}{{#bodyParam}}model {{/bodyParam}}=
+    { method = "{{httpMethod}}"
+    , url = basePath ++ {{{path}}}
+    , headers = []
+    , body = {{#bodyParam}}Http.jsonBody <| {{vendorExtensions.elmEncoder}} model{{/bodyParam}}{{^bodyParam}}Http.emptyBody{{/bodyParam}}
+    , expect = {{^responses}}Http.expectStringResponse (\_ -> Ok ()){{/responses}}{{#responses}}{{#-first}}{{^dataType}}Http.expectStringResponse (\_ -> Ok ()){{/dataType}}{{#dataType}}Http.expectJson {{#isMapContainer}}(Decode.dict {{/isMapContainer}}{{#isListContainer}}(Decode.list {{/isListContainer}}{{#vendorExtensions}}{{elmDecoder}}{{/vendorExtensions}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/dataType}}{{/-first}}{{/responses}}
+    , timeout = Just 30000
+    , withCredentials = False
+    }
+        |> Http.request
+  {{/operation}}
+{{/operations}}
