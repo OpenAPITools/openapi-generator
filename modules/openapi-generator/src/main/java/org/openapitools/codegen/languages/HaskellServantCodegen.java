@@ -166,13 +166,13 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
                         "Float",
                         "Char",
                         "Double",
-                        "List",
+                        //"List",
                         "FilePath"
                 )
         );
 
         typeMapping.clear();
-        typeMapping.put("array", "List");
+        typeMapping.put("array", "[]");
         typeMapping.put("set", "Set");
         typeMapping.put("boolean", "Bool");
         typeMapping.put("string", "Text");
