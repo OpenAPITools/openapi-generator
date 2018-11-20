@@ -333,13 +333,19 @@ void OAIPetApiRequest::uploadFileError(const OAIApiResponse& res, QNetworkReply:
 
 
 void OAIPetApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
     Q_UNUSED(error_type); // TODO
+    socket->write(res);
+    if(socket->isOpen()){
+        socket->close();
+    }    
 }
 
 void OAIPetApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
-    Q_UNUSED(error_type); // TODO
+    Q_UNUSED(error_type);  // TODO
+    socket->write(res->readAll());
+    if(socket->isOpen()){
+        socket->close();
+    }
 }
 
 }
