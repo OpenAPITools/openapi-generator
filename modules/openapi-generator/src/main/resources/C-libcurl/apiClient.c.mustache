@@ -12,13 +12,18 @@ apiClient_t *apiClient_create() {
     apiClient->basePath = "{{{basePath}}}";
     apiClient->dataReceived = NULL;
     apiClient->response_code = 0;
-    #ifdef BASIC_AUTH
+    {{#hasAuthMethods}}
+    {{#authMethods}}
+    {{#isBasic}}
     apiClient->username = NULL;
     apiClient->password = NULL;
-    #endif // BASIC_AUTH
-    #ifdef OAUTH2
+    {{/isBasic}}
+    {{#isOAuth}}
     apiClient->accessToken = NULL;
-    #endif // OAUTH2
+    {{/isOAuth}}
+    {{/authMethods}}
+    {{/hasAuthMethods}}
+
     return apiClient;
 }
 
@@ -287,8 +292,12 @@ void apiClient_invoke(apiClient_t    *apiClient,
                 free(headerValueToWrite);
             }
         }
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isApiKey}}
         // this would only be generated for apiKey authentication
-        #ifdef API_KEY
+        if (apiClient->apiKeys != NULL)
+        {
         list_ForEach(listEntry, apiClient->apiKeys) {
         keyValuePair_t *apiKey = listEntry->data;
         if((apiKey->key != NULL) &&
@@ -300,7 +309,10 @@ void apiClient_invoke(apiClient_t    *apiClient,
             free(headerValueToWrite);
         }
         }
-        #endif // API_KEY
+        }
+        {{/isApiKey}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
 
         char *targetUrl =
             assembleTargetUrl(apiClient->basePath,
@@ -316,19 +328,11 @@ void apiClient_invoke(apiClient_t    *apiClient,
                          &apiClient->dataReceived);
         curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
-        // this would only be generated for OAuth2 authentication
-        #ifdef OAUTH2
-        if(apiClient->accessToken != NULL) {
-            // curl_easy_setopt(handle, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
-            curl_easy_setopt(handle,
-                             CURLOPT_XOAUTH2_BEARER,
-                             apiClient->accessToken);
-        }
-        #endif
 
-
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isBasic}}
         // this would only be generated for basic authentication:
-        #ifdef BASIC_AUTH
         char *authenticationToken;
 
         if((apiClient->username != NULL) &&
@@ -351,8 +355,18 @@ void apiClient_invoke(apiClient_t    *apiClient,
                              CURLOPT_USERPWD,
                              authenticationToken);
         }
-
-        #endif // BASIC_AUTH
+        {{/isBasic}}
+        {{#isOAuth}}
+        // this would only be generated for OAuth2 authentication
+        if(apiClient->accessToken != NULL) {
+            // curl_easy_setopt(handle, CURLOPT_HTTPAUTH, CURLAUTH_BEARER);
+            curl_easy_setopt(handle,
+                             CURLOPT_XOAUTH2_BEARER,
+                             apiClient->accessToken);
+        }
+        {{/isOAuth}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
 
         if(bodyParameters != NULL) {
             postData(handle, bodyParameters);
@@ -374,13 +388,18 @@ void apiClient_invoke(apiClient_t    *apiClient,
             fprintf(stderr, "curl_easy_perform() failed: %s\n",
             curl_easy_strerror(res));
         }
-        #ifdef BASIC_AUTH
+        {{#hasAuthMethods}}
+        {{#authMethods}}
+        {{#isBasic}}
         if((apiClient->username != NULL) &&
         (apiClient->password != NULL) )
         {
         free(authenticationToken);
         }
-        #endif // BASIC_AUTH
+        {{/isBasic}}
+        {{/authMethods}}
+        {{/hasAuthMethods}}
+
         curl_easy_cleanup(handle);
         if(formParameters != NULL) {
             free(formString);
