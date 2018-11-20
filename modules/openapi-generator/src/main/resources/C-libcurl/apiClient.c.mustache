@@ -385,7 +385,13 @@ void apiClient_invoke(apiClient_t    *apiClient,
         if(res == CURLE_OK) {
             curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &apiClient->response_code);
         } else {
-            fprintf(stderr, "curl_easy_perform() failed: %s\n",
+            char *url,*ip,*scheme;
+            long port;
+            curl_easy_getinfo(handle, CURLINFO_EFFECTIVE_URL, &url);
+            curl_easy_getinfo(handle, CURLINFO_PRIMARY_IP, &ip);
+            curl_easy_getinfo(handle, CURLINFO_PRIMARY_PORT, &port);
+            curl_easy_getinfo(handle, CURLINFO_SCHEME, &scheme);
+            fprintf(stderr, "curl_easy_perform() failed\n\nURL: %s\nIP: %s\nPORT: %li\nSCHEME: %s\nStrERROR: %s\n",url,ip,port,scheme,
             curl_easy_strerror(res));
         }
         {{#hasAuthMethods}}
