@@ -30,7 +30,7 @@ defmodule OpenapiPetstore.Api.User do
     %{}
     |> method(:post)
     |> url("/user")
-    |> add_param(:body, :"User", user)
+    |> add_param(:body, :"body", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -54,7 +54,7 @@ defmodule OpenapiPetstore.Api.User do
     %{}
     |> method(:post)
     |> url("/user/createWithArray")
-    |> add_param(:body, :"User", user)
+    |> add_param(:body, :"body", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -78,7 +78,7 @@ defmodule OpenapiPetstore.Api.User do
     %{}
     |> method(:post)
     |> url("/user/createWithList")
-    |> add_param(:body, :"User", user)
+    |> add_param(:body, :"body", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -199,7 +199,7 @@ defmodule OpenapiPetstore.Api.User do
     %{}
     |> method(:put)
     |> url("/user/#{username}")
-    |> add_param(:body, :"User", user)
+    |> add_param(:body, :"body", user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)

@@ -30,7 +30,7 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
     %{}
     |> method(:patch)
     |> url("/fake_classname_test")
-    |> add_param(:body, :"Client", client)
+    |> add_param(:body, :"body", client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(%OpenapiPetstore.Model.Client{})

@@ -100,7 +100,7 @@ defmodule OpenapiPetstore.Api.Store do
     %{}
     |> method(:post)
     |> url("/store/order")
-    |> add_param(:body, :"Order", order)
+    |> add_param(:body, :"body", order)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(%OpenapiPetstore.Model.Order{})
