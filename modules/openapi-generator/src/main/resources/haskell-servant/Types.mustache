@@ -33,7 +33,7 @@ import Data.Time.LocalTime (LocalTime)
 {{^vendorExtensions.x-customNewtype}}
 {{^parent}}
 {{vendorExtensions.x-data}} {{classname}} = {{classname}}
-  { {{#vars}}{{& name}} :: {{dataType}} -- ^ {{& description}}{{#hasMore}}
+  { {{#vars}}{{& name}} :: {{dataType}} -- ^{{& description}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}
   } deriving (Show, Eq, Generic)
 

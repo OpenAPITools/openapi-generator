@@ -9,18 +9,14 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 {-# LANGUAGE ViewPatterns #-}
-{-# OPTIONS_GHC
--fno-warn-unused-binds -fno-warn-unused-imports -fcontext-stack=328 #-}
+{-# OPTIONS_GHC -fno-warn-unused-binds -fno-warn-unused-imports -freduction-depth=328 #-}
 
 module OpenAPIPetstore.API
   -- * Client and Server
   ( ServerConfig(..)
-  , OpenAPIPetstoreBackend
+  , OpenAPIPetstoreBackend(..)
   , createOpenAPIPetstoreClient
   , runOpenAPIPetstoreServer
-  , runOpenAPIPetstoreClient
-  , runOpenAPIPetstoreClientWithManager
-  , OpenAPIPetstoreClient
   -- ** Servant
   , OpenAPIPetstoreAPI
   ) where
@@ -30,7 +26,6 @@ import OpenAPIPetstore.Types
 import Control.Monad.Except (ExceptT)
 import Control.Monad.IO.Class
 import Data.Aeson (Value)
-import Data.Coerce (coerce)
 import Data.Function ((&))
 import qualified Data.Map as Map
 import Data.Monoid ((<>))
@@ -42,11 +37,10 @@ import GHC.Generics (Generic)
 import Network.HTTP.Client (Manager, defaultManagerSettings, newManager)
 import Network.HTTP.Types.Method (methodOptions)
 import qualified Network.Wai.Handler.Warp as Warp
-import Servant (ServantErr, serve)
+import Servant (ServantErr, serve, Handler)
 import Servant.API
 import Servant.API.Verbs (StdMethod(..), Verb)
-import Servant.Client (Scheme(Http), ServantError, client)
-import Servant.Common.BaseUrl (BaseUrl(..))
+import Servant.Client (Scheme(Http), ServantError, client, BaseUrl(..), ClientM)
 import Web.HttpApiData
 
 
@@ -92,8 +86,8 @@ lookupEither key assocs =
 type OpenAPIPetstoreAPI
     =    "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] () -- 'addPet' route
     :<|> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] () -- 'deletePet' route
-    :<|> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
-    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
+    :<|> "pet" :> "findByStatus" :> QueryParams "status" Text :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
+    :<|> "pet" :> "findByTags" :> QueryParams "tags" Text :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
     :<|> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
     :<|> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] () -- 'updatePet' route
     :<|> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] () -- 'updatePetWithForm' route
@@ -174,8 +168,8 @@ formatSeparatedQueryList char = T.intercalate (T.singleton char) . map toQueryPa
 data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   { addPet :: Pet -> m (){- ^  -}
   , deletePet :: Integer -> Maybe Text -> m (){- ^  -}
-  , findPetsByStatus :: Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
-  , findPetsByTags :: Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
+  , findPetsByStatus :: [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
+  , findPetsByTags :: [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
   , getPetById :: Integer -> m Pet{- ^ Returns a single pet -}
   , updatePet :: Pet -> m (){- ^  -}
   , updatePetWithForm :: Integer -> FormUpdatePetWithForm -> m (){- ^  -}
@@ -194,83 +188,55 @@ data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   , updateUser :: Text -> User -> m (){- ^ This can only be done by the logged in user. -}
   }
 
-newtype OpenAPIPetstoreClient a = OpenAPIPetstoreClient
-  { runClient :: Manager -> BaseUrl -> ExceptT ServantError IO a
-  } deriving Functor
 
-instance Applicative OpenAPIPetstoreClient where
-  pure x = OpenAPIPetstoreClient (\_ _ -> pure x)
-  (OpenAPIPetstoreClient f) <*> (OpenAPIPetstoreClient x) =
-    OpenAPIPetstoreClient (\manager url -> f manager url <*> x manager url)
-
-instance Monad OpenAPIPetstoreClient where
-  (OpenAPIPetstoreClient a) >>= f =
-    OpenAPIPetstoreClient (\manager url -> do
-      value <- a manager url
-      runClient (f value) manager url)
-
-instance MonadIO OpenAPIPetstoreClient where
-  liftIO io = OpenAPIPetstoreClient (\_ _ -> liftIO io)
-
-createOpenAPIPetstoreClient :: OpenAPIPetstoreBackend OpenAPIPetstoreClient
+createOpenAPIPetstoreClient :: OpenAPIPetstoreBackend ClientM
 createOpenAPIPetstoreClient = OpenAPIPetstoreBackend{..}
   where
-    ((coerce -> addPet) :<|>
-     (coerce -> deletePet) :<|>
-     (coerce -> findPetsByStatus) :<|>
-     (coerce -> findPetsByTags) :<|>
-     (coerce -> getPetById) :<|>
-     (coerce -> updatePet) :<|>
-     (coerce -> updatePetWithForm) :<|>
-     (coerce -> uploadFile) :<|>
-     (coerce -> deleteOrder) :<|>
-     (coerce -> getInventory) :<|>
-     (coerce -> getOrderById) :<|>
-     (coerce -> placeOrder) :<|>
-     (coerce -> createUser) :<|>
-     (coerce -> createUsersWithArrayInput) :<|>
-     (coerce -> createUsersWithListInput) :<|>
-     (coerce -> deleteUser) :<|>
-     (coerce -> getUserByName) :<|>
-     (coerce -> loginUser) :<|>
-     (coerce -> logoutUser) :<|>
-     (coerce -> updateUser)) = client (Proxy :: Proxy OpenAPIPetstoreAPI)
-
--- | Run requests in the OpenAPIPetstoreClient monad.
-runOpenAPIPetstoreClient :: ServerConfig -> OpenAPIPetstoreClient a -> ExceptT ServantError IO a
-runOpenAPIPetstoreClient clientConfig cl = do
-  manager <- liftIO $ newManager defaultManagerSettings
-  runOpenAPIPetstoreClientWithManager manager clientConfig cl
-
--- | Run requests in the OpenAPIPetstoreClient monad using a custom manager.
-runOpenAPIPetstoreClientWithManager :: Manager -> ServerConfig -> OpenAPIPetstoreClient a -> ExceptT ServantError IO a
-runOpenAPIPetstoreClientWithManager manager clientConfig cl =
-  runClient cl manager $ BaseUrl Http (configHost clientConfig) (configPort clientConfig) ""
+    (addPet :<|>
+     deletePet :<|>
+     findPetsByStatus :<|>
+     findPetsByTags :<|>
+     getPetById :<|>
+     updatePet :<|>
+     updatePetWithForm :<|>
+     uploadFile :<|>
+     deleteOrder :<|>
+     getInventory :<|>
+     getOrderById :<|>
+     placeOrder :<|>
+     createUser :<|>
+     createUsersWithArrayInput :<|>
+     createUsersWithListInput :<|>
+     deleteUser :<|>
+     getUserByName :<|>
+     loginUser :<|>
+     logoutUser :<|>
+     updateUser) = client (Proxy :: Proxy OpenAPIPetstoreAPI)
 
 -- | Run the OpenAPIPetstore server at the provided host and port.
-runOpenAPIPetstoreServer :: MonadIO m => ServerConfig -> OpenAPIPetstoreBackend (ExceptT ServantErr IO)  -> m ()
+runOpenAPIPetstoreServer :: MonadIO m => ServerConfig -> OpenAPIPetstoreBackend Handler  -> m ()
 runOpenAPIPetstoreServer ServerConfig{..} backend =
   liftIO $ Warp.runSettings warpSettings $ serve (Proxy :: Proxy OpenAPIPetstoreAPI) (serverFromBackend backend)
   where
     warpSettings = Warp.defaultSettings & Warp.setPort configPort & Warp.setHost (fromString configHost)
     serverFromBackend OpenAPIPetstoreBackend{..} =
-      (coerce addPet :<|>
-       coerce deletePet :<|>
-       coerce findPetsByStatus :<|>
-       coerce findPetsByTags :<|>
-       coerce getPetById :<|>
-       coerce updatePet :<|>
-       coerce updatePetWithForm :<|>
-       coerce uploadFile :<|>
-       coerce deleteOrder :<|>
-       coerce getInventory :<|>
-       coerce getOrderById :<|>
-       coerce placeOrder :<|>
-       coerce createUser :<|>
-       coerce createUsersWithArrayInput :<|>
-       coerce createUsersWithListInput :<|>
-       coerce deleteUser :<|>
-       coerce getUserByName :<|>
-       coerce loginUser :<|>
-       coerce logoutUser :<|>
-       coerce updateUser)
+      (addPet :<|>
+       deletePet :<|>
+       findPetsByStatus :<|>
+       findPetsByTags :<|>
+       getPetById :<|>
+       updatePet :<|>
+       updatePetWithForm :<|>
+       uploadFile :<|>
+       deleteOrder :<|>
+       getInventory :<|>
+       getOrderById :<|>
+       placeOrder :<|>
+       createUser :<|>
+       createUsersWithArrayInput :<|>
+       createUsersWithListInput :<|>
+       deleteUser :<|>
+       getUserByName :<|>
+       loginUser :<|>
+       logoutUser :<|>
+       updateUser)
