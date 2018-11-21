@@ -15,9 +15,9 @@ defmodule OpenapiPetstore.Model.ApiResponse do
   ]
 
   @type t :: %__MODULE__{
-    :"code" => integer(),
-    :"type" => String.t,
-    :"message" => String.t
+    :"code" => integer() | nil,
+    :"type" => String.t | nil,
+    :"message" => String.t | nil
   }
 end
 

@@ -14,8 +14,8 @@ defmodule OpenapiPetstore.Model.ReadOnlyFirst do
   ]
 
   @type t :: %__MODULE__{
-    :"bar" => String.t,
-    :"baz" => String.t
+    :"bar" => String.t | nil,
+    :"baz" => String.t | nil
   }
 end
 

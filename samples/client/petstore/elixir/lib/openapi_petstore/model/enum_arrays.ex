@@ -14,8 +14,8 @@ defmodule OpenapiPetstore.Model.EnumArrays do
   ]
 
   @type t :: %__MODULE__{
-    :"just_symbol" => String.t,
-    :"array_enum" => [String.t]
+    :"just_symbol" => String.t | nil,
+    :"array_enum" => [String.t] | nil
   }
 end
 

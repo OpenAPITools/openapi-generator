@@ -18,12 +18,12 @@ defmodule OpenapiPetstore.Model.Pet do
   ]
 
   @type t :: %__MODULE__{
-    :"id" => integer(),
-    :"category" => Category,
-    :"name" => String.t,
-    :"photoUrls" => [String.t],
-    :"tags" => [Tag],
-    :"status" => String.t
+    :"id" => integer() | nil,
+    :"category" => Category | nil,
+    :"name" => String.t | nil,
+    :"photoUrls" => [String.t] | nil,
+    :"tags" => [Tag] | nil,
+    :"status" => String.t | nil
   }
 end
 

@@ -18,12 +18,12 @@ defmodule OpenapiPetstore.Model.Capitalization do
   ]
 
   @type t :: %__MODULE__{
-    :"smallCamel" => String.t,
-    :"CapitalCamel" => String.t,
-    :"small_Snake" => String.t,
-    :"Capital_Snake" => String.t,
-    :"SCA_ETH_Flow_Points" => String.t,
-    :"ATT_NAME" => String.t
+    :"smallCamel" => String.t | nil,
+    :"CapitalCamel" => String.t | nil,
+    :"small_Snake" => String.t | nil,
+    :"Capital_Snake" => String.t | nil,
+    :"SCA_ETH_Flow_Points" => String.t | nil,
+    :"ATT_NAME" => String.t | nil
   }
 end
 
