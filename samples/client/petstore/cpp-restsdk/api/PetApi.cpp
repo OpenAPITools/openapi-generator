@@ -125,7 +125,7 @@ pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> pet)
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -231,7 +231,7 @@ pplx::task<void> PetApi::deletePet(int64_t petId, boost::optional<utility::strin
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -337,7 +337,7 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vect
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -468,7 +468,7 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -603,7 +603,7 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId)
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -745,7 +745,7 @@ pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> pet)
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -856,7 +856,7 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, boost::optional<utilit
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -968,7 +968,7 @@ pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK

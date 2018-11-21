@@ -121,7 +121,7 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> user)
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -246,7 +246,7 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -371,7 +371,7 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -471,7 +471,7 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username)
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -573,7 +573,7 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -703,7 +703,7 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -825,7 +825,7 @@ pplx::task<void> UserApi::logoutUser()
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -946,7 +946,7 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK

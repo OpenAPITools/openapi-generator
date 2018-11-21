@@ -101,7 +101,7 @@ pplx::task<void> StoreApi::deleteOrder(utility::string_t orderId)
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -209,7 +209,7 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory()
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -334,7 +334,7 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId)
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -474,7 +474,7 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> o
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
