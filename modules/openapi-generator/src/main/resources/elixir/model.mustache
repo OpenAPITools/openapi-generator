@@ -11,7 +11,7 @@
   ]
 
   @type t :: %__MODULE__{
-    {{#vars}}:"{{baseName}}" => {{{dataType}}}{{#hasMore}},
+    {{#vars}}:"{{baseName}}" => {{{datatype}}}{{^isRequired}} | nil{{/isRequired}}{{#hasMore}},
     {{/hasMore}}{{/vars}}
   }
 end
