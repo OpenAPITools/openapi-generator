@@ -25,8 +25,8 @@ defmodule OpenapiPetstore.Api.AnotherFake do
   {:ok, %OpenapiPetstore.Model.Client{}} on success
   {:error, info} on failure
   """
-  @spec 123_test_special_tags(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def 123_test_special_tags(connection, client, _opts \\ []) do
+  @spec call_123_test_special_tags(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  def call_123_test_special_tags(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/another-fake/dummy")
