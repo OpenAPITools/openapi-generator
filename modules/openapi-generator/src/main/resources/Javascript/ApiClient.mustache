@@ -445,7 +445,7 @@
           }
         }
       }
-    } else if (bodyParam) {
+    } else if (bodyParam !== null && bodyParm !== undefined) {
       request.send(bodyParam);
     }
 

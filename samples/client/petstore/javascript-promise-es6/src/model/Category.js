@@ -22,10 +22,11 @@ class Category {
     /**
      * Constructs a new <code>Category</code>.
      * @alias module:model/Category
+     * @param name {String} 
      */
-    constructor() { 
+    constructor(name) { 
         
-        Category.initialize(this);
+        Category.initialize(this, name);
     }
 
     /**
@@ -33,7 +34,8 @@ class Category {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj) { 
+    static initialize(obj, name) { 
+        obj['name'] = name;
     }
 
     /**
@@ -67,8 +69,9 @@ Category.prototype['id'] = undefined;
 
 /**
  * @member {String} name
+ * @default 'default-name'
  */
-Category.prototype['name'] = undefined;
+Category.prototype['name'] = 'default-name';
 
 
 
