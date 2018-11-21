@@ -262,11 +262,9 @@ void apiClient_invoke(apiClient_t    *apiClient,
                         if(strcmp(keyValuePair->key,
                                   "file") == 0)
                         {
-                            printf("Size of fileVar - %p\n",fileVar);
                             memcpy(&fileVar,
                                    keyValuePair->value,
                                    sizeof(fileVar));
-                            printf("Size of fileVar1 - %p\n",fileVar);
                             curl_mime_data(part,
                                            fileVar->fileData,
                                            fileVar->fileSize);
