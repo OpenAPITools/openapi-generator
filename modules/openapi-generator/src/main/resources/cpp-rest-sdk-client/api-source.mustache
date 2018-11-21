@@ -262,7 +262,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     {
         if (m_ApiClient->getResponseHeadersHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(response.headers());
+            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
         }
 
         // 1xx - informational : OK
