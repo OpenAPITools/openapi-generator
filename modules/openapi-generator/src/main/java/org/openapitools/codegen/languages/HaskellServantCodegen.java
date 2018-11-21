@@ -295,7 +295,42 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
         additionalProperties.put("specialCharReplacements", replacements);
 
+        // See docstring for setGenerateToSchema for why we do this
+        additionalProperties.put("generateToSchema", true);
+
         super.preprocessOpenAPI(openAPI);
+    }
+
+    /**
+     * Internal method to set the generateToSchema parameter.
+     *
+     * Basically we're generating ToSchema instances (generically) for all schemas.
+     * However, if any of the contained datatypes doesn't have the ToSchema instance,
+     * we cannot generate it for its "ancestor" type.
+     * This is the case with the "Data.Aeson.Value" type: it doesn't (and cannot) have
+     * a Swagger-compatible ToSchema instance. So we have to detect its presence "downstream"
+     * the current schema, and if we find it we just don't generate any ToSchema instance.
+     * @param model
+     */
+    private void setGenerateToSchema(CodegenModel model) {
+        for (CodegenProperty var : model.vars) {
+            LOGGER.warn(var.dataType);
+            if (var.dataType.contentEquals("Value") || var.dataType.contains(" Value")) {
+                additionalProperties.put("generateToSchema", false);
+            }
+            if (var.items != null) {
+                if (var.items.dataType.contentEquals("Value") || var.dataType.contains(" Value")) {
+                    additionalProperties.put("generateToSchema", false);
+                }
+            }
+        }
+
+        List<CodegenModel> children = model.getChildren();
+        if (children != null) {
+            for(CodegenModel child : children) {
+                setGenerateToSchema(child);
+            }
+        }
     }
 
 
@@ -565,6 +600,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
         CodegenModel model = super.fromModel(name, mod, allDefinitions);
+
+        setGenerateToSchema(model);
 
         // Clean up the class name to remove invalid characters
         model.classname = fixModelChars(model.classname);

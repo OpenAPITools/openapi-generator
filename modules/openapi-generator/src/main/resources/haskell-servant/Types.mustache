@@ -44,10 +44,12 @@ instance FromJSON {{classname}} where
   parseJSON = genericParseJSON (removeFieldLabelPrefix True "{{vendorExtensions.x-prefix}}")
 instance ToJSON {{classname}} where
   toJSON = genericToJSON (removeFieldLabelPrefix False "{{vendorExtensions.x-prefix}}")
+{{#generateToSchema}}
 instance ToSchema {{classname}} where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
     $ removeFieldLabelPrefix False "{{vendorExtensions.x-prefix}}"
+{{/generateToSchema}}
 
 {{/parent}}
 {{#parent}}
