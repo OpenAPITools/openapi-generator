@@ -442,7 +442,7 @@
           }
         }
       }
-    } else if (bodyParam !== null && bodyParm !== undefined) {
+    } else if (bodyParam !== null && bodyParam !== undefined) {
       request.send(bodyParam);
     }
 
