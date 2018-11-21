@@ -3980,7 +3980,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (Map<String, String> enumValue : enumValues) {
                 for (Map<String, Object> enumVar : enumVars) {
                     if (enumValue.get("numericValue").equals(enumVar.get("value"))) {
-                        enumVar.put("name", enumValue.get("identifier").toUpperCase());
+                        enumVar.put("name", enumValue.get("identifier").toUpperCase(Locale.ROOT));
                         break;
                     }
                 }
