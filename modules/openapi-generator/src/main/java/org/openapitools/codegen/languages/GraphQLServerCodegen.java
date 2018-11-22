@@ -27,9 +27,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements CodegenConfig {
+public class GraphQLServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLServerGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLServerCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -46,7 +46,7 @@ public class GraphQLServerGenerator extends AbstractGraphQLCodegen implements Co
         return "Generates a GraphQL express server including it's types, queries, mutations, (resolvers)";
     }
 
-    public GraphQLServerGenerator() {
+    public GraphQLServerCodegen() {
         super();
 
         packageName = "openapi3graphql-server";
