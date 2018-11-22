@@ -20,7 +20,7 @@ CONFIG OPTIONS for swift4
 	    Optionally use libraries to manage response.  Currently PromiseKit, RxSwift are available.
 
 	unwrapRequired
-	    Treat 'required' properties in response as non-optional (which would crash the app if api returns null as opposed to required option specified in json schema
+	    Treat 'required' properties in response as non-optional (which would fail to parse if api returns null as opposed to required option specified in json schema). (default: true)
 
 	objcCompatible
 	    Add additional properties and methods for Objective-C compatibility (default: false)
