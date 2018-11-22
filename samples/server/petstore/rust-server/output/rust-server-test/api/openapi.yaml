@@ -48,6 +48,17 @@ paths:
                 type: string
           description: Success
       summary: Test HTML handling
+  /file_response:
+    get:
+      responses:
+        200:
+          content:
+            '*/*':
+              schema:
+                format: binary
+                type: string
+          description: Success
+      summary: Get a file
 components:
   requestBodies:
     nested_response:
