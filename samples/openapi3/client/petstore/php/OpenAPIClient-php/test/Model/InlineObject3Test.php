@@ -77,100 +77,16 @@ class InlineObject3Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "integer"
+     * Test attribute "additional_metadata"
      */
-    public function testPropertyInteger()
+    public function testPropertyAdditionalMetadata()
     {
     }
 
     /**
-     * Test attribute "int32"
+     * Test attribute "required_file"
      */
-    public function testPropertyInt32()
-    {
-    }
-
-    /**
-     * Test attribute "int64"
-     */
-    public function testPropertyInt64()
-    {
-    }
-
-    /**
-     * Test attribute "number"
-     */
-    public function testPropertyNumber()
-    {
-    }
-
-    /**
-     * Test attribute "float"
-     */
-    public function testPropertyFloat()
-    {
-    }
-
-    /**
-     * Test attribute "double"
-     */
-    public function testPropertyDouble()
-    {
-    }
-
-    /**
-     * Test attribute "string"
-     */
-    public function testPropertyString()
-    {
-    }
-
-    /**
-     * Test attribute "pattern_without_delimiter"
-     */
-    public function testPropertyPatternWithoutDelimiter()
-    {
-    }
-
-    /**
-     * Test attribute "byte"
-     */
-    public function testPropertyByte()
-    {
-    }
-
-    /**
-     * Test attribute "binary"
-     */
-    public function testPropertyBinary()
-    {
-    }
-
-    /**
-     * Test attribute "date"
-     */
-    public function testPropertyDate()
-    {
-    }
-
-    /**
-     * Test attribute "date_time"
-     */
-    public function testPropertyDateTime()
-    {
-    }
-
-    /**
-     * Test attribute "password"
-     */
-    public function testPropertyPassword()
-    {
-    }
-
-    /**
-     * Test attribute "callback"
-     */
-    public function testPropertyCallback()
+    public function testPropertyRequiredFile()
     {
     }
 }

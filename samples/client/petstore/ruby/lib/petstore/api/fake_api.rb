@@ -540,8 +540,6 @@ module Petstore
     # @option opts [String] :enum_query_string Query parameter enum test (string) (default to '-efg')
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
-    # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
-    # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
     # @return [nil]
     def test_enum_parameters(opts = {})
       test_enum_parameters_with_http_info(opts)
@@ -557,8 +555,6 @@ module Petstore
     # @option opts [String] :enum_query_string Query parameter enum test (string)
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
-    # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
-    # @option opts [String] :enum_form_string Form parameter enum test (string)
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_enum_parameters_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -582,12 +578,6 @@ module Petstore
       if @api_client.config.client_side_validation && opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
         fail ArgumentError, 'invalid value for "enum_query_double", must be one of 1.1, -1.2'
       end
-      if @api_client.config.client_side_validation && opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all? { |item| ['>', '$'].include?(item) }
-        fail ArgumentError, 'invalid value for "enum_form_string_array", must include one of >, $'
-      end
-      if @api_client.config.client_side_validation && opts[:'enum_form_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_form_string'])
-        fail ArgumentError, 'invalid value for "enum_form_string", must be one of _abc, -efg, (xyz)'
-      end
       # resource path
       local_var_path = '/fake'
 
@@ -600,15 +590,11 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
       header_params[:'enum_header_string_array'] = @api_client.build_collection_param(opts[:'enum_header_string_array'], :csv) if !opts[:'enum_header_string_array'].nil?
       header_params[:'enum_header_string'] = opts[:'enum_header_string'] if !opts[:'enum_header_string'].nil?
 
       # form parameters
       form_params = {}
-      form_params['enum_form_string_array'] = @api_client.build_collection_param(opts[:'enum_form_string_array'], :csv) if !opts[:'enum_form_string_array'].nil?
-      form_params['enum_form_string'] = opts[:'enum_form_string'] if !opts[:'enum_form_string'].nil?
 
       # http body (model)
       post_body = nil
@@ -750,31 +736,19 @@ module Petstore
     end
 
     # test json serialization of form data
-    # @param param field1
-    # @param param2 field2
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def test_json_form_data(param, param2, opts = {})
-      test_json_form_data_with_http_info(param, param2, opts)
+    def test_json_form_data(opts = {})
+      test_json_form_data_with_http_info(opts)
       nil
     end
 
     # test json serialization of form data
-    # @param param field1
-    # @param param2 field2
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_json_form_data_with_http_info(param, param2, opts = {})
+    def test_json_form_data_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_json_form_data ...'
-      end
-      # verify the required parameter 'param' is set
-      if @api_client.config.client_side_validation && param.nil?
-        fail ArgumentError, "Missing the required parameter 'param' when calling FakeApi.test_json_form_data"
-      end
-      # verify the required parameter 'param2' is set
-      if @api_client.config.client_side_validation && param2.nil?
-        fail ArgumentError, "Missing the required parameter 'param2' when calling FakeApi.test_json_form_data"
       end
       # resource path
       local_var_path = '/fake/jsonFormData'
@@ -784,13 +758,9 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
 
       # form parameters
       form_params = {}
-      form_params['param'] = param
-      form_params['param2'] = param2
 
       # http body (model)
       post_body = nil

@@ -3,7 +3,6 @@ package org.openapitools.api;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import java.util.Map;
 import org.openapitools.model.Order;

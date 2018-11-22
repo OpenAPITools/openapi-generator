@@ -122,6 +122,16 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test case for replaceFileWithRequiredFile
+     *
+     * replaces an image (required).
+     *
+     */
+    public function testReplaceFileWithRequiredFile()
+    {
+    }
+
+    /**
      * Test case for updatePet
      *
      * Update an existing pet.

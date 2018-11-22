@@ -77,16 +77,16 @@ class InlineObject4Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "param"
+     * Test attribute "additional_metadata"
      */
-    public function testPropertyParam()
+    public function testPropertyAdditionalMetadata()
     {
     }
 
     /**
-     * Test attribute "param2"
+     * Test attribute "required_file"
      */
-    public function testPropertyParam2()
+    public function testPropertyRequiredFile()
     {
     }
 }

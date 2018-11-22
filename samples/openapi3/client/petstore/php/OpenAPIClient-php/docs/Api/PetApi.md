@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**findPetsByStatus**](PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**findPetsByTags**](PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**getPetById**](PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
+[**replaceFileWithRequiredFile**](PetApi.md#replaceFileWithRequiredFile) | **PUT** /fake/{petId}/uploadImageWithRequiredFile | replaces an image (required)
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -275,6 +276,61 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+# **replaceFileWithRequiredFile**
+> \OpenAPI\Client\Model\ApiResponse replaceFileWithRequiredFile($pet_id, $required_file, $additional_metadata)
+
+replaces an image (required)
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: petstore_auth
+$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$apiInstance = new OpenAPI\Client\Api\PetApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$pet_id = 56; // int | ID of pet to update
+$required_file = "/path/to/file.txt"; // \SplFileObject | file to upload
+$additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
+
+try {
+    $result = $apiInstance->replaceFileWithRequiredFile($pet_id, $required_file, $additional_metadata);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling PetApi->replaceFileWithRequiredFile: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **int**| ID of pet to update |
+ **required_file** | **\SplFileObject****\SplFileObject**| file to upload |
+ **additional_metadata** | **string**| Additional data to pass to server | [optional]
+
+### Return type
+
+[**\OpenAPI\Client\Model\ApiResponse**](../Model/ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

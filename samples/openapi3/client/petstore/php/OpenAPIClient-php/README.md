@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**findPetsByStatus**](docs/Api/PetApi.md#findpetsbystatus) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**findPetsByTags**](docs/Api/PetApi.md#findpetsbytags) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**getPetById**](docs/Api/PetApi.md#getpetbyid) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**replaceFileWithRequiredFile**](docs/Api/PetApi.md#replacefilewithrequiredfile) | **PUT** /fake/{petId}/uploadImageWithRequiredFile | replaces an image (required)
 *PetApi* | [**updatePet**](docs/Api/PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**updatePetWithForm**](docs/Api/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**uploadFile**](docs/Api/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -145,7 +146,6 @@ Class | Method | HTTP request | Description
  - [InlineObject2](docs/Model/InlineObject2.md)
  - [InlineObject3](docs/Model/InlineObject3.md)
  - [InlineObject4](docs/Model/InlineObject4.md)
- - [InlineObject5](docs/Model/InlineObject5.md)
  - [InlineResponseDefault](docs/Model/InlineResponseDefault.md)
  - [MapTest](docs/Model/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)

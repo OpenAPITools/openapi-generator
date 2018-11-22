@@ -430,9 +430,7 @@ opts = {
   enum_query_string_array: ['enum_query_string_array_example'], # Array<String> | Query parameter enum test (string array)
   enum_query_string: '-efg', # String | Query parameter enum test (string)
   enum_query_integer: 56, # Integer | Query parameter enum test (double)
-  enum_query_double: 3.4, # Float | Query parameter enum test (double)
-  enum_form_string_array: '$', # Array<String> | Form parameter enum test (string array)
-  enum_form_string: '-efg' # String | Form parameter enum test (string)
+  enum_query_double: 3.4 # Float | Query parameter enum test (double)
 }
 
 begin
@@ -453,8 +451,6 @@ Name | Type | Description  | Notes
  **enum_query_string** | **String**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**Array&lt;String&gt;**](String.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **String**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
 
@@ -466,7 +462,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 
@@ -570,7 +566,7 @@ No authorization required
 
 
 # **test_json_form_data**
-> test_json_form_data(param, param2)
+> test_json_form_data
 
 test json serialization of form data
 
@@ -580,23 +576,17 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-param = 'param_example' # String | field1
-param2 = 'param2_example' # String | field2
 
 begin
   #test json serialization of form data
-  api_instance.test_json_form_data(param, param2)
+  api_instance.test_json_form_data
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_json_form_data: #{e}"
 end
 ```
 
 ### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | 
- **param2** | **String**| field2 | 
+This endpoint does not need any parameter.
 
 ### Return type
 
@@ -608,7 +598,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 
