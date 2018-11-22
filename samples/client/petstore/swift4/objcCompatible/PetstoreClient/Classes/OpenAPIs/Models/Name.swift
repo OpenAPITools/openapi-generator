@@ -13,11 +13,6 @@ import Foundation
 public struct Name: Codable {
 
     public var name: Int
-    public var nameNum: NSNumber? {
-        get {
-            return name.map({ return NSNumber(value: $0) })
-        }
-    }
     public var snakeCase: Int?
     public var snakeCaseNum: NSNumber? {
         get {

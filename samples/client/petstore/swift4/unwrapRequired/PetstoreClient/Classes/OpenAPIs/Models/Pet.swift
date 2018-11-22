@@ -18,13 +18,13 @@ public struct Pet: Codable {
     }
     public var _id: Int64?
     public var category: Category?
-    public var name: String?
-    public var photoUrls: [String]?
+    public var name: String
+    public var photoUrls: [String]
     public var tags: [Tag]?
     /** pet status in the store */
     public var status: Status?
 
-    public init(_id: Int64?, category: Category?, name: String?, photoUrls: [String]?, tags: [Tag]?, status: Status?) {
+    public init(_id: Int64?, category: Category?, name: String, photoUrls: [String], tags: [Tag]?, status: Status?) {
         self._id = _id
         self.category = category
         self.name = name
