@@ -30,7 +30,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jws.WebParam;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
@@ -170,7 +169,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("map", "Map");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
-        // typeMapping.put("object", "Map");
+        typeMapping.put("object", "Map");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");

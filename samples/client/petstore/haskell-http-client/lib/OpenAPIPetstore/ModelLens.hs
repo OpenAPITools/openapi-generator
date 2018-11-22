@@ -64,10 +64,6 @@ animalColorL f Animal{..} = (\animalColor -> Animal { animalColor, ..} ) <$> f a
 
 
 
--- * AnimalFarm
-
-
-
 -- * ApiResponse
 
 -- | 'apiResponseCode' Lens

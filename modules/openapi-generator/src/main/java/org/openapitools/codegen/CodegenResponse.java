@@ -17,11 +17,7 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class CodegenResponse {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
@@ -30,7 +26,8 @@ public class CodegenResponse {
     public List<Map<String, Object>> examples;
     public String dataType, baseType, containerType;
     public boolean hasHeaders;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
+            isDateTime, isUuid, isEmail, isModel, isFreeFormObject;
     public boolean isDefault;
     public boolean simpleType;
     public boolean primitiveType;
@@ -48,76 +45,90 @@ public class CodegenResponse {
 
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "%s(%s)", code, containerType);
+        return "CodegenResponse{" +
+                "headers=" + headers +
+                ", code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", hasMore=" + hasMore +
+                ", examples=" + examples +
+                ", dataType='" + dataType + '\'' +
+                ", baseType='" + baseType + '\'' +
+                ", containerType='" + containerType + '\'' +
+                ", hasHeaders=" + hasHeaders +
+                ", isString=" + isString +
+                ", isNumeric=" + isNumeric +
+                ", isInteger=" + isInteger +
+                ", isLong=" + isLong +
+                ", isNumber=" + isNumber +
+                ", isFloat=" + isFloat +
+                ", isDouble=" + isDouble +
+                ", isByteArray=" + isByteArray +
+                ", isBoolean=" + isBoolean +
+                ", isDate=" + isDate +
+                ", isDateTime=" + isDateTime +
+                ", isUuid=" + isUuid +
+                ", isEmail=" + isEmail +
+                ", isFreeFormObject=" + isFreeFormObject +
+                ", isModel=" + isModel +
+                ", isDefault=" + isDefault +
+                ", simpleType=" + simpleType +
+                ", primitiveType=" + primitiveType +
+                ", isMapContainer=" + isMapContainer +
+                ", isListContainer=" + isListContainer +
+                ", isBinary=" + isBinary +
+                ", isFile=" + isFile +
+                ", schema=" + schema +
+                ", jsonSchema='" + jsonSchema + '\'' +
+                ", vendorExtensions=" + vendorExtensions +
+                '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         CodegenResponse that = (CodegenResponse) o;
-
-        if (!headers.equals(that.headers))
-            return false;
-        if (code != null ? !code.equals(that.code) : that.code != null)
-            return false;
-        if (message != null ? !message.equals(that.message) : that.message != null)
-            return false;
-        if (hasMore != that.hasMore)
-            return false;
-        if (examples != null ? !examples.equals(that.examples) : that.examples != null)
-            return false;
-        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null)
-            return false;
-        if (baseType != null ? !baseType.equals(that.baseType) : that.baseType != null)
-            return false;
-        if (containerType != null ? !containerType.equals(that.containerType) : that.containerType != null)
-            return false;
-        if (isDefault != that.isDefault)
-            return false;
-        if (simpleType != that.simpleType)
-            return false;
-        if (primitiveType != that.primitiveType)
-            return false;
-        if (isMapContainer != that.isMapContainer)
-            return false;
-        if (isListContainer != that.isListContainer)
-            return false;
-        if (isBinary != that.isBinary)
-            return false;
-        if (isFile != that.isFile)
-            return false;
-        if (isNumeric != that.isNumeric)
-            return false;
-        if (schema != null ? !schema.equals(that.schema) : that.schema != null)
-            return false;
-        if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
-            return false;
-        return jsonSchema != null ? jsonSchema.equals(that.jsonSchema) : that.jsonSchema == null;
+        return hasMore == that.hasMore &&
+                hasHeaders == that.hasHeaders &&
+                isString == that.isString &&
+                isNumeric == that.isNumeric &&
+                isInteger == that.isInteger &&
+                isLong == that.isLong &&
+                isNumber == that.isNumber &&
+                isFloat == that.isFloat &&
+                isDouble == that.isDouble &&
+                isByteArray == that.isByteArray &&
+                isBoolean == that.isBoolean &&
+                isDate == that.isDate &&
+                isDateTime == that.isDateTime &&
+                isUuid == that.isUuid &&
+                isEmail == that.isEmail &&
+                isFreeFormObject == that.isFreeFormObject &&
+                isModel == that.isModel &&
+                isDefault == that.isDefault &&
+                simpleType == that.simpleType &&
+                primitiveType == that.primitiveType &&
+                isMapContainer == that.isMapContainer &&
+                isListContainer == that.isListContainer &&
+                isBinary == that.isBinary &&
+                isFile == that.isFile &&
+                Objects.equals(headers, that.headers) &&
+                Objects.equals(code, that.code) &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(examples, that.examples) &&
+                Objects.equals(dataType, that.dataType) &&
+                Objects.equals(baseType, that.baseType) &&
+                Objects.equals(containerType, that.containerType) &&
+                Objects.equals(schema, that.schema) &&
+                Objects.equals(jsonSchema, that.jsonSchema) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions);
     }
 
     @Override
     public int hashCode() {
-        int result = headers.hashCode();
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (message != null ? message.hashCode() : 0);
-        result = 31 * result + (hasMore ? 13:31);
-        result = 31 * result + (examples != null ? examples.hashCode() : 0);
-        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
-        result = 31 * result + (baseType != null ? baseType.hashCode() : 0);
-        result = 31 * result + (containerType != null ? containerType.hashCode() : 0);
-        result = 31 * result + (isDefault ? 13:31);
-        result = 31 * result + (isNumeric ? 13:31);
-        result = 31 * result + (simpleType ? 13:31);
-        result = 31 * result + (primitiveType ? 13:31);
-        result = 31 * result + (isMapContainer ? 13:31);
-        result = 31 * result + (isListContainer ? 13:31);
-        result = 31 * result + (isBinary ? 13:31);
-        result = 31 * result + (isFile ? 13:31);
-        result = 31 * result + (schema != null ? schema.hashCode() : 0);
-        result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
-        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        return result;
+        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
+                isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
+                isDateTime, isUuid, isEmail, isFreeFormObject, isModel, isDefault, simpleType, primitiveType, isMapContainer,
+                isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);
     }
 }

@@ -285,10 +285,12 @@ public class CSharpNancyFXServerCodegen extends AbstractCSharpCodegen {
         LOGGER.debug("Processing parents:  " + parentModels);
         for (final String parent : parentModels) {
             final CodegenModel parentModel = ModelUtils.getModelByName(parent, models);
-            parentModel.hasChildren = true;
-            final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
-            for (final CodegenModel child : childrenModels) {
-                processParentPropertiesInChildModel(parentModel, child);
+            if (parentModel != null) {
+                parentModel.hasChildren = true;
+                final Collection<CodegenModel> childrenModels = childrenByParent.get(parent);
+                for (final CodegenModel child : childrenModels) {
+                    processParentPropertiesInChildModel(parentModel, child);
+                }
             }
         }
     }

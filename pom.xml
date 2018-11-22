@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>3.3.2-SNAPSHOT</version>
+    <version>3.3.4-SNAPSHOT</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -156,6 +156,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-version}</version>
                 <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                     <testNGArtifactName>none:none</testNGArtifactName>
                     <argLine>-XX:+StartAttachListener</argLine>
                     <argLine>-javaagent:${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar</argLine>
@@ -1018,13 +1019,15 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
-                <module>samples/client/petstore/dart2/petstore</module>
+		<!--<module>samples/client/petstore/dart2/petstore</module>-->
                 <module>samples/client/petstore/haskell-http-client</module>
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
+                <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
@@ -1051,7 +1054,7 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!--<module>samples/client/petstore/bash</module>-->
-                <module>samples/client/petstore/ruby</module>
+                <module>samples/openapi3/client/petstore/ruby</module>
                 <module>samples/server/petstore/rust-server</module>
             </modules>
         </profile>

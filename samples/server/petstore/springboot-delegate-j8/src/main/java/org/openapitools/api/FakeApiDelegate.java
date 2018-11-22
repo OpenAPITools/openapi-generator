@@ -142,6 +142,19 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testGroupParameters
+     */
+    default ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
+        Boolean requiredBooleanGroup,
+        Long requiredInt64Group,
+        Integer stringGroup,
+        Boolean booleanGroup,
+        Long int64Group) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * @see FakeApi#testInlineAdditionalProperties
      */
     default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody) {

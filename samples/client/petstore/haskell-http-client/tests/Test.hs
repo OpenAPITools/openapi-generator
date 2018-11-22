@@ -22,7 +22,6 @@ main =
       pure ()
       propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesClass)
       propMimeEq MimeJSON (Proxy :: Proxy Animal)
-      propMimeEq MimeJSON (Proxy :: Proxy AnimalFarm)
       propMimeEq MimeJSON (Proxy :: Proxy ApiResponse)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfArrayOfNumberOnly)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfNumberOnly)

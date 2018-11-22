@@ -81,6 +81,9 @@ newtype BodyBool = BodyBool { unBodyBool :: Bool } deriving (P.Eq, P.Show, A.ToJ
 -- ** BodyText
 newtype BodyText = BodyText { unBodyText :: Text } deriving (P.Eq, P.Show, A.ToJSON)
 
+-- ** BooleanGroup
+newtype BooleanGroup = BooleanGroup { unBooleanGroup :: Bool } deriving (P.Eq, P.Show)
+
 -- ** Byte
 newtype Byte = Byte { unByte :: ByteArray } deriving (P.Eq, P.Show)
 
@@ -119,6 +122,9 @@ newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
 
 -- ** Int64
 newtype Int64 = Int64 { unInt64 :: Integer } deriving (P.Eq, P.Show)
+
+-- ** Int64Group
+newtype Int64Group = Int64Group { unInt64Group :: Integer } deriving (P.Eq, P.Show)
 
 -- ** Name2
 newtype Name2 = Name2 { unName2 :: Text } deriving (P.Eq, P.Show)
@@ -174,14 +180,26 @@ newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
 -- ** RequestBody
 newtype RequestBody = RequestBody { unRequestBody :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
 
+-- ** RequiredBooleanGroup
+newtype RequiredBooleanGroup = RequiredBooleanGroup { unRequiredBooleanGroup :: Bool } deriving (P.Eq, P.Show)
+
 -- ** RequiredFile
 newtype RequiredFile = RequiredFile { unRequiredFile :: FilePath } deriving (P.Eq, P.Show)
+
+-- ** RequiredInt64Group
+newtype RequiredInt64Group = RequiredInt64Group { unRequiredInt64Group :: Integer } deriving (P.Eq, P.Show)
+
+-- ** RequiredStringGroup
+newtype RequiredStringGroup = RequiredStringGroup { unRequiredStringGroup :: Int } deriving (P.Eq, P.Show)
 
 -- ** Status
 newtype Status = Status { unStatus :: [E'Status2] } deriving (P.Eq, P.Show)
 
 -- ** StatusText
 newtype StatusText = StatusText { unStatusText :: Text } deriving (P.Eq, P.Show)
+
+-- ** StringGroup
+newtype StringGroup = StringGroup { unStringGroup :: Int } deriving (P.Eq, P.Show)
 
 -- ** Tags
 newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)
@@ -258,34 +276,6 @@ mkAnimal animalClassName =
   Animal
   { animalClassName
   , animalColor = Nothing
-  }
-
--- ** AnimalFarm
--- | AnimalFarm
-data AnimalFarm = AnimalFarm
-  { 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON AnimalFarm
-instance A.FromJSON AnimalFarm where
-  parseJSON = A.withObject "AnimalFarm" $ \o ->
-    pure AnimalFarm
-      
-
--- | ToJSON AnimalFarm
-instance A.ToJSON AnimalFarm where
-  toJSON AnimalFarm  =
-   _omitNulls
-      [ 
-      ]
-
-
--- | Construct a value of type 'AnimalFarm' (by applying it's required fields, if any)
-mkAnimalFarm
-  :: AnimalFarm
-mkAnimalFarm =
-  AnimalFarm
-  { 
   }
 
 -- ** ApiResponse

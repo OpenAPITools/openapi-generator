@@ -79,7 +79,7 @@ public class ApiClient {
     private HttpLoggingInterceptor loggingInterceptor;
 
     /*
-     * Constructor for ApiClient
+     * Basic constructor for ApiClient
      */
     public ApiClient() {
         init();
@@ -94,13 +94,23 @@ public class ApiClient {
     }
     
     /*
-     * Constructor for ApiClient to support access token retry on 401/403
+     * Constructor for ApiClient to support access token retry on 401/403 configured with client ID
      */
-    public ApiClient(
-            String clientId,
-            String clientSecret,
-            Map<String, String> parameters
-    ) {
+    public ApiClient(String clientId) {
+        this(clientId, null, null);
+    }
+
+    /*
+     * Constructor for ApiClient to support access token retry on 401/403 configured with client ID and additional parameters
+     */
+    public ApiClient(String clientId, Map<String, String> parameters) {
+        this(clientId, null, parameters);
+    }
+
+    /*
+     * Constructor for ApiClient to support access token retry on 401/403 configured with client ID, secret, and additional parameters
+     */
+    public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
         init();
 
         RetryingOAuth retryingOAuth = new RetryingOAuth("", clientId, OAuthFlow.implicit, clientSecret, parameters);
@@ -131,7 +141,7 @@ public class ApiClient {
     /**
      * Get base path
      *
-     * @return Baes path
+     * @return Base path
      */
     public String getBasePath() {
         return basePath;

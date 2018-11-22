@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   description: This spec is for testing rust-server-specific things
   title: rust-server-test
-  version: 1.0.0
+  version: 2.3.4
 servers:
 - url: /
 paths:
@@ -13,7 +13,72 @@ paths:
           content: {}
           description: Success
       summary: A dummy endpoint to make the spec valid.
+    put:
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          '*/*':
+            schema:
+              properties:
+                id:
+                  type: string
+                password:
+                  type: string
+              required:
+              - id
+              type: object
+        required: true
+      responses:
+        200:
+          content: {}
+          description: Success
+  /html:
+    post:
+      requestBody:
+        content:
+          text/html:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          content:
+            text/html:
+              schema:
+                type: string
+          description: Success
+      summary: Test HTML handling
+  /file_response:
+    get:
+      responses:
+        200:
+          content:
+            '*/*':
+              schema:
+                format: binary
+                type: string
+          description: Success
+      summary: Get a file
 components:
+  requestBodies:
+    nested_response:
+      content:
+        '*/*':
+          schema:
+            properties:
+              id:
+                type: string
+              password:
+                type: string
+            required:
+            - id
+            type: object
+      required: true
+    inline_object:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/inline_object'
   schemas:
     additionalPropertiesObject:
       additionalProperties:
@@ -21,6 +86,29 @@ components:
       description: An additionalPropertiesObject
       example: foo
       type: object
+    ObjectOfObjects:
+      description: An object of objects
+      properties:
+        inner:
+          $ref: '#/components/schemas/ObjectOfObjects_inner'
+      type: object
+    inline_object:
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+      required:
+      - id
+      type: object
+    ObjectOfObjects_inner:
+      properties:
+        optional_thing:
+          type: integer
+        required_thing:
+          type: string
+      required:
+      - required_thing
     aNullableContainer:
       properties:
         NullableThing:

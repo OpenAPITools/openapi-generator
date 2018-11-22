@@ -27,11 +27,12 @@ public class CodegenParameter {
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
-          collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
+            collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
 
     public String example; // example value (x-example)
     public String jsonSchema;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
+            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isFile;
     public boolean isEnum;
@@ -94,7 +95,7 @@ public class CodegenParameter {
      * See http://json-schema.org/latest/json-schema-validation.html#anchor14
      */
     public Number multipleOf;
-    
+
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
         output.isFile = this.isFile;
@@ -148,7 +149,7 @@ public class CodegenParameter {
         if (this.mostInnerItems != null) {
             output.mostInnerItems = this.mostInnerItems;
         }
-        if(this.vendorExtensions != null){
+        if (this.vendorExtensions != null) {
             output.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
         }
         output.hasValidation = this.hasValidation;
@@ -166,6 +167,8 @@ public class CodegenParameter {
         output.isDate = this.isDate;
         output.isDateTime = this.isDateTime;
         output.isUuid = this.isUuid;
+        output.isEmail = this.isEmail;
+        output.isFreeFormObject = this.isFreeFormObject;
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
 
@@ -256,6 +259,10 @@ public class CodegenParameter {
             return false;
         if (isUuid != that.isUuid)
             return false;
+        if (isEmail != that.isEmail)
+            return false;
+        if (isFreeFormObject != that.isFreeFormObject)
+            return false;
         if (isListContainer != that.isListContainer)
             return false;
         if (isMapContainer != that.isMapContainer)
@@ -304,18 +311,18 @@ public class CodegenParameter {
 
     @Override
     public int hashCode() {
-        int result = isFormParam ? 13:31;
-        result = 31 * result + (isQueryParam ? 13:31);
-        result = 31 * result + (isPathParam ? 13:31);
-        result = 31 * result + (isHeaderParam ? 13:31);
-        result = 31 * result + (isCookieParam ? 13:31);
-        result = 31 * result + (isBodyParam ? 13:31);
-        result = 31 * result + (hasMore ? 13:31);
-        result = 31 * result + (isContainer ? 13:31);
-        result = 31 * result + (secondaryParam ? 13:31);
-        result = 31 * result + (isCollectionFormatMulti ? 13:31);
-        result = 31 * result + (isPrimitiveType ? 13:31);
-        result = 31 * result + (isModel ? 13:31);
+        int result = isFormParam ? 13 : 31;
+        result = 31 * result + (isQueryParam ? 13 : 31);
+        result = 31 * result + (isPathParam ? 13 : 31);
+        result = 31 * result + (isHeaderParam ? 13 : 31);
+        result = 31 * result + (isCookieParam ? 13 : 31);
+        result = 31 * result + (isBodyParam ? 13 : 31);
+        result = 31 * result + (hasMore ? 13 : 31);
+        result = 31 * result + (isContainer ? 13 : 31);
+        result = 31 * result + (secondaryParam ? 13 : 31);
+        result = 31 * result + (isCollectionFormatMulti ? 13 : 31);
+        result = 31 * result + (isPrimitiveType ? 13 : 31);
+        result = 31 * result + (isModel ? 13 : 31);
         result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
         result = 31 * result + (paramName != null ? paramName.hashCode() : 0);
         result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
@@ -329,41 +336,43 @@ public class CodegenParameter {
         result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
         result = 31 * result + (example != null ? example.hashCode() : 0);
         result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
-        result = 31 * result + (isString ? 13:31);
-        result = 31 * result + (isNumeric ? 13:31);
-        result = 31 * result + (isInteger ? 13:31);
-        result = 31 * result + (isLong ? 13:31);
-        result = 31 * result + (isFloat ? 13:31);
-        result = 31 * result + (isNumber ? 13:31);
-        result = 31 * result + (isDouble ? 13:31);
-        result = 31 * result + (isByteArray ? 13:31);
-        result = 31 * result + (isBinary ? 13:31);
-        result = 31 * result + (isBoolean ? 13:31);
-        result = 31 * result + (isDate ? 13:31);
-        result = 31 * result + (isDateTime ? 13:31);
-        result = 31 * result + (isUuid ? 13:31);
-        result = 31 * result + (isListContainer ? 13:31);
-        result = 31 * result + (isMapContainer ? 13:31);
-        result = 31 * result + (isFile ? 13:31);
+        result = 31 * result + (isString ? 13 : 31);
+        result = 31 * result + (isNumeric ? 13 : 31);
+        result = 31 * result + (isInteger ? 13 : 31);
+        result = 31 * result + (isLong ? 13 : 31);
+        result = 31 * result + (isFloat ? 13 : 31);
+        result = 31 * result + (isNumber ? 13 : 31);
+        result = 31 * result + (isDouble ? 13 : 31);
+        result = 31 * result + (isByteArray ? 13 : 31);
+        result = 31 * result + (isBinary ? 13 : 31);
+        result = 31 * result + (isBoolean ? 13 : 31);
+        result = 31 * result + (isDate ? 13 : 31);
+        result = 31 * result + (isDateTime ? 13 : 31);
+        result = 31 * result + (isUuid ? 13 : 31);
+        result = 31 * result + (isEmail ? 13 : 31);
+        result = 31 * result + (isFreeFormObject ? 13 : 31);
+        result = 31 * result + (isListContainer ? 13 : 31);
+        result = 31 * result + (isMapContainer ? 13 : 31);
+        result = 31 * result + (isFile ? 13 : 31);
         result = 31 * result + (isEnum ? 1 : 0);
         result = 31 * result + (_enum != null ? _enum.hashCode() : 0);
         result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
         result = 31 * result + (items != null ? items.hashCode() : 0);
         result = 31 * result + (mostInnerItems != null ? mostInnerItems.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + (hasValidation ? 13:31);
-        result = 31 * result + (isNullable ? 13:31);
-        result = 31 * result + (required ? 13:31);
+        result = 31 * result + (hasValidation ? 13 : 31);
+        result = 31 * result + (isNullable ? 13 : 31);
+        result = 31 * result + (required ? 13 : 31);
         result = 31 * result + (maximum != null ? maximum.hashCode() : 0);
-        result = 31 * result + (exclusiveMaximum ? 13:31);
+        result = 31 * result + (exclusiveMaximum ? 13 : 31);
         result = 31 * result + (minimum != null ? minimum.hashCode() : 0);
-        result = 31 * result + (exclusiveMinimum ? 13:31);
+        result = 31 * result + (exclusiveMinimum ? 13 : 31);
         result = 31 * result + (maxLength != null ? maxLength.hashCode() : 0);
         result = 31 * result + (minLength != null ? minLength.hashCode() : 0);
         result = 31 * result + (pattern != null ? pattern.hashCode() : 0);
         result = 31 * result + (maxItems != null ? maxItems.hashCode() : 0);
         result = 31 * result + (minItems != null ? minItems.hashCode() : 0);
-        result = 31 * result + (uniqueItems ? 13:31);
+        result = 31 * result + (uniqueItems ? 13 : 31);
         result = 31 * result + (multipleOf != null ? multipleOf.hashCode() : 0);
         return result;
     }
@@ -409,6 +418,8 @@ public class CodegenParameter {
                 ", isDate=" + isDate +
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
+                ", isEmail=" + isEmail +
+                ", isFreeFormObject=" + isFreeFormObject +
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isFile=" + isFile +

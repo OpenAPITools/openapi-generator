@@ -18,7 +18,6 @@ local basexx = require "basexx"
 -- model import
 local petstore_api_response = require "petstore.model.api_response"
 local petstore_pet = require "petstore.model.pet"
-local petstore_pet = require "petstore.model.pet"
 
 local pet_api = {}
 local pet_api_mt = {

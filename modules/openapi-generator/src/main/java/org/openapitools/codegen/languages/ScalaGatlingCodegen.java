@@ -239,6 +239,11 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 continue;
             }
             for (Operation operation : path.readOperations()) {
+
+                if (operation.getExtensions() == null) {
+                    operation.setExtensions(new HashMap());
+                }
+
                 if (!operation.getExtensions().keySet().contains("x-gatling-path")) {
                     if (pathname.contains("{")) {
                         String gatlingPath = pathname.replaceAll("\\{", "\\$\\{");

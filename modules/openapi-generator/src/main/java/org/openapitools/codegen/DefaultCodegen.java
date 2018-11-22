@@ -1152,6 +1152,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
+        } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
+            codegenParameter.example = "Object";
         }
 
     }
@@ -1375,6 +1377,8 @@ public class DefaultCodegen implements CodegenConfig {
             return "UUID";
         } else if (ModelUtils.isStringSchema(schema)) {
             return "string";
+        } else if (ModelUtils.isFreeFormObject(schema)) {
+            return "object";
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // having property implies it's a model
             return "object";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
@@ -1685,7 +1689,8 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, Map<String, Schema> allDefinitions) {
+    private CodegenDiscriminator createDiscriminator(String schemaName, Schema
+            schema, Map<String, Schema> allDefinitions) {
         if (schema.getDiscriminator() == null) {
             return null;
         }
@@ -1717,7 +1722,8 @@ public class DefaultCodegen implements CodegenConfig {
         addParentContainer(codegenModel, codegenModel.name, schema);
     }
 
-    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema, Map<String, Schema> allSchemas) {
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema
+            schema, Map<String, Schema> allSchemas) {
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
             if (composedSchema.getAllOf() == null) {
@@ -1895,6 +1901,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // keep isString to true to make it backward compatible
                 property.isString = true;
                 property.isUuid = true;
+            } else if (ModelUtils.isEmailSchema(p)) {
+                property.isString = true;
+                property.isEmail = true;
             } else {
                 property.isString = true;
             }
@@ -2007,6 +2016,9 @@ public class DefaultCodegen implements CodegenConfig {
             // handle inner property
             CodegenProperty cp = fromProperty("inner", ModelUtils.getAdditionalProperties(p));
             updatePropertyForMap(property, cp);
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            property.isFreeFormObject = true;
+            property.baseType = getSchemaType(p);
         } else { // model
             // TODO revise the logic below
             //if (StringUtils.isNotBlank(p.get$ref())) {
@@ -2209,7 +2221,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schemas    a map of OAS models
      * @return Codegen Operation object
      */
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> schemas) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation
+            operation, Map<String, Schema> schemas) {
         return fromOperation(path, httpMethod, operation, schemas, null);
     }
 
@@ -2573,14 +2586,16 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 if (cp.complexType != null) {
                     r.baseType = cp.complexType;
+                    r.isModel = true;
                 } else {
                     r.baseType = cp.baseType;
                 }
             }
 
             r.dataType = cp.dataType;
-
-            if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
+            if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isEmail)) {
+                r.isEmail = true;
+            } else if (Boolean.TRUE.equals(cp.isString) && Boolean.TRUE.equals(cp.isUuid)) {
                 r.isUuid = true;
             } else if (Boolean.TRUE.equals(cp.isByteArray)) {
                 r.isByteArray = true;
@@ -2612,6 +2627,8 @@ public class DefaultCodegen implements CodegenConfig {
                 r.isDate = true;
             } else if (Boolean.TRUE.equals(cp.isDateTime)) {
                 r.isDateTime = true;
+            } else if (Boolean.TRUE.equals(cp.isFreeFormObject)) {
+                r.isFreeFormObject = true;
             } else {
                 LOGGER.debug("Property type is not primitive: " + cp.dataType);
             }
@@ -2647,7 +2664,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param openAPI  a OAS object representing the spec
      * @return Codegen Response object
      */
-    public CodegenCallback fromCallback(String name, Callback callback, Map<String, Schema> schemas, OpenAPI openAPI) {
+    public CodegenCallback fromCallback(String name, Callback callback, Map<String, Schema> schemas, OpenAPI
+            openAPI) {
         CodegenCallback c = new CodegenCallback();
         c.name = name;
 
@@ -2981,6 +2999,12 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.warn("Unknown parameter type: " + parameter.getName());
         }
 
+        // default to UNKNOWN_PARAMETER_NAME if paramName is null
+        if (codegenParameter.paramName == null) {
+            LOGGER.warn("Parameter name not defined properly. Default to UNKNOWN_PARAMETER_NAME");
+            codegenParameter.paramName = "UNKNOWN_PARAMETER_NAME";
+        }
+
         // set the parameter excample value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, parameter);
@@ -3217,7 +3241,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param operations   map of Codegen operations
      */
     @SuppressWarnings("static-method")
-    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
+            co, Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(tag);
         if (opList == null) {
             opList = new ArrayList<CodegenOperation>();
@@ -3324,7 +3349,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties model properties (schemas)
      * @return model properties with direct reference to schemas
      */
-    private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> allSchemas, Map<String, Schema> properties) {
+    private Map<String, Schema> unaliasPropertySchema
+    (Map<String, Schema> allSchemas, Map<String, Schema> properties) {
         if (properties != null) {
             for (String key : properties.keySet()) {
                 properties.put(key, ModelUtils.unaliasSchema(allSchemas, properties.get(key)));
@@ -3365,7 +3391,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+    private void addVars(CodegenModel
+                                 m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         // convert set to list so that we can access the next entry in the loop
         List<Map.Entry<String, Schema>> propertyList = new ArrayList<Map.Entry<String, Schema>>(properties.entrySet());
         final int totalCount = propertyList.size();
@@ -3841,8 +3868,9 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.error("Codegen Property cannot be null.");
             return;
         }
-
-        if (Boolean.TRUE.equals(property.isUuid) && Boolean.TRUE.equals(property.isString)) {
+        if (Boolean.TRUE.equals(property.isEmail) && Boolean.TRUE.equals(property.isString)) {
+            parameter.isEmail = true;
+        } else if (Boolean.TRUE.equals(property.isUuid) && Boolean.TRUE.equals(property.isString)) {
             parameter.isUuid = true;
         } else if (Boolean.TRUE.equals(property.isByteArray)) {
             parameter.isByteArray = true;
@@ -3877,6 +3905,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isDateTime)) {
             parameter.isDateTime = true;
             parameter.isPrimitiveType = true;
+        } else if (Boolean.TRUE.equals(property.isFreeFormObject)) {
+            parameter.isFreeFormObject = true;
         } else {
             LOGGER.debug("Property type is not primitive: " + property.dataType);
         }
@@ -3950,7 +3980,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private void updateEnumVarsWithExtensions(List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
+    private void updateEnumVarsWithExtensions
+            (List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
         if (vendorExtensions != null && vendorExtensions.containsKey("x-enum-varnames")) {
             List<String> alias = (List<String>) vendorExtensions.get("x-enum-varnames");
             int size = Math.min(enumVars.size(), alias.size());
@@ -4261,7 +4292,8 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
-    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Map<String, Schema> schemas, Set<String> imports) {
+    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody
+                                                                          body, Map<String, Schema> schemas, Set<String> imports) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
@@ -4417,7 +4449,8 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    public CodegenParameter fromRequestBody(RequestBody body, Map<String, Schema> schemas, Set<String> imports, String bodyParameterName) {
+    public CodegenParameter fromRequestBody(RequestBody
+                                                    body, Map<String, Schema> schemas, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
         }
@@ -4724,7 +4757,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Set the boolean value indicating the state of the option for post-processing file using envirionment variables.
      *
-     * @param enablePostProcessFile     true to enable post-processing file
+     * @param enablePostProcessFile true to enable post-processing file
      */
     public void setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;

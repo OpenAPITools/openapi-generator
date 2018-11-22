@@ -101,11 +101,6 @@ instance Arbitrary Animal where
       <$> arbitrary -- animalClassName :: Text
       <*> arbitrary -- animalColor :: Maybe Text
     
-instance Arbitrary AnimalFarm where
-  arbitrary =
-    
-    pure AnimalFarm
-     
 instance Arbitrary ApiResponse where
   arbitrary =
     ApiResponse
