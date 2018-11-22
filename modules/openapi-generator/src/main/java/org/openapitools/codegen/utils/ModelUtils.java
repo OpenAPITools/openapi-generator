@@ -545,17 +545,19 @@ public class ModelUtils {
         if ("object".equals(schema.getType())) {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
-
                 if (schema.getAdditionalProperties() == null) {
                     return true;
                 } else {
                     // additionalProperties set to true
-                    if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
+                    if (schema.getAdditionalProperties() instanceof Boolean
+                            && (Boolean) schema.getAdditionalProperties()) {
                         return true;
                     }
 
                     // additionalProperties is set to {}
-                    if (schema.getAdditionalProperties() instanceof Schema && schema.getAdditionalProperties() != null) {
+                    if (schema.getAdditionalProperties() instanceof Schema && schema.getAdditionalProperties() != null
+                            && schema.getAdditionalProperties() instanceof ObjectSchema
+                            && ((Schema) schema.getAdditionalProperties()).getProperties().isEmpty()) {
                         return true;
                     }
                 }
