@@ -9,11 +9,11 @@ public struct {{classname}}: Codable {
 {{#allVars}}
 {{#isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatype}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
+    {{/description}}public var {{name}}: {{{datatype}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
     public var {{name}}Num: NSNumber? {
         get {
             return {{name}}.map({ return NSNumber(value: $0) })
@@ -23,7 +23,7 @@ public struct {{classname}}: Codable {
 {{/allVars}}
 
 {{#hasVars}}
-    public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
+    public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{^unwrapRequired}}?{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
         {{#allVars}}
         self.{{name}} = {{name}}
         {{/allVars}}
@@ -52,7 +52,7 @@ public struct {{classname}}: Codable {
         var container = encoder.container(keyedBy: String.self)
 
         {{#allVars}}
-        try container.encode{{#unwrapRequired}}IfPresent{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{name}}}, forKey: "{{{baseName}}}")
+        try container.encode{{^unwrapRequired}}IfPresent{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{name}}}, forKey: "{{{baseName}}}")
         {{/allVars}}
         try container.encodeMap(additionalProperties)
     }
@@ -63,7 +63,7 @@ public struct {{classname}}: Codable {
         let container = try decoder.container(keyedBy: String.self)
 
         {{#allVars}}
-        {{name}} = try container.decode{{#unwrapRequired}}IfPresent{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
+        {{name}} = try container.decode{{^unwrapRequired}}IfPresent{{/unwrapRequired}}{{#unwrapRequired}}{{^required}}IfPresent{{/required}}{{/unwrapRequired}}({{{datatypeWithEnum}}}.self, forKey: "{{{baseName}}}")
         {{/allVars}}
         var nonAdditionalPropertyKeys = Set<String>()
         {{#allVars}}
