@@ -54,10 +54,10 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected String title = "OpenAPI Server";
 
     protected boolean useBeanValidation = true;
-	protected boolean useMultipartFeature = false;
+    protected boolean useMultipartFeature = false;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
-	private static final String NEED_MULTIPART_IMPORT = "needMultipartImport";
+    private static final String NEED_MULTIPART_IMPORT = "needMultipartImport";
 
     public AbstractJavaJAXRSServerCodegen() {
         super();
@@ -155,8 +155,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         
         // if a operation requires multipart features, set useMultipartFeature to true to enable features in generated pom.xml
         if (Boolean.TRUE.equals(result.get(NEED_MULTIPART_IMPORT))) {
-        	setUseMultipartFeature(true);
-        	writePropertyBack(USE_MULTIPART_FEATURE, useMultipartFeature);
+            setUseMultipartFeature(true);
+            writePropertyBack(USE_MULTIPART_FEATURE, useMultipartFeature);
         }
         
         return result;
@@ -201,7 +201,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 
                 // put needMultipartImport on operation level to enable the multipart imports in the generated code
                 if (isMultipartPost || Boolean.TRUE.equals(operation.isMultipart)) {
-                	objs.put(NEED_MULTIPART_IMPORT, true);
+                    objs.put(NEED_MULTIPART_IMPORT, true);
                 }
 
                 List<CodegenResponse> responses = operation.responses;
@@ -297,8 +297,8 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         this.useBeanValidation = useBeanValidation;
     }
 
-	public void setUseMultipartFeature(boolean useMultipartFeature) {
-	    this.useMultipartFeature = useMultipartFeature;
-	}
+    public void setUseMultipartFeature(boolean useMultipartFeature) {
+        this.useMultipartFeature = useMultipartFeature;
+    }
 
 }
