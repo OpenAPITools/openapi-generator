@@ -23,9 +23,9 @@ import org.openapitools.codegen.CodegenType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GraphQLSchemaGenerator extends AbstractGraphQLCodegen implements CodegenConfig {
+public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLSchemaCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -40,7 +40,7 @@ public class GraphQLSchemaGenerator extends AbstractGraphQLCodegen implements Co
         return "Generates GraphQL schema files (beta)";
     }
 
-    public GraphQLSchemaGenerator() {
+    public GraphQLSchemaCodegen() {
         super();
         outputFolder = "generated-code/graphql";
         modelTemplateFiles.put("model.mustache", ".graphql");
