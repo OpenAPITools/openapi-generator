@@ -1,0 +1,1 @@
+{{#isNullable}}(Maybe {{/isNullable}}{{#isContainer}}({{#isListContainer}}List{{/isListContainer}}{{#isMapContainer}}Dict String{{/isMapContainer}} {{#items}}{{>recordFieldType}}{{/items}}){{/isContainer}}{{^isContainer}}{{#isEnum}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{/isContainer}}{{#isNullable}}){{/isNullable}}

@@ -66,7 +66,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
     private static final String DISCRIMINATOR_NAME = "discriminatorName";
-    private static final String UNION_TYPE = "elmUnionType";
+    private static final String CUSTOM_TYPE = "elmCustomType";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -123,6 +123,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Dict",
                         "Float",
                         "Int",
+                        "List",
                         "String")
         );
 
@@ -352,7 +353,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.isEnum) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.classname, DataTypeExposure.EXPOSED);
-                    cm.vendorExtensions.put(UNION_TYPE, cm.classname);
+                    cm.vendorExtensions.put(CUSTOM_TYPE, cm.classname);
                 } else if (cm.isAlias) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, DataTypeExposure.EXPOSED);
                 }
@@ -578,7 +579,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (property.isEnum) {
             addEncoderAndDecoder(property.vendorExtensions, property.baseName, DataTypeExposure.INTERNAL);
-            property.vendorExtensions.put(UNION_TYPE, property.datatypeWithEnum);
+            property.vendorExtensions.put(CUSTOM_TYPE, property.datatypeWithEnum);
         } else {
             final boolean isPrimitiveType = property.isMapContainer ? isPrimitiveDataType(property.dataType) : property.isPrimitiveType;
             addEncoderAndDecoder(property.vendorExtensions, property.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);

@@ -1,0 +1,26 @@
+type alias {{classname}} =
+    { {{#allVars}}{{^-first}}    , {{/-first}}{{name}} : {{^required}}{{^isNullable}}Maybe ({{/isNullable}}{{/required}}{{>recordFieldType}}{{^required}}{{^isNullable}}){{/isNullable}}{{/required}}
+{{/allVars}}    }
+{{#vars}}
+{{#isEnum}}
+
+
+{{>customType}}
+{{/isEnum}}
+{{/vars}}
+
+
+{{>recordDecoder}}
+
+
+{{>recordEncoder}}
+{{#vars}}
+{{#isEnum}}
+
+
+{{>customTypeDecoder}}
+
+
+{{>customTypeEncoder}}
+{{/isEnum}}
+{{/vars}}

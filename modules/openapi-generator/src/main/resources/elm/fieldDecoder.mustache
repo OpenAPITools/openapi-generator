@@ -1,1 +1,0 @@
-{{#required}}required{{/required}}{{^required}}optional{{/required}} "{{baseName}}" {{^required}}(Decode.nullable {{/required}}{{#isMapContainer}}(Decode.dict {{/isMapContainer}}{{#isListContainer}}(Decode.list {{/isListContainer}}{{vendorExtensions.elmDecoder}}{{#isContainer}}){{/isContainer}}{{^required}}){{/required}}{{^required}} {{{defaultValue}}}{{/required}}

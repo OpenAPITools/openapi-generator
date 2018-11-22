@@ -2,6 +2,6 @@ encoder : {{#vendorExtensions.discriminatorName}}String -> {{/vendorExtensions.d
 encoder {{#vendorExtensions.discriminatorName}}tag {{/vendorExtensions.discriminatorName}}model =
     Encode.object
 {{#allVars}}
-        {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>fieldEncoder}}
+        {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>recordFieldEncoder}}
 {{/allVars}}{{#vendorExtensions.discriminatorName}}        , ( "{{{vendorExtensions.discriminatorName}}}", Encode.string tag ){{/vendorExtensions.discriminatorName}}
         ]
