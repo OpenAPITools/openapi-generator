@@ -36,7 +36,7 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @RequestMapping(value = "/store/order/{order_id}",
+    @RequestMapping(value = StoreApiRoute.DELETE_ORDER_URL,
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
         return getDelegate().deleteOrder(orderId);
@@ -48,7 +48,7 @@ public interface StoreApi {
     }, tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
-    @RequestMapping(value = "/store/inventory",
+    @RequestMapping(value = StoreApiRoute.GET_INVENTORY_URL,
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<Map<String, Integer>> getInventory() {
@@ -61,7 +61,7 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @RequestMapping(value = "/store/order/{order_id}",
+    @RequestMapping(value = StoreApiRoute.GET_ORDER_BY_ID_URL,
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
@@ -73,7 +73,7 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    @RequestMapping(value = "/store/order",
+    @RequestMapping(value = StoreApiRoute.PLACE_ORDER_URL,
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.POST)
     default ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {

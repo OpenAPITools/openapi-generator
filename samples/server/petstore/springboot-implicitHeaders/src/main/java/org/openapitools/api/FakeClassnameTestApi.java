@@ -42,7 +42,7 @@ public interface FakeClassnameTestApi {
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
     })
-    @RequestMapping(value = "/fake_classname_test",
+    @RequestMapping(value = FakeClassnameTestApiRoute.TEST_CLASSNAME_URL,
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)

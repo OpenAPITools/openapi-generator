@@ -103,7 +103,7 @@ public interface {{classname}} {
     {{/headerParams}}
     })
     {{/implicitHeaders}}
-    @RequestMapping(value = "{{{path}}}",{{#singleContentTypes}}{{#hasProduces}}
+    @RequestMapping(value = {{classname}}Route.{{operationIdSnakeCase.toUpperCase}}_URL,{{#singleContentTypes}}{{#hasProduces}}
         produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
         consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
         produces = { {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }, {{/hasProduces}}{{#hasConsumes}}

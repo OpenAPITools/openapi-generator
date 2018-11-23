@@ -40,7 +40,7 @@ public interface AnotherFakeApi {
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     @ApiImplicitParams({
     })
-    @RequestMapping(value = "/another-fake/dummy",
+    @RequestMapping(value = AnotherFakeApiRoute.CALL123TEST_SPECIAL_TAGS_URL,
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)

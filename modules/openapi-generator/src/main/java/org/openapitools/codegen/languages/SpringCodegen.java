@@ -391,6 +391,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if(!this.apiFirst && !this.reactive) {
             additionalProperties.put("useSpringfox", true);
         }
+        apiTemplateFiles.put("apiRoute.mustache", "Route.java");
 
 
         // Some well-known Spring or Spring-Cloud response wrappers
@@ -428,6 +429,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        String operationTag;
         if((library.equals(SPRING_BOOT) || library.equals(SPRING_MVC_LIBRARY)) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
@@ -443,12 +445,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else {
                 co.subresourceOperation = !co.path.isEmpty();
             }
-            List<CodegenOperation> opList = operations.computeIfAbsent(basePath, k -> new ArrayList<>());
-            opList.add(co);
-            co.baseName = basePath;
-        } else {
-            super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+            operationTag = basePath;
         }
+        else {
+            operationTag = tag;
+        }
+
+        super.addOperationToGroup(operationTag, resourcePath, operation, co, operations);
+        co.baseName = operationTag;
+
     }
 
     @Override
