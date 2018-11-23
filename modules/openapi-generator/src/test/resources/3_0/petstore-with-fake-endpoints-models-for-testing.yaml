@@ -646,6 +646,29 @@ paths:
           description: Invalid request
         '404':
           description: Not found
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  type: array
+                  items:
+                    type: string
+                    default: $
+                    enum:
+                      - '>'
+                      - $
+                enum_form_string:
+                  description: Form parameter enum test (string)
+                  type: string
+                  enum:
+                    - _abc
+                    - '-efg'
+                    - (xyz)
+                  default: '-efg'
     post:
       tags:
         - fake
@@ -874,6 +897,21 @@ paths:
       responses:
         '200':
           description: successful operation
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                param:
+                  description: field1
+                  type: string
+                param2:
+                  description: field2
+                  type: string
+              required:
+                - param
+                - param2
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1033,23 +1071,23 @@ servers:
     variables:
       server:
         enum:
-          - petstore
-          - qa-petstore
-          - dev-petstore
-        default: petstore
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
       port:
         enum:
-          - "80"
-          - "8080"
-        default: "80"
-  - url: 'https://localhost:8080/{version}'
+          - 80
+          - 8080
+        default: 80
+  - url: https://localhost:8080/{version}
     description: The local server
     variables:
       version:
         enum:
-          - v1
-          - v2
-        default: v2
+          - 'v1'
+          - 'v2'
+        default: 'v2'
 components:
   requestBodies:
     UserArray:
@@ -1360,13 +1398,11 @@ components:
           maxLength: 64
           minLength: 10
         pattern_with_digits:
-          description: A string that is a 10 digit number. Can have leading zeros.
+          description: A string that is a 10 digit number. Can have leading zeros. 
           type: string
           pattern: '^\d{10}$'
         pattern_with_digits_and_delimiter:
-          description: >-
-            A string starting with 'image_' (case insensitive) and one to three
-            digits following i.e. Image_01.
+          description: A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
           type: string
           pattern: '/^image_\d{1,3}$/i'
     EnumClass:

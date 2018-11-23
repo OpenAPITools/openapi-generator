@@ -57,8 +57,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'additional_metadata' => 'string',
-        'required_file' => '\SplFileObject'
+        'param' => 'string',
+        'param2' => 'string'
     ];
 
     /**
@@ -67,8 +67,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'additional_metadata' => null,
-        'required_file' => 'binary'
+        'param' => null,
+        'param2' => null
     ];
 
     /**
@@ -98,8 +98,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'additional_metadata' => 'additionalMetadata',
-        'required_file' => 'requiredFile'
+        'param' => 'param',
+        'param2' => 'param2'
     ];
 
     /**
@@ -108,8 +108,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'additional_metadata' => 'setAdditionalMetadata',
-        'required_file' => 'setRequiredFile'
+        'param' => 'setParam',
+        'param2' => 'setParam2'
     ];
 
     /**
@@ -118,8 +118,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'additional_metadata' => 'getAdditionalMetadata',
-        'required_file' => 'getRequiredFile'
+        'param' => 'getParam',
+        'param2' => 'getParam2'
     ];
 
     /**
@@ -182,8 +182,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['additional_metadata'] = isset($data['additional_metadata']) ? $data['additional_metadata'] : null;
-        $this->container['required_file'] = isset($data['required_file']) ? $data['required_file'] : null;
+        $this->container['param'] = isset($data['param']) ? $data['param'] : null;
+        $this->container['param2'] = isset($data['param2']) ? $data['param2'] : null;
     }
 
     /**
@@ -195,8 +195,11 @@ class InlineObject4 implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['required_file'] === null) {
-            $invalidProperties[] = "'required_file' can't be null";
+        if ($this->container['param'] === null) {
+            $invalidProperties[] = "'param' can't be null";
+        }
+        if ($this->container['param2'] === null) {
+            $invalidProperties[] = "'param2' can't be null";
         }
         return $invalidProperties;
     }
@@ -214,49 +217,49 @@ class InlineObject4 implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets additional_metadata
+     * Gets param
      *
-     * @return string|null
+     * @return string
      */
-    public function getAdditionalMetadata()
+    public function getParam()
     {
-        return $this->container['additional_metadata'];
+        return $this->container['param'];
     }
 
     /**
-     * Sets additional_metadata
+     * Sets param
      *
-     * @param string|null $additional_metadata Additional data to pass to server
+     * @param string $param field1
      *
      * @return $this
      */
-    public function setAdditionalMetadata($additional_metadata)
+    public function setParam($param)
     {
-        $this->container['additional_metadata'] = $additional_metadata;
+        $this->container['param'] = $param;
 
         return $this;
     }
 
     /**
-     * Gets required_file
+     * Gets param2
      *
-     * @return \SplFileObject
+     * @return string
      */
-    public function getRequiredFile()
+    public function getParam2()
     {
-        return $this->container['required_file'];
+        return $this->container['param2'];
     }
 
     /**
-     * Sets required_file
+     * Sets param2
      *
-     * @param \SplFileObject $required_file file to upload
+     * @param string $param2 field2
      *
      * @return $this
      */
-    public function setRequiredFile($required_file)
+    public function setParam2($param2)
     {
-        $this->container['required_file'] = $required_file;
+        $this->container['param2'] = $param2;
 
         return $this;
     }

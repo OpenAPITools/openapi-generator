@@ -440,7 +440,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testEnumParameters**
-> testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double)
+> testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
 
 To test enum parameters
 
@@ -462,9 +462,11 @@ $enum_query_string_array = array('enum_query_string_array_example'); // string[]
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // double | Query parameter enum test (double)
+$enum_form_string_array = '$'; // string[] | Form parameter enum test (string array)
+$enum_form_string = '-efg'; // string | Form parameter enum test (string)
 
 try {
-    $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double);
+    $apiInstance->testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testEnumParameters: ', $e->getMessage(), PHP_EOL;
 }
@@ -481,6 +483,8 @@ Name | Type | Description  | Notes
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
+ **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
+ **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
 
 ### Return type
 
@@ -492,7 +496,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
@@ -604,7 +608,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testJsonFormData**
-> testJsonFormData()
+> testJsonFormData($param, $param2)
 
 test json serialization of form data
 
@@ -618,9 +622,11 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
+$param = 'param_example'; // string | field1
+$param2 = 'param2_example'; // string | field2
 
 try {
-    $apiInstance->testJsonFormData();
+    $apiInstance->testJsonFormData($param, $param2);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testJsonFormData: ', $e->getMessage(), PHP_EOL;
 }
@@ -628,7 +634,11 @@ try {
 ```
 
 ### Parameters
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | **string**| field1 |
+ **param2** | **string**| field2 |
 
 ### Return type
 
@@ -640,7 +650,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)

@@ -146,6 +146,8 @@ Class | Method | HTTP request | Description
  - [InlineObject2](docs/Model/InlineObject2.md)
  - [InlineObject3](docs/Model/InlineObject3.md)
  - [InlineObject4](docs/Model/InlineObject4.md)
+ - [InlineObject5](docs/Model/InlineObject5.md)
+ - [InlineObject6](docs/Model/InlineObject6.md)
  - [InlineResponseDefault](docs/Model/InlineResponseDefault.md)
  - [MapTest](docs/Model/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md)

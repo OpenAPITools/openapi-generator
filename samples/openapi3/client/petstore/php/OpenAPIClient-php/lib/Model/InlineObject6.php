@@ -1,6 +1,6 @@
 <?php
 /**
- * InlineObject2
+ * InlineObject6
  *
  * PHP version 5
  *
@@ -33,14 +33,14 @@ use \ArrayAccess;
 use \OpenAPI\Client\ObjectSerializer;
 
 /**
- * InlineObject2 Class Doc Comment
+ * InlineObject6 Class Doc Comment
  *
  * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class InlineObject2 implements ModelInterface, ArrayAccess
+class InlineObject6 implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -49,7 +49,7 @@ class InlineObject2 implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'inline_object_2';
+    protected static $openAPIModelName = 'inline_object_6';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -57,8 +57,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'enum_form_string_array' => 'string[]',
-        'enum_form_string' => 'string'
+        'additional_metadata' => 'string',
+        'required_file' => '\SplFileObject'
     ];
 
     /**
@@ -67,8 +67,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'enum_form_string_array' => null,
-        'enum_form_string' => null
+        'additional_metadata' => null,
+        'required_file' => 'binary'
     ];
 
     /**
@@ -98,8 +98,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'enum_form_string_array' => 'enum_form_string_array',
-        'enum_form_string' => 'enum_form_string'
+        'additional_metadata' => 'additionalMetadata',
+        'required_file' => 'requiredFile'
     ];
 
     /**
@@ -108,8 +108,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'enum_form_string_array' => 'setEnumFormStringArray',
-        'enum_form_string' => 'setEnumFormString'
+        'additional_metadata' => 'setAdditionalMetadata',
+        'required_file' => 'setRequiredFile'
     ];
 
     /**
@@ -118,8 +118,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'enum_form_string_array' => 'getEnumFormStringArray',
-        'enum_form_string' => 'getEnumFormString'
+        'additional_metadata' => 'getAdditionalMetadata',
+        'required_file' => 'getRequiredFile'
     ];
 
     /**
@@ -163,40 +163,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess
         return self::$openAPIModelName;
     }
 
-    const ENUM_FORM_STRING_ARRAY_GREATER_THAN = '>';
-    const ENUM_FORM_STRING_ARRAY_DOLLAR = '$';
-    const ENUM_FORM_STRING_ABC = '_abc';
-    const ENUM_FORM_STRING_EFG = '-efg';
-    const ENUM_FORM_STRING_XYZ = '(xyz)';
     
 
-    
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getEnumFormStringArrayAllowableValues()
-    {
-        return [
-            self::ENUM_FORM_STRING_ARRAY_GREATER_THAN,
-            self::ENUM_FORM_STRING_ARRAY_DOLLAR,
-        ];
-    }
-    
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getEnumFormStringAllowableValues()
-    {
-        return [
-            self::ENUM_FORM_STRING_ABC,
-            self::ENUM_FORM_STRING_EFG,
-            self::ENUM_FORM_STRING_XYZ,
-        ];
-    }
     
 
     /**
@@ -214,8 +182,8 @@ class InlineObject2 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['enum_form_string_array'] = isset($data['enum_form_string_array']) ? $data['enum_form_string_array'] : null;
-        $this->container['enum_form_string'] = isset($data['enum_form_string']) ? $data['enum_form_string'] : '-efg';
+        $this->container['additional_metadata'] = isset($data['additional_metadata']) ? $data['additional_metadata'] : null;
+        $this->container['required_file'] = isset($data['required_file']) ? $data['required_file'] : null;
     }
 
     /**
@@ -227,14 +195,9 @@ class InlineObject2 implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        $allowedValues = $this->getEnumFormStringAllowableValues();
-        if (!is_null($this->container['enum_form_string']) && !in_array($this->container['enum_form_string'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value for 'enum_form_string', must be one of '%s'",
-                implode("', '", $allowedValues)
-            );
+        if ($this->container['required_file'] === null) {
+            $invalidProperties[] = "'required_file' can't be null";
         }
-
         return $invalidProperties;
     }
 
@@ -251,67 +214,49 @@ class InlineObject2 implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets enum_form_string_array
+     * Gets additional_metadata
      *
-     * @return string[]|null
+     * @return string|null
      */
-    public function getEnumFormStringArray()
+    public function getAdditionalMetadata()
     {
-        return $this->container['enum_form_string_array'];
+        return $this->container['additional_metadata'];
     }
 
     /**
-     * Sets enum_form_string_array
+     * Sets additional_metadata
      *
-     * @param string[]|null $enum_form_string_array Form parameter enum test (string array)
+     * @param string|null $additional_metadata Additional data to pass to server
      *
      * @return $this
      */
-    public function setEnumFormStringArray($enum_form_string_array)
+    public function setAdditionalMetadata($additional_metadata)
     {
-        $allowedValues = $this->getEnumFormStringArrayAllowableValues();
-        if (!is_null($enum_form_string_array) && array_diff($enum_form_string_array, $allowedValues)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value for 'enum_form_string_array', must be one of '%s'",
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['enum_form_string_array'] = $enum_form_string_array;
+        $this->container['additional_metadata'] = $additional_metadata;
 
         return $this;
     }
 
     /**
-     * Gets enum_form_string
+     * Gets required_file
      *
-     * @return string|null
+     * @return \SplFileObject
      */
-    public function getEnumFormString()
+    public function getRequiredFile()
     {
-        return $this->container['enum_form_string'];
+        return $this->container['required_file'];
     }
 
     /**
-     * Sets enum_form_string
+     * Sets required_file
      *
-     * @param string|null $enum_form_string Form parameter enum test (string)
+     * @param \SplFileObject $required_file file to upload
      *
      * @return $this
      */
-    public function setEnumFormString($enum_form_string)
+    public function setRequiredFile($required_file)
     {
-        $allowedValues = $this->getEnumFormStringAllowableValues();
-        if (!is_null($enum_form_string) && !in_array($enum_form_string, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value for 'enum_form_string', must be one of '%s'",
-                    implode("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['enum_form_string'] = $enum_form_string;
+        $this->container['required_file'] = $required_file;
 
         return $this;
     }

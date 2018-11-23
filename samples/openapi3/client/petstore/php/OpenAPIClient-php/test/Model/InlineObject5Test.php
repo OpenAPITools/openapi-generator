@@ -1,6 +1,6 @@
 <?php
 /**
- * InlineObject2Test
+ * InlineObject5Test
  *
  * PHP version 5
  *
@@ -30,15 +30,15 @@
 namespace OpenAPI\Client;
 
 /**
- * InlineObject2Test Class Doc Comment
+ * InlineObject5Test Class Doc Comment
  *
  * @category    Class
- * @description InlineObject2
+ * @description InlineObject5
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class InlineObject2Test extends \PHPUnit_Framework_TestCase
+class InlineObject5Test extends \PHPUnit_Framework_TestCase
 {
 
     /**
@@ -70,23 +70,23 @@ class InlineObject2Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test "InlineObject2"
+     * Test "InlineObject5"
      */
-    public function testInlineObject2()
+    public function testInlineObject5()
     {
     }
 
     /**
-     * Test attribute "enum_form_string_array"
+     * Test attribute "additional_metadata"
      */
-    public function testPropertyEnumFormStringArray()
+    public function testPropertyAdditionalMetadata()
     {
     }
 
     /**
-     * Test attribute "enum_form_string"
+     * Test attribute "required_file"
      */
-    public function testPropertyEnumFormString()
+    public function testPropertyRequiredFile()
     {
     }
 }

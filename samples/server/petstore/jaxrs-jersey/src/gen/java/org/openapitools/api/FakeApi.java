@@ -202,7 +202,7 @@ public class FakeApi  {
     }
     @GET
     
-    
+    @Consumes({ "application/x-www-form-urlencoded" })
     
     @io.swagger.annotations.ApiOperation(value = "To test enum parameters", notes = "To test enum parameters", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
@@ -215,9 +215,11 @@ public class FakeApi  {
 ,@ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg") @QueryParam("enum_query_string") String enumQueryString
 ,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer") Integer enumQueryInteger
 ,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double") Double enumQueryDouble
+,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$")  @DefaultValue("$") @FormParam("enum_form_string_array")  List<String> enumFormStringArray
+,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,securityContext);
+        return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,enumFormStringArray,enumFormString,securityContext);
     }
     @DELETE
     
@@ -250,14 +252,16 @@ public class FakeApi  {
     }
     @GET
     @Path("/jsonFormData")
-    
+    @Consumes({ "application/x-www-form-urlencoded" })
     
     @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response testJsonFormData(@Context SecurityContext securityContext)
+    public Response testJsonFormData(@ApiParam(value = "field1", required=true)  @FormParam("param")  String param
+,@ApiParam(value = "field2", required=true)  @FormParam("param2")  String param2
+,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testJsonFormData(securityContext);
+        return delegate.testJsonFormData(param,param2,securityContext);
     }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")

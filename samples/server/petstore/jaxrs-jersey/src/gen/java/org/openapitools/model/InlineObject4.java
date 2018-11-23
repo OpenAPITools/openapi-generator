@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.File;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -27,51 +26,52 @@ import javax.validation.Valid;
  */
 
 public class InlineObject4   {
-  @JsonProperty("additionalMetadata")
-  private String additionalMetadata;
+  @JsonProperty("param")
+  private String param;
 
-  @JsonProperty("requiredFile")
-  private File requiredFile;
+  @JsonProperty("param2")
+  private String param2;
 
-  public InlineObject4 additionalMetadata(String additionalMetadata) {
-    this.additionalMetadata = additionalMetadata;
+  public InlineObject4 param(String param) {
+    this.param = param;
     return this;
   }
 
   /**
-   * Additional data to pass to server
-   * @return additionalMetadata
+   * field1
+   * @return param
    **/
-  @JsonProperty("additionalMetadata")
-  @ApiModelProperty(value = "Additional data to pass to server")
-  
-  public String getAdditionalMetadata() {
-    return additionalMetadata;
-  }
-
-  public void setAdditionalMetadata(String additionalMetadata) {
-    this.additionalMetadata = additionalMetadata;
-  }
-
-  public InlineObject4 requiredFile(File requiredFile) {
-    this.requiredFile = requiredFile;
-    return this;
-  }
-
-  /**
-   * file to upload
-   * @return requiredFile
-   **/
-  @JsonProperty("requiredFile")
-  @ApiModelProperty(required = true, value = "file to upload")
+  @JsonProperty("param")
+  @ApiModelProperty(required = true, value = "field1")
     @NotNull
 
-  public File getRequiredFile() {
-    return requiredFile;
+  public String getParam() {
+    return param;
   }
 
-  public void setRequiredFile(File requiredFile) {
-    this.requiredFile = requiredFile;
+  public void setParam(String param) {
+    this.param = param;
+  }
+
+  public InlineObject4 param2(String param2) {
+    this.param2 = param2;
+    return this;
+  }
+
+  /**
+   * field2
+   * @return param2
+   **/
+  @JsonProperty("param2")
+  @ApiModelProperty(required = true, value = "field2")
+    @NotNull
+
+  public String getParam2() {
+    return param2;
+  }
+
+  public void setParam2(String param2) {
+    this.param2 = param2;
   }
 
 
@@ -84,13 +84,13 @@ public class InlineObject4   {
       return false;
     }
     InlineObject4 inlineObject4 = (InlineObject4) o;
-    return Objects.equals(this.additionalMetadata, inlineObject4.additionalMetadata) &&
-        Objects.equals(this.requiredFile, inlineObject4.requiredFile);
+    return Objects.equals(this.param, inlineObject4.param) &&
+        Objects.equals(this.param2, inlineObject4.param2);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(additionalMetadata, requiredFile);
+    return Objects.hash(param, param2);
   }
 
 
@@ -99,8 +99,8 @@ public class InlineObject4   {
     StringBuilder sb = new StringBuilder();
     sb.append("class InlineObject4 {\n");
     
-    sb.append("    additionalMetadata: ").append(toIndentedString(additionalMetadata)).append("\n");
-    sb.append("    requiredFile: ").append(toIndentedString(requiredFile)).append("\n");
+    sb.append("    param: ").append(toIndentedString(param)).append("\n");
+    sb.append("    param2: ").append(toIndentedString(param2)).append("\n");
     sb.append("}");
     return sb.toString();
   }
