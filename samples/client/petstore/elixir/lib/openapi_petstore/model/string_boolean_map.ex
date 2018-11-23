@@ -2,26 +2,22 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Model.OuterComposite do
+defmodule OpenapiPetstore.Model.StringBooleanMap do
   @moduledoc """
   
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"my_number",
-    :"my_string",
-    :"my_boolean"
+    
   ]
 
   @type t :: %__MODULE__{
-    :"my_number" => float(),
-    :"my_string" => String.t,
-    :"my_boolean" => boolean()
+    
   }
 end
 
-defimpl Poison.Decoder, for: OpenapiPetstore.Model.OuterComposite do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.StringBooleanMap do
   def decode(value, _options) do
     value
   end
