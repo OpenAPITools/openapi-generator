@@ -1,4 +1,4 @@
-module DateOnly exposing (DateOnly, decoder, encoder, toString)
+module DateOnly exposing (DateOnly, decoder, encode, toString)
 
 import Iso8601
 import Json.Decode as Decode exposing (Decoder)
@@ -17,8 +17,8 @@ decoder =
         |> Decode.andThen decodeIsoString
 
 
-encoder : DateOnly -> Encode.Value
-encoder =
+encode : DateOnly -> Encode.Value
+encode =
     Encode.string << toString
 
 

@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Pet exposing (Pet, Status(..), decoder, encoder)
+module Data.Pet exposing (Pet, Status(..), decoder, encode)
 
 import Data.Category as Category exposing (Category)
 import Data.Tag as Tag exposing (Tag)
@@ -23,12 +23,12 @@ import Json.Encode as Encode
 {-| A pet for sale in the pet store
 -}
 type alias Pet =
-    { id : Maybe (Int)
-    , category : Maybe (Category)
+    { id : Maybe Int
+    , category : Maybe Category
     , name : String
-    , photoUrls : (List String)
-    , tags : Maybe ((List Tag))
-    , status : Maybe (Status)
+    , photoUrls : List String
+    , tags : Maybe (List Tag)
+    , status : Maybe Status
     }
 
 
@@ -36,7 +36,6 @@ type Status
     = Available
     | Pending
     | Sold
-
 
 
 decoder : Decoder Pet
@@ -50,19 +49,16 @@ decoder =
         |> optional "status" (Decode.nullable statusDecoder) Nothing
 
 
-
-encoder : Pet -> Encode.Value
-encoder model =
+encode : Pet -> Encode.Value
+encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
-        , ( "category", Maybe.withDefault Encode.null (Maybe.map Category.encoder model.category) )
+        , ( "category", Maybe.withDefault Encode.null (Maybe.map Category.encode model.category) )
         , ( "name", Encode.string model.name )
-        , ( "photoUrls", (Encode.list Encode.string) model.photoUrls )
-        , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list Tag.encoder) model.tags) )
-        , ( "status", Maybe.withDefault Encode.null (Maybe.map statusEncoder model.status) )
-
+        , ( "photoUrls", Encode.list Encode.string model.photoUrls )
+        , ( "tags", Maybe.withDefault Encode.null (Maybe.map (Encode.list Tag.encode) model.tags) )
+        , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
         ]
-
 
 
 statusDecoder : Decoder Status
@@ -85,9 +81,8 @@ statusDecoder =
             )
 
 
-
-statusEncoder : Status -> Encode.Value
-statusEncoder model =
+encodeStatus : Status -> Encode.Value
+encodeStatus model =
     case model of
         Available ->
             Encode.string "available"
@@ -97,6 +92,3 @@ statusEncoder model =
 
         Sold ->
             Encode.string "sold"
-
-
-
