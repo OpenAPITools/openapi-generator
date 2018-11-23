@@ -771,22 +771,15 @@ public class ModelUtils {
                 return schema;
             } else if (isFreeFormObject(ref)) {
                 return schema;
-            } else if (isArraySchema(ref) || isComposedSchema(ref)) { // array def should be created as models
+            } else if (isArraySchema(ref)) {
+                return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+            } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has properties
                     return schema; // treat it as model
                 else {
                     // treat it as a typical map
-                    /* TODO unalias the map item if it's an alias
-                    if (ref.getAdditionalProperties() != null) {
-
-                        Schema innerSchema = (Schema) ref.getAdditionalProperties();
-                        if (StringUtils.isNotEmpty(innerSchema.get$ref())) { // map item is a ref to something else
-                            //Schema unaliasInnerSchema = unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(innerSchema.get$ref())));
-                            //ref.setAdditionalProperties(unaliasInnerSchema);
-                        }
-                    }*/
                     return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (isObjectSchema(ref)) { // model
