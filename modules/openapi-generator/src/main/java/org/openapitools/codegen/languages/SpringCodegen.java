@@ -277,8 +277,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
         }
 
-        typeMapping.put("file", "Resource");
-        importMapping.put("Resource", "org.springframework.core.io.Resource");
+        typeMapping.put("file", "InputStreamResource");
+        importMapping.put("InputStreamResource", "org.springframework.core.io.InputStreamResource");
 
         if (useOptional) {
             writePropertyBack(USE_OPTIONAL, useOptional);
