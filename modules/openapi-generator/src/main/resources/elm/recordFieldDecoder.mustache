@@ -1,0 +1,1 @@
+{{#required}}required{{/required}}{{^required}}optional{{/required}} "{{baseName}}" {{^required}}{{^isNullable}}(Decode.nullable {{/isNullable}}{{/required}}{{>recordFieldValueDecoder}}{{^required}}{{^isNullable}}) {{{defaultValue}}}{{/isNullable}}{{/required}}
