@@ -16,6 +16,7 @@ import Data.User as User exposing (User)
 import Dict
 import Http
 import Json.Decode as Decode
+import Url.Builder as Url
 
 
 basePath : String
@@ -25,109 +26,166 @@ basePath =
 
 {-| This can only be done by the logged in user.
 -}
-createUser : User -> Http.Request ()
-createUser model =
-    { method = "POST"
-    , url = basePath ++ "/user"
-    , headers = []
-    , body = Http.jsonBody <| User.encoder model
-    , expect = Http.expectStringResponse (\_ -> Ok ())
-    , timeout = Just 30000
-    , withCredentials = False
+createUser :
+    { onSend : Result Http.Error () -> msg
+    , body : User
     }
-        |> Http.request
+    -> Cmd msg
+createUser params =
+    Http.request
+        { method = "POST"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user" ]
+                (List.filterMap identity [])
+        , body = Http.jsonBody <| User.encoder params.body
+        , expect = Http.expectWhatever params.onSend
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
-createUsersWithArrayInput : User -> Http.Request ()
-createUsersWithArrayInput model =
-    { method = "POST"
-    , url = basePath ++ "/user/createWithArray"
-    , headers = []
-    , body = Http.jsonBody <| User.encoder model
-    , expect = Http.expectStringResponse (\_ -> Ok ())
-    , timeout = Just 30000
-    , withCredentials = False
+createUsersWithArrayInput :
+    { onSend : Result Http.Error () -> msg
+    , body : User
     }
-        |> Http.request
+    -> Cmd msg
+createUsersWithArrayInput params =
+    Http.request
+        { method = "POST"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user", "createWithArray" ]
+                (List.filterMap identity [])
+        , body = Http.jsonBody <| User.encoder params.body
+        , expect = Http.expectWhatever params.onSend
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
-createUsersWithListInput : User -> Http.Request ()
-createUsersWithListInput model =
-    { method = "POST"
-    , url = basePath ++ "/user/createWithList"
-    , headers = []
-    , body = Http.jsonBody <| User.encoder model
-    , expect = Http.expectStringResponse (\_ -> Ok ())
-    , timeout = Just 30000
-    , withCredentials = False
+createUsersWithListInput :
+    { onSend : Result Http.Error () -> msg
+    , body : User
     }
-        |> Http.request
+    -> Cmd msg
+createUsersWithListInput params =
+    Http.request
+        { method = "POST"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user", "createWithList" ]
+                (List.filterMap identity [])
+        , body = Http.jsonBody <| User.encoder params.body
+        , expect = Http.expectWhatever params.onSend
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
 {-| This can only be done by the logged in user.
 -}
-deleteUser : String -> Http.Request ()
-deleteUser username =
-    { method = "DELETE"
-    , url = basePath ++ "/user/" ++ username
-    , headers = []
-    , body = Http.emptyBody
-    , expect = Http.expectStringResponse (\_ -> Ok ())
-    , timeout = Just 30000
-    , withCredentials = False
+deleteUser :
+    { onSend : Result Http.Error () -> msg
+    , username : String
     }
-        |> Http.request
+    -> Cmd msg
+deleteUser params =
+    Http.request
+        { method = "DELETE"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user", params.username ]
+                (List.filterMap identity [])
+        , body = Http.emptyBody
+        , expect = Http.expectWhatever params.onSend
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
-getUserByName : String -> Http.Request User
-getUserByName username =
-    { method = "GET"
-    , url = basePath ++ "/user/" ++ username
-    , headers = []
-    , body = Http.emptyBody
-    , expect = Http.expectJson User.decoder
-    , timeout = Just 30000
-    , withCredentials = False
+getUserByName :
+    { onSend : Result Http.Error User -> msg
+    , username : String
     }
-        |> Http.request
+    -> Cmd msg
+getUserByName params =
+    Http.request
+        { method = "GET"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user", params.username ]
+                (List.filterMap identity [])
+        , body = Http.emptyBody
+        , expect = Http.expectJson params.onSend User.decoder
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
-loginUser : Http.Request String
-loginUser =
-    { method = "GET"
-    , url = basePath ++ "/user/login"
-    , headers = []
-    , body = Http.emptyBody
-    , expect = Http.expectJson Decode.string
-    , timeout = Just 30000
-    , withCredentials = False
+loginUser :
+    { onSend : Result Http.Error String -> msg
+    , username : String
+    , password : String
     }
-        |> Http.request
+    -> Cmd msg
+loginUser params =
+    Http.request
+        { method = "GET"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user", "login" ]
+                (List.filterMap identity [ Just (Url.string "username" <| params.username), Just (Url.string "password" <| params.password) ])
+        , body = Http.emptyBody
+        , expect = Http.expectJson params.onSend Decode.string
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
-logoutUser : Http.Request ()
-logoutUser =
-    { method = "GET"
-    , url = basePath ++ "/user/logout"
-    , headers = []
-    , body = Http.emptyBody
-    , expect = Http.expectStringResponse (\_ -> Ok ())
-    , timeout = Just 30000
-    , withCredentials = False
+logoutUser :
+    { onSend : Result Http.Error () -> msg
     }
-        |> Http.request
+    -> Cmd msg
+logoutUser params =
+    Http.request
+        { method = "GET"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user", "logout" ]
+                (List.filterMap identity [])
+        , body = Http.emptyBody
+        , expect = Http.expectWhatever params.onSend
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
 {-| This can only be done by the logged in user.
 -}
-updateUser : String -> User -> Http.Request ()
-updateUser username model =
-    { method = "PUT"
-    , url = basePath ++ "/user/" ++ username
-    , headers = []
-    , body = Http.jsonBody <| User.encoder model
-    , expect = Http.expectStringResponse (\_ -> Ok ())
-    , timeout = Just 30000
-    , withCredentials = False
+updateUser :
+    { onSend : Result Http.Error () -> msg
+    , body : User
+    , username : String
     }
-        |> Http.request
+    -> Cmd msg
+updateUser params =
+    Http.request
+        { method = "PUT"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "user", params.username ]
+                (List.filterMap identity [])
+        , body = Http.jsonBody <| User.encoder params.body
+        , expect = Http.expectWhatever params.onSend
+        , timeout = Just 30000
+        , tracker = Nothing
+        }

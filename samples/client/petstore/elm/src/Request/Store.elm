@@ -16,6 +16,7 @@ import Data.Order_ as Order_ exposing (Order_)
 import Dict
 import Http
 import Json.Decode as Decode
+import Url.Builder as Url
 
 
 basePath : String
@@ -25,57 +26,84 @@ basePath =
 
 {-| For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 -}
-deleteOrder : String -> Http.Request ()
-deleteOrder orderId =
-    { method = "DELETE"
-    , url = basePath ++ "/store/order/" ++ orderId
-    , headers = []
-    , body = Http.emptyBody
-    , expect = Http.expectStringResponse (\_ -> Ok ())
-    , timeout = Just 30000
-    , withCredentials = False
+deleteOrder :
+    { onSend : Result Http.Error () -> msg
+    , orderId : String
     }
-        |> Http.request
+    -> Cmd msg
+deleteOrder params =
+    Http.request
+        { method = "DELETE"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "store", "order", params.orderId ]
+                (List.filterMap identity [])
+        , body = Http.emptyBody
+        , expect = Http.expectWhatever params.onSend
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
 {-| Returns a map of status codes to quantities
 -}
-getInventory : Http.Request (Dict.Dict String Int)
-getInventory =
-    { method = "GET"
-    , url = basePath ++ "/store/inventory"
-    , headers = []
-    , body = Http.emptyBody
-    , expect = Http.expectJson (Decode.dict Decode.int)
-    , timeout = Just 30000
-    , withCredentials = False
+getInventory :
+    { onSend : Result Http.Error (Dict.Dict String Int) -> msg
     }
-        |> Http.request
+    -> Cmd msg
+getInventory params =
+    Http.request
+        { method = "GET"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "store", "inventory" ]
+                (List.filterMap identity [])
+        , body = Http.emptyBody
+        , expect = Http.expectJson params.onSend (Decode.dict Decode.int)
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
 {-| For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 -}
-getOrderById : Int -> Http.Request Order_
-getOrderById orderId =
-    { method = "GET"
-    , url = basePath ++ "/store/order/" ++ String.fromInt orderId
-    , headers = []
-    , body = Http.emptyBody
-    , expect = Http.expectJson Order_.decoder
-    , timeout = Just 30000
-    , withCredentials = False
+getOrderById :
+    { onSend : Result Http.Error Order_ -> msg
+    , orderId : Int
     }
-        |> Http.request
+    -> Cmd msg
+getOrderById params =
+    Http.request
+        { method = "GET"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "store", "order", String.fromInt params.orderId ]
+                (List.filterMap identity [])
+        , body = Http.emptyBody
+        , expect = Http.expectJson params.onSend Order_.decoder
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
 
 
-placeOrder : Order_ -> Http.Request Order_
-placeOrder model =
-    { method = "POST"
-    , url = basePath ++ "/store/order"
-    , headers = []
-    , body = Http.jsonBody <| Order_.encoder model
-    , expect = Http.expectJson Order_.decoder
-    , timeout = Just 30000
-    , withCredentials = False
+placeOrder :
+    { onSend : Result Http.Error Order_ -> msg
+    , body : Order_
     }
-        |> Http.request
+    -> Cmd msg
+placeOrder params =
+    Http.request
+        { method = "POST"
+        , headers = []
+        , url =
+            Url.crossOrigin basePath
+                [ "store", "order" ]
+                (List.filterMap identity [])
+        , body = Http.jsonBody <| Order_.encoder params.body
+        , expect = Http.expectJson params.onSend Order_.decoder
+        , timeout = Just 30000
+        , tracker = Nothing
+        }
