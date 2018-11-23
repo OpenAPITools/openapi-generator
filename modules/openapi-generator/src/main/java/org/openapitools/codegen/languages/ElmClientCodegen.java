@@ -88,7 +88,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
         outputFolder = "generated-code/elm";
         modelTemplateFiles.put("model.mustache", ".elm");
-        apiTemplateFiles.put("api.mustache", ".elm");
         templateDir = "elm";
 
         supportsInheritance = true;
@@ -198,6 +197,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             case ELM_018:
                 LOGGER.info("Elm version: 0.18");
                 additionalProperties.put("isElm018", true);
+                apiTemplateFiles.put("api018.mustache", ".elm");
                 supportingFiles.add(new SupportingFile("DateOnly018.mustache", "src", "DateOnly.elm"));
                 supportingFiles.add(new SupportingFile("DateTime018.mustache", "src", "DateTime.elm"));
                 supportingFiles.add(new SupportingFile("elm-package018.mustache", "", "elm-package.json"));
@@ -206,6 +206,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             case ELM_019:
                 LOGGER.info("Elm version: 0.19");
                 additionalProperties.put("isElm019", true);
+                apiTemplateFiles.put("api.mustache", ".elm");
                 supportingFiles.add(new SupportingFile("DateOnly.mustache", "src", "DateOnly.elm"));
                 supportingFiles.add(new SupportingFile("DateTime.mustache", "src", "DateTime.elm"));
                 supportingFiles.add(new SupportingFile("elm.mustache", "", "elm.json"));
@@ -423,14 +424,33 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         final Map<String, Set<String>> dependencies = new HashMap<>();
 
         for (CodegenOperation op : ops) {
-            String path = op.path;
-            for (CodegenParameter param : op.pathParams) {
-                final String var = paramToString(param);
-                path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
-                hasDateTime = hasDateTime || param.isDateTime;
-                hasDate = hasDate || param.isDate;
+            if (ElmVersion.ELM_018.equals(elmVersion)) {
+                String path = op.path;
+                for (CodegenParameter param : op.pathParams) {
+                    final String var = paramToString(param, false, null);
+                    path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
+                    hasDateTime = hasDateTime || param.isDateTime;
+                    hasDate = hasDate || param.isDate;
+                }
+                op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
+            } else {
+                final List<String> paths = Arrays.asList(op.path.substring(1).split("/"));
+                String path = paths.stream().map(str -> str.charAt(0) == '{' ? str : "\"" + str + "\"").collect(Collectors.joining(", "));
+                for (CodegenParameter param : op.pathParams) {
+                    String str = paramToString(param, false, null);
+                    path = path.replace("{" + param.paramName + "}", str);
+                    hasDateTime = hasDateTime || param.isDateTime;
+                    hasDate = hasDate || param.isDate;
+                }
+                op.path = path;
+
+                final String query = op.queryParams.stream()
+                    .map(param -> paramToString(param, true, "Url.string \"" + param.paramName + "\""))
+                    .collect(Collectors.joining(", "));
+                op.vendorExtensions.put("query", query);
+                // TODO headers
+                // TODO forms
             }
-            op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
 
             if (op.bodyParam != null && !op.bodyParam.isPrimitiveType && !op.bodyParam.isMapContainer) {
                 final String encoder = (String) op.bodyParam.vendorExtensions.get(ENCODER);
@@ -523,26 +543,49 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "(Just " + value + ")";
     }
 
-    private String paramToString(final CodegenParameter param) {
-        final String paramName = param.paramName;
-
-        if (param.isString || param.isUuid || param.isBinary || param.isByteArray) {
-            return paramName;
-        } else if (param.isBoolean) {
-            return "if " + paramName + " then \"true\" else \"false\"";
-        } else if (param.isDateTime) {
-            return "DateTime.toString " + paramName;
-        } else if (param.isDate) {
-            return "DateOnly.toString " + paramName;
-        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
-            return "toString " + paramName;
-        } else if (param.isInteger || param.isLong) {
-            return "String.fromInt " + paramName;
-        } else if (param.isFloat || param.isDouble) {
-            return "String.fromFloat " + paramName;
+    private String paramToString(final CodegenParameter param, final boolean useMaybe, final String maybeMapResult) {
+        final String paramName = (ElmVersion.ELM_018.equals(elmVersion) ? "" : "params.") + param.paramName;
+        if (!useMaybe) {
+            param.required = true;
         }
 
-        throw new RuntimeException("Parameter '" + paramName + "' cannot be converted to a string. Please report the issue.");
+        String mapFn = null;
+        if (param.isString || param.isUuid || param.isBinary || param.isByteArray) {
+            mapFn = "";
+        } else if (param.isBoolean) {
+            mapFn = "(\\val -> if val then \"true\" else \"false\")";
+        } else if (param.isDateTime) {
+            mapFn = "DateTime.toString";
+        } else if (param.isDate) {
+            mapFn = "DateOnly.toString";
+        } else if (ElmVersion.ELM_018.equals(elmVersion)) {
+            mapFn = "toString";
+        } else if (param.isInteger || param.isLong) {
+            mapFn = "String.fromInt";
+        } else if (param.isFloat || param.isDouble) {
+            mapFn = "String.fromFloat";
+        } else if (param.isListContainer) {
+            // TODO duplicate ALL types from parameter to property...
+            if (param.items.isString || param.items.isUuid || param.items.isBinary || param.items.isByteArray) {
+                mapFn = "String.join \",\"";
+            }
+        }
+        if (mapFn == null) {
+            throw new RuntimeException("Parameter '" + param.paramName + "' cannot be converted to a string. Please report the issue.");
+        }
+        
+        if (param.isListContainer) {
+            if (!param.required) {
+                mapFn = "(" + mapFn + ")";
+            }
+        }
+        String mapResult = "";
+        if (maybeMapResult != null) {
+            mapResult = maybeMapResult + (param.required ? " <|" : " <<");
+        }
+        final String just = useMaybe ? "Just (" : "";
+        final String justEnd = useMaybe ? ")" : "";
+        return (param.required ? just : "Maybe.map") + mapResult + " " + mapFn + " " + paramName + (param.required ? justEnd : "");
     }
 
     @Override
