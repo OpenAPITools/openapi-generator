@@ -10,7 +10,7 @@
  * @link     https://github.com/openapitools/openapi-generator
  */
 
-/** 
+/**
  * OpenAPI Petstore *_/ ' \" =end -- \\r\\n \\n \\r
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\  *_/ ' \" =end --
@@ -42,7 +42,8 @@ use Tuupola\Middleware\HttpBasicAuthentication;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class SlimRouter {
+class SlimRouter
+{
 
     /**
      * @var $slimApp Slim\App instance
@@ -55,7 +56,8 @@ class SlimRouter {
      * @param ContainerInterface|array $container Either a ContainerInterface or an associative array of app settings
      * @throws InvalidArgumentException when no container is provided that implements ContainerInterface
      */
-    public function __construct($container = []) {
+    public function __construct($container = [])
+    {
         $app = new App($container);
 
         $basicAuth = new HttpBasicAuthentication([
@@ -68,7 +70,8 @@ class SlimRouter {
         ]);
 
         $app->PUT(
-            '/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r/fake', FakeApi::class . ':testCodeInjectEndRnNR'
+            '/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r/fake',
+            FakeApi::class . ':testCodeInjectEndRnNR'
         );
 
         $this->slimApp = $app;
@@ -78,7 +81,8 @@ class SlimRouter {
      * Returns Slim Framework instance
      * @return App
      */
-    public function getSlimApp() {
+    public function getSlimApp()
+    {
         return $this->slimApp;
     }
 }

@@ -13,7 +13,6 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -35,15 +34,12 @@ public class AnotherFakeApiTest {
     /**
      * To test special tags
      *
-     * To test special tags
-     *
-     * @throws ApiException
-     *          if the Api call fails
+     * To test special tags and operation ID starting with number
      */
     @Test
-    public void testSpecialTagsTest() throws ApiException {
+    public void call123testSpecialTagsTest()  {
         Client client = null;
-        Client response = api.testSpecialTags(client).block();
+        Client response = api.call123testSpecialTags(client).block();
 
         // TODO: test validations
     }

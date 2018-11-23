@@ -1,14 +1,18 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-
 import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 
 
 public class EnumTest  implements Serializable {
@@ -46,7 +50,7 @@ public enum EnumStringEnum {
     }
 }
 
-  private @Valid EnumStringEnum enumString = null;
+  private @Valid EnumStringEnum enumString;
 
 public enum EnumStringRequiredEnum {
 
@@ -80,7 +84,7 @@ public enum EnumStringRequiredEnum {
     }
 }
 
-  private @Valid EnumStringRequiredEnum enumStringRequired = null;
+  private @Valid EnumStringRequiredEnum enumStringRequired;
 
 public enum EnumIntegerEnum {
 
@@ -93,7 +97,7 @@ public enum EnumIntegerEnum {
         value = v;
     }
 
-    public String value() {
+    public Integer value() {
         return value;
     }
 
@@ -114,7 +118,7 @@ public enum EnumIntegerEnum {
     }
 }
 
-  private @Valid EnumIntegerEnum enumInteger = null;
+  private @Valid EnumIntegerEnum enumInteger;
 
 public enum EnumNumberEnum {
 
@@ -127,7 +131,7 @@ public enum EnumNumberEnum {
         value = v;
     }
 
-    public String value() {
+    public Double value() {
         return value;
     }
 
@@ -148,7 +152,7 @@ public enum EnumNumberEnum {
     }
 }
 
-  private @Valid EnumNumberEnum enumNumber = null;
+  private @Valid EnumNumberEnum enumNumber;
   private @Valid OuterEnum outerEnum = null;
 
   /**

@@ -12,8 +12,18 @@ import Foundation
 public struct OuterComposite: Codable {
 
     public var myNumber: Double?
+    public var myNumberNum: NSNumber? {
+        get {
+            return myNumber.map({ return NSNumber(value: $0) })
+        }
+    }
     public var myString: String?
     public var myBoolean: Bool?
+    public var myBooleanNum: NSNumber? {
+        get {
+            return myBoolean.map({ return NSNumber(value: $0) })
+        }
+    }
 
     public init(myNumber: Double?, myString: String?, myBoolean: Bool?) {
         self.myNumber = myNumber

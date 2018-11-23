@@ -26,8 +26,10 @@ import io.swagger.v3.oas.models.info.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.util.*;
+
 
 public class ApexClientCodegen extends AbstractApexCodegen {
 
@@ -191,7 +193,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
 
     @Override
     public String toApiName(String name) {
-        return camelize(classPrefix + super.toApiName(name));
+        return org.openapitools.codegen.utils.StringUtils.camelize(classPrefix + super.toApiName(name));
     }
 
     @Override
@@ -217,24 +219,25 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ((ArraySchema) p).getItems();
             out = String.format(
+                    Locale.ROOT,
                     "new List<%s>()",
                     inner == null ? "Object" : getTypeDeclaration(inner)
             );
         } else if (ModelUtils.isBooleanSchema(p)) {
             // true => "true", false => "false", null => "null"
-            out = String.valueOf(((BooleanSchema) p).getDefault());
+            out = String.valueOf(p.getDefault());
         } else if (ModelUtils.isLongSchema(p)) {
             Long def = (Long) p.getDefault();
             out = def == null ? out : def.toString() + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
-            out = String.format("new Map<String, %s>()", s);
+            out = String.format(Locale.ROOT, "new Map<String, %s>()", s);
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 String def = p.getDefault().toString();
                 if (def != null) {
-                    out = p.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+                    out = p.getEnum() == null ? String.format(Locale.ROOT, "'%s'", escapeText(def)) : def;
                 }
             }
         } else {
@@ -270,7 +273,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         if (apiVersion.matches("^\\d{2}(\\.0)?$")) {
             return apiVersion.substring(0, 2) + ".0";
         } else {
-            LOGGER.warn(String.format("specified API version is invalid: %s - defaulting to %s", apiVersion, this.apiVersion));
+            LOGGER.warn(String.format(Locale.ROOT, "specified API version is invalid: %s - defaulting to %s", apiVersion, this.apiVersion));
             return this.apiVersion;
         }
     }

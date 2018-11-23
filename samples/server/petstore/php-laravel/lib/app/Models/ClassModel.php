@@ -2,7 +2,7 @@
 /**
  * ClassModel
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * ClassModel

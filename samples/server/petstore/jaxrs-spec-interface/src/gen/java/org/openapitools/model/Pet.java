@@ -1,5 +1,7 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Category;
@@ -8,17 +10,19 @@ import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-
 import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 
 
 public class Pet  implements Serializable {
   
-  private @Valid Long id = null;
+  private @Valid Long id;
   private @Valid Category category = null;
-  private @Valid String name = null;
+  private @Valid String name;
   private @Valid List<String> photoUrls = new ArrayList<String>();
   private @Valid List<Tag> tags = new ArrayList<Tag>();
 
@@ -54,7 +58,7 @@ public enum StatusEnum {
     }
 }
 
-  private @Valid StatusEnum status = null;
+  private @Valid StatusEnum status;
 
   /**
    **/

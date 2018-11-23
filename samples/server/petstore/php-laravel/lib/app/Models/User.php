@@ -2,7 +2,7 @@
 /**
  * User
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * User

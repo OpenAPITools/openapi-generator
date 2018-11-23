@@ -17,22 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.examples.Example;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
-
-import io.swagger.v3.oas.models.media.*;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
@@ -90,7 +87,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         for (String word : Arrays.asList(
                 "local_var_path", "query_params", "header_params", "_header_accept", "_header_accept_result",
                 "_header_content_type", "form_params", "post_body", "auth_names")) {
-            reservedWords.add(word.toLowerCase());
+            reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
 
 
@@ -220,6 +217,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("Rakefile.mustache", "", "Rakefile"));
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
+        supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
 
         // test files should not be overwritten
@@ -254,7 +252,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      */
     @SuppressWarnings("static-method")
     public String generateModuleName(String gemName) {
-        return camelize(gemName.replaceAll("[^\\w]+", "_"));
+        return org.openapitools.codegen.utils.StringUtils.camelize(gemName.replaceAll("[^\\w]+", "_"));
     }
 
     /**
@@ -265,7 +263,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
      */
     @SuppressWarnings("static-method")
     public String generateGemName(String moduleName) {
-        return underscore(moduleName.replaceAll("[^\\w]+", ""));
+        return org.openapitools.codegen.utils.StringUtils.underscore(moduleName.replaceAll("[^\\w]+", ""));
     }
 
     @Override
@@ -332,25 +330,25 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String modelName = camelize("Model" + name);
+            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("Model" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(name);
+        return org.openapitools.codegen.utils.StringUtils.camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return underscore(toModelName(name));
+        return org.openapitools.codegen.utils.StringUtils.underscore(toModelName(name));
     }
 
     @Override
@@ -364,7 +362,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
-        return underscore(name) + "_api";
+        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
     }
 
     @Override
@@ -388,7 +386,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -416,7 +414,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase());
+        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -429,7 +427,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase();
+        String enumName = org.openapitools.codegen.utils.StringUtils.underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -450,19 +448,25 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public String toOperationId(String operationId) {
         // rename to empty_method_name_1 (e.g.) if method name is empty
         if (StringUtils.isEmpty(operationId)) {
-            operationId = underscore("empty_method_name_" + emptyMethodNameCounter++);
+            operationId = org.openapitools.codegen.utils.StringUtils.underscore("empty_method_name_" + emptyMethodNameCounter++);
             LOGGER.warn("Empty method name (operationId) found. Renamed to " + operationId);
             return operationId;
         }
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = underscore("call_" + operationId);
+            String newOperationId = org.openapitools.codegen.utils.StringUtils.underscore("call_" + operationId);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return underscore(sanitizeName(operationId));
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(operationId));
     }
 
     @Override
@@ -532,6 +536,34 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         }
 
         p.example = example;
+    }
+
+    /**
+     * Return the example value of the parameter. Overrides the
+     * setParameterExampleValue(CodegenParameter, Parameter) method in
+     * DefaultCodegen to always call setParameterExampleValue(CodegenParameter)
+     * in this class, which adds single quotes around strings from the
+     * x-example property.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter        Parameter
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else {
+            Schema schema = parameter.getSchema();
+            if (schema != null && schema.getExample() != null) {
+                codegenParameter.example = schema.getExample().toString();
+            }
+        }
+
+        setParameterExampleValue(codegenParameter);
     }
 
     public void setGemName(String gemName) {

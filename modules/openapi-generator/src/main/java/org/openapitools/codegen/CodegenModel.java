@@ -22,11 +22,15 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;
@@ -76,7 +80,7 @@ public class CodegenModel {
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", name, classname);
+        return String.format(Locale.ROOT, "%s(%s)", name, classname);
     }
 
     @Override

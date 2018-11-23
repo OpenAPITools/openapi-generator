@@ -17,15 +17,21 @@ public struct MapTest: Codable {
     }
     public var mapMapOfString: [String:[String:String]]?
     public var mapOfEnumString: [String:String]?
+    public var directMap: [String:Bool]?
+    public var indirectMap: [String:Bool]?
 
-    public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?) {
+    public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?, directMap: [String:Bool]?, indirectMap: [String:Bool]?) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
+        self.directMap = directMap
+        self.indirectMap = indirectMap
     }
 
     public enum CodingKeys: String, CodingKey { 
         case mapMapOfString = "map_map_of_string"
         case mapOfEnumString = "map_of_enum_string"
+        case directMap = "direct_map"
+        case indirectMap = "indirect_map"
     }
 
 

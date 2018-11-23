@@ -36,34 +36,35 @@ use OpenAPIServer\Api\FakeClassnameTags123Api;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FakeClassnameTags123Api
  */
-class FakeClassnameTags123ApiTest extends \PHPUnit_Framework_TestCase {
+class FakeClassnameTags123ApiTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
@@ -72,7 +73,7 @@ class FakeClassnameTags123ApiTest extends \PHPUnit_Framework_TestCase {
      * To test class name in snake case.
      * @covers ::testClassname
      */
-    public function testTestClassname() {
-
+    public function testTestClassname()
+    {
     }
 }

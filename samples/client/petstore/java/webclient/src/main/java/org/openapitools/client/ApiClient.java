@@ -33,6 +33,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
+import java.util.Optional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class ApiClient {
     }
 
     private HttpHeaders defaultHeaders = new HttpHeaders();
-    
+
     private String basePath = "http://petstore.swagger.io:80/v2";
 
     private final WebClient webClient;
@@ -87,16 +88,22 @@ public class ApiClient {
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        this.webClient = buildWebClient(new ObjectMapper(), this.dateFormat);
+        this.webClient = buildWebClient(new ObjectMapper(), dateFormat);
+        this.init();
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
         this(buildWebClient(mapper.copy(), format), format);
     }
 
+    public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
+        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy(), format)), format);
+    }
+
     private ApiClient(WebClient webClient, DateFormat format) {
         this.webClient = webClient;
         this.dateFormat = format;
+        this.init();
     }
 
     public DateFormat createDefaultDateFormat() {
@@ -104,7 +111,7 @@ public class ApiClient {
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat;
     }
-    
+
     protected void init() {
         // Setup authentications (key: authentication name, value: authentication).
         authentications = new HashMap<String, Authentication>();
@@ -133,7 +140,7 @@ public class ApiClient {
         return webClient.build();
     }
 
-    
+
     /**
      * Get the current base path
      * @return String the base path
@@ -539,7 +546,7 @@ public class ApiClient {
             builder.queryParams(queryParams);
         }
 
-        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build().toUri());
+        final WebClient.RequestBodySpec requestBuilder = webClient.method(method).uri(builder.build(true).toUri());
         if(accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
@@ -586,7 +593,7 @@ public class ApiClient {
             auth.applyToParams(queryParams, headerParams);
         }
     }
-    
+
     private class ApiClientHttpRequestInterceptor implements ClientHttpRequestInterceptor {
         private final Log log = LogFactory.getLog(ApiClientHttpRequestInterceptor.class);
 
@@ -625,7 +632,7 @@ public class ApiClient {
             builder.setLength(builder.length() - 1); // Get rid of trailing comma
             return builder.toString();
         }
-        
+
         private String bodyToString(InputStream body) throws IOException {
             StringBuilder builder = new StringBuilder();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(body, StandardCharsets.UTF_8));

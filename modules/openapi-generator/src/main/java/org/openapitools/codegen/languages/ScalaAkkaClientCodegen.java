@@ -35,6 +35,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
 
+
 public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
@@ -276,7 +277,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -335,7 +336,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
         @Override
         public String formatFragment(String fragment) {
-            return camelize(fragment, !capitalizeFirst);
+            return org.openapitools.codegen.utils.StringUtils.camelize(fragment, !capitalizeFirst);
         }
     }
 

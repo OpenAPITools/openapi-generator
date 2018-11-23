@@ -24,8 +24,8 @@ class Tag(Model):
         :type name: str
         """
         self.openapi_types = {
-            'id': long,
-            'name': str
+            'id': 'long',
+            'name': 'str'
         }
 
         self.attribute_map = {

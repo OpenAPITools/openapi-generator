@@ -39,18 +39,18 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public enum JustSymbolEnum
         {
-            
             /// <summary>
             /// Enum GreaterThanOrEqualTo for value: >=
             /// </summary>
             [EnumMember(Value = ">=")]
             GreaterThanOrEqualTo = 1,
-            
+
             /// <summary>
             /// Enum Dollar for value: $
             /// </summary>
             [EnumMember(Value = "$")]
             Dollar = 2
+
         }
 
         /// <summary>
@@ -64,18 +64,18 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public enum ArrayEnumEnum
         {
-            
             /// <summary>
             /// Enum Fish for value: fish
             /// </summary>
             [EnumMember(Value = "fish")]
             Fish = 1,
-            
+
             /// <summary>
             /// Enum Crab for value: crab
             /// </summary>
             [EnumMember(Value = "crab")]
             Crab = 2
+
         }
 
 

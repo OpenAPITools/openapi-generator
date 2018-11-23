@@ -2,7 +2,7 @@
 /**
  * AnimalFarm
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * AnimalFarm

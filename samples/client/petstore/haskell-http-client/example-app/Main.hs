@@ -118,7 +118,7 @@ runPet mgr config = do
         -- updatePet
         let updatePetRequest = S.updatePet (S.ContentType S.MimeJSON) $ pet
                 { S.petStatus   = Just S.E'Status2'Available
-                , S.petCategory = Just (S.Category (Just 3) (Just "catname"))
+                , S.petCategory = Just (S.Category (Just 3) "catname")
                 }
         _ <- S.dispatchLbs mgr config updatePetRequest
 
@@ -155,7 +155,8 @@ runPet mgr config = do
 
 
 -- * STORE
-  
+instance S.Consumes S.PlaceOrder S.MimeJSON
+
 runStore :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runStore mgr config = do
 
@@ -167,7 +168,7 @@ runStore mgr config = do
 
   -- placeOrder
   now <- TI.getCurrentTime
-  let placeOrderRequest = S.placeOrder (S.Accept S.MimeJSON) (S.mkOrder { S.orderId = Just 21, S.orderQuantity = Just 210, S.orderShipDate = Just (S.DateTime now)})
+  let placeOrderRequest = S.placeOrder (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON) (S.mkOrder { S.orderId = Just 21, S.orderQuantity = Just 210, S.orderShipDate = Just (S.DateTime now)})
   placeOrderResult <- S.dispatchMime mgr config placeOrderRequest
   mapM_ (\r -> putStrLn $ "placeOrderResult: " <> show r) placeOrderResult
 
@@ -188,22 +189,27 @@ runStore mgr config = do
 
 -- * USER
 
+instance S.Consumes S.CreateUser S.MimeJSON
+instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
+instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
+instance S.Consumes S.UpdateUser S.MimeJSON
+
 runUser :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runUser mgr config = do
 
   let username = "hsusername"
   -- createUser
   let user = S.mkUser { S.userId = Just 21, S.userUsername = Just username } 
-  let createUserRequest = S.createUser user
+  let createUserRequest = S.createUser (S.ContentType S.MimeJSON) user
   _ <- S.dispatchLbs mgr config createUserRequest
 
   -- can use lenses (model record names are appended L) to view or modify records
   let users = take 8 $ drop 1 $ iterate (L.over S.userUsernameL (fmap (<> "*")) . L.over S.userIdL (fmap (+ 1))) user
-  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.User2 users)
+  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
   _ <- S.dispatchLbs mgr config createUsersWithArrayInputRequest 
 
   -- createUsersWithArrayInput
-  let createUsersWithListInputRequest = S.createUsersWithListInput (S.User2 users)
+  let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
   _ <- S.dispatchLbs mgr config createUsersWithListInputRequest
 
   -- getUserByName
@@ -217,7 +223,7 @@ runUser mgr config = do
   BCL.putStrLn $ "loginUser: " <> (NH.responseBody loginUserResult)
 
   -- updateUser
-  let updateUserRequest = S.updateUser (user { S.userEmail = Just "xyz@example.com" }) (S.Username username) 
+  let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) (user { S.userEmail = Just "xyz@example.com" }) (S.Username username) 
   _ <- S.dispatchLbs mgr config updateUserRequest
 
   -- logoutUser

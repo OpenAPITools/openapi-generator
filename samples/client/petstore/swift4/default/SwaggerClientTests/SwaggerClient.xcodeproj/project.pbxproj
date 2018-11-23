@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A501F48219C3DC600F372F6 /* DateFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A501F47219C3DC600F372F6 /* DateFormatTests.swift */; };
 		54DA06C1D70D78EC0EC72B61 /* Pods_SwaggerClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F65B6638217EDDC99D103B16 /* Pods_SwaggerClientTests.framework */; };
 		6D4EFB951C692C6300B96B06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFB941C692C6300B96B06 /* AppDelegate.swift */; };
 		6D4EFB971C692C6300B96B06 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4EFB961C692C6300B96B06 /* ViewController.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A501F47219C3DC600F372F6 /* DateFormatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatTests.swift; sourceTree = "<group>"; };
 		289E8A9E9C0BB66AD190C7C6 /* Pods-SwaggerClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwaggerClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6D4EFB911C692C6300B96B06 /* SwaggerClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwaggerClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D4EFB941C692C6300B96B06 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				6D4EFBB41C693BE200B96B06 /* PetAPITests.swift */,
 				6D4EFBB61C693BED00B96B06 /* StoreAPITests.swift */,
 				6D4EFBB81C693BFC00B96B06 /* UserAPITests.swift */,
+				1A501F47219C3DC600F372F6 /* DateFormatTests.swift */,
 			);
 			path = SwaggerClientTests;
 			sourceTree = "<group>";
@@ -149,9 +152,7 @@
 				6D4EFB8E1C692C6300B96B06 /* Frameworks */,
 				6D4EFB8F1C692C6300B96B06 /* Resources */,
 				4485A75250058E2D5BBDF63F /* [CP] Embed Pods Frameworks */,
-				808CE4A0CE801CAC5ABF5B08 /* [CP] Copy Pods Resources */,
 				3D9471620628F03313096EB2 /* 📦 Embed Pods Frameworks */,
-				EEEC2B2D0497D38CEAD2DB24 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -171,10 +172,6 @@
 				6D4EFBA11C692C6300B96B06 /* Sources */,
 				6D4EFBA21C692C6300B96B06 /* Frameworks */,
 				6D4EFBA31C692C6300B96B06 /* Resources */,
-				796EAD48F1BCCDAA291CD963 /* [CP] Embed Pods Frameworks */,
-				1652CB1A246A4689869E442D /* [CP] Copy Pods Resources */,
-				ECE47F6BF90C3848F6E94AFF /* 📦 Embed Pods Frameworks */,
-				1494090872F3F18E536E8902 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -247,36 +244,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1494090872F3F18E536E8902 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1652CB1A246A4689869E442D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		1F03F780DC2D9727E5E64BA9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -327,21 +294,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		796EAD48F1BCCDAA291CD963 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		79FE27B09B2DD354C831BD49 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -355,21 +307,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		808CE4A0CE801CAC5ABF5B08 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B4DB169E5F018305D6759D34 /* [CP] Check Pods Manifest.lock */ = {
@@ -408,36 +345,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ECE47F6BF90C3848F6E94AFF /* 📦 Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EEEC2B2D0497D38CEAD2DB24 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -456,6 +363,7 @@
 			files = (
 				6D4EFBB71C693BED00B96B06 /* StoreAPITests.swift in Sources */,
 				6D4EFBB91C693BFC00B96B06 /* UserAPITests.swift in Sources */,
+				1A501F48219C3DC600F372F6 /* DateFormatTests.swift in Sources */,
 				6D4EFBB51C693BE200B96B06 /* PetAPITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

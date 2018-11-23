@@ -31,7 +31,7 @@ OAIPet::OAIPet() {
 }
 
 OAIPet::~OAIPet() {
-    
+
 }
 
 void

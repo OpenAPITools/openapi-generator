@@ -1,0 +1,27 @@
+# {{packageName}} - ASP.NET Core 2.0 Server
+
+{{#appDescription}}
+{{{appDescription}}}
+{{/appDescription}}
+
+## Run
+
+Linux/OS X:
+
+```
+sh build.sh
+```
+
+Windows:
+
+```
+build.bat
+```
+
+## Run in Docker
+
+```
+cd {{sourceFolder}}/{{packageName}}
+docker build -t {{dockerTag}} .
+docker run -p 5000:5000 {{dockerTag}}
+```

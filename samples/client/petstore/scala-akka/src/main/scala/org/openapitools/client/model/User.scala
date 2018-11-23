@@ -16,15 +16,15 @@ import org.joda.time.DateTime
 import java.util.UUID
 
 case class User (
-  id: Option[Long],
-  username: Option[String],
-  firstName: Option[String],
-  lastName: Option[String],
-  email: Option[String],
-  password: Option[String],
-  phone: Option[String],
+  id: Option[Long] = None,
+  username: Option[String] = None,
+  firstName: Option[String] = None,
+  lastName: Option[String] = None,
+  email: Option[String] = None,
+  password: Option[String] = None,
+  phone: Option[String] = None,
   /* User Status */
-  userStatus: Option[Int]
+  userStatus: Option[Int] = None
 ) extends ApiModel
 
 

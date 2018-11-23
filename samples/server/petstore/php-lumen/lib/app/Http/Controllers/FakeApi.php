@@ -184,6 +184,46 @@ class FakeApi extends Controller
         return response('How about implementing testEnumParameters as a get method ?');
     }
     /**
+     * Operation testGroupParameters
+     *
+     * Fake endpoint to test group parameters (optional).
+     *
+     *
+     * @return Http response
+     */
+    public function testGroupParameters()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['required_string_group'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $required_string_group when calling testGroupParameters');
+        }
+        $required_string_group = $input['required_string_group'];
+
+        if (!isset($input['required_boolean_group'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $required_boolean_group when calling testGroupParameters');
+        }
+        $required_boolean_group = $input['required_boolean_group'];
+
+        if (!isset($input['required_int64_group'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $required_int64_group when calling testGroupParameters');
+        }
+        $required_int64_group = $input['required_int64_group'];
+
+        $string_group = $input['string_group'];
+
+        $boolean_group = $input['boolean_group'];
+
+        $int64_group = $input['int64_group'];
+
+
+        return response('How about implementing testGroupParameters as a delete method ?');
+    }
+    /**
      * Operation testBodyWithFileSchema
      *
      * .

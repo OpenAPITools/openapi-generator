@@ -2,7 +2,7 @@
 /**
  * Order
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * Order

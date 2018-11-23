@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=c++14 -Wall -Wno-unused-varia
 if(${NODEBUG} STREQUAL "OFF")
 set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -pg -g3")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg -g3")
-else (${NODEBUG} STREQUAL "OFF") 
+else (${NODEBUG} STREQUAL "OFF")
 set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -s -O3")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s -O3")
 endif(${NODEBUG} STREQUAL "OFF")

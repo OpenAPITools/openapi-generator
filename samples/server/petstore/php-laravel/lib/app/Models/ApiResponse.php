@@ -2,7 +2,7 @@
 /**
  * ApiResponse
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * ApiResponse

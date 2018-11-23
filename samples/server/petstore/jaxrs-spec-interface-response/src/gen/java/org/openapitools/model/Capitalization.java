@@ -1,23 +1,27 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-
 import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 
 
 public class Capitalization  implements Serializable {
   
-  private @Valid String smallCamel = null;
-  private @Valid String capitalCamel = null;
-  private @Valid String smallSnake = null;
-  private @Valid String capitalSnake = null;
-  private @Valid String scAETHFlowPoints = null;
-  private @Valid String ATT_NAME = null;
+  private @Valid String smallCamel;
+  private @Valid String capitalCamel;
+  private @Valid String smallSnake;
+  private @Valid String capitalSnake;
+  private @Valid String scAETHFlowPoints;
+  private @Valid String ATT_NAME;
 
   /**
    **/

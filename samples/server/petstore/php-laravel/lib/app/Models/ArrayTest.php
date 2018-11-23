@@ -2,7 +2,7 @@
 /**
  * ArrayTest
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * ArrayTest
@@ -15,7 +15,7 @@ class ArrayTest {
     /** @var int[][] $array_array_of_integer */
     private $array_array_of_integer;
 
-    /** @var \app.Models\ReadOnlyFirst[][] $array_array_of_model */
+    /** @var \app\Models\ReadOnlyFirst[][] $array_array_of_model */
     private $array_array_of_model;
 
 }

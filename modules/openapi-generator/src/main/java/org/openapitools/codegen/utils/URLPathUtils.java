@@ -50,7 +50,7 @@ public class URLPathUtils {
         return getServerURL(servers.get(0));
     }
 
-    static URL getServerURL(final Server server) {
+    public static URL getServerURL(final Server server) {
         String url = server.getUrl();
         ServerVariables variables = server.getVariables();
         if(variables == null) {
@@ -168,7 +168,7 @@ public class URLPathUtils {
      */
     public static String getHost(OpenAPI openAPI) {
         if (openAPI.getServers() != null && openAPI.getServers().size() > 0) {
-            return sanitizeUrl(openAPI.getServers().get(0).getUrl());
+            return sanitizeUrl(getServerURL(openAPI.getServers().get(0)).toString());
         }
         return LOCAL_HOST;
     }
@@ -179,7 +179,7 @@ public class URLPathUtils {
             LOGGER.warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
         } else if (url.startsWith("/")) {
             url = LOCAL_HOST + url;
-            LOGGER.warn("'host' not defined in the spec (2.0). Default to [{}] for server URL [{}]", LOCAL_HOST, url);
+            LOGGER.warn("'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]", LOCAL_HOST, url);
         } else if (!url.matches("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+")) {
             // Add http scheme for urls without a scheme.
             // 2.0 spec is restricted to the following schemes: "http", "https", "ws", "wss"

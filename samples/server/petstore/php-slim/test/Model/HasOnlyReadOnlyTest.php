@@ -36,55 +36,56 @@ use OpenAPIServer\Model\HasOnlyReadOnly;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\HasOnlyReadOnly
  */
-class HasOnlyReadOnlyTest extends \PHPUnit_Framework_TestCase {
+class HasOnlyReadOnlyTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * Setup before running any test cases
      */
-    public static function setUpBeforeClass() {
-
+    public static function setUpBeforeClass()
+    {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp() {
-
+    public function setUp()
+    {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown() {
-
+    public function tearDown()
+    {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass() {
-
+    public static function tearDownAfterClass()
+    {
     }
 
     /**
      * Test "HasOnlyReadOnly"
      */
-    public function testHasOnlyReadOnly() {
+    public function testHasOnlyReadOnly()
+    {
         $testHasOnlyReadOnly = new HasOnlyReadOnly();
     }
 
     /**
      * Test attribute "bar"
      */
-    public function testPropertyBar() {
-
+    public function testPropertyBar()
+    {
     }
 
     /**
      * Test attribute "foo"
      */
-    public function testPropertyFoo() {
-
+    public function testPropertyFoo()
+    {
     }
 }
-

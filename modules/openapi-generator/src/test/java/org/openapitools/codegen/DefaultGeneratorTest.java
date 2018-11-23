@@ -22,10 +22,10 @@ public class DefaultGeneratorTest {
     public void testProcessPaths() throws Exception {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         openAPI.setPaths(new Paths());
-        openAPI.getPaths().addPathItem("path1/", new PathItem().get(new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
-        openAPI.getPaths().addPathItem("path2/", new PathItem().get(new Operation().operationId("op2").addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
-        openAPI.getPaths().addPathItem("path3/", new PathItem().addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).get(new Operation().operationId("op3").addParametersItem(new QueryParameter().name("p2").schema(new IntegerSchema())).responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
-        openAPI.getPaths().addPathItem("path4/", new PathItem().addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).get(new Operation().operationId("op4").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
+        openAPI.getPaths().addPathItem("/path1", new PathItem().get(new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
+        openAPI.getPaths().addPathItem("/path2", new PathItem().get(new Operation().operationId("op2").addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
+        openAPI.getPaths().addPathItem("/path3", new PathItem().addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).get(new Operation().operationId("op3").addParametersItem(new QueryParameter().name("p2").schema(new IntegerSchema())).responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
+        openAPI.getPaths().addPathItem("/path4", new PathItem().addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).get(new Operation().operationId("op4").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
 
         ClientOptInput opts = new ClientOptInput();
         opts.setOpenAPI(openAPI);
@@ -38,13 +38,13 @@ public class DefaultGeneratorTest {
         Assert.assertEquals(result.size(), 1);
         List<CodegenOperation> defaultList = result.get("Default");
         Assert.assertEquals(defaultList.size(), 4);
-        Assert.assertEquals(defaultList.get(0).path, "path1/");
+        Assert.assertEquals(defaultList.get(0).path, "/path1");
         Assert.assertEquals(defaultList.get(0).allParams.size(), 0);
-        Assert.assertEquals(defaultList.get(1).path, "path2/");
+        Assert.assertEquals(defaultList.get(1).path, "/path2");
         Assert.assertEquals(defaultList.get(1).allParams.size(), 1);
-        Assert.assertEquals(defaultList.get(2).path, "path3/");
+        Assert.assertEquals(defaultList.get(2).path, "/path3");
         Assert.assertEquals(defaultList.get(2).allParams.size(), 2);
-        Assert.assertEquals(defaultList.get(3).path, "path4/");
+        Assert.assertEquals(defaultList.get(3).path, "/path4");
         Assert.assertEquals(defaultList.get(3).allParams.size(), 1);
     }
 }

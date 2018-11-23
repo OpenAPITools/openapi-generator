@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * User
@@ -27,28 +28,28 @@ import javax.validation.constraints.*;
 
 public class User  implements Serializable {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("username")
-  private String username = null;
+  private String username;
 
   @JsonProperty("firstName")
-  private String firstName = null;
+  private String firstName;
 
   @JsonProperty("lastName")
-  private String lastName = null;
+  private String lastName;
 
   @JsonProperty("email")
-  private String email = null;
+  private String email;
 
   @JsonProperty("password")
-  private String password = null;
+  private String password;
 
   @JsonProperty("phone")
-  private String phone = null;
+  private String phone;
 
   @JsonProperty("userStatus")
-  private Integer userStatus = null;
+  private Integer userStatus;
 
   public User id(Long id) {
     this.id = id;
@@ -61,6 +62,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -80,6 +82,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("username")
   @ApiModelProperty(value = "")
+  
   public String getUsername() {
     return username;
   }
@@ -99,6 +102,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("firstName")
   @ApiModelProperty(value = "")
+  
   public String getFirstName() {
     return firstName;
   }
@@ -118,6 +122,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("lastName")
   @ApiModelProperty(value = "")
+  
   public String getLastName() {
     return lastName;
   }
@@ -137,6 +142,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("email")
   @ApiModelProperty(value = "")
+  
   public String getEmail() {
     return email;
   }
@@ -156,6 +162,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("password")
   @ApiModelProperty(value = "")
+  
   public String getPassword() {
     return password;
   }
@@ -175,6 +182,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("phone")
   @ApiModelProperty(value = "")
+  
   public String getPhone() {
     return phone;
   }
@@ -194,6 +202,7 @@ public class User  implements Serializable {
    **/
   @JsonProperty("userStatus")
   @ApiModelProperty(value = "User Status")
+  
   public Integer getUserStatus() {
     return userStatus;
   }

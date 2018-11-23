@@ -19,8 +19,8 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-StoreApiImpl::StoreApiImpl(Pistache::Address addr)
-    : StoreApi(addr)
+StoreApiImpl::StoreApiImpl(std::shared_ptr<Pistache::Rest::Router> rtr)
+    : StoreApi(rtr)
     { }
 
 void StoreApiImpl::delete_order(const std::string &orderId, Pistache::Http::ResponseWriter &response) {

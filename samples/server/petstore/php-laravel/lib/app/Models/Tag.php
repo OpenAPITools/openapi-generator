@@ -2,7 +2,7 @@
 /**
  * Tag
  */
-namespace app.Models;
+namespace app\Models;
 
 /**
  * Tag

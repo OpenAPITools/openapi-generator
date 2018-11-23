@@ -21,9 +21,9 @@ namespace OpenAPI {
 class OAIObject {
   public:
     virtual ~OAIObject(){
-        
+
     }
-    
+
     virtual QJsonObject asJsonObject() const {
         return jObj;
     }

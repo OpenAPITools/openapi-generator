@@ -6,8 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from {{modelPackage}}.base_model_ import Model
-{{#imports}}{{import}}  # noqa: F401,E501
-{{/imports}}
 from {{packageName}} import util
 
 
@@ -27,7 +25,7 @@ class {{classname}}(Model):
 {{/-last}}
 {{/enumVars}}{{/allowableValues}}
 
-    def __init__(self{{#vars}}, {{name}}{{^supportPython2}}: {{dataType}}{{/supportPython2}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
+    def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
         {{#vars}}
@@ -64,7 +62,7 @@ class {{classname}}(Model):
 
 {{/-first}}
     @property
-    def {{name}}(self){{^supportPython2}} -> {{dataType}}{{/supportPython2}}:
+    def {{name}}(self):
         """Gets the {{name}} of this {{classname}}.
 
         {{#description}}
@@ -77,7 +75,7 @@ class {{classname}}(Model):
         return self._{{name}}
 
     @{{name}}.setter
-    def {{name}}(self, {{name}}{{^supportPython2}}: {{dataType}}{{/supportPython2}}):
+    def {{name}}(self, {{name}}):
         """Sets the {{name}} of this {{classname}}.
 
         {{#description}}
@@ -138,7 +136,7 @@ class {{classname}}(Model):
             raise ValueError("Invalid value for `{{name}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
 {{/minimum}}
 {{#pattern}}
-        if {{name}} is not None and not re.search('{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
+        if {{name}} is not None and not re.search(r'{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
             raise ValueError("Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")  # noqa: E501
 {{/pattern}}
 {{#maxItems}}

@@ -22,12 +22,12 @@ $app->get('/', function () use ($app) {
 });
 
 /**
- * patch testSpecialTags
+ * patch call123TestSpecialTags
  * Summary: To test special tags
- * Notes: To test special tags
+ * Notes: To test special tags and operation ID starting with number
  * Output-Formats: [application/json]
  */
-$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@testSpecialTags');
+$app->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
@@ -49,6 +49,13 @@ $app->post('/v2/fake', 'FakeApi@testEndpointParameters');
 
  */
 $app->get('/v2/fake', 'FakeApi@testEnumParameters');
+/**
+ * delete testGroupParameters
+ * Summary: Fake endpoint to test group parameters (optional)
+ * Notes: Fake endpoint to test group parameters (optional)
+
+ */
+$app->delete('/v2/fake', 'FakeApi@testGroupParameters');
 /**
  * put testBodyWithFileSchema
  * Summary: 

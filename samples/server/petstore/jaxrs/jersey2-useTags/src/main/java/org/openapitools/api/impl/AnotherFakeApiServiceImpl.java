@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
 
 public class AnotherFakeApiServiceImpl extends AnotherFakeApiService {
     @Override
-    public Response testSpecialTags(Client client, SecurityContext securityContext) throws NotFoundException {
+    public Response call123testSpecialTags(Client client, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * ModelApiResponse
@@ -27,13 +28,13 @@ import javax.validation.constraints.*;
 
 public class ModelApiResponse  implements Serializable {
   @JsonProperty("code")
-  private Integer code = null;
+  private Integer code;
 
   @JsonProperty("type")
-  private String type = null;
+  private String type;
 
   @JsonProperty("message")
-  private String message = null;
+  private String message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;
@@ -46,6 +47,7 @@ public class ModelApiResponse  implements Serializable {
    **/
   @JsonProperty("code")
   @ApiModelProperty(value = "")
+  
   public Integer getCode() {
     return code;
   }
@@ -65,6 +67,7 @@ public class ModelApiResponse  implements Serializable {
    **/
   @JsonProperty("type")
   @ApiModelProperty(value = "")
+  
   public String getType() {
     return type;
   }
@@ -84,6 +87,7 @@ public class ModelApiResponse  implements Serializable {
    **/
   @JsonProperty("message")
   @ApiModelProperty(value = "")
+  
   public String getMessage() {
     return message;
   }

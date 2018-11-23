@@ -19,12 +19,11 @@
 #define PetApi_H_
 
 
-#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
-
 #include <pistache/optional.h>
+
 
 #include "ApiResponse.h"
 #include "Pet.h"
@@ -39,11 +38,9 @@ using namespace org::openapitools::server::model;
 
 class  PetApi {
 public:
-    PetApi(Pistache::Address addr);
-    virtual ~PetApi() {};
-    void init(size_t thr);
-    void start();
-    void shutdown();
+    PetApi(std::shared_ptr<Pistache::Rest::Router>);
+    virtual ~PetApi() {}
+    void init();
 
     const std::string base = "/v2";
 
@@ -60,9 +57,7 @@ private:
     void upload_file_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void pet_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    Pistache::Http::Endpoint httpEndpoint;
-    Pistache::Rest::Router router;
-
+    std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Add a new pet to the store
@@ -80,7 +75,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="petId">Pet id to delete</param>
-    /// <param name="apiKey"> (optional)</param>
+    /// <param name="apiKey"> (optional, default to &quot;&quot;)</param>
     virtual void delete_pet(const int64_t &petId, const Pistache::Optional<Pistache::Http::Header::Raw> &apiKey, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
@@ -90,7 +85,7 @@ private:
     /// Multiple status values can be provided with comma separated strings
     /// </remarks>
     /// <param name="status">Status values that need to be considered for filter</param>
-    virtual void find_pets_by_status(const Pistache::Optional<std::string> &status, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_status(const Pistache::Optional<std::vector<std::string>> &status, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Finds Pets by tags
@@ -99,7 +94,7 @@ private:
     /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     /// </remarks>
     /// <param name="tags">Tags to filter by</param>
-    virtual void find_pets_by_tags(const Pistache::Optional<std::string> &tags, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void find_pets_by_tags(const Pistache::Optional<std::vector<std::string>> &tags, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Find pet by ID

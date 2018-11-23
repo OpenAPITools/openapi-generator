@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.StringBooleanMap;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -62,7 +61,8 @@ public class MapTest   {
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
-  private StringBooleanMap indirectMap = null;
+  @Valid
+  private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -80,7 +80,7 @@ public class MapTest   {
   /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -109,7 +109,7 @@ public class MapTest   {
   /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -137,7 +137,7 @@ public class MapTest   {
   /**
    * Get directMap
    * @return directMap
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -149,24 +149,31 @@ public class MapTest   {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
+    return this;
+  }
+
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<>();
+    }
+    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 
   /**
    * Get indirectMap
    * @return indirectMap
-  **/
+  */
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public StringBooleanMap getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

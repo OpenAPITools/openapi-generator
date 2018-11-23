@@ -16,9 +16,9 @@ import org.joda.time.DateTime
 import java.util.UUID
 
 case class ApiResponse (
-  code: Option[Int],
-  `type`: Option[String],
-  message: Option[String]
+  code: Option[Int] = None,
+  `type`: Option[String] = None,
+  message: Option[String] = None
 ) extends ApiModel
 
 

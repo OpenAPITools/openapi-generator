@@ -31,7 +31,9 @@ import java.util.Map;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.Method;
 import io.restassured.response.Response;
+import io.swagger.annotations.*;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -41,6 +43,7 @@ import org.openapitools.client.JSON;
 
 import static io.restassured.http.Method.*;
 
+@Api(value = "Fake")
 public class FakeApi {
 
     private RequestSpecBuilder reqSpec;
@@ -54,46 +57,124 @@ public class FakeApi {
     }
 
 
+    @ApiOperation(value = "",
+            notes = "Test serialization of outer boolean types",
+            nickname = "fakeOuterBooleanSerialize",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Output boolean")  })
     public FakeOuterBooleanSerializeOper fakeOuterBooleanSerialize() {
         return new FakeOuterBooleanSerializeOper(reqSpec);
     }
 
+    @ApiOperation(value = "",
+            notes = "Test serialization of object with outer number type",
+            nickname = "fakeOuterCompositeSerialize",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Output composite")  })
     public FakeOuterCompositeSerializeOper fakeOuterCompositeSerialize() {
         return new FakeOuterCompositeSerializeOper(reqSpec);
     }
 
+    @ApiOperation(value = "",
+            notes = "Test serialization of outer number types",
+            nickname = "fakeOuterNumberSerialize",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Output number")  })
     public FakeOuterNumberSerializeOper fakeOuterNumberSerialize() {
         return new FakeOuterNumberSerializeOper(reqSpec);
     }
 
+    @ApiOperation(value = "",
+            notes = "Test serialization of outer string types",
+            nickname = "fakeOuterStringSerialize",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Output string")  })
     public FakeOuterStringSerializeOper fakeOuterStringSerialize() {
         return new FakeOuterStringSerializeOper(reqSpec);
     }
 
+    @ApiOperation(value = "",
+            notes = "For this test, the body for this request much reference a schema named `File`.",
+            nickname = "testBodyWithFileSchema",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Success")  })
     public TestBodyWithFileSchemaOper testBodyWithFileSchema() {
         return new TestBodyWithFileSchemaOper(reqSpec);
     }
 
+    @ApiOperation(value = "",
+            notes = "",
+            nickname = "testBodyWithQueryParams",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Success")  })
     public TestBodyWithQueryParamsOper testBodyWithQueryParams() {
         return new TestBodyWithQueryParamsOper(reqSpec);
     }
 
+    @ApiOperation(value = "To test \"client\" model",
+            notes = "To test \"client\" model",
+            nickname = "testClientModel",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
     public TestClientModelOper testClientModel() {
         return new TestClientModelOper(reqSpec);
     }
 
+    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
+            notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
+            nickname = "testEndpointParameters",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Invalid username supplied") ,
+            @ApiResponse(code = 404, message = "User not found")  })
     public TestEndpointParametersOper testEndpointParameters() {
         return new TestEndpointParametersOper(reqSpec);
     }
 
+    @ApiOperation(value = "To test enum parameters",
+            notes = "To test enum parameters",
+            nickname = "testEnumParameters",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Invalid request") ,
+            @ApiResponse(code = 404, message = "Not found")  })
     public TestEnumParametersOper testEnumParameters() {
         return new TestEnumParametersOper(reqSpec);
     }
 
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)",
+            notes = "Fake endpoint to test group parameters (optional)",
+            nickname = "testGroupParameters",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 400, message = "Someting wrong")  })
+    public TestGroupParametersOper testGroupParameters() {
+        return new TestGroupParametersOper(reqSpec);
+    }
+
+    @ApiOperation(value = "test inline additionalProperties",
+            notes = "",
+            nickname = "testInlineAdditionalProperties",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
     public TestInlineAdditionalPropertiesOper testInlineAdditionalProperties() {
         return new TestInlineAdditionalPropertiesOper(reqSpec);
     }
 
+    @ApiOperation(value = "test json serialization of form data",
+            notes = "",
+            nickname = "testJsonFormData",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
     public TestJsonFormDataOper testJsonFormData() {
         return new TestJsonFormDataOper(reqSpec);
     }
@@ -115,22 +196,13 @@ public class FakeApi {
      * @see #body Input boolean as post body (optional)
      * return Boolean
      */
-    public class FakeOuterBooleanSerializeOper {
+    public static class FakeOuterBooleanSerializeOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake/outer/boolean";
-        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public FakeOuterBooleanSerializeOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("*/*");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public FakeOuterBooleanSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -146,7 +218,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -195,22 +267,13 @@ public class FakeApi {
      * @see #body Input composite as post body (optional)
      * return OuterComposite
      */
-    public class FakeOuterCompositeSerializeOper {
+    public static class FakeOuterCompositeSerializeOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake/outer/composite";
-        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public FakeOuterCompositeSerializeOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("*/*");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public FakeOuterCompositeSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -226,7 +289,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -275,22 +338,13 @@ public class FakeApi {
      * @see #body Input number as post body (optional)
      * return BigDecimal
      */
-    public class FakeOuterNumberSerializeOper {
+    public static class FakeOuterNumberSerializeOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake/outer/number";
-        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public FakeOuterNumberSerializeOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("*/*");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public FakeOuterNumberSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -306,7 +360,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -355,22 +409,13 @@ public class FakeApi {
      * @see #body Input string as post body (optional)
      * return String
      */
-    public class FakeOuterStringSerializeOper {
+    public static class FakeOuterStringSerializeOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake/outer/string";
-        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public FakeOuterStringSerializeOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("*/*");
-            reqSpec.setAccept("*/*");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public FakeOuterStringSerializeOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -386,7 +431,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -434,22 +479,13 @@ public class FakeApi {
      *
      * @see #body  (required)
      */
-    public class TestBodyWithFileSchemaOper {
+    public static class TestBodyWithFileSchemaOper {
 
-        public static final String REQ_METHOD = "PUT";
+        public static final Method REQ_METHOD = PUT;
         public static final String REQ_URI = "/fake/body-with-file-schema";
-        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestBodyWithFileSchemaOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestBodyWithFileSchemaOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -465,7 +501,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -504,22 +540,13 @@ public class FakeApi {
      * @see #queryQuery  (required)
      * @see #body  (required)
      */
-    public class TestBodyWithQueryParamsOper {
+    public static class TestBodyWithQueryParamsOper {
 
-        public static final String REQ_METHOD = "PUT";
+        public static final Method REQ_METHOD = PUT;
         public static final String REQ_URI = "/fake/body-with-query-params";
-        public static final String SUMMARY = "";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestBodyWithQueryParamsOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestBodyWithQueryParamsOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -535,7 +562,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PUT, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
@@ -585,22 +612,13 @@ public class FakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public class TestClientModelOper {
+    public static class TestClientModelOper {
 
-        public static final String REQ_METHOD = "PATCH";
+        public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/fake";
-        public static final String SUMMARY = "To test \"client\" model";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestClientModelOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestClientModelOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -616,7 +634,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(PATCH, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         /**
@@ -666,33 +684,24 @@ public class FakeApi {
      * @see #_doubleForm None (required)
      * @see #patternWithoutDelimiterForm None (required)
      * @see #_byteForm None (required)
-     * @see #integerForm None (optional, default to null)
-     * @see #int32Form None (optional, default to null)
-     * @see #int64Form None (optional, default to null)
-     * @see #_floatForm None (optional, default to null)
-     * @see #stringForm None (optional, default to null)
-     * @see #binaryMultiPart None (optional, default to null)
-     * @see #dateForm None (optional, default to null)
-     * @see #dateTimeForm None (optional, default to null)
-     * @see #passwordForm None (optional, default to null)
-     * @see #paramCallbackForm None (optional, default to null)
+     * @see #integerForm None (optional)
+     * @see #int32Form None (optional)
+     * @see #int64Form None (optional)
+     * @see #_floatForm None (optional)
+     * @see #stringForm None (optional)
+     * @see #binaryMultiPart None (optional)
+     * @see #dateForm None (optional)
+     * @see #dateTimeForm None (optional)
+     * @see #passwordForm None (optional)
+     * @see #paramCallbackForm None (optional)
      */
-    public class TestEndpointParametersOper {
+    public static class TestEndpointParametersOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake";
-        public static final String SUMMARY = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestEndpointParametersOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/x-www-form-urlencoded");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestEndpointParametersOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -708,13 +717,13 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          public static final String INTEGER_FORM = "integer";
 
          /**
-         * @param integer (Integer) None (optional, default to null)
+         * @param integer (Integer) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper integerForm(Object... integer) {
@@ -725,7 +734,7 @@ public class FakeApi {
          public static final String INT32_FORM = "int32";
 
          /**
-         * @param int32 (Integer) None (optional, default to null)
+         * @param int32 (Integer) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper int32Form(Object... int32) {
@@ -736,7 +745,7 @@ public class FakeApi {
          public static final String INT64_FORM = "int64";
 
          /**
-         * @param int64 (Long) None (optional, default to null)
+         * @param int64 (Long) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper int64Form(Object... int64) {
@@ -758,7 +767,7 @@ public class FakeApi {
          public static final String _FLOAT_FORM = "float";
 
          /**
-         * @param _float (Float) None (optional, default to null)
+         * @param _float (Float) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper _floatForm(Object... _float) {
@@ -780,7 +789,7 @@ public class FakeApi {
          public static final String STRING_FORM = "string";
 
          /**
-         * @param string (String) None (optional, default to null)
+         * @param string (String) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper stringForm(Object... string) {
@@ -813,7 +822,7 @@ public class FakeApi {
          public static final String DATE_FORM = "date";
 
          /**
-         * @param date (LocalDate) None (optional, default to null)
+         * @param date (LocalDate) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper dateForm(Object... date) {
@@ -824,7 +833,7 @@ public class FakeApi {
          public static final String DATE_TIME_FORM = "dateTime";
 
          /**
-         * @param dateTime (OffsetDateTime) None (optional, default to null)
+         * @param dateTime (OffsetDateTime) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper dateTimeForm(Object... dateTime) {
@@ -835,7 +844,7 @@ public class FakeApi {
          public static final String PASSWORD_FORM = "password";
 
          /**
-         * @param password (String) None (optional, default to null)
+         * @param password (String) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper passwordForm(Object... password) {
@@ -846,7 +855,7 @@ public class FakeApi {
          public static final String PARAM_CALLBACK_FORM = "callback";
 
          /**
-         * @param paramCallback (String) None (optional, default to null)
+         * @param paramCallback (String) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper paramCallbackForm(Object... paramCallback) {
@@ -857,7 +866,7 @@ public class FakeApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param binary (File) None (optional, default to null)
+         * @param binary (File) None (optional)
          * @return operation
          */
          public TestEndpointParametersOper binaryMultiPart(File binary) {
@@ -889,31 +898,22 @@ public class FakeApi {
      * To test enum parameters
      * To test enum parameters
      *
-     * @see #enumHeaderStringArrayHeader Header parameter enum test (string array) (optional)
+     * @see #enumHeaderStringArrayHeader Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
      * @see #enumHeaderStringHeader Header parameter enum test (string) (optional, default to -efg)
-     * @see #enumQueryStringArrayQuery Query parameter enum test (string array) (optional)
+     * @see #enumQueryStringArrayQuery Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
      * @see #enumQueryStringQuery Query parameter enum test (string) (optional, default to -efg)
      * @see #enumQueryIntegerQuery Query parameter enum test (double) (optional)
      * @see #enumQueryDoubleQuery Query parameter enum test (double) (optional)
      * @see #enumFormStringArrayForm Form parameter enum test (string array) (optional, default to $)
      * @see #enumFormStringForm Form parameter enum test (string) (optional, default to -efg)
      */
-    public class TestEnumParametersOper {
+    public static class TestEnumParametersOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/fake";
-        public static final String SUMMARY = "To test enum parameters";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestEnumParametersOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/x-www-form-urlencoded");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestEnumParametersOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -929,13 +929,13 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
         public static final String ENUM_HEADER_STRING_ARRAY_HEADER = "enum_header_string_array";
 
         /**
-         * @param enumHeaderStringArray (List<String>) Header parameter enum test (string array) (optional)
+         * @param enumHeaderStringArray (List&lt;String&gt;) Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
          * @return operation
          */
         public TestEnumParametersOper enumHeaderStringArrayHeader(String enumHeaderStringArray) {
@@ -957,7 +957,7 @@ public class FakeApi {
         public static final String ENUM_QUERY_STRING_ARRAY_QUERY = "enum_query_string_array";
 
         /**
-         * @param enumQueryStringArray (List<String>) Query parameter enum test (string array) (optional)
+         * @param enumQueryStringArray (List&lt;String&gt;) Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
          * @return operation
          */
         public TestEnumParametersOper enumQueryStringArrayQuery(Object... enumQueryStringArray) {
@@ -1001,7 +1001,7 @@ public class FakeApi {
          public static final String ENUM_FORM_STRING_ARRAY_FORM = "enum_form_string_array";
 
          /**
-         * @param enumFormStringArray (List<String>) Form parameter enum test (string array) (optional, default to $)
+         * @param enumFormStringArray (List&lt;String&gt;) Form parameter enum test (string array) (optional, default to $)
          * @return operation
          */
          public TestEnumParametersOper enumFormStringArrayForm(Object... enumFormStringArray) {
@@ -1041,27 +1041,139 @@ public class FakeApi {
         }
     }
     /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     *
+     * @see #requiredStringGroupQuery Required String in group parameters (required)
+     * @see #requiredBooleanGroupHeader Required Boolean in group parameters (required)
+     * @see #requiredInt64GroupQuery Required Integer in group parameters (required)
+     * @see #stringGroupQuery String in group parameters (optional)
+     * @see #booleanGroupHeader Boolean in group parameters (optional)
+     * @see #int64GroupQuery Integer in group parameters (optional)
+     */
+    public static class TestGroupParametersOper {
+
+        public static final Method REQ_METHOD = DELETE;
+        public static final String REQ_URI = "/fake";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public TestGroupParametersOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * DELETE /fake
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        public static final String REQUIRED_BOOLEAN_GROUP_HEADER = "required_boolean_group";
+
+        /**
+         * @param requiredBooleanGroup (Boolean) Required Boolean in group parameters (required)
+         * @return operation
+         */
+        public TestGroupParametersOper requiredBooleanGroupHeader(String requiredBooleanGroup) {
+            reqSpec.addHeader(REQUIRED_BOOLEAN_GROUP_HEADER, requiredBooleanGroup);
+            return this;
+        }
+
+        public static final String BOOLEAN_GROUP_HEADER = "boolean_group";
+
+        /**
+         * @param booleanGroup (Boolean) Boolean in group parameters (optional)
+         * @return operation
+         */
+        public TestGroupParametersOper booleanGroupHeader(String booleanGroup) {
+            reqSpec.addHeader(BOOLEAN_GROUP_HEADER, booleanGroup);
+            return this;
+        }
+
+        public static final String REQUIRED_STRING_GROUP_QUERY = "required_string_group";
+
+        /**
+         * @param requiredStringGroup (Integer) Required String in group parameters (required)
+         * @return operation
+         */
+        public TestGroupParametersOper requiredStringGroupQuery(Object... requiredStringGroup) {
+            reqSpec.addQueryParam(REQUIRED_STRING_GROUP_QUERY, requiredStringGroup);
+            return this;
+        }
+
+        public static final String REQUIRED_INT64_GROUP_QUERY = "required_int64_group";
+
+        /**
+         * @param requiredInt64Group (Long) Required Integer in group parameters (required)
+         * @return operation
+         */
+        public TestGroupParametersOper requiredInt64GroupQuery(Object... requiredInt64Group) {
+            reqSpec.addQueryParam(REQUIRED_INT64_GROUP_QUERY, requiredInt64Group);
+            return this;
+        }
+
+        public static final String STRING_GROUP_QUERY = "string_group";
+
+        /**
+         * @param stringGroup (Integer) String in group parameters (optional)
+         * @return operation
+         */
+        public TestGroupParametersOper stringGroupQuery(Object... stringGroup) {
+            reqSpec.addQueryParam(STRING_GROUP_QUERY, stringGroup);
+            return this;
+        }
+
+        public static final String INT64_GROUP_QUERY = "int64_group";
+
+        /**
+         * @param int64Group (Long) Integer in group parameters (optional)
+         * @return operation
+         */
+        public TestGroupParametersOper int64GroupQuery(Object... int64Group) {
+            reqSpec.addQueryParam(INT64_GROUP_QUERY, int64Group);
+            return this;
+        }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestGroupParametersOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestGroupParametersOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
      * test inline additionalProperties
      * 
      *
      * @see #body request body (required)
      */
-    public class TestInlineAdditionalPropertiesOper {
+    public static class TestInlineAdditionalPropertiesOper {
 
-        public static final String REQ_METHOD = "POST";
+        public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/fake/inline-additionalProperties";
-        public static final String SUMMARY = "test inline additionalProperties";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestInlineAdditionalPropertiesOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/json");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestInlineAdditionalPropertiesOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -1077,11 +1189,11 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(POST, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          /**
-         * @param requestBody (Map<String, String>) request body (required)
+         * @param requestBody (Map&lt;String, String&gt;) request body (required)
          * @return operation
          */
         public TestInlineAdditionalPropertiesOper body(Map<String, String> requestBody) {
@@ -1116,22 +1228,13 @@ public class FakeApi {
      * @see #paramForm field1 (required)
      * @see #param2Form field2 (required)
      */
-    public class TestJsonFormDataOper {
+    public static class TestJsonFormDataOper {
 
-        public static final String REQ_METHOD = "GET";
+        public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/fake/jsonFormData";
-        public static final String SUMMARY = "test json serialization of form data";
 
         private RequestSpecBuilder reqSpec;
-
         private ResponseSpecBuilder respSpec;
-
-        public TestJsonFormDataOper() {
-            this.reqSpec = new RequestSpecBuilder();
-            reqSpec.setContentType("application/x-www-form-urlencoded");
-            reqSpec.setAccept("application/json");
-            this.respSpec = new ResponseSpecBuilder();
-        }
 
         public TestJsonFormDataOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
@@ -1147,7 +1250,7 @@ public class FakeApi {
          * @return type
          */
         public <T> T execute(Function<Response, T> handler) {
-            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(GET, REQ_URI));
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
          public static final String PARAM_FORM = "param";

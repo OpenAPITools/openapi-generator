@@ -1,34 +1,37 @@
-module DateOnly exposing (DateOnly, dateOnlyDecoder, dateOnlyEncoder)
+module DateOnly exposing (DateOnly, decoder, encoder, toString)
 
-import Date
-import Date.Extra exposing (fromIsoString, toFormattedString)
+import Iso8601
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
+import Result
+import Time
 
 
 type alias DateOnly =
-    Date.Date
+    Time.Posix
 
 
-dateOnlyDecoder : Decoder DateOnly
-dateOnlyDecoder =
+decoder : Decoder DateOnly
+decoder =
     Decode.string
         |> Decode.andThen decodeIsoString
 
 
-dateOnlyEncoder : DateOnly -> Encode.Value
-dateOnlyEncoder model =
-    Encode.string <| toFormattedString "yyyy-MM-dd" model
+encoder : DateOnly -> Encode.Value
+encoder =
+    Encode.string << toString
 
 
 decodeIsoString : String -> Decoder DateOnly
 decodeIsoString str =
-    case fromIsoString str of
-        Just date ->
-            Decode.succeed date
+    case Iso8601.toTime (str ++ "T00:00:00.000Z") of
+        Result.Ok posix ->
+            Decode.succeed posix
 
-        Nothing ->
-            Decode.fail <|
-                "Cannot convert "
-                    ++ str
-                    ++ " to DateOnly"
+        Result.Err _ ->
+            Decode.fail <| "Invalid date: " ++ str
+
+
+toString : DateOnly -> String
+toString =
+    String.left 10 << Iso8601.fromTime

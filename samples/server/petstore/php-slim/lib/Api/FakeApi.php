@@ -37,11 +37,11 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class FakeApi extends AbstractApiController {
+class FakeApi extends AbstractApiController
+{
 
     /**
      * POST fakeOuterBooleanSerialize
-     * Summary: 
      * Notes: Test serialization of outer boolean types
      * Output-Formats: [*_/_*]
      *
@@ -49,15 +49,15 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterBooleanSerialize($request, $response, $args) {
+    public function fakeOuterBooleanSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterBooleanSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST fakeOuterCompositeSerialize
-     * Summary: 
      * Notes: Test serialization of object with outer number type
      * Output-Formats: [*_/_*]
      *
@@ -65,15 +65,15 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterCompositeSerialize($request, $response, $args) {
+    public function fakeOuterCompositeSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterCompositeSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST fakeOuterNumberSerialize
-     * Summary: 
      * Notes: Test serialization of outer number types
      * Output-Formats: [*_/_*]
      *
@@ -81,15 +81,15 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterNumberSerialize($request, $response, $args) {
+    public function fakeOuterNumberSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterNumberSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * POST fakeOuterStringSerialize
-     * Summary: 
      * Notes: Test serialization of outer string types
      * Output-Formats: [*_/_*]
      *
@@ -97,44 +97,44 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function fakeOuterStringSerialize($request, $response, $args) {
+    public function fakeOuterStringSerialize($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing fakeOuterStringSerialize as a POST method ?');
         return $response;
     }
-    
+
     /**
      * PUT testBodyWithFileSchema
-     * Summary: 
      * Notes: For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testBodyWithFileSchema($request, $response, $args) {
+    public function testBodyWithFileSchema($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testBodyWithFileSchema as a PUT method ?');
         return $response;
     }
-    
+
     /**
      * PUT testBodyWithQueryParams
-     * Summary: 
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testBodyWithQueryParams($request, $response, $args) {
+    public function testBodyWithQueryParams($request, $response, $args)
+    {
         $queryParams = $request->getQueryParams();
         $query = $request->getQueryParam('query');
         $body = $request->getParsedBody();
         $response->write('How about implementing testBodyWithQueryParams as a PUT method ?');
         return $response;
     }
-    
+
     /**
      * PATCH testClientModel
      * Summary: To test \&quot;client\&quot; model
@@ -145,12 +145,13 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testClientModel($request, $response, $args) {
+    public function testClientModel($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testClientModel as a PATCH method ?');
         return $response;
     }
-    
+
     /**
      * POST testEndpointParameters
      * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
@@ -160,7 +161,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testEndpointParameters($request, $response, $args) {
+    public function testEndpointParameters($request, $response, $args)
+    {
         $integer = $request->getParsedBodyParam('integer');
         $int32 = $request->getParsedBodyParam('int32');
         $int64 = $request->getParsedBodyParam('int64');
@@ -178,7 +180,7 @@ class FakeApi extends AbstractApiController {
         $response->write('How about implementing testEndpointParameters as a POST method ?');
         return $response;
     }
-    
+
     /**
      * GET testEnumParameters
      * Summary: To test enum parameters
@@ -188,7 +190,8 @@ class FakeApi extends AbstractApiController {
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testEnumParameters($request, $response, $args) {
+    public function testEnumParameters($request, $response, $args)
+    {
         $headers = $request->getHeaders();
         $enumHeaderStringArray = $request->hasHeader('enum_header_string_array') ? $headers['enum_header_string_array'] : null;
         $enumHeaderString = $request->hasHeader('enum_header_string') ? $headers['enum_header_string'] : null;
@@ -202,36 +205,58 @@ class FakeApi extends AbstractApiController {
         $response->write('How about implementing testEnumParameters as a GET method ?');
         return $response;
     }
-    
+
     /**
-     * POST testInlineAdditionalProperties
-     * Summary: test inline additionalProperties
-     * Notes: 
+     * DELETE testGroupParameters
+     * Summary: Fake endpoint to test group parameters (optional)
+     * Notes: Fake endpoint to test group parameters (optional)
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testInlineAdditionalProperties($request, $response, $args) {
+    public function testGroupParameters($request, $response, $args)
+    {
+        $headers = $request->getHeaders();
+        $requiredBooleanGroup = $request->hasHeader('required_boolean_group') ? $headers['required_boolean_group'] : null;
+        $booleanGroup = $request->hasHeader('boolean_group') ? $headers['boolean_group'] : null;
+        $queryParams = $request->getQueryParams();
+        $requiredStringGroup = $request->getQueryParam('required_string_group');
+        $requiredInt64Group = $request->getQueryParam('required_int64_group');
+        $stringGroup = $request->getQueryParam('string_group');
+        $int64Group = $request->getQueryParam('int64_group');
+        $response->write('How about implementing testGroupParameters as a DELETE method ?');
+        return $response;
+    }
+
+    /**
+     * POST testInlineAdditionalProperties
+     * Summary: test inline additionalProperties
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
+     * @param \Psr\Http\Message\ResponseInterface      $response Response
+     * @param array|null                               $args     Path arguments
+     */
+    public function testInlineAdditionalProperties($request, $response, $args)
+    {
         $body = $request->getParsedBody();
         $response->write('How about implementing testInlineAdditionalProperties as a POST method ?');
         return $response;
     }
-    
+
     /**
      * GET testJsonFormData
      * Summary: test json serialization of form data
-     * Notes: 
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
      */
-    public function testJsonFormData($request, $response, $args) {
+    public function testJsonFormData($request, $response, $args)
+    {
         $param = $request->getParsedBodyParam('param');
         $param2 = $request->getParsedBodyParam('param2');
         $response->write('How about implementing testJsonFormData as a GET method ?');
         return $response;
     }
-    
 }

@@ -18,11 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
@@ -36,18 +34,26 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
+import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, OptionalFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures,
+        OptionalFeatures {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
@@ -57,6 +63,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
+    public static final String VIRTUAL_SERVICE = "virtualService";
+
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
     public static final String REACTIVE = "reactive";
@@ -68,6 +76,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
+    public static final String HATEOAS = "hateoas";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -82,10 +91,13 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String responseWrapper = "";
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
+    protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
     protected boolean openapiDocketConfig = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
+    protected boolean virtualService = false;
+    protected boolean hateoas = false;
 
     public SpringCodegen() {
         super();
@@ -110,12 +122,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
         cliOptions.add(CliOption.newBoolean(REACTIVE, "wrap responses in Mono/Flux Reactor types (spring-boot only)", reactive));
         cliOptions.add(new CliOption(RESPONSE_WRAPPER, "wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)"));
+        cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers.", implicitHeaders));
         cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
         cliOptions.add(CliOption.newBoolean(API_FIRST, "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
+        cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -154,9 +169,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("configOptions", configOptions);
 
         // Process java8 option before common java ones to change the default dateLibrary to java8.
-        System.out.println("----------------------------------");
+        LOGGER.info("----------------------------------");
         if (additionalProperties.containsKey(JAVA_8)) {
-            System.out.println("has JAVA8");
+            LOGGER.info("has JAVA8");
             this.setJava8(Boolean.valueOf(additionalProperties.get(JAVA_8).toString()));
             additionalProperties.put(JAVA_8, java8);
         }
@@ -194,6 +209,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         } else {
             additionalProperties.put(BASE_PACKAGE, basePackage);
         }
+        
+        if (additionalProperties.containsKey(VIRTUAL_SERVICE)) {
+            this.setVirtualService(Boolean.valueOf(additionalProperties.get(VIRTUAL_SERVICE).toString()));
+        }
 
         if (additionalProperties.containsKey(INTERFACE_ONLY)) {
             this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
@@ -209,6 +228,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(ASYNC)) {
             this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
+            //fix for issue/1164
+            convertPropertyToBooleanAndWriteBack(ASYNC);
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
@@ -231,6 +252,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
+        if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
+            this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
+        }
+        writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
+
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
         }
@@ -246,6 +272,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(API_FIRST)) {
             this.setApiFirst(Boolean.valueOf(additionalProperties.get(API_FIRST).toString()));
         }
+        
+        if (additionalProperties.containsKey(HATEOAS)) {
+            this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
+        }
 
         typeMapping.put("file", "Resource");
         importMapping.put("Resource", "org.springframework.core.io.Resource");
@@ -260,7 +290,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 additionalProperties.put("delegate-method", true);
             } else {
                 throw new IllegalArgumentException(
-                        String.format("Can not generate code with `%s` and `%s` true while `%s` is false.",
+                        String.format(Locale.ROOT, "Can not generate code with `%s` and `%s` true while `%s` is false.",
                                 DELEGATE_PATTERN, INTERFACE_ONLY, JAVA_8));
             }
         }
@@ -351,6 +381,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (this.async) {
                 additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
             }
+            if (this.reactive) {
+                additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+            }
         } else if (this.async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
@@ -434,11 +467,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             // Drop any API suffix
             if (title != null) {
                 title = title.trim().replace(" ", "-");
-                if (title.toUpperCase().endsWith("API")) {
+                if (title.toUpperCase(Locale.ROOT).endsWith("API")) {
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = camelize(sanitizeName(title), true);
+                this.title = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(title), true);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -588,7 +621,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (CodegenSecurity authMethod : authMethods) {
-                    authMethod.name = camelize(sanitizeName(authMethod.name), true);
+                    authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
                 }
             }
         }
@@ -601,7 +634,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return camelize(name) + "Api";
+        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
     }
 
     @Override
@@ -660,6 +693,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setJava8(boolean java8) { this.java8 = java8; }
 
+    public void setVirtualService(boolean virtualService) { this.virtualService = virtualService; }
+
     public void setAsync(boolean async) { this.async = async; }
 
     public void setReactive(boolean reactive) { this.reactive = reactive; }
@@ -680,6 +715,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setApiFirst(boolean apiFirst) {
         this.apiFirst = apiFirst;
+    }
+    
+    public void setHateoas(boolean hateoas) {
+        this.hateoas = hateoas;
     }
 
     @Override
@@ -729,6 +768,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setPerformBeanValidation(boolean performBeanValidation) {
+        this.performBeanValidation = performBeanValidation;
     }
 
     @Override

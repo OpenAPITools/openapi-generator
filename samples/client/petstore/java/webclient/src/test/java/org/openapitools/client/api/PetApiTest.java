@@ -13,7 +13,6 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
@@ -38,12 +37,9 @@ public class PetApiTest {
      * Add a new pet to the store
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void addPetTest() throws ApiException {
+    public void addPetTest()  {
         Pet pet = null;
         api.addPet(pet).block();
 
@@ -54,12 +50,9 @@ public class PetApiTest {
      * Deletes a pet
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void deletePetTest() throws ApiException {
+    public void deletePetTest()  {
         Long petId = null;
         String apiKey = null;
         api.deletePet(petId, apiKey).block();
@@ -71,12 +64,9 @@ public class PetApiTest {
      * Finds Pets by status
      *
      * Multiple status values can be provided with comma separated strings
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void findPetsByStatusTest() throws ApiException {
+    public void findPetsByStatusTest()  {
         List<String> status = null;
         List<Pet> response = api.findPetsByStatus(status).collectList().block();
 
@@ -87,12 +77,9 @@ public class PetApiTest {
      * Finds Pets by tags
      *
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void findPetsByTagsTest() throws ApiException {
+    public void findPetsByTagsTest()  {
         List<String> tags = null;
         List<Pet> response = api.findPetsByTags(tags).collectList().block();
 
@@ -103,12 +90,9 @@ public class PetApiTest {
      * Find pet by ID
      *
      * Returns a single pet
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void getPetByIdTest() throws ApiException {
+    public void getPetByIdTest()  {
         Long petId = null;
         Pet response = api.getPetById(petId).block();
 
@@ -119,12 +103,9 @@ public class PetApiTest {
      * Update an existing pet
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void updatePetTest() throws ApiException {
+    public void updatePetTest()  {
         Pet pet = null;
         api.updatePet(pet).block();
 
@@ -135,12 +116,9 @@ public class PetApiTest {
      * Updates a pet in the store with form data
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void updatePetWithFormTest() throws ApiException {
+    public void updatePetWithFormTest()  {
         Long petId = null;
         String name = null;
         String status = null;
@@ -153,12 +131,9 @@ public class PetApiTest {
      * uploads an image
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void uploadFileTest() throws ApiException {
+    public void uploadFileTest()  {
         Long petId = null;
         String additionalMetadata = null;
         File file = null;
@@ -171,16 +146,13 @@ public class PetApiTest {
      * uploads an image (required)
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void uploadFileWithRequiredFileTest() throws ApiException {
+    public void uploadFileWithRequiredFileTest()  {
         Long petId = null;
-        File file = null;
+        File requiredFile = null;
         String additionalMetadata = null;
-        ModelApiResponse response = api.uploadFileWithRequiredFile(petId, file, additionalMetadata).block();
+        ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata).block();
 
         // TODO: test validations
     }
