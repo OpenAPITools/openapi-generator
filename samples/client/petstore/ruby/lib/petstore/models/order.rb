@@ -13,16 +13,63 @@ OpenAPI Generator version: 3.3.4-SNAPSHOT
 require 'date'
 
 module Petstore
-  class StringBooleanMap
+  class Order
+    attr_accessor :id
+
+    attr_accessor :pet_id
+
+    attr_accessor :quantity
+
+    attr_accessor :ship_date
+
+    # Order Status
+    attr_accessor :status
+
+    attr_accessor :complete
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'id' => :'id',
+        :'pet_id' => :'petId',
+        :'quantity' => :'quantity',
+        :'ship_date' => :'shipDate',
+        :'status' => :'status',
+        :'complete' => :'complete'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'id' => :'Integer',
+        :'pet_id' => :'Integer',
+        :'quantity' => :'Integer',
+        :'ship_date' => :'DateTime',
+        :'status' => :'String',
+        :'complete' => :'BOOLEAN'
       }
     end
 
@@ -33,6 +80,32 @@ module Petstore
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+
+      if attributes.has_key?(:'id')
+        self.id = attributes[:'id']
+      end
+
+      if attributes.has_key?(:'petId')
+        self.pet_id = attributes[:'petId']
+      end
+
+      if attributes.has_key?(:'quantity')
+        self.quantity = attributes[:'quantity']
+      end
+
+      if attributes.has_key?(:'shipDate')
+        self.ship_date = attributes[:'shipDate']
+      end
+
+      if attributes.has_key?(:'status')
+        self.status = attributes[:'status']
+      end
+
+      if attributes.has_key?(:'complete')
+        self.complete = attributes[:'complete']
+      else
+        self.complete = false
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -45,14 +118,32 @@ module Petstore
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      status_validator = EnumAttributeValidator.new('String', ['placed', 'approved', 'delivered'])
+      return false unless status_validator.valid?(@status)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] status Object to be assigned
+    def status=(status)
+      validator = EnumAttributeValidator.new('String', ['placed', 'approved', 'delivered'])
+      unless validator.valid?(status)
+        fail ArgumentError, 'invalid value for "status", must be one of #{validator.allowable_values}.'
+      end
+      @status = status
     end
 
     # Checks equality by comparing each attribute.
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class
+      self.class == o.class &&
+          id == o.id &&
+          pet_id == o.pet_id &&
+          quantity == o.quantity &&
+          ship_date == o.ship_date &&
+          status == o.status &&
+          complete == o.complete
     end
 
     # @see the `==` method
@@ -64,7 +155,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [].hash
+      [id, pet_id, quantity, ship_date, status, complete].hash
     end
 
     # Builds the object from hash

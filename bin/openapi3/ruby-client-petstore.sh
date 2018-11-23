@@ -27,8 +27,8 @@ fi
 
 # purge lib/doc folder
 echo "purge ruby petstore lib, docs folder"
-rm -Rf samples/client/petstore/ruby/lib
-rm -Rf samples/client/petstore/ruby/docs
+rm -Rf samples/openapi3/client/petstore/ruby/lib
+rm -Rf samples/openapi3/client/petstore/ruby/docs
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"

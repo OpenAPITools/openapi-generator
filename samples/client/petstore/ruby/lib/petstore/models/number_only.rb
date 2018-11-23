@@ -13,16 +13,20 @@ OpenAPI Generator version: 3.3.4-SNAPSHOT
 require 'date'
 
 module Petstore
-  class AnimalFarm
+  class NumberOnly
+    attr_accessor :just_number
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'just_number' => :'JustNumber'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'just_number' => :'Float'
       }
     end
 
@@ -33,6 +37,10 @@ module Petstore
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+
+      if attributes.has_key?(:'JustNumber')
+        self.just_number = attributes[:'JustNumber']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -52,7 +60,8 @@ module Petstore
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class
+      self.class == o.class &&
+          just_number == o.just_number
     end
 
     # @see the `==` method
@@ -64,7 +73,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [].hash
+      [just_number].hash
     end
 
     # Builds the object from hash
