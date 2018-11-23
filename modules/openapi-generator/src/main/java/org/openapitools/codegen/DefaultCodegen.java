@@ -2560,7 +2560,12 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             r.code = responseCode;
         }
-        final Schema responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(response));
+        Schema responseSchema;
+        if (openAPI != null && openAPI.getComponents() != null) {
+            responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(response));
+        } else { // no model/alias defined
+            responseSchema = ModelUtils.getSchemaFromResponse(response);
+        }
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
