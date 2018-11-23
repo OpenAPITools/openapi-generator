@@ -34,7 +34,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
   {:error, info} on failure
   """
   {{{typespec}}}
-  def {{#underscored}}{{{operationId}}}{{/underscored}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
+  def {{{operationId}}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
 {{#optionalParams}}
 {{#-first}}
     optional_params = %{
