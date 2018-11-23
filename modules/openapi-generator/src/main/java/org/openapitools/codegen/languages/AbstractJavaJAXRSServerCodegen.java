@@ -200,7 +200,9 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
                 }
                 
                 // put needMultipartImport on operation level to enable the multipart imports in the generated code
-                if (isMultipartPost || Boolean.TRUE.equals(operation.isMultipart)) {
+                if (isMultipartPost
+                    || Boolean.TRUE.equals(operation.isMultipart)
+                    || operation.allParams.stream().anyMatch(cp -> cp.isFormParam)) {
                     objs.put(NEED_MULTIPART_IMPORT, true);
                 }
 

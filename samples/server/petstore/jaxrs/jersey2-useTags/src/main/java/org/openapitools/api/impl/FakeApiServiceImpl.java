@@ -17,6 +17,7 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
