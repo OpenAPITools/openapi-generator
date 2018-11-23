@@ -2312,6 +2312,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (openAPI != null && openAPI.getComponents() != null) { // has models/aliases defined
                     responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), responseSchema);
                 }
+
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
 
@@ -2559,7 +2560,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             r.code = responseCode;
         }
-        final Schema responseSchema = ModelUtils.getSchemaFromResponse(response);
+        final Schema responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(response));
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
