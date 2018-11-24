@@ -891,7 +891,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (appendDataType
                 && uniqueParamNameTypes.containsKey(paramNameType)
                 && !isDuplicate(paramNameType, dataType)) {
-            paramNameType = paramNameType + dataType;
+            paramNameType = toTypeName("", paramNameType + dataType);
         }
 
         while (typeNames.contains(paramNameType)) {

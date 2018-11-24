@@ -1,0 +1,1 @@
+{{#isNullable}}(Decode.nullable {{/isNullable}}{{#isContainer}}({{#isListContainer}}Decode.list{{/isListContainer}}{{#isMapContainer}}Decode.dict{{/isMapContainer}} {{#items}}{{>recordFieldValueDecoder}}{{/items}}){{/isContainer}}{{^isContainer}}{{vendorExtensions.elmDecoder}}{{/isContainer}}{{#isNullable}}) {{{defaultValue}}}{{/isNullable}}
