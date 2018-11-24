@@ -1682,7 +1682,7 @@ public class DefaultCodegen implements CodegenConfig {
                     addProperties(allProperties, allRequired, child, allDefinitions);
                 }
             }
-            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, allProperties, allRequired);
+            addVars(m, unaliasPropertySchema(properties), required, allProperties, allRequired);
 
         } else {
             m.dataType = getSchemaType(schema);
@@ -1705,7 +1705,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isString = Boolean.TRUE;
             }
 
-            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired());
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired());
         }
 
         if (m.vars != null) {
@@ -2593,12 +2593,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             r.code = responseCode;
         }
-        Schema responseSchema;
-        if (openAPI != null && openAPI.getComponents() != null) {
-            responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(response));
-        } else { // no model/alias defined
-            responseSchema = ModelUtils.getSchemaFromResponse(response);
-        }
+        Schema responseSchema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getSchemaFromResponse(response));
+
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
@@ -3386,16 +3382,13 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Loop through propertiies and unalias the reference if $ref (reference) is defined
      *
-     * @param allSchemas all schemas defined in the spec
      * @param properties model properties (schemas)
      * @return model properties with direct reference to schemas
      */
-    private Map<String, Schema> unaliasPropertySchema
-    (Map<String, Schema> allSchemas, Map<String, Schema> properties) {
+    private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {
         if (properties != null) {
             for (String key : properties.keySet()) {
-                properties.put(key, ModelUtils.unaliasSchema(allSchemas, properties.get(key)));
-
+                properties.put(key, ModelUtils.unaliasSchema(globalSchemas, properties.get(key)));
             }
         }
 
