@@ -431,7 +431,19 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId));
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId));
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(operationId));
     }
 
     /**
