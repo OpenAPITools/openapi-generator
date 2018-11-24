@@ -50,8 +50,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = {}
@@ -100,8 +98,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = {}
@@ -150,8 +146,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = {}
@@ -410,8 +404,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = {}

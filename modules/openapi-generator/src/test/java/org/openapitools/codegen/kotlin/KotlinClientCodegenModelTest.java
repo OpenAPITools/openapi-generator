@@ -238,7 +238,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property1.name, "child");
         Assert.assertEquals(property1.baseType, "Child");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
     }
 
     @DataProvider(name = "modelNames")
