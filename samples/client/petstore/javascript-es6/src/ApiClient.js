@@ -399,7 +399,7 @@ class ApiClient {
                     }
                 }
             }
-        } else if (bodyParam) {
+        } else if (bodyParam !== null && bodyParam !== undefined) {
             request.send(bodyParam);
         }
 
