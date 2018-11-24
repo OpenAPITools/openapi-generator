@@ -137,6 +137,9 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether to use environment variable to post process file
     protected boolean enablePostProcessFile = false;
 
+    // make openapi and schemas available to all methods
+    protected OpenAPI globalOpenAPI;
+    protected Map<String, Schema> globalSchemas;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -380,6 +383,32 @@ public class DefaultCodegen implements CodegenConfig {
             return "_" + var;
         } else {
             return var;
+        }
+    }
+
+
+    /**
+     * Set global OpenAPI based on OpenAPI object
+     *
+     * @param openAPI OpenAPI object
+     */
+    public void setGlobalOpenAPI(OpenAPI openAPI) {
+        this.globalOpenAPI = openAPI;
+    }
+
+
+    /**
+     * Set global schema based on OpenAPI object
+     *
+     * @param openAPI OpenAPI object
+     */
+    public void setGlobalSchemas(OpenAPI openAPI) {
+        if (openAPI != null && openAPI.getComponents() != null) {
+            this.globalSchemas = openAPI.getComponents().getSchemas();
+        }
+
+        if (this.globalSchemas == null) { // initalize with empty map if it's null
+            this.globalSchemas = new HashMap<String, Schema>();
         }
     }
 
@@ -1762,6 +1791,7 @@ public class DefaultCodegen implements CodegenConfig {
         return org.openapitools.codegen.utils.StringUtils.camelize(toVarName(name));
     }
 
+
     /**
      * Convert OAS Property object to Codegen Property object
      *
@@ -1775,6 +1805,10 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
+
+        // unalias schema
+        p = ModelUtils.unaliasSchema(globalSchemas, p);
+
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
@@ -2003,7 +2037,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = property.name;
             }
-            CodegenProperty cp = fromProperty(itemName, ((ArraySchema) p).getItems());
+            Schema innerSchema = ModelUtils.unaliasSchema(globalSchemas, ((ArraySchema) p).getItems());
+            CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isMapSchema(p)) {
             property.isContainer = true;
@@ -2014,7 +2049,8 @@ public class DefaultCodegen implements CodegenConfig {
             property.maxItems = p.getMaxProperties();
 
             // handle inner property
-            CodegenProperty cp = fromProperty("inner", ModelUtils.getAdditionalProperties(p));
+            Schema innerSchema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getAdditionalProperties(p));
+            CodegenProperty cp = fromProperty("inner", innerSchema);
             updatePropertyForMap(property, cp);
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
@@ -2308,10 +2344,7 @@ public class DefaultCodegen implements CodegenConfig {
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                Schema responseSchema = ModelUtils.getSchemaFromResponse(methodResponse);
-                if (openAPI != null && openAPI.getComponents() != null) { // has models/aliases defined
-                    responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), responseSchema);
-                }
+                Schema responseSchema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getSchemaFromResponse(methodResponse));
 
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
@@ -2579,6 +2612,7 @@ public class DefaultCodegen implements CodegenConfig {
         r.hasHeaders = !r.headers.isEmpty();
 
         if (r.schema != null) {
+            Map<String, Schema> allSchemas = null;
             CodegenProperty cp = fromProperty("response", responseSchema);
 
             if (ModelUtils.isArraySchema(responseSchema)) {
@@ -3215,6 +3249,7 @@ public class DefaultCodegen implements CodegenConfig {
                 String description = headers.getValue().getDescription();
                 // follow the $ref
                 Header header = ModelUtils.getReferencedHeader(openAPI, headers.getValue());
+
                 CodegenProperty cp = fromProperty(headers.getKey(), header.getSchema());
                 cp.setDescription(escapeText(description));
                 cp.setUnescapedDescription(description);

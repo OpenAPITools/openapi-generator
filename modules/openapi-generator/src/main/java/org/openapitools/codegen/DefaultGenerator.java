@@ -180,6 +180,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         config.processOpts();
         config.preprocessOpenAPI(openAPI);
+
+        // set OpenAPI and schemas to make these available to all methods
+        config.setGlobalOpenAPI(openAPI);
+        config.setGlobalSchemas(openAPI);
+
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
         config.additionalProperties().put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
