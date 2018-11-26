@@ -132,9 +132,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
-        } else {
-            return super.getTypeDeclaration(p);
+        } else if (ModelUtils.isDateSchema(p)) {
+            return "Date";
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            return "Date";
         }
+        return super.getTypeDeclaration(p);
     }
 
     @Override
