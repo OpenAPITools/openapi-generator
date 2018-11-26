@@ -48,10 +48,8 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/required}}
         {{/allParams}}
-        {{#hasQueryParams}}
         const queryParameters: runtime.HTTPQuery = {};
 
-        {{/hasQueryParams}}
         {{#queryParams}}
         {{#isListContainer}}
         if (requestParameters.{{paramName}}) {
@@ -168,9 +166,7 @@ export class {{classname}} extends runtime.BaseAPI {
             path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
-            {{#hasQueryParams}}
             query: queryParameters,
-            {{/hasQueryParams}}
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
