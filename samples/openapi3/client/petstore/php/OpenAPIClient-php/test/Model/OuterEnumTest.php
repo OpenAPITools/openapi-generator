@@ -29,6 +29,8 @@
 
 namespace OpenAPI\Client;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * OuterEnumTest Class Doc Comment
  *
@@ -38,7 +40,7 @@ namespace OpenAPI\Client;
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class OuterEnumTest extends \PHPUnit_Framework_TestCase
+class OuterEnumTest extends TestCase
 {
 
     /**
