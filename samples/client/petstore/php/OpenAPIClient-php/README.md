@@ -19,7 +19,7 @@ To install the bindings via [Composer](http://getcomposer.org/), add the followi
 {
   "repositories": [
     {
-      "type": "git",
+      "type": "vcs",
       "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
     }
   ],
