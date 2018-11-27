@@ -5,7 +5,7 @@ One can also generate API clients or server stubs using the online openapi-gener
 Here are the public online services: 
 
 - latest stable version: http://api.openapi-generator.tech
-- latest master: http://api-latest-master.openapi-generator.tech (updated from latest master every hour)
+- latest master: http://api-latest-master.openapi-generator.tech (updated with latest master every hour)
 
 The server is sponsored by [Linode](https://www.linode.com/) ![Linode Logo](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)
 
