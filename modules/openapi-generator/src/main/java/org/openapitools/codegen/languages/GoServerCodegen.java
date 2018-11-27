@@ -135,7 +135,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "", "Dockerfile"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", sourceFolder, "README.md"));
+        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
     }
 
     @Override
