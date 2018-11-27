@@ -100,7 +100,7 @@ export interface Return {
 export const FakeApiFetchParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         * To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
          * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
          * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
          * @param {*} [options] Override http request option.
@@ -141,7 +141,7 @@ export const FakeApiFetchParamCreator = function (configuration?: Configuration)
 export const FakeApiFp = function(configuration?: Configuration) {
     return {
         /**
-         * 
+         * To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
          * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
          * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
          * @param {*} [options] Override http request option.
@@ -169,7 +169,7 @@ export const FakeApiFp = function(configuration?: Configuration) {
 export const FakeApiFactory = function (configuration?: Configuration, fetch?: FetchAPI, basePath?: string) {
     return {
         /**
-         * 
+         * To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
          * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
          * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
          * @param {*} [options] Override http request option.
@@ -189,7 +189,7 @@ export const FakeApiFactory = function (configuration?: Configuration, fetch?: F
  */
 export class FakeApi extends BaseAPI {
     /**
-     * 
+     * To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
      * @param {*} [options] Override http request option.
