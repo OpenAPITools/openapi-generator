@@ -320,6 +320,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 throw new IllegalArgumentException("Pattern must follow the Perl "
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
+            // Python client doesn't currently support modifiers
+            if (!pattern.endsWith("/")) {
+                throw new IllegalArgumentException(
+                    "Python client does not currently support regular expression modifiers."
+                );
+            }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");
             List<String> modifiers = new ArrayList<String>();
