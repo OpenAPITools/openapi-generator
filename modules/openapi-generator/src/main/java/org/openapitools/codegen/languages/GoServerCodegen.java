@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -42,6 +43,15 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         // set the output folder here
         outputFolder = "generated-code/go";
+        
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Version of the package")
+                .defaultValue(packageVersion));
+        
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
+        		.defaultValue(sourceFolder));
+        
+        cliOptions.add(new CliOption("serverPort", "The network port the generated server binds to")
+        		.defaultValue(serverPort));
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
