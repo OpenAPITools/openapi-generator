@@ -110,6 +110,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Go package name (convention: lowercase).")
                 .defaultValue("openapi"));
+        
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Version of the package")
+                .defaultValue("1.0.0"));
+        
+        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
+        		.defaultValue("go"));
+        
+        cliOptions.add(new CliOption("serverPort", "The network port the generated server binds to")
+        		.defaultValue("8080"));
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
