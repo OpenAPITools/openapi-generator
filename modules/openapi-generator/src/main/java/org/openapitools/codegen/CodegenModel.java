@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
@@ -72,7 +73,57 @@ public class CodegenModel {
 
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "%s(%s)", name, classname);
+        return new ToStringBuilder(this)
+                .append("parent", parent)
+                .append("parentSchema", parentSchema)
+                .append("interfaces", interfaces)
+                .append("parentModel", parentModel)
+                .append("interfaceModels", interfaceModels)
+                .append("children", children)
+                .append("name", name)
+                .append("classname", classname)
+                .append("title", title)
+                .append("description", description)
+                .append("classVarName", classVarName)
+                .append("modelJson", modelJson)
+                .append("dataType", dataType)
+                .append("xmlPrefix", xmlPrefix)
+                .append("xmlNamespace", xmlNamespace)
+                .append("xmlName", xmlName)
+                .append("classFilename", classFilename)
+                .append("unescapedDescription", unescapedDescription)
+                .append("discriminator", discriminator)
+                .append("defaultValue", defaultValue)
+                .append("arrayModelType", arrayModelType)
+                .append("isAlias", isAlias)
+                .append("isString", isString)
+                .append("isInteger", isInteger)
+                .append("vars", vars)
+                .append("requiredVars", requiredVars)
+                .append("optionalVars", optionalVars)
+                .append("readOnlyVars", readOnlyVars)
+                .append("readWriteVars", readWriteVars)
+                .append("allVars", allVars)
+                .append("parentVars", parentVars)
+                .append("allowableValues", allowableValues)
+                .append("mandatory", mandatory)
+                .append("allMandatory", allMandatory)
+                .append("imports", imports)
+                .append("hasVars", hasVars)
+                .append("emptyVars", emptyVars)
+                .append("hasMoreModels", hasMoreModels)
+                .append("hasEnums", hasEnums)
+                .append("isEnum", isEnum)
+                .append("hasRequired", hasRequired)
+                .append("hasOptional", hasOptional)
+                .append("isArrayModel", isArrayModel)
+                .append("hasChildren", hasChildren)
+                .append("isMapModel", isMapModel)
+                .append("hasOnlyReadOnly", hasOnlyReadOnly)
+                .append("externalDocumentation", externalDocumentation)
+                .append("vendorExtensions", vendorExtensions)
+                .append("additionalPropertiesType", additionalPropertiesType)
+                .toString();
     }
 
     @Override
