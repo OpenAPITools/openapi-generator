@@ -265,7 +265,6 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -322,7 +321,6 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
         let body = param_inline_object.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
@@ -385,7 +383,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -455,7 +452,6 @@ if let Some(body) = body {
 
         let body = param_body;
 
-
         request.set_body(body.into_bytes());
 
 
@@ -523,7 +519,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));

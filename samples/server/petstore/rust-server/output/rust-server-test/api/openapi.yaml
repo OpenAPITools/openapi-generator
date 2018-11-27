@@ -113,6 +113,12 @@ components:
         inner:
           $ref: '#/components/schemas/ObjectOfObjects_inner'
       type: object
+    XmlObject:
+      description: An XML object
+      type: string
+      xml:
+        name: an_xml_object
+        namespace: foo.bar
     inline_object:
       properties:
         id:

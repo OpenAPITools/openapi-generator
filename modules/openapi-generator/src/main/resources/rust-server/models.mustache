@@ -5,7 +5,7 @@ extern crate uuid;
 {{#usesXml}}use serde_xml_rs;{{/usesXml}}
 use serde::ser::Serializer;
 
-use std::collections::HashMap;
+use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
 
@@ -164,12 +164,36 @@ impl {{{classname}}} {
         }
     }
 }
-{{/arrayModelType}}{{/dataType}}{{/isEnum}}{{/model}}{{/models}}{{#usesXmlNamespaces}}
+{{/arrayModelType}}{{/dataType}}{{/isEnum}}
+
+impl {{{classname}}} {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        {{#xmlNamespace}}
+        let mut namespaces = BTreeMap::new();
+        // An empty string is used to indicate a global namespace in xmltree.
+        namespaces.insert("".to_string(), models::namespaces::{{#vendorExtensions}}{{{upperCaseName}}}{{/vendorExtensions}}.clone());
+        serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
+        {{/xmlNamespace}}
+        {{^xmlNamespace}}
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+        {{/xmlNamespace}}
+    }
+}
+
+{{/model}}{{/models}}{{#usesXmlNamespaces}}
 //XML namespaces
 pub mod namespaces {
     lazy_static!{
-        {{#models}}{{#model}}{{#xmlNamespace}}pub static ref {{#vendorExtensions}}{{{upperCaseName}}}{{/vendorExtensions}}: String = "{{{xmlNamespace}}}".to_string();
-        {{/xmlNamespace}}{{/model}}{{/models}}
+        {{#models}}
+        {{#model}}
+        {{#xmlNamespace}}
+        pub static ref {{#vendorExtensions}}{{{upperCaseName}}}{{/vendorExtensions}}: String = "{{{xmlNamespace}}}".to_string();
+        {{/xmlNamespace}}
+        {{/model}}
+        {{/models}}
     }
 }
 {{/usesXmlNamespaces}}
