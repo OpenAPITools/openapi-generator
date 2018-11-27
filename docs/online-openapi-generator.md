@@ -1,6 +1,15 @@
 ## Online OpenAPI generator
 
-One can also generate API client or server using the online openapi-generator.
+One can also generate API clients or server stubs using the online openapi-generator.
+
+Here are the public online services: 
+
+- latest stable version: http://api.openapi-generator.tech
+- latest master: http://api-latest-master.openapi-generator.tech
+
+The server is sponsored by [Linode](https://www.linode.com/) ![Linode Logo](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)
+
+(These services are beta and do not have any guarantee on service level)
 
 Here are the steps to run it locally:
 ```
