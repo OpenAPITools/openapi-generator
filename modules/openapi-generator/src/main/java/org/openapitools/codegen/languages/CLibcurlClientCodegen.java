@@ -98,6 +98,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
                         "int",
                         "long",
                         "register",
+                        "remove",
                         "restrict",
                         "return",
                         "short",
