@@ -476,6 +476,15 @@ Please refer to [integration.md](docs/integration.md) on how to integrate OpenAP
 
 ### [3.3 - Online OpenAPI generator](#table-of-contents)
 
+Here are the public online services:
+
+- latest stable version: http://api.openapi-generator.tech
+- latest master: http://api-latest-master.openapi-generator.tech (updated with latest master every hour)
+
+The server is sponsored by [Linode](https://www.linode.com/) [![Linode Logo](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/)
+
+(These services are beta and do not have any guarantee on service level)
+
 Please refer to [online-openapi-generator.md](docs/online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
 
 ### [3.4 - License information on Generated Code](#table-of-contents)
