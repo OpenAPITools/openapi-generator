@@ -48,10 +48,10 @@ public class GoServerCodegen extends AbstractGoCodegen {
                 .defaultValue(packageVersion));
         
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
-        		.defaultValue(sourceFolder));
+                .defaultValue(sourceFolder));
         
         cliOptions.add(new CliOption("serverPort", "The network port the generated server binds to")
-        		.defaultValue(serverPort));
+                .defaultValue(serverPort));
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
