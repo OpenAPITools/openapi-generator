@@ -31,9 +31,6 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final boolean WITH_GO_CODEGEN_COMMENT_VALUE = true;
     public static final boolean WITH_XML_VALUE = true;
     public static final Boolean PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = true;
-    public static final String SOURCE_FOLDER = "go";
-    public static final String CONST_SERVER_PORT = "serverPort";
-    public static final String SERVER_PORT = "8080";
 
     @Override
     public String getLanguage() {
@@ -50,8 +47,6 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.WITH_GO_CODEGEN_COMMENT, "true")
                 .put(CodegenConstants.WITH_XML, "true")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, "true")
-                .put(CodegenConstants.SOURCE_FOLDER, SOURCE_FOLDER)
-                .put(CONST_SERVER_PORT, SERVER_PORT)
                 .build();
     }
 
