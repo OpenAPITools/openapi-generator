@@ -11,7 +11,7 @@ The server is sponsored by [Linode](https://www.linode.com/) ![Linode Logo](http
 
 (These services are beta and do not have any guarantee on service level)
 
-Here are the steps to run it locally:
+If you prefer to run the service locally, here are the steps:
 ```
 mvn clean install
 cd modules/openapi-generator-online
