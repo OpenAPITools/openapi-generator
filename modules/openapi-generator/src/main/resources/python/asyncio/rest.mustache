@@ -160,7 +160,13 @@ class RESTClientObject(object):
         r = await self.pool_manager.request(**args)
         if _preload_content:
 
-            data = await r.text()
+            data = await r.read()
+            try
+                # binary -> string
+                data = data.decode('utf-8')
+            except UnicodeDecodeError:
+                # probably data is a binary content itself
+                pass
             r = RESTResponse(r, data)
 
             # log response body

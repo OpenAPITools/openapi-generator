@@ -28,7 +28,11 @@ class RESTResponse(io.IOBase):
         if resp.body:
             # In Python 3, the response body is utf-8 encoded bytes.
             if six.PY3:
-                self.data = resp.body.decode('utf-8')
+                try
+                    self.data = resp.body.decode('utf-8')
+                except UnicodeDecodeError:
+                    # probably data is a binary content itself
+                    self.data = resp.body
             else:
                 self.data = resp.body
         else:
