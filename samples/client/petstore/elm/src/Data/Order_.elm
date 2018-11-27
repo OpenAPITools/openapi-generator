@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Order_ exposing (Order_, Status(..), decoder, encoder)
+module Data.Order_ exposing (Order_, Status(..), decoder, encode)
 
 import DateTime exposing (DateTime)
 import Dict exposing (Dict)
@@ -22,12 +22,12 @@ import Json.Encode as Encode
 {-| An order for a pets from the pet store
 -}
 type alias Order_ =
-    { id : Maybe (Int)
-    , petId : Maybe (Int)
-    , quantity : Maybe (Int)
-    , shipDate : Maybe (DateTime)
-    , status : Maybe (Status)
-    , complete : Maybe (Bool)
+    { id : Maybe Int
+    , petId : Maybe Int
+    , quantity : Maybe Int
+    , shipDate : Maybe DateTime
+    , status : Maybe Status
+    , complete : Maybe Bool
     }
 
 
@@ -35,7 +35,6 @@ type Status
     = Placed
     | Approved
     | Delivered
-
 
 
 decoder : Decoder Order_
@@ -49,19 +48,16 @@ decoder =
         |> optional "complete" (Decode.nullable Decode.bool) (Just False)
 
 
-
-encoder : Order_ -> Encode.Value
-encoder model =
+encode : Order_ -> Encode.Value
+encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "petId", Maybe.withDefault Encode.null (Maybe.map Encode.int model.petId) )
         , ( "quantity", Maybe.withDefault Encode.null (Maybe.map Encode.int model.quantity) )
-        , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encoder model.shipDate) )
-        , ( "status", Maybe.withDefault Encode.null (Maybe.map statusEncoder model.status) )
+        , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encode model.shipDate) )
+        , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
         , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
-
         ]
-
 
 
 statusDecoder : Decoder Status
@@ -84,9 +80,8 @@ statusDecoder =
             )
 
 
-
-statusEncoder : Status -> Encode.Value
-statusEncoder model =
+encodeStatus : Status -> Encode.Value
+encodeStatus model =
     case model of
         Placed ->
             Encode.string "placed"
@@ -96,6 +91,3 @@ statusEncoder model =
 
         Delivered ->
             Encode.string "delivered"
-
-
-

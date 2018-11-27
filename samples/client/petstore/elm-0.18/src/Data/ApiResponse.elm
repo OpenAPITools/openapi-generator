@@ -10,7 +10,7 @@
 -}
 
 
-module Data.ApiResponse exposing (ApiResponse, decoder, encoder)
+module Data.ApiResponse exposing (ApiResponse, decoder, encode)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -21,9 +21,9 @@ import Json.Encode as Encode
 {-| Describes the result of uploading an image resource
 -}
 type alias ApiResponse =
-    { code : Maybe (Int)
-    , type_ : Maybe (String)
-    , message : Maybe (String)
+    { code : Maybe Int
+    , type_ : Maybe String
+    , message : Maybe String
     }
 
 
@@ -35,14 +35,10 @@ decoder =
         |> optional "message" (Decode.nullable Decode.string) Nothing
 
 
-
-encoder : ApiResponse -> Encode.Value
-encoder model =
+encode : ApiResponse -> Encode.Value
+encode model =
     Encode.object
         [ ( "code", Maybe.withDefault Encode.null (Maybe.map Encode.int model.code) )
         , ( "type", Maybe.withDefault Encode.null (Maybe.map Encode.string model.type_) )
         , ( "message", Maybe.withDefault Encode.null (Maybe.map Encode.string model.message) )
-
         ]
-
-
