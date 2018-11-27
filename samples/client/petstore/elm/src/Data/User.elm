@@ -10,7 +10,7 @@
 -}
 
 
-module Data.User exposing (User, decoder, encoder)
+module Data.User exposing (User, decoder, encode)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -21,14 +21,14 @@ import Json.Encode as Encode
 {-| A User who is purchasing from the pet store
 -}
 type alias User =
-    { id : Maybe (Int)
-    , username : Maybe (String)
-    , firstName : Maybe (String)
-    , lastName : Maybe (String)
-    , email : Maybe (String)
-    , password : Maybe (String)
-    , phone : Maybe (String)
-    , userStatus : Maybe (Int)
+    { id : Maybe Int
+    , username : Maybe String
+    , firstName : Maybe String
+    , lastName : Maybe String
+    , email : Maybe String
+    , password : Maybe String
+    , phone : Maybe String
+    , userStatus : Maybe Int
     }
 
 
@@ -45,9 +45,8 @@ decoder =
         |> optional "userStatus" (Decode.nullable Decode.int) Nothing
 
 
-
-encoder : User -> Encode.Value
-encoder model =
+encode : User -> Encode.Value
+encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "username", Maybe.withDefault Encode.null (Maybe.map Encode.string model.username) )
@@ -57,7 +56,4 @@ encoder model =
         , ( "password", Maybe.withDefault Encode.null (Maybe.map Encode.string model.password) )
         , ( "phone", Maybe.withDefault Encode.null (Maybe.map Encode.string model.phone) )
         , ( "userStatus", Maybe.withDefault Encode.null (Maybe.map Encode.int model.userStatus) )
-
         ]
-
-

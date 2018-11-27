@@ -1,4 +1,4 @@
-module DateOnly exposing (DateOnly, decoder, encoder, toString)
+module DateOnly exposing (DateOnly, decoder, encode, toString)
 
 import Date
 import Date.Extra exposing (fromIsoString, toFormattedString)
@@ -17,8 +17,8 @@ decoder =
         |> Decode.andThen decodeIsoString
 
 
-encoder : DateOnly -> Encode.Value
-encoder =
+encode : DateOnly -> Encode.Value
+encode =
     Encode.string << toString
 
 

@@ -12,8 +12,8 @@
 
 module Request.Pet exposing (addPet, deletePet, findPetsByStatus, findPetsByTags, getPetById, updatePet, updatePetWithForm, uploadFile)
 
-import Data.Pet as Pet exposing (Pet)
 import Data.ApiResponse as ApiResponse exposing (ApiResponse)
+import Data.Pet as Pet exposing (Pet)
 import Dict
 import Http
 import Json.Decode as Decode
@@ -29,7 +29,7 @@ addPet model =
     { method = "POST"
     , url = basePath ++ "/pet"
     , headers = []
-    , body = Http.jsonBody <| Pet.encoder model
+    , body = Http.jsonBody <| Pet.encode model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False
@@ -40,7 +40,7 @@ addPet model =
 deletePet : Int -> Http.Request ()
 deletePet petId =
     { method = "DELETE"
-    , url = basePath ++ "/pet/" ++  toString petId
+    , url = basePath ++ "/pet/" ++ toString petId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectStringResponse (\_ -> Ok ())
@@ -85,7 +85,7 @@ findPetsByTags =
 getPetById : Int -> Http.Request Pet
 getPetById petId =
     { method = "GET"
-    , url = basePath ++ "/pet/" ++  toString petId
+    , url = basePath ++ "/pet/" ++ toString petId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectJson Pet.decoder
@@ -100,7 +100,7 @@ updatePet model =
     { method = "PUT"
     , url = basePath ++ "/pet"
     , headers = []
-    , body = Http.jsonBody <| Pet.encoder model
+    , body = Http.jsonBody <| Pet.encode model
     , expect = Http.expectStringResponse (\_ -> Ok ())
     , timeout = Just 30000
     , withCredentials = False
@@ -111,7 +111,7 @@ updatePet model =
 updatePetWithForm : Int -> Http.Request ()
 updatePetWithForm petId =
     { method = "POST"
-    , url = basePath ++ "/pet/" ++  toString petId
+    , url = basePath ++ "/pet/" ++ toString petId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectStringResponse (\_ -> Ok ())
@@ -124,7 +124,7 @@ updatePetWithForm petId =
 uploadFile : Int -> Http.Request ApiResponse
 uploadFile petId =
     { method = "POST"
-    , url = basePath ++ "/pet/" ++  toString petId ++ "/uploadImage"
+    , url = basePath ++ "/pet/" ++ toString petId ++ "/uploadImage"
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectJson ApiResponse.decoder

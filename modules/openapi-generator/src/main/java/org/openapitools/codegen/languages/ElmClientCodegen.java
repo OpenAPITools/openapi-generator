@@ -130,7 +130,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 Arrays.asList(
                         "Byte",
                         "DateOnly",
-                        "DateTime")
+                        "DateTime",
+                        "Uuid")
         );
 
         instantiationTypes.clear();
@@ -153,6 +154,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("ByteArray", "Byte");
         typeMapping.put("file", "String");
         typeMapping.put("binary", "String");
+        typeMapping.put("UUID", "Uuid");
 
         importMapping.clear();
 
@@ -675,31 +677,31 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private void addEncoderAndDecoder(final Map<String, Object> vendorExtensions, final String dataType, final DataTypeExposure dataTypeExposure) {
         final String baseName = org.openapitools.codegen.utils.StringUtils.camelize(dataType, true);
-        String encoderName;
+        String encodeName;
         String decoderName;
         switch (dataTypeExposure) {
             case EXPOSED:
                 decoderName = "decoder";
-                encoderName = "encoder";
+                encodeName = "encode";
                 break;
             case INTERNAL:
-                encoderName = baseName + "Encoder";
+                encodeName = "encode" + StringUtils.capitalize(baseName);
                 decoderName = baseName + "Decoder";
                 break;
             case EXTERNAL:
-                encoderName = dataType + ".encoder";
+                encodeName = dataType + ".encode";
                 decoderName = dataType + ".decoder";
                 break;
             case PRIMITIVE:
-                encoderName = "Encode." + baseName;
+                encodeName = "Encode." + baseName;
                 decoderName = "Decode." + baseName;
                 break;
             default:
-                encoderName = "";
+                encodeName = "";
                 decoderName = "";
         }
         if (!vendorExtensions.containsKey(ENCODER)) {
-            vendorExtensions.put(ENCODER, encoderName);
+            vendorExtensions.put(ENCODER, encodeName);
         }
         if (!vendorExtensions.containsKey(DECODER)) {
             vendorExtensions.put(DECODER, decoderName);

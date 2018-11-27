@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Tag exposing (Tag, decoder, encoder)
+module Data.Tag exposing (Tag, decoder, encode)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -21,8 +21,8 @@ import Json.Encode as Encode
 {-| A tag for a pet
 -}
 type alias Tag =
-    { id : Maybe (Int)
-    , name : Maybe (String)
+    { id : Maybe Int
+    , name : Maybe String
     }
 
 
@@ -33,13 +33,9 @@ decoder =
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-
-encoder : Tag -> Encode.Value
-encoder model =
+encode : Tag -> Encode.Value
+encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
-
         ]
-
-
