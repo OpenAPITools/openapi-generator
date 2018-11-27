@@ -349,14 +349,20 @@ Please see the [docs](https://github.com/HarmoWatch/openapi-generator-cli) there
 Install it globally to get the CLI available on the command line:
 
 ```sh
-npm install @harmowatch/openapi-generator-cli -g
+npm install @openapitools/openapi-generator-cli -g
 openapi-generator version
+```
+
+Or a particualar version:
+
+```sh
+npm install @openapitools/openapi-generator-cli@cli-3.3.3 -g
 ```
 
 Or you install it as dev-dependency like this:
 
 ```sh
-npm install @harmowatch/openapi-generator-cli -D
+npm install @openapitools/openapi-generator-cli -D
 ```
 
 ## [2 - Getting Started](#table-of-contents)
