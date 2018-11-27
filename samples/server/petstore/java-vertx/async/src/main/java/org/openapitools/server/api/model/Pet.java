@@ -15,11 +15,16 @@ import org.openapitools.server.api.model.Tag;
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class Pet   {
   
-  private Long id = null;
+  private Long id;
+  
   private Category category = null;
-  private String name = null;
+  
+  private String name;
+  
   private List<String> photoUrls = new ArrayList<>();
-  private List<Tag> tags = new ArrayList<>();
+
+  private List<Tag> tags = null;
+
 
 
   public enum StatusEnum {
@@ -40,7 +45,8 @@ public class Pet   {
     }
   }
 
-  private StatusEnum status = null;
+  private StatusEnum status;
+  
 
   public Pet () {
 

@@ -10,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class Category   {
   
-  private Long id = null;
-  private String name = null;
+  private Long id;
+  
+  private String name;
+  
 
   public Category () {
 
