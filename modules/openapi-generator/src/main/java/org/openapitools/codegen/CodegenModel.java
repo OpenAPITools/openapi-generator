@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
@@ -80,7 +81,57 @@ public class CodegenModel {
 
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "%s(%s)", name, classname);
+        return new ToStringBuilder(this)
+                .append("parent", parent)
+                .append("parentSchema", parentSchema)
+                .append("interfaces", interfaces)
+                .append("parentModel", parentModel)
+                .append("interfaceModels", interfaceModels)
+                .append("children", children)
+                .append("name", name)
+                .append("classname", classname)
+                .append("title", title)
+                .append("description", description)
+                .append("classVarName", classVarName)
+                .append("modelJson", modelJson)
+                .append("dataType", dataType)
+                .append("xmlPrefix", xmlPrefix)
+                .append("xmlNamespace", xmlNamespace)
+                .append("xmlName", xmlName)
+                .append("classFilename", classFilename)
+                .append("unescapedDescription", unescapedDescription)
+                .append("discriminator", discriminator)
+                .append("defaultValue", defaultValue)
+                .append("arrayModelType", arrayModelType)
+                .append("isAlias", isAlias)
+                .append("isString", isString)
+                .append("isInteger", isInteger)
+                .append("vars", vars)
+                .append("requiredVars", requiredVars)
+                .append("optionalVars", optionalVars)
+                .append("readOnlyVars", readOnlyVars)
+                .append("readWriteVars", readWriteVars)
+                .append("allVars", allVars)
+                .append("parentVars", parentVars)
+                .append("allowableValues", allowableValues)
+                .append("mandatory", mandatory)
+                .append("allMandatory", allMandatory)
+                .append("imports", imports)
+                .append("hasVars", hasVars)
+                .append("emptyVars", emptyVars)
+                .append("hasMoreModels", hasMoreModels)
+                .append("hasEnums", hasEnums)
+                .append("isEnum", isEnum)
+                .append("hasRequired", hasRequired)
+                .append("hasOptional", hasOptional)
+                .append("isArrayModel", isArrayModel)
+                .append("hasChildren", hasChildren)
+                .append("isMapModel", isMapModel)
+                .append("hasOnlyReadOnly", hasOnlyReadOnly)
+                .append("externalDocumentation", externalDocumentation)
+                .append("vendorExtensions", vendorExtensions)
+                .append("additionalPropertiesType", additionalPropertiesType)
+                .toString();
     }
 
     @Override
@@ -195,11 +246,11 @@ public class CodegenModel {
         result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
         result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (hasVars ? 13:31);
-        result = 31 * result + (emptyVars ? 13:31);
-        result = 31 * result + (hasMoreModels ? 13:31);
-        result = 31 * result + (hasEnums ? 13:31);
-        result = 31 * result + (isEnum ? 13:31);
+        result = 31 * result + (hasVars ? 13 : 31);
+        result = 31 * result + (emptyVars ? 13 : 31);
+        result = 31 * result + (hasMoreModels ? 13 : 31);
+        result = 31 * result + (hasEnums ? 13 : 31);
+        result = 31 * result + (isEnum ? 13 : 31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
