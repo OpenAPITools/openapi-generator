@@ -693,6 +693,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             // Primitive return type, don't even try to decode
             if (returnBaseType == null || (returnSimpleType && returnTypeIsPrimitive)) {
                 return "false";
+            } else if (isListContainer && languageSpecificPrimitives().contains(returnBaseType)) {
+                return "[]";
             }
             StringBuilder sb = new StringBuilder();
             if (isListContainer) {
