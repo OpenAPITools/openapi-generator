@@ -7,8 +7,9 @@
 
 import Foundation
 
+
 public enum OuterEnum: String, Codable {
-    case placed
-    case approved
-    case delivered
+    case placed = "placed"
+    case approved = "approved"
+    case delivered = "delivered"
 }

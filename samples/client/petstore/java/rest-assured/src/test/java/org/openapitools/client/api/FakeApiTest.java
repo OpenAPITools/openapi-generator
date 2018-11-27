@@ -230,10 +230,16 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee400AfterTestGroupParameters() {
+        Integer requiredStringGroup = null;
+        String requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
         Integer stringGroup = null;
         String booleanGroup = null;
         Long int64Group = null;
-        api.testGroupParameters().execute(r -> r.prettyPeek());
+        api.testGroupParameters()
+                .requiredStringGroupQuery(requiredStringGroup)
+                .requiredBooleanGroupHeader(requiredBooleanGroup)
+                .requiredInt64GroupQuery(requiredInt64Group).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

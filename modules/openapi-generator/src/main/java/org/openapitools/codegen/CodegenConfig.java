@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -262,6 +263,12 @@ public interface CodegenConfig {
     public void setEnablePostProcessFile(boolean isEnablePostProcessFile);
 
     public boolean isEnableMinimalUpdate();
+
     public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
+
+    // set OpenAPI and schemas
+    public void setGlobalOpenAPI(OpenAPI openAPI);
+
+    public void setGlobalSchemas(OpenAPI openAPI);
 
 }

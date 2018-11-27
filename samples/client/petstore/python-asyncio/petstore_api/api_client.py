@@ -45,6 +45,8 @@ class ApiClient(object):
         the API.
     :param cookie: a cookie to include in the header when making calls
         to the API
+    :param pool_threads: The number of threads to use for async requests
+        to the API. More threads means more concurrent API requests.
     """
 
     PRIMITIVE_TYPES = (float, bool, bytes, six.text_type) + six.integer_types
@@ -58,14 +60,15 @@ class ApiClient(object):
         'datetime': datetime.datetime,
         'object': object,
     }
+    _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
-                 cookie=None):
+                 cookie=None, pool_threads=None):
         if configuration is None:
             configuration = Configuration()
         self.configuration = configuration
+        self.pool_threads = pool_threads
 
-        self.pool = ThreadPool()
         self.rest_client = rest.RESTClientObject(configuration)
         self.default_headers = {}
         if header_name is not None:
@@ -75,8 +78,19 @@ class ApiClient(object):
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
 
     def __del__(self):
-        self.pool.close()
-        self.pool.join()
+        if self._pool:
+            self._pool.close()
+            self._pool.join()
+            self._pool = None
+
+    @property
+    def pool(self):
+        """Create thread pool on first request
+         avoids instantiating unused threadpool for blocking clients.
+        """
+        if self._pool is None:
+            self._pool = ThreadPool(self.pool_threads)
+        return self._pool
 
     @property
     def user_agent(self):

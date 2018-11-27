@@ -221,6 +221,10 @@ public class CodegenConstants {
     public static final String SOURCECODEONLY_GENERATION = "generateSourceCodeOnly";
     public static final String SOURCECODEONLY_GENERATION_DESC = "Specifies that only a library source code is to be generated.";
 
+    public static final String PARCELIZE_MODELS = "parcelizeModels";
+    public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
+
+
     // Not user-configurable. System provided for use in templates.
 
     public static final String GENERATE_APIS = "generateApis";

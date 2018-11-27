@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -44,6 +45,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean parcelizeModels = false;
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
 
@@ -198,6 +200,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
+        cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
     }
 
     @Override
@@ -308,6 +311,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("KOTLIN_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable KOTLIN_POST_PROCESS_FILE not defined so the Kotlin code may not be properly formatted. To define it, try 'export KOTLIN_POST_PROCESS_FILE=\"/usr/local/bin/ktlint -F\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
@@ -350,6 +358,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.warn(CodegenConstants.INVOKER_PACKAGE + " with " + this.getName() + " generator is ignored. Use " + CodegenConstants.PACKAGE_NAME + ".");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
+            this.setParcelizeModels(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+            LOGGER.info(CodegenConstants.PARCELIZE_MODELS + " depends on the android framework and " +
+                    "experimental parcelize feature. Make sure your build applies the android plugin:\n" +
+                    "apply plugin: 'com.android.library' OR apply plugin: 'com.android.application'.\n" +
+                    "and enables the experimental features:\n" +
+                    "androidExtensions {\n" +
+                    "    experimental = true\n" +
+                    "}"
+            );
+        } else {
+            additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
+        }
+
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
@@ -375,6 +397,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    public Boolean getParcelizeModels() {
+        return parcelizeModels;
+    }
+
+    public void setParcelizeModels(Boolean parcelizeModels) {
+        this.parcelizeModels = parcelizeModels;
     }
 
     /**
@@ -683,5 +713,34 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
         }
         return startsWithTwoUppercaseLetters;
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String kotlinPostProcessFile = System.getenv("KOTLIN_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(kotlinPostProcessFile)) {
+            return; // skip if KOTLIN_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with kt extension
+        if ("kt".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = kotlinPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

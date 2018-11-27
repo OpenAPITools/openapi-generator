@@ -19,6 +19,9 @@ CONFIG OPTIONS for kotlin-spring
 	enumPropertyNaming
 	    Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original' (Default: camelCase)
 
+	parcelizeModels
+	    toggle "@Parcelize" for generated models
+
 	title
 	    server title name or client service name (Default: OpenAPI Kotlin Spring)
 

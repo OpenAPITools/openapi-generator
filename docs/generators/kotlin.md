@@ -19,6 +19,9 @@ CONFIG OPTIONS for kotlin
 	enumPropertyNaming
 	    Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original' (Default: camelCase)
 
+	parcelizeModels
+	    toggle "@Parcelize" for generated models
+
 	dateLibrary
 	    Option. Date library to use
 	        string - String

@@ -9,6 +9,8 @@ cd modules/openapi-generator-online
 mvn spring-boot:run
 ```
 
+:bulb: The online openapi-generator can be run via [Docker](https://github.com/OpenAPITools/openapi-generator#16---docker) as well.
+
 For example, to generate Ruby API client, simply send the following HTTP request using curl:
 ```sh
 curl -X POST -H "content-type:application/json" -d '{"openAPIUrl":"https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"}' http://localhost:8080/api/gen/clients/ruby

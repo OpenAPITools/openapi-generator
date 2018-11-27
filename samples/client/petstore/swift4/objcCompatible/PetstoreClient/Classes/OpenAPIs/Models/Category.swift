@@ -17,9 +17,9 @@ public struct Category: Codable {
             return _id.map({ return NSNumber(value: $0) })
         }
     }
-    public var name: String?
+    public var name: String = "default-name"
 
-    public init(_id: Int64?, name: String?) {
+    public init(_id: Int64?, name: String) {
         self._id = _id
         self.name = name
     }

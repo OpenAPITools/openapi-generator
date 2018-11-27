@@ -502,7 +502,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testGroupParameters**
-> testGroupParameters($string_group, $boolean_group, $int64_group)
+> testGroupParameters($required_string_group, $required_boolean_group, $required_int64_group, $string_group, $boolean_group, $int64_group)
 
 Fake endpoint to test group parameters (optional)
 
@@ -518,6 +518,9 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
+$associate_array['required_string_group'] = 56; // int | Required String in group parameters
+$associate_array['required_boolean_group'] = True; // bool | Required Boolean in group parameters
+$associate_array['required_int64_group'] = 56; // int | Required Integer in group parameters
 $associate_array['string_group'] = 56; // int | String in group parameters
 $associate_array['boolean_group'] = True; // bool | Boolean in group parameters
 $associate_array['int64_group'] = 56; // int | Integer in group parameters
@@ -536,6 +539,9 @@ Note: the input parameter is an associative array with the keys listed as the pa
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **required_string_group** | **int**| Required String in group parameters |
+ **required_boolean_group** | **bool**| Required Boolean in group parameters |
+ **required_int64_group** | **int**| Required Integer in group parameters |
  **string_group** | **int**| String in group parameters | [optional]
  **boolean_group** | **bool**| Boolean in group parameters | [optional]
  **int64_group** | **int**| Integer in group parameters | [optional]

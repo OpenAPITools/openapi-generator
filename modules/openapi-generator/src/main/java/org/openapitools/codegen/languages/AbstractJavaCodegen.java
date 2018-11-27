@@ -215,6 +215,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(SUPPORT_JAVA6)) {
@@ -1397,7 +1398,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return; // skip if JAVA_POST_PROCESS_FILE env variable is not defined
         }
 
-        // only process files with hs extension
+        // only process files with java extension
         if ("java".equals(FilenameUtils.getExtension(file.toString()))) {
             String command = javaPostProcessFile + " " + file.toString();
             try {

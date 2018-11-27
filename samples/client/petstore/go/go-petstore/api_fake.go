@@ -914,6 +914,9 @@ func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptiona
 FakeApiService Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param requiredStringGroup Required String in group parameters
+ * @param requiredBooleanGroup Required Boolean in group parameters
+ * @param requiredInt64Group Required Integer in group parameters
  * @param optional nil or *TestGroupParametersOpts - Optional Parameters:
  * @param "StringGroup" (optional.Int32) -  String in group parameters
  * @param "BooleanGroup" (optional.Bool) -  Boolean in group parameters
@@ -926,7 +929,7 @@ type TestGroupParametersOpts struct {
 	Int64Group optional.Int64
 }
 
-func (a *FakeApiService) TestGroupParameters(ctx context.Context, localVarOptionals *TestGroupParametersOpts) (*http.Response, error) {
+func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Delete")
 		localVarPostBody     interface{}
@@ -942,6 +945,8 @@ func (a *FakeApiService) TestGroupParameters(ctx context.Context, localVarOption
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	localVarQueryParams.Add("required_string_group", parameterToString(requiredStringGroup, ""))
+	localVarQueryParams.Add("required_int64_group", parameterToString(requiredInt64Group, ""))
 	if localVarOptionals != nil && localVarOptionals.StringGroup.IsSet() {
 		localVarQueryParams.Add("string_group", parameterToString(localVarOptionals.StringGroup.Value(), ""))
 	}
@@ -965,6 +970,7 @@ func (a *FakeApiService) TestGroupParameters(ctx context.Context, localVarOption
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
+	localVarHeaderParams["required_boolean_group"] = parameterToString(requiredBooleanGroup, "")
 	if localVarOptionals != nil && localVarOptionals.BooleanGroup.IsSet() {
 		localVarHeaderParams["boolean_group"] = parameterToString(localVarOptionals.BooleanGroup.Value(), "")
 	}

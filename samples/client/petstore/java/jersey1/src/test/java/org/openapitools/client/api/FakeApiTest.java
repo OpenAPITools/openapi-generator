@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
+import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
@@ -136,6 +137,22 @@ public class FakeApiTest {
     }
     
     /**
+     * To test \&quot;client\&quot; model
+     *
+     * To test \&quot;client\&quot; model
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testClientModelTest() throws ApiException {
+        Client client = null;
+        Client response = api.testClientModel(client);
+
+        // TODO: test validations
+    }
+    
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -197,10 +214,13 @@ public class FakeApiTest {
      */
     @Test
     public void testGroupParametersTest() throws ApiException {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
-        api.testGroupParameters(stringGroup, booleanGroup, int64Group);
+        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
         // TODO: test validations
     }

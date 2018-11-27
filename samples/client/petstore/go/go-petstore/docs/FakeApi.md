@@ -336,7 +336,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestGroupParameters**
-> TestGroupParameters(ctx, optional)
+> TestGroupParameters(ctx, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, optional)
 Fake endpoint to test group parameters (optional)
 
 Fake endpoint to test group parameters (optional)
@@ -346,6 +346,9 @@ Fake endpoint to test group parameters (optional)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **requiredStringGroup** | **int32**| Required String in group parameters | 
+  **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
+  **requiredInt64Group** | **int64**| Required Integer in group parameters | 
  **optional** | ***TestGroupParametersOpts** | optional parameters | nil if no parameters
 
 ### Optional Parameters
@@ -353,6 +356,9 @@ Optional parameters are passed through a pointer to a TestGroupParametersOpts st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+
+
+
  **stringGroup** | **optional.Int32**| String in group parameters | 
  **booleanGroup** | **optional.Bool**| Boolean in group parameters | 
  **int64Group** | **optional.Int64**| Integer in group parameters | 

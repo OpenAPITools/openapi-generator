@@ -10,12 +10,16 @@ defmodule OpenapiPetstore.Model.MapTest do
   @derive [Poison.Encoder]
   defstruct [
     :"map_map_of_string",
-    :"map_of_enum_string"
+    :"map_of_enum_string",
+    :"direct_map",
+    :"indirect_map"
   ]
 
   @type t :: %__MODULE__{
     :"map_map_of_string" => %{optional(String.t) => %{optional(String.t) => String.t}},
-    :"map_of_enum_string" => %{optional(String.t) => String.t}
+    :"map_of_enum_string" => %{optional(String.t) => String.t},
+    :"direct_map" => %{optional(String.t) => boolean()},
+    :"indirect_map" => %{optional(String.t) => boolean()}
   }
 end
 

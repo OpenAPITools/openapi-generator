@@ -603,7 +603,7 @@ No authorization required
 
 <a name="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -624,6 +624,9 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
+            var requiredStringGroup = 56;  // int? | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
+            var requiredInt64Group = 789;  // long? | Required Integer in group parameters
             var stringGroup = 56;  // int? | String in group parameters (optional) 
             var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
             var int64Group = 789;  // long? | Integer in group parameters (optional) 
@@ -631,7 +634,7 @@ namespace Example
             try
             {
                 // Fake endpoint to test group parameters (optional)
-                apiInstance.TestGroupParameters(stringGroup, booleanGroup, int64Group);
+                apiInstance.TestGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
             }
             catch (Exception e)
             {
@@ -646,6 +649,9 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **requiredStringGroup** | **int?**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool?**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **long?**| Required Integer in group parameters | 
  **stringGroup** | **int?**| String in group parameters | [optional] 
  **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
  **int64Group** | **long?**| Integer in group parameters | [optional] 

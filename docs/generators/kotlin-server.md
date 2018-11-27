@@ -19,6 +19,9 @@ CONFIG OPTIONS for kotlin-server
 	enumPropertyNaming
 	    Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original' (Default: camelCase)
 
+	parcelizeModels
+	    toggle "@Parcelize" for generated models
+
 	library
 	    library template (sub-template) to use (Default: ktor)
 	        ktor - ktor framework

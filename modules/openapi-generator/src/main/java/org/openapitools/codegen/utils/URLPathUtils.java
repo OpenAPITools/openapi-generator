@@ -179,7 +179,7 @@ public class URLPathUtils {
             LOGGER.warn("'scheme' not defined in the spec (2.0). Default to [http] for server URL [{}]", url);
         } else if (url.startsWith("/")) {
             url = LOCAL_HOST + url;
-            LOGGER.warn("'host' not defined in the spec (2.0). Default to [{}] for server URL [{}]", LOCAL_HOST, url);
+            LOGGER.warn("'host' (OAS 2.0) or 'servers' (OAS 3.0) not defined in the spec. Default to [{}] for server URL [{}]", LOCAL_HOST, url);
         } else if (!url.matches("[a-zA-Z][0-9a-zA-Z.+\\-]+://.+")) {
             // Add http scheme for urls without a scheme.
             // 2.0 spec is restricted to the following schemes: "http", "https", "ws", "wss"

@@ -1044,6 +1044,9 @@ public class FakeApi {
      * Fake endpoint to test group parameters (optional)
      * Fake endpoint to test group parameters (optional)
      *
+     * @see #requiredStringGroupQuery Required String in group parameters (required)
+     * @see #requiredBooleanGroupHeader Required Boolean in group parameters (required)
+     * @see #requiredInt64GroupQuery Required Integer in group parameters (required)
      * @see #stringGroupQuery String in group parameters (optional)
      * @see #booleanGroupHeader Boolean in group parameters (optional)
      * @see #int64GroupQuery Integer in group parameters (optional)
@@ -1072,6 +1075,17 @@ public class FakeApi {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
 
+        public static final String REQUIRED_BOOLEAN_GROUP_HEADER = "required_boolean_group";
+
+        /**
+         * @param requiredBooleanGroup (Boolean) Required Boolean in group parameters (required)
+         * @return operation
+         */
+        public TestGroupParametersOper requiredBooleanGroupHeader(String requiredBooleanGroup) {
+            reqSpec.addHeader(REQUIRED_BOOLEAN_GROUP_HEADER, requiredBooleanGroup);
+            return this;
+        }
+
         public static final String BOOLEAN_GROUP_HEADER = "boolean_group";
 
         /**
@@ -1080,6 +1094,28 @@ public class FakeApi {
          */
         public TestGroupParametersOper booleanGroupHeader(String booleanGroup) {
             reqSpec.addHeader(BOOLEAN_GROUP_HEADER, booleanGroup);
+            return this;
+        }
+
+        public static final String REQUIRED_STRING_GROUP_QUERY = "required_string_group";
+
+        /**
+         * @param requiredStringGroup (Integer) Required String in group parameters (required)
+         * @return operation
+         */
+        public TestGroupParametersOper requiredStringGroupQuery(Object... requiredStringGroup) {
+            reqSpec.addQueryParam(REQUIRED_STRING_GROUP_QUERY, requiredStringGroup);
+            return this;
+        }
+
+        public static final String REQUIRED_INT64_GROUP_QUERY = "required_int64_group";
+
+        /**
+         * @param requiredInt64Group (Long) Required Integer in group parameters (required)
+         * @return operation
+         */
+        public TestGroupParametersOper requiredInt64GroupQuery(Object... requiredInt64Group) {
+            reqSpec.addQueryParam(REQUIRED_INT64_GROUP_QUERY, requiredInt64Group);
             return this;
         }
 
