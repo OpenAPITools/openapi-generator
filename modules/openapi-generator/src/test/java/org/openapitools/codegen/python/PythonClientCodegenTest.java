@@ -62,23 +62,20 @@ public class PythonClientCodegenTest {
     @Test(description = "test regex patterns")
     public void testRegularExpressionOpenAPISchemaVersion3() {
         final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/test_regex.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_1517.yaml", null, new ParseOptions()).getOpenAPI();
         final PythonClientCodegen codegen = new PythonClientCodegen();
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
         final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
         // pattern_no_forward_slashes '^pattern$'
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
-        // pattern_two_slashes '/^pattern$/i'
-        Assert.assertEquals(op.allParams.get(1).pattern, "/^pattern$/i");
-        // pattern_one_slash_start '/^pattern$'
-        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern$/");
-        // pattern_one_slash_end '^pattern$/'
-        Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern$/");
-        // pattern_one_slash_near_end '^pattern$/im'
-        Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern$/im");
-        // pattern_dont_escape_backslash '/^pattern\d{3}$/i' NOTE: the double \ is to escape \ in string but is read as single \
-        Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
-
+        // pattern_two_slashes '/^pattern$/'
+        Assert.assertEquals(op.allParams.get(1).pattern, "/^pattern$/");
+        // pattern_dont_escape_backslash '/^pattern\d{3}$/'
+        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern\\d{3}$/");
+        // pattern_dont_escape_escaped_forward_slash '/^pattern\/\d{3}$/'
+        Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern\\/\\d{3}$/");
+        // pattern_escape_unescaped_forward_slash '^pattern/\d{3}$'
+        Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
     }
 }

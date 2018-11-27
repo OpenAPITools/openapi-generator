@@ -379,6 +379,19 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return toApiName(name);
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
+            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        }
+
+        return pattern;
+    }
 
     @Override
     public String apiFileFolder() {
@@ -635,19 +648,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String toRegularExpression(String pattern) {
-        if (StringUtils.isEmpty(pattern)) {
-            return pattern;
-        }
-
-        String regexString = pattern;
-        if (!regexString.startsWith("/")) {
-            regexString = "/" + regexString;
-        }
-        if (StringUtils.countMatches(regexString, '/') == 1) {
-            // we only have forward slash inserted at start... adding one to end
-            regexString = regexString + "/";
-        }
-        return regexString;
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override
