@@ -343,8 +343,8 @@ cd /vagrant
 
 ### [1.7 - NPM](#table-of-contents)
 
-There is also an [NPM package wrapper](https://github.com/HarmoWatch/openapi-generator-cli), available.
-Please see the [docs](https://github.com/HarmoWatch/openapi-generator-cli) there for more information.
+There is also an [NPM package wrapper](https://www.npmjs.com/package/@openapitools/openapi-generator-cli) available for different platforms (e.g. Linux, Mac, Windows). (JVM is still required)
+Please see the [project's README](https://github.com/openapitools/openapi-generator-cli) there for more information.
 
 Install it globally to get the CLI available on the command line:
 
@@ -353,13 +353,13 @@ npm install @openapitools/openapi-generator-cli -g
 openapi-generator version
 ```
 
-Or a particualar version:
+Or install a particualar OpenAPI Generator version (e.g. v3.3.3):
 
 ```sh
 npm install @openapitools/openapi-generator-cli@cli-3.3.3 -g
 ```
 
-Or you install it as dev-dependency like this:
+Or install it as dev-dependency:
 
 ```sh
 npm install @openapitools/openapi-generator-cli -D
