@@ -248,7 +248,7 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(spec)) {
             if (!spec.matches("^http(s)?://.*") && !new File(spec).exists()) {
-                System.out.println("[error] The spec file is not found: " + spec);
+                System.err.println("[error] The spec file is not found: " + spec);
                 System.err.println("[error] Check the path of the OpenAPI spec and try again.");
                 System.exit(1);
             }
