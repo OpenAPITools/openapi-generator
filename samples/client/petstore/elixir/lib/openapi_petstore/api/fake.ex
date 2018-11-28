@@ -137,7 +137,7 @@ defmodule OpenapiPetstore.Api.Fake do
     %{}
     |> method(:put)
     |> url("/fake/body-with-file-schema")
-    |> add_param(:body, :"FileSchemaTestClass", file_schema_test_class)
+    |> add_param(:body, :body, file_schema_test_class)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -162,7 +162,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> method(:put)
     |> url("/fake/body-with-query-params")
     |> add_param(:query, :"query", query)
-    |> add_param(:body, :"User", user)
+    |> add_param(:body, :body, user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -187,7 +187,7 @@ defmodule OpenapiPetstore.Api.Fake do
     %{}
     |> method(:patch)
     |> url("/fake")
-    |> add_param(:body, :"Client", client)
+    |> add_param(:body, :body, client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(%OpenapiPetstore.Model.Client{})
@@ -345,7 +345,7 @@ defmodule OpenapiPetstore.Api.Fake do
     %{}
     |> method(:post)
     |> url("/fake/inline-additionalProperties")
-    |> add_param(:body, :"request_body", request_body)
+    |> add_param(:body, :body, request_body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)

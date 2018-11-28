@@ -29,7 +29,7 @@ defmodule OpenapiPetstore.Api.Pet do
     %{}
     |> method(:post)
     |> url("/pet")
-    |> add_param(:body, :"Pet", pet)
+    |> add_param(:body, :body, pet)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -155,7 +155,7 @@ defmodule OpenapiPetstore.Api.Pet do
     %{}
     |> method(:put)
     |> url("/pet")
-    |> add_param(:body, :"Pet", pet)
+    |> add_param(:body, :body, pet)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
