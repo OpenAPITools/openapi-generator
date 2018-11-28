@@ -166,6 +166,7 @@ impl {{{classname}}} {
 }
 {{/arrayModelType}}{{/dataType}}{{/isEnum}}
 
+{{#usesXml}}
 impl {{{classname}}} {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -182,6 +183,7 @@ impl {{{classname}}} {
         {{/xmlNamespace}}
     }
 }
+{{/usesXml}}
 
 {{/model}}{{/models}}{{#usesXmlNamespaces}}
 //XML namespaces
