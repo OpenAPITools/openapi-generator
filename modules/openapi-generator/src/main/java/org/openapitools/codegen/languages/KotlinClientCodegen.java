@@ -144,10 +144,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
         }
 
-        if (CollectionType.ARRAY.value.equals(collectionType)) {
-            typeMapping.put("array", "kotlin.Array");
-            typeMapping.put("list", "kotlin.Array");
-        } else if (CollectionType.LIST.value.equals(collectionType)) {
+        if (CollectionType.LIST.value.equals(collectionType)) {
             typeMapping.put("array", "kotlin.collections.List");
             typeMapping.put("list", "kotlin.collections.List");
         }
