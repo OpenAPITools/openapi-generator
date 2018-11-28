@@ -51,8 +51,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
     protected boolean useWadlFeature = false;
 
-    protected boolean useMultipartFeature = false;
-
     protected boolean useBeanValidationFeature = false;
 
     protected boolean generateSpringBootApplication = false;
@@ -263,11 +261,6 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
     public void setUseWadlFeature(boolean useWadlFeature) {
         this.useWadlFeature = useWadlFeature;
-    }
-
-
-    public void setUseMultipartFeature(boolean useMultipartFeature) {
-        this.useMultipartFeature = useMultipartFeature;
     }
 
 

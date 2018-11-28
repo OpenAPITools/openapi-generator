@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**find_pets_by_status**](PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
 [**find_pets_by_tags**](PetApi.md#find_pets_by_tags) | **GET** /pet/findByTags | Finds Pets by tags
 [**get_pet_by_id**](PetApi.md#get_pet_by_id) | **GET** /pet/{petId} | Find pet by ID
+[**replace_file_with_required_file**](PetApi.md#replace_file_with_required_file) | **PUT** /fake/{petId}/uploadImageWithRequiredFile | replaces an image (required)
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
@@ -262,6 +263,60 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+
+
+# **replace_file_with_required_file**
+> ApiResponse replace_file_with_required_file(pet_id, required_file, opts)
+
+replaces an image (required)
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
+
+api_instance = Petstore::PetApi.new
+pet_id = 56 # Integer | ID of pet to update
+required_file = File.new('/path/to/file') # File | file to upload
+opts = {
+  additional_metadata: 'additional_metadata_example' # String | Additional data to pass to server
+}
+
+begin
+  #replaces an image (required)
+  result = api_instance.replace_file_with_required_file(pet_id, required_file, opts)
+  p result
+rescue Petstore::ApiError => e
+  puts "Exception when calling PetApi->replace_file_with_required_file: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **Integer**| ID of pet to update | 
+ **required_file** | **File**| file to upload | 
+ **additional_metadata** | **String**| Additional data to pass to server | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
 
 

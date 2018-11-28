@@ -29,6 +29,7 @@ public abstract class FakeApiService {
     public abstract Response fakeOuterCompositeSerialize(OuterComposite outerComposite,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterNumberSerialize(BigDecimal body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response fakeOuterStringSerialize(String body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response replaceFileWithRequiredFile(Long petId,InputStream requiredFileInputStream, FormDataContentDisposition requiredFileDetail,String additionalMetadata,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testBodyWithQueryParams( @NotNull String query,User user,SecurityContext securityContext) throws NotFoundException;
     public abstract Response testClientModel(Client client,SecurityContext securityContext) throws NotFoundException;

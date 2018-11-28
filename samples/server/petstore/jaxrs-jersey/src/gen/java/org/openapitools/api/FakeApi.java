@@ -112,6 +112,27 @@ public class FakeApi  {
         return delegate.fakeOuterStringSerialize(body,securityContext);
     }
     @PUT
+    @Path("/{petId}/uploadImageWithRequiredFile")
+    @Consumes({ "multipart/form-data" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "replaces an image (required)", notes = "", response = ModelApiResponse.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "petstore_auth", scopes = {
+            @io.swagger.annotations.AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
+            @io.swagger.annotations.AuthorizationScope(scope = "read:pets", description = "read your pets")
+        })
+    }, tags={ "pet", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
+    public Response replaceFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
+,
+            @FormDataParam("requiredFile") InputStream requiredFileInputStream,
+            @FormDataParam("requiredFile") FormDataContentDisposition requiredFileDetail
+,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.replaceFileWithRequiredFile(petId,requiredFileInputStream, requiredFileDetail,additionalMetadata,securityContext);
+    }
+    @PUT
     @Path("/body-with-file-schema")
     @Consumes({ "application/json" })
     
