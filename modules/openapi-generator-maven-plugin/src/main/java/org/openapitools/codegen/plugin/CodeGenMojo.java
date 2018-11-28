@@ -56,6 +56,10 @@ import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
+
 /**
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
  */
@@ -318,6 +322,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean skip;
 
     /**
+     * Skip the execution if the source file is older than the output folder.
+     */
+    @Parameter(name = "skipIfSpecIsUnchanged", property = "codegen.skipIfSpecIsUnchanged", required = false, defaultValue = "false")
+    private Boolean skipIfSpecIsUnchanged;
+
+    /**
      * Add the output directory to the project as a source root, so that the generated java types
      * are compiled and included in the project artifact.
      */
@@ -363,6 +373,21 @@ public class CodeGenMojo extends AbstractMojo {
                                         "Code generation is skipped in delta-build because source-json was not modified.");
                                 return;
                             }
+                        }
+                    }
+                }
+            }
+
+            if (skipIfSpecIsUnchanged) {
+                if (inputSpecFile.exists()) {
+                    File storedInputSpecHashFile = getHashFile(inputSpecFile);
+                    if(storedInputSpecHashFile.exists()) {
+                        String inputSpecHash = Files.asByteSource(inputSpecFile).hash(Hashing.sha256()).toString();
+                        String storedInputSpecHash = Files.asCharSource(storedInputSpecHashFile, Charsets.UTF_8).read();
+                        if (inputSpecHash.equals(storedInputSpecHash)) {
+                            getLog().info(
+                                    "Code generation is skipped because input was unchanged");
+                            return;
                         }
                     }
                 }
@@ -606,6 +631,17 @@ public class CodeGenMojo extends AbstractMojo {
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));
             }
+
+            // Store a checksum of the input spec
+            File storedInputSpecHashFile = getHashFile(inputSpecFile);
+            String inputSpecHash = Files.asByteSource(inputSpecFile).hash(Hashing.sha256()).toString();
+
+            if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
+                File parent = new File(storedInputSpecHashFile.getParent());
+                parent.mkdirs();
+            }
+            Files.asCharSink(storedInputSpecHashFile, Charsets.UTF_8).write(inputSpecHash);
+
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
             // I find it annoying to jump through hoops to get basic diagnostic information,
@@ -618,7 +654,11 @@ public class CodeGenMojo extends AbstractMojo {
                     "Code generation failed. See above for the full exception.");
         }
     }
-    
+
+    private File getHashFile(File inputSpecFile) {
+        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + inputSpecFile.getName() + ".sha256");
+    }
+
     private String getCompileSourceRoot() {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
@@ -647,10 +687,10 @@ public class CodeGenMojo extends AbstractMojo {
         }
     }
     /**
-     * This method enables conversion of true/false strings in 
+     * This method enables conversion of true/false strings in
      * config.additionalProperties (configuration/configOptions) to proper booleans.
      * This enables mustache files to handle the properties better.
-     * 
+     *
      * @param config
      */
     private void adjustAdditionalProperties(final CodegenConfig config) {

@@ -38,7 +38,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-//import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -181,6 +180,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         config.processOpts();
         config.preprocessOpenAPI(openAPI);
+
+        // set OpenAPI and schemas to make these available to all methods
+        config.setGlobalOpenAPI(openAPI);
+        config.setGlobalSchemas(openAPI);
+
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
         config.additionalProperties().put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
@@ -424,6 +428,25 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 Schema schema = schemas.get(name);
+
+                // check to see if it's a "map" model
+                if (ModelUtils.isMapSchema(schema)) {
+                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                        // schema without property, i.e. alias to map
+                        LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
+                        continue;
+                    }
+                }
+
+                // check to see if it's an "array" model
+                if (ModelUtils.isArraySchema(schema)) {
+                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                        // schema without property, i.e. alias to array
+                        LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
+                        continue;
+                    }
+                }
+
                 Map<String, Schema> schemaMap = new HashMap<>();
                 schemaMap.put(name, schema);
                 Map<String, Object> models = processModels(config, schemaMap, schemas);
