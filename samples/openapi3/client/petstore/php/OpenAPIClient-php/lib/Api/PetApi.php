@@ -1379,7 +1379,7 @@ class PetApi
      *
      * replaces an image (required)
      *
-     * @param  int $pet_id ID of pet to update (required)
+     * @param  int $pet_id ID of pet to update the picture (required)
      * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
@@ -1398,7 +1398,7 @@ class PetApi
      *
      * replaces an image (required)
      *
-     * @param  int $pet_id ID of pet to update (required)
+     * @param  int $pet_id ID of pet to update the picture (required)
      * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
@@ -1488,7 +1488,7 @@ class PetApi
      *
      * replaces an image (required)
      *
-     * @param  int $pet_id ID of pet to update (required)
+     * @param  int $pet_id ID of pet to update the picture (required)
      * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
@@ -1510,7 +1510,7 @@ class PetApi
      *
      * replaces an image (required)
      *
-     * @param  int $pet_id ID of pet to update (required)
+     * @param  int $pet_id ID of pet to update the picture (required)
      * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
@@ -1559,7 +1559,7 @@ class PetApi
     /**
      * Create request for operation 'replaceFileWithRequiredFile'
      *
-     * @param  int $pet_id ID of pet to update (required)
+     * @param  int $pet_id ID of pet to update the picture (required)
      * @param  \SplFileObject $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *

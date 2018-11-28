@@ -282,7 +282,7 @@ module Petstore
     end
 
     # replaces an image (required)
-    # @param pet_id ID of pet to update
+    # @param pet_id ID of pet to update the picture
     # @param required_file file to upload
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
@@ -293,7 +293,7 @@ module Petstore
     end
 
     # replaces an image (required)
-    # @param pet_id ID of pet to update
+    # @param pet_id ID of pet to update the picture
     # @param required_file file to upload
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server

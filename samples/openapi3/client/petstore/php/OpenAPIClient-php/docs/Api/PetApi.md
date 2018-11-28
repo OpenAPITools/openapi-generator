@@ -298,7 +298,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet_id = 56; // int | ID of pet to update
+$pet_id = 56; // int | ID of pet to update the picture
 $required_file = "/path/to/file.txt"; // \SplFileObject | file to upload
 $additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
 
@@ -315,7 +315,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update |
+ **pet_id** | **int**| ID of pet to update the picture |
  **required_file** | **\SplFileObject****\SplFileObject**| file to upload |
  **additional_metadata** | **string**| Additional data to pass to server | [optional]
 

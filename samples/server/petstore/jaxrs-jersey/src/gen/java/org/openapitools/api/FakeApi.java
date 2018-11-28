@@ -123,7 +123,7 @@ public class FakeApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    public Response replaceFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
+    public Response replaceFileWithRequiredFile(@ApiParam(value = "ID of pet to update the picture",required=true) @PathParam("petId") Long petId
 ,
             @FormDataParam("requiredFile") InputStream requiredFileInputStream,
             @FormDataParam("requiredFile") FormDataContentDisposition requiredFileDetail

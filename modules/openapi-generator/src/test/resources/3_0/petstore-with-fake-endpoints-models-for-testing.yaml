@@ -1034,7 +1034,7 @@ paths:
       parameters:
         - name: petId
           in: path
-          description: ID of pet to update
+          description: ID of pet to update the picture
           required: true
           schema:
             type: integer

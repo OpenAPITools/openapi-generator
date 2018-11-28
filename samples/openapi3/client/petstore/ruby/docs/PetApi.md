@@ -282,7 +282,7 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet_id = 56 # Integer | ID of pet to update
+pet_id = 56 # Integer | ID of pet to update the picture
 required_file = File.new('/path/to/file') # File | file to upload
 opts = {
   additional_metadata: 'additional_metadata_example' # String | Additional data to pass to server
@@ -301,7 +301,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **Integer**| ID of pet to update | 
+ **pet_id** | **Integer**| ID of pet to update the picture | 
  **required_file** | **File**| file to upload | 
  **additional_metadata** | **String**| Additional data to pass to server | [optional] 
 
