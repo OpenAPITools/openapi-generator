@@ -36,18 +36,19 @@ authorize_api_key(LogicHandler, OperationID, From, KeyParam, Req0) ->
             end
     end.
 
-get_api_key(header, KeyParam, Req0) ->
-    {Headers, Req} = cowboy_req:headers(Req0),
+get_api_key(header, KeyParam, Req) ->
+    Headers = cowboy_req:headers(Req),
     {
-        openapi_utils:get_opt(
-            {{packageName}}_utils:to_header(KeyParam),
-            Headers
+        maps:get(
+            openapi_utils:to_header(KeyParam),
+            Headers,
+            undefined
         ),
         Req
     };
 
-get_api_key(qs_val, KeyParam, Req0) ->
-    {QS, Req} = cowboy_req:qs_vals(Req0),
+get_api_key(qs_val, KeyParam, Req) ->
+    QS = cowboy_req:parse_qs(Req),
     { {{packageName}}_utils:get_opt(KeyParam, QS), Req}.
 
 
