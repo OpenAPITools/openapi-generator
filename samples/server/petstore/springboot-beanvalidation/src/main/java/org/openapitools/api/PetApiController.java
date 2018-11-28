@@ -34,12 +34,12 @@ public class PetApiController implements PetApi {
     }
 
     public ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
     public ResponseEntity<Void> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -54,7 +54,7 @@ public class PetApiController implements PetApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -69,7 +69,7 @@ public class PetApiController implements PetApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -84,17 +84,17 @@ public class PetApiController implements PetApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
     public ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
     public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false)  String status) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -105,7 +105,7 @@ public class PetApiController implements PetApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

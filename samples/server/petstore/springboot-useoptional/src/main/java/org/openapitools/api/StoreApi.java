@@ -43,7 +43,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{order_id}",
         method = RequestMethod.DELETE)
     default ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -57,7 +57,7 @@ public interface StoreApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<Map<String, Integer>> getInventory() {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -83,7 +83,7 @@ public interface StoreApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -108,7 +108,7 @@ public interface StoreApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

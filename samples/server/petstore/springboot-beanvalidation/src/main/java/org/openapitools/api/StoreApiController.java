@@ -33,12 +33,12 @@ public class StoreApiController implements StoreApi {
     }
 
     public ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
     public ResponseEntity<Map<String, Integer>> getInventory() {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -53,7 +53,7 @@ public class StoreApiController implements StoreApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -68,7 +68,7 @@ public class StoreApiController implements StoreApi {
                 break;
             }
         }
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

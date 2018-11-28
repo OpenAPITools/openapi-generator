@@ -28,7 +28,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#deleteOrder
      */
     default ResponseEntity<Void> deleteOrder(String orderId) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -36,7 +36,7 @@ public interface StoreApiDelegate {
      * @see StoreApi#getInventory
      */
     default ResponseEntity<Map<String, Integer>> getInventory() {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -56,7 +56,7 @@ public interface StoreApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -76,7 +76,7 @@ public interface StoreApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

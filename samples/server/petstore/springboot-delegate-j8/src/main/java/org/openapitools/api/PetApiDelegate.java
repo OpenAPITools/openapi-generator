@@ -29,7 +29,7 @@ public interface PetApiDelegate {
      * @see PetApi#addPet
      */
     default ResponseEntity<Void> addPet(Pet pet) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -38,7 +38,7 @@ public interface PetApiDelegate {
      */
     default ResponseEntity<Void> deletePet(Long petId,
         String apiKey) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -58,7 +58,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -78,7 +78,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -98,7 +98,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -106,7 +106,7 @@ public interface PetApiDelegate {
      * @see PetApi#updatePet
      */
     default ResponseEntity<Void> updatePet(Pet pet) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -116,7 +116,7 @@ public interface PetApiDelegate {
     default ResponseEntity<Void> updatePetWithForm(Long petId,
         String name,
         String status) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -134,7 +134,7 @@ public interface PetApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 

@@ -43,7 +43,7 @@ public interface UserApi {
     @RequestMapping(value = "/user",
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Void>> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 
@@ -54,7 +54,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 
@@ -65,7 +65,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
     default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 
@@ -77,7 +77,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
     default CompletableFuture<ResponseEntity<Void>> deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 
@@ -104,7 +104,7 @@ public interface UserApi {
                     }
                 }
             });
-            return new ResponseEntity<>(HttpStatus.valueOf(200));
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
         }, Runnable::run);
 
     }
@@ -118,7 +118,7 @@ public interface UserApi {
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<String>> loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 
@@ -129,7 +129,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/logout",
         method = RequestMethod.GET)
     default CompletableFuture<ResponseEntity<Void>> logoutUser() {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 
@@ -141,7 +141,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.PUT)
     default CompletableFuture<ResponseEntity<Void>> updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathVariable("username") String username,@ApiParam(value = "Updated user object" ,required=true )  @Valid @RequestBody User user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.valueOf(200)));
+        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 

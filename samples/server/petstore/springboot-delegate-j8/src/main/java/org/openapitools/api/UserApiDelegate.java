@@ -28,7 +28,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUser
      */
     default ResponseEntity<Void> createUser(User user) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -36,7 +36,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithArrayInput
      */
     default ResponseEntity<Void> createUsersWithArrayInput(List<User> user) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -44,7 +44,7 @@ public interface UserApiDelegate {
      * @see UserApi#createUsersWithListInput
      */
     default ResponseEntity<Void> createUsersWithListInput(List<User> user) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -52,7 +52,7 @@ public interface UserApiDelegate {
      * @see UserApi#deleteUser
      */
     default ResponseEntity<Void> deleteUser(String username) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -72,7 +72,7 @@ public interface UserApiDelegate {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -81,7 +81,7 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<String> loginUser(String username,
         String password) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -89,7 +89,7 @@ public interface UserApiDelegate {
      * @see UserApi#logoutUser
      */
     default ResponseEntity<Void> logoutUser() {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
@@ -98,7 +98,7 @@ public interface UserApiDelegate {
      */
     default ResponseEntity<Void> updateUser(String username,
         User user) {
-        return new ResponseEntity<>(HttpStatus.valueOf(200));
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
 
