@@ -762,6 +762,7 @@ public class ModelUtils {
         return null;
     }
 
+
     /**
      * Get the interfaces from the schema (composed)
      *
@@ -799,7 +800,7 @@ public class ModelUtils {
                     if (s == null) {
                         LOGGER.error("Failed to obtain schema from {}", parentName);
                         return "UNKNOWN_PARENT_NAME";
-                    } else if (s.getDiscriminator() != null) {
+                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
                         // discriminator.propertyName is used
                         return parentName;
                     } else {
