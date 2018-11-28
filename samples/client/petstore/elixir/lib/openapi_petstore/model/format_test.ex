@@ -28,16 +28,16 @@ defmodule OpenapiPetstore.Model.FormatTest do
     :"integer" => integer() | nil,
     :"int32" => integer() | nil,
     :"int64" => integer() | nil,
-    :"number" => float() | nil,
+    :"number" => float(),
     :"float" => float() | nil,
     :"double" => float() | nil,
     :"string" => String.t | nil,
-    :"byte" => binary() | nil,
+    :"byte" => binary(),
     :"binary" => String.t | nil,
-    :"date" => Date.t | nil,
+    :"date" => Date.t,
     :"dateTime" => DateTime.t | nil,
     :"uuid" => String.t | nil,
-    :"password" => String.t | nil
+    :"password" => String.t
   }
 end
 

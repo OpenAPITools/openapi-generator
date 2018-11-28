@@ -20,8 +20,8 @@ defmodule OpenapiPetstore.Model.Pet do
   @type t :: %__MODULE__{
     :"id" => integer() | nil,
     :"category" => Category | nil,
-    :"name" => String.t | nil,
-    :"photoUrls" => [String.t] | nil,
+    :"name" => String.t,
+    :"photoUrls" => [String.t],
     :"tags" => [Tag] | nil,
     :"status" => String.t | nil
   }

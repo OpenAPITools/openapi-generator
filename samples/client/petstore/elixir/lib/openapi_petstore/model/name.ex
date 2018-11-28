@@ -16,7 +16,7 @@ defmodule OpenapiPetstore.Model.Name do
   ]
 
   @type t :: %__MODULE__{
-    :"name" => integer() | nil,
+    :"name" => integer(),
     :"snake_case" => integer() | nil,
     :"property" => String.t | nil,
     :"123Number" => integer() | nil

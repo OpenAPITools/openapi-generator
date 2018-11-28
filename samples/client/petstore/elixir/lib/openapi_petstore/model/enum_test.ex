@@ -18,7 +18,7 @@ defmodule OpenapiPetstore.Model.EnumTest do
 
   @type t :: %__MODULE__{
     :"enum_string" => String.t | nil,
-    :"enum_string_required" => String.t | nil,
+    :"enum_string_required" => String.t,
     :"enum_integer" => integer() | nil,
     :"enum_number" => float() | nil,
     :"outerEnum" => OuterEnum | nil

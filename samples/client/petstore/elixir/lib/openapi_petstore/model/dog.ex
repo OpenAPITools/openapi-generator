@@ -15,7 +15,7 @@ defmodule OpenapiPetstore.Model.Dog do
   ]
 
   @type t :: %__MODULE__{
-    :"className" => String.t | nil,
+    :"className" => String.t,
     :"color" => String.t | nil,
     :"breed" => String.t | nil
   }

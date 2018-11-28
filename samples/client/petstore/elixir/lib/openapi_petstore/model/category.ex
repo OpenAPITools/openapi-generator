@@ -15,7 +15,7 @@ defmodule OpenapiPetstore.Model.Category do
 
   @type t :: %__MODULE__{
     :"id" => integer() | nil,
-    :"name" => String.t | nil
+    :"name" => String.t
   }
 end
 
