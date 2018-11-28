@@ -399,7 +399,7 @@ class ApiClient {
                     }
                 }
             }
-        } else if (bodyParam) {
+        } else if (bodyParam !== null && bodyParam !== undefined) {
             request.send(bodyParam);
         }
 
@@ -486,8 +486,8 @@ class ApiClient {
                 if (type === Object) {
                     // generic object, return directly
                     return data;
-                } else if (typeof type === 'function') {
-                    // for model type like: User
+                } else if (typeof type.constructFromObject === 'function') {
+                    // for model type like User and enum class
                     return type.constructFromObject(data);
                 } else if (Array.isArray(type)) {
                     // for array type like: ['String']

@@ -42,7 +42,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
 
 |                                | Languages/Frameworks |
 |-|-|
-**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C#** (.net 2.0, 3.5 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 7.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node)
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 7.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node)
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed), **Erlang**, **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples)), **Kotlin** (Spring Boot), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
@@ -343,20 +343,26 @@ cd /vagrant
 
 ### [1.7 - NPM](#table-of-contents)
 
-There is also an [NPM package wrapper](https://github.com/HarmoWatch/openapi-generator-cli), available.
-Please see the [docs](https://github.com/HarmoWatch/openapi-generator-cli) there for more information.
+There is also an [NPM package wrapper](https://www.npmjs.com/package/@openapitools/openapi-generator-cli) available for different platforms (e.g. Linux, Mac, Windows). (JVM is still required)
+Please see the [project's README](https://github.com/openapitools/openapi-generator-cli) there for more information.
 
 Install it globally to get the CLI available on the command line:
 
 ```sh
-npm install @harmowatch/openapi-generator-cli -g
+npm install @openapitools/openapi-generator-cli -g
 openapi-generator version
 ```
 
-Or you install it as dev-dependency like this:
+Or install a particualar OpenAPI Generator version (e.g. v3.3.3):
 
 ```sh
-npm install @harmowatch/openapi-generator-cli -D
+npm install @openapitools/openapi-generator-cli@cli-3.3.3 -g
+```
+
+Or install it as dev-dependency:
+
+```sh
+npm install @openapitools/openapi-generator-cli -D
 ```
 
 ## [2 - Getting Started](#table-of-contents)
@@ -464,7 +470,7 @@ Other languages have petstore samples, too:
 ./bin/objc-petstore.sh
 ```
 
-... and others. [Here is a list of all scripts.](wiki/Samples-folder#scripts)
+... and others. [Here is a list of all scripts.](https://github.com/OpenAPITools/openapi-generator/wiki/Samples-folder#scripts)
 
 ### [3.1 - Customization](#table-of-contents)
 
@@ -475,6 +481,15 @@ Please refer to [customization.md](docs/customization.md) on how to customize th
 Please refer to [integration.md](docs/integration.md) on how to integrate OpenAPI generator with Maven, Gradle, Github and CI/CD.
 
 ### [3.3 - Online OpenAPI generator](#table-of-contents)
+
+Here are the public online services:
+
+- latest stable version: http://api.openapi-generator.tech
+- latest master: http://api-latest-master.openapi-generator.tech (updated with latest master every hour)
+
+The server is sponsored by [Linode](https://www.linode.com/) [![Linode Logo](https://www.linode.com/media/images/logos/standard/light/linode-logo_standard_light_small.png)](https://www.linode.com/)
+
+(These services are beta and do not have any guarantee on service level)
 
 Please refer to [online-openapi-generator.md](docs/online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
 
@@ -502,6 +517,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [REST United](https://restunited.com)
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
+- [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [unblu inc.](https://www.unblu.com/)
 - [Zalando](https://www.zalando.com)
 
@@ -517,7 +533,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2018/08/22 - [OpenAPI Generatorのプロジェクト構成などのメモ](https://yinm.info/20180822/) by [Yusuke Iinuma](https://github.com/yinm)
 - 2018/10/31 - [A node package wrapper for openapi-generator](https://github.com/HarmoWatch/openapi-generator-cli)
 - 2018/11/03 - [OpenAPI Generator + golang + Flutter でアプリ開発](http://ryuichi111std.hatenablog.com/entry/2018/11/03/214005) by [Ryuichi Daigo](https://github.com/ryuichi111)
-
+- 2018/11/19 - [OpenAPIs are everywhere](https://youtu.be/-lDot4Yn7Dg) by [Jeremie Bresson (Unblu)](https://github.com/jmini) at [EclipseCon Europe 2018](https://www.eclipsecon.org/europe2018)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -541,6 +557,7 @@ Here is a list of template creators:
    * Akka-Scala: @cchafer
    * Apex: @asnelling
    * Bash: @bkryza
+   * C: @PowerOfCreation @zhemant
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * C# (.NET Standard 1.3 ): @Gronsak
@@ -669,6 +686,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Android   | @jaz-ah (2017/09) |
 | Apex      |  |
 | Bash      | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
+| C         | @zhemant (2018/11) |
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @fvarose (2017/11) @etherealjoy (2018/02) @martindelille (2018/03) |
 | C#        | @mandrean (2017/08) @jimschubert (2017/09) |
 | Clojure   |  |
