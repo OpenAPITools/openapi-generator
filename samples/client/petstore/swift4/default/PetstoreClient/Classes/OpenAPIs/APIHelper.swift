@@ -7,8 +7,8 @@
 import Foundation
 
 public struct APIHelper {
-    public static func rejectNil(_ source: [String: Any?]) -> [String: Any]? {
-        let destination = source.reduce(into: [String: Any]()) { result, item in
+    public static func rejectNil(_ source: [String:Any?]) -> [String:Any]? {
+        let destination = source.reduce(into: [String: Any]()) { (result, item) in
             if let value = item.value {
                 result[item.key] = value
             }
@@ -20,22 +20,22 @@ public struct APIHelper {
         return destination
     }
 
-    public static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
-        return source.reduce(into: [String: String]()) { result, item in
+    public static func rejectNilHeaders(_ source: [String:Any?]) -> [String:String] {
+        return source.reduce(into: [String: String]()) { (result, item) in
             if let collection = item.value as? Array<Any?> {
-                result[item.key] = collection.filter({ $0 != nil }).map { "\($0!)" }.joined(separator: ",")
+                result[item.key] = collection.filter({ $0 != nil }).map{ "\($0!)" }.joined(separator: ",")
             } else if let value: Any = item.value {
                 result[item.key] = "\(value)"
             }
         }
     }
 
-    public static func convertBoolToString(_ source: [String: Any]?) -> [String: Any]? {
+    public static func convertBoolToString(_ source: [String: Any]?) -> [String:Any]? {
         guard let source = source else {
             return nil
         }
 
-        return source.reduce(into: [String: Any](), { result, item in
+        return source.reduce(into: [String: Any](), { (result, item) in
             switch item.value {
             case let x as Bool:
                 result[item.key] = x.description
@@ -45,10 +45,11 @@ public struct APIHelper {
         })
     }
 
-    public static func mapValuesToQueryItems(_ source: [String: Any?]) -> [URLQueryItem]? {
-        let destination = source.filter({ $0.value != nil }).reduce(into: [URLQueryItem]()) { result, item in
+
+    public static func mapValuesToQueryItems(_ source: [String:Any?]) -> [URLQueryItem]? {
+        let destination = source.filter({ $0.value != nil}).reduce(into: [URLQueryItem]()) { (result, item) in
             if let collection = item.value as? Array<Any?> {
-                let value = collection.filter({ $0 != nil }).map({ "\($0!)" }).joined(separator: ",")
+                let value = collection.filter({ $0 != nil }).map({"\($0!)"}).joined(separator: ",")
                 result.append(URLQueryItem(name: item.key, value: value))
             } else if let value = item.value {
                 result.append(URLQueryItem(name: item.key, value: "\(value)"))
@@ -61,3 +62,4 @@ public struct APIHelper {
         return destination
     }
 }
+

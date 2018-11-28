@@ -66,7 +66,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
     private static final String DISCRIMINATOR_NAME = "discriminatorName";
-    private static final String UNION_TYPE = "elmUnionType";
+    private static final String CUSTOM_TYPE = "elmCustomType";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -123,6 +123,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "Dict",
                         "Float",
                         "Int",
+                        "List",
                         "String")
         );
 
@@ -191,6 +192,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             } else { // 0.19
                 LOGGER.info("Environment variable ELM_POST_PROCESS_FILE not defined so the Elm code may not be properly formatted. To define it, try `export ELM_POST_PROCESS_FILE=\"/usr/local/bin/elm-format --elm-version={} --yes\"` (Linux/Mac)", "0.19");
             }
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         switch (elmVersion) {
@@ -261,7 +263,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        final String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+        String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+
+        if (camelized.length() == 0) {
+            LOGGER.error("Unable to determine enum variable name (name: {}, datatype: {}) from empty string. Default to UnknownEnumVariableName", value, datatype);
+            camelized = "UnknownEnumVariableName";
+        }
+
         if (!Character.isUpperCase(camelized.charAt(0))) {
             return "N" + camelized;
         }
@@ -345,7 +353,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 if (cm.isEnum) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.classname, DataTypeExposure.EXPOSED);
-                    cm.vendorExtensions.put(UNION_TYPE, cm.classname);
+                    cm.vendorExtensions.put(CUSTOM_TYPE, cm.classname);
                 } else if (cm.isAlias) {
                     addEncoderAndDecoder(cm.vendorExtensions, cm.dataType, DataTypeExposure.EXPOSED);
                 }
@@ -495,9 +503,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return toOptionalValue(null);
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return toOptionalValue(dp.getDefault().toString());
+            if (p.getDefault() != null) {
+                return toOptionalValue(p.getDefault().toString());
             }
             return toOptionalValue(null);
         } else if (ModelUtils.isIntegerSchema(p)) {
@@ -572,7 +579,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (property.isEnum) {
             addEncoderAndDecoder(property.vendorExtensions, property.baseName, DataTypeExposure.INTERNAL);
-            property.vendorExtensions.put(UNION_TYPE, property.datatypeWithEnum);
+            property.vendorExtensions.put(CUSTOM_TYPE, property.datatypeWithEnum);
         } else {
             final boolean isPrimitiveType = property.isMapContainer ? isPrimitiveDataType(property.dataType) : property.isPrimitiveType;
             addEncoderAndDecoder(property.vendorExtensions, property.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);

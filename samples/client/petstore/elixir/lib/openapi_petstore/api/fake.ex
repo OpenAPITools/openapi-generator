@@ -21,7 +21,7 @@ defmodule OpenapiPetstore.Api.Fake do
     - :body (boolean()): Input boolean as post body
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Boolean{}} on success
+  {:ok, %OpenapiPetstore.Model.boolean(){}} on success
   {:error, info} on failure
   """
   @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, Boolean.t} | {:error, Tesla.Env.t}
@@ -75,7 +75,7 @@ defmodule OpenapiPetstore.Api.Fake do
     - :body (float()): Input number as post body
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Float{}} on success
+  {:ok, %OpenapiPetstore.Model.float(){}} on success
   {:error, info} on failure
   """
   @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, Float.t} | {:error, Tesla.Env.t}
@@ -102,7 +102,7 @@ defmodule OpenapiPetstore.Api.Fake do
     - :body (String.t): Input string as post body
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.String{}} on success
+  {:ok, %OpenapiPetstore.Model.String.t{}} on success
   {:error, info} on failure
   """
   @spec fake_outer_string_serialize(Tesla.Env.client, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
@@ -114,6 +114,30 @@ defmodule OpenapiPetstore.Api.Fake do
     |> method(:post)
     |> url("/fake/outer/string")
     |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> decode(false)
+  end
+
+  @doc """
+  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - file_schema_test_class (FileSchemaTestClass): 
+  - opts (KeywordList): [optional] Optional parameters
+  ## Returns
+
+  {:ok, %{}} on success
+  {:error, info} on failure
+  """
+  @spec test_body_with_file_schema(Tesla.Env.client, OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_body_with_file_schema(connection, file_schema_test_class, _opts \\ []) do
+    %{}
+    |> method(:put)
+    |> url("/fake/body-with-file-schema")
+    |> add_param(:body, :"FileSchemaTestClass", file_schema_test_class)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(false)
@@ -266,12 +290,50 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+  Fake endpoint to test group parameters (optional)
+  Fake endpoint to test group parameters (optional)
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - required_string_group (integer()): Required String in group parameters
+  - required_boolean_group (boolean()): Required Boolean in group parameters
+  - required_int64_group (integer()): Required Integer in group parameters
+  - opts (KeywordList): [optional] Optional parameters
+    - :string_group (integer()): String in group parameters
+    - :boolean_group (boolean()): Boolean in group parameters
+    - :int64_group (integer()): Integer in group parameters
+  ## Returns
+
+  {:ok, %{}} on success
+  {:error, info} on failure
+  """
+  @spec test_group_parameters(Tesla.Env.client, integer(), boolean(), integer(), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_group_parameters(connection, required_string_group, required_boolean_group, required_int64_group, opts \\ []) do
+    optional_params = %{
+      :"string_group" => :query,
+      :"boolean_group" => :headers,
+      :"int64_group" => :query
+    }
+    %{}
+    |> method(:delete)
+    |> url("/fake")
+    |> add_param(:query, :"required_string_group", required_string_group)
+    |> add_param(:headers, :"required_boolean_group", required_boolean_group)
+    |> add_param(:query, :"required_int64_group", required_int64_group)
+    |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> decode(false)
+  end
+
+  @doc """
   test inline additionalProperties
 
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - request_body (String.t): request body
+  - request_body (%{optional(String.t) &#x3D;&gt; String.t}): request body
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 

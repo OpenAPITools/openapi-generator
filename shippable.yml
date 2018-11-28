@@ -44,3 +44,5 @@ build:
     - ./bin/openapi3/run-all-petstore
     # generate test scripts
     - ./bin/tests/run-all-test
+    # test all generators with fake petstore spec (2.0, 3.0)
+    - ./bin/utils/test-fake-petstore-for-all.sh

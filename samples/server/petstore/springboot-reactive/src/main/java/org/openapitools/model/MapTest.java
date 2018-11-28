@@ -80,7 +80,7 @@ public class MapTest   {
   /**
    * Get mapMapOfString
    * @return mapMapOfString
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -109,7 +109,7 @@ public class MapTest   {
   /**
    * Get mapOfEnumString
    * @return mapOfEnumString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -137,7 +137,7 @@ public class MapTest   {
   /**
    * Get directMap
    * @return directMap
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -165,7 +165,7 @@ public class MapTest   {
   /**
    * Get indirectMap
    * @return indirectMap
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

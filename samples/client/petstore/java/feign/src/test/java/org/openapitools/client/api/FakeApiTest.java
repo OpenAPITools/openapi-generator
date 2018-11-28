@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -80,6 +81,20 @@ public class FakeApiTest {
     public void fakeOuterStringSerializeTest() {
         String body = null;
         // String response = api.fakeOuterStringSerialize(body);
+
+        // TODO: test validations
+    }
+
+    
+    /**
+     * 
+     *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        // api.testBodyWithFileSchema(fileSchemaTestClass);
 
         // TODO: test validations
     }
@@ -198,6 +213,46 @@ public class FakeApiTest {
             .enumQueryInteger(null)
             .enumQueryDouble(null);
         // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumFormStringArray, enumFormString, queryParams);
+
+    // TODO: test validations
+    }
+    
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     */
+    @Test
+    public void testGroupParametersTest() {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        // api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+
+        // TODO: test validations
+    }
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    public void testGroupParametersTestQueryMap() {
+        Boolean requiredBooleanGroup = null;
+        Boolean booleanGroup = null;
+        FakeApi.TestGroupParametersQueryParams queryParams = new FakeApi.TestGroupParametersQueryParams()
+            .requiredStringGroup(null)
+            .requiredInt64Group(null)
+            .stringGroup(null)
+            .int64Group(null);
+        // api.testGroupParameters(requiredBooleanGroup, booleanGroup, queryParams);
 
     // TODO: test validations
     }

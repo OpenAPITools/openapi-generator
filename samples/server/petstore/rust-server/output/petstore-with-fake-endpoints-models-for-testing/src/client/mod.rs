@@ -395,7 +395,7 @@ if let Some(body) = body {
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 serde_json::from_str::<models::OuterBoolean>(body)
+                                                 serde_json::from_str::<bool>(body)
                                                      .map_err(|e| e.into())
 
                                              ))
@@ -545,7 +545,7 @@ if let Some(body) = body {
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 serde_json::from_str::<models::OuterNumber>(body)
+                                                 serde_json::from_str::<f64>(body)
                                                      .map_err(|e| e.into())
 
                                              ))
@@ -620,7 +620,7 @@ if let Some(body) = body {
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 serde_json::from_str::<models::OuterString>(body)
+                                                 serde_json::from_str::<String>(body)
                                                      .map_err(|e| e.into())
 
                                              ))

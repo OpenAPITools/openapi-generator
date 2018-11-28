@@ -71,7 +71,7 @@ void UserApi::create_users_with_array_input_handler(const Pistache::Rest::Reques
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
-      user =   ModelArrayHelper::fromJson<User>(request_body);
+      user =   ArrayHelper::fromJson<User>(request_body);
       this->create_users_with_array_input(user, response);
     } catch (std::runtime_error & e) {
       //send a 400 error
@@ -87,7 +87,7 @@ void UserApi::create_users_with_list_input_handler(const Pistache::Rest::Request
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
-      user =   ModelArrayHelper::fromJson<User>(request_body);
+      user =   ArrayHelper::fromJson<User>(request_body);
       this->create_users_with_list_input(user, response);
     } catch (std::runtime_error & e) {
       //send a 400 error

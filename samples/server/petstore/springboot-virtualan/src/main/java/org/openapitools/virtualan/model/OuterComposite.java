@@ -31,7 +31,7 @@ public class OuterComposite   {
   /**
    * Get myNumber
    * @return myNumber
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -52,7 +52,7 @@ public class OuterComposite   {
   /**
    * Get myString
    * @return myString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -72,7 +72,7 @@ public class OuterComposite   {
   /**
    * Get myBoolean
    * @return myBoolean
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

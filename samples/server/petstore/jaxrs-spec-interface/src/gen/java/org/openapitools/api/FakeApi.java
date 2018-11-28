@@ -100,6 +100,12 @@ public interface FakeApi {
         @ApiResponse(code = 404, message = "Not found", response = Void.class) })
     void testEnumParameters(@HeaderParam("enum_header_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")  @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString);
 
+    @DELETE
+    @ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
+    void testGroupParameters(@QueryParam("required_string_group") @NotNull   @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull   @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")   @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")   @ApiParam("Integer in group parameters")  Long int64Group);
+
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })

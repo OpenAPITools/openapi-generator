@@ -7,7 +7,10 @@
 
 import Foundation
 
+
+
 public struct OuterComposite: Codable {
+
     public var myNumber: Double?
     public var myString: String?
     public var myBoolean: Bool?
@@ -18,9 +21,12 @@ public struct OuterComposite: Codable {
         self.myBoolean = myBoolean
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case myNumber = "my_number"
         case myString = "my_string"
         case myBoolean = "my_boolean"
     }
+
+
 }
+

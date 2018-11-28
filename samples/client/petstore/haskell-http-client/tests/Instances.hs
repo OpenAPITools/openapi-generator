@@ -101,11 +101,6 @@ instance Arbitrary Animal where
       <$> arbitrary -- animalClassName :: Text
       <*> arbitrary -- animalColor :: Maybe Text
     
-instance Arbitrary AnimalFarm where
-  arbitrary =
-    
-    pure AnimalFarm
-     
 instance Arbitrary ApiResponse where
   arbitrary =
     ApiResponse
@@ -301,11 +296,6 @@ instance Arbitrary SpecialModelName where
     SpecialModelName
       <$> arbitrary -- specialModelNameSpecialPropertyName :: Maybe Integer
     
-instance Arbitrary StringBooleanMap where
-  arbitrary =
-    
-    pure StringBooleanMap
-     
 instance Arbitrary Tag where
   arbitrary =
     Tag

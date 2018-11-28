@@ -25,7 +25,7 @@ public class NumberOnly   {
   /**
    * Get justNumber
    * @return justNumber
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

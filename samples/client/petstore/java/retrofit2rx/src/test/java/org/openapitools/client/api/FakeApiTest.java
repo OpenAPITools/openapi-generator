@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -79,6 +80,18 @@ public class FakeApiTest {
     /**
      * 
      *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() {
+        FileSchemaTestClass fileSchemaTestClass = null;
+        // api.testBodyWithFileSchema(fileSchemaTestClass);
+
+        // TODO: test validations
+    }
+    /**
+     * 
+     *
      * 
      */
     @Test
@@ -142,6 +155,23 @@ public class FakeApiTest {
         List<String> enumFormStringArray = null;
         String enumFormString = null;
         // api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+
+        // TODO: test validations
+    }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     */
+    @Test
+    public void testGroupParametersTest() {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        // api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
         // TODO: test validations
     }

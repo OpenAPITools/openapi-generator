@@ -585,6 +585,85 @@ if (enumFormString != null)
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @throws ApiException if fails to make API call
+   */
+  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+
+    testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+  }
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+    Object localVarPostBody = new Object();
+    
+    // verify the required parameter 'requiredStringGroup' is set
+    if (requiredStringGroup == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+    }
+    
+    // verify the required parameter 'requiredBooleanGroup' is set
+    if (requiredBooleanGroup == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+    }
+    
+    // verify the required parameter 'requiredInt64Group' is set
+    if (requiredInt64Group == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_string_group", requiredStringGroup));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_int64_group", requiredInt64Group));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "string_group", stringGroup));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "int64_group", int64Group));
+
+    if (requiredBooleanGroup != null)
+      localVarHeaderParams.put("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
+if (booleanGroup != null)
+      localVarHeaderParams.put("boolean_group", apiClient.parameterToString(booleanGroup));
+
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
+  /**
    * test inline additionalProperties
    * 
    * @param requestBody request body (required)

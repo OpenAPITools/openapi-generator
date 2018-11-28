@@ -46,7 +46,7 @@ public class User   {
   /**
    * Get id
    * @return id
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -66,7 +66,7 @@ public class User   {
   /**
    * Get username
    * @return username
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -86,7 +86,7 @@ public class User   {
   /**
    * Get firstName
    * @return firstName
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -106,7 +106,7 @@ public class User   {
   /**
    * Get lastName
    * @return lastName
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -126,7 +126,7 @@ public class User   {
   /**
    * Get email
    * @return email
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -146,7 +146,7 @@ public class User   {
   /**
    * Get password
    * @return password
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -166,7 +166,7 @@ public class User   {
   /**
    * Get phone
    * @return phone
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -186,7 +186,7 @@ public class User   {
   /**
    * User Status
    * @return userStatus
-  **/
+  */
   @ApiModelProperty(value = "User Status")
 
 

@@ -54,7 +54,8 @@ public class CodegenProperty implements Cloneable {
     public boolean hasMore, required, secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType, isModel, isContainer, isNotContainer;
-    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile, isBoolean, isDate, isDateTime, isUuid, isEmail;
+    public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
+            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public boolean isReadOnly;
@@ -471,6 +472,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isDateTime ? 13 : 31));
         result = prime * result + ((isUuid ? 13 : 31));
         result = prime * result + ((isEmail ? 13 : 31));
+        result = prime * result + ((isFreeFormObject ? 13 : 31));
         result = prime * result + ((isMapContainer ? 13 : 31));
         result = prime * result + ((isListContainer ? 13 : 31));
         result = prime * result + Objects.hashCode(isInherited);
@@ -654,6 +656,9 @@ public class CodegenProperty implements Cloneable {
         if (this.isEmail != other.isEmail) {
             return false;
         }
+        if (this.isFreeFormObject != other.isFreeFormObject) {
+            return false;
+        }
         if (this.isBinary != other.isBinary) {
             return false;
         }
@@ -783,6 +788,7 @@ public class CodegenProperty implements Cloneable {
                 ", isDateTime=" + isDateTime +
                 ", isUuid=" + isUuid +
                 ", isEmail=" + isEmail +
+                ", isFreeFormObject=" + isFreeFormObject +
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isEnum=" + isEnum +

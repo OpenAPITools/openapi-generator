@@ -11,7 +11,7 @@ public typealias EncodeResult = (data: Data?, error: Error?)
 
 open class CodableHelper {
 
-    open static var dateformatter: DateFormatter?
+    public static var dateformatter: DateFormatter?
 
     open class func decode<T>(_ type: T.Type, from data: Data) -> (decodableObj: T?, error: Error?) where T : Decodable {
         var returnedDecodable: T? = nil
@@ -26,7 +26,7 @@ open class CodableHelper {
             formatter.calendar = Calendar(identifier: .iso8601)
             formatter.locale = Locale(identifier: "en_US_POSIX")
             formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+            formatter.dateFormat = Configuration.dateFormat
             decoder.dateDecodingStrategy = .formatted(formatter)
         }
 
@@ -55,7 +55,7 @@ open class CodableHelper {
             formatter.calendar = Calendar(identifier: .iso8601)
             formatter.locale = Locale(identifier: "en_US_POSIX")
             formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+            formatter.dateFormat = Configuration.dateFormat
             encoder.dateEncodingStrategy = .formatted(formatter)
         }
 

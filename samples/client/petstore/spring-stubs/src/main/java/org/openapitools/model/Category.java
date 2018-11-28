@@ -28,7 +28,7 @@ public class Category   {
   /**
    * Get id
    * @return id
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -48,7 +48,7 @@ public class Category   {
   /**
    * Get name
    * @return name
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

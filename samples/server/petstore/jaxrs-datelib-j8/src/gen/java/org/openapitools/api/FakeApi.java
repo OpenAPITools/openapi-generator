@@ -201,6 +201,23 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,enumFormStringArray,enumFormString,securityContext);
     }
+    @DELETE
+    
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
+    public Response testGroupParameters(@ApiParam(value = "Required String in group parameters",required=true) @QueryParam("required_string_group") Integer requiredStringGroup
+,@ApiParam(value = "Required Boolean in group parameters" ,required=true)@HeaderParam("required_boolean_group") Boolean requiredBooleanGroup
+,@ApiParam(value = "Required Integer in group parameters",required=true) @QueryParam("required_int64_group") Long requiredInt64Group
+,@ApiParam(value = "String in group parameters") @QueryParam("string_group") Integer stringGroup
+,@ApiParam(value = "Boolean in group parameters" )@HeaderParam("boolean_group") Boolean booleanGroup
+,@ApiParam(value = "Integer in group parameters") @QueryParam("int64_group") Long int64Group
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testGroupParameters(requiredStringGroup,requiredBooleanGroup,requiredInt64Group,stringGroup,booleanGroup,int64Group,securityContext);
+    }
     @POST
     @Path("/inline-additionalProperties")
     @Consumes({ "application/json" })

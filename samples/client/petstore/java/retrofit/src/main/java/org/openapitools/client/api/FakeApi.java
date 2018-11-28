@@ -284,6 +284,40 @@ public interface FakeApi {
     @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit.http.Query("enum_query_double") Double enumQueryDouble, @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, Callback<Void> cb
   );
   /**
+   * Fake endpoint to test group parameters (optional)
+   * Sync method
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @return Void
+   */
+  
+  @DELETE("/fake")
+  Void testGroupParameters(
+    @retrofit.http.Query("required_string_group") Integer requiredStringGroup, @retrofit.http.Header("required_boolean_group") Boolean requiredBooleanGroup, @retrofit.http.Query("required_int64_group") Long requiredInt64Group, @retrofit.http.Query("string_group") Integer stringGroup, @retrofit.http.Header("boolean_group") Boolean booleanGroup, @retrofit.http.Query("int64_group") Long int64Group
+  );
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Async method
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @param cb callback method
+   */
+  
+  @DELETE("/fake")
+  void testGroupParameters(
+    @retrofit.http.Query("required_string_group") Integer requiredStringGroup, @retrofit.http.Header("required_boolean_group") Boolean requiredBooleanGroup, @retrofit.http.Query("required_int64_group") Long requiredInt64Group, @retrofit.http.Query("string_group") Integer stringGroup, @retrofit.http.Header("boolean_group") Boolean booleanGroup, @retrofit.http.Query("int64_group") Long int64Group, Callback<Void> cb
+  );
+  /**
    * test inline additionalProperties
    * Sync method
    * 

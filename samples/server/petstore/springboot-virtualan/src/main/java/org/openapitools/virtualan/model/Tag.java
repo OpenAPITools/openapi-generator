@@ -27,7 +27,7 @@ public class Tag   {
   /**
    * Get id
    * @return id
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -47,7 +47,7 @@ public class Tag   {
   /**
    * Get name
    * @return name
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

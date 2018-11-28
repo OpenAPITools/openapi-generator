@@ -11,6 +11,7 @@ sleep 5
 
 # LIST OF SCRIPTS:
 declare -a scripts=("./bin/openapi3/ruby-client-petstore.sh"
+"./bin/ruby-client-petstore.sh"
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/openapi3/jaxrs-jersey-petstore.sh"

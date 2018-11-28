@@ -168,6 +168,22 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testGroupParameters
+     */
+    default Mono<ResponseEntity<Void>> testGroupParameters(Integer requiredStringGroup,
+        Boolean requiredBooleanGroup,
+        Long requiredInt64Group,
+        Integer stringGroup,
+        Boolean booleanGroup,
+        Long int64Group,
+        ServerWebExchange exchange) {
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        Mono<Void> result = Mono.empty();
+        return result.then(Mono.empty());
+
+    }
+
+    /**
      * @see FakeApi#testInlineAdditionalProperties
      */
     default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> requestBody,

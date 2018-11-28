@@ -69,6 +69,12 @@ public class FormatTest   {
   @JsonProperty("password")
   private String password;
 
+  @JsonProperty("pattern_with_digits")
+  private String patternWithDigits;
+
+  @JsonProperty("pattern_with_digits_and_delimiter")
+  private String patternWithDigitsAndDelimiter;
+
   public FormatTest integer(Integer integer) {
     this.integer = integer;
     return this;
@@ -343,6 +349,46 @@ public class FormatTest   {
     this.password = password;
   }
 
+  public FormatTest patternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+    return this;
+  }
+
+  /**
+   * A string that is a 10 digit number. Can have leading zeros.
+   * @return patternWithDigits
+   **/
+  @JsonProperty("pattern_with_digits")
+  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
+   @Pattern(regexp="^\\d{10}$")
+  public String getPatternWithDigits() {
+    return patternWithDigits;
+  }
+
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
+
+  /**
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+   * @return patternWithDigitsAndDelimiter
+   **/
+  @JsonProperty("pattern_with_digits_and_delimiter")
+  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+   @Pattern(regexp="/^image_\\d{1,3}$/i")
+  public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
+  }
+
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -365,12 +411,14 @@ public class FormatTest   {
         Objects.equals(this.date, formatTest.date) &&
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
-        Objects.equals(this.password, formatTest.password);
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, _byte, binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
 
@@ -392,6 +440,8 @@ public class FormatTest   {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }

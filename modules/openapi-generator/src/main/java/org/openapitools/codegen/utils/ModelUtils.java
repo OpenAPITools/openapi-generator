@@ -304,9 +304,13 @@ public class ModelUtils {
         if (schema instanceof ObjectSchema) {
             return true;
         }
+
+        // must not be a map
         if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
             return true;
         }
+
+        // must have at least one property
         if (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             return true;
         }
@@ -503,7 +507,70 @@ public class ModelUtils {
     }
 
     /**
-     * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
+     * Check to see if the schema is a model with at least one properties
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a model with at least one properties
+     */
+    public static boolean isModel(Schema schema) {
+        if (schema == null) {
+            LOGGER.error("Schema cannot be null in isModel check");
+            return false;
+        }
+
+        // has at least one property
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            return true;
+        }
+
+        // composed schema is a model
+        if (schema instanceof ComposedSchema) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check to see if the schema is a free form object
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a free-form object
+     */
+    public static boolean isFreeFormObject(Schema schema) {
+        if (schema == null) {
+            LOGGER.error("Schema cannot be null in isFreeFormObject check");
+            return false;
+        }
+
+        // has at least one property
+        if ("object".equals(schema.getType())) {
+            // no properties
+            if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                if (schema.getAdditionalProperties() == null) {
+                    return true;
+                } else {
+                    // additionalProperties set to true
+                    if (schema.getAdditionalProperties() instanceof Boolean
+                            && (Boolean) schema.getAdditionalProperties()) {
+                        return true;
+                    }
+
+                    // additionalProperties is set to {}
+                    if (schema.getAdditionalProperties() instanceof Schema && schema.getAdditionalProperties() != null
+                            && schema.getAdditionalProperties() instanceof ObjectSchema
+                            && ((Schema) schema.getAdditionalProperties()).getProperties().isEmpty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * If a Schema contains a reference to another Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
      *
      * @param openAPI specification being checked
      * @param schema  potentially containing a '$ref'
@@ -691,7 +758,8 @@ public class ModelUtils {
      */
     public static Schema unaliasSchema(Map<String, Schema> allSchemas, Schema schema) {
         if (allSchemas == null || allSchemas.isEmpty()) {
-            LOGGER.warn("allSchemas cann't be null/empty in unaliasSchema. Returned 'schema'");
+            // skip the warning as the spec can have no model defined
+            //LOGGER.warn("allSchemas cannot be null/empty in unaliasSchema. Returned 'schema'");
             return schema;
         }
 
@@ -703,22 +771,17 @@ public class ModelUtils {
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
                 return schema;
-            } else if (isArraySchema(ref) || isComposedSchema(ref)) { // array def should be created as models
+            } else if (isFreeFormObject(ref)) {
+                return schema;
+            } else if (isArraySchema(ref)) {
+                return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+            } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has properties
                     return schema; // treat it as model
                 else {
                     // treat it as a typical map
-                    /* TODO unalias the map item if it's an alias
-                    if (ref.getAdditionalProperties() != null) {
-
-                        Schema innerSchema = (Schema) ref.getAdditionalProperties();
-                        if (StringUtils.isNotEmpty(innerSchema.get$ref())) { // map item is a ref to something else
-                            //Schema unaliasInnerSchema = unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(innerSchema.get$ref())));
-                            //ref.setAdditionalProperties(unaliasInnerSchema);
-                        }
-                    }*/
                     return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (isObjectSchema(ref)) { // model

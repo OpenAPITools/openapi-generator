@@ -44,7 +44,7 @@ public class ArrayTest   {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -72,7 +72,7 @@ public class ArrayTest   {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -101,7 +101,7 @@ public class ArrayTest   {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

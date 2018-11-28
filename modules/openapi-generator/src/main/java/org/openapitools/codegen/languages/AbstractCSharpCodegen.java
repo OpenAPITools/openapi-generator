@@ -160,21 +160,21 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
-        typeMapping.put("bytearray", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("boolean", "bool?");
         typeMapping.put("integer", "int?");
         typeMapping.put("float", "float?");
         typeMapping.put("long", "long?");
         typeMapping.put("double", "double?");
         typeMapping.put("number", "decimal?");
-        typeMapping.put("datetime", "DateTime?");
+        typeMapping.put("DateTime", "DateTime?");
         typeMapping.put("date", "DateTime?");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
-        typeMapping.put("uuid", "Guid?");
+        typeMapping.put("UUID", "Guid?");
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -216,6 +216,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         // {{packageVersion}}
@@ -766,20 +767,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         String type;
 
         if (openAPIType == null) {
-            openAPIType = ""; // set swagger type to empty string if null
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
-        // NOTE: typeMapping here supports things like string/String, long/Long, datetime/DateTime as lowercase keys.
-        //       Should we require explicit casing here (values are not insensitive).
-        // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(openAPIType.toLowerCase(Locale.ROOT))) {
-            type = typeMapping.get(openAPIType.toLowerCase(Locale.ROOT));
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
                 return type;
             }
         } else {
             type = openAPIType;
         }
+
         return toModelName(type);
     }
 

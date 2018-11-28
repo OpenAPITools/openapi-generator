@@ -7,14 +7,20 @@
 
 import Foundation
 
+
+
 public struct NumberOnly: Codable {
+
     public var justNumber: Double?
 
     public init(justNumber: Double?) {
         self.justNumber = justNumber
     }
 
-    public enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey { 
         case justNumber = "JustNumber"
     }
+
+
 }
+
