@@ -1067,23 +1067,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return super.postProcessModelsEnum(objs);
     }
 
-    // private boolean paramHasXmlNamespace(CodegenParameter param, Map<String, Schema> definitions) {
-    //     Object refName = param.vendorExtensions.get("refName");
-
-    //     if ((refName != null) && (refName instanceof String)) {
-    //         String name = (String) refName;
-    //         Schema model = definitions.get(ModelUtils.getSimpleRef(name));
-
-    //         if (model != null) {
-    //             XML xml = model.getXml();
-    //             if ((xml != null) && (xml.getNamespace() != null)) {
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    //     return false;
-    // }
-
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
 
