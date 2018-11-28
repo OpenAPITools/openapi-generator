@@ -52,6 +52,25 @@ paths:
           description: Success
           schema:
             type: object
+  /xml:
+    post:
+      summary: Test XML
+      consumes:
+        - application/xml
+      produces:
+        - application/xml
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/XmlObject'
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/XmlObject'
+
     # Requests with arbitrary JSON currently fail.
     # post:
     #   summary: Send an arbitrary JSON blob
@@ -116,7 +135,10 @@ definitions:
             type: integer
   XmlObject:
     description: An XML object
-    type: string
+    type: object
+    properties:
+      inner:
+        type: string
     xml:
       name: an_xml_object
       namespace: foo.bar

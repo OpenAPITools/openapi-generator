@@ -69,6 +69,22 @@ paths:
                 type: object
           description: Success
       summary: Get an arbitrary JSON blob.
+  /xml:
+    post:
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/XmlObject'
+        required: true
+      responses:
+        200:
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/XmlObject'
+          description: Success
+      summary: Test XML
 components:
   requestBodies:
     nested_response:
@@ -115,7 +131,10 @@ components:
       type: object
     XmlObject:
       description: An XML object
-      type: string
+      properties:
+        inner:
+          type: string
+      type: object
       xml:
         name: an_xml_object
         namespace: foo.bar
