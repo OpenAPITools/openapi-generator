@@ -49,14 +49,3 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/OK_200"
-
-  /modifiers:
-    get:
-      summary: Get Payment Information
-      description: Returns the content of a payment object
-      parameters:
-        - name: pattern_with_modifiers
-          in: header
-          schema:
-            type: string
-            pattern: '/^pattern$/i'
