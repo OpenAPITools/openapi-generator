@@ -32,7 +32,7 @@ export interface DeletePetRequest {
 }
 
 export interface FindPetsByStatusRequest {
-    status: Array<'available' | 'pending' | 'sold'>;
+    status: Array<FindPetsByStatusStatusEnum>;
 }
 
 export interface FindPetsByTagsRequest {
@@ -411,4 +411,14 @@ export class PetApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FindPetsByStatusStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
 }
