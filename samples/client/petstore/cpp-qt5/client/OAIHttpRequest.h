@@ -70,9 +70,10 @@ public:
     QNetworkReply::NetworkError error_type;
     QString error_str;
 
-    explicit OAIHttpRequestWorker(QObject *parent = 0);
+    explicit OAIHttpRequestWorker(QObject *parent = nullptr);
     virtual ~OAIHttpRequestWorker();
 
+    QMap<QByteArray, QByteArray> getResponseHeaders() const;
     QString http_attribute_encode(QString attribute_name, QString input);
     void execute(OAIHttpRequestInput *input);
     static QSslConfiguration* sslDefaultConfiguration;
@@ -82,7 +83,7 @@ signals:
 
 private:
     QNetworkAccessManager *manager;
-
+    QMap<QByteArray, QByteArray> headers;
 private slots:
     void on_manager_finished(QNetworkReply *reply);
 

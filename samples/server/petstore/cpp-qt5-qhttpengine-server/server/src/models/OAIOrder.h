@@ -60,26 +60,27 @@ public:
     void setComplete(const bool &complete);
 
     virtual bool isSet() const override;
+    virtual bool isValid() const override;
 
 private:
     qint64 id;
     bool m_id_isSet;
-
+    bool m_id_isValid;
     qint64 pet_id;
     bool m_pet_id_isSet;
-
+    bool m_pet_id_isValid;
     qint32 quantity;
     bool m_quantity_isSet;
-
+    bool m_quantity_isValid;
     QDateTime ship_date;
     bool m_ship_date_isSet;
-
+    bool m_ship_date_isValid;
     QString status;
     bool m_status_isSet;
-
+    bool m_status_isValid;
     bool complete;
     bool m_complete_isSet;
-
+    bool m_complete_isValid;
 };
 
 }

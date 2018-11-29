@@ -8,7 +8,7 @@
 PetApiTests::PetApiTests () {}
 
 PetApiTests::~PetApiTests () {
-    exit(1);
+
 }
 
 OAIPetApi* PetApiTests::getApi() {
@@ -35,7 +35,6 @@ void PetApiTests::runTests() {
 
 void PetApiTests::findPetsByStatusTest() {
     OAIPetApi* api = getApi();
-
     QEventLoop loop;
     QTimer timer;
     timer.setInterval(14000);
