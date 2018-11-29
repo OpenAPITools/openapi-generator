@@ -56,7 +56,7 @@ toStringValue(const bool &value) {
 
 QString
 toStringValue(const float &value){
-    return QString::number(value);
+    return QString::number(static_cast<double>(value));
 }
 
 QString
@@ -101,7 +101,7 @@ toJsonValue(const bool &value){
 
 QJsonValue
 toJsonValue(const float &value){
-    return QJsonValue(value);
+    return QJsonValue(static_cast<double>(value));
 }
 
 QJsonValue
@@ -202,88 +202,126 @@ fromStringValue(const QString &inStr, double &value){
     return ok;
 }
 
-void
+bool
 fromJsonValue(QString &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;
+    if(!jval.isUndefined() && !jval.isNull()){
         if(jval.isString()){
             value = jval.toString();
         } else if(jval.isBool()) {
             value =  jval.toBool() ? "true" : "false";
         } else if(jval.isDouble()){
             value = QString::number(jval.toDouble());
+        } else {
+            ok = false;    
         }
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(QDateTime &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;    
+    if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDateTime::fromString(jval.toString(), Qt::ISODate);
+        ok = value.isValid();
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(QByteArray &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;
+    if(!jval.isUndefined() && !jval.isNull() && jval.isString()) {
         value = QByteArray::fromBase64(QByteArray::fromStdString(jval.toString().toStdString()));
+        ok = value.size() > 0 ;
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(QDate &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;    
+    if(!jval.isUndefined() && !jval.isNull() && jval.isString()){
         value = QDate::fromString(jval.toString(), Qt::ISODate);
+        ok = value.isValid();
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(qint32 &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;    
+    if(!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()){
         value = jval.toInt();
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(qint64 &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;    
+    if(!jval.isUndefined() && !jval.isNull() && !jval.isObject() && !jval.isArray()){
         value = jval.toVariant().toLongLong();
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(bool &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;    
+    if(jval.isBool()){
         value = jval.toBool();
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(float &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;    
+    if(jval.isDouble()){
         value = static_cast<float>(jval.toDouble());
+    } else {
+        ok = false;
     }
+    return ok;
 }
 
-void
+bool
 fromJsonValue(double &value, const QJsonValue &jval){
-    if(!(jval.isUndefined() || jval.isNull())){
+    bool ok = true;    
+    if(jval.isDouble()){
         value = jval.toDouble();
+    } else {
+        ok = false;
     }
-
+    return ok;
 }
 
-void
+bool
 fromJsonValue(OAIObject  &value, const QJsonValue &jval){
+    bool ok = true;    
     if(jval.isObject()){
         value.fromJsonObject(jval.toObject());
+        ok = value.isValid();
+    } else {
+        ok = false;
     }
+    return ok;
 }
 
 }
