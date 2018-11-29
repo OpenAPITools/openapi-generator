@@ -170,6 +170,9 @@ CONFIG OPTIONS for spring
 	hateoas
 	    Use Spring HATEOAS library to allow adding HATEOAS links (Default: false)
 
+	returnSuccessCode
+	    Generated server returns 2xx code (Default: false)
+
 	library
 	    library template (sub-template) to use (Default: spring-boot)
 	        spring-boot - Spring-boot Server application using the SpringFox integration.
