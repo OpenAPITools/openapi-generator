@@ -33,7 +33,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(GoServerCodegen.class);
 
     protected String packageVersion = "1.0.0";
-    protected String serverPort = "8080";
+    protected int serverPort = 8080;
     protected String projectName = "openapi-server";
     protected String sourceFolder = "go";
 
@@ -50,8 +50,10 @@ public class GoServerCodegen extends AbstractGoCodegen {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
         
-        cliOptions.add(new CliOption("serverPort", "The network port the generated server binds to")
-                .defaultValue(serverPort));
+        CliOption optServerPort = new CliOption("serverPort", "The network port the generated server binds to");
+        optServerPort.setType("int");
+        optServerPort.defaultValue(Integer.toString(serverPort));
+        cliOptions.add(optServerPort);
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -124,13 +126,11 @@ public class GoServerCodegen extends AbstractGoCodegen {
             additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         }
         
-        if (additionalProperties.containsKey("serverPort")) {
-            this.setServerPort((String) additionalProperties.get("serverPort"));
+        if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
+            this.setServerPort((int) additionalProperties.get("serverPort"));
         } else {
-            additionalProperties.put("serverPort", sourceFolder);
+        	additionalProperties.put("serverPort", serverPort);
         }
-
-        additionalProperties.put("serverPort", serverPort);
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -209,7 +209,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         this.packageVersion = packageVersion;
     }
 
-    public void setServerPort(String serverPort) {
+    public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
     } 
 }
