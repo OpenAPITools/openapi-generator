@@ -13,7 +13,7 @@ defmodule OpenapiPetstore.Model.Return do
   ]
 
   @type t :: %__MODULE__{
-    :"return" => integer()
+    :"return" => integer() | nil
   }
 end
 

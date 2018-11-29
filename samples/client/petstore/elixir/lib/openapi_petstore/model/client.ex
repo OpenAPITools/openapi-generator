@@ -13,7 +13,7 @@ defmodule OpenapiPetstore.Model.Client do
   ]
 
   @type t :: %__MODULE__{
-    :"client" => String.t
+    :"client" => String.t | nil
   }
 end
 
