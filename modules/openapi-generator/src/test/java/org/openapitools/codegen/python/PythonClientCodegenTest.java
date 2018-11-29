@@ -77,19 +77,7 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern\\/\\d{3}$/");
         // pattern_escape_unescaped_forward_slash '^pattern/\d{3}$'
         Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
-    }
-
-    @Test(
-            description = "test regex patterns with modifiers",
-            expectedExceptions = {IllegalArgumentException.class},
-            expectedExceptionsMessageRegExp = "Python client does not currently support regular expression modifiers."
-    )
-    public void testRegularExpressionModifiersOpenAPISchemaVersion3() {
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/issue_1517.yaml", null, new ParseOptions()).getOpenAPI();
-        final PythonClientCodegen codegen = new PythonClientCodegen();
-        final String path = "/modifiers";
-        final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
+        // pattern_with_modifiers '/^pattern\d{3}$/i
+        Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
     }
 }

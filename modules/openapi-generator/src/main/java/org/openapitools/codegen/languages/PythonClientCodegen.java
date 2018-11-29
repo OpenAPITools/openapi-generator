@@ -322,9 +322,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             }
             // Python client doesn't currently support modifiers
             if (!pattern.endsWith("/")) {
-                throw new IllegalArgumentException(
-                    "Python client does not currently support regular expression modifiers."
-                );
+                LOGGER.warn("Python client does not currently support regular expression modifiers.");
             }
 
             String regex = pattern.substring(1, i).replace("'", "\\'");

@@ -40,6 +40,11 @@ paths:
           schema:
             type: string
             pattern: '^pattern/\d{3}$'
+        - name: pattern_with_modifiers
+          in: header
+          schema:
+            type: string
+            pattern: '/^pattern\d{3}$/i'
 
       responses:
         '200':
