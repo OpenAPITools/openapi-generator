@@ -129,6 +129,10 @@ components:
         inner:
           $ref: '#/components/schemas/ObjectOfObjects_inner'
       type: object
+    XmlListRefInner:
+      type: string
+      xml:
+        name: xml_list_ref_inner
     XmlObject:
       description: An XML object
       properties:
@@ -155,4 +159,16 @@ components:
           type: string
       required:
       - required_thing
+    XmlListRef:
+      description: An XML list with items referenced. The wrapping doesn't currently work - it's stripped during the conversion to openapi v3. See https://github.com/OpenAPITools/openapi-generator/issues/1581.
+      items:
+        $ref: '#/components/schemas/XmlInner'
+      type: array
+    XmlList:
+      description: An XML list with items directly defined
+      items:
+        type: string
+        xml:
+          name: xml_list_inner
+      type: array
 
