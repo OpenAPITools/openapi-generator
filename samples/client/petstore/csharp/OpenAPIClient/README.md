@@ -138,7 +138,6 @@ Class | Method | HTTP request | Description
 
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Model.Animal](docs/Animal.md)
- - [Model.AnimalFarm](docs/AnimalFarm.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -169,7 +168,6 @@ Class | Method | HTTP request | Description
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
- - [Model.StringBooleanMap](docs/StringBooleanMap.md)
  - [Model.Tag](docs/Tag.md)
  - [Model.User](docs/User.md)
 

@@ -654,6 +654,9 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(param.dataType);
             } else if (param.isFile || param.isBinary) {
                 sb.append("String.t");
+            } else if ("String.t".equals(param.dataType)) {
+                // uuid, password, etc
+                sb.append(param.dataType);
             } else {
                 // <module>.Model.<type>.t
                 sb.append(moduleName);
@@ -693,6 +696,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             // Primitive return type, don't even try to decode
             if (returnBaseType == null || (returnSimpleType && returnTypeIsPrimitive)) {
                 return "false";
+            } else if (isListContainer && languageSpecificPrimitives().contains(returnBaseType)) {
+                return "[]";
             }
             StringBuilder sb = new StringBuilder();
             if (isListContainer) {

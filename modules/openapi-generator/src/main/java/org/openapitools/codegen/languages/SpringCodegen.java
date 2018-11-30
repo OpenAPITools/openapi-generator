@@ -77,6 +77,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
     public static final String HATEOAS = "hateoas";
+    public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -98,6 +99,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean useOptional = false;
     protected boolean virtualService = false;
     protected boolean hateoas = false;
+    protected boolean returnSuccessCode = false;
 
     public SpringCodegen() {
         super();
@@ -131,6 +133,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(API_FIRST, "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
         cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
+        cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -275,6 +278,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         
         if (additionalProperties.containsKey(HATEOAS)) {
             this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
+        }
+
+        if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
+            this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
 
         typeMapping.put("file", "Resource");
@@ -719,6 +726,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     
     public void setHateoas(boolean hateoas) {
         this.hateoas = hateoas;
+    }
+
+    public void setReturnSuccessCode(boolean returnSuccessCode) {
+        this.returnSuccessCode = returnSuccessCode;
     }
 
     @Override
