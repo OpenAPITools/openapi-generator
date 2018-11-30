@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: My title
+  description: API under test
+  version: 1.0.7
+paths:
+  /xml:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/XmlArray'
+      responses:
+        201:
+          description: OK
+components:
+  schemas:
+    XmlArray:
+      type: array
+      xml:
+        wrapped: true
+      items:
+        $ref: '#/components/schemas/XmlInner'
+    XmlInner:
+      type: string
+      xml:
+        name: another
+
