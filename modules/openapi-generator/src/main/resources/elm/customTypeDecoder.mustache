@@ -1,0 +1,16 @@
+{{vendorExtensions.elmDecoder}} : Decoder {{vendorExtensions.elmCustomType}}
+{{vendorExtensions.elmDecoder}} =
+    Decode.string
+        |> Decode.andThen
+            (\str ->
+                case str of
+{{#allowableValues}}
+{{#enumVars}}
+                    {{{value}}} ->
+                        Decode.succeed {{name}}
+
+{{/enumVars}}
+{{/allowableValues}}
+                    other ->
+                        Decode.fail <| "Unknown type: " ++ other
+            )

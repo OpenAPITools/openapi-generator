@@ -1,0 +1,1 @@
+( "{{baseName}}", {{#discriminatorValue}}Encode.string "{{discriminatorValue}}"{{/discriminatorValue}}{{^discriminatorValue}}{{^required}}{{^isNullable}}Maybe.withDefault Encode.null (Maybe.map {{/isNullable}}{{/required}}{{>recordFieldValueEncoder}} model.{{name}}{{^required}}{{^isNullable}}){{/isNullable}}{{/required}}{{/discriminatorValue}} )

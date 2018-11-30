@@ -48,7 +48,7 @@ pub enum TestSpecialTagsResponse {
 #[derive(Debug, PartialEq)]
 pub enum FakeOuterBooleanSerializeResponse {
     /// Output boolean
-    OutputBoolean ( models::OuterBoolean ) ,
+    OutputBoolean ( bool ) ,
 }
 
 #[derive(Debug, PartialEq)]
@@ -60,13 +60,13 @@ pub enum FakeOuterCompositeSerializeResponse {
 #[derive(Debug, PartialEq)]
 pub enum FakeOuterNumberSerializeResponse {
     /// Output number
-    OutputNumber ( models::OuterNumber ) ,
+    OutputNumber ( f64 ) ,
 }
 
 #[derive(Debug, PartialEq)]
 pub enum FakeOuterStringSerializeResponse {
     /// Output string
-    OutputString ( models::OuterString ) ,
+    OutputString ( String ) ,
 }
 
 #[derive(Debug, PartialEq)]

@@ -29,6 +29,14 @@ ApiClient::~ApiClient()
 {
 }
 
+const ApiClient::ResponseHeadersHandlerType& ApiClient::getResponseHeadersHandler() const {
+    return m_ResponseHeadersHandler;
+}
+
+void ApiClient::setResponseHeadersHandler(const ResponseHeadersHandlerType& responseHeadersHandler) {
+    m_ResponseHeadersHandler = responseHeadersHandler;
+}
+
 std::shared_ptr<ApiConfiguration> ApiClient::getConfiguration() const
 {
     return m_Configuration;
