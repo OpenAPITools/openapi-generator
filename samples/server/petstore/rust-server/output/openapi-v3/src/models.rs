@@ -2,7 +2,7 @@
 extern crate chrono;
 extern crate uuid;
 
-
+use serde_xml_rs;
 use serde::ser::Serializer;
 
 use std::collections::{HashMap, BTreeMap};
@@ -81,6 +81,14 @@ impl ::std::ops::DerefMut for XmlArray {
 
 
 
+impl XmlArray {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
@@ -114,4 +122,12 @@ impl ::std::ops::DerefMut for XmlInner {
 
 
 
+impl XmlInner {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 

@@ -10,7 +10,7 @@ paths:
     post:
       requestBody:
         content:
-          application/json:
+          application/xml:
             schema:
               $ref: '#/components/schemas/XmlArray'
       responses:

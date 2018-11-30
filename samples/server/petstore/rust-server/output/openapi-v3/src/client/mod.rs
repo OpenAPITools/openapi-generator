@@ -29,7 +29,7 @@ use std::str::FromStr;
 use mimetypes;
 
 use serde_json;
-
+use serde_xml_rs;
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -263,7 +263,7 @@ impl<F, C> Api<C> for Client<F> where
 
         // Body parameter
         let body = param_string.map(|ref body| {
-            serde_json::to_string(body).expect("impossible to fail to serialize")
+            body.to_xml()
         });
 
 if let Some(body) = body {

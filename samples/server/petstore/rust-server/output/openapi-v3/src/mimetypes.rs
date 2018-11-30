@@ -11,7 +11,7 @@ pub mod requests {
     use hyper::mime::*;
    /// Create Mime objects for the request content types for XmlPost
     lazy_static! {
-        pub static ref XML_POST: Mime = "application/json".parse().unwrap();
+        pub static ref XML_POST: Mime = "application/xml".parse().unwrap();
     }
 
 }

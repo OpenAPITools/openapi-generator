@@ -4,7 +4,7 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 
-
+extern crate serde_xml_rs;
 extern crate futures;
 extern crate chrono;
 #[macro_use]

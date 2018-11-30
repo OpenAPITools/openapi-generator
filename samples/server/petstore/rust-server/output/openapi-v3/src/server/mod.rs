@@ -21,7 +21,7 @@ use self::url::form_urlencoded;
 use mimetypes;
 
 use serde_json;
-
+use serde_xml_rs;
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -138,8 +138,7 @@ where
 
                                 let mut unused_elements = Vec::new();
                                 let param_string: Option<Vec<models::XmlInner>> = if !body.is_empty() {
-
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
