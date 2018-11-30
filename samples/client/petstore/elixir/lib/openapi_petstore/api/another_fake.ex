@@ -30,7 +30,7 @@ defmodule OpenapiPetstore.Api.AnotherFake do
     %{}
     |> method(:patch)
     |> url("/another-fake/dummy")
-    |> add_param(:body, :"Client", client)
+    |> add_param(:body, :body, client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> decode(%OpenapiPetstore.Model.Client{})
