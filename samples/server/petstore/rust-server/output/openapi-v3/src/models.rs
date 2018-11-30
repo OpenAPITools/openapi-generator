@@ -10,6 +10,14 @@ use models;
 use swagger;
 
 
+// Utility function for wrapping list elements when serializing xml
+fn wrap_in_another<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    serde_xml_rs::wrap_primitives(item, serializer, "another")
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct XmlArray(Vec<String>);
 

@@ -827,17 +827,34 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         if (ModelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
+            String xmlName = null;
+
+            // Detect XML list where the inner item is defined directly.
             if ((am.getItems() != null) &&
                     (am.getItems().getXml() != null)) {
+                xmlName = am.getItems().getXml().getName();
+            }
 
-                // If this model's items require wrapping in xml, squirrel
-                // away the xml name so we can insert it into the relevant model fields.
-                String xmlName = am.getItems().getXml().getName();
-                if (xmlName != null) {
-                    mdl.vendorExtensions.put("itemXmlName", xmlName);
-                    modelXmlNames.put("models::" + mdl.classname, xmlName);
+            // Detect XML list where the inner item is a reference.
+            if (am.getXml() != null && am.getXml().getWrapped() &&
+                    am.getItems() != null &&
+                    !StringUtils.isEmpty(am.getItems().get$ref())) {
+                Schema inner_schema = allDefinitions.get(
+                    ModelUtils.getSimpleRef(am.getItems().get$ref()));
+
+                if (inner_schema.getXml() != null &&
+                        inner_schema.getXml().getName() != null) {
+                    xmlName = inner_schema.getXml().getName();
                 }
             }
+
+            // If this model's items require wrapping in xml, squirrel away the
+            // xml name so we can insert it into the relevant model fields.
+            if (xmlName != null) {
+                mdl.vendorExtensions.put("itemXmlName", xmlName);
+                modelXmlNames.put("models::" + mdl.classname, xmlName);
+            }
+
             mdl.arrayModelType = toModelName(mdl.arrayModelType);
         }
 
