@@ -429,7 +429,6 @@ SYNOPSIS
                 [--import-mappings <import mappings>...]
                 [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
-                [(-l <language> | --lang <language>)]
                 [--language-specific-primitives <language specific primitives>...]
                 [--library <library>] [--log-to-stderr]
                 [--model-name-prefix <model name prefix>]
