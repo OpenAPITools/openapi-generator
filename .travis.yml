@@ -51,9 +51,9 @@ addons:
 
 before_install:
   # install haskell
-  - curl -sSL https://get.haskellstack.org/ | sh
-  - stack upgrade
-  - stack --version
+  #- curl -sSL https://get.haskellstack.org/ | sh
+  #- stack upgrade
+  #- stack --version
   # install rust
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
@@ -75,11 +75,11 @@ before_install:
   - sudo apt-get install -qq curl
   # install dart
   #- sudo apt-get update
-  - sudo apt-get install apt-transport-https
-  - sudo sh -c 'curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
-  - sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
-  - sudo apt-get update
-  - sudo apt-get install dart
+  #- sudo apt-get install apt-transport-https
+  #- sudo sh -c 'curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
+  #- sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
+  #- sudo apt-get update
+  #- sudo apt-get install dart
   # switch to php7
   - phpenv global 7.1
   - php -v
@@ -112,8 +112,8 @@ install:
   - gcc -v
   - echo $CC
   - echo $CXX
-  - pub version
-  - dart --version
+  #- pub version
+  #- dart --version
 
 script:
   # fail fast
