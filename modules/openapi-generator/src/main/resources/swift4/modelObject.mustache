@@ -1,5 +1,5 @@
-
-public struct {{classname}}: Codable {
+{{#objcCompatible}}@objc public class {{classname}}: NSObject, Codable { {{/objcCompatible}}
+{{^objcCompatible}}public struct {{classname}}: Codable { {{/objcCompatible}}
 
 {{#allVars}}
 {{#isEnum}}
@@ -9,12 +9,12 @@ public struct {{classname}}: Codable {
 {{#allVars}}
 {{#isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
+    {{/description}}{{#objcCompatible}}@objc {{/objcCompatible}}public var {{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}public var {{name}}: {{{datatype}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
-    public var {{name}}Num: NSNumber? {
+    {{/description}}{{#objcCompatible}}@objc {{/objcCompatible}}public var {{name}}: {{{datatype}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
+    {{#objcCompatible}}@objc {{/objcCompatible}}public var {{name}}Num: NSNumber? {
         get {
             return {{name}}.map({ return NSNumber(value: $0) })
         }
@@ -23,7 +23,7 @@ public struct {{classname}}: Codable {
 {{/allVars}}
 
 {{#hasVars}}
-    public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
+    {{#objcCompatible}}@objc {{/objcCompatible}}public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
         {{#allVars}}
         self.{{name}} = {{name}}
         {{/allVars}}
