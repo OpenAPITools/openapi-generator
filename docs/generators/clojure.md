@@ -34,4 +34,4 @@ CONFIG OPTIONS for clojure
 	baseNamespace
 	    the base/top namespace (Default: generated from projectName)
 
-Back to the [generators list](README.md)
+

@@ -16,4 +16,4 @@ CONFIG OPTIONS for openapi-yaml
 	outputFile
 	    output filename
 
-Back to the [generators list](README.md)
+

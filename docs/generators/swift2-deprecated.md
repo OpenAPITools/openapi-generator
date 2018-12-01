@@ -61,4 +61,4 @@ CONFIG OPTIONS for swift2-deprecated
 	hideGenerationTimestamp
 	    Hides the generation timestamp when files are generated. (Default: true)
 
-Back to the [generators list](README.md)
+

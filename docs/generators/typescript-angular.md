@@ -58,4 +58,4 @@ CONFIG OPTIONS for typescript-angular
 	fileNaming
 	    Naming convention for the output files: 'camelCase', 'kebab-case'. Default is 'camelCase'.
 
-Back to the [generators list](README.md)
+

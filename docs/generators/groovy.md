@@ -116,4 +116,4 @@ CONFIG OPTIONS for groovy
 	configPackage
 	    configuration package for generated code
 
-Back to the [generators list](README.md)
+

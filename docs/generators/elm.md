@@ -9,4 +9,4 @@ CONFIG OPTIONS for elm
 	elmPrefixCustomTypeVariants
 	    Prefix custom type variants (Default: false)
 
-Back to the [generators list](README.md)
+

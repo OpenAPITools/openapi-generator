@@ -40,4 +40,4 @@ CONFIG OPTIONS for typescript-inversify
 	taggedUnions
 	    Use discriminators to create tagged unions instead of extending interfaces. (Default: false)
 
-Back to the [generators list](README.md)
+

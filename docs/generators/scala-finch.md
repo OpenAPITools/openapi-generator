@@ -10,4 +10,4 @@ CONFIG OPTIONS for scala-finch
 	apiPackage
 	    package for generated api classes
 
-Back to the [generators list](README.md)
+

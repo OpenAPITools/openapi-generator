@@ -7,4 +7,4 @@ CONFIG OPTIONS for rust-server
 	packageVersion
 	    Rust crate version.
 
-Back to the [generators list](README.md)
+

@@ -67,4 +67,4 @@ CONFIG OPTIONS for swift3
 	lenientTypeCast
 	    Accept and cast values for simple types (string->bool, string->int, int->string) (Default: false)
 
-Back to the [generators list](README.md)
+

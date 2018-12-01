@@ -31,4 +31,4 @@ CONFIG OPTIONS for aspnetcore
 	useSwashbuckle
 	    Uses the Swashbuckle.AspNetCore NuGet package for documentation. (Default: true)
 
-Back to the [generators list](README.md)
+

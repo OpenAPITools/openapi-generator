@@ -16,4 +16,4 @@ CONFIG OPTIONS for cpp-qt5-qhttpengine-server
 	cppNamespace
 	    C++ namespace (convention: name::space::for::api). (Default: OpenAPI)
 
-Back to the [generators list](README.md)
+

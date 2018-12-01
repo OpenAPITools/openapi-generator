@@ -161,4 +161,4 @@ CONFIG OPTIONS for java
 	        google-api-client - HTTP client: Google API client 1.23.0. JSON processing: Jackson 2.8.9
 	        rest-assured - HTTP client: rest-assured : 3.1.0. JSON processing: Gson 2.6.1. Only for Java8
 
-Back to the [generators list](README.md)
+

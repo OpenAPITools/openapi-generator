@@ -49,4 +49,4 @@ CONFIG OPTIONS for php
 	hideGenerationTimestamp
 	    boolean, toggles whether unicode identifiers are allowed in names or not, default is false (Default: true)
 
-Back to the [generators list](README.md)
+

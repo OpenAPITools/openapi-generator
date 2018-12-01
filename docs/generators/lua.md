@@ -10,4 +10,4 @@ CONFIG OPTIONS for lua
 	hideGenerationTimestamp
 	    Hides the generation timestamp when files are generated. (Default: true)
 
-Back to the [generators list](README.md)
+

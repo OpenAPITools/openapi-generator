@@ -19,4 +19,4 @@ CONFIG OPTIONS for cpp-restsdk
 	generateGMocksForApis
 	    Generate Google Mock classes for APIs.
 
-Back to the [generators list](README.md)
+

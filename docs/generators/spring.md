@@ -179,4 +179,4 @@ CONFIG OPTIONS for spring
 	        spring-mvc - Spring-MVC Server application using the SpringFox integration.
 	        spring-cloud - Spring-Cloud-Feign client with Spring-Boot auto-configured settings.
 
-Back to the [generators list](README.md)
+

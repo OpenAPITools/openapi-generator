@@ -13,4 +13,4 @@ CONFIG OPTIONS for flash
 	sourceFolder
 	    source folder for generated code. e.g. flash
 
-Back to the [generators list](README.md)
+

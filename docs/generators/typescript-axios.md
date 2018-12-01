@@ -34,4 +34,4 @@ CONFIG OPTIONS for typescript-axios
 	withInterfaces
 	    Setting this property to true will generate interfaces next to the default class implementations. (Default: false)
 
-Back to the [generators list](README.md)
+

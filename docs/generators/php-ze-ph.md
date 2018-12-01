@@ -40,4 +40,4 @@ CONFIG OPTIONS for php-ze-ph
 	artifactVersion
 	    The version to use in the composer package version field. e.g. 1.2.3
 
-Back to the [generators list](README.md)
+

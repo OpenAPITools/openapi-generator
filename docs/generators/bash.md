@@ -37,4 +37,4 @@ CONFIG OPTIONS for bash
 	apiKeyAuthEnvironmentVariable
 	    Name of environment variable where API key can be defined (e.g. PETSTORE_APIKEY='kjhasdGASDa5asdASD') (Default: false)
 
-Back to the [generators list](README.md)
+

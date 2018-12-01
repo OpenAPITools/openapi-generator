@@ -141,4 +141,4 @@ CONFIG OPTIONS for jaxrs-spec
 	useSwaggerAnnotations
 	    Whether to generate Swagger annotations. (Default: true)
 
-Back to the [generators list](README.md)
+

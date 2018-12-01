@@ -33,4 +33,4 @@ CONFIG OPTIONS for kotlin
 	        array - kotlin.Array
 	        list - kotlin.collections.List
 
-Back to the [generators list](README.md)
+

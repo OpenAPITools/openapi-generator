@@ -19,4 +19,4 @@ CONFIG OPTIONS for cpp-qt5
 	optionalProjectFile
 	    Generate client.pri. (Default: true)
 
-Back to the [generators list](README.md)
+

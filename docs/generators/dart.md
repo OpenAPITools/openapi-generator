@@ -34,4 +34,4 @@ CONFIG OPTIONS for dart
 	supportDart2
 	    support dart2 (Default: true)
 
-Back to the [generators list](README.md)
+

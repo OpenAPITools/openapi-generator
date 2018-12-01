@@ -22,4 +22,4 @@ CONFIG OPTIONS for nodejs-server
 	serverPort
 	    TCP port to listen on.
 
-Back to the [generators list](README.md)
+

@@ -144,4 +144,4 @@ CONFIG OPTIONS for jaxrs-cxf-cdi
 	useBeanValidation
 	    Use BeanValidation API annotations (Default: true)
 
-Back to the [generators list](README.md)
+

@@ -25,4 +25,4 @@ CONFIG OPTIONS for scala-akka
 	mainPackage
 	    Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage' (Default: org.openapitools.client)
 
-Back to the [generators list](README.md)
+

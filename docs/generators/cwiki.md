@@ -43,4 +43,4 @@ CONFIG OPTIONS for cwiki
 	artifactVersion
 	    artifact version in generated pom.xml
 
-Back to the [generators list](README.md)
+

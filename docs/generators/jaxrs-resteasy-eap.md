@@ -134,4 +134,4 @@ CONFIG OPTIONS for jaxrs-resteasy-eap
 	useSwaggerFeature
 	    Use dynamic Swagger generator (Default: false)
 
-Back to the [generators list](README.md)
+

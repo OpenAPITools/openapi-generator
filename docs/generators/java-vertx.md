@@ -119,4 +119,4 @@ CONFIG OPTIONS for java-vertx
 	vertxSwaggerRouterVersion
 	    Specify the version of the swagger router library
 
-Back to the [generators list](README.md)
+

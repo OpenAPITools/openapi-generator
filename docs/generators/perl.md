@@ -19,4 +19,4 @@ CONFIG OPTIONS for perl
 	prependFormOrBodyParameters
 	    Add form or body parameters to the beginning of the parameter list. (Default: false)
 
-Back to the [generators list](README.md)
+

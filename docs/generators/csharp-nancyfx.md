@@ -43,4 +43,4 @@ CONFIG OPTIONS for csharp-nancyfx
 	asyncServer
 	    Set to true to enable the generation of async routes/endpoints. (Default: false)
 
-Back to the [generators list](README.md)
+

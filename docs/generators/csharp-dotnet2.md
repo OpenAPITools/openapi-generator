@@ -10,4 +10,4 @@ CONFIG OPTIONS for csharp-dotnet2
 	clientPackage
 	    C# client package name (convention: Camel.Case). (Default: Org.OpenAPITools.Client)
 
-Back to the [generators list](README.md)
+

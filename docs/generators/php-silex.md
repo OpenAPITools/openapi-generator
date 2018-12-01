@@ -13,4 +13,4 @@ CONFIG OPTIONS for php-silex
 	prependFormOrBodyParameters
 	    Add form or body parameters to the beginning of the parameter list. (Default: false)
 
-Back to the [generators list](README.md)
+

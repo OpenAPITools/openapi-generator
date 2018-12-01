@@ -16,4 +16,4 @@ CONFIG OPTIONS for ada
 	projectName
 	    GNAT project name (Default: defaultProject)
 
-Back to the [generators list](README.md)
+

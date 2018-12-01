@@ -69,4 +69,4 @@ CONFIG OPTIONS for csharp
 	validatable
 	    Generates self-validatable models. (Default: true)
 
-Back to the [generators list](README.md)
+

@@ -22,4 +22,4 @@ CONFIG OPTIONS for elixir
 	packageName
 	    Elixir package name (convention: lowercase).
 
-Back to the [generators list](README.md)
+

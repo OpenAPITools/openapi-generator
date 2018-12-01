@@ -130,4 +130,4 @@ CONFIG OPTIONS for java-msf4j
 	        jersey1 - Jersey core 1.x
 	        jersey2 - Jersey core 2.x
 
-Back to the [generators list](README.md)
+

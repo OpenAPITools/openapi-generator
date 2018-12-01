@@ -31,4 +31,4 @@ CONFIG OPTIONS for typescript-node
 	snapshot
 	    When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm (Default: false)
 
-Back to the [generators list](README.md)
+

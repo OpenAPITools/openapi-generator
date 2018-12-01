@@ -31,4 +31,4 @@ CONFIG OPTIONS for python-flask
 	serverPort
 	    TCP port to listen to in app.run (Default: 8080)
 
-Back to the [generators list](README.md)
+

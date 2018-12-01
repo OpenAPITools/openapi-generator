@@ -54,4 +54,4 @@ CONFIG OPTIONS for android
 	        volley - HTTP client: Volley 1.0.19 (default)
 	        httpclient - HTTP client: Apache HttpClient 4.3.6. JSON processing: Gson 2.3.1. IMPORTANT: Android client using HttpClient is not actively maintained and will be depecreated in the next major release.
 
-Back to the [generators list](README.md)
+

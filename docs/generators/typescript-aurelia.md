@@ -25,4 +25,4 @@ CONFIG OPTIONS for typescript-aurelia
 	npmVersion
 	    The version of your npm package
 
-Back to the [generators list](README.md)
+

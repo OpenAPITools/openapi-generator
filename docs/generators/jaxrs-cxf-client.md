@@ -125,4 +125,4 @@ CONFIG OPTIONS for jaxrs-cxf-client
 	useGenericResponse
 	    Use generic response (Default: false)
 
-Back to the [generators list](README.md)
+

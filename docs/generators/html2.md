@@ -55,4 +55,4 @@ CONFIG OPTIONS for html2
 	artifactVersion
 	    artifact version in generated pom.xml
 
-Back to the [generators list](README.md)
+

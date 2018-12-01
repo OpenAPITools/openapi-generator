@@ -22,4 +22,4 @@ CONFIG OPTIONS for scala-gatling
 	sourceFolder
 	    source folder for generated code
 
-Back to the [generators list](README.md)
+

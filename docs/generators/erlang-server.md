@@ -7,4 +7,4 @@ CONFIG OPTIONS for erlang-server
 	openAPISpecName
 	    Openapi Spec Name. (Default: openapi)
 
-Back to the [generators list](README.md)
+

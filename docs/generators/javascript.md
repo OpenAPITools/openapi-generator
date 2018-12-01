@@ -64,4 +64,4 @@ CONFIG OPTIONS for javascript
 	modelPropertyNaming
 	    Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)
 
-Back to the [generators list](README.md)
+

@@ -43,4 +43,4 @@ CONFIG OPTIONS for php-slim
 	phpcsStandard
 	    PHP CodeSniffer <standard> option. Accepts name or path of the coding standard to use. (Default: PSR12)
 
-Back to the [generators list](README.md)
+

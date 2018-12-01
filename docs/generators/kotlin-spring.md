@@ -59,4 +59,4 @@ CONFIG OPTIONS for kotlin-spring
 	    library template (sub-template) to use (Default: spring-boot)
 	        spring-boot - Spring-boot Server application.
 
-Back to the [generators list](README.md)
+

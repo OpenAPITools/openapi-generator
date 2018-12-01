@@ -15,4 +15,4 @@ CONFIG OPTIONS for rust
 	        hyper - HTTP client: Hyper.
 	        reqwest - HTTP client: Reqwest.
 
-Back to the [generators list](README.md)
+

@@ -19,4 +19,4 @@ CONFIG OPTIONS for typescript-angularjs
 	supportsES6
 	    Generate code that conforms to ES6. (Default: false)
 
-Back to the [generators list](README.md)
+

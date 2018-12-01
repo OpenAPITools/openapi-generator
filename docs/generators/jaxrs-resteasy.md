@@ -128,4 +128,4 @@ CONFIG OPTIONS for jaxrs-resteasy
 	generateJbossDeploymentDescriptor
 	    Generate Jboss Deployment Descriptor (Default: false)
 
-Back to the [generators list](README.md)
+

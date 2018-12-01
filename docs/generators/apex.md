@@ -25,4 +25,4 @@ CONFIG OPTIONS for apex
 	namedCredential
 	    The named credential name for the HTTP callouts
 
-Back to the [generators list](README.md)
+

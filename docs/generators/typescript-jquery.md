@@ -34,4 +34,4 @@ CONFIG OPTIONS for typescript-jquery
 	jqueryAlreadyImported
 	    When using this in legacy app using mix of typescript and javascript, this will only declare jquery and not import it (Default: false)
 
-Back to the [generators list](README.md)
+

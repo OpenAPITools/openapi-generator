@@ -19,4 +19,4 @@ CONFIG OPTIONS for javascript-closure-angular
 	useEs6
 	    use ES6 templates (Default: false)
 
-Back to the [generators list](README.md)
+

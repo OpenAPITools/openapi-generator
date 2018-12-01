@@ -41,4 +41,4 @@ CONFIG OPTIONS for kotlin-server
 	featureCompression
 	    Adds ability to compress outgoing content using gzip, deflate or custom encoder and thus reduce size of the response. (Default: true)
 
-Back to the [generators list](README.md)
+

@@ -55,4 +55,4 @@ CONFIG OPTIONS for php-symfony
 	phpLegacySupport
 	    Should the generated code be compatible with PHP 5.x? (Default: true)
 
-Back to the [generators list](README.md)
+

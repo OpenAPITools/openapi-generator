@@ -25,4 +25,4 @@ CONFIG OPTIONS for python
 	library
 	    library template (sub-template) to use: asyncio, tornado, urllib3 (Default: urllib3)
 
-Back to the [generators list](README.md)
+

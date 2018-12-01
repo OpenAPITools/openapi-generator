@@ -25,4 +25,4 @@ CONFIG OPTIONS for dynamic-html
 	artifactVersion
 	    artifact version in generated pom.xml
 
-Back to the [generators list](README.md)
+

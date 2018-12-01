@@ -19,4 +19,4 @@ CONFIG OPTIONS for haskell
 	apiPackage
 	    package for generated api classes
 
-Back to the [generators list](README.md)
+

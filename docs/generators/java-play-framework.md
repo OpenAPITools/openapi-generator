@@ -140,4 +140,4 @@ CONFIG OPTIONS for java-play-framework
 	useSwaggerUI
 	    Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies (Default: true)
 
-Back to the [generators list](README.md)
+

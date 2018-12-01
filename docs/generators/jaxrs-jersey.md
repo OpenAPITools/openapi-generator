@@ -136,4 +136,4 @@ CONFIG OPTIONS for jaxrs-jersey
 	useTags
 	    use tags for creating interface and controller classnames (Default: false)
 
-Back to the [generators list](README.md)
+
