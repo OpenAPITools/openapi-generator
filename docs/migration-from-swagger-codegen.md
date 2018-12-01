@@ -251,6 +251,4 @@ The following gnereators are not yet fully migrated and tested
 
 and we welcome contributions from the community to help with the migration.
 
-UPDATE: all generators have been successfullly migrated.
-
-[Back to OpenAPI-Generator's README page](../README.md)
+UPDATE: all generators have been successfully migrated.

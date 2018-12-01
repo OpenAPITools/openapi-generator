@@ -542,6 +542,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 OpenAPI Generator core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 #### Core Team Members
+
 * [@wing328](https://github.com/wing328) (2015/07)
 * [@jimschubert](https://github.com/jimschubert) (2016/05)
 * [@cbornet](https://github.com/cbornet) (2016/05)

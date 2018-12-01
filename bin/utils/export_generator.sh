@@ -16,4 +16,4 @@ executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 java -jar ${executable} config-help -g ${NAME} --named-header -o docs/generators/${NAME}.md
 
-echo "Back to the [generators list](README.md)" >> docs/generators/${NAME}.md
+echo "" >> docs/generators/${NAME}.md
