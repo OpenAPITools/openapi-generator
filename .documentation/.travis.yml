@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - "8.11.4"
+cache:
+  yarn: true
+  directories:
+    - node_modules
+script:
+  - npm run build
+env:
+  - GH_PAGES=true
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local_dir: dist
+  github-url: github.ibm.com
+  on:
+    branch: master

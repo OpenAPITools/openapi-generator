@@ -1,0 +1,165 @@
+.banner {
+  position: sticky;
+  top: -156px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  height: auto;
+  margin-bottom: 5px;
+  color: $color-core-black;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.banner__title {
+  margin-top: 0.8rem;
+  margin-bottom: 0.3rem;
+  margin-left: 1rem;
+  color: #000;
+  text-align: left;
+}
+
+.banner__text {
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  font-weight: 300;
+  line-height: 0.7rem;
+  text-align: left;
+}
+
+.banner__timestamp {
+  margin-top: 0;
+  margin-left: 1rem;
+  font-size: 11px;
+}
+
+.banner__text > a {
+  color: inherit;
+}
+
+.banner__text > a:focus {
+  color: $color-core-black;
+}
+
+.banner__btns {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding-left: 1rem;
+  margin: 2px;
+  transform: translateY(50%);
+}
+
+.banner__btns * {
+  outline: none;
+}
+
+.banner__btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 0.15rem;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid #bbb;
+  border-radius: 50%;
+}
+
+.banner__btn .fa-1x {
+  font-size: 1.2em;
+}
+
+.banner__btn span {
+  position: absolute;
+  top: -14px;
+  padding: 0.15rem 0.5rem;
+  font-size: 12px;
+  background-color: #f4f4f4;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.banner__btn--search {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.banner__btn--like:active {
+  border-color: #27ae60;
+}
+
+.banner__btn--dislike:active {
+  border-color: #e00;
+}
+
+.banner__btnLike {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-front;
+  padding-left: 0;
+}
+
+.btn--like,
+.btn--dislike,
+.btn--comment {
+  color: #888;
+}
+
+.btn--like:hover,
+.btn--dislike:hover,
+.btn--comment:hover {
+  color: #424242;
+}
+
+.btn--like:active {
+  color: #27ae60;
+}
+
+.btn--dislike:active {
+  color: #e00;
+}
+
+.banner__btnDislike {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-front;
+  padding-left: 0;
+}
+
+.banner__search {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1;
+  justify-content: flex-front;
+  padding-left: 0;
+}
+
+.banner__search input {
+  width: 0;
+  height: 100%;
+  padding: 0 1rem;
+  margin: 0 0.25rem;
+  border: 1px solid #bbb;
+  border-radius: 25px;
+  transition: all 0.5s;
+}
+
+.banner__search input.open {
+  flex: 1;
+  width: 100px;
+  padding: 0 1rem 0 50px;
+}
+

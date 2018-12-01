@@ -1,0 +1,80 @@
+{
+  "appName": "OpenAPI Generator",
+  "headerNavigation": [
+    {
+      "name": "Welcome",
+      "path": "/home"
+    }
+  ],
+  "landingPage": "/home",
+  "topics": [
+  	"news"
+  ],
+  "pages": [
+    {
+      "route": "/home",
+      "name": "Home",
+      "description": "OpenAPI Generator",
+      "icon": "address-book",
+      "children": [
+        {
+          "route": "/whatsNew",
+          "name": "Whats new ?",
+          "description": "recent announcements, news, latest and greatest",
+          "icon": "bullhorn",
+          "topics": ["news"],
+          "markdown" : "/static/markdown/whatsnew/Current.md"
+        },
+        {
+          "route": "/links",
+          "name": "Helpful Links",
+          "description": "how to go from here ?",
+          "topics": [],
+          "icon": "link",
+          "markdown" : "/static/markdown/Links.md"
+        },
+        {
+          "route": "/faq",
+          "name": "FAQs",
+          "description": "frequently asked questions are covered here",
+          "topics": [],
+          "icon": "question-circle",
+          "markdown" : "/static/docs/qna.md"
+        },
+        {
+          "route": "/roadmap",
+          "name": "Roadmap",
+          "description": "",
+          "topics": [ "plans" ],
+          "icon": "map-marked-alt",
+          "markdown" : "/static/docs/roadmap.md"
+        },
+        {
+          "route": "/process",
+          "name": "Process Documentation",
+          "description": "anything about process",
+          "icon": "project-diagram",
+          "topics": ["process"],
+          "children": [
+            {
+              "route": "/introduction",
+              "name": "Process Introduction",
+              "description": "how to read the process documentation",
+              "icon": "project-diagram",
+              "topics": ["process"],
+              "markdown" : "/static/markdown/process/Introduction.md"
+            },
+            {
+              "route": "/newPagesHowto",
+              "name": "New Pages HowTo",
+              "description": "how to create new Pages on the playbook",
+              "icon": "file-alt",
+              "topics": ["process"],
+              "markdown" : "/static/markdown/process/NewPagesHowto.md"
+            }
+          ]
+        }
+      ]      
+    }
+  ]
+}

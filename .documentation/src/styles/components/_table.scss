@@ -1,0 +1,17 @@
+table {
+  width: 100%;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: #eaeaea;
+}
+
+td,
+th {
+  padding: 0.5em;
+  text-align: left;
+}
+
+th {
+  background-color: #afafaf;
+}

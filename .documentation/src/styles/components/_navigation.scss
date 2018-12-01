@@ -1,0 +1,38 @@
+div.TreeNavigation {
+  width: 100%;
+  padding: 1rem 0.5rem;
+}
+
+.TreeNavigation * {
+  overflow: hidden;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  color: $color-core-black;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.NavigationItem {
+  width: 100%;
+  padding-top: 1px;
+  padding-bottom: 2px;
+}
+
+.NavigationLevel__parent {
+  display: flex;
+  align-items: center;
+  font-weight: 900;
+}
+
+.NavigationItem--active,
+.NavigationItem--active a {
+  color: $color-core-blue;
+}
+
+.NavigationItem a {
+  margin: 0 0.25rem;
+}
+
+.TreeNavigation > .NavigationLevel > ul > li {
+  padding: 0;
+}

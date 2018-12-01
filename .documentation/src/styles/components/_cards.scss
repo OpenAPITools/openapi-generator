@@ -1,0 +1,67 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 2rem;
+  margin: 0;
+  list-style: none;
+}
+
+.card {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 220px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #fbfbfb;
+  border: solid 1px #d8d8d8;
+  border-radius: 10px;
+}
+
+.card > a {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  color: $color-core-black;
+}
+
+.todo {
+  background-color: #ff7c9b;
+}
+
+.card:hover {
+  border-color: $color-core-blue;
+}
+
+.card__icon {
+  height: 50px;
+  padding: 0.25rem;
+  margin: 1rem;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.card__text {
+  flex: 1;
+  padding: 0.25rem 1.4rem 1rem 1.4rem;
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4rem;
+  text-align: center;
+}
+
+.card svg path {
+  fill: #2d74da;
+}

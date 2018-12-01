@@ -1,0 +1,42 @@
+{
+    "plugins": [
+        "stylelint-scss",
+        "stylelint-selector-bem-pattern"
+    ],
+    "processors": [
+        "stylelint-processor-html"
+    ],
+    "extends": [
+        "stylelint-config-standard",
+        "stylelint-config-recess-order"
+    ],
+    "rules": {
+        "no-empty-source": null,
+        "at-rule-empty-line-before": [
+            "always", {
+                "ignoreAtRules": [ "else" ]
+            }
+        ],
+        "block-opening-brace-space-before": "always",
+        "block-closing-brace-newline-after": [
+            "always", {
+                "ignoreAtRules": [ "if", "else" ]
+            }
+        ],
+        "at-rule-name-space-after": "always",
+        "rule-empty-line-before": "always",
+        "scss/at-else-closing-brace-newline-after": "always-last-in-chain",
+        "scss/at-else-closing-brace-space-after": "always-intermediate",
+        "scss/at-else-empty-line-before": "never",
+        "scss/at-if-closing-brace-newline-after": "always-last-in-chain",
+        "scss/at-if-closing-brace-space-after": "always-intermediate",
+        "plugin/selector-bem-pattern": {
+            "componentName": "[A-Z]+",
+            "componentSelectors": {
+                "initial": "^\\.{componentName}(?:-[a-z]+)?$",
+                "combined": "^\\.combined-{componentName}-[a-z]+$"
+            },
+            "utilitySelectors": "^\\.util-[a-z]+$"
+        }
+    }
+}

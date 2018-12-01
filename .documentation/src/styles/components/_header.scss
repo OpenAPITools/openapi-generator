@@ -1,0 +1,145 @@
+$nav-width: 200px;
+
+.header {
+  display: flex;
+  flex-direction: column;
+  min-height: 55px;
+  max-height: 55px;
+  overflow: hidden;
+  color: $color-core-white;
+  background: $color-core-blue;
+}
+
+.header__hamburger {
+  width: 45px;
+  height: 45px;
+  padding: 5px;
+  margin: 5px;
+  fill: $color-core-white;
+}
+
+.header__hamburger:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.header__name {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: 10px;
+  font-weight: 200;
+  color: $color-core-white;
+  white-space: nowrap;
+}
+
+.header__name b {
+  margin-left: 5px;
+  font-weight: 800;
+}
+
+.header__brand {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
+.nav {
+  position: absolute;
+  top: 0;
+  left: -$nav-width;
+  display: flex;
+  flex-direction: column;
+  width: $nav-width;
+  height: 100vh;
+  background-color: $color-core-blue;
+  border-right: 1px solid $color-core-white;
+  transition: left 0.45s;
+  transition-timing-function: ease-in-out;
+}
+
+.nav.active {
+  left: 0;
+}
+
+.nav__icon--close {
+  align-self: flex-end;
+  height: 48px;
+  margin: 5px;
+}
+
+.nav__icon--close:hover {
+  cursor: pointer;
+  fill: $color-core-white;
+}
+
+.nav__list {
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.nav__item {
+  display: block;
+  padding: 15px;
+  color: $color-core-white;
+  text-decoration: none;
+  border-left: 5px solid transparent;
+}
+
+.nav__item:first-child {
+  border-top: 1px solid $color-core-white;
+}
+
+.nav__item.router-link-active {
+  border-left: 5px solid $color-core-white;
+}
+
+@media (min-width: 780px) {
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 0.5rem;
+  }
+
+  .header__hamburger,
+  .nav__icon--close {
+    display: none;
+  }
+
+  .nav {
+    position: initial;
+    top: initial;
+    left: initial;
+    width: initial;
+    height: initial;
+    border: none;
+  }
+
+  .nav__list {
+    display: flex;
+    height: initial;
+    padding: initial;
+    margin: initial;
+  }
+
+  .nav__item {
+    display: inherit;
+    color: $color-core-white;
+    border: none;
+  }
+
+  .nav__item:first-child {
+    border: none;
+  }
+
+  .nav__item.router-link-active {
+    color: $color-core-white;
+    background-color: inherit;
+    border-bottom: 2px solid $color-core-white;
+    border-left: none;
+  }
+}
+
