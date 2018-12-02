@@ -14,7 +14,7 @@
 {{^isEnum}}
     {{#description}}/** {{description}} */
     {{/description}}{{#objcCompatible}}@objc {{/objcCompatible}}public var {{name}}: {{{datatype}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
-    {{#objcCompatible}}@objc {{/objcCompatible}}public var {{name}}Num: NSNumber? {
+    @objc public var {{name}}Num: NSNumber? {
         get {
             return {{name}}.map({ return NSNumber(value: $0) })
         }
