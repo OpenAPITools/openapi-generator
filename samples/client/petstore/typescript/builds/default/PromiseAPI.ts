@@ -23,7 +23,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.addPet(pet, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -42,7 +42,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.deletePet(petId, apiKey, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -61,7 +61,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.findPetsByStatus(status, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -80,7 +80,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.findPetsByTags(tags, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -99,7 +99,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.getPetById(petId, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -118,7 +118,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.updatePet(pet, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -137,7 +137,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.updatePetWithForm(petId, name, status, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -156,7 +156,7 @@ export class PetApi {
     	const requestContext = this.requestFactory.uploadFile(petId, additionalMetadata, file, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -191,7 +191,7 @@ export class StoreApi {
     	const requestContext = this.requestFactory.deleteOrder(orderId, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -210,7 +210,7 @@ export class StoreApi {
     	const requestContext = this.requestFactory.getInventory(options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -229,7 +229,7 @@ export class StoreApi {
     	const requestContext = this.requestFactory.getOrderById(orderId, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -248,7 +248,7 @@ export class StoreApi {
     	const requestContext = this.requestFactory.placeOrder(order, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -283,7 +283,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.createUser(user, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -302,7 +302,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.createUsersWithArrayInput(user, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -321,7 +321,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.createUsersWithListInput(user, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -340,7 +340,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.deleteUser(username, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -359,7 +359,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.getUserByName(username, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -378,7 +378,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.loginUser(username, password, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -397,7 +397,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.logoutUser(options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
@@ -416,7 +416,7 @@ export class UserApi {
     	const requestContext = this.requestFactory.updateUser(username, user, options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}

@@ -6,7 +6,6 @@ import {Pet, Category, Tag} from "ts-petstore-client"
 const objectSerializerFile = rewire("../../node_modules/ts-petstore-client/dist/models/ObjectSerializer.js")
 
 const ObjectSerializer = objectSerializerFile.__get__("ObjectSerializer")
-//console.log(ObjectSerializer)
 
 
 describe("ObjectSerializer", () => {
