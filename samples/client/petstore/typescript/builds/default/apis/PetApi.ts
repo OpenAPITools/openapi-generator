@@ -30,7 +30,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        // TODO: deal with this? Could be useful for server definition
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
@@ -205,7 +204,6 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-        // TODO: deal with this? Could be useful for server definition
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
