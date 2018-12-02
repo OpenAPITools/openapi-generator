@@ -14,17 +14,24 @@ part 'pet_api.jretro.dart';
 class PetApi extends _$PetApiClient implements ApiClient {
     final Route base;
     final SerializerRepo serializers;
+    final Duration timeout;
 
-    PetApi({this.base, this.serializers});
+    PetApi({this.base, this.serializers, this.timeout = const Duration(minutes: 2)});
 
     /// Add a new pet to the store
     ///
     /// 
     @PostReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> addPet(
+            
+              @AsJson() Pet pet
+        ) {
+        return super.addPet(
+
         
-        @AsJson() Pet pet
-    );
+        pet
+        ).timeout(timeout);
+    }
 
     /// Deletes a pet
     ///
@@ -33,8 +40,15 @@ class PetApi extends _$PetApiClient implements ApiClient {
     Future<void> deletePet(
             @PathParam("petId") int petId
         ,
-        @Header("api_key") String apiKey
-    );
+            @Header("api_key") String apiKey
+        ) {
+        return super.deletePet(
+        petId
+        ,
+        apiKey
+
+        ).timeout(timeout);
+    }
 
     /// Finds Pets by status
     ///
@@ -42,8 +56,14 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @GetReq(path: "/pet/findByStatus", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<List<Pet>> findPetsByStatus(
         
-        @QueryParam("status") List<String> status
-    );
+            @QueryParam("status") List<String> status
+        ) {
+        return super.findPetsByStatus(
+        
+        status
+
+        ).timeout(timeout);
+    }
 
     /// Finds Pets by tags
     ///
@@ -51,8 +71,14 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @GetReq(path: "/pet/findByTags", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<List<Pet>> findPetsByTags(
         
-        @QueryParam("tags") List<String> tags
-    );
+            @QueryParam("tags") List<String> tags
+        ) {
+        return super.findPetsByTags(
+        
+        tags
+
+        ).timeout(timeout);
+    }
 
     /// Find pet by ID
     ///
@@ -60,16 +86,27 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @GetReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "apiKey", "name": "api_key", "keyName": "api_key", "where": "header" }]})
     Future<Pet> getPetById(
             @PathParam("petId") int petId
-    );
+        ) {
+        return super.getPetById(
+        petId
+
+        ).timeout(timeout);
+    }
 
     /// Update an existing pet
     ///
     /// 
     @PutReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> updatePet(
+            
+              @AsJson() Pet pet
+        ) {
+        return super.updatePet(
+
         
-        @AsJson() Pet pet
-    );
+        pet
+        ).timeout(timeout);
+    }
 
     /// Updates a pet in the store with form data
     ///
@@ -77,11 +114,20 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @PostReq(path: "/pet/:petId", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> updatePetWithForm(
             @PathParam("petId") int petId
+            ,
+            @AsFormField() String name, 
+            
+            @AsFormField() String status
+        ) {
+        return super.updatePetWithForm(
+        petId
+
         ,
-        @AsFormField() String name, 
+        name, 
         
-        @AsFormField() String status
-    );
+        status
+        ).timeout(timeout);
+    }
 
     /// uploads an image
     ///
@@ -89,11 +135,20 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @PostReq(path: "/pet/:petId/uploadImage", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<ApiResponse> uploadFile(
             @PathParam("petId") int petId
+            ,
+            @AsMultipartField() String additionalMetadata, 
+            
+            @AsMultipartField() MultipartFile file
+        ) {
+        return super.uploadFile(
+        petId
+
         ,
-        @AsMultipartField() String additionalMetadata, 
+        additionalMetadata, 
         
-        @AsMultipartField() MultipartFile file
-    );
+        file
+        ).timeout(timeout);
+    }
 
 
 }
