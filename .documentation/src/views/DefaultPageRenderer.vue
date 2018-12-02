@@ -108,8 +108,8 @@ export default {
       console.log('onload iframe', event)
     },
     getLikes () {
-      let route = this.$router.currentRoute.path
       /*
+      let route = this.$router.currentRoute.path
       axios.post(`https://merlin-playbook-api-dev.mybluemix.net/likes`, {
         route
       }).then(response => {
@@ -118,8 +118,8 @@ export default {
       */
     },
     getDislikes () {
-      let route = this.$router.currentRoute.path
       /*
+      let route = this.$router.currentRoute.path
       axios.post(`https://merlin-playbook-api-dev.mybluemix.net/dislikes`, {
         route
       }).then(response => {
@@ -140,8 +140,8 @@ export default {
       console.log('PAGECONFIG: ', this.topics)
 
       // post the visit to cloudant
-      let route = this.$router.currentRoute.path
       /*
+      let route = this.$router.currentRoute.path
       axios.post(`https://merlin-playbook-api-dev.mybluemix.net/visit`, {
         route
       }).then(response => {
