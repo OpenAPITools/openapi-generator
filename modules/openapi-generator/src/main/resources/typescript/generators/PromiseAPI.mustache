@@ -26,7 +26,7 @@ export class {{classname}} {
     	const requestContext = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
 
 		// build promise chain
-    	let middlewarePrePromise =Promise.resolve(requestContext);
+    	let middlewarePrePromise = Promise.resolve(requestContext);
     	for (let middleware of this.configuration.middleware) {
     		middlewarePrePromise = middlewarePrePromise.then((ctx) => middleware.pre(ctx));
     	}
