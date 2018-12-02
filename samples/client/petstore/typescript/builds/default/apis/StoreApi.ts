@@ -113,7 +113,6 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
         requestContext.setHeaderParam("Content-Type", "application/json");
-        // TODO: deal with this? Could be useful for server definition
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Order" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
         const serializedBody = needsSerialization ? JSON.stringify(order || {}) : (order.toString() || ""); // TODO: `toString` call is unnecessary

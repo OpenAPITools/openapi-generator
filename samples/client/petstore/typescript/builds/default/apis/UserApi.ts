@@ -30,7 +30,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
         requestContext.setHeaderParam("Content-Type", "application/json");
-        // TODO: deal with this? Could be useful for server definition
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"User" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
         const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
@@ -63,7 +62,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
         requestContext.setHeaderParam("Content-Type", "application/json");
-        // TODO: deal with this? Could be useful for server definition
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
         const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
@@ -96,7 +94,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
         requestContext.setHeaderParam("Content-Type", "application/json");
-        // TODO: deal with this? Could be useful for server definition
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
         const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
@@ -251,7 +248,6 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Body Params
         requestContext.setHeaderParam("Content-Type", "application/json");
-        // TODO: deal with this? Could be useful for server definition
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"User" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
         const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
