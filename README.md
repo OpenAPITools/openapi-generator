@@ -83,7 +83,7 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 OpenAPI Generator Version    | Release Date | Notes
 ---------------------------- | ------------ | -----
-4.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| 20.12.2018 | Major release with breaking changes (with or without fallback)
+4.0.0 (upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| 20.12.2018 | Major release with breaking changes (with or without fallback)
 [3.3.4](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.3.4) (latest stable release) | 30.11.2018 | Bugfix release
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
