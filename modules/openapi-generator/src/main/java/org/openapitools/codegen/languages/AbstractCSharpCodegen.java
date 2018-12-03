@@ -568,6 +568,32 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
+                    for (CodegenParameter parameter: operation.allParams) {
+                        CodegenModel model = null;
+                        for(Object modelHashMap: allModels) {
+                            CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+                            if (codegenModel.getClassname().equals(parameter.dataType)) {
+                                model = codegenModel;
+                                break;
+                            }
+                        }
+
+                        if (model == null) {
+                            // Primitive data types all come already marked
+                            parameter.isNullable = true;
+                        } else {
+                            // Effectively mark enum models as enums and non-nullable
+                            if (model.isEnum) {
+                                parameter.isEnum = true;
+                                parameter.allowableValues = model.allowableValues;
+                                parameter.isPrimitiveType = true;
+                                parameter.isNullable = false;
+                            } else {
+                                parameter.isNullable = true;
+                            }
+                        }
+                    }
+
                     processOperation(operation);
                 }
             }
