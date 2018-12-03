@@ -25,6 +25,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.config.GeneratorProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,8 +60,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
 
 
-        apiPackage = System.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
-        modelPackage = System.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
+        apiPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
+        modelPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
