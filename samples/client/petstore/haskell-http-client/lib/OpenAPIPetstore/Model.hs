@@ -270,9 +270,9 @@ instance A.ToJSON Animal where
 
 -- | Construct a value of type 'Animal' (by applying it's required fields, if any)
 mkAnimal
-  ::  -- ^ 'className' 
+  :: Text -- ^ 'animalClassName' 
   -> Animal
-mkAnimal className =
+mkAnimal animalClassName =
   Animal
   { animalClassName
   , animalColor = Nothing
@@ -482,9 +482,9 @@ instance A.ToJSON Cat where
 
 -- | Construct a value of type 'Cat' (by applying it's required fields, if any)
 mkCat
-  ::  -- ^ 'className' 
+  :: Text -- ^ 'catClassName' 
   -> Cat
-mkCat className =
+mkCat catClassName =
   Cat
   { catDeclawed = Nothing
   , catClassName
@@ -516,9 +516,9 @@ instance A.ToJSON Category where
 
 -- | Construct a value of type 'Category' (by applying it's required fields, if any)
 mkCategory
-  ::  -- ^ 'name' 
+  :: Text -- ^ 'categoryName' 
   -> Category
-mkCategory name =
+mkCategory categoryName =
   Category
   { categoryId = Nothing
   , categoryName
@@ -609,9 +609,9 @@ instance A.ToJSON Dog where
 
 -- | Construct a value of type 'Dog' (by applying it's required fields, if any)
 mkDog
-  ::  -- ^ 'className' 
+  :: Text -- ^ 'dogClassName' 
   -> Dog
-mkDog className =
+mkDog dogClassName =
   Dog
   { dogBreed = Nothing
   , dogClassName
@@ -684,9 +684,9 @@ instance A.ToJSON EnumTest where
 
 -- | Construct a value of type 'EnumTest' (by applying it's required fields, if any)
 mkEnumTest
-  ::  -- ^ 'enumStringRequired' 
+  :: E'EnumString -- ^ 'enumTestEnumStringRequired' 
   -> EnumTest
-mkEnumTest enumStringRequired =
+mkEnumTest enumTestEnumStringRequired =
   EnumTest
   { enumTestEnumString = Nothing
   , enumTestEnumStringRequired
@@ -814,12 +814,12 @@ instance A.ToJSON FormatTest where
 
 -- | Construct a value of type 'FormatTest' (by applying it's required fields, if any)
 mkFormatTest
-  ::  -- ^ 'number' 
-  ->  -- ^ 'byte' 
-  ->  -- ^ 'date' 
-  ->  -- ^ 'password' 
+  :: Double -- ^ 'formatTestNumber' 
+  -> ByteArray -- ^ 'formatTestByte' 
+  -> Date -- ^ 'formatTestDate' 
+  -> Text -- ^ 'formatTestPassword' 
   -> FormatTest
-mkFormatTest number byte date password =
+mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
   FormatTest
   { formatTestInteger = Nothing
   , formatTestInt32 = Nothing
@@ -1066,9 +1066,9 @@ instance A.ToJSON Name where
 
 -- | Construct a value of type 'Name' (by applying it's required fields, if any)
 mkName
-  ::  -- ^ 'name' 
+  :: Int -- ^ 'nameName' 
   -> Name
-mkName name =
+mkName nameName =
   Name
   { nameName
   , nameSnakeCase = Nothing
@@ -1225,10 +1225,10 @@ instance A.ToJSON Pet where
 
 -- | Construct a value of type 'Pet' (by applying it's required fields, if any)
 mkPet
-  ::  -- ^ 'name' 
-  ->  -- ^ 'photoUrls' 
+  :: Text -- ^ 'petName' 
+  -> [Text] -- ^ 'petPhotoUrls' 
   -> Pet
-mkPet name photoUrls =
+mkPet petName petPhotoUrls =
   Pet
   { petId = Nothing
   , petCategory = Nothing
@@ -1829,4 +1829,5 @@ instance AuthMethod AuthOAuthPetstoreAuth where
       then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
+
 
