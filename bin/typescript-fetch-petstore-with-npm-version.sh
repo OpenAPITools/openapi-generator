@@ -30,3 +30,5 @@ export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/
 ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-fetch -c bin/typescript-fetch-petstore-with-npm-version.json -o samples/client/petstore/typescript-fetch/builds/with-npm-version $@"
 
 java $JAVA_OPTS -jar $executable $ags
+cp CI/samples.ci/client/petstore/typescript-fetch/builds/with-npm-version/pom.xml samples/client/petstore/typescript-fetch/builds/with-npm-version/pom.xml
+cp CI/samples.ci/client/petstore/typescript-fetch/tests/default/pom.xml samples/client/petstore/typescript-fetch/tests/default/pom.xml 

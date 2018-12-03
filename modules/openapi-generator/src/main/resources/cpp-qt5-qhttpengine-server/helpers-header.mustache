@@ -30,7 +30,7 @@ namespace {{this}} {
     template <typename T>
     QString toStringValue(const QList<T> &val) {
         QString strArray;
-        for(auto item : val) {
+        for(const auto& item : val) {
             strArray.append(toStringValue(item) + ",");
         }
         if(val.count() > 0) {
@@ -53,7 +53,7 @@ namespace {{this}} {
     template <typename T>
     QJsonValue toJsonValue(const QList<T> &val) {
         QJsonArray jArray;
-        for(auto item : val) {
+        for(const auto& item : val) {
             jArray.append(toJsonValue(item));
         }
         return jArray;
@@ -62,7 +62,7 @@ namespace {{this}} {
     template <typename T>
     QJsonValue toJsonValue(const QMap<QString, T> &val) {
         QJsonObject jObject;
-        for(auto itemkey : val.keys()) {
+        for(const auto& itemkey : val.keys()) {
             jObject.insert(itemkey, toJsonValue(val.value(itemkey)));
         }
         return jObject;
@@ -79,56 +79,69 @@ namespace {{this}} {
     bool fromStringValue(const QString &inStr, double &value);
 
     template <typename T>
-    void fromStringValue(const QList<QString> &inStr, QList<T> &val) {
-        for(auto item: inStr){
+    bool fromStringValue(const QList<QString> &inStr, QList<T> &val) {
+        bool ok = (inStr.count() > 0);
+        for(const auto& item: inStr){
             T itemVal;
-            fromStringValue(item, itemVal);
+            ok &= fromStringValue(item, itemVal);
             val.push_back(itemVal);
         }
+        return ok;
     }
 
     template <typename T>
-    void fromStringValue(const QMap<QString, QString> &inStr, QMap<QString, T> &val) {
-        for(auto itemkey : inStr.keys()){
+    bool fromStringValue(const QMap<QString, QString> &inStr, QMap<QString, T> &val) {
+        bool ok = (inStr.count() > 0);
+        for(const auto& itemkey : inStr.keys()){
             T itemVal;
-            fromStringValue(inStr.value(itemkey), itemVal);
+            ok &= fromStringValue(inStr.value(itemkey), itemVal);
             val.insert(itemkey, itemVal);
         }
+        return ok;
     }
 
-    void fromJsonValue(QString &value, const QJsonValue &jval);
-    void fromJsonValue(QDateTime &value, const QJsonValue &jval);
-    void fromJsonValue(QByteArray &value, const QJsonValue &jval);
-    void fromJsonValue(QDate &value, const QJsonValue &jval);
-    void fromJsonValue(qint32 &value, const QJsonValue &jval);
-    void fromJsonValue(qint64 &value, const QJsonValue &jval);
-    void fromJsonValue(bool &value, const QJsonValue &jval);
-    void fromJsonValue(float &value, const QJsonValue &jval);
-    void fromJsonValue(double &value, const QJsonValue &jval);
-    void fromJsonValue({{prefix}}Object &value, const QJsonValue &jval);
+    bool fromJsonValue(QString &value, const QJsonValue &jval);
+    bool fromJsonValue(QDateTime &value, const QJsonValue &jval);
+    bool fromJsonValue(QByteArray &value, const QJsonValue &jval);
+    bool fromJsonValue(QDate &value, const QJsonValue &jval);
+    bool fromJsonValue(qint32 &value, const QJsonValue &jval);
+    bool fromJsonValue(qint64 &value, const QJsonValue &jval);
+    bool fromJsonValue(bool &value, const QJsonValue &jval);
+    bool fromJsonValue(float &value, const QJsonValue &jval);
+    bool fromJsonValue(double &value, const QJsonValue &jval);
+    bool fromJsonValue({{prefix}}Object &value, const QJsonValue &jval);
 
     template <typename T>
-    void fromJsonValue(QList<T> &val, const QJsonValue &jval) {
+    bool fromJsonValue(QList<T> &val, const QJsonValue &jval) {
+        bool ok = true;
         if(jval.isArray()){
-            for(const QJsonValue &jitem : jval.toArray()){
+            for(const auto& jitem : jval.toArray()){
                 T item;
-                fromJsonValue(item, jitem);
+                ok &= fromJsonValue(item, jitem);
                 val.push_back(item);
             }
+        } else {
+            ok = false;
         }
-    }
+        return ok;
+    } 
 
     template <typename T>
-    void fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval) {
-        auto varmap = jval.toObject().toVariantMap();
-        if(varmap.count() > 0){
-            for(auto itemkey : varmap.keys() ){
-                T itemVal;
-                fromJsonValue(itemVal, QJsonValue::fromVariant(varmap.value(itemkey)));
-                val.insert(itemkey, itemVal);
+    bool fromJsonValue(QMap<QString, T> &val, const QJsonValue &jval) {
+        bool ok = true;
+        if(jval.isObject()){
+            auto varmap = jval.toObject().toVariantMap();
+            if(varmap.count() > 0){
+                for(const auto& itemkey : varmap.keys() ){
+                    T itemVal;
+                    ok &= fromJsonValue(itemVal, QJsonValue::fromVariant(varmap.value(itemkey)));
+                    val.insert(itemkey, itemVal);
+                }
             }
+        } else {
+            ok = false;
         }
-        return;
+        return ok;
     }
 
 {{#cppNamespaceDeclarations}}

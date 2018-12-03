@@ -7,6 +7,6 @@ decoder =
     Decode.list {{vendorExtensions.elmDecoder}}
 
 
-encoder : {{classname}} -> Encode.Value
-encoder items =
+encode : {{classname}} -> Encode.Value
+encode items =
     Encode.list {{#isElm018}}(List.map {{/isElm018}}{{vendorExtensions.elmEncoder}} items{{#isElm018}}){{/isElm018}}

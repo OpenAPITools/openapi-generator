@@ -50,17 +50,18 @@ public:
     void setMessage(const QString &message);
 
     virtual bool isSet() const override;
+    virtual bool isValid() const override;
 
 private:
     qint32 code;
     bool m_code_isSet;
-
+    bool m_code_isValid;
     QString type;
     bool m_type_isSet;
-
+    bool m_type_isValid;
     QString message;
     bool m_message_isSet;
-
+    bool m_message_isValid;
 };
 
 }

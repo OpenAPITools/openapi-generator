@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\FileSchemaTestClass;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\FileSchemaTestClass;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FileSchemaTestClass
  */
-class FileSchemaTestClassTest extends \PHPUnit_Framework_TestCase
+class FileSchemaTestClassTest extends TestCase
 {
 
     /**

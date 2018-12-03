@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OAIStoreApi_H_
-#define _OAI_OAIStoreApi_H_
+#ifndef OAI_OAIStoreApi_H
+#define OAI_OAIStoreApi_H
 
 #include "OAIHttpRequest.h"
 
@@ -35,10 +35,10 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void deleteOrder(QString* order_id);
+    void deleteOrder(const QString& order_id);
     void getInventory();
-    void getOrderById(qint64 order_id);
-    void placeOrder(OAIOrder& oai_order);
+    void getOrderById(const qint64& order_id);
+    void placeOrder(const OAIOrder& oai_order);
     
 private:
     void deleteOrderCallback (OAIHttpRequestWorker * worker);
@@ -48,14 +48,14 @@ private:
     
 signals:
     void deleteOrderSignal();
-    void getInventorySignal(QMap<QString, qint32>* summary);
-    void getOrderByIdSignal(OAIOrder* summary);
-    void placeOrderSignal(OAIOrder* summary);
+    void getInventorySignal(QMap<QString, qint32> summary);
+    void getOrderByIdSignal(OAIOrder summary);
+    void placeOrderSignal(OAIOrder summary);
     
     void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
-    void getInventorySignalE(QMap<QString, qint32>* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void getOrderByIdSignalE(OAIOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
-    void placeOrderSignalE(OAIOrder* summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getInventorySignalE(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void getOrderByIdSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString& error_str);
+    void placeOrderSignalE(OAIOrder summary, QNetworkReply::NetworkError error_type, QString& error_str);
     
     void deleteOrderSignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);
     void getInventorySignalEFull(OAIHttpRequestWorker* worker, QNetworkReply::NetworkError error_type, QString& error_str);

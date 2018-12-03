@@ -15,7 +15,6 @@
 import ApiClient from './ApiClient';
 import AdditionalPropertiesClass from './model/AdditionalPropertiesClass';
 import Animal from './model/Animal';
-import AnimalFarm from './model/AnimalFarm';
 import ApiResponse from './model/ApiResponse';
 import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
 import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
@@ -46,7 +45,6 @@ import OuterEnum from './model/OuterEnum';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
-import StringBooleanMap from './model/StringBooleanMap';
 import Tag from './model/Tag';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
@@ -106,12 +104,6 @@ export {
      * @property {module:model/Animal}
      */
     Animal,
-
-    /**
-     * The AnimalFarm model constructor.
-     * @property {module:model/AnimalFarm}
-     */
-    AnimalFarm,
 
     /**
      * The ApiResponse model constructor.
@@ -292,12 +284,6 @@ export {
      * @property {module:model/SpecialModelName}
      */
     SpecialModelName,
-
-    /**
-     * The StringBooleanMap model constructor.
-     * @property {module:model/StringBooleanMap}
-     */
-    StringBooleanMap,
 
     /**
      * The Tag model constructor.

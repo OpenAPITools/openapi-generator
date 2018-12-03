@@ -2,9 +2,11 @@
 
 namespace OpenAPI\Client;
 
+use PHPUnit\Framework\TestCase;
+
 require_once __DIR__ . '/FakeHttpClient.php';
 
-class HeadersTest extends \PHPUnit_Framework_TestCase
+class HeadersTest extends TestCase
 {
     /** @var  FakeHttpClient */
     private $fakeHttpClient;

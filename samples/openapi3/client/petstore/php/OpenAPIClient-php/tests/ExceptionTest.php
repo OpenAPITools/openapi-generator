@@ -3,8 +3,9 @@
 namespace OpenAPI\Client;
 
 use GuzzleHttp\Client;
+use PHPUnit\Framework\TestCase;
 
-class ExceptionTest extends \PHPUnit_Framework_TestCase
+class ExceptionTest extends TestCase
 {
     /**
      * @expectedException \OpenAPI\Client\ApiException
