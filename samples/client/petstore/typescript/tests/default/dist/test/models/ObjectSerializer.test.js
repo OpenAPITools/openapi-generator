@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var rewire = require("rewire");
 var chai_1 = require("chai");
 var ts_petstore_client_1 = require("ts-petstore-client");
-var objectSerializerFile = rewire("../../node_modules/ts-petstore-client/dist/models/ObjectSerializer.js");
+var objectSerializerFile = rewire(__dirname + "/../../node_modules/ts-petstore-client/models/ObjectSerializer.ts");
 var ObjectSerializer = objectSerializerFile.__get__("ObjectSerializer");
 describe("ObjectSerializer", function () {
     describe("Serialize", function () {
