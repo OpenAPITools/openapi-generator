@@ -21,6 +21,8 @@ components:
       xml:
         wrapped: true
       items:
+        xml:
+          name: another
         $ref: '#/components/schemas/XmlInner'
     XmlInner:
       type: string

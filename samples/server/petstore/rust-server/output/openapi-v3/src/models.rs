@@ -19,7 +19,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct XmlArray(Vec<String>);
+pub struct XmlArray(#[serde(serialize_with = "wrap_in_another")]Vec<String>);
 
 impl ::std::convert::From<Vec<String>> for XmlArray {
     fn from(x: Vec<String>) -> Self {

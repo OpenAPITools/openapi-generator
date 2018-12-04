@@ -143,7 +143,7 @@ where
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct XmlList(Vec<String>);
+pub struct XmlList(#[serde(serialize_with = "wrap_in_xml_list_inner")]Vec<String>);
 
 impl ::std::convert::From<Vec<String>> for XmlList {
     fn from(x: Vec<String>) -> Self {
