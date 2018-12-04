@@ -97,11 +97,26 @@ const webpackConfig = merge(baseWebpackConfig, {
     // copy custom static assets
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../static'),
-        to: config.build.assetsSubDirectory,
-        ignore: ['.*']
+        from: path.normalize(path.resolve(__dirname, '../static/**/**/*')),
+        to: `${config.build.assetsSubDirectory}/`,
+        transformPath (targetPath, absolutePath) {
+          return targetPath.replace("static/static", "static");
+        }
+      },
+
+      {
+        from: path.normalize(path.resolve(__dirname, '../../CONTRIBUTING.md')),
+        to: `${config.build.assetsSubDirectory}/github/`
+      },
+
+      {
+        from: path.normalize(path.resolve(__dirname, '../../CODE_OF_CONDUCT.md')),
+        to: `${config.build.assetsSubDirectory}/github/`
       }
-    ]),
+    ], {
+      debug: 'info',
+      ignore: ['.*']
+    }),
     // service worker caching
     new SWPrecacheWebpackPlugin({
       cacheId: 'playbook',

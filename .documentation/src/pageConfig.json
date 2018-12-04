@@ -102,7 +102,7 @@
               "description": "Contributing Guidelines for GitHub",
               "icon": "project-diagram",
               "topics": ["process", "contributing"],
-              "markdown" : "/static/docs/CONTRIBUTING.md"
+              "markdown" : "/static/github/CONTRIBUTING.md"
             },
             {
               "route": "/conduct",
@@ -110,7 +110,7 @@
               "description": "Code of Conduct for GitHub",
               "icon": "project-diagram",
               "topics": ["process", "contributing"],
-              "markdown" : "/static/docs/CODE_OF_CONDUCT.md"
+              "markdown" : "/static/github/CODE_OF_CONDUCT.md"
             }
           ]
         },

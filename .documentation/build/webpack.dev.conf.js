@@ -8,6 +8,7 @@ const config = require('../config')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const StylelintPlugin = require('stylelint-webpack-plugin')
 
@@ -36,6 +37,29 @@ module.exports = merge(baseWebpackConfig, {
       inject: true,
       serviceWorkerLoader: `<script>${fs.readFileSync(path.join(__dirname,
         './service-worker-dev.js'), 'utf-8')}</script>`
+    }),
+    // copy docs and other folders from repo root into this app
+    new CopyWebpackPlugin([
+      {
+        from: path.normalize(path.resolve(__dirname, '../../docs/**/*')),
+        to: path.join('static', 'docs'),
+        toType: 'dir'
+      },
+
+      {
+        from: path.normalize(path.resolve(__dirname, '../../CONTRIBUTING.md')),
+        to: path.join('static', 'github'),
+        toType: 'dir'
+      },
+
+      {
+        from: path.normalize(path.resolve(__dirname, '../../CODE_OF_CONDUCT.md')),
+        to: path.join('static', 'github'),
+        toType: 'dir'
+      }
+    ], {
+      debug: 'info',
+      ignore: ['.*']
     }),
     new StylelintPlugin({
       files: ['src/**/*.vue', '**/*.s?(a|c)ss']
