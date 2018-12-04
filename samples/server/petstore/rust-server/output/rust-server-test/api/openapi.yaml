@@ -162,7 +162,7 @@ components:
     XmlListRef:
       description: An XML list with items referenced. The wrapping doesn't currently work - it's stripped during the conversion to openapi v3. See https://github.com/OpenAPITools/openapi-generator/issues/1581.
       items:
-        $ref: '#/components/schemas/XmlInner'
+        $ref: '#/components/schemas/XmlListRefInner'
       type: array
     XmlList:
       description: An XML list with items directly defined

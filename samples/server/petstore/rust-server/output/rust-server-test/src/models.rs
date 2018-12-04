@@ -217,29 +217,29 @@ impl XmlList {
 
 /// An XML list with items referenced. The wrapping doesn't currently work - it's stripped during the conversion to openapi v3. See https://github.com/OpenAPITools/openapi-generator/issues/1581.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct XmlListRef(Vec<XmlInner>);
+pub struct XmlListRef(Vec<String>);
 
-impl ::std::convert::From<Vec<XmlInner>> for XmlListRef {
-    fn from(x: Vec<XmlInner>) -> Self {
+impl ::std::convert::From<Vec<String>> for XmlListRef {
+    fn from(x: Vec<String>) -> Self {
         XmlListRef(x)
     }
 }
 
-impl ::std::convert::From<XmlListRef> for Vec<XmlInner> {
+impl ::std::convert::From<XmlListRef> for Vec<String> {
     fn from(x: XmlListRef) -> Self {
         x.0
     }
 }
 
-impl ::std::iter::FromIterator<XmlInner> for XmlListRef {
-    fn from_iter<U: IntoIterator<Item=XmlInner>>(u: U) -> Self {
-        XmlListRef(Vec::<XmlInner>::from_iter(u))
+impl ::std::iter::FromIterator<String> for XmlListRef {
+    fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
+        XmlListRef(Vec::<String>::from_iter(u))
     }
 }
 
 impl ::std::iter::IntoIterator for XmlListRef {
-    type Item = XmlInner;
-    type IntoIter = ::std::vec::IntoIter<XmlInner>;
+    type Item = String;
+    type IntoIter = ::std::vec::IntoIter<String>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
@@ -247,8 +247,8 @@ impl ::std::iter::IntoIterator for XmlListRef {
 }
 
 impl<'a> ::std::iter::IntoIterator for &'a XmlListRef {
-    type Item = &'a XmlInner;
-    type IntoIter = ::std::slice::Iter<'a, XmlInner>;
+    type Item = &'a String;
+    type IntoIter = ::std::slice::Iter<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&self.0).into_iter()
@@ -256,8 +256,8 @@ impl<'a> ::std::iter::IntoIterator for &'a XmlListRef {
 }
 
 impl<'a> ::std::iter::IntoIterator for &'a mut XmlListRef {
-    type Item = &'a mut XmlInner;
-    type IntoIter = ::std::slice::IterMut<'a, XmlInner>;
+    type Item = &'a mut String;
+    type IntoIter = ::std::slice::IterMut<'a, String>;
 
     fn into_iter(self) -> Self::IntoIter {
         (&mut self.0).into_iter()
@@ -265,7 +265,7 @@ impl<'a> ::std::iter::IntoIterator for &'a mut XmlListRef {
 }
 
 impl ::std::ops::Deref for XmlListRef {
-    type Target = Vec<XmlInner>;
+    type Target = Vec<String>;
     fn deref(&self) -> &Self::Target {
         &self.0
     }

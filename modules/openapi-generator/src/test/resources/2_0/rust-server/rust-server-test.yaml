@@ -157,7 +157,7 @@ definitions:
     xml:
       wrapped: true
     items:
-      $ref: '#/definitions/XmlInner'
+      $ref: '#/definitions/XmlListRefInner'
   XmlListRefInner:
     type: string
     xml:
