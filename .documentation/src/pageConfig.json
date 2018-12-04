@@ -129,6 +129,15 @@
               "icon": "project-diagram",
               "topics": ["process"],
               "markdown" : "/static/docs/customization.md"
+            },
+
+            {
+              "route": "/integration",
+              "name": "Integration",
+              "description": "Integration with build tools",
+              "icon": "project-diagram",
+              "topics": ["process"],
+              "markdown" : "/static/docs/integration.md"
             }
           ]
         },
