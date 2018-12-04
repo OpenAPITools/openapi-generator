@@ -281,12 +281,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         // set zone.js version
         if (ngVersion.atLeast("5.0.0")) {
-            // compatible versions to Angular
-            additionalProperties.put("zonejsVersion", "0.7.6");
+            // compatible versions to Angular 5+
+            additionalProperties.put("zonejsVersion", "0.8.26");
         }
         else {
             // Angular versions prior to v5
-            additionalProperties.put("zonejsVersion", "0.8.26");
+            additionalProperties.put("zonejsVersion", "0.7.6");
         }
 
         //Files for building our lib
