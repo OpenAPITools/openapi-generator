@@ -63,6 +63,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final String ELM_VERSION = "elmVersion";
     private static final String ELM_PREFIX_CUSTOM_TYPE_VARIANTS = "elmPrefixCustomTypeVariants";
+    private static final String ELM_ENABLE_CUSTOM_BASE_PATHS = "elmEnableCustomBasePaths";
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
     private static final String DISCRIMINATOR_NAME = "discriminatorName";
@@ -168,6 +169,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(elmVersion);
         final CliOption elmPrefixCustomTypeVariants = CliOption.newBoolean(ELM_PREFIX_CUSTOM_TYPE_VARIANTS, "Prefix custom type variants");
         cliOptions.add(elmPrefixCustomTypeVariants);
+        final CliOption elmEnableCustomBasePaths = CliOption.newBoolean(ELM_ENABLE_CUSTOM_BASE_PATHS, "Enable setting the base path for each request");
+        cliOptions.add(elmEnableCustomBasePaths);
     }
 
     @Override
@@ -185,6 +188,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(ELM_PREFIX_CUSTOM_TYPE_VARIANTS)) {
             elmPrefixCustomTypeVariants = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_PREFIX_CUSTOM_TYPE_VARIANTS).toString()));
+        }
+
+        if (additionalProperties.containsKey(ELM_ENABLE_CUSTOM_BASE_PATHS)) {
+            final boolean enable = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_ENABLE_CUSTOM_BASE_PATHS).toString()));
+            additionalProperties.put("enableCustomBasePaths", enable);
         }
 
         if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
