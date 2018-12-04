@@ -578,7 +578,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     /**
-     * Converts the original name according to the current <tt>fileNaming</tt> strategy.
+     * Converts the original name according to the current <code>fileNaming</code> strategy.
      * @param originalName the original name to transform
      * @return the transformed name
      */
