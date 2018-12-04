@@ -260,9 +260,9 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("{{httpMethod}}"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
