@@ -97,11 +97,18 @@ const webpackConfig = merge(baseWebpackConfig, {
     // copy custom static assets
     new CopyWebpackPlugin([
       {
-        from: path.normalize(path.resolve(__dirname, '../static/**/**/*')),
+        from: path.normalize(path.resolve(__dirname, '../static/**/*')),
         to: `${config.build.assetsSubDirectory}/`,
         transformPath (targetPath, absolutePath) {
+          // This addresses an issue where the pattern results in double-prefix.
           return targetPath.replace("static/static", "static");
         }
+      },
+
+      {
+        from: path.normalize(path.resolve(__dirname, '../../docs/**/*')),
+        to: `${config.build.assetsSubDirectory}/docs`,
+        toType: 'dir'
       },
 
       {
