@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Api;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Api\StoreApi;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Api\StoreApi;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\StoreApi
  */
-class StoreApiTest extends \PHPUnit_Framework_TestCase
+class StoreApiTest extends TestCase
 {
 
     /**

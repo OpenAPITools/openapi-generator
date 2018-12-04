@@ -6,13 +6,14 @@ use OpenAPI\Client\Model\Animal;
 use OpenAPI\Client\Model\AnimalFarm;
 use OpenAPI\Client\Model\Cat;
 use OpenAPI\Client\Model\Dog;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test that Dog properly inherit Animal
  *
  * @package OpenAPI\Client
  */
-class ModelInheritanceTest extends \PHPUnit_Framework_TestCase
+class ModelInheritanceTest extends TestCase
 {
     /**
      * test if default values works

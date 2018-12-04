@@ -319,13 +319,7 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/i'
         Assert.assertEquals(op.allParams.get(1).pattern, "/^pattern$/i");
-        // pattern_one_slash_start '/^pattern$'
-        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern$/");
-        // pattern_one_slash_end '^pattern$/'
-        Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern$/");
-        // pattern_one_slash_near_end '^pattern$/im'
-        Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern$/im");
         // pattern_dont_escape_backslash '/^pattern\d{3}$/i' NOTE: the double \ is to escape \ in string but is read as single \
-        Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern\\d{3}$/i");
     }
 }

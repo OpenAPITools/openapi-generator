@@ -1,4 +1,4 @@
-module DateTime exposing (DateTime, decoder, encoder, toString)
+module DateTime exposing (DateTime, decoder, encode, toString)
 
 import Iso8601
 import Json.Decode as Decode exposing (Decoder)
@@ -17,8 +17,8 @@ decoder =
         |> Decode.andThen decodeIsoString
 
 
-encoder : DateTime -> Encode.Value
-encoder =
+encode : DateTime -> Encode.Value
+encode =
     Encode.string << toString
 
 

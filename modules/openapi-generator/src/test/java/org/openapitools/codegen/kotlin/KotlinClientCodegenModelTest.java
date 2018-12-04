@@ -199,6 +199,33 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "convert a model with array property to a kotlin.collections.List")
+    public void listPropertyTest() {
+        final Schema model = getArrayTestSchema();
+
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+        codegen.setCollectionType(KotlinClientCodegen.CollectionType.LIST.value);
+        codegen.processOpts();
+        final CodegenModel generated = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+
+        Assert.assertEquals(generated.name, "sample");
+        Assert.assertEquals(generated.classname, "Sample");
+        Assert.assertEquals(generated.description, "a sample model");
+        Assert.assertEquals(generated.vars.size(), 2);
+
+        final CodegenProperty property = generated.vars.get(1);
+        Assert.assertEquals(property.baseName, "examples");
+        Assert.assertEquals(property.getter, "getExamples");
+        Assert.assertEquals(property.setter, "setExamples");
+        Assert.assertEquals(property.dataType, "kotlin.collections.List<kotlin.String>");
+        Assert.assertEquals(property.name, "examples");
+        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.baseType, "kotlin.collections.List");
+        Assert.assertEquals(property.containerType, "array");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema schema = getMapSchema();
