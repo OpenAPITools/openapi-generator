@@ -13,17 +13,17 @@
 {{/isEnum}}
 {{^isEnum}}
     {{#description}}/** {{description}} */
-    {{/description}}{{#objcCompatible}}@objc {{/objcCompatible}}public var {{name}}: {{{datatype}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
+    {{/description}}{{#objcCompatible}}{{#required}}@objc {{/required}}{{^required}}{{^vendorExtensions.x-swift-optional-scalar}}@objc {{/vendorExtensions.x-swift-optional-scalar}}{{/required}}{{/objcCompatible}}public var {{name}}: {{{datatype}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}}{{#objcCompatible}}{{#vendorExtensions.x-swift-optional-scalar}}
     @objc public var {{name}}Num: NSNumber? {
         get {
-            return {{name}}.map({ return NSNumber(value: $0) })
+            return {{name}} as NSNumber?
         }
     }{{/vendorExtensions.x-swift-optional-scalar}}{{/objcCompatible}}
 {{/isEnum}}
 {{/allVars}}
 
 {{#hasVars}}
-    {{#objcCompatible}}@objc {{/objcCompatible}}public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
+   public init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#unwrapRequired}}?{{/unwrapRequired}}{{^unwrapRequired}}{{^required}}?{{/required}}{{/unwrapRequired}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
         {{#allVars}}
         self.{{name}} = {{name}}
         {{/allVars}}

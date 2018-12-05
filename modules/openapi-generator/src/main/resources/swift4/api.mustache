@@ -40,18 +40,20 @@ extension {{projectName}}API {
      - parameter {{paramName}}: ({{#isFormParam}}form{{/isFormParam}}{{#isQueryParam}}query{{/isQueryParam}}{{#isPathParam}}path{{/isPathParam}}{{#isHeaderParam}}header{{/isHeaderParam}}{{#isBodyParam}}body{{/isBodyParam}}) {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}{{/allParams}}
      - parameter completion: completion handler to receive the data and the error objects
      */
-    {{#objcCompatible}}@objc {{/objcCompatible}}open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: @escaping ((_ data: {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}?,_ error: Error?) -> Void)) {
+    {{#objcCompatible}}@objc {{/objcCompatible}}open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasParams}}, {{/hasParams}}completion: @escaping (({{#returnType}}_ data: {{{returnType}}}?,{{/returnType}}{{^returnType}}{{^objcCompatible}}_ data: Void?,{{/objcCompatible}}{{/returnType}}_ error: Error?) -> Void)) {
         {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
         {{#returnType}}
             completion(response?.body, error)
         {{/returnType}}
-        {{^returnType}}
+        {{^returnType}}{{#objcCompatible}}
+        completion(error)
+        {{/objcCompatible}}{{^objcCompatible}}
             if error == nil {
                 completion((), error)
             } else {
                 completion(nil, error)
             }
-        {{/returnType}}
+        {{/objcCompatible}}{{/returnType}}
         }
     }
 
