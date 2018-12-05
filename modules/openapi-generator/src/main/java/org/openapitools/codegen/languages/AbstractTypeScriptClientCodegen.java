@@ -159,7 +159,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toParamName(String name) {
         // sanitize name
-        name = sanitizeName(name, "\\W-[\\$]");
+        name = sanitizeName(name, "[^\\w$]");
 
         if ("_".equals(name)) {
             name = "_u";
