@@ -218,17 +218,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("7.0.0")){
+        if (ngVersion.atLeast("7.0.0")) {
             // Angular v7 requires typescript ">=3.1.1 <3.2.0"
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
-        }
-        else if (ngVersion.atLeast("6.0.0")) {
+        } else if (ngVersion.atLeast("6.0.0")) {
             additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
-        }
-        else if (ngVersion.atLeast("5.0.0")) {
+        } else if (ngVersion.atLeast("5.0.0")) {
             additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
-        }
-        else {
+        } else {
             // Angular v2-v4 requires typescript ">=2.1.5 <2.8"
             additionalProperties.put("tsVersion", ">=2.1.5 <2.8.0");
         }
@@ -262,22 +259,19 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         additionalProperties.put("useOldNgPackagr", !ngVersion.atLeast("5.0.0"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("6.0.0")) {
+        if (ngVersion.atLeast("7.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "4.4.5");
             additionalProperties.put("tsickleVersion", "0.34.0");
-        }
-        else if (ngVersion.atLeast("6.0.0")) {
+        } else if (ngVersion.atLeast("6.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "2.4.5");
             additionalProperties.put("tsickleVersion", "0.27.5");
-        }
-        else if (ngVersion.atLeast("5.0.0")) {
+        } else if (ngVersion.atLeast("5.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "2.4.5");
             additionalProperties.put("tsickleVersion", "0.27.5");
-        }
-        else {
+        } else {
             // Angular versions prior to v5
             additionalProperties.put("ngPackagrVersion", "1.6.0");
         }
@@ -286,8 +280,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (ngVersion.atLeast("5.0.0")) {
             // compatible versions to Angular 5+
             additionalProperties.put("zonejsVersion", "0.8.26");
-        }
-        else {
+        } else {
             // Angular versions prior to v5
             additionalProperties.put("zonejsVersion", "0.7.6");
         }
@@ -600,8 +593,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Validates that the given string value only contains '-', '.' and alpha numeric characters.
      * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
      * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value The value that is being validated.
+     * @param value    The value that is being validated.
      */
     private void validateFileSuffixArgument(String argument, String value) {
         if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
@@ -614,8 +608,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Validates that the given string value only contains alpha numeric characters.
      * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
      * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value The value that is being validated.
+     * @param value    The value that is being validated.
      */
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
@@ -627,6 +622,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     /**
      * Set the file naming type.
+     *
      * @param fileNaming the file naming to use
      */
     private void setFileNaming(String fileNaming) {
@@ -640,6 +636,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     /**
      * Converts the original name according to the current <code>fileNaming</code> strategy.
+     *
      * @param originalName the original name to transform
      * @return the transformed name
      */
