@@ -185,6 +185,19 @@ public class EnumTest {
   @JsonProperty("outerEnum")
   private OuterEnum outerEnum = null;
 
+  public EnumTest() {
+    super();
+  }
+
+  public EnumTest(EnumTest copy) {
+    super();
+    this.enumString = copy.getEnumString();
+    this.enumStringRequired = copy.getEnumStringRequired();
+    this.enumInteger = copy.getEnumInteger();
+    this.enumNumber = copy.getEnumNumber();
+    this.outerEnum = copy.getOuterEnum();
+  }
+
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;

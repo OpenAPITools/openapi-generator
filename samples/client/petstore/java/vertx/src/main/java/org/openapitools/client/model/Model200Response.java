@@ -33,6 +33,16 @@ public class Model200Response {
   @JsonProperty("class")
   private String propertyClass;
 
+  public Model200Response() {
+    super();
+  }
+
+  public Model200Response(Model200Response copy) {
+    super();
+    this.name = copy.getName();
+    this.propertyClass = copy.getPropertyClass();
+  }
+
   public Model200Response name(Integer name) {
     this.name = name;
     return this;

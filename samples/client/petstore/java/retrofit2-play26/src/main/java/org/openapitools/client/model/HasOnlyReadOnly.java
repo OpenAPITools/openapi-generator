@@ -34,6 +34,16 @@ public class HasOnlyReadOnly {
   @JsonProperty("foo")
   private String foo;
 
+  public HasOnlyReadOnly() {
+    super();
+  }
+
+  public HasOnlyReadOnly(HasOnlyReadOnly copy) {
+    super();
+    this.bar = copy.getBar();
+    this.foo = copy.getFoo();
+  }
+
    /**
    * Get bar
    * @return bar

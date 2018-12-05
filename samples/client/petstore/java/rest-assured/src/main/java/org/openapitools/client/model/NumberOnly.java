@@ -34,6 +34,15 @@ public class NumberOnly {
   @SerializedName(SERIALIZED_NAME_JUST_NUMBER)
   private BigDecimal justNumber;
 
+  public NumberOnly() {
+    super();
+  }
+
+  public NumberOnly(NumberOnly copy) {
+    super();
+    this.justNumber = copy.getJustNumber();
+  }
+
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;

@@ -106,6 +106,20 @@ public class Pet {
   @SerializedName(SERIALIZED_NAME_STATUS)
   private StatusEnum status;
 
+  public Pet() {
+    super();
+  }
+
+  public Pet(Pet copy) {
+    super();
+    this.id = copy.getId();
+    this.category = copy.getCategory();
+    this.name = copy.getName();
+    this.photoUrls = copy.getPhotoUrls();
+    this.tags = copy.getTags();
+    this.status = copy.getStatus();
+  }
+
   public Pet id(Long id) {
     this.id = id;
     return this;

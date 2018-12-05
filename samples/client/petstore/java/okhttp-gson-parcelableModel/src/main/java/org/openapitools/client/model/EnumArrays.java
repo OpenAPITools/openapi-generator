@@ -136,7 +136,15 @@ public class EnumArrays implements Parcelable {
   private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays() {
+    super();
   }
+
+  public EnumArrays(EnumArrays copy) {
+    super();
+    this.justSymbol = copy.getJustSymbol();
+    this.arrayEnum = copy.getArrayEnum();
+  }
+
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;

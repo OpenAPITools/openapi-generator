@@ -37,6 +37,16 @@ public class Category {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name = "default-name";
 
+  public Category() {
+    super();
+  }
+
+  public Category(Category copy) {
+    super();
+    this.id = copy.getId();
+    this.name = copy.getName();
+  }
+
   public Category id(Long id) {
     this.id = id;
     return this;

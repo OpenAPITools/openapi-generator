@@ -44,7 +44,16 @@ public class ModelApiResponse implements Parcelable {
   private String message;
 
   public ModelApiResponse() {
+    super();
   }
+
+  public ModelApiResponse(ModelApiResponse copy) {
+    super();
+    this.code = copy.getCode();
+    this.type = copy.getType();
+    this.message = copy.getMessage();
+  }
+
   public ModelApiResponse code(Integer code) {
     this.code = code;
     return this;

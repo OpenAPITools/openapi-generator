@@ -37,6 +37,15 @@ public class Cat extends Animal {
   @XmlElement(name = "declawed")
   private Boolean declawed;
 
+  public Cat() {
+    super();
+  }
+
+  public Cat(Cat copy) {
+    super(copy);
+    this.declawed = copy.getDeclawed();
+  }
+
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;

@@ -72,6 +72,27 @@ public class FormatTest {
   @JsonProperty("password")
   private String password;
 
+  public FormatTest() {
+    super();
+  }
+
+  public FormatTest(FormatTest copy) {
+    super();
+    this.integer = copy.getInteger();
+    this.int32 = copy.getInt32();
+    this.int64 = copy.getInt64();
+    this.number = copy.getNumber();
+    this._float = copy.getFloat();
+    this._double = copy.getDouble();
+    this.string = copy.getString();
+    this._byte = copy.getByte();
+    this.binary = copy.getBinary();
+    this.date = copy.getDate();
+    this.dateTime = copy.getDateTime();
+    this.uuid = copy.getUuid();
+    this.password = copy.getPassword();
+  }
+
   public FormatTest integer(Integer integer) {
     this.integer = integer;
     return this;

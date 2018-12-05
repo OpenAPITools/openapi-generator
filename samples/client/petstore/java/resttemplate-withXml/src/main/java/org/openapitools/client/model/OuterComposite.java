@@ -47,6 +47,17 @@ public class OuterComposite {
   @XmlElement(name = "my_boolean")
   private Boolean myBoolean;
 
+  public OuterComposite() {
+    super();
+  }
+
+  public OuterComposite(OuterComposite copy) {
+    super();
+    this.myNumber = copy.getMyNumber();
+    this.myString = copy.getMyString();
+    this.myBoolean = copy.getMyBoolean();
+  }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;

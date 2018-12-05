@@ -75,6 +75,18 @@ public class MapTest {
   @JsonProperty("indirect_map")
   private Map<String, Boolean> indirectMap = null;
 
+  public MapTest() {
+    super();
+  }
+
+  public MapTest(MapTest copy) {
+    super();
+    this.mapMapOfString = copy.getMapMapOfString();
+    this.mapOfEnumString = copy.getMapOfEnumString();
+    this.directMap = copy.getDirectMap();
+    this.indirectMap = copy.getIndirectMap();
+  }
+
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;

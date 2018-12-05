@@ -43,6 +43,20 @@ public class Capitalization {
   @JsonProperty("ATT_NAME")
   private String ATT_NAME;
 
+  public Capitalization() {
+    super();
+  }
+
+  public Capitalization(Capitalization copy) {
+    super();
+    this.smallCamel = copy.getSmallCamel();
+    this.capitalCamel = copy.getCapitalCamel();
+    this.smallSnake = copy.getSmallSnake();
+    this.capitalSnake = copy.getCapitalSnake();
+    this.scAETHFlowPoints = copy.getScAETHFlowPoints();
+    this.ATT_NAME = copy.getATTNAME();
+  }
+
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
     return this;

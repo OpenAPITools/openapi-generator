@@ -49,6 +49,16 @@ public class Animal {
   @XmlElement(name = "color")
   private String color = "red";
 
+  public Animal() {
+    super();
+  }
+
+  public Animal(Animal copy) {
+    super();
+    this.className = copy.getClassName();
+    this.color = copy.getColor();
+  }
+
   public Animal className(String className) {
     this.className = className;
     return this;

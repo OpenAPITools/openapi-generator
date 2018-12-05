@@ -39,6 +39,16 @@ public class FileSchemaTestClass {
   @SerializedName(SERIALIZED_NAME_FILES)
   private List<java.io.File> files = null;
 
+  public FileSchemaTestClass() {
+    super();
+  }
+
+  public FileSchemaTestClass(FileSchemaTestClass copy) {
+    super();
+    this.file = copy.getFile();
+    this.files = copy.getFiles();
+  }
+
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
     return this;

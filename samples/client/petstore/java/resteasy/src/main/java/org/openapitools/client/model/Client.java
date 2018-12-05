@@ -29,6 +29,15 @@ public class Client {
   @JsonProperty("client")
   private String client;
 
+  public Client() {
+    super();
+  }
+
+  public Client(Client copy) {
+    super();
+    this.client = copy.getClient();
+  }
+
   public Client client(String client) {
     this.client = client;
     return this;

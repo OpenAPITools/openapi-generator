@@ -37,6 +37,17 @@ public class ArrayTest {
   @JsonProperty("array_array_of_model")
   private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
+  public ArrayTest() {
+    super();
+  }
+
+  public ArrayTest(ArrayTest copy) {
+    super();
+    this.arrayOfString = copy.getArrayOfString();
+    this.arrayArrayOfInteger = copy.getArrayArrayOfInteger();
+    this.arrayArrayOfModel = copy.getArrayArrayOfModel();
+  }
+
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;

@@ -36,6 +36,15 @@ public class ArrayOfNumberOnly {
   @SerializedName(SERIALIZED_NAME_ARRAY_NUMBER)
   private List<BigDecimal> arrayNumber = null;
 
+  public ArrayOfNumberOnly() {
+    super();
+  }
+
+  public ArrayOfNumberOnly(ArrayOfNumberOnly copy) {
+    super();
+    this.arrayNumber = copy.getArrayNumber();
+  }
+
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
     return this;

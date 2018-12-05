@@ -43,6 +43,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty("map")
   private Map<String, Animal> map = null;
 
+  public MixedPropertiesAndAdditionalPropertiesClass() {
+    super();
+  }
+
+  public MixedPropertiesAndAdditionalPropertiesClass(MixedPropertiesAndAdditionalPropertiesClass copy) {
+    super();
+    this.uuid = copy.getUuid();
+    this.dateTime = copy.getDateTime();
+    this.map = copy.getMap();
+  }
+
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = uuid;
     return this;

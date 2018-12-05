@@ -30,6 +30,15 @@ public class Cat extends Animal {
   @JsonProperty("declawed")
   private Boolean declawed;
 
+  public Cat() {
+    super();
+  }
+
+  public Cat(Cat copy) {
+    super(copy);
+    this.declawed = copy.isDeclawed();
+  }
+
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;
