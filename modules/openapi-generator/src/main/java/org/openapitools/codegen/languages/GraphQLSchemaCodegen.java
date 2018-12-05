@@ -15,6 +15,12 @@
  */
 
 package org.openapitools.codegen.languages;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -33,7 +39,7 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
     }
 
     public String getName() {
-        return "graphql";
+        return "graphql-schema";
     }
 
     public String getHelp() {
@@ -42,10 +48,10 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
 
     public GraphQLSchemaCodegen() {
         super();
-        outputFolder = "generated-code/graphql";
+        outputFolder = "generated-code/graphql-schema";
         modelTemplateFiles.put("model.mustache", ".graphql");
         apiTemplateFiles.put("api.mustache", ".graphql");
-        embeddedTemplateDir = templateDir = "graphql";
+        embeddedTemplateDir = templateDir = "graphql-schema";
         hideGenerationTimestamp = Boolean.TRUE;
 
 

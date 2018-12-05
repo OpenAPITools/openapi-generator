@@ -441,7 +441,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     public String graphQlInputsFileFolder() {
-        return outputFolder + "/" + graphQlInputsPackage().replace('.', '/');
+        return outputFolder + File.separator + graphQlInputsPackage().replace('.', File.separatorChar);
     }
 
     public String graphQlInputsFilename(String templateName, String tag) {
@@ -457,6 +457,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         if (name.length() == 0) {
             return "EmptyInput";
         }
-        return initialCaps(name) + "Input";
+
+        return camelize(name) + "Input";
     }
 }
