@@ -113,7 +113,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (2.x - 5.x) client library.";
+        return "Generates a TypeScript Angular (2.x - 7.x) client library.";
     }
 
     @Override
@@ -217,6 +217,36 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
 
+        // Set the typescript version compatible to the Angular version
+        if (ngVersion.atLeast("7.0.0")){
+            // Angular v7 requires typescript ">=3.1.1 <3.2.0"
+            additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
+        }
+        else if (ngVersion.atLeast("6.0.0")) {
+            additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
+        }
+        else if (ngVersion.atLeast("5.0.0")) {
+            additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
+        }
+        else {
+            // Angular v2-v4 requires typescript ">=2.1.5 <2.8"
+            additionalProperties.put("tsVersion", ">=2.1.5 <2.8.0");
+        }
+
+        // Set the rxJS version compatible to the Angular version
+        if (ngVersion.atLeast("7.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.3.0");
+        } else if (ngVersion.atLeast("6.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.1.0");
+        } else {
+            // Angular prior to v6
+            additionalProperties.put("rxjsVersion", "5.4.0");
+        }
+
+        if (!ngVersion.atLeast("4.3.0")) {
+            supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
+        }
+
         // for Angular 2 AOT support we will use good-old ngc,
         // Angular Package format wasn't invented at this time and building was much more easier
         if (!ngVersion.atLeast("4.0.0")) {
@@ -230,6 +260,37 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         // Libraries generated with v1.x of ng-packagr will ship with AoT metadata in v3, which is intended for Angular v4.
         // Libraries generated with v2.x of ng-packagr will ship with AoT metadata in v4, which is intended for Angular v5 (and Angular v6).
         additionalProperties.put("useOldNgPackagr", !ngVersion.atLeast("5.0.0"));
+
+        // Specific ng-packagr configuration
+        if (ngVersion.atLeast("6.0.0")) {
+            // compatible versions with typescript version
+            additionalProperties.put("ngPackagrVersion", "4.4.5");
+            additionalProperties.put("tsickleVersion", "0.34.0");
+        }
+        else if (ngVersion.atLeast("6.0.0")) {
+            // compatible versions with typescript version
+            additionalProperties.put("ngPackagrVersion", "2.4.5");
+            additionalProperties.put("tsickleVersion", "0.27.5");
+        }
+        else if (ngVersion.atLeast("5.0.0")) {
+            // compatible versions with typescript version
+            additionalProperties.put("ngPackagrVersion", "2.4.5");
+            additionalProperties.put("tsickleVersion", "0.27.5");
+        }
+        else {
+            // Angular versions prior to v5
+            additionalProperties.put("ngPackagrVersion", "1.6.0");
+        }
+
+        // set zone.js version
+        if (ngVersion.atLeast("5.0.0")) {
+            // compatible versions to Angular 5+
+            additionalProperties.put("zonejsVersion", "0.8.26");
+        }
+        else {
+            // Angular versions prior to v5
+            additionalProperties.put("zonejsVersion", "0.7.6");
+        }
 
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
