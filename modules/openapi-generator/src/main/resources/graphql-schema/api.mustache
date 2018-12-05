@@ -1,0 +1,47 @@
+{{>partial_header}}
+# package {{packageName}}
+
+# {{classname}}
+
+{{#operations}}
+type mutation {
+{{#operation}}
+{{#vendorExtensions.x-is-mutation}}
+  {{#summary}}
+  # {{summary}}
+  {{/summary}}
+  {{#notes}}
+  # {{notes}}
+  {{/notes}}
+  {{#allParams}}
+  # @param {{dataType}} {{paramName}} {{description}}
+  {{/allParams}}
+  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}null{{/returnType}}]
+  {{operationId}}({{#allParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{#returnType}}{{.}}{{/returnType}}{{^returnType}}null{{/returnType}}
+
+{{/vendorExtensions.x-is-mutation}}
+{{/operation}}
+}
+
+{{/operations}}
+{{#operations}}
+type query {
+{{#operation}}
+{{^vendorExtensions.x-is-mutation}}
+  {{#summary}}
+  # {{summary}}
+  {{/summary}}
+  {{#notes}}
+  # {{notes}}
+  {{/notes}}
+  {{#allParams}}
+  # @param {{dataType}} {{paramName}} {{description}}
+  {{/allParams}}
+  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}null{{/returnType}}]
+  {{operationId}}({{#allParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{#returnType}}{{.}}{{/returnType}}{{^returnType}}null{{/returnType}}
+
+{{/vendorExtensions.x-is-mutation}}
+{{/operation}}
+}
+
+{{/operations}}
