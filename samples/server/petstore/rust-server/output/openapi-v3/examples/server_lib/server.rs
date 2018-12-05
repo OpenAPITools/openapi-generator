@@ -29,9 +29,9 @@ impl<C> Server<C> {
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
 
-    fn xml_post(&self, string: Option<&Vec<models::XmlInner>>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, body: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("xml_post({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        println!("xml_post({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

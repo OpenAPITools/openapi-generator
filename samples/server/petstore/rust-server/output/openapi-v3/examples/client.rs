@@ -70,7 +70,7 @@ fn main() {
     match matches.value_of("operation") {
 
         Some("XmlPost") => {
-            let result = core.run(client.xml_post(Some(&Vec::new())));
+            let result = core.run(client.xml_post(Some()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

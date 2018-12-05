@@ -38,6 +38,7 @@ fn main() {
     "FileResponseGet",
     "HtmlPost",
     "RawJsonGet",
+    "XmlPost",
 ])
             .required(true)
             .index(1))
@@ -84,7 +85,7 @@ fn main() {
          },
 
         Some("DummyPut") => {
-            let result = core.run(client.dummy_put(None));
+            let result = core.run(client.dummy_put(Some()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
@@ -103,11 +104,10 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
-        // Disabled because there's no example.
-        // Some("XmlPost") => {
-        //     let result = core.run(client.xml_post(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("XmlPost") => {
+            let result = core.run(client.xml_post());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         _ => {
             panic!("Invalid operation provided")

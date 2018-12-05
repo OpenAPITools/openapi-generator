@@ -137,14 +137,14 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<Vec<models::XmlInner>> = if !body.is_empty() {
+                                let param_body: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_string) => param_string,
+                                        Ok(param_body) => param_body,
 
                                         Err(_) => None,
                                     }
@@ -154,7 +154,7 @@ where
                                 };
 
 
-                                Box::new(api_impl.xml_post(param_string.as_ref(), &context)
+                                Box::new(api_impl.xml_post(param_body, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -187,7 +187,7 @@ where
 
 
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter string: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>

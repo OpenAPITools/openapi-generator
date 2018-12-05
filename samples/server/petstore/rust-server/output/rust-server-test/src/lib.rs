@@ -83,7 +83,7 @@ pub trait Api<C> {
     fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
+    fn dummy_put(&self, body: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
 
     /// Get a file
     fn file_response_get(&self, context: &C) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>>;
@@ -95,7 +95,7 @@ pub trait Api<C> {
     fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>>;
 
     /// Test XML
-    fn xml_post(&self, xml_object: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, body: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -106,7 +106,7 @@ pub trait ApiNoContext {
     fn dummy_get(&self) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
+    fn dummy_put(&self, body: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
 
     /// Get a file
     fn file_response_get(&self) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>>;
@@ -118,7 +118,7 @@ pub trait ApiNoContext {
     fn raw_json_get(&self) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>>;
 
     /// Test XML
-    fn xml_post(&self, xml_object: models::XmlObject) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, body: models::XmlObject) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -142,8 +142,8 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
-        self.api().dummy_put(inline_object, &self.context())
+    fn dummy_put(&self, body: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+        self.api().dummy_put(body, &self.context())
     }
 
     /// Get a file
@@ -162,8 +162,8 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
     /// Test XML
-    fn xml_post(&self, xml_object: models::XmlObject) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
-        self.api().xml_post(xml_object, &self.context())
+    fn xml_post(&self, body: models::XmlObject) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+        self.api().xml_post(body, &self.context())
     }
 
 }

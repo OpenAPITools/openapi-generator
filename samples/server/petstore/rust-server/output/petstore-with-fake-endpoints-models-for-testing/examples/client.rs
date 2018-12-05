@@ -59,28 +59,37 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+    "TestSpecialTags",
     "FakeOuterBooleanSerialize",
     "FakeOuterCompositeSerialize",
     "FakeOuterNumberSerialize",
     "FakeOuterStringSerialize",
+    "TestBodyWithQueryParams",
+    "TestClientModel",
     "TestEndpointParameters",
     "TestEnumParameters",
     "TestJsonFormData",
+    "TestClassname",
+    "AddPet",
     "DeletePet",
     "FindPetsByStatus",
     "FindPetsByTags",
     "GetPetById",
+    "UpdatePet",
     "UpdatePetWithForm",
     "UploadFile",
     "DeleteOrder",
     "GetInventory",
     "GetOrderById",
+    "PlaceOrder",
+    "CreateUser",
     "CreateUsersWithArrayInput",
     "CreateUsersWithListInput",
     "DeleteUser",
     "GetUserByName",
     "LoginUser",
     "LogoutUser",
+    "UpdateUser",
 ])
             .required(true)
             .index(1))
@@ -121,43 +130,40 @@ fn main() {
 
     match matches.value_of("operation") {
 
-        // Disabled because there's no example.
-        // Some("TestSpecialTags") => {
-        //     let result = core.run(client.test_special_tags(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("TestSpecialTags") => {
+            let result = core.run(client.test_special_tags());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         Some("FakeOuterBooleanSerialize") => {
-            let result = core.run(client.fake_outer_boolean_serialize(Some(true)));
+            let result = core.run(client.fake_outer_boolean_serialize(Some()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
         Some("FakeOuterCompositeSerialize") => {
-            let result = core.run(client.fake_outer_composite_serialize(None));
+            let result = core.run(client.fake_outer_composite_serialize(Some()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
         Some("FakeOuterNumberSerialize") => {
-            let result = core.run(client.fake_outer_number_serialize(Some(1.2)));
+            let result = core.run(client.fake_outer_number_serialize(Some()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
         Some("FakeOuterStringSerialize") => {
-            let result = core.run(client.fake_outer_string_serialize(Some("body_example".to_string())));
+            let result = core.run(client.fake_outer_string_serialize(Some()));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
-        // Disabled because there's no example.
-        // Some("TestBodyWithQueryParams") => {
-        //     let result = core.run(client.test_body_with_query_params("query_example".to_string(), ???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("TestBodyWithQueryParams") => {
+            let result = core.run(client.test_body_with_query_params("query_example".to_string(), ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
-        // Disabled because there's no example.
-        // Some("TestClientModel") => {
-        //     let result = core.run(client.test_client_model(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("TestClientModel") => {
+            let result = core.run(client.test_client_model());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         Some("TestEndpointParameters") => {
             let result = core.run(client.test_endpoint_parameters(8.14, 1.2, "pattern_without_delimiter_example".to_string(), swagger::ByteArray(Vec::from("BYTE_ARRAY_DATA_HERE")), Some(56), Some(56), Some(789), Some(3.4), Some("string_example".to_string()), Some(swagger::ByteArray(Vec::from("BINARY_DATA_HERE"))), None, None, Some("password_example".to_string()), Some("callback_example".to_string())));
@@ -180,17 +186,15 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
-        // Disabled because there's no example.
-        // Some("TestClassname") => {
-        //     let result = core.run(client.test_classname(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("TestClassname") => {
+            let result = core.run(client.test_classname());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
-        // Disabled because there's no example.
-        // Some("AddPet") => {
-        //     let result = core.run(client.add_pet(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("AddPet") => {
+            let result = core.run(client.add_pet());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         Some("DeletePet") => {
             let result = core.run(client.delete_pet(789, Some("api_key_example".to_string())));
@@ -212,11 +216,10 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
-        // Disabled because there's no example.
-        // Some("UpdatePet") => {
-        //     let result = core.run(client.update_pet(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("UpdatePet") => {
+            let result = core.run(client.update_pet());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         Some("UpdatePetWithForm") => {
             let result = core.run(client.update_pet_with_form(789, Some("name_example".to_string()), Some("status_example".to_string())));
@@ -243,17 +246,15 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
-        // Disabled because there's no example.
-        // Some("PlaceOrder") => {
-        //     let result = core.run(client.place_order(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("PlaceOrder") => {
+            let result = core.run(client.place_order());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
-        // Disabled because there's no example.
-        // Some("CreateUser") => {
-        //     let result = core.run(client.create_user(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("CreateUser") => {
+            let result = core.run(client.create_user());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         Some("CreateUsersWithArrayInput") => {
             let result = core.run(client.create_users_with_array_input(&Vec::new()));
@@ -285,11 +286,10 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
-        // Disabled because there's no example.
-        // Some("UpdateUser") => {
-        //     let result = core.run(client.update_user("username_example".to_string(), ???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
+        Some("UpdateUser") => {
+            let result = core.run(client.update_user("username_example".to_string(), ));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
 
         _ => {
             panic!("Invalid operation provided")
