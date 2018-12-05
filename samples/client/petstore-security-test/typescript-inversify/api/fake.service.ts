@@ -20,7 +20,6 @@ import { IAPIConfiguration } from "../IAPIConfiguration";
 import { Headers } from "../Headers";
 import HttpResponse from "../HttpResponse";
 
-import { UNKNOWNBASETYPE } from '../model/uNKNOWNBASETYPE';
 
 import { COLLECTION_FORMATS }  from '../variables';
 
@@ -39,16 +38,21 @@ export class FakeService {
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-     * @param UNKNOWN_BASE_TYPE 
+     * @param testCodeInjectEndRnNR To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r
      
      */
-    public testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, observe?: 'body', headers?: Headers): Observable<any>;
-    public testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
-    public testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, observe: any = 'body', headers: Headers = {}): Observable<any> {
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'body', headers?: Headers): Observable<any>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
         headers['Accept'] = 'application/json';
-        headers['Content-Type'] = 'application/json';
 
-        const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/fake`, UNKNOWN_BASE_TYPE , headers);
+        let formData: FormData = new FormData();
+        headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        if (testCodeInjectEndRnNR !== undefined) {
+            formData.append('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', <any>testCodeInjectEndRnNR);
+        }
+
+        const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/fake`, body, headers);
         if (observe == 'body') {
                return response.map(httpResponse => <any>(httpResponse.response));
         }

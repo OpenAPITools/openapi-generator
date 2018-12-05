@@ -18,7 +18,6 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs/Observable';
 
-import { UNKNOWN_BASE_TYPE } from '../model/uNKNOWNBASETYPE';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -60,14 +59,14 @@ export class FakeService {
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-     * @param UNKNOWN_BASE_TYPE 
+     * @param testCodeInjectEndRnNR To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public testCodeInjectEndRnNR(testCodeInjectEndRnNR?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -81,16 +80,26 @@ export class FakeService {
 
         // to determine the Content-Type header
         const consumes: string[] = [
-            'application/json',
-            '*_/   =end --       '
+            'application/x-www-form-urlencoded'
         ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            headers = headers.set('Content-Type', httpContentTypeSelected);
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        }
+
+        if (testCodeInjectEndRnNR !== undefined) {
+            formParams = formParams.append('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', <any>testCodeInjectEndRnNR) || formParams;
         }
 
         return this.httpClient.put<any>(`${this.configuration.basePath}/fake`,
-            UNKNOWN_BASE_TYPE,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

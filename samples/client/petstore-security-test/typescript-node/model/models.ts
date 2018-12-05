@@ -1,8 +1,8 @@
-export * from './modelReturn';
+export * from './return';
 
 import localVarRequest = require('request');
 
-import { ModelReturn } from './modelReturn';
+import { Return } from './return';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -20,7 +20,7 @@ let enumsMap: {[index: string]: any} = {
 }
 
 let typeMap: {[index: string]: any} = {
-    "ModelReturn": ModelReturn,
+    "Return": Return,
 }
 
 export class ObjectSerializer {
@@ -74,7 +74,7 @@ export class ObjectSerializer {
             }
             return transformedData;
         } else if (type === "Date") {
-            return data.toString();
+            return data.toISOString();
         } else {
             if (enumsMap[type]) {
                 return data;
