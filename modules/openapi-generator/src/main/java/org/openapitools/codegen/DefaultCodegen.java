@@ -4209,7 +4209,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
     }
-
+    
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
