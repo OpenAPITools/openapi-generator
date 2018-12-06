@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * NumberOnly
@@ -27,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class NumberOnly   {
   @JsonProperty("JustNumber")
-  private BigDecimal justNumber = null;
+  private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
@@ -40,6 +41,7 @@ public class NumberOnly   {
    **/
   @JsonProperty("JustNumber")
   @ApiModelProperty(value = "")
+  @Valid
   public BigDecimal getJustNumber() {
     return justNumber;
   }

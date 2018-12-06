@@ -16,8 +16,8 @@ defmodule OpenapiPetstore.Model.Cat do
 
   @type t :: %__MODULE__{
     :"className" => String.t,
-    :"color" => String.t,
-    :"declawed" => boolean()
+    :"color" => String.t | nil,
+    :"declawed" => boolean() | nil
   }
 end
 

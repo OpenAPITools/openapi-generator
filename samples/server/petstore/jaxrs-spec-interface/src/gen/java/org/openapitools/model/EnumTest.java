@@ -50,7 +50,7 @@ public enum EnumStringEnum {
     }
 }
 
-  private @Valid EnumStringEnum enumString = null;
+  private @Valid EnumStringEnum enumString;
 
 public enum EnumStringRequiredEnum {
 
@@ -84,7 +84,7 @@ public enum EnumStringRequiredEnum {
     }
 }
 
-  private @Valid EnumStringRequiredEnum enumStringRequired = null;
+  private @Valid EnumStringRequiredEnum enumStringRequired;
 
 public enum EnumIntegerEnum {
 
@@ -118,7 +118,7 @@ public enum EnumIntegerEnum {
     }
 }
 
-  private @Valid EnumIntegerEnum enumInteger = null;
+  private @Valid EnumIntegerEnum enumInteger;
 
 public enum EnumNumberEnum {
 
@@ -152,7 +152,7 @@ public enum EnumNumberEnum {
     }
 }
 
-  private @Valid EnumNumberEnum enumNumber = null;
+  private @Valid EnumNumberEnum enumNumber;
   private @Valid OuterEnum outerEnum = null;
 
   /**

@@ -69,7 +69,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
         additionalProperties.put("appName", "OpenAPI Sample");
         additionalProperties.put("appDescription", "A sample OpenAPI server");
-        additionalProperties.put("infoUrl", "https//openapi-generator.tech");
+        additionalProperties.put("infoUrl", "https://openapi-generator.tech");
         additionalProperties.put("infoEmail", "team@openapitools.org");
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");

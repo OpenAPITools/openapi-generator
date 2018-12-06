@@ -36,7 +36,7 @@ public:
     void validate() override;
 
     web::json::value toJson() const override;
-    void fromJson(web::json::value& json) override;
+    void fromJson(const web::json::value& json) override;
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
@@ -54,7 +54,14 @@ public:
     {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}
+
+    {{#isPrimitiveType}}
     void {{setter}}({{{dataType}}} value);
+    {{/isPrimitiveType}}
+    {{^isPrimitiveType}}
+    void {{setter}}(const {{{dataType}}}& value);
+    {{/isPrimitiveType}}
+
     {{/isInherited}}
     {{/vars}}
 

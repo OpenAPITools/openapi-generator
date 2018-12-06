@@ -99,8 +99,8 @@ public interface PetApi {
    * Updates a pet in the store with form data
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @return Completable
    */
   @retrofit2.http.FormUrlEncoded
@@ -113,14 +113,14 @@ public interface PetApi {
    * uploads an image
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return Observable&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
   @POST("pet/{petId}/uploadImage")
   Observable<ModelApiResponse> uploadFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part("file") MultipartBody.Part file
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("additionalMetadata") String additionalMetadata, @retrofit2.http.Part MultipartBody.Part file
   );
 
   /**
@@ -128,13 +128,13 @@ public interface PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return Observable&lt;ModelApiResponse&gt;
    */
   @retrofit2.http.Multipart
   @POST("fake/{petId}/uploadImageWithRequiredFile")
   Observable<ModelApiResponse> uploadFileWithRequiredFile(
-    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part("requiredFile") MultipartBody.Part requiredFile, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
+    @retrofit2.http.Path("petId") Long petId, @retrofit2.http.Part MultipartBody.Part requiredFile, @retrofit2.http.Part("additionalMetadata") String additionalMetadata
   );
 
 }

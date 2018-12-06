@@ -800,8 +800,8 @@ public class PetApi {
     /**
      * Build call for updatePetWithForm
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
@@ -874,8 +874,8 @@ public class PetApi {
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
@@ -886,8 +886,8 @@ public class PetApi {
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -900,8 +900,8 @@ public class PetApi {
      * Updates a pet in the store with form data (asynchronously)
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -934,8 +934,8 @@ public class PetApi {
     /**
      * Build call for uploadFile
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
@@ -1008,8 +1008,8 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @return ModelApiResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -1022,8 +1022,8 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @return ApiResponse&lt;ModelApiResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -1037,8 +1037,8 @@ public class PetApi {
      * uploads an image (asynchronously)
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1073,7 +1073,7 @@ public class PetApi {
      * Build call for uploadFileWithRequiredFile
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
@@ -1152,7 +1152,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @return ModelApiResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -1166,7 +1166,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @return ApiResponse&lt;ModelApiResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
@@ -1181,7 +1181,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object

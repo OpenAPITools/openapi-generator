@@ -15,10 +15,10 @@ import javax.validation.constraints.*;
 
 public class Model200Response   {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("class")
-  private String propertyClass = null;
+  private String propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -28,7 +28,7 @@ public class Model200Response   {
   /**
    * Get name
    * @return name
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -48,7 +48,7 @@ public class Model200Response   {
   /**
    * Get propertyClass
    * @return propertyClass
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

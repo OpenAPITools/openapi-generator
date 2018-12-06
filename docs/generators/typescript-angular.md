@@ -55,4 +55,7 @@ CONFIG OPTIONS for typescript-angular
 	modelFileSuffix
 	    The suffix of the file of the generated model (model<suffix>.ts). Default is ''.
 
+	fileNaming
+	    Naming convention for the output files: 'camelCase', 'kebab-case'. Default is 'camelCase'.
+
 Back to the [generators list](README.md)

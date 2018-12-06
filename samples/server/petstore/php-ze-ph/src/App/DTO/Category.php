@@ -15,7 +15,7 @@ class Category
      */
     public $id;
     /**
-     * @DTA\Data(field="name", nullable=true)
+     * @DTA\Data(field="name")
      * @DTA\Validator(name="Type", options={"type":"string"})
      * @var string
      */

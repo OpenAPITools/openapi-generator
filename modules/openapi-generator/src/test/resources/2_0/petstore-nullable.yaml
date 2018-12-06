@@ -361,6 +361,7 @@ paths:
           description: ID of the order that needs to be deleted
           required: true
           type: string
+          x-example: orderid123
       responses:
         '400':
           description: Invalid ID supplied

@@ -362,8 +362,8 @@ public class PetApi {
    * Updates a pet in the store with form data
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
@@ -375,8 +375,8 @@ public class PetApi {
    * Updates a pet in the store with form data
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
@@ -422,8 +422,8 @@ if (status != null)
    * uploads an image
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
@@ -435,8 +435,8 @@ if (status != null)
    * uploads an image
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
@@ -484,7 +484,7 @@ if (file != null)
    * 
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
@@ -497,7 +497,7 @@ if (file != null)
    * 
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */

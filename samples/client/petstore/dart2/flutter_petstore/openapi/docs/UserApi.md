@@ -166,7 +166,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | 
+ **username** | **String**| The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -207,7 +207,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 
@@ -249,8 +249,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | 
- **password** | **String**| The password for login in clear text | 
+ **username** | **String**| The user name for login | [default to null]
+ **password** | **String**| The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -329,7 +329,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
+ **username** | **String**| name that need to be deleted | [default to null]
  **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type

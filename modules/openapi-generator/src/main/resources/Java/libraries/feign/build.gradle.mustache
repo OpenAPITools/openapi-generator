@@ -119,7 +119,8 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    jackson_version = "2.8.7"
+    jackson_version = "2.8.11"
+    jackson_databind_version = "2.8.11.2"
     {{#threetenbp}}
     threepane_version = "2.6.4"
     {{/threetenbp}}
@@ -137,7 +138,7 @@ dependencies {
     compile "io.github.openfeign.form:feign-form:$feign_form_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}

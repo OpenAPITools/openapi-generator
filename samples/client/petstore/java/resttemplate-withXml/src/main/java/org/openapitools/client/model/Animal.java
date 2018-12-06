@@ -42,7 +42,7 @@ public class Animal {
   @JsonProperty("className")
   @JacksonXmlProperty(localName = "className")
   @XmlElement(name = "className")
-  private String className = null;
+  private String className;
 
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")

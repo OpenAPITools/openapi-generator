@@ -273,16 +273,16 @@ public class FakeApiImpl implements FakeApi {
      * @param _double None (required)
      * @param patternWithoutDelimiter None (required)
      * @param _byte None (required)
-     * @param integer None (optional, default to null)
-     * @param int32 None (optional, default to null)
-     * @param int64 None (optional, default to null)
-     * @param _float None (optional, default to null)
-     * @param string None (optional, default to null)
-     * @param binary None (optional, default to null)
-     * @param date None (optional, default to null)
-     * @param dateTime None (optional, default to null)
-     * @param password None (optional, default to null)
-     * @param paramCallback None (optional, default to null)
+     * @param integer None (optional)
+     * @param int32 None (optional)
+     * @param int64 None (optional)
+     * @param _float None (optional)
+     * @param string None (optional)
+     * @param binary None (optional)
+     * @param date None (optional)
+     * @param dateTime None (optional)
+     * @param password None (optional)
+     * @param paramCallback None (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
@@ -348,9 +348,9 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
     /**
      * To test enum parameters
      * To test enum parameters
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
      * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
      * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
      * @param enumQueryInteger Query parameter enum test (double) (optional)
      * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -389,6 +389,65 @@ if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormS
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param requiredStringGroup Required String in group parameters (required)
+     * @param requiredBooleanGroup Required Boolean in group parameters (required)
+     * @param requiredInt64Group Required Integer in group parameters (required)
+     * @param stringGroup String in group parameters (optional)
+     * @param booleanGroup Boolean in group parameters (optional)
+     * @param int64Group Integer in group parameters (optional)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = null;
+        
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters"));
+            return;
+        }
+        
+        // verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters"));
+            return;
+        }
+        
+        // verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_string_group", requiredStringGroup));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_int64_group", requiredInt64Group));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "string_group", stringGroup));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "int64_group", int64Group));
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        if (requiredBooleanGroup != null)
+        localVarHeaderParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
+if (booleanGroup != null)
+        localVarHeaderParams.add("boolean_group", apiClient.parameterToString(booleanGroup));
+
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
     }
     /**
      * test inline additionalProperties

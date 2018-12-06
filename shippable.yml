@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-- oraclejdk8 
+- oraclejdk10
 
 build:
   cache: true
@@ -10,7 +10,8 @@ build:
     - $HOME/.stack
     - $SHIPPABLE_REPO_DIR/samples/client/petstore/elixir/deps
   ci:
-    - mvn --quiet clean install
+    - java -version
+    - mvn --quiet clean install -Dmaven.javadoc.skip=true
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
     # prepare environment for tests
@@ -43,3 +44,5 @@ build:
     - ./bin/openapi3/run-all-petstore
     # generate test scripts
     - ./bin/tests/run-all-test
+    # test all generators with fake petstore spec (2.0, 3.0)
+    - ./bin/utils/test-fake-petstore-for-all.sh

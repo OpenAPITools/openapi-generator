@@ -26,6 +26,7 @@
 
 #include <memory>
 #include <vector>
+#include <functional>
 
 #include <cpprest/details/basic_types.h>
 #include <cpprest/http_client.h>
@@ -42,6 +43,11 @@ class  ApiClient
 public:
     ApiClient( std::shared_ptr<ApiConfiguration> configuration = nullptr );
     virtual ~ApiClient();
+
+    typedef std::function<void(web::http::status_code, const web::http::http_headers&)> ResponseHandlerType;
+
+    const ResponseHandlerType& getResponseHandler() const;
+    void setResponseHandler(const ResponseHandlerType& responseHandler);
 
     std::shared_ptr<ApiConfiguration> getConfiguration() const;
     void setConfiguration(std::shared_ptr<ApiConfiguration> configuration);
@@ -68,6 +74,7 @@ public:
 
 protected:
 
+    ResponseHandlerType m_ResponseHandler;
     std::shared_ptr<ApiConfiguration> m_Configuration;
 };
 

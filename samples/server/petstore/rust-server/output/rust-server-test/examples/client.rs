@@ -19,7 +19,11 @@ use tokio_core::reactor;
 #[allow(unused_imports)]
 use rust_server_test::{ApiNoContext, ContextWrapperExt,
                       ApiError,
-                      DummyGetResponse
+                      DummyGetResponse,
+                      DummyPutResponse,
+                      FileResponseGetResponse,
+                      HtmlPostResponse,
+                      RawJsonGetResponse
                      };
 use clap::{App, Arg};
 
@@ -29,6 +33,10 @@ fn main() {
             .help("Sets the operation to run")
             .possible_values(&[
     "DummyGet",
+    "DummyPut",
+    "FileResponseGet",
+    "HtmlPost",
+    "RawJsonGet",
 ])
             .required(true)
             .index(1))
@@ -64,13 +72,33 @@ fn main() {
     };
 
     let context: make_context_ty!(ContextBuilder, EmptyContext, Option<AuthData>, XSpanIdString) =
-        make_context!(ContextBuilder, EmptyContext, None, XSpanIdString(self::uuid::Uuid::new_v4().to_string()));
+        make_context!(ContextBuilder, EmptyContext, None as Option<AuthData>, XSpanIdString(self::uuid::Uuid::new_v4().to_string()));
     let client = client.with_context(context);
 
     match matches.value_of("operation") {
 
         Some("DummyGet") => {
             let result = core.run(client.dummy_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("DummyPut") => {
+            let result = core.run(client.dummy_put(None));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("FileResponseGet") => {
+            let result = core.run(client.file_response_get());
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("HtmlPost") => {
+            let result = core.run(client.html_post("body_example".to_string()));
+            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+         },
+
+        Some("RawJsonGet") => {
+            let result = core.run(client.raw_json_get());
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

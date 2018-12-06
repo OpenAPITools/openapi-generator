@@ -24,6 +24,7 @@
 #include "Order.h"
 #include <map>
 #include <cpprest/details/basic_types.h>
+#include "../ModelBase.h"
 
 #include <boost/optional.hpp>
 

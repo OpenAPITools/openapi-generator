@@ -28,14 +28,12 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -155,8 +153,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("DART_FMT_PATH"))) {
-            LOGGER.info("Environment variable DART_FMT_PATH not defined so the Dart code may not be properly formatted. To define it, try 'export DART_FMT_PATH=/usr/local/bin/dartfmt' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(BROWSER_CLIENT)) {
@@ -203,7 +202,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("modelDocPath", modelDocPath);
 
         final Object isSupportDart2 = additionalProperties.get(SUPPORT_DART2);
-        if (Boolean.FALSE.equals(isSupportDart2) || (isSupportDart2 instanceof String && !Boolean.parseBoolean((String)isSupportDart2))) {
+        if (Boolean.FALSE.equals(isSupportDart2) || (isSupportDart2 instanceof String && !Boolean.parseBoolean((String) isSupportDart2))) {
             // dart 1.x
             LOGGER.info("Dart version: 1.x");
             supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
@@ -318,6 +317,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+            }
             return schema.getDefault().toString();
         } else {
             return "null";
@@ -517,9 +519,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        String dartFmtPath = System.getenv("DART_FMT_PATH");
-        if (StringUtils.isEmpty(dartFmtPath)) {
-            return; // skip if DART_FMT_PATH env variable is not defined
+        String dartPostProcessFile = System.getenv("DART_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(dartPostProcessFile)) {
+            return; // skip if DART_POST_PROCESS_FILE env variable is not defined
         }
 
         // only procees the following type (or we can simply rely on the file extension to check if it's a Dart file)
@@ -534,20 +536,21 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return;
         }
 
-         // only process files with dart extension
+        // only process files with dart extension
         if ("dart".equals(FilenameUtils.getExtension(file.toString()))) {
             // currently only support "dartfmt -w yourcode.dart"
-            String command = dartFmtPath + " -w " + file.toString();
+            String command = dartPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
                 }
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
 }

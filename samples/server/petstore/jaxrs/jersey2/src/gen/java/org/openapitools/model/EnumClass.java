@@ -16,6 +16,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonValue;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

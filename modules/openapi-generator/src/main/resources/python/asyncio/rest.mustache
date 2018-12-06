@@ -39,28 +39,26 @@ class RESTClientObject(object):
     def __init__(self, configuration, pools_size=4, maxsize=4):
         # maxsize is number of requests to host that are allowed in parallel
 
-        if configuration.verify_ssl:
-
-            # ca_certs
-            if configuration.ssl_ca_cert:
-                ca_certs = configuration.ssl_ca_cert
-            else:
-                # if not set certificate file, use Mozilla's root certificates.
-                ca_certs = certifi.where()
-
-            ssl_context = ssl.create_default_context(cafile=ca_certs)
-
-            if configuration.cert_file:
-                ssl_context.load_cert_chain(
-                    configuration.cert_file, keyfile=configuration.key_file
-                )
+        # ca_certs
+        if configuration.ssl_ca_cert:
+            ca_certs = configuration.ssl_ca_cert
         else:
-            ssl_context = None
+            # if not set certificate file, use Mozilla's root certificates.
+            ca_certs = certifi.where()
+
+        ssl_context = ssl.create_default_context(cafile=ca_certs)
+        if configuration.cert_file:
+            ssl_context.load_cert_chain(
+                configuration.cert_file, keyfile=configuration.key_file
+            )
+
+        if not configuration.verify_ssl:
+            ssl_context.check_hostname = False
+            ssl_context.verify_mode = ssl.CERT_NONE
 
         connector = aiohttp.TCPConnector(
             limit=maxsize,
-            ssl_context=ssl_context,
-            verify_ssl=configuration.verify_ssl
+            ssl_context=ssl_context
         )
 
         # https pool manager

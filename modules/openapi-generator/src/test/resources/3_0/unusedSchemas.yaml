@@ -233,6 +233,36 @@ paths:
             text/plain:
               schema:
                 $ref: '#/components/schemas/SomeObj20'
+  /some/p21:
+    post:
+      operationId: op21
+      parameters:
+        - name: callbackUrl
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+            example: https://some-server.com
+      responses:
+        '201':
+          description: OK
+      callbacks:
+        onPing:
+          '{$request.query.callbackUrl}/ping':
+            post:
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/PingDataInput21'
+              responses:
+                '200':
+                  description: Ok
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/PingDataOutput21'
 components:
   schemas:
     UnusedObj1:
@@ -463,6 +493,20 @@ components:
     OtherObj20:
       type: string
       enum: [A, B, C]
+    PingDataInput21:
+      type: object
+      properties:
+        id:
+          type: integer
+        data:
+          type: String
+    PingDataOutput21:
+      type: object
+      properties:
+        id:
+          type: integer
+        reply:
+          type: String
     SomeObjShared:
       type: object
       properties:
@@ -516,3 +560,4 @@ components:
       in: query
       schema:
         $ref: '#/components/schemas/SomeObj11'
+  

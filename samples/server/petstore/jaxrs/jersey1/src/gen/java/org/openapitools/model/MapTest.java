@@ -22,8 +22,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.StringBooleanMap;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * MapTest
@@ -71,7 +71,7 @@ public class MapTest   {
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
-  private StringBooleanMap indirectMap = null;
+  private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -92,6 +92,7 @@ public class MapTest   {
    **/
   @JsonProperty("map_map_of_string")
   @ApiModelProperty(value = "")
+  @Valid
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -119,6 +120,7 @@ public class MapTest   {
    **/
   @JsonProperty("map_of_enum_string")
   @ApiModelProperty(value = "")
+  
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -146,6 +148,7 @@ public class MapTest   {
    **/
   @JsonProperty("direct_map")
   @ApiModelProperty(value = "")
+  
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -154,8 +157,16 @@ public class MapTest   {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
+    return this;
+  }
+
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<String, Boolean>();
+    }
+    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 
@@ -165,11 +176,12 @@ public class MapTest   {
    **/
   @JsonProperty("indirect_map")
   @ApiModelProperty(value = "")
-  public StringBooleanMap getIndirectMap() {
+  
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

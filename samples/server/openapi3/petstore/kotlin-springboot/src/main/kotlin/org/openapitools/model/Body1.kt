@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty
 data class Body1 (
 
         @ApiModelProperty(value = "Additional data to pass to server")
-        @JsonProperty("additionalMetadata") val additionalMetadata: kotlin.String? = null,
+        @JsonProperty("additionalMetadata") val additionalMetadata: String? = null,
 
         @ApiModelProperty(value = "file to upload")
         @JsonProperty("file") val file: java.io.File? = null

@@ -24,6 +24,7 @@
 #include "User.h"
 #include <vector>
 #include <cpprest/details/basic_types.h>
+#include "../ModelBase.h"
 
 #include <boost/optional.hpp>
 

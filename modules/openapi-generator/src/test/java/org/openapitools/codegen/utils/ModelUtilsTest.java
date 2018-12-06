@@ -19,7 +19,11 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.IntegerSchema;
+import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -40,7 +44,7 @@ public class ModelUtilsTest {
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        Assert.assertEquals(allUsedSchemas.size(), 28);
+        Assert.assertEquals(allUsedSchemas.size(), 30);
 
         Assert.assertTrue(allUsedSchemas.contains("SomeObjShared"), "contains 'SomeObjShared'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj1"), "contains 'UnusedObj1'");
@@ -70,6 +74,8 @@ public class ModelUtilsTest {
         Assert.assertTrue(allUsedSchemas.contains("Obj19ByType"), "contains 'Obj19ByType'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj20"), "contains 'SomeObj20'");
         Assert.assertTrue(allUsedSchemas.contains("OtherObj20"), "contains 'OtherObj20'");
+        Assert.assertTrue(allUsedSchemas.contains("PingDataInput21"), "contains 'PingDataInput21'");
+        Assert.assertTrue(allUsedSchemas.contains("PingDataOutput21"), "contains 'PingDataOutput21'");
     }
 
     @Test

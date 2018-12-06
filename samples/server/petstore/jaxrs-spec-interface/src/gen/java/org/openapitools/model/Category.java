@@ -16,8 +16,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Category  implements Serializable {
   
-  private @Valid Long id = null;
-  private @Valid String name = null;
+  private @Valid Long id;
+  private @Valid String name = "default-name";
 
   /**
    **/
@@ -44,8 +44,9 @@ public class Category  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
+  @NotNull
   public String getName() {
     return name;
   }

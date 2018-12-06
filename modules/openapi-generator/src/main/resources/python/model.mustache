@@ -64,8 +64,13 @@ class {{classname}}(object):
         self.{{name}} = {{name}}
 {{/required}}
 {{^required}}
+{{#isNullable}}
+        self.{{name}} = {{name}}
+{{/isNullable}}
+{{^isNullable}}
         if {{name}} is not None:
             self.{{name}} = {{name}}
+{{/isNullable}}
 {{/required}}
 {{/vars}}
 
@@ -94,10 +99,12 @@ class {{classname}}(object):
         :param {{name}}: The {{name}} of this {{classname}}.  # noqa: E501
         :type: {{dataType}}
         """
+{{^isNullable}}
 {{#required}}
         if {{name}} is None:
             raise ValueError("Invalid value for `{{name}}`, must not be `None`")  # noqa: E501
 {{/required}}
+{{/isNullable}}
 {{#isEnum}}
 {{#isContainer}}
         allowed_values = [{{#allowableValues}}{{#values}}{{#items.isString}}"{{/items.isString}}{{{this}}}{{#items.isString}}"{{/items.isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
@@ -146,8 +153,8 @@ class {{classname}}(object):
             raise ValueError("Invalid value for `{{name}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
 {{/minimum}}
 {{#pattern}}
-        if {{name}} is not None and not re.search('{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
-            raise ValueError("Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")  # noqa: E501
+        if {{name}} is not None and not re.search(r'{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
+            raise ValueError(r"Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")  # noqa: E501
 {{/pattern}}
 {{#maxItems}}
         if {{name}} is not None and len({{name}}) > {{maxItems}}:

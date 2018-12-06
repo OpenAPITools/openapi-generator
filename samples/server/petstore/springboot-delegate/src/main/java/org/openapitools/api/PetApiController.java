@@ -39,11 +39,11 @@ public class PetApiController implements PetApi {
         return delegate.deletePet(petId, apiKey);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
+    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold", defaultValue = "new ArrayList<String>()") @Valid @RequestParam(value = "status", required = true, defaultValue="new ArrayList<String>()") List<String> status) {
         return delegate.findPetsByStatus(status);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
+    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true, defaultValue = "new ArrayList<String>()") @Valid @RequestParam(value = "tags", required = true, defaultValue="new ArrayList<String>()") List<String> tags) {
         return delegate.findPetsByTags(tags);
     }
 
@@ -55,11 +55,11 @@ public class PetApiController implements PetApi {
         return delegate.updatePet(pet);
     }
 
-    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet", defaultValue="null") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet", defaultValue="null") @RequestParam(value="status", required=false)  String status) {
+    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false)  String status) {
         return delegate.updatePetWithForm(petId, name, status);
     }
 
-    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server", defaultValue="null") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file) {
+    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file) {
         return delegate.uploadFile(petId, additionalMetadata, file);
     }
 

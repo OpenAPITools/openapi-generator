@@ -36,7 +36,7 @@ object {{classname}} {
 {{/operation}}
 
 {{#unknownStatusCodes}}
-  ApiInvoker.addCustomStatusCode({{value}}, isSuccess = false)
+  ApiInvoker.addCustomStatusCode({{{value}}}, isSuccess = false)
 {{/unknownStatusCodes}}
 
 }

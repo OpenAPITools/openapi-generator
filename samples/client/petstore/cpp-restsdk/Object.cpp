@@ -35,7 +35,7 @@ web::json::value Object::toJson() const
     return m_object;
 }
 
-void Object::fromJson(web::json::value& val)
+void Object::fromJson(const web::json::value& val)
 {
     if (val.is_object())
     {

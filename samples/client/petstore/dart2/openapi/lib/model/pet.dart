@@ -49,11 +49,11 @@ class Pet {
         : json.map((value) => new Pet.fromJson(value)).toList();
   }
 
-  static Map<String, Pet> mapFromJson(Map<String, Map<String, dynamic>> json) {
+  static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Pet>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) =>
-          map[key] = new Pet.fromJson(value));
+      json.forEach(
+          (String key, dynamic value) => map[key] = new Pet.fromJson(value));
     }
     return map;
   }

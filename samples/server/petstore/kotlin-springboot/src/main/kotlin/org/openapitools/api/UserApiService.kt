@@ -6,17 +6,17 @@ interface UserApiService {
 
     fun createUser(user: User): Unit
 
-    fun createUsersWithArrayInput(user: kotlin.Array<User>): Unit
+    fun createUsersWithArrayInput(user: List<User>): Unit
 
-    fun createUsersWithListInput(user: kotlin.Array<User>): Unit
+    fun createUsersWithListInput(user: List<User>): Unit
 
-    fun deleteUser(username: kotlin.String): Unit
+    fun deleteUser(username: String): Unit
 
-    fun getUserByName(username: kotlin.String): User
+    fun getUserByName(username: String): User
 
-    fun loginUser(username: kotlin.String,password: kotlin.String): kotlin.String
+    fun loginUser(username: String,password: String): String
 
     fun logoutUser(): Unit
 
-    fun updateUser(username: kotlin.String,user: User): Unit
+    fun updateUser(username: String,user: User): Unit
 }

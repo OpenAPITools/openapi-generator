@@ -25,6 +25,7 @@
 #include "HttpContent.h"
 #include "Pet.h"
 #include <cpprest/details/basic_types.h>
+#include "../ModelBase.h"
 
 #include <boost/optional.hpp>
 

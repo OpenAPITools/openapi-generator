@@ -16,13 +16,13 @@ import org.joda.time.DateTime
 import java.util.UUID
 
 case class Order (
-  id: Option[Long],
-  petId: Option[Long],
-  quantity: Option[Int],
-  shipDate: Option[DateTime],
+  id: Option[Long] = None,
+  petId: Option[Long] = None,
+  quantity: Option[Int] = None,
+  shipDate: Option[DateTime] = None,
   /* Order Status */
-  status: Option[OrderEnums.Status],
-  complete: Option[Boolean]
+  status: Option[OrderEnums.Status] = None,
+  complete: Option[Boolean] = None
 ) extends ApiModel
 
 object OrderEnums {

@@ -119,7 +119,8 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    jackson_version = "2.8.9"
+    jackson_version = "2.8.11"
+    jackson_databind_version = "2.8.11.2"
     google_api_client_version = "1.23.0"
     jersey_common_version = "2.25.1"
     jodatime_version = "2.9.9"
@@ -135,7 +136,7 @@ dependencies {
     compile "org.glassfish.jersey.core:jersey-common:${jersey_common_version}"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     {{#java8}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"

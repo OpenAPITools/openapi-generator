@@ -42,19 +42,13 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
     protected String apiVersion = "1.0.0";
     protected String apiPath = "src";
     protected String packageName = "openapi";
+    protected String openApiSpecName = "openapi";
 
     public ErlangServerCodegen() {
         super();
 
         // set the output folder here
         outputFolder = "generated-code/erlang-server";
-
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        } else {
-            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
-        }
-        ;
 
         /**
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -119,6 +113,27 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang package name (convention: lowercase).")
                 .defaultValue(this.packageName));
+
+        cliOptions.add(new CliOption(CodegenConstants.OPEN_API_SPEC_NAME, "Openapi Spec Name.")
+                .defaultValue(this.openApiSpecName));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.OPEN_API_SPEC_NAME)) {
+            setOpenApiSpecName((String) additionalProperties.get(CodegenConstants.OPEN_API_SPEC_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.OPEN_API_SPEC_NAME, openApiSpecName);
+        }
+
         /**
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -137,7 +152,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("server.mustache", "", toSourceFilePath("server", "erl")));
         supportingFiles.add(new SupportingFile("utils.mustache", "", toSourceFilePath("utils", "erl")));
         supportingFiles.add(new SupportingFile("auth.mustache", "", toSourceFilePath("auth", "erl")));
-        supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath("openapi", "json")));
+        supportingFiles.add(new SupportingFile("openapi.mustache", "", toPrivFilePath(this.openApiSpecName, "json")));
         supportingFiles.add(new SupportingFile("default_logic_handler.mustache", "", toSourceFilePath("default_logic_handler", "erl")));
         supportingFiles.add(new SupportingFile("logic_handler.mustache", "", toSourceFilePath("logic_handler", "erl")));
         writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
@@ -254,6 +269,10 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public void setOpenApiSpecName(String openApiSpecName) {
+        this.openApiSpecName = openApiSpecName;
     }
 
     protected String toHandlerName(String name) {

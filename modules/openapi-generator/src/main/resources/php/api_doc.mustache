@@ -21,31 +21,45 @@ Method | HTTP request | Description
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
-{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
-{{/isBasic}}{{#isApiKey}}
+{{/isBasic}}
+{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'Bearer');{{/isApiKey}}{{#isOAuth}}
+// $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'Bearer');
+{{/isApiKey}}
+{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
-$config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');{{/isOAuth}}{{/authMethods}}
-{{/hasAuthMethods}}
+$config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+{{/isOAuth}}
+{{/authMethods}}
 
+{{/hasAuthMethods}}
 $apiInstance = new {{invokerPackage}}\Api\{{classname}}(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(){{#hasAuthMethods}},
     $config{{/hasAuthMethods}}
 );
+{{^vendorExtensions.x-group-parameters}}
 {{#allParams}}${{paramName}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
+{{/vendorExtensions.x-group-parameters}}
+{{#vendorExtensions.x-group-parameters}}
+{{#allParams}}$associate_array['{{paramName}}'] = {{{example}}}; // {{{dataType}}} | {{{description}}}
+{{/allParams}}
+{{/vendorExtensions.x-group-parameters}}
 
 try {
-    {{#returnType}}$result = {{/returnType}}$apiInstance->{{{operationId}}}({{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
+    {{#returnType}}$result = {{/returnType}}$apiInstance->{{{operationId}}}({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associate_array{{/vendorExtensions.x-group-parameters}});{{#returnType}}
     print_r($result);{{/returnType}}
 } catch (Exception $e) {
     echo 'Exception when calling {{classname}}->{{operationId}}: ', $e->getMessage(), PHP_EOL;
@@ -54,6 +68,10 @@ try {
 ```
 
 ### Parameters
+{{#vendorExtensions.x-group-parameters}}
+Note: the input parameter is an associative array with the keys listed as the parameter name below.
+
+{{/vendorExtensions.x-group-parameters}}
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}

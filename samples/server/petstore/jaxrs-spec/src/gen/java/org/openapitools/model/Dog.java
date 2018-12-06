@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Dog extends Animal implements Serializable {
   
-  private @Valid String breed = null;
+  private @Valid String breed;
 
   /**
    **/

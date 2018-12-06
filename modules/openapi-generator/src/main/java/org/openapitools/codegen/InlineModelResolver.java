@@ -500,6 +500,7 @@ public class InlineModelResolver {
         model.setExample(example);
         model.setName(object.getName());
         model.setXml(xml);
+        model.setRequired(object.getRequired());
         if (properties != null) {
             flattenProperties(properties, path);
             model.setProperties(properties);
@@ -545,6 +546,9 @@ public class InlineModelResolver {
 
     public void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
+        if (vendorExtensions == null) {
+             return;
+        }
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));
         }

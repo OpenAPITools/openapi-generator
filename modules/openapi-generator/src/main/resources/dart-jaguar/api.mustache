@@ -1,0 +1,53 @@
+import 'package:jaguar_retrofit/annotations/annotations.dart';
+import 'package:jaguar_retrofit/jaguar_retrofit.dart';
+import 'package:jaguar_serializer/jaguar_serializer.dart';
+import 'package:jaguar_serializer/src/repo/repo.dart';
+import 'dart:async';
+
+{{#operations}}
+{{#modelImports}}import 'package:{{pubName}}/model/{{.}}.dart';
+{{/modelImports}}
+
+
+part '{{classFilename}}.jretro.dart';
+
+@GenApiClient()
+class {{classname}} extends _${{classname}}Client implements ApiClient {
+    final Route base;
+    final SerializerRepo serializers;
+
+    {{classname}}({this.base, this.serializers});
+
+    {{#operation}}
+    /// {{summary}}
+    ///
+    /// {{notes}}
+    @{{httpMethod}}Req(path: "{{path}}"{{#hasAuthMethods}}, metadata: {"auth": [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}]}{{/hasAuthMethods}})
+    Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{nickname}}(
+    {{#pathParams}}
+            @PathParam("{{baseName}}") {{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/pathParams}}
+    {{#headerParams}}
+        {{#-first}}{{#hasPathParams}},{{/hasPathParams}}{{/-first}}
+        @Header("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/headerParams}}
+    {{#queryParams}}
+        {{#-first}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/-first}}
+        @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/queryParams}}
+    {{#vendorExtensions}}
+    {{#formParams}}
+        {{#-first}}{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/-first}}
+        {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsFormField() {{/isForm}}{{#isMultipart}}@AsMultipartField() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/formParams}}
+    {{#bodyParam}}
+        {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
+        {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/bodyParam}}
+    {{/vendorExtensions}}
+    );
+
+  {{/operation}}
+
+}
+{{/operations}}

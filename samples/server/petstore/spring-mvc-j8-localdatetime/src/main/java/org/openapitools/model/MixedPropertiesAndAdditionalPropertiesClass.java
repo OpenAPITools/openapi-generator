@@ -20,10 +20,10 @@ import javax.validation.constraints.*;
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
-  private LocalDateTime dateTime = null;
+  private LocalDateTime dateTime;
 
   @JsonProperty("map")
   @Valid
@@ -37,7 +37,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   /**
    * Get uuid
    * @return uuid
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -58,7 +58,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   /**
    * Get dateTime
    * @return dateTime
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -87,7 +87,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
   /**
    * Get map
    * @return map
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

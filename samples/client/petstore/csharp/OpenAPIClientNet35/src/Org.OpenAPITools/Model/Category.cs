@@ -33,12 +33,25 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Category() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Category" /> class.
+        /// </summary>
         /// <param name="id">id.</param>
-        /// <param name="name">name.</param>
-        public Category(long? id = default(long?), string name = default(string))
+        /// <param name="name">name (required) (default to &quot;default-name&quot;).</param>
+        public Category(long? id = default(long?), string name = "default-name")
         {
+            // to ensure "name" is required (not null)
+            if (name == null)
+            {
+                throw new InvalidDataException("name is a required property for Category and cannot be null");
+            }
+            else
+            {
+                this.Name = name;
+            }
             this.Id = id;
-            this.Name = name;
         }
         
         /// <summary>

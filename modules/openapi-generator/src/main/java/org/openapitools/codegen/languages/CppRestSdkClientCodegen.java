@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -154,7 +155,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         typeMapping.put("map", "std::map");
         typeMapping.put("file", "HttpContent");
         typeMapping.put("object", "Object");
-        typeMapping.put("binary", "std::string");
+        typeMapping.put("binary", "utility::string_t");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "utility::string_t");
         typeMapping.put("ByteArray", "utility::string_t");
@@ -249,6 +250,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
             if (methodResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
+                response = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), response);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response);
                     op.vendorExtensions.put("x-codegen-response", cm);
@@ -274,6 +276,24 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
                 childrenByParent.put(model.parent, model);
             }
         }
+    }
+
+    // override with any special post-processing
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        for (CodegenOperation op : operationList) {
+            for (String hdr : op.imports) {
+                if (importMapping.containsKey(hdr)) {
+                    continue;
+                }
+                operations.put("hasModelImport", true);
+                break;
+            }
+        }
+        return objs;
     }
 
     protected boolean isFileSchema(CodegenProperty property) {
@@ -391,7 +411,6 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public Map<String, Object> postProcessAllModels(final Map<String, Object> models) {
-
         final Map<String, Object> processed = super.postProcessAllModels(models);
         postProcessParentModels(models);
         return processed;
@@ -412,13 +431,18 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
      */
     private void processParentPropertiesInChildModel(final CodegenModel parent, final CodegenModel child) {
         final Map<String, CodegenProperty> childPropertiesByName = new HashMap<>(child.vars.size());
-        for (final CodegenProperty childSchema : child.vars) {
-            childPropertiesByName.put(childSchema.name, childSchema);
+        if (child != null && child.vars != null && !child.vars.isEmpty()) {
+            for (final CodegenProperty childSchema : child.vars) {
+                childPropertiesByName.put(childSchema.name, childSchema);
+            }
         }
-        for (final CodegenProperty parentSchema : parent.vars) {
-            final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentSchema.name);
-            if (duplicatedByParent != null) {
-                duplicatedByParent.isInherited = true;
+
+        if (parent != null && parent.vars != null && !parent.vars.isEmpty()) {
+            for (final CodegenProperty parentSchema : parent.vars) {
+                final CodegenProperty duplicatedByParent = childPropertiesByName.get(parentSchema.name);
+                if (duplicatedByParent != null) {
+                    duplicatedByParent.isInherited = true;
+                }
             }
         }
     }

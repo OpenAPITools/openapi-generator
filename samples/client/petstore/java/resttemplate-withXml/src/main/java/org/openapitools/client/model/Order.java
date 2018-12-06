@@ -35,22 +35,22 @@ public class Order {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
   @JacksonXmlProperty(localName = "petId")
   @XmlElement(name = "petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
   @JacksonXmlProperty(localName = "quantity")
   @XmlElement(name = "quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
   @JacksonXmlProperty(localName = "shipDate")
   @XmlElement(name = "shipDate")
-  private OffsetDateTime shipDate = null;
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -92,7 +92,7 @@ public class Order {
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   @JacksonXmlProperty(localName = "complete")

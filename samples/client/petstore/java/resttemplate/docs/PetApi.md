@@ -141,7 +141,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-List<String> status = Arrays.asList("status_example"); // List<String> | Status values that need to be considered for filter
+List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
 try {
     List<Pet> result = apiInstance.findPetsByStatus(status);
     System.out.println(result);
@@ -194,7 +194,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-List<String> tags = Arrays.asList("tags_example"); // List<String> | Tags to filter by
+List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
 try {
     List<Pet> result = apiInstance.findPetsByTags(tags);
     System.out.println(result);
@@ -351,8 +351,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet that needs to be updated
-String name = "null"; // String | Updated name of the pet
-String status = "null"; // String | Updated status of the pet
+String name = "name_example"; // String | Updated name of the pet
+String status = "status_example"; // String | Updated status of the pet
 try {
     apiInstance.updatePetWithForm(petId, name, status);
 } catch (ApiException e) {
@@ -366,8 +366,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **name** | **String**| Updated name of the pet | [optional]
+ **status** | **String**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -405,8 +405,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-String additionalMetadata = "null"; // String | Additional data to pass to server
-File file = new File("null"); // File | file to upload
+String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+File file = new File("/path/to/file"); // File | file to upload
 try {
     ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);
@@ -421,8 +421,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **File**| file to upload | [optional] [default to null]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
+ **file** | **File**| file to upload | [optional]
 
 ### Return type
 
@@ -460,8 +460,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-File requiredFile = new File("null"); // File | file to upload
-String additionalMetadata = "null"; // String | Additional data to pass to server
+File requiredFile = new File("/path/to/file"); // File | file to upload
+String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
 try {
     ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     System.out.println(result);
@@ -476,8 +476,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **requiredFile** | **File**| file to upload | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **requiredFile** | **File**| file to upload |
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
 
 ### Return type
 

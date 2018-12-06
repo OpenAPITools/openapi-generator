@@ -27,11 +27,10 @@ class Category {
         : json.map((value) => new Category.fromJson(value)).toList();
   }
 
-  static Map<String, Category> mapFromJson(
-      Map<String, Map<String, dynamic>> json) {
+  static Map<String, Category> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Category>();
     if (json != null && json.length > 0) {
-      json.forEach((String key, Map<String, dynamic> value) =>
+      json.forEach((String key, dynamic value) =>
           map[key] = new Category.fromJson(value));
     }
     return map;

@@ -34,42 +34,42 @@ public class User {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("username")
   @JacksonXmlProperty(localName = "username")
   @XmlElement(name = "username")
-  private String username = null;
+  private String username;
 
   @JsonProperty("firstName")
   @JacksonXmlProperty(localName = "firstName")
   @XmlElement(name = "firstName")
-  private String firstName = null;
+  private String firstName;
 
   @JsonProperty("lastName")
   @JacksonXmlProperty(localName = "lastName")
   @XmlElement(name = "lastName")
-  private String lastName = null;
+  private String lastName;
 
   @JsonProperty("email")
   @JacksonXmlProperty(localName = "email")
   @XmlElement(name = "email")
-  private String email = null;
+  private String email;
 
   @JsonProperty("password")
   @JacksonXmlProperty(localName = "password")
   @XmlElement(name = "password")
-  private String password = null;
+  private String password;
 
   @JsonProperty("phone")
   @JacksonXmlProperty(localName = "phone")
   @XmlElement(name = "phone")
-  private String phone = null;
+  private String phone;
 
   @JsonProperty("userStatus")
   @JacksonXmlProperty(localName = "userStatus")
   @XmlElement(name = "userStatus")
-  private Integer userStatus = null;
+  private Integer userStatus;
 
   public User id(Long id) {
     this.id = id;

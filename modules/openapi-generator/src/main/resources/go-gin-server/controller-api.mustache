@@ -1,0 +1,14 @@
+{{>partial_header}}
+package {{packageName}}
+
+{{#operations}}
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+){{#operation}}
+
+// {{nickname}} - {{{summary}}}
+func {{nickname}}(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{})
+}{{/operation}}{{/operations}}

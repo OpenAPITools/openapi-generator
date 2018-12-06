@@ -29,13 +29,13 @@ import javax.validation.Valid;
 
 public class ModelApiResponse {
   @JsonProperty("code")
-  private Integer code = null;
+  private Integer code;
 
   @JsonProperty("type")
-  private String type = null;
+  private String type;
 
   @JsonProperty("message")
-  private String message = null;
+  private String message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;

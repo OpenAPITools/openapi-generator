@@ -35,22 +35,22 @@ public class Name {
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("snake_case")
   @JacksonXmlProperty(localName = "snake_case")
   @XmlElement(name = "snake_case")
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   @JsonProperty("property")
   @JacksonXmlProperty(localName = "property")
   @XmlElement(name = "property")
-  private String property = null;
+  private String property;
 
   @JsonProperty("123Number")
   @JacksonXmlProperty(localName = "123Number")
   @XmlElement(name = "123Number")
-  private Integer _123number = null;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;

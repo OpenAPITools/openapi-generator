@@ -1,0 +1,9 @@
+import 'package:jaguar_serializer/jaguar_serializer.dart';
+
+{{#models}}
+{{#model}}
+{{#imports}}import 'package:{{pubName}}/model/{{.}}.dart';
+{{/imports}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+{{/model}}
+{{/models}}

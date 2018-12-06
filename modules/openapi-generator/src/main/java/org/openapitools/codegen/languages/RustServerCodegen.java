@@ -176,10 +176,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME,
                 "Rust crate name (convention: snake_case).")
-                .defaultValue("swagger_client"));
+                .defaultValue("openapi_client"));
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION,
-                "Rust crate version.")
-                .defaultValue("1.0.0"));
+                "Rust crate version."));
 
         /*
          * Additional Properties.  These values can be passed to the templates and
@@ -220,13 +219,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
-            setPackageName("swagger_client");
+            setPackageName("openapi_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else {
-            setPackageVersion("1.0.0");
         }
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -478,6 +475,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("text/plain");
     }
 
+    boolean isMimetypeHtmlText(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith("text/html");
+    }
+
     boolean isMimetypeWwwFormUrlEncoded(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded");
     }
@@ -548,6 +549,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     consumesXml = true;
                 } else if (isMimetypePlainText(mimeType)) {
                     consumesPlainText = true;
+                } else if (isMimetypeHtmlText(mimeType)) {
+                    consumesPlainText = true;
                 } else if (isMimetypeWwwFormUrlEncoded(mimeType)) {
                     additionalProperties.put("usesUrlEncodedForm", true);
                 }
@@ -573,6 +576,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.put("usesXml", true);
                     producesXml = true;
                 } else if (isMimetypePlainText(mimeType)) {
+                    producesPlainText = true;
+                } else if (isMimetypeHtmlText(mimeType)) {
                     producesPlainText = true;
                 }
 
@@ -617,6 +622,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     rsp.vendorExtensions.put("producesPlainText", true);
                 } else {
                     rsp.vendorExtensions.put("producesJson", true);
+                    // If the data type is just "object", then ensure that the Rust data type
+                    // is "serde_json::Value".  This allows us to define APIs that
+                    // can return arbitrary JSON bodies.
+                    if (rsp.dataType.equals("object")) {
+                        rsp.dataType = "serde_json::Value";
+                    }
                 }
 
                 Schema response = (Schema) rsp.schema;
@@ -666,7 +677,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         if (isMimetypeXml(mediaType)) {
                             additionalProperties.put("usesXml", true);
                             consumesXml = true;
-                        } else if (isMimetypePlainText(mediaType)) {
+                        } else if (isMimetypePlainText(mediaType) || isMimetypeHtmlText(mediaType)) {
                             consumesPlainText = true;
                         } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
                             additionalProperties.put("usesUrlEncodedForm", true);

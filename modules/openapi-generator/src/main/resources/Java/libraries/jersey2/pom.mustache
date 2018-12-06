@@ -13,6 +13,13 @@
         <developerConnection>{{scmDeveloperConnection}}</developerConnection>
         <url>{{scmUrl}}</url>
     </scm>
+{{#parentOverridden}}
+    <parent>
+        <groupId>{{{parentGroupId}}}</groupId>
+        <artifactId>{{{parentArtifactId}}}</artifactId>
+        <version>{{{parentVersion}}}</version>
+    </parent>
+{{/parentOverridden}}
 
     <licenses>
         <license>
@@ -244,7 +251,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-version}</version>
+            <version>${jackson-databind-version}</version>
         </dependency>
         {{#withXml}}
 
@@ -325,7 +332,8 @@
         <commons_io_version>2.5</commons_io_version>
         <commons_lang3_version>3.6</commons_lang3_version>
         {{/supportJava6}}
-        <jackson-version>2.8.9</jackson-version>
+        <jackson-version>2.8.11</jackson-version>
+        <jackson-databind-version>2.8.11.2</jackson-databind-version>
         {{#threetenbp}}
         <threetenbp-version>2.6.4</threetenbp-version>
         {{/threetenbp}}

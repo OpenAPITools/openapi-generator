@@ -54,7 +54,6 @@ function pet_api:add_pet(pet)
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "application/json", "application/xml" }
 	req.headers:upsert("accept", "application/json")
 
@@ -132,7 +131,6 @@ function pet_api:find_pets_by_status(status)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -185,7 +183,6 @@ function pet_api:find_pets_by_tags(tags)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -238,7 +235,6 @@ function pet_api:get_pet_by_id(pet_id)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -288,7 +284,6 @@ function pet_api:update_pet(pet)
 	-- set HTTP verb
 	req.headers:upsert(":method", "PUT")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "application/json", "application/xml" }
 	req.headers:upsert("accept", "application/json")
 
@@ -329,7 +324,6 @@ function pet_api:update_pet_with_form(pet_id, name, status)
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "application/x-www-form-urlencoded" }
 	req.headers:upsert("accept", "application/x-www-form-urlencoded")
 
@@ -372,12 +366,10 @@ function pet_api:upload_file(pet_id, additional_metadata, file)
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "multipart/form-data" }
 	req.headers:upsert("accept", "multipart/form-data")
 
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/json" }
 	req.headers:upsert("content-type", "application/json")
 

@@ -53,9 +53,9 @@ components:
     Child:
       description: A representation of a child
       allOf:
-      - $ref: '#/components/schemas/Person'
       - type: object
         properties:
           age:
             type: integer
             format: int32
+      - $ref: '#/components/schemas/Person'

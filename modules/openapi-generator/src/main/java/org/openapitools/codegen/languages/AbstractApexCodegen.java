@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import java.util.*;
+
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
@@ -325,7 +326,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
             }
-            ((ByteArraySchema) p).setExample(example);
+            p.setExample(example);
             example = "EncodingUtil.base64Decode('" + example + "')";
         } else if (ModelUtils.isDateSchema(p)) {
             if (example.matches("^\\d{4}(-\\d{2}){2}")) {

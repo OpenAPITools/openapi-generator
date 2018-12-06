@@ -252,8 +252,8 @@ public class PetApiImpl implements PetApi {
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> resultHandler) {
@@ -290,8 +290,8 @@ if (status != null) localVarFormParams.put("status", status);
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
@@ -329,7 +329,7 @@ if (file != null) localVarFormParams.put("file", file);
      * 
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {

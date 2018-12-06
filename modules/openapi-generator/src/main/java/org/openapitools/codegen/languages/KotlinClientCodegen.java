@@ -31,9 +31,11 @@ import java.util.Map;
 public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String DATE_LIBRARY = "dateLibrary";
+    public static final String COLLECTION_TYPE = "collectionType";
     private static final Logger LOGGER = LoggerFactory.getLogger(KotlinClientCodegen.class);
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
+    protected String collectionType = CollectionType.ARRAY.value;
 
     public enum DateLibrary {
         STRING("string"),
@@ -43,6 +45,17 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         public final String value;
 
         DateLibrary(String value) {
+            this.value = value;
+        }
+    }
+
+    public enum CollectionType {
+        ARRAY("array"),
+        LIST("list");
+
+        public final String value;
+
+        CollectionType(String value) {
             this.value = value;
         }
     }
@@ -74,6 +87,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310");
         dateLibrary.setEnum(dateOptions);
         cliOptions.add(dateLibrary);
+
+        CliOption collectionType = new CliOption(COLLECTION_TYPE, "Option. Collection type to use");
+        Map<String, String> collectionOptions = new HashMap<>();
+        collectionOptions.put(CollectionType.ARRAY.value, "kotlin.Array");
+        collectionOptions.put(CollectionType.LIST.value, "kotlin.collections.List");
+        collectionType.setEnum(collectionOptions);
+        cliOptions.add(collectionType);
     }
 
     public CodegenType getTag() {
@@ -90,6 +110,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setDateLibrary(String library) {
         this.dateLibrary = library;
+    }
+
+    public void setCollectionType(String collectionType) {
+        this.collectionType = collectionType;
     }
 
     @Override
@@ -114,6 +138,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("DateTime", "kotlin.String");
         } else if (DateLibrary.JAVA8.value.equals(dateLibrary)) {
             additionalProperties.put(DateLibrary.JAVA8.value, true);
+        }
+
+        if (additionalProperties.containsKey(COLLECTION_TYPE)) {
+            setCollectionType(additionalProperties.get(COLLECTION_TYPE).toString());
+        }
+
+        if (CollectionType.LIST.value.equals(collectionType)) {
+            typeMapping.put("array", "kotlin.collections.List");
+            typeMapping.put("list", "kotlin.collections.List");
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));

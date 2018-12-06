@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.client.model.StringBooleanMap;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -96,7 +95,7 @@ public class MapTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_INDIRECT_MAP = "indirect_map";
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
-  private StringBooleanMap indirectMap = null;
+  private Map<String, Boolean> indirectMap = null;
 
   public MapTest() {
   }
@@ -178,8 +177,16 @@ public class MapTest implements Parcelable {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
+    return this;
+  }
+
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<String, Boolean>();
+    }
+    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 
@@ -188,11 +195,11 @@ public class MapTest implements Parcelable {
    * @return indirectMap
   **/
   @ApiModelProperty(value = "")
-  public StringBooleanMap getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
@@ -254,7 +261,7 @@ public class MapTest implements Parcelable {
     mapMapOfString = (Map<String, Map<String, String>>)in.readValue(Map.class.getClassLoader());
     mapOfEnumString = (Map<String, InnerEnum>)in.readValue(null);
     directMap = (Map<String, Boolean>)in.readValue(null);
-    indirectMap = (StringBooleanMap)in.readValue(StringBooleanMap.class.getClassLoader());
+    indirectMap = (Map<String, Boolean>)in.readValue(null);
   }
 
   public int describeContents() {

@@ -40,12 +40,12 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @JsonProperty("uuid")
   @JacksonXmlProperty(localName = "uuid")
   @XmlElement(name = "uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
   @JacksonXmlProperty(localName = "dateTime")
   @XmlElement(name = "dateTime")
-  private OffsetDateTime dateTime = null;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("map")
   // Is a container wrapped=false

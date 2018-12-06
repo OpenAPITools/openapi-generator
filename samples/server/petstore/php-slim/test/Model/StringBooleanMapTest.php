@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\StringBooleanMap;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\StringBooleanMap;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\StringBooleanMap
  */
-class StringBooleanMapTest extends \PHPUnit_Framework_TestCase
+class StringBooleanMapTest extends TestCase
 {
 
     /**

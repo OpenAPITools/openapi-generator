@@ -179,7 +179,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be deleted |
+ **username** | **kotlin.String**| The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -224,7 +224,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. |
+ **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 
@@ -270,8 +270,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The user name for login |
- **password** | **kotlin.String**| The password for login in clear text |
+ **username** | **kotlin.String**| The user name for login | [default to null]
+ **password** | **kotlin.String**| The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -358,7 +358,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| name that need to be deleted |
+ **username** | **kotlin.String**| name that need to be deleted | [default to null]
  **user** | [**User**](User.md)| Updated user object |
 
 ### Return type

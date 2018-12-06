@@ -11,6 +11,6 @@ package petstore
 
 type Cat struct {
 	ClassName string `json:"className"`
-	Color     string `json:"color,omitempty"`
-	Declawed  bool   `json:"declawed,omitempty"`
+	Color string `json:"color,omitempty"`
+	Declawed bool `json:"declawed,omitempty"`
 }

@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Order
@@ -29,16 +30,16 @@ import javax.validation.constraints.*;
 
 public class Order  implements Serializable {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private OffsetDateTime shipDate = null;
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -74,7 +75,7 @@ public class Order  implements Serializable {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;
@@ -90,6 +91,7 @@ public class Order  implements Serializable {
    **/
   @JsonProperty("id")
   @ApiModelProperty(value = "")
+  
   public Long getId() {
     return id;
   }
@@ -109,6 +111,7 @@ public class Order  implements Serializable {
    **/
   @JsonProperty("petId")
   @ApiModelProperty(value = "")
+  
   public Long getPetId() {
     return petId;
   }
@@ -128,6 +131,7 @@ public class Order  implements Serializable {
    **/
   @JsonProperty("quantity")
   @ApiModelProperty(value = "")
+  
   public Integer getQuantity() {
     return quantity;
   }
@@ -147,6 +151,7 @@ public class Order  implements Serializable {
    **/
   @JsonProperty("shipDate")
   @ApiModelProperty(value = "")
+  
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
@@ -166,6 +171,7 @@ public class Order  implements Serializable {
    **/
   @JsonProperty("status")
   @ApiModelProperty(value = "Order Status")
+  
   public StatusEnum getStatus() {
     return status;
   }
@@ -185,6 +191,7 @@ public class Order  implements Serializable {
    **/
   @JsonProperty("complete")
   @ApiModelProperty(value = "")
+  
   public Boolean getComplete() {
     return complete;
   }

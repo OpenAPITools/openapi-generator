@@ -41,8 +41,7 @@ class PetApi {
 
     if (response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
-    } else if (response.body != null) {
-    } else {
+    } else if (response.body != null) {} else {
       return;
     }
   }
@@ -86,8 +85,7 @@ class PetApi {
 
     if (response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
-    } else if (response.body != null) {
-    } else {
+    } else if (response.body != null) {} else {
       return;
     }
   }
@@ -267,8 +265,7 @@ class PetApi {
 
     if (response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
-    } else if (response.body != null) {
-    } else {
+    } else if (response.body != null) {} else {
       return;
     }
   }
@@ -322,8 +319,7 @@ class PetApi {
 
     if (response.statusCode >= 400) {
       throw new ApiException(response.statusCode, response.body);
-    } else if (response.body != null) {
-    } else {
+    } else if (response.body != null) {} else {
       return;
     }
   }

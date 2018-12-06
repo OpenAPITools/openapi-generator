@@ -1,6 +1,6 @@
 [package]
 name = "rust-server-test"
-version = "1.0.0"
+version = "2.3.4"
 authors = []
 description = "This spec is for testing rust-server-specific things"
 license = "Unlicense"
@@ -17,7 +17,7 @@ chrono = { version = "0.4", features = ["serde"] }
 futures = "0.1"
 hyper = {version = "0.11", optional = true}
 hyper-tls = {version = "0.1.2", optional = true}
-swagger = "1.0.1"
+swagger = "2"
 
 # Not required by example server.
 #

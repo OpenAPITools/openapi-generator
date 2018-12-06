@@ -32,7 +32,7 @@ import java.io.IOException;
 public class ModelReturn {
   public static final String SERIALIZED_NAME_RETURN = "return";
   @SerializedName(SERIALIZED_NAME_RETURN)
-  private Integer _return = null;
+  private Integer _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;

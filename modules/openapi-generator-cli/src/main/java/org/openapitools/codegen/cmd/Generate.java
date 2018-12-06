@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -208,6 +209,9 @@ public class Generate implements Runnable {
                     + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
+    private Boolean enablePostProcessFile;
+
     @Override
     public void run() {
         if (logToStderr != null) {
@@ -243,6 +247,11 @@ public class Generate implements Runnable {
         }
 
         if (isNotEmpty(spec)) {
+            if (!spec.matches("^http(s)?://.*") && !new File(spec).exists()) {
+                System.err.println("[error] The spec file is not found: " + spec);
+                System.err.println("[error] Check the path of the OpenAPI spec and try again.");
+                System.exit(1);
+            }
             configurator.setInputSpec(spec);
         }
 
@@ -327,6 +336,10 @@ public class Generate implements Runnable {
 
         if (removeOperationIdPrefix != null) {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+        }
+
+        if (enablePostProcessFile != null) {
+            configurator.setEnablePostProcessFile(enablePostProcessFile);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);

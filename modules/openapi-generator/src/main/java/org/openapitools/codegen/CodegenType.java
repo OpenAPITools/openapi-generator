@@ -25,7 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public enum CodegenType {
-    CLIENT, SERVER, DOCUMENTATION, CONFIG, OTHER;
+    CLIENT, SERVER, DOCUMENTATION, SCHEMA, CONFIG, OTHER;
 
     private static Map<String, CodegenType> names = new HashMap<String, CodegenType>();
 
@@ -49,6 +49,7 @@ public enum CodegenType {
         names.put("client", CLIENT);
         names.put("server", SERVER);
         names.put("documentation", DOCUMENTATION);
+        names.put("schema", SCHEMA);
         names.put("other", OTHER);
     }
 }

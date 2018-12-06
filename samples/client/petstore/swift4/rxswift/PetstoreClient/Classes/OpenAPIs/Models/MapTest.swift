@@ -18,9 +18,9 @@ public struct MapTest: Codable {
     public var mapMapOfString: [String:[String:String]]?
     public var mapOfEnumString: [String:String]?
     public var directMap: [String:Bool]?
-    public var indirectMap: StringBooleanMap?
+    public var indirectMap: [String:Bool]?
 
-    public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?, directMap: [String:Bool]?, indirectMap: StringBooleanMap?) {
+    public init(mapMapOfString: [String:[String:String]]?, mapOfEnumString: [String:String]?, directMap: [String:Bool]?, indirectMap: [String:Bool]?) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
         self.directMap = directMap

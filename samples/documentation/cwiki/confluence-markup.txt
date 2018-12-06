@@ -59,13 +59,15 @@ h2. Endpoints
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |petId |Pet id to delete |(/) | |  |
+        |petId |Pet id to delete |(/) |null |  |
 
 
 
         h5. Header Parameters
         ||Name||Description||Required||Default||Pattern||
-        
+        |apiKey | |(x) |null |  |
+
+
 
 
 
@@ -103,7 +105,7 @@ h2. Endpoints
 
         h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
-        |status |Status values that need to be considered for filter |(/) | |  |
+        |status |Status values that need to be considered for filter |(/) |null |  |
 
 
 
@@ -174,7 +176,7 @@ array[Pet]
 
         h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
-        |tags |Tags to filter by |(/) | |  |
+        |tags |Tags to filter by |(/) |null |  |
 
 
 
@@ -242,7 +244,7 @@ array[Pet]
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |petId |ID of pet to return |(/) | |  |
+        |petId |ID of pet to return |(/) |null |  |
 
 
 
@@ -391,7 +393,7 @@ Pet
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |petId |ID of pet that needs to be updated |(/) | |  |
+        |petId |ID of pet that needs to be updated |(/) |null |  |
 
 
 
@@ -430,7 +432,7 @@ Pet
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |petId |ID of pet to update |(/) | |  |
+        |petId |ID of pet to update |(/) |null |  |
 
 
 
@@ -475,7 +477,7 @@ ApiResponse
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |orderId |ID of the order that needs to be deleted |(/) | |  |
+        |orderId |ID of the order that needs to be deleted |(/) |null |  |
 
 
 
@@ -574,7 +576,7 @@ map[String, Integer]
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |orderId |ID of pet that needs to be fetched |(/) | |  |
+        |orderId |ID of pet that needs to be fetched |(/) |null |  |
 
 
 
@@ -836,7 +838,7 @@ Order
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |username |The name that needs to be deleted |(/) | |  |
+        |username |The name that needs to be deleted |(/) |null |  |
 
 
 
@@ -890,7 +892,7 @@ Order
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |username |The name that needs to be fetched. Use user1 for testing. |(/) | |  |
+        |username |The name that needs to be fetched. Use user1 for testing. |(/) |null |  |
 
 
 
@@ -973,9 +975,9 @@ User
 
         h5. Query Parameters
         ||Name||Description||Required||Default||Pattern||
-        |username |The user name for login |(/) | |  |
+        |username |The user name for login |(/) |null |  |
 
-|password |The password for login in clear text |(/) | |  |
+|password |The password for login in clear text |(/) |null |  |
 
 
 
@@ -1088,7 +1090,7 @@ String
     h4. Parameters
         h5. Path Parameters
         ||Name||Description||Required||Default||Pattern||
-        |username |name that need to be deleted |(/) | |  |
+        |username |name that need to be deleted |(/) |null |  |
 
 
         h5. Body Parameter

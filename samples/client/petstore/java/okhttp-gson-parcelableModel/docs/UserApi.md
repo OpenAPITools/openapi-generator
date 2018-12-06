@@ -72,7 +72,7 @@ Creates list of users with given input array
 
 
 UserApi apiInstance = new UserApi();
-List<User> user = Arrays.asList(new List()); // List<User> | List of user object
+List<User> user = Arrays.asList(null); // List<User> | List of user object
 try {
     apiInstance.createUsersWithArrayInput(user);
 } catch (ApiException e) {
@@ -114,7 +114,7 @@ Creates list of users with given input array
 
 
 UserApi apiInstance = new UserApi();
-List<User> user = Arrays.asList(new List()); // List<User> | List of user object
+List<User> user = Arrays.asList(null); // List<User> | List of user object
 try {
     apiInstance.createUsersWithListInput(user);
 } catch (ApiException e) {

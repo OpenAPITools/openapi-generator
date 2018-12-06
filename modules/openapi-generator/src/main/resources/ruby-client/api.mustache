@@ -43,6 +43,7 @@ module {{moduleName}}
         @api_client.config.logger.debug 'Calling API: {{classname}}.{{operationId}} ...'
       end
       {{#allParams}}
+      {{^isNullable}}
       {{#required}}
       # verify the required parameter '{{paramName}}' is set
       if @api_client.config.client_side_validation && {{{paramName}}}.nil?
@@ -57,6 +58,7 @@ module {{moduleName}}
       {{/isContainer}}
       {{/isEnum}}
       {{/required}}
+      {{/isNullable}}
       {{^required}}
       {{#isEnum}}
       {{#collectionFormat}}

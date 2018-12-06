@@ -269,8 +269,8 @@ class FormatTest(object):
         :param string: The string of this FormatTest.  # noqa: E501
         :type: str
         """
-        if string is not None and not re.search('[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
-            raise ValueError("Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
+        if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
+            raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
         self._string = string
 
@@ -294,8 +294,8 @@ class FormatTest(object):
         """
         if byte is None:
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
-        if byte is not None and not re.search('^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$', byte):  # noqa: E501
-            raise ValueError("Invalid value for `byte`, must be a follow pattern or equal to `/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/`")  # noqa: E501
+        if byte is not None and not re.search(r'^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$', byte):  # noqa: E501
+            raise ValueError(r"Invalid value for `byte`, must be a follow pattern or equal to `/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/`")  # noqa: E501
 
         self._byte = byte
 

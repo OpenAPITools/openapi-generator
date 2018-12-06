@@ -20,7 +20,8 @@
         "rewire": "^3.0.2"
     },
     "devDependencies": {
-        "typescript": "^2.4.2"
+        "typescript": "^2.4.2",
+        "@types/node": "8.10.34"
     },
     "publishConfig": {
         "registry": "https://skimdb.npmjs.com/registry"

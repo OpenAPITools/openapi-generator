@@ -1,0 +1,10 @@
+{{vendorExtensions.elmEncoder}} : {{vendorExtensions.elmCustomType}} -> Encode.Value
+{{vendorExtensions.elmEncoder}} model =
+    case model of
+{{#allowableValues}}
+{{#enumVars}}
+        {{name}} ->
+            Encode.string {{{value}}}
+
+{{/enumVars}}
+{{/allowableValues}}

@@ -25,18 +25,18 @@ defmodule OpenapiPetstore.Model.FormatTest do
   ]
 
   @type t :: %__MODULE__{
-    :"integer" => integer(),
-    :"int32" => integer(),
-    :"int64" => integer(),
+    :"integer" => integer() | nil,
+    :"int32" => integer() | nil,
+    :"int64" => integer() | nil,
     :"number" => float(),
-    :"float" => float(),
-    :"double" => float(),
-    :"string" => String.t,
+    :"float" => float() | nil,
+    :"double" => float() | nil,
+    :"string" => String.t | nil,
     :"byte" => binary(),
-    :"binary" => String.t,
+    :"binary" => String.t | nil,
     :"date" => Date.t,
-    :"dateTime" => DateTime.t,
-    :"uuid" => String.t,
+    :"dateTime" => DateTime.t | nil,
+    :"uuid" => String.t | nil,
     :"password" => String.t
   }
 end

@@ -34,12 +34,12 @@ public class HasOnlyReadOnly {
   @JsonProperty("bar")
   @JacksonXmlProperty(localName = "bar")
   @XmlElement(name = "bar")
-  private String bar = null;
+  private String bar;
 
   @JsonProperty("foo")
   @JacksonXmlProperty(localName = "foo")
   @XmlElement(name = "foo")
-  private String foo = null;
+  private String foo;
 
    /**
    * Get bar

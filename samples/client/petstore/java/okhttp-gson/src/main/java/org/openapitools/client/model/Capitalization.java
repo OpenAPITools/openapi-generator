@@ -31,27 +31,27 @@ import java.io.IOException;
 public class Capitalization {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
-  private String smallCamel = null;
+  private String smallCamel;
 
   public static final String SERIALIZED_NAME_CAPITAL_CAMEL = "CapitalCamel";
   @SerializedName(SERIALIZED_NAME_CAPITAL_CAMEL)
-  private String capitalCamel = null;
+  private String capitalCamel;
 
   public static final String SERIALIZED_NAME_SMALL_SNAKE = "small_Snake";
   @SerializedName(SERIALIZED_NAME_SMALL_SNAKE)
-  private String smallSnake = null;
+  private String smallSnake;
 
   public static final String SERIALIZED_NAME_CAPITAL_SNAKE = "Capital_Snake";
   @SerializedName(SERIALIZED_NAME_CAPITAL_SNAKE)
-  private String capitalSnake = null;
+  private String capitalSnake;
 
   public static final String SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS = "SCA_ETH_Flow_Points";
   @SerializedName(SERIALIZED_NAME_SC_A_E_T_H_FLOW_POINTS)
-  private String scAETHFlowPoints = null;
+  private String scAETHFlowPoints;
 
   public static final String SERIALIZED_NAME_A_T_T_N_A_M_E = "ATT_NAME";
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
-  private String ATT_NAME = null;
+  private String ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;

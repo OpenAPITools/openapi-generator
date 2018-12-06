@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @Path("")
 
@@ -63,7 +64,7 @@ public class FakeClassnameTags123Api  {
     }, tags={ "fake_classname_tags 123#$%^", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClassname(@ApiParam(value = "client model" ,required=true) Client client
+    public Response testClassname(@ApiParam(value = "client model" ,required=true) @Valid Client client
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClassname(client,securityContext);

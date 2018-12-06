@@ -5,7 +5,7 @@ CONFIG OPTIONS for kotlin-spring
 	    source folder for generated code (Default: src/main/kotlin)
 
 	packageName
-	    Generated artifact package name (e.g. io.swagger).
+	    Generated artifact package name. (Default: org.openapitools)
 
 	groupId
 	    Generated artifact package's organization (i.e. maven groupId). (Default: org.openapitools)
@@ -19,11 +19,14 @@ CONFIG OPTIONS for kotlin-spring
 	enumPropertyNaming
 	    Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original' (Default: camelCase)
 
+	parcelizeModels
+	    toggle "@Parcelize" for generated models
+
 	title
 	    server title name or client service name (Default: OpenAPI Kotlin Spring)
 
 	basePackage
-	    base package for generated code (Default: org.openapitools)
+	    base package (invokerPackage) for generated code (Default: org.openapitools)
 
 	serverPort
 	    configuration the port in which the sever is to run on (Default: 8080)

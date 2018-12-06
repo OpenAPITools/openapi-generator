@@ -16,13 +16,13 @@ import org.joda.time.DateTime
 import java.util.UUID
 
 case class Pet (
-  id: Option[Long],
-  category: Option[Category],
+  id: Option[Long] = None,
+  category: Option[Category] = None,
   name: String,
   photoUrls: Seq[String],
-  tags: Option[Seq[Tag]],
+  tags: Option[Seq[Tag]] = None,
   /* pet status in the store */
-  status: Option[PetEnums.Status]
+  status: Option[PetEnums.Status] = None
 ) extends ApiModel
 
 object PetEnums {

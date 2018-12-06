@@ -53,7 +53,7 @@ nlohmann::json Tag::toJson() const
     return val;
 }
 
-void Tag::fromJson(nlohmann::json& val)
+void Tag::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {

@@ -11,7 +11,7 @@
 package petstore
 
 type ApiResponse struct {
-	Code    int32  `json:"code,omitempty" xml:"code"`
-	Type    string `json:"type,omitempty" xml:"type"`
+	Code int32 `json:"code,omitempty" xml:"code"`
+	Type string `json:"type,omitempty" xml:"type"`
 	Message string `json:"message,omitempty" xml:"message"`
 }

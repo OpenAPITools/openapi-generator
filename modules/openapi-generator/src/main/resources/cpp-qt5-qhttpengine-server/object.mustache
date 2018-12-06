@@ -1,6 +1,6 @@
 {{>licenseInfo}}
-#ifndef _{{prefix}}_OBJECT_H_
-#define _{{prefix}}_OBJECT_H_
+#ifndef {{prefix}}_OBJECT_H
+#define {{prefix}}_OBJECT_H
 
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -36,6 +36,10 @@ class {{prefix}}Object {
     virtual bool isSet() const {
         return false;
     }
+
+    virtual bool isValid() const {
+        return true;
+    }
 private :
    QJsonObject jObj;
 };
@@ -44,4 +48,4 @@ private :
 }
 {{/cppNamespaceDeclarations}}
 
-#endif /* _{{prefix}}_OBJECT_H_ */
+#endif // {{prefix}}_OBJECT_H

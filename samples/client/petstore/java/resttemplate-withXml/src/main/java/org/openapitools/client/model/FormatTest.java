@@ -39,67 +39,67 @@ public class FormatTest {
   @JsonProperty("integer")
   @JacksonXmlProperty(localName = "integer")
   @XmlElement(name = "integer")
-  private Integer integer = null;
+  private Integer integer;
 
   @JsonProperty("int32")
   @JacksonXmlProperty(localName = "int32")
   @XmlElement(name = "int32")
-  private Integer int32 = null;
+  private Integer int32;
 
   @JsonProperty("int64")
   @JacksonXmlProperty(localName = "int64")
   @XmlElement(name = "int64")
-  private Long int64 = null;
+  private Long int64;
 
   @JsonProperty("number")
   @JacksonXmlProperty(localName = "number")
   @XmlElement(name = "number")
-  private BigDecimal number = null;
+  private BigDecimal number;
 
   @JsonProperty("float")
   @JacksonXmlProperty(localName = "float")
   @XmlElement(name = "float")
-  private Float _float = null;
+  private Float _float;
 
   @JsonProperty("double")
   @JacksonXmlProperty(localName = "double")
   @XmlElement(name = "double")
-  private Double _double = null;
+  private Double _double;
 
   @JsonProperty("string")
   @JacksonXmlProperty(localName = "string")
   @XmlElement(name = "string")
-  private String string = null;
+  private String string;
 
   @JsonProperty("byte")
   @JacksonXmlProperty(localName = "byte")
   @XmlElement(name = "byte")
-  private byte[] _byte = null;
+  private byte[] _byte;
 
   @JsonProperty("binary")
   @JacksonXmlProperty(localName = "binary")
   @XmlElement(name = "binary")
-  private File binary = null;
+  private File binary;
 
   @JsonProperty("date")
   @JacksonXmlProperty(localName = "date")
   @XmlElement(name = "date")
-  private LocalDate date = null;
+  private LocalDate date;
 
   @JsonProperty("dateTime")
   @JacksonXmlProperty(localName = "dateTime")
   @XmlElement(name = "dateTime")
-  private OffsetDateTime dateTime = null;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
   @JacksonXmlProperty(localName = "uuid")
   @XmlElement(name = "uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("password")
   @JacksonXmlProperty(localName = "password")
   @XmlElement(name = "password")
-  private String password = null;
+  private String password;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;

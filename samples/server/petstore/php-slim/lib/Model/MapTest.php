@@ -19,6 +19,6 @@ class MapTest
     /** @var map[string,bool] $directMap */
     private $directMap;
     
-    /** @var \OpenAPIServer\Model\StringBooleanMap $indirectMap */
+    /** @var map[string,bool] $indirectMap */
     private $indirectMap;
 }

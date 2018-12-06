@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * StringBooleanMap

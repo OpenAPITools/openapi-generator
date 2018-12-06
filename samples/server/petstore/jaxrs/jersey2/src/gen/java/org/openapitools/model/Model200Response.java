@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing model name starting with number
@@ -27,10 +28,10 @@ import javax.validation.constraints.*;
 
 public class Model200Response   {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("class")
-  private String propertyClass = null;
+  private String propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -43,6 +44,7 @@ public class Model200Response   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(value = "")
+  
   public Integer getName() {
     return name;
   }
@@ -62,6 +64,7 @@ public class Model200Response   {
    **/
   @JsonProperty("class")
   @ApiModelProperty(value = "")
+  
   public String getPropertyClass() {
     return propertyClass;
   }

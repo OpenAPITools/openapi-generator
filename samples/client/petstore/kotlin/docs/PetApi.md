@@ -88,8 +88,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| Pet id to delete |
- **apiKey** | **kotlin.String**|  | [optional]
+ **petId** | **kotlin.Long**| Pet id to delete | [default to null]
+ **apiKey** | **kotlin.String**|  | [optional] [default to null]
 
 ### Return type
 
@@ -136,7 +136,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
 
 ### Return type
 
@@ -183,7 +183,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+ **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by | [default to null]
 
 ### Return type
 
@@ -230,7 +230,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to return |
+ **petId** | **kotlin.Long**| ID of pet to return | [default to null]
 
 ### Return type
 
@@ -320,7 +320,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet that needs to be updated |
+ **petId** | **kotlin.Long**| ID of pet that needs to be updated | [default to null]
  **name** | **kotlin.String**| Updated name of the pet | [optional] [default to null]
  **status** | **kotlin.String**| Updated status of the pet | [optional] [default to null]
 
@@ -369,7 +369,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to update |
+ **petId** | **kotlin.Long**| ID of pet to update | [default to null]
  **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] [default to null]
  **file** | **java.io.File**| file to upload | [optional] [default to null]
 

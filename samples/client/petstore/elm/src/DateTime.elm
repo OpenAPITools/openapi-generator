@@ -1,4 +1,4 @@
-module DateTime exposing (DateTime, dateTimeDecoder, dateTimeEncoder)
+module DateTime exposing (DateTime, decoder, encode, toString)
 
 import Iso8601
 import Json.Decode as Decode exposing (Decoder)
@@ -11,15 +11,15 @@ type alias DateTime =
     Time.Posix
 
 
-dateTimeDecoder : Decoder DateTime
-dateTimeDecoder =
+decoder : Decoder DateTime
+decoder =
     Decode.string
         |> Decode.andThen decodeIsoString
 
 
-dateTimeEncoder : DateTime -> Encode.Value
-dateTimeEncoder model =
-    Encode.string <| Iso8601.fromTime model
+encode : DateTime -> Encode.Value
+encode =
+    Encode.string << toString
 
 
 decodeIsoString : String -> Decoder DateTime
@@ -30,3 +30,8 @@ decodeIsoString str =
 
         Result.Err _ ->
             Decode.fail <| "Invalid date: " ++ str
+
+
+toString : DateTime -> String
+toString =
+    Iso8601.fromTime

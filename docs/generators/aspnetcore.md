@@ -13,6 +13,9 @@ CONFIG OPTIONS for aspnetcore
 	sourceFolder
 	    source folder for generated code (Default: src)
 
+	aspnetCoreVersion
+	    ASP.NET Core version: 2.1 (default), 2.0 (deprecated) (Default: 2.1)
+
 	sortParamsByRequiredFlag
 	    Sort method arguments to place required parameters before optional parameters. (Default: true)
 

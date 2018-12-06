@@ -118,6 +118,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 .defaultValue(Boolean.TRUE.toString()));
     }
 
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("GO_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable GO_POST_PROCESS_FILE not defined so Go code may not be properly formatted. To define it, try `export GO_POST_PROCESS_FILE=\"/usr/local/bin/gofmt -w\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+    }
+
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
      * those terms here.  This logic is only called if a variable matches the reserved words
@@ -377,8 +387,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
-                // import "optionals" package if the parameter is primitive and optional
-                if (!param.required && param.isPrimitiveType) {
+                // import "optionals" package if the parameter is optional
+                if (!param.required) {
                     if (!addedOptionalImport) {
                         imports.add(createMapping("import", "github.com/antihax/optional"));
                         addedOptionalImport = true;
@@ -616,9 +626,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             return;
         }
 
-        String goFmtPath = System.getenv("GO_FMT_PATH");
-        if (StringUtils.isEmpty(goFmtPath)) {
-            return; // skip if GO_FMT_PATH env variable is not defined
+        String goPostProcessFile = System.getenv("GO_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(goPostProcessFile)) {
+            return; // skip if GO_POST_PROCESS_FILE env variable is not defined
         }
 
         // only procees the following type (or we can simply rely on the file extension to check if it's a Go file)
@@ -635,19 +645,20 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         // only process files with go extension
         if ("go".equals(FilenameUtils.getExtension(file.toString()))) {
-            // currently only support "gofmt -w yourcode.go"
-            // another way is "go fmt path/to/your/package"
-            String command = goFmtPath + " -w " + file.toString();
+            // e.g. "gofmt -w yourcode.go"
+            // e.g. "go fmt path/to/your/package"
+            String command = goPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
-                p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
                 }
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
 }

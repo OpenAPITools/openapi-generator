@@ -44,7 +44,7 @@ public:
     void validate() override;
 
     web::json::value toJson() const override;
-    void fromJson(web::json::value& json) override;
+    void fromJson(const web::json::value& json) override;
 
     void toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) const override;
     void fromMultiPart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& namePrefix) override;
@@ -58,14 +58,18 @@ public:
     int64_t getId() const;
     bool idIsSet() const;
     void unsetId();
+
     void setId(int64_t value);
+
     /// <summary>
     /// 
     /// </summary>
     utility::string_t getName() const;
     bool nameIsSet() const;
     void unsetName();
-    void setName(utility::string_t value);
+
+    void setName(const utility::string_t& value);
+
 
 protected:
     int64_t m_Id;

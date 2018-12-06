@@ -41,7 +41,7 @@ jar=${artifactid}-${ver}.jar
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ ! -f ${DIR}/${jar} ]; then
-  repo="central::default::https://repo1.maven.apache.org/maven2"
+  repo="central::default::https://repo1.maven.org/maven2/"
   if [[ ${ver} =~ ^.*-SNAPSHOT$ ]]; then
       repo="central::default::https://oss.sonatype.org/content/repositories/snapshots"
   fi

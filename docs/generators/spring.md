@@ -104,6 +104,15 @@ CONFIG OPTIONS for spring
 	booleanGetterPrefix
 	    Set booleanGetterPrefix (default value 'get')
 
+	parentGroupId
+	    parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentArtifactId
+	    parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
+	parentVersion
+	    parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect
+
 	title
 	    server title name or client service name
 
@@ -134,11 +143,17 @@ CONFIG OPTIONS for spring
 	responseWrapper
 	    wrap the responses in given type (Future,Callable,CompletableFuture,ListenableFuture,DeferredResult,HystrixCommand,RxObservable,RxSingle or fully qualified type)
 
+	virtualService
+	    Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki (Default: false)
+
 	useTags
 	    use tags for creating interface and controller classnames (Default: false)
 
 	useBeanValidation
 	    Use BeanValidation API annotations (Default: true)
+
+	performBeanValidation
+	    Use Bean Validation Impl. to perform BeanValidation (Default: false)
 
 	implicitHeaders
 	    Use of @ApiImplicitParams for headers. (Default: false)
@@ -151,6 +166,12 @@ CONFIG OPTIONS for spring
 
 	useOptional
 	    Use Optional container for optional parameters (Default: false)
+
+	hateoas
+	    Use Spring HATEOAS library to allow adding HATEOAS links (Default: false)
+
+	returnSuccessCode
+	    Generated server returns 2xx code (Default: false)
 
 	library
 	    library template (sub-template) to use (Default: spring-boot)

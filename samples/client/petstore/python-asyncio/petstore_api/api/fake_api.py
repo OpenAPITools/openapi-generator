@@ -599,7 +599,7 @@ class FakeApi(object):
             collection_formats=collection_formats)
 
     def test_client_model(self, client, **kwargs):  # noqa: E501
-        """To test \&quot;client\&quot; model  # noqa: E501
+        """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
@@ -621,7 +621,7 @@ class FakeApi(object):
             return data
 
     def test_client_model_with_http_info(self, client, **kwargs):  # noqa: E501
-        """To test \&quot;client\&quot; model  # noqa: E501
+        """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
@@ -803,7 +803,7 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
         if 'double' in local_var_params and local_var_params['double'] < 67.8:  # noqa: E501
             raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
-        if 'pattern_without_delimiter' in local_var_params and not re.search('^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
+        if 'pattern_without_delimiter' in local_var_params and not re.search(r'^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
             raise ValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
         if 'integer' in local_var_params and local_var_params['integer'] > 100:  # noqa: E501
             raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
@@ -815,7 +815,7 @@ class FakeApi(object):
             raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
         if 'float' in local_var_params and local_var_params['float'] > 987.6:  # noqa: E501
             raise ValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
-        if 'string' in local_var_params and not re.search('[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
+        if 'string' in local_var_params and not re.search(r'[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
             raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
         if ('password' in local_var_params and
                 len(local_var_params['password']) > 64):
@@ -995,6 +995,102 @@ class FakeApi(object):
 
         return self.api_client.call_api(
             '/fake', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
+    def test_group_parameters(self, **kwargs):  # noqa: E501
+        """Fake endpoint to test group parameters (optional)  # noqa: E501
+
+        Fake endpoint to test group parameters (optional)  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_group_parameters(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int string_group: String in group parameters
+        :param bool boolean_group: Boolean in group parameters
+        :param int int64_group: Integer in group parameters
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.test_group_parameters_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.test_group_parameters_with_http_info(**kwargs)  # noqa: E501
+            return data
+
+    def test_group_parameters_with_http_info(self, **kwargs):  # noqa: E501
+        """Fake endpoint to test group parameters (optional)  # noqa: E501
+
+        Fake endpoint to test group parameters (optional)  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_group_parameters_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param int string_group: String in group parameters
+        :param bool boolean_group: Boolean in group parameters
+        :param int int64_group: Integer in group parameters
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['string_group', 'boolean_group', 'int64_group']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_group_parameters" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'string_group' in local_var_params:
+            query_params.append(('string_group', local_var_params['string_group']))  # noqa: E501
+        if 'int64_group' in local_var_params:
+            query_params.append(('int64_group', local_var_params['int64_group']))  # noqa: E501
+
+        header_params = {}
+        if 'boolean_group' in local_var_params:
+            header_params['boolean_group'] = local_var_params['boolean_group']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/fake', 'DELETE',
             path_params,
             query_params,
             header_params,

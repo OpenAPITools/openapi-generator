@@ -174,7 +174,7 @@ let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let tags = ["inner_example"]; // [String] | Tags to filter by
+let tags = ["null"]; // [String] | Tags to filter by
 apiInstance.findPetsByTags(tags, (error, data, response) => {
   if (error) {
     console.error(error);

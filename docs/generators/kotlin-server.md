@@ -5,7 +5,7 @@ CONFIG OPTIONS for kotlin-server
 	    source folder for generated code (Default: src/main/kotlin)
 
 	packageName
-	    Generated artifact package name (e.g. io.swagger).
+	    Generated artifact package name. (Default: org.openapitools)
 
 	groupId
 	    Generated artifact package's organization (i.e. maven groupId). (Default: org.openapitools)
@@ -18,6 +18,9 @@ CONFIG OPTIONS for kotlin-server
 
 	enumPropertyNaming
 	    Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original' (Default: camelCase)
+
+	parcelizeModels
+	    toggle "@Parcelize" for generated models
 
 	library
 	    library template (sub-template) to use (Default: ktor)
