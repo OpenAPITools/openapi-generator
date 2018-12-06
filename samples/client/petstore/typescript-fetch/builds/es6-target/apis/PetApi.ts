@@ -32,7 +32,7 @@ export interface DeletePetRequest {
 }
 
 export interface FindPetsByStatusRequest {
-    status: Array<'available' | 'pending' | 'sold'>;
+    status: Array<FindPetsByStatusStatusEnum>;
 }
 
 export interface FindPetsByTagsRequest {
@@ -72,6 +72,8 @@ export class PetApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling addPet.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -89,6 +91,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet`,
             method: 'POST',
             headers: headerParameters,
+            query: queryParameters,
             body: PetToJSON(requestParameters.pet),
         });
 
@@ -110,6 +113,8 @@ export class PetApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (requestParameters.apiKey !== undefined && requestParameters.apiKey !== null) {
@@ -129,6 +134,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'DELETE',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.VoidApiResponse(response);
@@ -240,6 +246,8 @@ export class PetApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
@@ -250,6 +258,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'GET',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetFromJSON(jsonValue));
@@ -272,6 +281,8 @@ export class PetApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling updatePet.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -289,6 +300,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet`,
             method: 'PUT',
             headers: headerParameters,
+            query: queryParameters,
             body: PetToJSON(requestParameters.pet),
         });
 
@@ -309,6 +321,8 @@ export class PetApi extends runtime.BaseAPI {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
+
+        const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -334,6 +348,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'POST',
             headers: headerParameters,
+            query: queryParameters,
             body: formData,
         });
 
@@ -354,6 +369,8 @@ export class PetApi extends runtime.BaseAPI {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
+
+        const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -379,6 +396,7 @@ export class PetApi extends runtime.BaseAPI {
             path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
             method: 'POST',
             headers: headerParameters,
+            query: queryParameters,
             body: formData,
         });
 
@@ -393,4 +411,14 @@ export class PetApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum FindPetsByStatusStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
 }

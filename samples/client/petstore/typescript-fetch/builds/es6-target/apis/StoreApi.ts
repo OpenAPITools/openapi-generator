@@ -45,12 +45,15 @@ export class StoreApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'DELETE',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.VoidApiResponse(response);
@@ -69,6 +72,8 @@ export class StoreApi extends runtime.BaseAPI {
      * Returns pet inventories by status
      */
     async getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
@@ -79,6 +84,7 @@ export class StoreApi extends runtime.BaseAPI {
             path: `/store/inventory`,
             method: 'GET',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.JSONApiResponse<any>(response);
@@ -102,12 +108,15 @@ export class StoreApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
             method: 'GET',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
@@ -130,6 +139,8 @@ export class StoreApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('order','Required parameter requestParameters.order was null or undefined when calling placeOrder.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -138,6 +149,7 @@ export class StoreApi extends runtime.BaseAPI {
             path: `/store/order`,
             method: 'POST',
             headers: headerParameters,
+            query: queryParameters,
             body: OrderToJSON(requestParameters.order),
         });
 
