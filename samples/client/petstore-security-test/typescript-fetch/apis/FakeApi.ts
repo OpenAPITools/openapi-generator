@@ -13,14 +13,9 @@
 
 
 import * as runtime from '../runtime';
-import {
-    UNKNOWN_BASE_TYPE,
-    UNKNOWN_BASE_TYPEFromJSON,
-    UNKNOWN_BASE_TYPEToJSON,
-} from '../models';
 
 export interface TestCodeInjectEndRnNRRequest {
-    UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE;
+    testCodeInjectEndRnNR?: string;
 }
 
 /**
@@ -37,14 +32,17 @@ export class FakeApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
+        const formData = new FormData();
+        if (requestParameters.testCodeInjectEndRnNR !== undefined) {
+            formData.append('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', requestParameters.testCodeInjectEndRnNR as any);
+        }
 
         const response = await this.request({
             path: `/fake`,
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UNKNOWN_BASE_TYPEToJSON(requestParameters.UNKNOWN_BASE_TYPE),
+            body: formData,
         });
 
         return new runtime.VoidApiResponse(response);

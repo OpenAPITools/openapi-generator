@@ -43,6 +43,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);

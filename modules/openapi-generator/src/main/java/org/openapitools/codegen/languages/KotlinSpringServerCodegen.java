@@ -35,6 +35,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures {

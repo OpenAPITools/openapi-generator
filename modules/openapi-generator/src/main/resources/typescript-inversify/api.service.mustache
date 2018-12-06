@@ -106,12 +106,12 @@ export class {{classname}} {
         // authentication ({{name}}) required
 {{#isApiKey}}
 {{#isKeyInHeader}}
-        if (this.APIConfiguration.apiKeys["{{keyParamName}}"]) {
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["{{keyParamName}}"]) {
             headers['{{keyParamName}}'] = this.APIConfiguration.apiKeys["{{keyParamName}}"];
         }
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-        if (this.APIConfiguration.apiKeys["{{keyParamName}}"]) {
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["{{keyParamName}}"]) {
             queryParameters.push("{{paramName}}="+encodeURIComponent(String(this.APIConfiguration.apiKeys["{{keyParamName}}"])));
         }
 {{/isKeyInQuery}}
