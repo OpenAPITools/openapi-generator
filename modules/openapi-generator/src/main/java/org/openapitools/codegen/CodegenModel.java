@@ -193,11 +193,11 @@ public class CodegenModel {
         result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
         result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (hasVars ? 13:31);
-        result = 31 * result + (emptyVars ? 13:31);
-        result = 31 * result + (hasMoreModels ? 13:31);
-        result = 31 * result + (hasEnums ? 13:31);
-        result = 31 * result + (isEnum ? 13:31);
+        result = 31 * result + (hasVars ? 13 : 31);
+        result = 31 * result + (emptyVars ? 13 : 31);
+        result = 31 * result + (hasMoreModels ? 13 : 31);
+        result = 31 * result + (hasEnums ? 13 : 31);
+        result = 31 * result + (isEnum ? 13 : 31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
@@ -524,7 +524,7 @@ public class CodegenModel {
     private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
         // clone the list first
         List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
-        for(CodegenProperty cp : vars) {
+        for (CodegenProperty cp : vars) {
             newList.add(cp.clone());
         }
 
@@ -544,28 +544,20 @@ public class CodegenModel {
         }
 
         return newList;
-
-        //return duplicatedNames;
     }
 
     /**
      * Clone the element and update "hasMore" in the list of codegen properties
      */
     private void updatePropertyListHasMore(List<CodegenProperty> vars) {
-        //List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
-
         if (vars != null) {
             for (int i = 0; i < vars.size(); i++) {
-                //CodegenProperty newNode = vars.get(i).clone();
                 if (i < vars.size() - 1) {
                     vars.get(i).hasMore = true;
                 } else { // last element
                     vars.get(i).hasMore = false;
                 }
-                //newList.add(newNode);
             }
         }
-
-        //vars = newList;
     }
 }
