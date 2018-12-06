@@ -44,10 +44,10 @@ public:
     ApiClient( std::shared_ptr<ApiConfiguration> configuration = nullptr );
     virtual ~ApiClient();
 
-    typedef std::function<void(const web::http::http_headers&)> ResponseHeadersHandlerType;
+    typedef std::function<void(web::http::status_code, const web::http::http_headers&)> ResponseHandlerType;
 
-    const ResponseHeadersHandlerType& getResponseHeadersHandler() const;
-    void setResponseHeadersHandler(const ResponseHeadersHandlerType& responseHeadersHandler);
+    const ResponseHandlerType& getResponseHandler() const;
+    void setResponseHandler(const ResponseHandlerType& responseHandler);
 
     std::shared_ptr<ApiConfiguration> getConfiguration() const;
     void setConfiguration(std::shared_ptr<ApiConfiguration> configuration);
@@ -74,7 +74,7 @@ public:
 
 protected:
 
-    ResponseHeadersHandlerType m_ResponseHeadersHandler;
+    ResponseHandlerType m_ResponseHandler;
     std::shared_ptr<ApiConfiguration> m_Configuration;
 };
 

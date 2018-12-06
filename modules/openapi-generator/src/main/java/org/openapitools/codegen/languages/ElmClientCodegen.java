@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.CliOption;
@@ -55,6 +54,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
     private Set<String> customPrimitives = new HashSet<String>();
@@ -63,6 +64,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final String ELM_VERSION = "elmVersion";
     private static final String ELM_PREFIX_CUSTOM_TYPE_VARIANTS = "elmPrefixCustomTypeVariants";
+    private static final String ELM_ENABLE_CUSTOM_BASE_PATHS = "elmEnableCustomBasePaths";
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
     private static final String DISCRIMINATOR_NAME = "discriminatorName";
@@ -168,6 +170,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(elmVersion);
         final CliOption elmPrefixCustomTypeVariants = CliOption.newBoolean(ELM_PREFIX_CUSTOM_TYPE_VARIANTS, "Prefix custom type variants");
         cliOptions.add(elmPrefixCustomTypeVariants);
+        final CliOption elmEnableCustomBasePaths = CliOption.newBoolean(ELM_ENABLE_CUSTOM_BASE_PATHS, "Enable setting the base path for each request");
+        cliOptions.add(elmEnableCustomBasePaths);
     }
 
     @Override
@@ -185,6 +189,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(ELM_PREFIX_CUSTOM_TYPE_VARIANTS)) {
             elmPrefixCustomTypeVariants = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_PREFIX_CUSTOM_TYPE_VARIANTS).toString()));
+        }
+
+        if (additionalProperties.containsKey(ELM_ENABLE_CUSTOM_BASE_PATHS)) {
+            final boolean enable = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_ENABLE_CUSTOM_BASE_PATHS).toString()));
+            additionalProperties.put("enableCustomBasePaths", enable);
         }
 
         if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
@@ -244,7 +253,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
-        final String modelName = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        final String modelName = camelize(name);
         return defaultIncludes.contains(modelName) ? modelName + "_" : modelName;
     }
 
@@ -260,13 +269,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+        final String varName = camelize(name, true);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+        String camelized = camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
 
         if (camelized.length() == 0) {
             LOGGER.error("Unable to determine enum variable name (name: {}, datatype: {}) from empty string. Default to UnknownEnumVariableName", value, datatype);
@@ -576,7 +585,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (mapFn == null) {
             throw new RuntimeException("Parameter '" + param.paramName + "' cannot be converted to a string. Please report the issue.");
         }
-        
+
         if (param.isListContainer) {
             if (!param.required) {
                 mapFn = "(" + mapFn + ")";

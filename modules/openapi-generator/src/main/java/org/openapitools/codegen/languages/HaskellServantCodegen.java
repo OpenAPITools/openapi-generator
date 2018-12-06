@@ -47,6 +47,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
@@ -179,12 +180,13 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         typeMapping.put("char", "Char");
         typeMapping.put("float", "Float");
         typeMapping.put("double", "Double");
-        typeMapping.put("DateTime", "Integer");
+        typeMapping.put("DateTime", "UTCTime");
+        typeMapping.put("Date", "Day");
         typeMapping.put("file", "FilePath");
         typeMapping.put("binary", "FilePath");
         typeMapping.put("number", "Double");
         typeMapping.put("any", "Value");
-        typeMapping.put("UUID", "Text");
+        typeMapping.put("UUID", "UUID");
         typeMapping.put("ByteArray", "Text");
         typeMapping.put("object", "Value");
 
@@ -294,7 +296,42 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
         additionalProperties.put("specialCharReplacements", replacements);
 
+        // See docstring for setGenerateToSchema for why we do this
+        additionalProperties.put("generateToSchema", true);
+
         super.preprocessOpenAPI(openAPI);
+    }
+
+    /**
+     * Internal method to set the generateToSchema parameter.
+     *
+     * Basically we're generating ToSchema instances (generically) for all schemas.
+     * However, if any of the contained datatypes doesn't have the ToSchema instance,
+     * we cannot generate it for its "ancestor" type.
+     * This is the case with the "Data.Aeson.Value" type: it doesn't (and cannot) have
+     * a Swagger-compatible ToSchema instance. So we have to detect its presence "downstream"
+     * the current schema, and if we find it we just don't generate any ToSchema instance.
+     * @param model
+     */
+    private void setGenerateToSchema(CodegenModel model) {
+        for (CodegenProperty var : model.vars) {
+            LOGGER.warn(var.dataType);
+            if (var.dataType.contentEquals("Value") || var.dataType.contains(" Value")) {
+                additionalProperties.put("generateToSchema", false);
+            }
+            if (var.items != null) {
+                if (var.items.dataType.contentEquals("Value") || var.dataType.contains(" Value")) {
+                    additionalProperties.put("generateToSchema", false);
+                }
+            }
+        }
+
+        List<CodegenModel> children = model.getChildren();
+        if (children != null) {
+            for(CodegenModel child : children) {
+                setGenerateToSchema(child);
+            }
+        }
     }
 
 
@@ -312,7 +349,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return "Map.Map String " + getTypeDeclaration(inner);
+            return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return fixModelChars(super.getTypeDeclaration(p));
     }
@@ -466,7 +503,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (op.getHasFormParams()) {
             // Use the FormX data type, where X is the conglomerate of all things being passed
-            String formName = "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId);
+            String formName = "Form" + camelize(op.operationId);
             bodyType = formName;
             path.add("ReqBody '[FormUrlEncoded] " + formName);
         }
@@ -491,7 +528,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // store form parameter name in the vendor extensions
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formParamName", org.openapitools.codegen.utils.StringUtils.camelize(param.baseName));
+            param.vendorExtensions.put("x-formParamName", camelize(param.baseName));
         }
 
         // Add the HTTP method and return type
@@ -507,9 +544,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path));
         op.vendorExtensions.put("x-clientType", joinStrings(" -> ", type));
-        op.vendorExtensions.put("x-formName", "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId));
+        op.vendorExtensions.put("x-formName", "Form" + camelize(op.operationId));
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formPrefix", org.openapitools.codegen.utils.StringUtils.camelize(op.operationId, true));
+            param.vendorExtensions.put("x-formPrefix", camelize(op.operationId, true));
         }
         return op;
     }
@@ -565,6 +602,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
         CodegenModel model = super.fromModel(name, mod, allDefinitions);
 
+        setGenerateToSchema(model);
+
         // Clean up the class name to remove invalid characters
         model.classname = fixModelChars(model.classname);
         if (typeMapping.containsValue(model.classname)) {
@@ -572,9 +611,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = org.openapitools.codegen.utils.StringUtils.camelize(model.classname, true);
+        String prefix = camelize(model.classname, true);
         for (CodegenProperty prop : model.vars) {
-            prop.name = toVarName(prefix + org.openapitools.codegen.utils.StringUtils.camelize(fixOperatorChars(prop.name)));
+            prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
         }
 
         // Create newtypes for things with non-object types

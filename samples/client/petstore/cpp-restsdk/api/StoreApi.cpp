@@ -99,9 +99,9 @@ pplx::task<void> StoreApi::deleteOrder(utility::string_t orderId)
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("DELETE"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -207,9 +207,9 @@ pplx::task<std::map<utility::string_t, int32_t>> StoreApi::getInventory()
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -332,9 +332,9 @@ pplx::task<std::shared_ptr<Order>> StoreApi::getOrderById(int64_t orderId)
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -472,9 +472,9 @@ pplx::task<std::shared_ptr<Order>> StoreApi::placeOrder(std::shared_ptr<Order> o
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK

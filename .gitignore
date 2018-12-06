@@ -212,3 +212,7 @@ samples/client/petstore/javascript/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html
+
+# C
+samples/client/petstore/c/build
+samples/client/petstore/c/*.so

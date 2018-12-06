@@ -23,6 +23,14 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import java.io.File;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
