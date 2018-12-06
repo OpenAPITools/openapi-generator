@@ -33,6 +33,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class DartJaguarClientCodegen extends DartClientCodegen {
     private static Set<String> modelToIgnore = new HashSet<>();
 

@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
     public static final String SERVER_PORT = "serverPort";
@@ -251,7 +252,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         computed = sanitizeName(computed);
-        return org.openapitools.codegen.utils.StringUtils.camelize(computed) + "Api";
+        return camelize(computed) + "Api";
     }
 
     @Override

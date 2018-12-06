@@ -47,6 +47,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
@@ -502,7 +503,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (op.getHasFormParams()) {
             // Use the FormX data type, where X is the conglomerate of all things being passed
-            String formName = "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId);
+            String formName = "Form" + camelize(op.operationId);
             bodyType = formName;
             path.add("ReqBody '[FormUrlEncoded] " + formName);
         }
@@ -527,7 +528,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // store form parameter name in the vendor extensions
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formParamName", org.openapitools.codegen.utils.StringUtils.camelize(param.baseName));
+            param.vendorExtensions.put("x-formParamName", camelize(param.baseName));
         }
 
         // Add the HTTP method and return type
@@ -543,9 +544,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path));
         op.vendorExtensions.put("x-clientType", joinStrings(" -> ", type));
-        op.vendorExtensions.put("x-formName", "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId));
+        op.vendorExtensions.put("x-formName", "Form" + camelize(op.operationId));
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formPrefix", org.openapitools.codegen.utils.StringUtils.camelize(op.operationId, true));
+            param.vendorExtensions.put("x-formPrefix", camelize(op.operationId, true));
         }
         return op;
     }
@@ -610,9 +611,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = org.openapitools.codegen.utils.StringUtils.camelize(model.classname, true);
+        String prefix = camelize(model.classname, true);
         for (CodegenProperty prop : model.vars) {
-            prop.name = toVarName(prefix + org.openapitools.codegen.utils.StringUtils.camelize(fixOperatorChars(prop.name)));
+            prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
         }
 
         // Create newtypes for things with non-object types
