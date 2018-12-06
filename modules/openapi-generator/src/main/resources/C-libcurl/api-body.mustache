@@ -1,11 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "apiClient.h"
-#include "cJSON.h"
-#include "keyValuePair.h"
-{{#imports}}{{{import}}}
-{{/imports}}
+#include "{{classname}}.h"
+
 
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
