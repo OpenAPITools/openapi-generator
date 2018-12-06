@@ -17,7 +17,7 @@ import {
 {{#allParams.0}}
 export interface {{operationIdCamelCase}}Request {
     {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{{dataType}}};
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
     {{/allParams}}
 }
 
@@ -48,10 +48,8 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/required}}
         {{/allParams}}
-        {{#hasQueryParams}}
         const queryParameters: runtime.HTTPQuery = {};
 
-        {{/hasQueryParams}}
         {{#queryParams}}
         {{#isListContainer}}
         if (requestParameters.{{paramName}}) {
@@ -168,9 +166,7 @@ export class {{classname}} extends runtime.BaseAPI {
             path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
             method: '{{httpMethod}}',
             headers: headerParameters,
-            {{#hasQueryParams}}
             query: queryParameters,
-            {{/hasQueryParams}}
             {{#hasBodyParam}}
             {{#bodyParam}}
             {{#isContainer}}
@@ -243,3 +239,25 @@ export class {{classname}} extends runtime.BaseAPI {
     {{/operation}}
 }
 {{/operations}}
+{{#hasEnums}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum {{operationIdCamelCase}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{/hasEnums}}
