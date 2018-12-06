@@ -36,6 +36,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage;
@@ -46,7 +48,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     public PhpSilexServerCodegen() {
         super();
 
-        invokerPackage = org.openapitools.codegen.utils.StringUtils.camelize("OpenAPIServer");
+        invokerPackage = camelize("OpenAPIServer");
         String packageName = "OpenAPIServer";
         modelPackage = "lib" + File.separator + "models";
         apiPackage = "lib";
@@ -200,7 +202,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
     public String toVarName(String name) {
         // return the name in underscore style
         // PhoneNumber => phone_number
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        name = underscore(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // parameter name starting with number won't compile
         // need to escape it by appending _ at the beginning
@@ -226,7 +228,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
@@ -259,7 +261,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
             for (int i = 0; i < items.length; ++i) {
                 if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                     // camelize path variable
-                    items[i] = "{" + org.openapitools.codegen.utils.StringUtils.camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                    items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
                 }
             }
 
