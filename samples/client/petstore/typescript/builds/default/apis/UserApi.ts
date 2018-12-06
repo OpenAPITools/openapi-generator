@@ -3,6 +3,9 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import { RequestContext, HttpMethod, ResponseContext} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
+import {ApiException} from './exception';
+import {isCodeInRange} from '../util';
+
 import { User } from '../models/User';
 
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
@@ -268,112 +271,153 @@ export class UserApiResponseProcessor {
 	
 	/**
 	 *
-	 * @throws  if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public createUser(response: ResponseContext):   void  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        // TODO: make this based on status code!
-        if (!responseOK) {
-        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+    public createUser(response: ResponseContext):   void  {      
+        if (isCodeInRange("0", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+        	return;
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws  if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public createUsersWithArrayInput(response: ResponseContext):   void  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        // TODO: make this based on status code!
-        if (!responseOK) {
-        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+    public createUsersWithArrayInput(response: ResponseContext):   void  {      
+        if (isCodeInRange("0", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+        	return;
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws  if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public createUsersWithListInput(response: ResponseContext):   void  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        // TODO: make this based on status code!
-        if (!responseOK) {
-        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+    public createUsersWithListInput(response: ResponseContext):   void  {      
+        if (isCodeInRange("0", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+        	return;
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws  if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public deleteUser(response: ResponseContext):   void  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        // TODO: make this based on status code!
-        if (!responseOK) {
-        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+    public deleteUser(response: ResponseContext):   void  {      
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Invalid username supplied");
         }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "User not found");
+        }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+        	return;
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws User if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public getUserByName(response: ResponseContext):  User  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: User = ObjectSerializer.deserialize(jsonBody, "User") as User;
-        if (responseOK) {
-			return body;
-        } else {
-        	// TODO: deal with different errors based on httpStatusCode
-        	throw body
+    public getUserByName(response: ResponseContext):  User  {      
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const jsonBody = JSON.parse(response.body);
+            const body: User = ObjectSerializer.deserialize(jsonBody, "User") as User;            
+            return body;
         }
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Invalid username supplied");
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "User not found");
+        }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const jsonBody = JSON.parse(response.body);
+            const body: User = ObjectSerializer.deserialize(jsonBody, "User") as User;            
+			return body;        		
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws string if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public loginUser(response: ResponseContext):  string  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: string = ObjectSerializer.deserialize(jsonBody, "string") as string;
-        if (responseOK) {
-			return body;
-        } else {
-        	// TODO: deal with different errors based on httpStatusCode
-        	throw body
+    public loginUser(response: ResponseContext):  string  {      
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const jsonBody = JSON.parse(response.body);
+            const body: string = ObjectSerializer.deserialize(jsonBody, "string") as string;            
+            return body;
         }
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Invalid username/password supplied");
+        }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const jsonBody = JSON.parse(response.body);
+            const body: string = ObjectSerializer.deserialize(jsonBody, "string") as string;            
+			return body;        		
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws  if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public logoutUser(response: ResponseContext):   void  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        // TODO: make this based on status code!
-        if (!responseOK) {
-        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+    public logoutUser(response: ResponseContext):   void  {      
+        if (isCodeInRange("0", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "successful operation");
         }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+        	return;
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws  if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public updateUser(response: ResponseContext):   void  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        // TODO: make this based on status code!
-        if (!responseOK) {
-        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+    public updateUser(response: ResponseContext):   void  {      
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Invalid user supplied");
         }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "User not found");
+        }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+        	return;
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 }

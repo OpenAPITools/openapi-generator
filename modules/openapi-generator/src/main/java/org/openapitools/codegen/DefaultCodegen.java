@@ -3686,6 +3686,7 @@ public class DefaultCodegen implements CodegenConfig {
                 default:
                     throw new RuntimeException("Invalid response code " + responseCode);
             }
+        	r.isSuccessCode = r.code.startsWith("2");
         }
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {

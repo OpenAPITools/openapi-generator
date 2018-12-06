@@ -3,6 +3,9 @@ import { BaseAPIRequestFactory, RequiredError } from './baseapi';
 import { RequestContext, HttpMethod, ResponseContext} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
+import {ApiException} from './exception';
+import {isCodeInRange} from '../util';
+
 import { Order } from '../models/Order';
 
 export class StoreApiRequestFactory extends BaseAPIRequestFactory {
@@ -133,63 +136,90 @@ export class StoreApiResponseProcessor {
 	
 	/**
 	 *
-	 * @throws  if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public deleteOrder(response: ResponseContext):   void  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        // TODO: make this based on status code!
-        if (!responseOK) {
-        	throw new Error("Invalid status code: " + response.httpStatusCode + "!");
+    public deleteOrder(response: ResponseContext):   void  {      
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
         }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+        }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+        	return;
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws { [key: string]: number; } if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public getInventory(response: ResponseContext):  { [key: string]: number; }  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }") as { [key: string]: number; };
-        if (responseOK) {
-			return body;
-        } else {
-        	// TODO: deal with different errors based on httpStatusCode
-        	throw body
+    public getInventory(response: ResponseContext):  { [key: string]: number; }  {      
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const jsonBody = JSON.parse(response.body);
+            const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }") as { [key: string]: number; };            
+            return body;
         }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const jsonBody = JSON.parse(response.body);
+            const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }") as { [key: string]: number; };            
+			return body;        		
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws Order if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public getOrderById(response: ResponseContext):  Order  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;
-        if (responseOK) {
-			return body;
-        } else {
-        	// TODO: deal with different errors based on httpStatusCode
-        	throw body
+    public getOrderById(response: ResponseContext):  Order  {      
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const jsonBody = JSON.parse(response.body);
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+            return body;
         }
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Invalid ID supplied");
+        }
+        if (isCodeInRange("404", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Order not found");
+        }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const jsonBody = JSON.parse(response.body);
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+			return body;        		
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 	/**
 	 *
-	 * @throws Order if the httpStatusCode is not in [200, 299]
+	 * @throws ApiException if the response code was not in [200, 299]
 	 */
-    public placeOrder(response: ResponseContext):  Order  {
-    	const jsonBody = JSON.parse(response.body);
-    	const responseOK = response.httpStatusCode && response.httpStatusCode >= 200 && response.httpStatusCode <= 299;
-        const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;
-        if (responseOK) {
-			return body;
-        } else {
-        	// TODO: deal with different errors based on httpStatusCode
-        	throw body
+    public placeOrder(response: ResponseContext):  Order  {      
+        if (isCodeInRange("200", response.httpStatusCode)) {
+            const jsonBody = JSON.parse(response.body);
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+            return body;
         }
+        if (isCodeInRange("400", response.httpStatusCode)) {
+            throw new ApiException<string>(response.httpStatusCode, "Invalid Order");
+        }
+        
+        // Work around for incorrect api specification in petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            const jsonBody = JSON.parse(response.body);
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+			return body;        		
+        }
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
     }
 			
 }
