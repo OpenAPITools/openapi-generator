@@ -22,6 +22,7 @@ import java.util.*;
 public class CodegenResponse {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
     public String code, message;
+    public boolean isSuccessCode;
     public boolean hasMore;
     public List<Map<String, Object>> examples;
     public String dataType, baseType, containerType;

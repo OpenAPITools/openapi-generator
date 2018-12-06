@@ -121,6 +121,9 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         
+        // Util
+        supportingFiles.add(new SupportingFile("util.mustache", "", "util.ts"));
+        supportingFiles.add(new SupportingFile("api/exception.mustache", "apis", "exception.ts"));
         // http
         supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
         supportingFiles.add(new SupportingFile("http"  + File.separator + "isomorphic-fetch.mustache", "http", "isomorphic-fetch.ts"));
@@ -155,9 +158,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
     
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
-        Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
-        
+    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {     
         
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
@@ -165,7 +166,46 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             im.put("filename", ((String) im.get("import")).replace('.', '/'));
             im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
         }
+        
+        @SuppressWarnings("unchecked")
+		Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operationsMap.get("operation");
+    	for (CodegenOperation operation: operationList) {
+            List<CodegenResponse> responses = operation.responses;
+        	operation.returnType = this.getReturnType(responses);  		
+    	}
         return operations;
+    }
+    
+    private String getReturnType(List<CodegenResponse> responses) {
+        StringBuilder returnType = new StringBuilder();
+        boolean firstReturnType = true;
+        boolean atLeastOneSuccess = false;
+        boolean addVoid = false;
+        System.out.println(responses);
+    	for (CodegenResponse response: responses) {
+    		// TODO: we should probably catch an exception here
+    		if (response.isSuccessCode) {
+    			if (response.dataType != null) {
+    				if (!firstReturnType) {
+    					returnType.append(" | ");
+    				}
+    				returnType.append(response.dataType);
+    				firstReturnType = false;
+    				atLeastOneSuccess = true;
+    			} else {
+    				addVoid = true;
+    			}
+    		}
+    	}
+    	if (!atLeastOneSuccess) {
+    		return null;
+    	} else if (addVoid) {
+    		returnType.append(" | void");
+    	}
+    	
+    	System.out.println("Return Type: " + returnType);
+    	return returnType.toString();
     }
     
     private String getModelnameFromModelFilename(String filename) {
