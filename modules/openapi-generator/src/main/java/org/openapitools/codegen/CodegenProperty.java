@@ -17,11 +17,7 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenProperty implements Cloneable {
     public String baseName, complexType, getter, setter, description, dataType,
@@ -733,6 +729,7 @@ public class CodegenProperty implements Cloneable {
             if (this.vendorExtensions != null) {
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
+
             return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
@@ -817,4 +814,6 @@ public class CodegenProperty implements Cloneable {
                 ", isXmlWrapped=" + isXmlWrapped +
                 '}';
     }
+
+
 }
