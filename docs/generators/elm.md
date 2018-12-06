@@ -12,4 +12,7 @@ CONFIG OPTIONS for elm
 	elmEnableCustomBasePaths
 	    Enable setting the base path for each request (Default: false)
 
+	elmEnableHttpRequestTrackers
+	    Enable adding a tracker to each http request (Default: false)
+
 Back to the [generators list](README.md)
