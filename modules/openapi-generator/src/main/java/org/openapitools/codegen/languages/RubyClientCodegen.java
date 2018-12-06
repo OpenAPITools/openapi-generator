@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.examples.Example;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +93,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 "_header_content_type", "form_params", "post_body", "auth_names")) {
             reservedWords.add(word.toLowerCase(Locale.ROOT));
         }
-
 
         // primitives in ruby lang
         languageSpecificPrimitives.add("int");
@@ -615,5 +615,14 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         return !(skipOverwrite && new File(filename).exists());
         //
         //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+
+        if (additionalProperties != null) {
+            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
     }
 }

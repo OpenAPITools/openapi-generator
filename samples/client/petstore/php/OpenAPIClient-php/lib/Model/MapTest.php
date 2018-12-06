@@ -173,8 +173,6 @@ class MapTest implements ModelInterface, ArrayAccess
         return self::$openAPIModelName;
     }
 
-    const MAP_OF_ENUM_STRING_UPPER = 'UPPER';
-    const MAP_OF_ENUM_STRING_LOWER = 'lower';
     
 
     
@@ -186,8 +184,7 @@ class MapTest implements ModelInterface, ArrayAccess
     public function getMapOfEnumStringAllowableValues()
     {
         return [
-            self::MAP_OF_ENUM_STRING_UPPER,
-            self::MAP_OF_ENUM_STRING_LOWER,
+            
         ];
     }
     
