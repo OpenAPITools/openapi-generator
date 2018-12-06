@@ -24,14 +24,14 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
      */
-    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
 {{/vars}}
 }
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
     {{#hasVars}}
     return {
-        {{#vars}}
+        {{#allVars}}
         {{#isPrimitiveType}}
         {{#isDate}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
@@ -53,7 +53,7 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
         {{/isContainer}}
         {{/isPrimitiveType}}
-        {{/vars}}
+        {{/allVars}}
     };
     {{/hasVars}}
     {{^hasVars}}
@@ -67,9 +67,10 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         return undefined;
     }
     return {
-        {{#vars}}
+        {{#allVars}}
+        {{^isReadOnly}}
         {{#isPrimitiveType}}
-        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isContainer}}
@@ -79,7 +80,8 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
         {{/isContainer}}
         {{/isPrimitiveType}}
-        {{/vars}}
+        {{/isReadOnly}}
+        {{/allVars}}
     };
     {{/hasVars}}
     {{^hasVars}}
