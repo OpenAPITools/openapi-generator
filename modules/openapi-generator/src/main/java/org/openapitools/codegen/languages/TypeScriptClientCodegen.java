@@ -168,12 +168,12 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         
         @SuppressWarnings("unchecked")
-		Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
+        Map<String, Object> operationsMap = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operationsMap.get("operation");
-    	for (CodegenOperation operation: operationList) {
+        for (CodegenOperation operation: operationList) {
             List<CodegenResponse> responses = operation.responses;
-        	operation.returnType = this.getReturnType(responses);  		
-    	}
+            operation.returnType = this.getReturnType(responses);          
+        }
         return operations;
     }
     
@@ -183,29 +183,29 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         boolean atLeastOneSuccess = false;
         boolean addVoid = false;
         System.out.println(responses);
-    	for (CodegenResponse response: responses) {
-    		// TODO: we should probably catch an exception here
-    		if (response.isSuccessCode) {
-    			if (response.dataType != null) {
-    				if (!firstReturnType) {
-    					returnType.append(" | ");
-    				}
-    				returnType.append(response.dataType);
-    				firstReturnType = false;
-    				atLeastOneSuccess = true;
-    			} else {
-    				addVoid = true;
-    			}
-    		}
-    	}
-    	if (!atLeastOneSuccess) {
-    		return null;
-    	} else if (addVoid) {
-    		returnType.append(" | void");
-    	}
-    	
-    	System.out.println("Return Type: " + returnType);
-    	return returnType.toString();
+        for (CodegenResponse response: responses) {
+            // TODO: we should probably catch an exception here
+            if (response.isSuccessCode) {
+                if (response.dataType != null) {
+                    if (!firstReturnType) {
+                        returnType.append(" | ");
+                    }
+                    returnType.append(response.dataType);
+                    firstReturnType = false;
+                    atLeastOneSuccess = true;
+                } else {
+                    addVoid = true;
+                }
+            }
+        }
+        if (!atLeastOneSuccess) {
+            return null;
+        } else if (addVoid) {
+            returnType.append(" | void");
+        }
+        
+        System.out.println("Return Type: " + returnType);
+        return returnType.toString();
     }
     
     private String getModelnameFromModelFilename(String filename) {
