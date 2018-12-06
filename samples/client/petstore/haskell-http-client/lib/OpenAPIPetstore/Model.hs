@@ -270,7 +270,7 @@ instance A.ToJSON Animal where
 
 -- | Construct a value of type 'Animal' (by applying it's required fields, if any)
 mkAnimal
-  :: Text -- ^ 'className' 
+  ::  -- ^ 'className' 
   -> Animal
 mkAnimal className =
   Animal
