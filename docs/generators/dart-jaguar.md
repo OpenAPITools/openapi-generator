@@ -34,4 +34,7 @@ CONFIG OPTIONS for dart-jaguar
 	supportDart2
 	    support dart2 (Default: true)
 
+	nullableFields
+	    Is the null fields should be in the JSON payload
+
 Back to the [generators list](README.md)
