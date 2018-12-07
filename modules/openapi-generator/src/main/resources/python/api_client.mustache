@@ -244,11 +244,17 @@ class ApiClient(object):
         if response_type == "file":
             return self.__deserialize_file(response)
 
+        try
+            data = response.data.decode('utf-8')
+        except UnicodeDecodeError:
+            # probably data is a binary content itself
+            data = response.data
+
         # fetch data from response object
         try:
-            data = json.loads(response.data)
+            data = json.loads(data)
         except ValueError:
-            data = response.data
+            pass
 
         return self.__deserialize(data, response_type)
 
