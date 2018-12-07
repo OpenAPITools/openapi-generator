@@ -43,15 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.escape;
@@ -1036,6 +1028,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 continue;
             }
             for (Operation operation : path.readOperations()) {
+                LOGGER.info("Processing operation " + operation.getOperationId());
                 if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
                     String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
                     List<String> consumes = new ArrayList<String>(getConsumesInfo(openAPI, operation));
@@ -1052,8 +1045,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected static String getAccept(OpenAPI openAPI, Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
-        ArrayList<String> produces = new ArrayList<String>(getProducesInfo(openAPI, operation));
-        if (produces != null && !produces.isEmpty()) {
+        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+        if (producesInfo != null && !producesInfo.isEmpty()) {
+            ArrayList<String> produces = new ArrayList<String>(producesInfo);
             StringBuilder sb = new StringBuilder();
             for (String produce : produces) {
                 if (defaultContentType.equalsIgnoreCase(produce)) {
