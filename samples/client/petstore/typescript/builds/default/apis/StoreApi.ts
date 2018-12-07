@@ -24,7 +24,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -46,7 +47,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -79,7 +81,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -106,7 +109,8 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -150,7 +154,8 @@ export class StoreApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -170,7 +175,8 @@ export class StoreApiResponseProcessor {
             const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }") as { [key: string]: number; };            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -196,7 +202,8 @@ export class StoreApiResponseProcessor {
             const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -219,7 +226,8 @@ export class StoreApiResponseProcessor {
             const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 }

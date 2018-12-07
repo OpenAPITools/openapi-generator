@@ -24,7 +24,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -62,11 +63,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
-		requestContext.setHeaderParam("", ObjectSerializer.serialize(apiKey, "string"));
+		requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string"));
 	
 		// Form Params
 
@@ -95,10 +97,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
         if (status !== undefined) {
-        	requestContext.setQueryParam("", ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>"));
+        	requestContext.setQueryParam("status", ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>"));
         }
 	
 		// Header Params
@@ -130,10 +133,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
         if (tags !== undefined) {
-        	requestContext.setQueryParam("", ObjectSerializer.serialize(tags, "Array<string>"));
+        	requestContext.setQueryParam("tags", ObjectSerializer.serialize(tags, "Array<string>"));
         }
 	
 		// Header Params
@@ -166,7 +170,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -198,7 +203,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -236,7 +242,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -279,7 +286,8 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -330,7 +338,8 @@ export class PetApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -346,7 +355,8 @@ export class PetApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -369,7 +379,8 @@ export class PetApiResponseProcessor {
             const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -392,7 +403,8 @@ export class PetApiResponseProcessor {
             const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -418,7 +430,8 @@ export class PetApiResponseProcessor {
             const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet") as Pet;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -440,7 +453,8 @@ export class PetApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -456,7 +470,8 @@ export class PetApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -476,7 +491,8 @@ export class PetApiResponseProcessor {
             const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse") as ApiResponse;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 }
