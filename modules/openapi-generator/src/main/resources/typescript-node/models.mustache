@@ -30,7 +30,7 @@ let enumsMap: {[index: string]: any} = {
             {{#hasEnums}}
                 {{#vars}}
                     {{#isEnum}}
-        {{#isContainer}}"{{classname}}.{{enumName}}": {{classname}}.{{enumName}}{{/isContainer}}{{#isNotContainer}}"{{datatypeWithEnum}}": {{datatypeWithEnum}}{{/isNotContainer}},
+        {{#isContainer}}"{{classname}}.{{enumName}}": {{classname}}.{{enumName}}{{/isContainer}}{{^isContainer}}"{{datatypeWithEnum}}": {{datatypeWithEnum}}{{/isContainer}},
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}

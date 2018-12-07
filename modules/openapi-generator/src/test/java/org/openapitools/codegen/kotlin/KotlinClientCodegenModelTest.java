@@ -90,7 +90,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -101,7 +101,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -111,7 +111,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a simple model: threetenbp")
@@ -131,7 +131,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "org.threeten.bp.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a simple model: date string")
@@ -151,7 +151,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "kotlin.String");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a simple model: date java8")
@@ -171,7 +171,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with array property to default kotlin.Array")
