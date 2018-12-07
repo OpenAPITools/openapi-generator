@@ -199,4 +199,32 @@ public class ModelUtilsTest {
 
         Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
     }
+
+    /**
+     * Issue https://github.com/OpenAPITools/openapi-generator/issues/1624.
+     * ModelUtils.isFreeFormObject() should not throw an NPE when passed an empty
+     * object schema that has additionalProperties defined as an empty object schema.
+     */
+    @Test
+    public void testIsFreeFormObject() {
+        // Create initial "empty" object schema.
+        ObjectSchema objSchema = new ObjectSchema();
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+
+        // Set additionalProperties to an empty ObjectSchema.
+        objSchema.setAdditionalProperties(new ObjectSchema());
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+
+        // Add a single property to the schema (no longer a free-form object).
+        Map<String, Schema> props = new HashMap<>();
+        props.put("prop1", new StringSchema());
+        objSchema.setProperties(props);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
+
+        // Test a non-object schema
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
+
+        // Test a null schema
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
+    }
 }
