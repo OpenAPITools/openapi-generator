@@ -581,10 +581,10 @@ public class JavaModelTest {
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "_");
-        Assert.assertEquals(property.getter, "getU");
-        Assert.assertEquals(property.setter, "setU");
+        Assert.assertEquals(property.getter, "get_U");
+        Assert.assertEquals(property.setter, "set_U");
         Assert.assertEquals(property.dataType, "String");
-        Assert.assertEquals(property.name, "u");
+        Assert.assertEquals(property.name, "_u");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
@@ -633,7 +633,7 @@ public class JavaModelTest {
                 {"/sample", "Sample"},
                 {"\\sample", "Sample"},
                 {"sample.name", "SampleName"},
-                {"_sample", "Sample"},
+                {"_sample", "_Sample"},
                 {"Sample", "Sample"},
         };
     }

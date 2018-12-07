@@ -279,7 +279,7 @@ public class GoModelTest {
             {"/sample", "Sample"},
             {"\\sample", "Sample"},
             {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
+            {"_sample", "_Sample"},
         };
     }
 

@@ -275,7 +275,7 @@ public class DartModelTest {
             {"/sample", "Sample"},
             {"\\sample", "\\Sample"},
             {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
+            {"_sample", "_Sample"},
         };
     }
 

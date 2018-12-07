@@ -278,10 +278,10 @@ public class PhpModelTest {
             {"sample", "Sample"},
             {"sample_name", "SampleName"},
             {"sample__name", "SampleName"},
-            {"/sample", "Sample"},
+            {"/sample", "_Sample"},
             {"\\sample", "\\Sample"},
             {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
+            {"_sample", "_Sample"},
         };
     }
 

@@ -96,6 +96,7 @@ public class StringUtils {
             word = m.replaceAll(rep);
         }
 
+        boolean startWithUnderscore = word.startsWith("_");
         // Remove all underscores (underscore_case to camelCase)
         p = Pattern.compile("(_)(.)");
         m = p.matcher(word);
@@ -131,6 +132,10 @@ public class StringUtils {
 
         // remove all underscore
         word = word.replaceAll("_", "");
+        if (startWithUnderscore) {
+            // As a leading underscore is intentional we need to re-append it
+            word = "_" + word;
+        }
 
         return word;
     }
@@ -138,9 +143,9 @@ public class StringUtils {
     /**
      * Return the name with escaped characters.
      *
-     * @param name the name to be escaped
-     * @param replacementMap map of replacement characters for non-allowed characters
-     * @param charactersToAllow characters that are not escaped
+     * @param name                the name to be escaped
+     * @param replacementMap      map of replacement characters for non-allowed characters
+     * @param charactersToAllow   characters that are not escaped
      * @param appendToReplacement String to append to replaced characters.
      * @return the escaped word
      * <p>
@@ -153,13 +158,15 @@ public class StringUtils {
             if (charactersToAllow != null && charactersToAllow.contains(character)) {
                 return character;
             } else if (replacementMap.containsKey(character)) {
-                return replacementMap.get(character) + (appendToReplacement != null ? appendToReplacement: "");
+                return replacementMap.get(character) + (appendToReplacement != null ? appendToReplacement : "");
             } else {
                 return character;
             }
-        }).reduce( (c1, c2) -> "" + c1 + c2).orElse(null);
+        }).reduce((c1, c2) -> "" + c1 + c2).orElse(null);
 
-        if (result != null) return result;
+        if (result != null) {
+            return result;
+        }
         throw new RuntimeException("Word '" + name + "' could not be escaped.");
     }
 }

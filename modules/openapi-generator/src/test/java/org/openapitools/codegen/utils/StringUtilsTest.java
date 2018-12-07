@@ -13,11 +13,13 @@ public class StringUtilsTest {
         Assert.assertEquals(camelize("abcd"), "Abcd");
         Assert.assertEquals(camelize("some-value"), "SomeValue");
         Assert.assertEquals(camelize("some_value"), "SomeValue");
+        Assert.assertEquals(camelize("_some_value"), "_SomeValue");
         Assert.assertEquals(camelize("$type"), "$Type");
 
         Assert.assertEquals(camelize("abcd", true), "abcd");
         Assert.assertEquals(camelize("some-value", true), "someValue");
         Assert.assertEquals(camelize("some_value", true), "someValue");
+        Assert.assertEquals(camelize("_some_value", true), "_someValue");
         Assert.assertEquals(camelize("Abcd", true), "abcd");
         Assert.assertEquals(camelize("$type", true), "$type");
 
