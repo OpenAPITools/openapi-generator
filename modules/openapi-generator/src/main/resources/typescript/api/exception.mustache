@@ -1,5 +1,5 @@
 export class ApiException<T> extends Error {
 	public constructor(public code: number, public body: T) {
-		super("Got HTTP Status Code " + code)
+        super("HTTP-Code: " + code + "\nMessage: " + JSON.stringify(body))  
 	}
 }

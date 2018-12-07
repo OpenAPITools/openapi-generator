@@ -23,7 +23,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -55,7 +56,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -87,7 +89,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -120,7 +123,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -148,7 +152,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -180,13 +185,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
         if (username !== undefined) {
-        	requestContext.setQueryParam("", ObjectSerializer.serialize(username, "string"));
+        	requestContext.setQueryParam("username", ObjectSerializer.serialize(username, "string"));
         }
         if (password !== undefined) {
-        	requestContext.setQueryParam("", ObjectSerializer.serialize(password, "string"));
+        	requestContext.setQueryParam("password", ObjectSerializer.serialize(password, "string"));
         }
 	
 		// Header Params
@@ -208,7 +214,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -241,7 +248,8 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 	
 		// Header Params
@@ -282,7 +290,8 @@ export class UserApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -298,7 +307,8 @@ export class UserApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -314,7 +324,8 @@ export class UserApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -333,7 +344,8 @@ export class UserApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -359,7 +371,8 @@ export class UserApiResponseProcessor {
             const body: User = ObjectSerializer.deserialize(jsonBody, "User") as User;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -382,7 +395,8 @@ export class UserApiResponseProcessor {
             const body: string = ObjectSerializer.deserialize(jsonBody, "string") as string;            
 			return body;        		
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -398,7 +412,8 @@ export class UserApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	/**
@@ -417,7 +432,8 @@ export class UserApiResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	return;
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 }

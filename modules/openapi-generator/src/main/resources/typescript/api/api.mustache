@@ -32,17 +32,18 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
 		// Make Request Context
     	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
-            
+        requestContext.setHeaderParam("Accept", "application/json")
+
         // Query Params
 		{{#queryParams}}
         if ({{paramName}} !== undefined) {
-        	requestContext.setQueryParam("{{basename}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
+        	requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
         }
 		{{/queryParams}}
 	
 		// Header Params
 		{{#headerParams}}
-		requestContext.setHeaderParam("{{basename}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
+		requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
 		{{/headerParams}}
 	
 		// Form Params
@@ -154,7 +155,8 @@ export class {{classname}}ResponseProcessor {
         	return;
         	{{/returnType}}
         }
-    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!");
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
     }
 			
 	{{/operation}}
