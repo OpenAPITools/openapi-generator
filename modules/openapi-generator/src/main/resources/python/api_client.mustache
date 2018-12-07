@@ -246,14 +246,13 @@ class ApiClient(object):
 
         try
             data = response.data.decode('utf-8')
+            # fetch data from response object
+            data = json.loads(data)
         except UnicodeDecodeError:
             # probably data is a binary content itself
             data = response.data
-
-        # fetch data from response object
-        try:
-            data = json.loads(data)
         except ValueError:
+            # failed to fetch data from response object
             pass
 
         return self.__deserialize(data, response_type)
