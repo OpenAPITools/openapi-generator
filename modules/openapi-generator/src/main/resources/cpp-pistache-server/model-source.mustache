@@ -9,10 +9,10 @@ namespace {{this}} {
 
 {{classname}}::{{classname}}()
 {
-    {{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
+    {{#vars}}{{^isContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
     {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
     {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
-    {{/isDateTime}}{{/isPrimitiveType}}{{/isNotContainer}}{{^required}}m_{{name}}IsSet = false;
+    {{/isDateTime}}{{/isPrimitiveType}}{{/isContainer}}{{^required}}m_{{name}}IsSet = false;
     {{/required}}{{/vars}}
 }
 
@@ -145,11 +145,11 @@ void {{classname}}::fromJson(const nlohmann::json& val)
 }
 
 
-{{#vars}}{{^isNotContainer}}{{{dataType}}}& {{classname}}::{{getter}}()
+{{#vars}}{{#isContainer}}{{{dataType}}}& {{classname}}::{{getter}}()
 {
     return m_{{name}};
 }
-{{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{classname}}::{{getter}}() const
+{{/isContainer}}{{^isContainer}}{{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
@@ -158,7 +158,7 @@ void {{classname}}::{{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPri
     m_{{name}} = value;
     {{^required}}m_{{name}}IsSet = true;{{/required}}
 }
-{{/isNotContainer}}
+{{/isContainer}}
 {{^required}}bool {{classname}}::{{nameInCamelCase}}IsSet() const
 {
     return m_{{name}}IsSet;
