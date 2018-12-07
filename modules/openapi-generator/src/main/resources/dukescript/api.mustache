@@ -1,0 +1,26 @@
+package {{package}};
+
+import java.util.List;
+import java.util.function.Consumer;
+
+import {{modelPackage}}.*;
+import net.java.html.json.Model;
+import net.java.html.json.ModelOperation;
+import net.java.html.json.OnReceive;
+import net.java.html.json.Property;
+
+{{#operations}}
+@ModelOperation
+@Model(className = "{{classname}}", targetId = "", properties = {
+    @Property(name="url", type=String.class )
+})
+public class {{classname}}Connector {
+{{#operation}}    // {{summary}}
+    @OnReceive(method = "{{httpMethod}}", {{#allParams}}{{#isBodyParam}}data={{dataType}}.class, {{/isBodyParam}}{{/allParams}} url = "{url}{{path}}")
+    public static void {{operationId}}( {{classname}} model{{#bodyParam}}{{#isBodyParam}}, {{dataType}} {{paramName}}{{/isBodyParam}}{{/bodyParam}}{{#hasProduces}},{{#isListContainer}}List<{{returnBaseType}}> result{{/isListContainer}}{{^isListContainer}} {{baseName}} result{{/isListContainer}},Consumer<{{#isListContainer}}List<{{returnBaseType}}>{{/isListContainer}}{{^isListContainer}} {{baseName}}{{/isListContainer}}> onSuccess{{/hasProduces}}, Consumer<Throwable> onError) {
+
+    }
+
+{{/operation}}
+{{/operations}}
+}

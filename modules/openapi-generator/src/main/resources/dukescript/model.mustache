@@ -1,0 +1,24 @@
+package {{package}};
+
+{{#models}}
+{{#model}}
+import java.util.List;
+import net.java.html.json.ComputedProperty;
+import net.java.html.json.Function;
+import net.java.html.json.Model;
+import net.java.html.json.ModelOperation;
+import net.java.html.json.OnPropertyChange;
+import net.java.html.json.OnReceive;
+import net.java.html.json.Property;
+
+@Model(className = "{{classname}}", targetId = "", properties = {
+{{#vars}} 
+    {{^-first}}, {{/-first}}{{^isListContainer}}@Property(name = "{{baseName}}", type = {{baseType}}.class){{/isListContainer}}{{#isListContainer}}@Property(name = "{{baseName}}", type = {{#items}}{{datatype}}{{/items}}.class, array=true){{/isListContainer}}
+{{/vars}}
+  }
+)
+public class {{classname}}VMD{
+
+}
+{{/model}}
+{{/models}}
