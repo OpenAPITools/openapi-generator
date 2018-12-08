@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public final class CodegenModelFactory {
             throw new IllegalArgumentException(implementation.getSimpleName() + " doesn't extend " + type.getDefaultImplementation().getSimpleName());
         }
         try {
-            implementation.newInstance();
+            implementation.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
@@ -46,8 +47,8 @@ public final class CodegenModelFactory {
     public static <T> T newInstance(CodegenModelType type) {
         Class<?> classType = typeMapping.get(type);
         try {
-            return (T) (classType != null ? classType : type.getDefaultImplementation()).newInstance();
-        } catch (IllegalAccessException | InstantiationException e) {
+            return (T) (classType != null ? classType : type.getDefaultImplementation()).getDeclaredConstructor().newInstance();
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
