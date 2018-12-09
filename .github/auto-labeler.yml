@@ -232,4 +232,5 @@ labels:
     'WIP':
       - '\s*?\[wip\]\s*?'
       - '\s*?\[WIP\]\s*?'
+      - '\bWIP:.*?'
     # 'help wanted':
