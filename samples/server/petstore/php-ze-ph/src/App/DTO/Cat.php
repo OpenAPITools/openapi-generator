@@ -9,6 +9,12 @@ use Articus\DataTransfer\Annotation as DTA;
 class Cat
 {
     /**
+     * @DTA\Data(field="declawed", nullable=true)
+     * @DTA\Validator(name="Type", options={"type":"bool"})
+     * @var bool
+     */
+    public $declawed;
+    /**
      * @DTA\Data(field="className")
      * @DTA\Validator(name="Type", options={"type":"string"})
      * @var string
@@ -20,10 +26,4 @@ class Cat
      * @var string
      */
     public $color;
-    /**
-     * @DTA\Data(field="declawed", nullable=true)
-     * @DTA\Validator(name="Type", options={"type":"bool"})
-     * @var bool
-     */
-    public $declawed;
 }

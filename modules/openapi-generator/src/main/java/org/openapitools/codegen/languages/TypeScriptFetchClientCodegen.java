@@ -22,6 +22,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.CodegenConstants.MODEL_PROPERTY_NAMING_TYPE;
@@ -132,9 +134,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "Blob";
-        } else {
-            return super.getTypeDeclaration(p);
+        } else if (ModelUtils.isDateSchema(p)) {
+            return "Date";
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            return "Date";
         }
+        return super.getTypeDeclaration(p);
     }
 
     @Override
@@ -183,6 +188,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         this.addOperationModelImportInfomation(operations);
+        this.updateOperationParameterEnumInformation(operations);
         return operations;
     }
 
@@ -194,6 +200,25 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         for (Map<String, Object> im : imports) {
             im.put("className", im.get("import").toString().replace("models.", ""));
         }
+    }
+
+    private void updateOperationParameterEnumInformation(Map<String, Object> operations) {
+        // This method will add extra infomation as to whether or not we have enums and
+        // update their names with the operation.id prefixed.
+        Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
+        boolean hasEnum = false;
+        for (CodegenOperation op : operationList) {
+            for (CodegenParameter param : op.allParams) {
+                if (Boolean.TRUE.equals(param.isEnum)) {
+                    hasEnum = true;
+                    param.datatypeWithEnum = param.datatypeWithEnum
+                            .replace(param.enumName, op.operationIdCamelCase + param.enumName);
+                }
+            }
+        }
+
+        operations.put("hasEnums", hasEnum);
     }
 
     private void addExtraReservedWords() {

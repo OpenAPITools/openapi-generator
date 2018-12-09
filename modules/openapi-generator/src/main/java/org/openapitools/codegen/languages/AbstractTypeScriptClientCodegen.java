@@ -32,6 +32,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
@@ -159,7 +161,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toParamName(String name) {
         // sanitize name
-        name = sanitizeName(name, "\\W-[\\$]");
+        name = sanitizeName(name, "[^\\w$]");
 
         if ("_".equals(name)) {
             name = "_u";
@@ -221,27 +223,27 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("model_" + name);
+            String modelName = camelize("model_" + name);
             LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         if (languageSpecificPrimitives.contains(name)) {
-            String modelName = org.openapitools.codegen.utils.StringUtils.camelize("model_" + name);
+            String modelName = camelize("model_" + name);
             LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
             return modelName;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
@@ -405,10 +407,10 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // method name cannot use reserved keyword, e.g. return
         // append _ at the beginning, e.g. _return
         if (isReservedWord(operationId)) {
-            return escapeReservedWord(org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true));
+            return escapeReservedWord(camelize(sanitizeName(operationId), true));
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), true);
     }
 
     public void setModelPropertyNaming(String naming) {
@@ -431,11 +433,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case original:
                 return name;
             case camelCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+                return camelize(name, true);
             case PascalCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name);
+                return camelize(name);
             case snake_case:
-                return org.openapitools.codegen.utils.StringUtils.underscore(name);
+                return underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
@@ -466,7 +468,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(name));
+            return camelize(getSymbolName(name));
         }
 
         // number
@@ -486,7 +488,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         // camelize the enum variable name
         // ref: https://basarat.gitbooks.io/typescript/content/docs/enums.html
-        enumName = org.openapitools.codegen.utils.StringUtils.camelize(enumName);
+        enumName = camelize(enumName);
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;

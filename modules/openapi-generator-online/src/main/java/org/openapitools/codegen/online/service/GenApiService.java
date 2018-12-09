@@ -69,12 +69,8 @@ public class GenApiService implements GenApiDelegate {
         servers.sort(String.CASE_INSENSITIVE_ORDER);
     }
 
-    private final NativeWebRequest request;
-
     @Autowired
-    public GenApiService(NativeWebRequest request) {
-        this.request = request;
-    }
+    private NativeWebRequest request;
 
     @Override
     public Optional<NativeWebRequest> getRequest() {

@@ -273,5 +273,7 @@ module Petstore
         value
       end
     end
+
   end
+
 end

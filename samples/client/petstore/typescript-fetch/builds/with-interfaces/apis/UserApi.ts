@@ -63,6 +63,8 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling createUser.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -71,6 +73,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user`,
             method: 'POST',
             headers: headerParameters,
+            query: queryParameters,
             body: UserToJSON(requestParameters.user),
         });
 
@@ -93,6 +96,8 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling createUsersWithArrayInput.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -101,6 +106,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/createWithArray`,
             method: 'POST',
             headers: headerParameters,
+            query: queryParameters,
             body: requestParameters.user.map(UserToJSON),
         });
 
@@ -122,6 +128,8 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling createUsersWithListInput.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -130,6 +138,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/createWithList`,
             method: 'POST',
             headers: headerParameters,
+            query: queryParameters,
             body: requestParameters.user.map(UserToJSON),
         });
 
@@ -152,12 +161,15 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling deleteUser.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
             method: 'DELETE',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.VoidApiResponse(response);
@@ -179,12 +191,15 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling getUserByName.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
             method: 'GET',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
@@ -244,12 +259,15 @@ export class UserApi extends runtime.BaseAPI {
      * Logs out current logged in user session
      */
     async logoutUserRaw(): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
             path: `/user/logout`,
             method: 'GET',
             headers: headerParameters,
+            query: queryParameters,
         });
 
         return new runtime.VoidApiResponse(response);
@@ -275,6 +293,8 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling updateUser.');
         }
 
+        const queryParameters: runtime.HTTPQuery = {};
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
@@ -283,6 +303,7 @@ export class UserApi extends runtime.BaseAPI {
             path: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
             method: 'PUT',
             headers: headerParameters,
+            query: queryParameters,
             body: UserToJSON(requestParameters.user),
         });
 

@@ -1,7 +1,7 @@
   {{#description}}
   # {{{description}}}
   {{/description}}
-  class {{classname}}
+  class {{classname}}{{#parent}} < {{{.}}}{{/parent}}
   {{#vars}}
     {{#description}}
     # {{{description}}}
@@ -51,6 +51,54 @@
       }
     end
 
+    {{#anyOf}}
+    {{#-first}}
+    # List of class defined in anyOf (OpenAPI v3)
+    def self.openapi_any_of
+      [
+    {{/-first}}
+      :'{{{.}}}'{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/anyOf}}
+    {{#oneOf}}
+    {{#-first}}
+    # List of class defined in oneOf (OpenAPI v3)
+    def self.openapi_one_of
+      [
+    {{/-first}}
+      :'{{{.}}}'{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/oneOf}}
+    {{#allOf}}
+    {{#-first}}
+    # List of class defined in allOf (OpenAPI v3)
+    def self.openapi_all_of
+      [
+    {{/-first}}
+      :'{{{.}}}'{{^-last}},{{/-last}}
+    {{#-last}}
+      ]
+    end
+
+    {{/-last}}
+    {{/allOf}}
+    {{#discriminator}}
+    {{#propertyName}}
+    # discriminator's property name in OpenAPI v3
+    def self.openapi_discriminator_name
+      :'{{{.}}}'
+    end
+
+    {{/propertyName}}
+    {{/discriminator}}
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
@@ -58,6 +106,11 @@
 
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      {{#parent}}
+
+      # call parent's initialize
+      super(attributes)
+      {{/parent}}
       {{#vars}}
 
       if attributes.has_key?(:'{{{baseName}}}')
@@ -85,7 +138,7 @@
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = Array.new
+      invalid_properties = {{^parent}}Array.new{{/parent}}{{#parent}}super{{/parent}}
       {{#vars}}
       {{^isNullable}}
       {{#required}}
@@ -182,7 +235,45 @@
       {{/minItems}}
       {{/hasValidation}}
       {{/vars}}
-      true
+      {{#anyOf}}
+      {{#-first}}
+      _any_of_found = false
+      openapi_any_of.each do |_class|
+        _any_of = {{moduleName}}.const_get(_class).new
+        _any_of.build_from_hash(self.to_hash)
+        if _any_of.valid?
+          _any_of_found = true
+        end
+      end
+
+      if !_any_of_found?
+        return false
+      end
+
+      {{/-first}}
+      {{/anyOf}}
+      {{#oneOf}}
+      {{#-first}}
+      _one_of_found = false
+      openapi_one_of.each do |_class|
+        _one_of = {{moduleName}}.const_get(_class).new
+        _one_of.build_from_hash(self.to_hash)
+        if _one_of.valid?
+          if _one_of_found?
+            return false
+          else
+            _one_of_found = true
+          end
+        end
+      end
+
+      if !_one_of_found?
+        return false
+      end
+
+      {{/-first}}
+      {{/oneOf}}
+      true{{#parent}} && super{{/parent}}
     end
 
     {{#vars}}
@@ -266,7 +357,7 @@
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class{{#vars}} &&
-          {{name}} == o.{{name}}{{/vars}}
+          {{name}} == o.{{name}}{{/vars}}{{#parent}} && super(o){{/parent}}
     end
 
     # @see the `==` method

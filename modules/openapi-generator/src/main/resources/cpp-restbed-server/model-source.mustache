@@ -18,10 +18,10 @@ namespace {{this}} {
 
 {{classname}}::{{classname}}()
 {
-    {{#vars}}{{#isNotContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
+    {{#vars}}{{^isContainer}}{{#isPrimitiveType}}m_{{name}} = {{{defaultValue}}};
     {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isString}}m_{{name}} = {{{defaultValue}}};
     {{/isString}}{{#isDateTime}}m_{{name}} = {{{defaultValue}}};
-    {{/isDateTime}}{{/isPrimitiveType}}{{/isNotContainer}}{{/vars}}
+    {{/isDateTime}}{{/isPrimitiveType}}{{/isContainer}}{{/vars}}
 }
 
 {{classname}}::~{{classname}}()
@@ -33,7 +33,7 @@ std::string {{classname}}::toJsonString()
 	std::stringstream ss;
 	ptree pt;
 	{{#vars}}
-	{{#isNotContainer}}
+	{{^isContainer}}
 	{{#isPrimitiveType}}
 	pt.put("{{name}}", m_{{name}});
 	{{/isPrimitiveType}}
@@ -45,7 +45,7 @@ std::string {{classname}}::toJsonString()
 	pt.put("{{name}}", m_{{name}});
 	{{/isDateTime}}
 	{{/isPrimitiveType}}
-	{{/isNotContainer}}
+	{{/isContainer}}
 	{{/vars}}
 	write_json(ss, pt, false);
 	return ss.str();
@@ -57,7 +57,7 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 	ptree pt;
 	read_json(ss,pt);
 	{{#vars}}
-	{{#isNotContainer}}
+	{{^isContainer}}
 	{{#isPrimitiveType}}
 	m_{{name}} = pt.get("{{name}}", {{{defaultValue}}});
 	{{/isPrimitiveType}}
@@ -69,7 +69,7 @@ void {{classname}}::fromJsonString(std::string const& jsonString)
 	m_{{name}} = pt.get("{{name}}", {{{defaultValue}}});
 	{{/isDateTime}}
 	{{/isPrimitiveType}}
-	{{/isNotContainer}}
+	{{/isContainer}}
 	{{/vars}}
 }
 

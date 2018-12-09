@@ -184,6 +184,9 @@ samples/server/petstore/kotlin-server/ktor/build
 .stack-work
 .cabal-sandbox
 cabal.project.local
+samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
+samples/client/petstore/haskell-http-client/docs/meta.json
+samples/client/petstore/haskell-http-client/docs/quick-jump.css
 
 # R
 .Rproj.user
@@ -212,3 +215,7 @@ samples/client/petstore/javascript/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html
+
+# C
+samples/client/petstore/c/build
+samples/client/petstore/c/*.so

@@ -53,12 +53,22 @@ paths:
       responses:
         200:
           content:
-            '*/*':
+            application/json:
               schema:
                 format: binary
                 type: string
           description: Success
       summary: Get a file
+  /raw_json:
+    get:
+      responses:
+        200:
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: Success
+      summary: Get an arbitrary JSON blob.
 components:
   requestBodies:
     nested_response:

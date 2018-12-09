@@ -138,9 +138,9 @@ instance Arbitrary Capitalization where
 instance Arbitrary Cat where
   arbitrary =
     Cat
-      <$> arbitrary -- catClassName :: Text
+      <$> arbitrary -- catDeclawed :: Maybe Bool
+      <*> arbitrary -- catClassName :: Text
       <*> arbitrary -- catColor :: Maybe Text
-      <*> arbitrary -- catDeclawed :: Maybe Bool
     
 instance Arbitrary Category where
   arbitrary =
@@ -161,9 +161,9 @@ instance Arbitrary Client where
 instance Arbitrary Dog where
   arbitrary =
     Dog
-      <$> arbitrary -- dogClassName :: Text
+      <$> arbitrary -- dogBreed :: Maybe Text
+      <*> arbitrary -- dogClassName :: Text
       <*> arbitrary -- dogColor :: Maybe Text
-      <*> arbitrary -- dogBreed :: Maybe Text
     
 instance Arbitrary EnumArrays where
   arbitrary =

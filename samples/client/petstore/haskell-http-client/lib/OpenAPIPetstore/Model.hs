@@ -457,26 +457,26 @@ mkCapitalization =
 -- ** Cat
 -- | Cat
 data Cat = Cat
-  { catClassName :: !(Text) -- ^ /Required/ "className"
+  { catDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  , catClassName :: !(Text) -- ^ /Required/ "className"
   , catColor :: !(Maybe Text) -- ^ "color"
-  , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Cat
 instance A.FromJSON Cat where
   parseJSON = A.withObject "Cat" $ \o ->
     Cat
-      <$> (o .:  "className")
+      <$> (o .:? "declawed")
+      <*> (o .:  "className")
       <*> (o .:? "color")
-      <*> (o .:? "declawed")
 
 -- | ToJSON Cat
 instance A.ToJSON Cat where
   toJSON Cat {..} =
    _omitNulls
-      [ "className" .= catClassName
+      [ "declawed" .= catDeclawed
+      , "className" .= catClassName
       , "color" .= catColor
-      , "declawed" .= catDeclawed
       ]
 
 
@@ -486,9 +486,9 @@ mkCat
   -> Cat
 mkCat catClassName =
   Cat
-  { catClassName
+  { catDeclawed = Nothing
+  , catClassName
   , catColor = Nothing
-  , catDeclawed = Nothing
   }
 
 -- ** Category
@@ -584,26 +584,26 @@ mkClient =
 -- ** Dog
 -- | Dog
 data Dog = Dog
-  { dogClassName :: !(Text) -- ^ /Required/ "className"
+  { dogBreed :: !(Maybe Text) -- ^ "breed"
+  , dogClassName :: !(Text) -- ^ /Required/ "className"
   , dogColor :: !(Maybe Text) -- ^ "color"
-  , dogBreed :: !(Maybe Text) -- ^ "breed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Dog
 instance A.FromJSON Dog where
   parseJSON = A.withObject "Dog" $ \o ->
     Dog
-      <$> (o .:  "className")
+      <$> (o .:? "breed")
+      <*> (o .:  "className")
       <*> (o .:? "color")
-      <*> (o .:? "breed")
 
 -- | ToJSON Dog
 instance A.ToJSON Dog where
   toJSON Dog {..} =
    _omitNulls
-      [ "className" .= dogClassName
+      [ "breed" .= dogBreed
+      , "className" .= dogClassName
       , "color" .= dogColor
-      , "breed" .= dogBreed
       ]
 
 
@@ -613,9 +613,9 @@ mkDog
   -> Dog
 mkDog dogClassName =
   Dog
-  { dogClassName
+  { dogBreed = Nothing
+  , dogClassName
   , dogColor = Nothing
-  , dogBreed = Nothing
   }
 
 -- ** EnumArrays
@@ -1829,4 +1829,5 @@ instance AuthMethod AuthOAuthPetstoreAuth where
       then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
+
 

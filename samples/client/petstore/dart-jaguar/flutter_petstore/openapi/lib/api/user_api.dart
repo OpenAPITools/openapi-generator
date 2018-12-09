@@ -13,35 +13,54 @@ part 'user_api.jretro.dart';
 class UserApi extends _$UserApiClient implements ApiClient {
     final Route base;
     final SerializerRepo serializers;
+    final Duration timeout;
 
-    UserApi({this.base, this.serializers});
+    UserApi({this.base, this.serializers, this.timeout = const Duration(minutes: 2)});
 
     /// Create user
     ///
     /// This can only be done by the logged in user.
     @PostReq(path: "/user")
     Future<void> createUser(
+            
+              @AsJson() User user
+        ) {
+        return super.createUser(
+
         
-        @AsJson() User user
-    );
+        user
+        ).timeout(timeout);
+    }
 
     /// Creates list of users with given input array
     ///
     /// 
     @PostReq(path: "/user/createWithArray")
     Future<void> createUsersWithArrayInput(
+            
+              @AsJson() List<User> user
+        ) {
+        return super.createUsersWithArrayInput(
+
         
-        @AsJson() List<User> user
-    );
+        user
+        ).timeout(timeout);
+    }
 
     /// Creates list of users with given input array
     ///
     /// 
     @PostReq(path: "/user/createWithList")
     Future<void> createUsersWithListInput(
+            
+              @AsJson() List<User> user
+        ) {
+        return super.createUsersWithListInput(
+
         
-        @AsJson() List<User> user
-    );
+        user
+        ).timeout(timeout);
+    }
 
     /// Delete user
     ///
@@ -49,7 +68,12 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @DeleteReq(path: "/user/:username")
     Future<void> deleteUser(
             @PathParam("username") String username
-    );
+        ) {
+        return super.deleteUser(
+        username
+
+        ).timeout(timeout);
+    }
 
     /// Get user by user name
     ///
@@ -57,7 +81,12 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @GetReq(path: "/user/:username")
     Future<User> getUserByName(
             @PathParam("username") String username
-    );
+        ) {
+        return super.getUserByName(
+        username
+
+        ).timeout(timeout);
+    }
 
     /// Logs user into the system
     ///
@@ -65,17 +94,29 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @GetReq(path: "/user/login")
     Future<String> loginUser(
         
-        @QueryParam("username") String username, 
+            @QueryParam("username") String username, 
         
-        @QueryParam("password") String password
-    );
+            @QueryParam("password") String password
+        ) {
+        return super.loginUser(
+        
+        username, 
+        
+        password
+
+        ).timeout(timeout);
+    }
 
     /// Logs out current logged in user session
     ///
     /// 
     @GetReq(path: "/user/logout")
     Future<void> logoutUser(
-    );
+        ) {
+        return super.logoutUser(
+
+        ).timeout(timeout);
+    }
 
     /// Updated user
     ///
@@ -83,9 +124,16 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @PutReq(path: "/user/:username")
     Future<void> updateUser(
             @PathParam("username") String username
+            ,
+              @AsJson() User user
+        ) {
+        return super.updateUser(
+        username
+
         ,
-        @AsJson() User user
-    );
+        user
+        ).timeout(timeout);
+    }
 
 
 }

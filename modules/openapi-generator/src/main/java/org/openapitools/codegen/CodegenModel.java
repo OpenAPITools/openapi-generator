@@ -19,14 +19,7 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,6 +32,11 @@ public class CodegenModel {
     public CodegenModel parentModel;
     public List<CodegenModel> interfaceModels;
     public List<CodegenModel> children;
+
+    // anyOf, oneOf, allOf
+    public Set<String> anyOf = new TreeSet<String>();
+    public Set<String> oneOf = new TreeSet<String>();
+    public Set<String> allOf = new TreeSet<String>();
 
     public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
     public String classFilename; // store the class file name, mainly used for import
@@ -53,8 +51,8 @@ public class CodegenModel {
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> readOnlyVars = new ArrayList<CodegenProperty>(); // a list of read-only properties
     public List<CodegenProperty> readWriteVars = new ArrayList<CodegenProperty>(); // a list of properties for read, write
-    public List<CodegenProperty> allVars;
-    public List<CodegenProperty> parentVars = new ArrayList<>();
+    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> parentVars = new ArrayList<CodegenProperty>();
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
@@ -195,11 +193,11 @@ public class CodegenModel {
         result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
         result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (hasVars ? 13:31);
-        result = 31 * result + (emptyVars ? 13:31);
-        result = 31 * result + (hasMoreModels ? 13:31);
-        result = 31 * result + (hasEnums ? 13:31);
-        result = 31 * result + (isEnum ? 13:31);
+        result = 31 * result + (hasVars ? 13 : 31);
+        result = 31 * result + (emptyVars ? 13 : 31);
+        result = 31 * result + (hasMoreModels ? 13 : 31);
+        result = 31 * result + (hasEnums ? 13 : 31);
+        result = 31 * result + (isEnum ? 13 : 31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
@@ -498,5 +496,68 @@ public class CodegenModel {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    /**
+     * Remove duplicated properties in all variable list and update "hasMore"
+     */
+    public void removeAllDuplicatedProperty() {
+        // remove duplicated properties
+        vars = removeDuplicatedProperty(vars);
+        optionalVars = removeDuplicatedProperty(optionalVars);
+        requiredVars = removeDuplicatedProperty(requiredVars);
+        parentVars = removeDuplicatedProperty(parentVars);
+        allVars = removeDuplicatedProperty(allVars);
+        readOnlyVars = removeDuplicatedProperty(readOnlyVars);
+        readWriteVars = removeDuplicatedProperty(readWriteVars);
+
+        // update property list's "hasMore"
+        updatePropertyListHasMore(vars);
+        updatePropertyListHasMore(optionalVars);
+        updatePropertyListHasMore(requiredVars);
+        updatePropertyListHasMore(parentVars);
+        updatePropertyListHasMore(allVars);
+        updatePropertyListHasMore(readOnlyVars);
+        updatePropertyListHasMore(readWriteVars);
+    }
+
+    private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
+        // clone the list first
+        List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
+        for (CodegenProperty cp : vars) {
+            newList.add(cp.clone());
+        }
+
+        Set<String> propertyNames = new TreeSet<String>();
+        Set<String> duplicatedNames = new TreeSet<String>();
+
+        ListIterator<CodegenProperty> iterator = newList.listIterator();
+        while (iterator.hasNext()) {
+            CodegenProperty element = iterator.next();
+
+            if (propertyNames.contains(element.baseName)) {
+                duplicatedNames.add(element.baseName);
+                iterator.remove();
+            } else {
+                propertyNames.add(element.baseName);
+            }
+        }
+
+        return newList;
+    }
+
+    /**
+     * Clone the element and update "hasMore" in the list of codegen properties
+     */
+    private void updatePropertyListHasMore(List<CodegenProperty> vars) {
+        if (vars != null) {
+            for (int i = 0; i < vars.size(); i++) {
+                if (i < vars.size() - 1) {
+                    vars.get(i).hasMore = true;
+                } else { // last element
+                    vars.get(i).hasMore = false;
+                }
+            }
+        }
     }
 }

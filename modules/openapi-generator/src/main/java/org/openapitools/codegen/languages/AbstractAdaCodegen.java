@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
@@ -666,7 +667,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 // method with only the scope that it requires.  We have to create a new auth method
                 // instance because the original object must not be modified.
                 List<String> opScopes = (scopes == null) ? null : scopes.get(authMethod.name);
-                authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
+                authMethod.name = camelize(sanitizeName(authMethod.name), true);
                 if (opScopes != null) {
                     CodegenSecurity opSecurity = new CodegenSecurity();
                     opSecurity.name = authMethod.name;

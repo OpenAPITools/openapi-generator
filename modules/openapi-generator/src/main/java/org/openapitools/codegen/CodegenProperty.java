@@ -17,11 +17,7 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenProperty implements Cloneable {
     public String baseName, complexType, getter, setter, description, dataType,
@@ -57,7 +53,7 @@ public class CodegenProperty implements Cloneable {
     public boolean exclusiveMaximum;
     public boolean hasMore, required, secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
-    public boolean isPrimitiveType, isModel, isContainer, isNotContainer;
+    public boolean isPrimitiveType, isModel, isContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
             isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
@@ -438,7 +434,6 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((hasMoreNonReadOnly ? 13 : 31));
         result = prime * result + ((isContainer ? 13 : 31));
         result = prime * result + (isEnum ? 1231 : 1237);
-        result = prime * result + ((isNotContainer ? 13 : 31));
         result = prime * result + ((isPrimitiveType ? 13 : 31));
         result = prime * result + ((isModel ? 13 : 31));
         result = prime * result + ((isReadOnly ? 13 : 31));
@@ -590,9 +585,6 @@ public class CodegenProperty implements Cloneable {
         if (this.isContainer != other.isContainer) {
             return false;
         }
-        if (this.isNotContainer != other.isNotContainer) {
-            return false;
-        }
         if (this.isEnum != other.isEnum) {
             return false;
         }
@@ -733,6 +725,7 @@ public class CodegenProperty implements Cloneable {
             if (this.vendorExtensions != null) {
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
+
             return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
@@ -775,7 +768,6 @@ public class CodegenProperty implements Cloneable {
                 ", isPrimitiveType=" + isPrimitiveType +
                 ", isModel=" + isModel +
                 ", isContainer=" + isContainer +
-                ", isNotContainer=" + isNotContainer +
                 ", isString=" + isString +
                 ", isNumeric=" + isNumeric +
                 ", isInteger=" + isInteger +
@@ -817,4 +809,6 @@ public class CodegenProperty implements Cloneable {
                 ", isXmlWrapped=" + isXmlWrapped +
                 '}';
     }
+
+
 }
