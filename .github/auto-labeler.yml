@@ -12,27 +12,27 @@ labels:
       - '\s*?[bB]reaking [cC]hange [wW]ithout [fF]allback\s*?'
     'Client: Ada':
       - '\s*?\[ada\]\s*?'
-      - '\s*?-[gl] ada\s*?'
+      - '\s*?-[gl] ada(?!-)\b'
     'Client: Android':
       - '\s*?\[android\]\s*?'
-      - '\s*?-[gl] android\s*?'
+      - '\s*?-[gl] android(?!-)\b'
     'Client: Apex':
-      - '\s*?\[android\]\s*?'
-      - '\s*?-[gl] android\s*?'
+      - '\s*?\[apex\]\s*?'
+      - '\s*?-[gl] apex(?!-)\b'
     'Client: Bash':
       - '\s*?\[bash\]\s*?'
-      - '\s*?-[gl] bash\s*?'
+      - '\s*?-[gl] bash(?!-)\b'
     'Client: C':
       - '\s*?\[[cC]\]\s*?'
-      - '\s*?-[gl] c\s*?'
+      - '\s*?-[gl] c(?!-)\b'
     # 'Client: Ceylon':
     'Client: C++':
       - '\s*?\[cpp(-.*)?-client\]\s*?'
       - '\s*?-[gl] cpp(-.*)?-client\s*?'
-      - '\s*?-[gl] cpp-restsdk\s*?'
-      - '\s*?-[gl] cpp-tizen\s*?'
+      - '\s*?-[gl] cpp-restsdk(?!-)\b'
+      - '\s*?-[gl] cpp-tizen(?!-)\b'
     'Client: C-Sharp':
-      - '\s*?-[gl] csharp\s*?'
+      - '\s*?-[gl] csharp(?!-)\b'
       - '\s*?[cC]-[sS]harp [cC]lient\s*?'
       - '\s*?-[gl] csharp-dotnet2\s*?'
       - '\s*?-[gl] csharp-refactor?\s*?'
@@ -40,23 +40,23 @@ labels:
       - '\s*?\[csharp\]\s*?'
     'Client: Clojure':
       - '\s*?\[clojure\]\s*?'
-      - '\s*?-[gl] clojure\s*?'
+      - '\s*?-[gl] clojure(?!-)\b'
     # 'Client: Crystal':
     'Client: Dart':
       - '\s*?\[dart\]\s*?'
-      - '\s*?-[gl] dart\s*?'
+      - '\s*?-[gl] dart(?!-)\b'
     'Client: Dukescript':
       - '\s*?\[dukescript\]\s*?'
       - '\s*?-g dukescript\s*?'
     'Client: Eiffel':
       - '\s*?\[eiffel\]\s*?'
-      - '\s*?-[gl] eiffel\s*?'
+      - '\s*?-[gl] eiffel(?!-)\b'
     'Client: Elixir':
       - '\s*?\[elixir\]\s*?'
-      - '\s*?-[gl] elixir\s*?'
+      - '\s*?-[gl] elixir(?!-)\b'
     'Client: Elm':
       - '\s*?\[elm\]\s*?'
-      - '\s*?-[gl] elm\s*?'
+      - '\s*?-[gl] elm(?!-)\b'
     'Client: Erlang':
       - '\s*?\[erlang(-.*)?-client\]\s*?'
       - '\s*?-[gl] erlang(-.*)?-client\s*?'
@@ -64,13 +64,13 @@ labels:
       - '\s*?-[gl] erlang-proper\s*?'
     'Client: Flash/ActionScript':
       - '\s*?\[flash\]\s*?'
-      - '\s*?-[gl] flash\s*?'
+      - '\s*?-[gl] flash(?!-)\b'
     'Client: Go':
       - '\s*?\[go\]\s*?'
-      - '\s*?-[gl] go\s*?'
+      - '\s*?-[gl] go(?!-)\b'
     'Client: Groovy':
       - '\s*?\[groovy\]\s*?'
-      - '\s*?-[gl] groovy\s*?'
+      - '\s*?-[gl] groovy(?!-)\b'
     'Client: HTML':
       - '\s*?\[html[2]?\]\s*?'
       - '\s*?-[gl] html[2]?\s*?'
@@ -82,7 +82,7 @@ labels:
       - '\s*?-[gl] jmeter\s*?'
     'Client: Java':
       - '\s*?\[java\]\s*?'
-      - '\s*?-[gl] java\s*?'
+      - '\s*?-[gl] java(?!-)\b'
     'Client: JavaScript/Node.js':
       - '\s*?\[javascript\]\s*?'
       - '\s*?-[gl] javascript\s*?'
@@ -90,49 +90,49 @@ labels:
     # 'Client: Julia': # NOTE: Not yet implemented
     'Client: Kotlin':
       - '\s*?\[kotlin\]\s*?'
-      - '\s*?-[gl] kotlin\s*?'
+      - '\s*?-[gl] kotlin(?!-)\b'
     'Client: Lisp':
       - '\s*?\[lisp\]\s*?'
-      - '\s*?-[gl] lisp\s*?'
+      - '\s*?-[gl] lisp(?!-)\b'
     'Client: Lua':
       - '\s*?\[lua\]\s*?'
-      - '\s*?-[gl] lua\s*?'
+      - '\s*?-[gl] lua(?!-)\b'
     'Client: Objc':
       - '\s*?\[objc\]\s*?'
       - '\s*?-[gl] objc\s*?'
     # 'Client: OCaml':
     'Client: Perl':
       - '\s*?\[perl\]\s*?'
-      - '\s*?-[gl] perl\s*?'
+      - '\s*?-[gl] perl(?!-)\b'
     # 'Client: PHP':
     'Client: PowerShell':
       - '\s*?\[powershell\]\s*?'
       - '\s*?-[gl] powershell\s*?'
     'Client: Python':
       - '\s*?\[python\]\s*?'
-      - '\s*?-[gl] python\s*?'
+      - '\s*?-[gl] python(?!-)\b'
     'Client: QT':
       - '\s*?\[cpp-qt5-client\]\s*?'
       - '\s*?-[gl] cpp-qt5-client\s*?'
     'Client: R':
       - '\s*?\[[rR]\]\s*?'
-      - '\s*?-[gl] r\s*?'
+      - '\s*?-[gl] r(?!-)\b'
     'Client: Reason ML':
       - '\s*?\[reasonml\]\s*?'
       - '\s*?-[g] reasonml\s*?'
     'Client: Retrofit':
-      - '\s*?retrofit\s*?'
+      - '\s*?retrofit.*?\s*?'
     'Client: Ruby':
       - '\s*?\[ruby\]\s*?'
-      - '\s*?-[gl] ruby\s*?'
+      - '\s*?-[gl] ruby(?!-)\b'
     'Client: Rust':
       - '\s*?\[rust\]\s*?'
-      - '\s*?-[gl] rust\s*?'
+      - '\s*?-[gl] rust(?!-)\b'
     'Client: Scala':
       - '\s*?\[scalaz\]\s*?'
       - '\s*?-[gl] scalaz\s*?'
-      - '\s*?\[scala-[a-z]+\]\s*?'
-      - '\s*?-[gl] scala-[a-z]+\s*?'
+      - '\s*?\[scala-(?!finch)[a-z]+\]\b'
+      - '\s*?-[gl] scala-(?!finch)[a-z]+?(?!-)\b'
     'Client: Swift':
       - '\s*?\[swift[34]+\]\s*?'
       - '\s*?-[gl] swift[34]+\s*?'
@@ -147,6 +147,12 @@ labels:
       - '\s*?-[gl] apache2\s*?'
     'Docker':
       - '\s*?\[docker\]\s*?'
+    'Documentation: Cwiki':
+      - '\s*?\[cwiki\]\s*?'
+      - '\s*?-[gl] cwiki\s*?'
+    'Documentation: Dynamic HTML':
+      - '\s*?\[dynamic-html\]\s*?'
+      - '\s*?-[gl] dynamic-html\s*?'
     'Enhancement: CI/Test':
       - '\s*?\[ci\]\s*?'
     'Enhancement: Code format':
@@ -236,10 +242,11 @@ labels:
       - '\s*?-[gl] graphql(-.*)?-server\s*?'
     'Server: Haskell':
       - '\s*?\[haskell]\s*?'
-      - '\s*?-[gl] haskell\s*?'
+      - '\s*?-[gl] haskell(?!-)\b'
     'Server: Java':
       - '\s*?\[java-.*?\]\s*?'
       - '\s*?-[gl] java-.*?\s*?'
+      - '\s*?-[gl] jaxrx-.*?\s*?'
     'Server: Kotlin':
       - '\s*?\[ktor]\s*?'
       - '\s*?\[kotlin-spring]\s*?'
@@ -269,6 +276,8 @@ labels:
       - '\s*?-[gl] scala(-.*)?-server\s*?'
       - '\s*?\[scalatra\]\s*?'
       - '\s*?-[gl] scalatra\s*?'
+      - '\s*?\[scala-finch\]\s*?'
+      - '\s*?-[gl] scala-finch\s*?'
     'Server: Spring':
       - '\s*?\[spring\]\s*?'
       - '\s*?-[g] spring\s*?'
