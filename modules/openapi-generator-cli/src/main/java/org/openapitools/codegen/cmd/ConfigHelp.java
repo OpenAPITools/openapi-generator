@@ -37,10 +37,6 @@ public class ConfigHelp implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
-    @Option(name = {"-l", "--lang"}, title = "language",
-            description = "language to get config help for")
-    private String lang;
-
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
             description = "generator to get config help for")
     private String generatorName;
@@ -57,16 +53,9 @@ public class ConfigHelp implements Runnable {
 
     @Override
     public void run() {
-
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isEmpty(generatorName)) {
-            if (isNotEmpty(lang)) {
-                LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
-                generatorName = lang;
-            } else {
-                System.err.println("[error] A generator name (--generator-name / -g) is required.");
-                System.exit(1);
-            }
+            System.err.println("[error] A generator name (--generator-name / -g) is required.");
+            System.exit(1);
         }
 
         try {
