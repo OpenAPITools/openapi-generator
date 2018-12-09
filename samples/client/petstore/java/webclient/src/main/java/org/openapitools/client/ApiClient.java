@@ -454,23 +454,6 @@ public class ApiClient {
     }
 
     /**
-     * Handles an unsuccessful server response.
-     * This method is called when the server returns a HTTP status code != 2xx.
-     *
-     * The default behaviour is to wrap the unsuccessful response in an {@code ApiException}
-     * and terminate the reactive stream with the exception.
-     *
-     * Can be overwritten to implement custom error handling.
-     *
-     * @param response the unsuccessful HTTP response
-     * @param <T>
-     * @return reactive stream in error state
-     */
-    protected <T> Mono<T> handleUnsuccessfulResponse(ClientResponse response) {
-        return Mono.error(new ApiException(response.statusCode().toString(), null, response.statusCode().value(), response.headers().asHttpHeaders()));
-    }
-
-    /**
      * Invoke API by sending HTTP request with the given options.
      *
      * @param <T> the return type to use
@@ -488,22 +471,7 @@ public class ApiClient {
      */
     public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMap(response -> {
-                HttpStatus statusCode = response.statusCode();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Mono.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Mono.empty();
-                    } else {
-                        return response.bodyToMono(returnType);
-                    }
-                } else {
-                    return handleUnsuccessfulResponse(response);
-                }
-        });
+        return requestBuilder.retrieve().bodyToMono(returnType);
     }
 
     /**
@@ -524,23 +492,7 @@ public class ApiClient {
      */
     public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMapMany(response -> {
-                HttpStatus statusCode = response.statusCode();
-                ClientResponse.Headers headers = response.headers();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Flux.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Flux.empty();
-                    } else {
-                        return response.bodyToFlux(returnType);
-                    }
-                } else {
-                    return handleUnsuccessfulResponse(response);
-                }
-            });
+        return requestBuilder.retrieve().bodyToFlux(returnType);
     }
 
     private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {
