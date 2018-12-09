@@ -4,10 +4,6 @@ comment: |
 
     Please review the labels and make any necessary changes.
 labels:
-    'bug':
-      - '\s*?bug[s]?\s*?'
-    'help wanted':
-      - '\s*?test(ing)?\s*?'
     'Announcement':
       - '\s*?\[[Aa]nnouncement\]\s*?'
     'Breaking change (with fallback)':
@@ -29,6 +25,7 @@ labels:
     'Client: C':
       - '\s*?\[[cC]\]\s*?'
       - '\s*?-[gl] c\s*?'
+    # 'Client: Ceylon':
     'Client: C++':
       - '\s*?\[cpp(-.*)?-client\]\s*?'
       - '\s*?-[gl] cpp(-.*)?-client\s*?'
@@ -37,15 +34,20 @@ labels:
     'Client: C-Sharp':
       - '\s*?-[gl] csharp\s*?'
       - '\s*?[cC]-[sS]harp [cC]lient\s*?'
-      - '\s*?-[gl] csharp(-.*)?\s*?'
+      - '\s*?-[gl] csharp-dotnet2\s*?'
+      - '\s*?-[gl] csharp-refactor?\s*?'
       - '\s*?\[[Cc]#\]'
       - '\s*?\[csharp\]\s*?'
     'Client: Clojure':
       - '\s*?\[clojure\]\s*?'
       - '\s*?-[gl] clojure\s*?'
+    # 'Client: Crystal':
     'Client: Dart':
       - '\s*?\[dart\]\s*?'
       - '\s*?-[gl] dart\s*?'
+    'Client: Dukescript':
+      - '\s*?\[dukescript\]\s*?'
+      - '\s*?-g dukescript\s*?'
     'Client: Eiffel':
       - '\s*?\[eiffel\]\s*?'
       - '\s*?-[gl] eiffel\s*?'
@@ -85,6 +87,7 @@ labels:
       - '\s*?\[javascript\]\s*?'
       - '\s*?-[gl] javascript\s*?'
       - '\s*?-[gl] javascript-(\S)*\s*?'
+    # 'Client: Julia': # NOTE: Not yet implemented
     'Client: Kotlin':
       - '\s*?\[kotlin\]\s*?'
       - '\s*?-[gl] kotlin\s*?'
@@ -97,18 +100,26 @@ labels:
     'Client: Objc':
       - '\s*?\[objc\]\s*?'
       - '\s*?-[gl] objc\s*?'
+    # 'Client: OCaml':
     'Client: Perl':
       - '\s*?\[perl\]\s*?'
       - '\s*?-[gl] perl\s*?'
+    # 'Client: PHP':
     'Client: PowerShell':
       - '\s*?\[powershell\]\s*?'
       - '\s*?-[gl] powershell\s*?'
     'Client: Python':
       - '\s*?\[python\]\s*?'
       - '\s*?-[gl] python\s*?'
+    'Client: QT':
+      - '\s*?\[cpp-qt5-client\]\s*?'
+      - '\s*?-[gl] cpp-qt5-client\s*?'
     'Client: R':
       - '\s*?\[[rR]\]\s*?'
       - '\s*?-[gl] r\s*?'
+    'Client: Reason ML':
+      - '\s*?\[reasonml\]\s*?'
+      - '\s*?-[g] reasonml\s*?'
     'Client: Retrofit':
       - '\s*?retrofit\s*?'
     'Client: Ruby':
@@ -129,17 +140,26 @@ labels:
     'Client: TypeScript':
       - '\s*?\[typescript-[\-a-z]+\]\s*?'
       - '\s*?-[gl] typescript-[\-a-z]+\s*?'
-    # 'Client: VB/VB.net':
-    # 'Client: Visual Basic':
-    # 'Config: Apache':
-    # 'Docker':
-    # 'Enhancement: CI/Test':
-    # 'Enhancement: Code format':
+    # 'Client: VB/VB.net': # NOTE: Not yet implemented
+    # 'Client: Visual Basic': # TODO: REMOVE UNUSED LABEL
+    'Config: Apache':
+      - '\s*?\[apache2\]\s*?'
+      - '\s*?-[gl] apache2\s*?'
+    'Docker':
+      - '\s*?\[docker\]\s*?'
+    'Enhancement: CI/Test':
+      - '\s*?\[ci\]\s*?'
+    'Enhancement: Code format':
+      - '\s*?\[format(ting)?\]\s*?'
     # 'Enhancement: Compatibility':
-    # 'Enhancement: Feature':
-    # 'Enhancement: General':
+    'Enhancement: Feature':
+      - '\s*?\[feat(ure)?s*?'
+    'Enhancement: General':
+      - '\s*?\[general\]\s*?'
+      - '\s*?\[core\]\s*?'
     # 'Enhancement: New generator':
-    # 'Enhancement: Performance':
+    'Enhancement: Performance':
+      - '\s*?\[perf\]\s*?'
     # 'Feature List: API clients':
     # 'Feature List: API documentations':
     # 'Feature List: API servers':
@@ -148,22 +168,27 @@ labels:
     # 'Feature: Documentation':
     # 'Feature: Enum':
     # 'Feature: Generator':
-    # 'Feature: OAS 3.0 spec support':
+    'Feature: OAS 3.0 spec support':
+      - '\s*?\[oas3[\.0]?\]\s*?'
     # 'General: Awaiting feedback':
-    # 'General: Discussion':
-    # 'General: Question':
-    # 'General: Suggestion':
-    # 'General: Support':
+    'General: Discussion':
+      - '\s*?\[discussion\]\s*?'
+    'General: Question':
+      - '\s*?\[question\]\s*?'
+    'General: Suggestion':
+      - '\s*?\[suggestion\]\s*?'
+    'General: Support':
+      - '\s*?\[support\]\s*?'
     'Issue: Bug':
-      - '\s*?bug[s]?\s*?'
-      - '\s*?\[bug\]\s*?'
-      - '\s*?\[fix\]\s*?'
+      - '\s*?\[bug(s)?\]\s*?'
+      - '\s*?\[fix(es)?\]\s*?'
     # 'Issue: Invalid spec':
     # 'Issue: Migration':
     # 'Issue: Non-operational':
     # 'Issue: Platform':
     # 'Issue: Regression':
-    # 'Issue: Security':
+    'Issue: Security':
+      - '\s*?\[security\]\s*?'
     # 'Issue: Unable to reproduce':
     # 'Issue: Undo changes':
     # 'Issue: Usage/Installation':
@@ -178,22 +203,37 @@ labels:
       - '\s*?\[online\]\s*?'
     'Schema: MySQL':
       - '\s*?\[mysql\]\s*?'
-    # 'Server: Ada':
+      - '\s*?-[gl] mysql\s*?'
+    'Schema: GraphQL':
+      - '\s*?\[graphql-schema\]\s*?'
+      - '\s*?-[gl] graphql-schema\s*?'
+    'Server: Ada':
+      - '\s*?\[ada(-.*)?-server\]\s*?'
+      - '\s*?-[gl] ada(-.*)?-server\s*?'
     'Server: C++':
       - '\s*?\[cpp(-.*)?-server\]\s*?'
       - '\s*?-[gl] cpp(-.*)?-server\s*?'
     'Server: C-Sharp':
-      - '\s*?aspnetcore\s*?'
-    # 'Server: Ceylon':
-    # 'Server: Eiffel':
-    # 'Server: Elixir':
+      - '\s*?\[aspnetcore\]\s*?'
+      - '\s*?-[gl] aspnetcore\s*?'
+      - '\s*?\[csharp-nancyfx\]\s*?'
+      - '\s*?-[gl] csharp-nancyfx\s*?'
+    # 'Server: Ceylon': # TODO: REMOVE UNUSED LABEL
+    'Server: Eiffel':
+      - '\s*?\[eiffel(-.*)?-server\]\s*?'
+      - '\s*?-[gl] eiffel(-.*)?-server\s*?'
+    'Server: Elixir':
+      - '\s*?\[elixir(-.*)?-server\]\s*?'
+      - '\s*?-[gl] elixir(-.*)?-server\s*?'
     'Server: Erlang':
       - '\s*?\[erlang-server\]\s*?'
       - '\s*?-[gl] erlang-server\s*?'
     'Server: Go':
       - '\s*?\[go(-.*)?-server\]\s*?'
       - '\s*?-[gl] go(-.*)?-server\s*?'
-    # 'Server: GraphQL':
+    'Server: GraphQL':
+      - '\s*?\[graphql(-.*)?-server\]\s*?'
+      - '\s*?-[gl] graphql(-.*)?-server\s*?'
     'Server: Haskell':
       - '\s*?\[haskell]\s*?'
       - '\s*?-[gl] haskell\s*?'
@@ -212,7 +252,9 @@ labels:
     'Server: PHP':
       - '\s*?\[php-.*?\]\s*?'
       - '\s*?-[gl] php-.*?\s*?'
-    # 'Server: Perl':
+    'Server: Perl':
+      - '\s*?\[perl(-.*)?-server\]\s*?'
+      - '\s*?-g perl(-.*)?-server\s*?'
     'Server: Python':
       - '\s*?\[python-.*?\]\s*?'
       - '\s*?-[gl] python-.*?\s*?'
@@ -227,10 +269,13 @@ labels:
       - '\s*?-[gl] scala(-.*)?-server\s*?'
       - '\s*?\[scalatra\]\s*?'
       - '\s*?-[gl] scalatra\s*?'
-    # 'Server: Spring':
+    'Server: Spring':
+      - '\s*?\[spring\]\s*?'
+      - '\s*?-[g] spring\s*?'
     # 'Swagger-Parser':
     'WIP':
       - '\s*?\[wip\]\s*?'
       - '\s*?\[WIP\]\s*?'
       - '\bWIP:.*?'
-    # 'help wanted':
+    'help wanted':
+      - '\s*?\[help wanted\]\s*?'
