@@ -17,11 +17,8 @@ import io.swagger.annotations.ApiModelProperty;
 public class ModelApiResponse   {
   
   private Integer code;
-  
   private String type;
-  
   private String message;
-  
 
   /**
    **/

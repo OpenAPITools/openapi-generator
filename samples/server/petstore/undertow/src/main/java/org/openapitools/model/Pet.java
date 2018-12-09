@@ -22,15 +22,10 @@ import org.openapitools.model.Tag;
 public class Pet   {
   
   private Long id;
-  
   private Category category = null;
-  
   private String name;
-  
   private List<String> photoUrls = new ArrayList<String>();
-
-  private List<Tag> tags = null;
-
+  private List<Tag> tags = new ArrayList<Tag>();
 
 
   public enum StatusEnum {
@@ -52,7 +47,6 @@ public class Pet   {
   }
 
   private StatusEnum status;
-  
 
   /**
    **/

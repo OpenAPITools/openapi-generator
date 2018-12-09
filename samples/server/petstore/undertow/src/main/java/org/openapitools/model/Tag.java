@@ -17,9 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class Tag   {
   
   private Long id;
-  
   private String name;
-  
 
   /**
    **/

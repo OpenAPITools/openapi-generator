@@ -11,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Tag   {
   
   private Long id;
-  
   private String name;
-  
 
   public Tag () {
 

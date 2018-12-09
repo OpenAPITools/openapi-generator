@@ -17,9 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class Category   {
   
   private Long id;
-  
   private String name;
-  
 
   /**
    **/

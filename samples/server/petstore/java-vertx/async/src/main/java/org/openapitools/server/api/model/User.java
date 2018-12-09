@@ -11,21 +11,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class User   {
   
   private Long id;
-  
   private String username;
-  
   private String firstName;
-  
   private String lastName;
-  
   private String email;
-  
   private String password;
-  
   private String phone;
-  
   private Integer userStatus;
-  
 
   public User () {
 

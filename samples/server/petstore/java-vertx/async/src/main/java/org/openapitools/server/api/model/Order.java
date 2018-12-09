@@ -13,13 +13,9 @@ import java.time.OffsetDateTime;
 public class Order   {
   
   private Long id;
-  
   private Long petId;
-  
   private Integer quantity;
-  
   private OffsetDateTime shipDate;
-  
 
 
   public enum StatusEnum {
@@ -41,9 +37,7 @@ public class Order   {
   }
 
   private StatusEnum status;
-  
   private Boolean complete = false;
-  
 
   public Order () {
 

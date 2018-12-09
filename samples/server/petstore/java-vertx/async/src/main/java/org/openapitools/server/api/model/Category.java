@@ -11,9 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Category   {
   
   private Long id;
-  
   private String name;
-  
 
   public Category () {
 
