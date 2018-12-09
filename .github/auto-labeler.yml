@@ -1,0 +1,235 @@
+comment: |
+    👍 Thanks for opening this issue!
+    🏷 I have applied any labels matching special text in your issue.
+
+    Please review the labels and make any necessary changes.
+labels:
+    'bug':
+      - '\s*?bug[s]?\s*?'
+    'help wanted':
+      - '\s*?test(ing)?\s*?'
+    'Announcement':
+      - '\s*?\[[Aa]nnouncement\]\s*?'
+    'Breaking change (with fallback)':
+      - '\s*?[bB]reaking [cC]hange [wW]ith [fF]allback\s*?'
+    'Breaking change (without fallback)':
+      - '\s*?[bB]reaking [cC]hange [wW]ithout [fF]allback\s*?'
+    'Client: Ada':
+      - '\s*?\[ada\]\s*?'
+      - '\s*?-[gl] ada\s*?'
+    'Client: Android':
+      - '\s*?\[android\]\s*?'
+      - '\s*?-[gl] android\s*?'
+    'Client: Apex':
+      - '\s*?\[android\]\s*?'
+      - '\s*?-[gl] android\s*?'
+    'Client: Bash':
+      - '\s*?\[bash\]\s*?'
+      - '\s*?-[gl] bash\s*?'
+    'Client: C':
+      - '\s*?\[[cC]\]\s*?'
+      - '\s*?-[gl] c\s*?'
+    'Client: C++':
+      - '\s*?\[cpp(-.*)?-client\]\s*?'
+      - '\s*?-[gl] cpp(-.*)?-client\s*?'
+      - '\s*?-[gl] cpp-restsdk\s*?'
+      - '\s*?-[gl] cpp-tizen\s*?'
+    'Client: C-Sharp':
+      - '\s*?-[gl] csharp\s*?'
+      - '\s*?[cC]-[sS]harp [cC]lient\s*?'
+      - '\s*?-[gl] csharp(-.*)?\s*?'
+      - '\s*?\[[Cc]#\]'
+      - '\s*?\[csharp\]\s*?'
+    'Client: Clojure':
+      - '\s*?\[clojure\]\s*?'
+      - '\s*?-[gl] clojure\s*?'
+    'Client: Dart':
+      - '\s*?\[dart\]\s*?'
+      - '\s*?-[gl] dart\s*?'
+    'Client: Eiffel':
+      - '\s*?\[eiffel\]\s*?'
+      - '\s*?-[gl] eiffel\s*?'
+    'Client: Elixir':
+      - '\s*?\[elixir\]\s*?'
+      - '\s*?-[gl] elixir\s*?'
+    'Client: Elm':
+      - '\s*?\[elm\]\s*?'
+      - '\s*?-[gl] elm\s*?'
+    'Client: Erlang':
+      - '\s*?\[erlang(-.*)?-client\]\s*?'
+      - '\s*?-[gl] erlang(-.*)?-client\s*?'
+      - '\s*?\[erlang-proper\]\s*?'
+      - '\s*?-[gl] erlang-proper\s*?'
+    'Client: Flash/ActionScript':
+      - '\s*?\[flash\]\s*?'
+      - '\s*?-[gl] flash\s*?'
+    'Client: Go':
+      - '\s*?\[go\]\s*?'
+      - '\s*?-[gl] go\s*?'
+    'Client: Groovy':
+      - '\s*?\[groovy\]\s*?'
+      - '\s*?-[gl] groovy\s*?'
+    'Client: HTML':
+      - '\s*?\[html[2]?\]\s*?'
+      - '\s*?-[gl] html[2]?\s*?'
+    'Client: Haskell':
+      - '\s*?\[haskell(-.*)?-client\]\s*?'
+      - '\s*?-[gl] haskell(-.*)?-client\s*?'
+    'Client: JMeter':
+      - '\s*?\[jmeter\]\s*?'
+      - '\s*?-[gl] jmeter\s*?'
+    'Client: Java':
+      - '\s*?\[java\]\s*?'
+      - '\s*?-[gl] java\s*?'
+    'Client: JavaScript/Node.js':
+      - '\s*?\[javascript\]\s*?'
+      - '\s*?-[gl] javascript\s*?'
+      - '\s*?-[gl] javascript-(\S)*\s*?'
+    'Client: Kotlin':
+      - '\s*?\[kotlin\]\s*?'
+      - '\s*?-[gl] kotlin\s*?'
+    'Client: Lisp':
+      - '\s*?\[lisp\]\s*?'
+      - '\s*?-[gl] lisp\s*?'
+    'Client: Lua':
+      - '\s*?\[lua\]\s*?'
+      - '\s*?-[gl] lua\s*?'
+    'Client: Objc':
+      - '\s*?\[objc\]\s*?'
+      - '\s*?-[gl] objc\s*?'
+    'Client: Perl':
+      - '\s*?\[perl\]\s*?'
+      - '\s*?-[gl] perl\s*?'
+    'Client: PowerShell':
+      - '\s*?\[powershell\]\s*?'
+      - '\s*?-[gl] powershell\s*?'
+    'Client: Python':
+      - '\s*?\[python\]\s*?'
+      - '\s*?-[gl] python\s*?'
+    'Client: R':
+      - '\s*?\[[rR]\]\s*?'
+      - '\s*?-[gl] r\s*?'
+    'Client: Retrofit':
+      - '\s*?retrofit\s*?'
+    'Client: Ruby':
+      - '\s*?\[ruby\]\s*?'
+      - '\s*?-[gl] ruby\s*?'
+    'Client: Rust':
+      - '\s*?\[rust\]\s*?'
+      - '\s*?-[gl] rust\s*?'
+    'Client: Scala':
+      - '\s*?\[scalaz\]\s*?'
+      - '\s*?-[gl] scalaz\s*?'
+      - '\s*?\[scala-[a-z]+\]\s*?'
+      - '\s*?-[gl] scala-[a-z]+\s*?'
+    'Client: Swift':
+      - '\s*?\[swift[34]+\]\s*?'
+      - '\s*?-[gl] swift[34]+\s*?'
+      - '\s*?-[gl] swift2-deprecated\s*?'
+    'Client: TypeScript':
+      - '\s*?\[typescript-[\-a-z]+\]\s*?'
+      - '\s*?-[gl] typescript-[\-a-z]+\s*?'
+    # 'Client: VB/VB.net':
+    # 'Client: Visual Basic':
+    # 'Config: Apache':
+    # 'Docker':
+    # 'Enhancement: CI/Test':
+    # 'Enhancement: Code format':
+    # 'Enhancement: Compatibility':
+    # 'Enhancement: Feature':
+    # 'Enhancement: General':
+    # 'Enhancement: New generator':
+    # 'Enhancement: Performance':
+    # 'Feature List: API clients':
+    # 'Feature List: API documentations':
+    # 'Feature List: API servers':
+    # 'Feature: Authentication':
+    # 'Feature: Composition / Inheritance':
+    # 'Feature: Documentation':
+    # 'Feature: Enum':
+    # 'Feature: Generator':
+    # 'Feature: OAS 3.0 spec support':
+    # 'General: Awaiting feedback':
+    # 'General: Discussion':
+    # 'General: Question':
+    # 'General: Suggestion':
+    # 'General: Support':
+    'Issue: Bug':
+      - '\s*?bug[s]?\s*?'
+      - '\s*?\[bug\]\s*?'
+      - '\s*?\[fix\]\s*?'
+    # 'Issue: Invalid spec':
+    # 'Issue: Migration':
+    # 'Issue: Non-operational':
+    # 'Issue: Platform':
+    # 'Issue: Regression':
+    # 'Issue: Security':
+    # 'Issue: Unable to reproduce':
+    # 'Issue: Undo changes':
+    # 'Issue: Usage/Installation':
+    # 'Issue: Workaround available':
+    'OpenAPI Generator CLI':
+      - '\s*?\[cli\]\s*?'
+    'OpenAPI Generator Gradle Plugin':
+      - '\s*?\[gradle\]\s*?'
+    'OpenAPI Generator Maven Plugin':
+      - '\s*?\[maven\]\s*?'
+    'OpenAPI Generator Online':
+      - '\s*?\[online\]\s*?'
+    'Schema: MySQL':
+      - '\s*?\[mysql\]\s*?'
+    # 'Server: Ada':
+    'Server: C++':
+      - '\s*?\[cpp(-.*)?-server\]\s*?'
+      - '\s*?-[gl] cpp(-.*)?-server\s*?'
+    'Server: C-Sharp':
+      - '\s*?aspnetcore\s*?'
+    # 'Server: Ceylon':
+    # 'Server: Eiffel':
+    # 'Server: Elixir':
+    'Server: Erlang':
+      - '\s*?\[erlang-server\]\s*?'
+      - '\s*?-[gl] erlang-server\s*?'
+    'Server: Go':
+      - '\s*?\[go(-.*)?-server\]\s*?'
+      - '\s*?-[gl] go(-.*)?-server\s*?'
+    # 'Server: GraphQL':
+    'Server: Haskell':
+      - '\s*?\[haskell]\s*?'
+      - '\s*?-[gl] haskell\s*?'
+    'Server: Java':
+      - '\s*?\[java-.*?\]\s*?'
+      - '\s*?-[gl] java-.*?\s*?'
+    'Server: Kotlin':
+      - '\s*?\[ktor]\s*?'
+      - '\s*?\[kotlin-spring]\s*?'
+      - '\s*?\[kotlin(-.*)?-server\]\s*?'
+      - '\s*?-[gl] kotlin(-.*)?-server\s*?'
+      - '\s*?-[gl] kotlin-spring\s*?'
+    'Server: Nodejs':
+      - '\s*?\[nodejs(-.*)?-server\]\s*?'
+      - '\s*?-[gl] nodejs(-.*)?-server\s*?'
+    'Server: PHP':
+      - '\s*?\[php-.*?\]\s*?'
+      - '\s*?-[gl] php-.*?\s*?'
+    # 'Server: Perl':
+    'Server: Python':
+      - '\s*?\[python-.*?\]\s*?'
+      - '\s*?-[gl] python-.*?\s*?'
+    'Server: Ruby':
+      - '\s*?\[ruby-.*?\]\s*?'
+      - '\s*?-[gl] ruby-.*?\s*?'
+    'Server: Rust':
+      - '\s*?\[rust(-.*)?-server\]\s*?'
+      - '\s*?-[gl] rust(-.*)?-server\s*?'
+    'Server: Scala':
+      - '\s*?\[scala(-.*)?-server\]\s*?'
+      - '\s*?-[gl] scala(-.*)?-server\s*?'
+      - '\s*?\[scalatra\]\s*?'
+      - '\s*?-[gl] scalatra\s*?'
+    # 'Server: Spring':
+    # 'Swagger-Parser':
+    'WIP':
+      - '\s*?\[wip\]\s*?'
+      - '\s*?\[WIP\]\s*?'
+    # 'help wanted':
