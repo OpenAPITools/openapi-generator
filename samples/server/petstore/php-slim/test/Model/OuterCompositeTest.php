@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\OuterComposite;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\OuterComposite;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\OuterComposite
  */
-class OuterCompositeTest extends \PHPUnit_Framework_TestCase
+class OuterCompositeTest extends TestCase
 {
 
     /**

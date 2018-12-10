@@ -11,7 +11,7 @@ namespace {{this}} {
 {
     {{#vars}}
     {{^isInherited}}
-    {{#isNotContainer}}
+    {{^isContainer}}
     {{#isPrimitiveType}}
     m_{{name}} = {{{defaultValue}}};
     {{/isPrimitiveType}}
@@ -23,7 +23,7 @@ namespace {{this}} {
     m_{{name}} = {{{defaultValue}}};
     {{/isDateTime}}
     {{/isPrimitiveType}}
-    {{/isNotContainer}}
+    {{/isContainer}}
     {{^required}}
     m_{{name}}IsSet = false;
     {{/required}}
@@ -591,18 +591,18 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
 
 {{#vars}}
 {{^isInherited}}
-{{^isNotContainer}}
+{{#isContainer}}
 {{{dataType}}}& {{classname}}::{{getter}}()
 {
     return m_{{name}};
 }
-{{/isNotContainer}}
-{{#isNotContainer}}
+{{/isContainer}}
+{{^isContainer}}
 {{{dataType}}} {{classname}}::{{getter}}() const
 {
     return m_{{name}};
 }
-{{/isNotContainer}}
+{{/isContainer}}
 
 {{#isPrimitiveType}}
 void {{classname}}::{{setter}}({{{dataType}}} value)

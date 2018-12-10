@@ -68,7 +68,7 @@ export class StoreService {
     public getInventory(observe?: 'response', headers?: Headers): Observable<HttpResponse<{ [key: string]: number; }>>;
     public getInventory(observe: any = 'body', headers: Headers = {}): Observable<any> {
         // authentication (api_key) required
-        if (this.APIConfiguration.apiKeys["api_key"]) {
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["api_key"]) {
             headers['api_key'] = this.APIConfiguration.apiKeys["api_key"];
         }
         headers['Accept'] = 'application/json';

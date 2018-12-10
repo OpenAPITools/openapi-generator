@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\ReadOnlyFirst;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\ReadOnlyFirst;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\ReadOnlyFirst
  */
-class ReadOnlyFirstTest extends \PHPUnit_Framework_TestCase
+class ReadOnlyFirstTest extends TestCase
 {
 
     /**

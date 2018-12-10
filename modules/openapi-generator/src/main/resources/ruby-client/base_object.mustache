@@ -3,6 +3,9 @@
     # @return [Object] Returns the model itself
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
+      {{#parent}}
+      super(attributes)
+      {{/parent}}
       self.class.openapi_types.each_pair do |key, type|
         if type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the the attribute
@@ -75,7 +78,7 @@
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = {}
+      hash = {{^parent}}{}{{/parent}}{{#parent}}super{{/parent}}
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         next if value.nil?

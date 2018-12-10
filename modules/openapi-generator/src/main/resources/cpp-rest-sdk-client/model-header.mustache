@@ -49,9 +49,9 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{^isNotContainer}}{{{dataType}}}& {{getter}}();
-    {{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{getter}}() const;
-    {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
+    {{#isContainer}}{{{dataType}}}& {{getter}}();
+    {{/isContainer}}{{^isContainer}}{{{dataType}}} {{getter}}() const;
+    {{/isContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}
 

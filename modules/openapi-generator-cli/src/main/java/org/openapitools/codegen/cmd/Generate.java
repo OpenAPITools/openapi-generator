@@ -49,10 +49,6 @@ public class Generate implements Runnable {
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
 
-    @Option(name = {"-l", "--lang"}, title = "language",
-            description = "client language to generate (maybe class name in classpath, required)")
-    private String lang;
-
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
             description = "generator to use (see langs command for list)")
     private String generatorName;
@@ -255,12 +251,8 @@ public class Generate implements Runnable {
             configurator.setInputSpec(spec);
         }
 
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-        } else if (isNotEmpty(lang)) {
-            LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
-            configurator.setGeneratorName(lang);
         } else {
             System.err.println("[error] A generator name (--generator-name / -g) is required.");
             System.exit(1);

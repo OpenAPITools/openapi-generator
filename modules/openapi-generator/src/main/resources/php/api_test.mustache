@@ -21,6 +21,7 @@ namespace {{invokerPackage}};
 use \{{invokerPackage}}\Configuration;
 use \{{invokerPackage}}\ApiException;
 use \{{invokerPackage}}\ObjectSerializer;
+use PHPUnit\Framework\TestCase;
 
 /**
  * {{classname}}Test Class Doc Comment
@@ -30,7 +31,7 @@ use \{{invokerPackage}}\ObjectSerializer;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-{{#operations}}class {{classname}}Test extends \PHPUnit_Framework_TestCase
+{{#operations}}class {{classname}}Test extends TestCase
 {
 
     /**

@@ -10,8 +10,8 @@
  * Do not edit the class manually.
  */
 
-#ifndef _OAI_OBJECT_H_
-#define _OAI_OBJECT_H_
+#ifndef OAI_OBJECT_H
+#define OAI_OBJECT_H
 
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -45,10 +45,14 @@ class OAIObject {
     virtual bool isSet() const {
         return false;
     }
+
+    virtual bool isValid() const {
+        return true;
+    }
 private :
    QJsonObject jObj;
 };
 
 }
 
-#endif /* _OAI_OBJECT_H_ */
+#endif // OAI_OBJECT_H

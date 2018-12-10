@@ -184,6 +184,9 @@ samples/server/petstore/kotlin-server/ktor/build
 .stack-work
 .cabal-sandbox
 cabal.project.local
+samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
+samples/client/petstore/haskell-http-client/docs/meta.json
+samples/client/petstore/haskell-http-client/docs/quick-jump.css
 
 # R
 .Rproj.user
@@ -199,6 +202,8 @@ samples/client/petstore/groovy/build
 # erlang
 samples/client/petstore/erlang-client/_build/
 samples/client/petstore/erlang-client/rebar.lock
+samples/client/petstore/erlang-proper/_build/
+samples/client/petstore/erlang-proper/rebar.lock
 samples/server/petstore/erlang-server/_build/
 samples/server/petstore/erlang-server/rebar.lock
 
@@ -212,3 +217,7 @@ samples/client/petstore/javascript/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html
+
+# C
+samples/client/petstore/c/build
+samples/client/petstore/c/*.so

@@ -1,4 +1,4 @@
-module Byte exposing (Byte, decoder, encoder)
+module Byte exposing (Byte, decoder, encode)
 
 import Json.Decode as Decode exposing (Decoder)
 import Json.Encode as Encode
@@ -13,6 +13,6 @@ decoder =
     Decode.string
 
 
-encoder : Byte -> Encode.Value
-encoder model =
+encode : Byte -> Encode.Value
+encode model =
     Encode.string model

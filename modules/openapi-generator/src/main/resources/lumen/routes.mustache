@@ -6,8 +6,8 @@
  * @version {{appVersion}}
  */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$router->get('/', function () use ($router) {
+    return $router->app->version();
 });
 
 {{#apis}}
@@ -17,9 +17,8 @@ $app->get('/', function () use ($app) {
  * {{httpMethod}} {{operationId}}
  * Summary: {{summary}}
  * Notes: {{notes}}
-{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
  */
-$app->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{operationId}}');
+$router->{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{operationId}}');
 {{/operation}}
 {{/operations}}
 {{/apis}}

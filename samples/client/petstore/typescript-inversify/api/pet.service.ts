@@ -187,7 +187,7 @@ export class PetService {
         }
 
         // authentication (api_key) required
-        if (this.APIConfiguration.apiKeys["api_key"]) {
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["api_key"]) {
             headers['api_key'] = this.APIConfiguration.apiKeys["api_key"];
         }
         headers['Accept'] = 'application/xml';

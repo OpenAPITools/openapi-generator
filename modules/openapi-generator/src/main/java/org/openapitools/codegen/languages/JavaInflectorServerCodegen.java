@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
@@ -227,6 +228,6 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             return "DefaultController";
         }
         name = name.replaceAll("[^a-zA-Z0-9]+", "_");
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Controller";
+        return camelize(name) + "Controller";
     }
 }

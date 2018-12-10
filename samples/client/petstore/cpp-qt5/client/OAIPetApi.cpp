@@ -12,17 +12,19 @@
 
 #include "OAIPetApi.h"
 #include "OAIHelpers.h"
-#include "OAIModelFactory.h"
-#include "OAIQObjectWrapper.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
 
 namespace OpenAPI {
 
-OAIPetApi::OAIPetApi() {}
+OAIPetApi::OAIPetApi() {
 
-OAIPetApi::~OAIPetApi() {}
+}
+
+OAIPetApi::~OAIPetApi() {
+
+}
 
 OAIPetApi::OAIPetApi(QString host, QString basePath) {
     this->host = host;
@@ -30,21 +32,17 @@ OAIPetApi::OAIPetApi(QString host, QString basePath) {
 }
 
 void
-OAIPetApi::addPet(OAIPet& oai_pet) {
+OAIPetApi::addPet(const OAIPet& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
-
-
-
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "POST");
-
 
     
     QString output = oai_pet.asJson();
     input.request_body.append(output);
     
-
 
     foreach(QString key, this->defaultHeaders.keys()) {
         input.headers.insert(key, this->defaultHeaders.value(key));
@@ -70,7 +68,6 @@ OAIPetApi::addPetCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -82,19 +79,15 @@ OAIPetApi::addPetCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::deletePet(qint64 pet_id, QString* api_key) {
+OAIPetApi::deletePet(const qint64& pet_id, const QString& api_key) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
-
-    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, stringValue(pet_id));
-
-
+    QString pet_idPathParam("{"); 
+    pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "DELETE");
-
-
-
 
     if (api_key != nullptr) {
         input.headers.insert("api_key", "api_key");
@@ -124,7 +117,6 @@ OAIPetApi::deletePetCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -136,21 +128,18 @@ OAIPetApi::deletePetCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::findPetsByStatus(QList<QString*>* status) {
+OAIPetApi::findPetsByStatus(const QList<QString>& status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByStatus");
-
-
-
-
-    if (status->size() > 0) {
+    
+    if (status.size() > 0) {
       if (QString("csv").indexOf("multi") == 0) {
-        foreach(QString* t, *status) {
+        foreach(QString t, status) {
           if (fullPath.indexOf("?") > 0)
             fullPath.append("&");
           else
             fullPath.append("?");
-          fullPath.append("status=").append(stringValue(t));
+          fullPath.append("status=").append(::OpenAPI::toStringValue(t));
         }
       }
       else if (QString("csv").indexOf("ssv") == 0) {
@@ -160,11 +149,11 @@ OAIPetApi::findPetsByStatus(QList<QString*>* status) {
           fullPath.append("?");
         fullPath.append("status=");
         qint32 count = 0;
-        foreach(QString* t, *status) {
+        foreach(QString t, status) {
           if (count > 0) {
             fullPath.append(" ");
           }
-          fullPath.append(stringValue(t));
+          fullPath.append(::OpenAPI::toStringValue(t));
         }
       }
       else if (QString("csv").indexOf("tsv") == 0) {
@@ -174,21 +163,17 @@ OAIPetApi::findPetsByStatus(QList<QString*>* status) {
           fullPath.append("?");
         fullPath.append("status=");
         qint32 count = 0;
-        foreach(QString* t, *status) {
+        foreach(QString t, status) {
           if (count > 0) {
             fullPath.append("\t");
           }
-          fullPath.append(stringValue(t));
+          fullPath.append(::OpenAPI::toStringValue(t));
         }
       }
     }
-
-
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");
-
-
-
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -215,22 +200,15 @@ OAIPetApi::findPetsByStatusCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    QList<OAIPet*>* output = new QList<OAIPet*>();
+    QList<OAIPet> output;
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    auto wrapper = new OAIQObjectWrapper<QList<OAIPet*>*> (output);
-    wrapper->deleteLater();
     foreach(QJsonValue obj, jsonArray) {
-        OAIPet* o = new OAIPet();
-        QJsonObject jv = obj.toObject();
-        QJsonObject * ptr = (QJsonObject*)&jv;
-        o->fromJsonObject(*ptr);
-        auto objwrapper = new OAIQObjectWrapper<OAIPet*> (o);
-        objwrapper->deleteLater();
-        output->append(o);
+        OAIPet val;
+        ::OpenAPI::fromJsonValue(val, obj);
+        output.append(val);
     }
     worker->deleteLater();
 
@@ -243,21 +221,18 @@ OAIPetApi::findPetsByStatusCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::findPetsByTags(QList<QString*>* tags) {
+OAIPetApi::findPetsByTags(const QList<QString>& tags) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/findByTags");
-
-
-
-
-    if (tags->size() > 0) {
+    
+    if (tags.size() > 0) {
       if (QString("csv").indexOf("multi") == 0) {
-        foreach(QString* t, *tags) {
+        foreach(QString t, tags) {
           if (fullPath.indexOf("?") > 0)
             fullPath.append("&");
           else
             fullPath.append("?");
-          fullPath.append("tags=").append(stringValue(t));
+          fullPath.append("tags=").append(::OpenAPI::toStringValue(t));
         }
       }
       else if (QString("csv").indexOf("ssv") == 0) {
@@ -267,11 +242,11 @@ OAIPetApi::findPetsByTags(QList<QString*>* tags) {
           fullPath.append("?");
         fullPath.append("tags=");
         qint32 count = 0;
-        foreach(QString* t, *tags) {
+        foreach(QString t, tags) {
           if (count > 0) {
             fullPath.append(" ");
           }
-          fullPath.append(stringValue(t));
+          fullPath.append(::OpenAPI::toStringValue(t));
         }
       }
       else if (QString("csv").indexOf("tsv") == 0) {
@@ -281,21 +256,17 @@ OAIPetApi::findPetsByTags(QList<QString*>* tags) {
           fullPath.append("?");
         fullPath.append("tags=");
         qint32 count = 0;
-        foreach(QString* t, *tags) {
+        foreach(QString t, tags) {
           if (count > 0) {
             fullPath.append("\t");
           }
-          fullPath.append(stringValue(t));
+          fullPath.append(::OpenAPI::toStringValue(t));
         }
       }
     }
-
-
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");
-
-
-
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -322,22 +293,15 @@ OAIPetApi::findPetsByTagsCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    QList<OAIPet*>* output = new QList<OAIPet*>();
+    QList<OAIPet> output;
     QString json(worker->response);
     QByteArray array (json.toStdString().c_str());
     QJsonDocument doc = QJsonDocument::fromJson(array);
     QJsonArray jsonArray = doc.array();
-    auto wrapper = new OAIQObjectWrapper<QList<OAIPet*>*> (output);
-    wrapper->deleteLater();
     foreach(QJsonValue obj, jsonArray) {
-        OAIPet* o = new OAIPet();
-        QJsonObject jv = obj.toObject();
-        QJsonObject * ptr = (QJsonObject*)&jv;
-        o->fromJsonObject(*ptr);
-        auto objwrapper = new OAIQObjectWrapper<OAIPet*> (o);
-        objwrapper->deleteLater();
-        output->append(o);
+        OAIPet val;
+        ::OpenAPI::fromJsonValue(val, obj);
+        output.append(val);
     }
     worker->deleteLater();
 
@@ -350,19 +314,15 @@ OAIPetApi::findPetsByTagsCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::getPetById(qint64 pet_id) {
+OAIPetApi::getPetById(const qint64& pet_id) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
-
-    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, stringValue(pet_id));
-
-
+    QString pet_idPathParam("{"); 
+    pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");
-
-
-
 
 
     foreach(QString key, this->defaultHeaders.keys()) {
@@ -389,11 +349,7 @@ OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    QString json(worker->response);
-    OAIPet* output = static_cast<OAIPet*>(create(json, QString("OAIPet")));
-    auto wrapper = new OAIQObjectWrapper<OAIPet*> (output);
-    wrapper->deleteLater();
+    OAIPet output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -405,21 +361,17 @@ OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::updatePet(OAIPet& oai_pet) {
+OAIPetApi::updatePet(const OAIPet& oai_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
-
-
-
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "PUT");
-
 
     
     QString output = oai_pet.asJson();
     input.request_body.append(output);
     
-
 
     foreach(QString key, this->defaultHeaders.keys()) {
         input.headers.insert(key, this->defaultHeaders.value(key));
@@ -445,7 +397,6 @@ OAIPetApi::updatePetCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -457,26 +408,22 @@ OAIPetApi::updatePetCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::updatePetWithForm(qint64 pet_id, QString* name, QString* status) {
+OAIPetApi::updatePetWithForm(const qint64& pet_id, const QString& name, const QString& status) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
-
-    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, stringValue(pet_id));
-
-
+    QString pet_idPathParam("{"); 
+    pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "POST");
-
     if (name != nullptr) {
-        input.add_var("name", *name);
+        input.add_var("name", name);
     }
-    if (status != nullptr) {
-        input.add_var("status", *status);
+        if (status != nullptr) {
+        input.add_var("status", status);
     }
-
-
-
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         input.headers.insert(key, this->defaultHeaders.value(key));
@@ -502,7 +449,6 @@ OAIPetApi::updatePetWithFormCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
@@ -514,26 +460,22 @@ OAIPetApi::updatePetWithFormCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::uploadFile(qint64 pet_id, QString* additional_metadata, OAIHttpRequestInputFileElement* file) {
+OAIPetApi::uploadFile(const qint64& pet_id, const QString& additional_metadata, const OAIHttpRequestInputFileElement*& file) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
-
-    QString pet_idPathParam("{"); pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, stringValue(pet_id));
-
-
+    QString pet_idPathParam("{"); 
+    pet_idPathParam.append("petId").append("}");
+    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "POST");
-
     if (additional_metadata != nullptr) {
-        input.add_var("additionalMetadata", *additional_metadata);
+        input.add_var("additionalMetadata", additional_metadata);
     }
-    if (file != nullptr) {
+        if (file != nullptr) {
         input.add_file("file", (*file).local_filename, (*file).request_filename, (*file).mime_type);
     }
-
-
-
+    
 
     foreach(QString key, this->defaultHeaders.keys()) {
         input.headers.insert(key, this->defaultHeaders.value(key));
@@ -559,11 +501,7 @@ OAIPetApi::uploadFileCallback(OAIHttpRequestWorker * worker) {
     else {
         msg = "Error: " + worker->error_str;
     }
-
-    QString json(worker->response);
-    OAIApiResponse* output = static_cast<OAIApiResponse*>(create(json, QString("OAIApiResponse")));
-    auto wrapper = new OAIQObjectWrapper<OAIApiResponse*> (output);
-    wrapper->deleteLater();
+    OAIApiResponse output(QString(worker->response));
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {

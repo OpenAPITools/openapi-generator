@@ -292,7 +292,9 @@ public class ModelUtils {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
             LOGGER.warn("Failed to get the schema name: {}", ref);
+            //throw new RuntimeException("Failed to get the schema: " + ref);
             return null;
+
         }
 
         return ref;
@@ -545,20 +547,17 @@ public class ModelUtils {
         if ("object".equals(schema.getType())) {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
-                if (schema.getAdditionalProperties() == null) {
+                Schema addlProps = getAdditionalProperties(schema);
+                // additionalProperties not defined
+                if (addlProps == null) {
                     return true;
                 } else {
-                    // additionalProperties set to true
-                    if (schema.getAdditionalProperties() instanceof Boolean
-                            && (Boolean) schema.getAdditionalProperties()) {
-                        return true;
-                    }
-
-                    // additionalProperties is set to {}
-                    if (schema.getAdditionalProperties() instanceof Schema && schema.getAdditionalProperties() != null
-                            && schema.getAdditionalProperties() instanceof ObjectSchema
-                            && ((Schema) schema.getAdditionalProperties()).getProperties().isEmpty()) {
-                        return true;
+                    if (addlProps instanceof ObjectSchema) {
+                        ObjectSchema objSchema = (ObjectSchema) addlProps;
+                        // additionalProperties defined as {}
+                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -741,7 +740,7 @@ public class ModelUtils {
             return null;
         }
         if (content.size() > 1) {
-            LOGGER.warn("Multiple schemas found, returning only the first one");
+            LOGGER.warn("Multiple schemas found in content, returning only the first one");
         }
         MediaType mediaType = content.values().iterator().next();
         return mediaType.getSchema();
@@ -769,21 +768,23 @@ public class ModelUtils {
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
                 return schema;
-            } else if (isFreeFormObject(ref)) {
-                return schema;
             } else if (isArraySchema(ref)) {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has properties
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
                     // treat it as a typical map
                     return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (isObjectSchema(ref)) { // model
-                return schema;
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                    return schema;
+                } else { // free form object (type: object)
+                    return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                }
             } else {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
@@ -821,5 +822,74 @@ public class ModelUtils {
             return openAPI.getComponents().getHeaders().get(name);
         }
         return null;
+    }
+
+    /**
+     * Get the interfaces from the schema (composed)
+     *
+     * @param composed schema (alias or direct reference)
+     * @return a list of schema defined in allOf, anyOf or oneOf
+     */
+    public static List<Schema> getInterfaces(ComposedSchema composed) {
+        if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+            return composed.getAllOf();
+        } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
+            return composed.getAnyOf();
+        } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+            return composed.getOneOf();
+        } else {
+            return Collections.<Schema>emptyList();
+        }
+    }
+
+    /**
+     * Get the the parent model name from the schemas (allOf, anyOf, oneOf)
+     *
+     * @param composedSchema schema (alias or direct reference)
+     * @param allSchemas     all schemas
+     * @return the name of the parent model
+     */
+    public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        List<Schema> interfaces = getInterfaces(composedSchema);
+
+        if (interfaces != null && !interfaces.isEmpty()) {
+            for (Schema schema : interfaces) {
+                // get the actual schema
+                if (StringUtils.isNotEmpty(schema.get$ref())) {
+                    String parentName = getSimpleRef(schema.get$ref());
+                    Schema s = allSchemas.get(parentName);
+                    if (s == null) {
+                        LOGGER.error("Failed to obtain schema from {}", parentName);
+                        return "UNKNOWN_PARENT_NAME";
+                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                        // discriminator.propertyName is used
+                        return parentName;
+                    } else {
+                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
+                        // not a parent since discriminator.propertyName is not set
+                    }
+                } else {
+                    // not a ref, doing nothing
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static boolean isNullable(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        if (Boolean.TRUE.equals(schema.getNullable())) {
+            return true;
+        }
+
+        if (schema.getExtensions() != null && schema.getExtensions().get("x-nullable") != null) {
+            return Boolean.valueOf(schema.getExtensions().get("x-nullable").toString());
+        }
+
+        return false;
     }
 }

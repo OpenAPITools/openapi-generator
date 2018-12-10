@@ -131,7 +131,6 @@ Class | Method | HTTP request | Description
 
  - [OpenApiPetstore.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [OpenApiPetstore.Animal](docs/Animal.md)
- - [OpenApiPetstore.AnimalFarm](docs/AnimalFarm.md)
  - [OpenApiPetstore.ApiResponse](docs/ApiResponse.md)
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -162,7 +161,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
- - [OpenApiPetstore.StringBooleanMap](docs/StringBooleanMap.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 

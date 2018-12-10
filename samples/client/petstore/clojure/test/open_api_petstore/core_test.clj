@@ -9,6 +9,7 @@
     (is (= {:base-url        "http://petstore.swagger.io/v2"
             :date-format     "yyyy-MM-dd"
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+            :decode-models   false
             :debug           false
             :auths           {"api_key"       nil
                               "petstore_auth" nil}}
@@ -24,6 +25,7 @@
       (is (= {:base-url        "http://localhost"
               :date-format     "yyyy-MM-dd"
               :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+              :decode-models   false
               :debug           true
               :auths           (merge (:auths default-api-context)
                                       {"api_key"       "key1"
@@ -35,6 +37,7 @@
         (is (= {:base-url        "http://localhost"
                 :date-format     "yyyy-MM-dd"
                 :datetime-format "yyyy-MM-dd HH:mm:ss"
+                :decode-models   false
                 :debug           true
                 :auths           (merge (:auths default-api-context)
                                         {"api_key"       "key2"
@@ -44,6 +47,7 @@
     (is (= {:base-url        "http://petstore.swagger.io/v2"
             :date-format     "yyyy-MM-dd"
             :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+            :decode-models   false
             :debug           false
             :auths           {"api_key"       nil
                               "petstore_auth" nil}}
