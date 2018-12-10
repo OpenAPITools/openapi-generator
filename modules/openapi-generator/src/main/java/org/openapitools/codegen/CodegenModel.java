@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;
+    public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
     public CodegenModel parentModel;
@@ -93,6 +94,8 @@ public class CodegenModel {
         if (parentSchema != null ? !parentSchema.equals(that.parentSchema) : that.parentSchema != null)
             return false;
         if (interfaces != null ? !interfaces.equals(that.interfaces) : that.interfaces != null)
+            return false;
+        if (allParents != null ? !allParents.equals(that.allParents) : that.allParents != null)
             return false;
         if (parentModel != null ? !parentModel.equals(that.parentModel) : that.parentModel != null)
             return false;
@@ -169,6 +172,7 @@ public class CodegenModel {
         int result = parent != null ? parent.hashCode() : 0;
         result = 31 * result + (parentSchema != null ? parentSchema.hashCode() : 0);
         result = 31 * result + (interfaces != null ? interfaces.hashCode() : 0);
+        result = 31 * result + (allParents != null ? allParents.hashCode() : 0);
         result = 31 * result + (parentModel != null ? parentModel.hashCode() : 0);
         result = 31 * result + (interfaceModels != null ? interfaceModels.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
@@ -226,8 +230,16 @@ public class CodegenModel {
         return interfaces;
     }
 
+    public List<String> getAllParents() {
+        return allParents;
+    }
+
     public void setInterfaces(List<String> interfaces) {
         this.interfaces = interfaces;
+    }
+
+    public void setAllParents(List<String> allParents) {
+        this.allParents = allParents;
     }
 
     public CodegenModel getParentModel() {

@@ -1618,6 +1618,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // parent model
             final String parentName = ModelUtils.getParentName(composed, allDefinitions);
+            final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions);
             final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
             final boolean hasParent = StringUtils.isNotBlank(parentName);
 
@@ -1667,7 +1668,7 @@ public class DefaultCodegen implements CodegenConfig {
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
                         if (hasParent || supportsInheritance) {
-                            if (supportsInheritance || parentName.equals(modelName)) {
+                            if (supportsInheritance || allParents.contains(modelName)) {
                                 // inheritance
                                 addProperties(allProperties, allRequired, refSchema, allDefinitions);
                             } else {
@@ -1696,7 +1697,14 @@ public class DefaultCodegen implements CodegenConfig {
             if (parent != null) {
                 m.parentSchema = parentName;
                 m.parent = toModelName(parentName);
-                addImport(m, m.parent);
+
+                m.allParents = new ArrayList<String>();
+                for (String pname : allParents) {
+                    String pModelName = toModelName(pname);
+                    m.allParents.add(pModelName);
+                    addImport(m, pModelName);
+                }
+
                 if (allDefinitions != null && !allDefinitions.isEmpty()) {
                     if (hasParent || supportsInheritance) {
                         addProperties(allProperties, allRequired, parent, allDefinitions);

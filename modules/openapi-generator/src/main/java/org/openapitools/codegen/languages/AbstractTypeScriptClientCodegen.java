@@ -52,7 +52,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         // at the moment
         importMapping.clear();
 
-        supportsInheritance = true;
+        //tsImportssupportsInheritance = true;
 
         // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
         reservedWords.addAll(Arrays.asList(
