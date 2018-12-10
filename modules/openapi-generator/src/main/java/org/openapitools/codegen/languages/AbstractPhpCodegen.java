@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -352,9 +353,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
+            if (inner == null) {
+                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
+                inner = new StringSchema().description("TODO default missing array inner type to string");
+            }
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
+            if (inner == null) {
+                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+            }
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
