@@ -4304,7 +4304,7 @@ public class DefaultCodegen implements CodegenConfig {
                                                                           body, Map<String, Schema> schemas, Set<String> imports) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getSchemaFromRequestBody(body));
         if (StringUtils.isNotBlank(schema.get$ref())) {
             schema = schemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
         }
@@ -4319,7 +4319,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // array of schema
                 if (ModelUtils.isArraySchema(s)) {
                     final ArraySchema arraySchema = (ArraySchema) s;
-                    Schema inner = arraySchema.getItems();
+                    Schema inner = ModelUtils.unaliasSchema(globalSchemas, (arraySchema.getItems()));
                     if (inner == null) {
                         LOGGER.warn("warning! No inner type supplied for array parameter \"" + s.getName() + "\", using String");
                         inner = new StringSchema().description("//TODO automatically added by openapi-generator due to missing iner type definition in the spec");
@@ -4471,14 +4471,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         String name = null;
         LOGGER.debug("Request body = " + body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getSchemaFromRequestBody(body));
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
             schema = schemas.get(name);
         }
 
         if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = ModelUtils.getAdditionalProperties(schema);
+            Schema inner =  ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getAdditionalProperties(schema));
             if (inner == null) {
                 inner = new StringSchema().description("//TODO automatically added by openapi-generator");
                 schema.setAdditionalProperties(inner);
@@ -4506,7 +4506,7 @@ public class DefaultCodegen implements CodegenConfig {
             setParameterNullable(codegenParameter, codegenProperty);
         } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
-            Schema inner = arraySchema.getItems();
+            Schema inner =  ModelUtils.unaliasSchema(globalSchemas, arraySchema.getItems());
             if (inner == null) {
                 inner = new StringSchema().description("//TODO automatically added by openapi-generator");
                 arraySchema.setItems(inner);
