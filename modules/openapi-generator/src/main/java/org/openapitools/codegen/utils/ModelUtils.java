@@ -768,21 +768,23 @@ public class ModelUtils {
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
                 return schema;
-            } else if (isFreeFormObject(ref)) {
-                return schema;
             } else if (isArraySchema(ref)) {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
-                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has properties
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
                     // treat it as a typical map
                     return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
                 }
             } else if (isObjectSchema(ref)) { // model
-                return schema;
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                    return schema;
+                } else { // free form object (type: object)
+                    return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                }
             } else {
                 return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
