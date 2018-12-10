@@ -512,6 +512,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
 - [REST United](https://restunited.com)
+- [Stingray](http://www.stingray.com)
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
