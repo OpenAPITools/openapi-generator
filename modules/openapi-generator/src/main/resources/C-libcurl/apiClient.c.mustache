@@ -31,10 +31,30 @@ apiClient_t *apiClient_create() {
 }
 
 void apiClient_free(apiClient_t *apiClient) {
-    if(apiClient->dataReceived) {
-        free(apiClient->dataReceived);
+    if(apiClient->basePath) {
+        free(apiClient->basePath);
     }
-    //free(apiClient);
+    {{#hasAuthMethods}}
+    {{#authMethods}}
+    {{#isBasic}}
+    if(apiClient->username) {
+        free(apiClient->username);
+    }
+    if(apiClient->password) {
+        free(apiClient->password);
+    }
+    {{/isBasic}}
+    {{#isOAuth}}
+    if(apiClient->accessToken) {
+        free(apiClient->accessToken);
+    }
+    {{/isOAuth}}
+    {{#isApiKey}}
+    list_free(apiClient->apiKeys);
+    {{/isApiKey}}
+    {{/authMethods}}
+    {{/hasAuthMethods}}
+    free(apiClient);
     curl_global_cleanup();
 }
 
