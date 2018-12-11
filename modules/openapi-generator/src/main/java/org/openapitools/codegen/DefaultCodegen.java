@@ -1686,7 +1686,7 @@ public class DefaultCodegen implements CodegenConfig {
                             LOGGER.info("Debugging allparents inheritance: {}", modelName);
                             // inheritance
                             //addProperties(allProperties, allRequired, refSchema, allDefinitions);
-                        } else if (parentName.equals(modelName)) {
+                        } else if (parentName != null && parentName.equals(modelName)) {
                             // single inheritance
                             LOGGER.info("Debugging single inheritance: {}", modelName);
                         } else {
@@ -1742,7 +1742,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (component != null) {
                         // component is the child schema
                         addProperties(properties, required, component, allDefinitions);
-                        
+
                         /*
                         if (hasParent || supportsInheritance) {
                             addProperties(allProperties, allRequired, component, allDefinitions);
