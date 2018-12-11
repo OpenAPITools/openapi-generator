@@ -213,53 +213,62 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing for all models
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        if (supportsInheritance) {
-            // Index all CodegenModels by model name.
-            Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
-            for (Entry<String, Object> entry : objs.entrySet()) {
-                String modelName = toModelName(entry.getKey());
-                Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-                List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-                for (Map<String, Object> mo : models) {
-                    CodegenModel cm = (CodegenModel) mo.get("model");
-                    allModels.put(modelName, cm);
-                }
+        return objs;
+    }
+
+    /**
+     * Loop through all models to update different flags (e.g. isSelfReference), children models, etc
+     *
+     * @param objs Map of models
+     * @return maps of models with various updates
+     */
+    public Map<String, Object> updateAllModels(Map<String, Object> objs) {
+        // Index all CodegenModels by model name.
+        Map<String, CodegenModel> allModels = new HashMap<String, CodegenModel>();
+        for (Entry<String, Object> entry : objs.entrySet()) {
+            String modelName = toModelName(entry.getKey());
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                allModels.put(modelName, cm);
             }
-            // Fix up all parent and interface CodegenModel references.
-            for (CodegenModel cm : allModels.values()) {
-                if (cm.getParent() != null) {
-                    cm.setParentModel(allModels.get(cm.getParent()));
-                }
-                if (cm.getInterfaces() != null && !cm.getInterfaces().isEmpty()) {
-                    cm.setInterfaceModels(new ArrayList<CodegenModel>(cm.getInterfaces().size()));
-                    for (String intf : cm.getInterfaces()) {
-                        CodegenModel intfModel = allModels.get(intf);
-                        if (intfModel != null) {
-                            cm.getInterfaceModels().add(intfModel);
-                        }
-                    }
-                }
+        }
+        // Fix up all parent and interface CodegenModel references.
+        for (CodegenModel cm : allModels.values()) {
+            if (cm.getParent() != null) {
+                cm.setParentModel(allModels.get(cm.getParent()));
             }
-            // Let parent know about all its children
-            for (String name : allModels.keySet()) {
-                CodegenModel cm = allModels.get(name);
-                CodegenModel parent = allModels.get(cm.getParent());
-                // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
-                // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
-                while (parent != null) {
-                    if (parent.getChildren() == null) {
-                        parent.setChildren(new ArrayList<CodegenModel>());
-                    }
-                    parent.getChildren().add(cm);
-                    parent.hasChildren = true;
-                    if (parent.getDiscriminator() == null) {
-                        parent = allModels.get(parent.getParent());
-                    } else {
-                        parent = null;
+            if (cm.getInterfaces() != null && !cm.getInterfaces().isEmpty()) {
+                cm.setInterfaceModels(new ArrayList<CodegenModel>(cm.getInterfaces().size()));
+                for (String intf : cm.getInterfaces()) {
+                    CodegenModel intfModel = allModels.get(intf);
+                    if (intfModel != null) {
+                        cm.getInterfaceModels().add(intfModel);
                     }
                 }
             }
         }
+        // Let parent know about all its children
+        for (String name : allModels.keySet()) {
+            CodegenModel cm = allModels.get(name);
+            CodegenModel parent = allModels.get(cm.getParent());
+            // if a discriminator exists on the parent, don't add this child to the inheritance hierarchy
+            // TODO Determine what to do if the parent discriminator name == the grandparent discriminator name
+            while (parent != null) {
+                if (parent.getChildren() == null) {
+                    parent.setChildren(new ArrayList<CodegenModel>());
+                }
+                parent.getChildren().add(cm);
+                parent.hasChildren = true;
+                if (parent.getDiscriminator() == null) {
+                    parent = allModels.get(parent.getParent());
+                } else {
+                    parent = null;
+                }
+            }
+        }
+
         return objs;
     }
 
@@ -1668,34 +1677,21 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        /* Decomission supportsInheritance, supportsMixins
-                        if (hasParent || supportsInheritance) {
-                            if (supportsInheritance || allParents.contains(modelName)) {
-                                // inheritance
-                                addProperties(allProperties, allRequired, refSchema, allDefinitions);
-                            } else {
-                                // composition
-                                //LOGGER.debug("Parent {} not set to model name {}", parentName, modelName);
-                                addProperties(properties, required, refSchema, allDefinitions);
-                            }
-                        } else if (!supportsMixins && !supportsInheritance) {
-                            addProperties(properties, required, refSchema, allDefinitions);
-                        }*/
-
-                        if (supportsMultipleInheritance && allParents.contains(modelName)) {
-                            LOGGER.info("Debugging allparents inheritance: {}", modelName);
+                        if (supportsMultipleInheritance) {
                             // inheritance
-                            //addProperties(allProperties, allRequired, refSchema, allDefinitions);
+                            if (allParents.contains(modelName)) {
+                                //LOGGER.info("Debugging all parents inheritance: {}", modelName);
+                                addProperties(allProperties, allRequired, refSchema, allDefinitions);
+                            }
                         } else if (parentName != null && parentName.equals(modelName)) {
                             // single inheritance
                             LOGGER.info("Debugging single inheritance: {}", modelName);
+                            addProperties(allProperties, allRequired, refSchema, allDefinitions);
                         } else {
                             // composition
-                            //LOGGER.debug("Parent {} not set to model name {}", parentName, modelName);
                             LOGGER.info("Debugging composition: {}", modelName);
                             addProperties(properties, required, refSchema, allDefinitions);
                         }
-
                     }
 
                     if (composed.getAnyOf() != null) {
@@ -1724,16 +1720,6 @@ public class DefaultCodegen implements CodegenConfig {
                 } else {
                     addImport(m, m.parent);
                 }
-
-                /* decommission supportsInheritance
-                if (allDefinitions != null && !allDefinitions.isEmpty()) {
-                    if (hasParent || supportsInheritance) {
-                        addProperties(allProperties, allRequired, parent, allDefinitions);
-                    } else {
-                        addProperties(properties, required, parent, allDefinitions);
-                    }
-                }
-                */
             }
 
             // child schema (properties owned by the schema itself)
@@ -1743,17 +1729,17 @@ public class DefaultCodegen implements CodegenConfig {
                         // component is the child schema
                         addProperties(properties, required, component, allDefinitions);
 
-                        /*
-                        if (hasParent || supportsInheritance) {
-                            addProperties(allProperties, allRequired, component, allDefinitions);
-                        }
-                        */
+                        // includes child's properties (all, required) in allProperties, allRequired
+                        addProperties(allProperties, allRequired, component, allDefinitions);
                     }
-                    break; // at most one schema not using $ref
+                    break; // at most one child only
                 }
             }
 
-            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, allProperties, allRequired);
+            LOGGER.info("debugging properties size: {} for {}", properties.size(), m.classname);
+            LOGGER.info("debugging all properties size: {} for {}", allProperties.size(), m.classname);
+
+            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, unaliasPropertySchema(allDefinitions, allProperties), allRequired);
 
             // end of code block for composed schema
         } else {
@@ -1777,11 +1763,15 @@ public class DefaultCodegen implements CodegenConfig {
                 m.isString = Boolean.TRUE;
             }
 
-            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired());
+            // passing null to allProperties and allRequired as there's no parent
+            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired(), null, null);
         }
 
         // remove duplicated properties
         m.removeAllDuplicatedProperty();
+
+        LOGGER.info("debugging vars size: {} for {}", m.vars.size(), m.classname);
+        LOGGER.info("debugging all vars size: {} for {}", m.allVars.size(), m.classname);
 
         // post process model properties
         if (m.vars != null) {
@@ -1833,8 +1823,8 @@ public class DefaultCodegen implements CodegenConfig {
      * Add schema's properties to "properties" and "required" list
      *
      * @param properties all properties
-     * @param required required property only
-     * @param schema schema in which the properties will be added to the lists
+     * @param required   required property only
+     * @param schema     schema in which the properties will be added to the lists
      * @param allSchemas all schemas
      */
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema
@@ -3470,43 +3460,43 @@ public class DefaultCodegen implements CodegenConfig {
         return properties;
     }
 
-    private void addVars(CodegenModel model, Map<String, Schema> properties, List<String> required) {
-        addVars(model, properties, required, null, null);
-    }
-
     private void addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
                          Map<String, Schema> allProperties, List<String> allRequired) {
 
         m.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
             m.hasVars = true;
-            m.hasEnums = false;
+            m.hasEnums = false; // TODO need to fix as its false in both cases
 
             Set<String> mandatory = required == null ? Collections.<String>emptySet()
                     : new TreeSet<String>(required);
+            // update "vars" without parent's properties (all, required)
             addVars(m, m.vars, properties, mandatory);
             m.allMandatory = m.mandatory = mandatory;
         } else {
             m.emptyVars = true;
             m.hasVars = false;
-            m.hasEnums = false;
+            m.hasEnums = false; // TODO need to fix as its false in both cases
         }
 
         if (allProperties != null) {
             Set<String> allMandatory = allRequired == null ? Collections.<String>emptySet()
                     : new TreeSet<String>(allRequired);
+            // update "vars" with parent's properties (all, required)
             addVars(m, m.allVars, allProperties, allMandatory);
             m.allMandatory = allMandatory;
+        } else { // without parent, allVars and vars are the same
+            m.allVars = m.vars;
+            m.allMandatory = m.mandatory;
         }
     }
 
-    private void addVars(CodegenModel
-                                 m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
+    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         // convert set to list so that we can access the next entry in the loop
-        List<Map.Entry<String, Schema>> propertyList = new ArrayList<Map.Entry<String, Schema>>(properties.entrySet());
-        final int totalCount = propertyList.size();
-        for (int i = 0; i < totalCount; i++) {
-            Map.Entry<String, Schema> entry = propertyList.get(i);
+        //List<Map.Entry<String, Schema>> propertyList = new ArrayList<Map.Entry<String, Schema>>(properties.entrySet());
+        //final int totalCount = propertyList.size();
+
+        for (Map.Entry<String, Schema> entry : properties.entrySet()) {
 
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
@@ -3529,6 +3519,7 @@ public class DefaultCodegen implements CodegenConfig {
                     m.hasOnlyReadOnly = false;
                 }
 
+                /* hasMore will be updated when removing duplicated properites
                 if (i + 1 != totalCount) {
                     cp.hasMore = true;
                     // check the next entry to see if it's read only
@@ -3536,6 +3527,7 @@ public class DefaultCodegen implements CodegenConfig {
                         cp.hasMoreNonReadOnly = true; // next entry is not ready only
                     }
                 }
+                */
 
                 if (cp.isContainer) {
                     addImport(m, typeMapping.get("array"));
@@ -3560,7 +3552,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (Boolean.TRUE.equals(cp.isReadOnly)) {
                     m.readOnlyVars.add(cp);
                 } else { // else add to readWriteVars (list of properties)
-                    // FIXME: readWriteVars can contain duplicated properties. Debug/breakpoint here while running C# generator (Dog and Cat models)
+                    // duplicated properties will be removed by removeAllDuplicatedProperty later
                     m.readWriteVars.add(cp);
                 }
             }

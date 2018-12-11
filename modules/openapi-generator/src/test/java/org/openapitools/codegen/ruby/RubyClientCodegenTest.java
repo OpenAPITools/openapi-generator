@@ -358,25 +358,37 @@ public class RubyClientCodegenTest {
         final Schema schema = openAPI.getComponents().getSchemas().get("Child");
         CodegenModel child = codegen.fromModel("Child", schema, openAPI.getComponents().getSchemas());
         Assert.assertNotNull(child);
-        Assert.assertEquals(child.getVars().size(), 6);
 
-        CodegenProperty cp0 = child.getVars().get(0);
+        // to test allVars (without parent's properties)
+        Assert.assertEquals(child.getAllVars().size(), 6);
+
+        CodegenProperty cp0 = child.getAllVars().get(0);
+        Assert.assertEquals(cp0.name, "_type");
+
+        CodegenProperty cp1 = child.getAllVars().get(1);
+        Assert.assertEquals(cp1.name, "last_name");
+
+        CodegenProperty cp2 = child.getAllVars().get(2);
+        Assert.assertEquals(cp2.name, "first_name");
+
+        CodegenProperty cp3 = child.getAllVars().get(3);
+        Assert.assertEquals(cp3.name, "duplicated_optional");
+
+        CodegenProperty cp4 = child.getAllVars().get(4);
+        Assert.assertEquals(cp4.name, "duplicated_required");
+
+        CodegenProperty cp5 = child.getAllVars().get(5);
+        Assert.assertEquals(cp5.name, "age");
+
+        // to test vars (without parent's properties)
+        Assert.assertEquals(child.getVars().size(), 2);
+
+        cp0 = child.getVars().get(0);
         Assert.assertEquals(cp0.name, "age");
 
-        CodegenProperty cp1 = child.getVars().get(1);
+        cp1 = child.getVars().get(1);
         Assert.assertEquals(cp1.name, "first_name");
 
-        CodegenProperty cp2 = child.getVars().get(2);
-        Assert.assertEquals(cp2.name, "_type");
-
-        CodegenProperty cp3 = child.getVars().get(3);
-        Assert.assertEquals(cp3.name, "last_name");
-
-        CodegenProperty cp4 = child.getVars().get(4);
-        Assert.assertEquals(cp4.name, "duplicated_optional");
-
-        CodegenProperty cp5 = child.getVars().get(5);
-        Assert.assertEquals(cp5.name, "duplicated_required");
     }
 
     @Test(description = "test example string imported from x-example parameterr (OAS2)")

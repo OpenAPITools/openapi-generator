@@ -47,18 +47,18 @@ public class CodegenModel {
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> readOnlyVars = new ArrayList<CodegenProperty>(); // a list of read-only properties
     public List<CodegenProperty> readWriteVars = new ArrayList<CodegenProperty>(); // a list of properties for read, write
-    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> parentVars = new ArrayList<CodegenProperty>();
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
-    public Set<String> mandatory = new TreeSet<String>();
-    public Set<String> allMandatory;
+    public Set<String> mandatory = new TreeSet<String>(); // without parent's required properties
+    public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
@@ -70,12 +70,12 @@ public class CodegenModel {
     //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
 
-    {
+    /*{
         // By default these are the same collections. Where the code generator supports inheritance, composed models
         // store the complete closure of owned and inherited properties in allVars and allMandatory.
-        allVars = vars;
-        allMandatory = mandatory;
-    }
+        //allVars = vars;
+        //allMandatory = mandatory;
+    }*/
 
     @Override
     public String toString() {
