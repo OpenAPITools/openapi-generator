@@ -208,23 +208,69 @@ public class RubyClientCodegenTest {
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Pet");
         CodegenModel nullablePet = codegen.fromModel("Pet", schema, openAPI.getComponents().getSchemas());
+
+        Assert.assertNotNull(nullablePet);
+        Assert.assertEquals(nullablePet.getVars().size(), 6);
         CodegenProperty cp0 = nullablePet.getVars().get(0);
         Assert.assertFalse(cp0.isNullable);
+        Assert.assertEquals(cp0.name, "id");
 
         CodegenProperty cp1 = nullablePet.getVars().get(1);
         Assert.assertFalse(cp1.isNullable);
+        Assert.assertEquals(cp1.name, "category");
 
         CodegenProperty cp2 = nullablePet.getVars().get(2);
         Assert.assertFalse(cp2.isNullable);
+        Assert.assertEquals(cp2.name, "name");
 
         CodegenProperty cp3 = nullablePet.getVars().get(3);
         Assert.assertFalse(cp3.isNullable);
+        Assert.assertEquals(cp3.name, "photo_urls");
 
         CodegenProperty cp4 = nullablePet.getVars().get(4);
         Assert.assertFalse(cp4.isNullable);
+        Assert.assertEquals(cp4.name, "tags");
 
         CodegenProperty cp5 = nullablePet.getVars().get(5);
         Assert.assertFalse(cp5.isNullable);
+        Assert.assertEquals(cp5.name, "status");
+
+        // test allVars
+        Assert.assertEquals(nullablePet.getAllVars().size(), 6);
+        cp0 = nullablePet.getVars().get(0);
+        Assert.assertFalse(cp0.isNullable);
+        Assert.assertEquals(cp0.name, "id");
+
+        cp1 = nullablePet.getVars().get(1);
+        Assert.assertFalse(cp1.isNullable);
+        Assert.assertEquals(cp1.name, "category");
+
+        cp2 = nullablePet.getVars().get(2);
+        Assert.assertFalse(cp2.isNullable);
+        Assert.assertEquals(cp2.name, "name");
+
+        cp3 = nullablePet.getVars().get(3);
+        Assert.assertFalse(cp3.isNullable);
+        Assert.assertEquals(cp3.name, "photo_urls");
+
+        cp4 = nullablePet.getVars().get(4);
+        Assert.assertFalse(cp4.isNullable);
+        Assert.assertEquals(cp4.name, "tags");
+
+        cp5 = nullablePet.getVars().get(5);
+        Assert.assertFalse(cp5.isNullable);
+        Assert.assertEquals(cp5.name, "status");
+
+        // test requiredVars
+        Assert.assertEquals(nullablePet.getRequiredVars().size(), 2);
+        cp0 = nullablePet.getRequiredVars().get(0);
+        Assert.assertFalse(cp0.isNullable);
+        Assert.assertEquals(cp0.name, "name");
+
+        cp1 = nullablePet.getRequiredVars().get(1);
+        Assert.assertFalse(cp1.isNullable);
+        Assert.assertEquals(cp1.name, "photo_urls");
+
     }
 
     @Test(description = "test nullable for parameters (OAS3)")
@@ -349,8 +395,8 @@ public class RubyClientCodegenTest {
     }
 
 
-    @Test(description = "test allOf with discriminator and duplicated properties(OAS3)")
-    public void allOfMappingDuplicatedPropertiesTest() {
+    @Test(description = "test allOf with discriminator and duplicated properties(OAS3) for Child model")
+    public void allOfMappingDuplicatedPropertiesTestForChild() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
@@ -389,6 +435,63 @@ public class RubyClientCodegenTest {
         cp1 = child.getVars().get(1);
         Assert.assertEquals(cp1.name, "first_name");
 
+        // to test requiredVars
+        Assert.assertEquals(child.getRequiredVars().size(), 1);
+
+        cp0 = child.getRequiredVars().get(0);
+        Assert.assertEquals(cp0.name, "duplicated_required");
+
+    }
+
+    @Test(description = "test allOf with discriminator and duplicated properties(OAS3) for Adult model")
+    public void allOfMappingDuplicatedPropertiesTestForAdult() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOfMappingDuplicatedProperties.yaml", null, new ParseOptions()).getOpenAPI();
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("Adult");
+        CodegenModel adult = codegen.fromModel("Adult", schema, openAPI.getComponents().getSchemas());
+        Assert.assertNotNull(adult);
+
+        // to test allVars (without parent's properties)
+        Assert.assertEquals(adult.getAllVars().size(), 6);
+
+        CodegenProperty cp0 = adult.getAllVars().get(0);
+        Assert.assertEquals(cp0.name, "_type");
+
+        CodegenProperty cp1 = adult.getAllVars().get(1);
+        Assert.assertEquals(cp1.name, "last_name");
+
+        CodegenProperty cp2 = adult.getAllVars().get(2);
+        Assert.assertEquals(cp2.name, "first_name");
+
+        CodegenProperty cp3 = adult.getAllVars().get(3);
+        Assert.assertEquals(cp3.name, "duplicated_optional");
+
+        CodegenProperty cp4 = adult.getAllVars().get(4);
+        Assert.assertEquals(cp4.name, "duplicated_required");
+
+        CodegenProperty cp5 = adult.getAllVars().get(5);
+        Assert.assertEquals(cp5.name, "children");
+
+        // to test vars (without parent's properties)
+        Assert.assertEquals(adult.getVars().size(), 3);
+
+        cp0 = adult.getVars().get(0);
+        Assert.assertEquals(cp0.name, "duplicated_optional");
+
+        cp1 = adult.getVars().get(1);
+        Assert.assertEquals(cp1.name, "duplicated_required");
+
+        cp2 = adult.getVars().get(2);
+        Assert.assertEquals(cp2.name, "children");
+
+        // to test requiredVars
+        Assert.assertEquals(adult.getRequiredVars().size(), 1);
+
+        cp0 = adult.getRequiredVars().get(0);
+        Assert.assertEquals(cp0.name, "duplicated_required");
+
     }
 
     @Test(description = "test example string imported from x-example parameterr (OAS2)")
@@ -422,9 +525,9 @@ public class RubyClientCodegenTest {
 
     /**
      * We want to make sure that all Regex patterns:
-     *  - Start with / so Ruby know this is a regex pattern
-     *  - Have a second / that may be added to end if only 1 exists at start
-     *  - If there are 2 / in pattern then don't add any more
+     * - Start with / so Ruby know this is a regex pattern
+     * - Have a second / that may be added to end if only 1 exists at start
+     * - If there are 2 / in pattern then don't add any more
      */
     @Test(description = "test regex patterns")
     public void exampleRegexParameterValidationOAS3Test() {

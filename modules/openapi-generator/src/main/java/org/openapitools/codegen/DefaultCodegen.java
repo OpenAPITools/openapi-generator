@@ -3491,18 +3491,22 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * Add variables (properties) to codegen model (list of properties, various flags, etc)
+     *
+     * @param m Codegen model
+     * @param vars list of codegen properties (e.g. vars, allVars) to be updated with the new properties
+     * @param properties a map of properties (schema)
+     * @param mandatory a set of required properties' name
+     */
     private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
-        // convert set to list so that we can access the next entry in the loop
-        //List<Map.Entry<String, Schema>> propertyList = new ArrayList<Map.Entry<String, Schema>>(properties.entrySet());
-        //final int totalCount = propertyList.size();
-
         for (Map.Entry<String, Schema> entry : properties.entrySet()) {
 
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
 
             if (prop == null) {
-                LOGGER.warn("null property for " + key);
+                LOGGER.warn("Please report the issue. There shouldn't be null property for " + key);
             } else {
                 final CodegenProperty cp = fromProperty(key, prop);
                 cp.required = mandatory.contains(key);
@@ -3518,16 +3522,6 @@ public class DefaultCodegen implements CodegenConfig {
                 if (!Boolean.TRUE.equals(cp.isReadOnly)) {
                     m.hasOnlyReadOnly = false;
                 }
-
-                /* hasMore will be updated when removing duplicated properites
-                if (i + 1 != totalCount) {
-                    cp.hasMore = true;
-                    // check the next entry to see if it's read only
-                    if (!Boolean.TRUE.equals(propertyList.get(i + 1).getValue().getReadOnly())) {
-                        cp.hasMoreNonReadOnly = true; // next entry is not ready only
-                    }
-                }
-                */
 
                 if (cp.isContainer) {
                     addImport(m, typeMapping.get("array"));

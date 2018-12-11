@@ -70,13 +70,6 @@ public class CodegenModel {
     //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
 
-    /*{
-        // By default these are the same collections. Where the code generator supports inheritance, composed models
-        // store the complete closure of owned and inherited properties in allVars and allMandatory.
-        //allVars = vars;
-        //allMandatory = mandatory;
-    }*/
-
     @Override
     public String toString() {
         return String.format(Locale.ROOT, "%s(%s)", name, classname);
