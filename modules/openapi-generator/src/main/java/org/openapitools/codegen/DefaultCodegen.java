@@ -115,6 +115,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
+    protected boolean supportsMultipleInheritance;
     protected boolean supportsInheritance;
     protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
@@ -1667,6 +1668,7 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
+                        /* Decomission supportsInheritance, supportsMixins
                         if (hasParent || supportsInheritance) {
                             if (supportsInheritance || allParents.contains(modelName)) {
                                 // inheritance
@@ -1677,6 +1679,20 @@ public class DefaultCodegen implements CodegenConfig {
                                 addProperties(properties, required, refSchema, allDefinitions);
                             }
                         } else if (!supportsMixins && !supportsInheritance) {
+                            addProperties(properties, required, refSchema, allDefinitions);
+                        }*/
+
+                        if (supportsMultipleInheritance && allParents.contains(modelName)) {
+                            LOGGER.info("Debugging allparents inheritance: {}", modelName);
+                            // inheritance
+                            //addProperties(allProperties, allRequired, refSchema, allDefinitions);
+                        } else if (parentName.equals(modelName)) {
+                            // single inheritance
+                            LOGGER.info("Debugging single inheritance: {}", modelName);
+                        } else {
+                            // composition
+                            //LOGGER.debug("Parent {} not set to model name {}", parentName, modelName);
+                            LOGGER.info("Debugging composition: {}", modelName);
                             addProperties(properties, required, refSchema, allDefinitions);
                         }
 
@@ -1698,13 +1714,18 @@ public class DefaultCodegen implements CodegenConfig {
                 m.parentSchema = parentName;
                 m.parent = toModelName(parentName);
 
-                m.allParents = new ArrayList<String>();
-                for (String pname : allParents) {
-                    String pModelName = toModelName(pname);
-                    m.allParents.add(pModelName);
-                    addImport(m, pModelName);
+                if (supportsMultipleInheritance) {
+                    m.allParents = new ArrayList<String>();
+                    for (String pname : allParents) {
+                        String pModelName = toModelName(pname);
+                        m.allParents.add(pModelName);
+                        addImport(m, pModelName);
+                    }
+                } else {
+                    addImport(m, m.parent);
                 }
 
+                /* decommission supportsInheritance
                 if (allDefinitions != null && !allDefinitions.isEmpty()) {
                     if (hasParent || supportsInheritance) {
                         addProperties(allProperties, allRequired, parent, allDefinitions);
@@ -1712,6 +1733,7 @@ public class DefaultCodegen implements CodegenConfig {
                         addProperties(properties, required, parent, allDefinitions);
                     }
                 }
+                */
             }
 
             // child schema (properties owned by the schema itself)
@@ -1720,10 +1742,12 @@ public class DefaultCodegen implements CodegenConfig {
                     if (component != null) {
                         // component is the child schema
                         addProperties(properties, required, component, allDefinitions);
-
+                        
+                        /*
                         if (hasParent || supportsInheritance) {
                             addProperties(allProperties, allRequired, component, allDefinitions);
                         }
+                        */
                     }
                     break; // at most one schema not using $ref
                 }
@@ -1805,9 +1829,19 @@ public class DefaultCodegen implements CodegenConfig {
         addParentContainer(codegenModel, codegenModel.name, schema);
     }
 
+    /**
+     * Add schema's properties to "properties" and "required" list
+     *
+     * @param properties all properties
+     * @param required required property only
+     * @param schema schema in which the properties will be added to the lists
+     * @param allSchemas all schemas
+     */
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema
             schema, Map<String, Schema> allSchemas) {
         if (schema instanceof ComposedSchema) {
+            throw new RuntimeException("Please report the issue: Cannot process Composed Schema in addProperties: " + schema);
+            /*
             ComposedSchema composedSchema = (ComposedSchema) schema;
             if (composedSchema.getAllOf() == null) {
                 return;
@@ -1817,7 +1851,10 @@ public class DefaultCodegen implements CodegenConfig {
                 addProperties(properties, required, component, allSchemas);
             }
             return;
+            */
         }
+
+        Schema unaliasSchema = ModelUtils.unaliasSchema(globalSchemas, schema);
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             Schema interfaceSchema = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
