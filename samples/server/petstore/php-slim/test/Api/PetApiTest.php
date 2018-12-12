@@ -35,7 +35,7 @@ use OpenAPIServer\Api\PetApi;
  * @package  OpenAPIServer\Api
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
- * @coversDefaultClass \OpenAPIServer\Model\PetApi
+ * @coversDefaultClass \OpenAPIServer\Api\PetApi
  */
 class PetApiTest extends TestCase
 {

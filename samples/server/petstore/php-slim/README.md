@@ -44,48 +44,77 @@ Command | Tool | Target
 `$ composer run phpcs` | PHP CodeSniffer | All files
 `$ composer run phplint` | phplint | All files
 
+## Show errors
+
+Change line in `./index.php`:
+```diff
+--- $router = new SlimRouter();
++++ $router = new SlimRouter(['settings' => ['displayErrorDetails' => true]]);
+```
 
 ## API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
+> Important! Do not modify abstract API controllers directly! Instead extend them by implementation classes like:
+
+```php
+// src/Api/PetApi.php
+
+namespace OpenAPIServer\Api;
+
+use OpenAPIServer\Api\AbstractPetApi;
+
+class PetApi extends AbstractPetApi
+{
+
+    public function addPet($request, $response, $args)
+    {
+        // your implementation of addPet method here
+    }
+}
+```
+
+Place all your implementation classes in `./src` folder accordingly.
+For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you need to create implementation class at `./src/Api/PetApi.php`.
+
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | **call123TestSpecialTags** | **PATCH** /another-fake/dummy | To test special tags
-*FakeApi* | **fakeOuterBooleanSerialize** | **POST** /fake/outer/boolean | 
-*FakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
-*FakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 
-*FakeApi* | **fakeOuterStringSerialize** | **POST** /fake/outer/string | 
-*FakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
-*FakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
-*FakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
-*FakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-*FakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
-*FakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-*FakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-*FakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
-*FakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case
-*PetApi* | **addPet** | **POST** /pet | Add a new pet to the store
-*PetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
-*PetApi* | **findPetsByTags** | **GET** /pet/findByTags | Finds Pets by tags
-*PetApi* | **updatePet** | **PUT** /pet | Update an existing pet
-*PetApi* | **deletePet** | **DELETE** /pet/{petId} | Deletes a pet
-*PetApi* | **getPetById** | **GET** /pet/{petId} | Find pet by ID
-*PetApi* | **updatePetWithForm** | **POST** /pet/{petId} | Updates a pet in the store with form data
-*PetApi* | **uploadFile** | **POST** /pet/{petId}/uploadImage | uploads an image
-*PetApi* | **uploadFileWithRequiredFile** | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
-*StoreApi* | **getInventory** | **GET** /store/inventory | Returns pet inventories by status
-*StoreApi* | **placeOrder** | **POST** /store/order | Place an order for a pet
-*StoreApi* | **deleteOrder** | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-*StoreApi* | **getOrderById** | **GET** /store/order/{order_id} | Find purchase order by ID
-*UserApi* | **createUser** | **POST** /user | Create user
-*UserApi* | **createUsersWithArrayInput** | **POST** /user/createWithArray | Creates list of users with given input array
-*UserApi* | **createUsersWithListInput** | **POST** /user/createWithList | Creates list of users with given input array
-*UserApi* | **loginUser** | **GET** /user/login | Logs user into the system
-*UserApi* | **logoutUser** | **GET** /user/logout | Logs out current logged in user session
-*UserApi* | **deleteUser** | **DELETE** /user/{username} | Delete user
-*UserApi* | **getUserByName** | **GET** /user/{username} | Get user by user name
-*UserApi* | **updateUser** | **PUT** /user/{username} | Updated user
+*AbstractAnotherFakeApi* | **call123TestSpecialTags** | **PATCH** /another-fake/dummy | To test special tags
+*AbstractFakeApi* | **fakeOuterBooleanSerialize** | **POST** /fake/outer/boolean | 
+*AbstractFakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
+*AbstractFakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 
+*AbstractFakeApi* | **fakeOuterStringSerialize** | **POST** /fake/outer/string | 
+*AbstractFakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
+*AbstractFakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
+*AbstractFakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
+*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+*AbstractFakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
+*AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+*AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*AbstractFakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
+*AbstractFakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case
+*AbstractPetApi* | **addPet** | **POST** /pet | Add a new pet to the store
+*AbstractPetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
+*AbstractPetApi* | **findPetsByTags** | **GET** /pet/findByTags | Finds Pets by tags
+*AbstractPetApi* | **updatePet** | **PUT** /pet | Update an existing pet
+*AbstractPetApi* | **deletePet** | **DELETE** /pet/{petId} | Deletes a pet
+*AbstractPetApi* | **getPetById** | **GET** /pet/{petId} | Find pet by ID
+*AbstractPetApi* | **updatePetWithForm** | **POST** /pet/{petId} | Updates a pet in the store with form data
+*AbstractPetApi* | **uploadFile** | **POST** /pet/{petId}/uploadImage | uploads an image
+*AbstractPetApi* | **uploadFileWithRequiredFile** | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*AbstractStoreApi* | **getInventory** | **GET** /store/inventory | Returns pet inventories by status
+*AbstractStoreApi* | **placeOrder** | **POST** /store/order | Place an order for a pet
+*AbstractStoreApi* | **deleteOrder** | **DELETE** /store/order/{order_id} | Delete purchase order by ID
+*AbstractStoreApi* | **getOrderById** | **GET** /store/order/{order_id} | Find purchase order by ID
+*AbstractUserApi* | **createUser** | **POST** /user | Create user
+*AbstractUserApi* | **createUsersWithArrayInput** | **POST** /user/createWithArray | Creates list of users with given input array
+*AbstractUserApi* | **createUsersWithListInput** | **POST** /user/createWithList | Creates list of users with given input array
+*AbstractUserApi* | **loginUser** | **GET** /user/login | Logs user into the system
+*AbstractUserApi* | **logoutUser** | **GET** /user/logout | Logs out current logged in user session
+*AbstractUserApi* | **deleteUser** | **DELETE** /user/{username} | Delete user
+*AbstractUserApi* | **getUserByName** | **GET** /user/{username} | Get user by user name
+*AbstractUserApi* | **updateUser** | **PUT** /user/{username} | Updated user
 
 
 ## Models

@@ -35,7 +35,7 @@ use OpenAPIServer\Api\FakeClassnameTags123Api;
  * @package  OpenAPIServer\Api
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
- * @coversDefaultClass \OpenAPIServer\Model\FakeClassnameTags123Api
+ * @coversDefaultClass \OpenAPIServer\Api\FakeClassnameTags123Api
  */
 class FakeClassnameTags123ApiTest extends TestCase
 {
