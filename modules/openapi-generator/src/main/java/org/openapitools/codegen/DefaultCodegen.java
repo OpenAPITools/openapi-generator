@@ -3539,6 +3539,7 @@ public class DefaultCodegen implements CodegenConfig {
                     m.hasOnlyReadOnly = false;
                 }
 
+                // TODO revise the logic to include map
                 if (cp.isContainer) {
                     addImport(m, typeMapping.get("array"));
                 }

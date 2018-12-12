@@ -44,8 +44,9 @@
    * @class
    * @extends module:model/Animal
    * @implements module:model/Animal
+   * @param className {} 
    */
-  var exports = function() {
+  var exports = function(className) {
     var _this = this;
 
     Animal.call(_this, className);
