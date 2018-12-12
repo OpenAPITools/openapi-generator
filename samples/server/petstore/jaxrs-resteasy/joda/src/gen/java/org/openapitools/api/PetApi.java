@@ -63,7 +63,7 @@ public class PetApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    public Response deletePet( @PathParam("petId") Long petId,@ApiParam(value = "" )@HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
+    public Response deletePet( @PathParam("petId") Long petId,  @ApiParam(value = "" )@HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.deletePet(petId,apiKey,securityContext);
     }
