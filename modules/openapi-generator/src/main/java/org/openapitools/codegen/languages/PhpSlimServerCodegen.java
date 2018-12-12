@@ -36,6 +36,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
 
     public static final String PHPCS_STANDARD = "phpcsStandard";
+    public static final String USER_CLASSNAME_KEY = "userClassname";
 
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
@@ -134,6 +135,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        addUserClassnameToOperations(operations);
         escapeMediaType(operationList);
         return objs;
     }
@@ -183,6 +185,18 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
             return "DefaultApiTest";
         }
         return initialCaps(name) + "ApiTest";
+    }
+
+    /**
+     * Strips out abstract prefix and suffix from classname and puts it in "userClassname" property of operations object.
+     *
+     * @param operations codegen object with operations
+     */
+    private void addUserClassnameToOperations(Map<String, Object> operations) {
+        String classname = (String) operations.get("classname");
+        classname = classname.replaceAll("^" + abstractNamePrefix, "");
+        classname = classname.replaceAll(abstractNameSuffix + "$", "");
+        operations.put(USER_CLASSNAME_KEY, classname);
     }
 
 }
