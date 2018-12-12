@@ -3470,6 +3470,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             Set<String> mandatory = required == null ? Collections.<String>emptySet()
                     : new TreeSet<String>(required);
+
             // update "vars" without parent's properties (all, required)
             addVars(m, m.vars, properties, mandatory);
             m.allMandatory = m.mandatory = mandatory;
@@ -3489,15 +3490,30 @@ public class DefaultCodegen implements CodegenConfig {
             m.allVars = m.vars;
             m.allMandatory = m.mandatory;
         }
+
+        // loop through list to update property name with toVarName
+        Set<String> renamedMandatory = new TreeSet<String>();
+        Iterator<String> mandatoryIterator = m.mandatory.iterator();
+        while (mandatoryIterator.hasNext()) {
+            renamedMandatory.add(toVarName(mandatoryIterator.next()));
+        }
+        m.mandatory = renamedMandatory;
+
+        Set<String> renamedAllMandatory = new TreeSet<String>();
+        Iterator<String> allMandatoryIterator = m.allMandatory.iterator();
+        while (allMandatoryIterator.hasNext()) {
+            renamedAllMandatory.add(toVarName(allMandatoryIterator.next()));
+        }
+        m.allMandatory = renamedAllMandatory;
     }
 
     /**
      * Add variables (properties) to codegen model (list of properties, various flags, etc)
      *
-     * @param m Codegen model
-     * @param vars list of codegen properties (e.g. vars, allVars) to be updated with the new properties
+     * @param m          Codegen model
+     * @param vars       list of codegen properties (e.g. vars, allVars) to be updated with the new properties
      * @param properties a map of properties (schema)
-     * @param mandatory a set of required properties' name
+     * @param mandatory  a set of required properties' name
      */
     private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         for (Map.Entry<String, Schema> entry : properties.entrySet()) {

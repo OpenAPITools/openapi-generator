@@ -271,6 +271,17 @@ public class RubyClientCodegenTest {
         Assert.assertFalse(cp1.isNullable);
         Assert.assertEquals(cp1.name, "photo_urls");
 
+        // test mandatory
+        Set<String> mandatory = new TreeSet<String>();
+        mandatory.add("name");
+        mandatory.add("photo_urls");
+        Assert.assertEquals(nullablePet.getMandatory(), mandatory);
+
+        // test allMandatory
+        Set<String> allMandatory = new TreeSet<String>();
+        allMandatory.add("name");
+        allMandatory.add("photo_urls");
+        Assert.assertEquals(nullablePet.getAllMandatory(), allMandatory);
     }
 
     @Test(description = "test nullable for parameters (OAS3)")
@@ -406,7 +417,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(child);
 
         // to test allVars (without parent's properties)
-        Assert.assertEquals(child.getAllVars().size(), 6);
+        Assert.assertEquals(child.getAllVars().size(), 7);
 
         CodegenProperty cp0 = child.getAllVars().get(0);
         Assert.assertEquals(cp0.name, "_type");
@@ -424,7 +435,10 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp4.name, "duplicated_required");
 
         CodegenProperty cp5 = child.getAllVars().get(5);
-        Assert.assertEquals(cp5.name, "age");
+        Assert.assertEquals(cp5.name, "person_required");
+
+        CodegenProperty cp6 = child.getAllVars().get(6);
+        Assert.assertEquals(cp6.name, "age");
 
         // to test vars (without parent's properties)
         Assert.assertEquals(child.getVars().size(), 2);
@@ -436,10 +450,13 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp1.name, "first_name");
 
         // to test requiredVars
-        Assert.assertEquals(child.getRequiredVars().size(), 1);
+        Assert.assertEquals(child.getRequiredVars().size(), 2);
 
         cp0 = child.getRequiredVars().get(0);
         Assert.assertEquals(cp0.name, "duplicated_required");
+
+        cp1 = child.getRequiredVars().get(1);
+        Assert.assertEquals(cp1.name, "person_required");
 
     }
 
@@ -454,7 +471,7 @@ public class RubyClientCodegenTest {
         Assert.assertNotNull(adult);
 
         // to test allVars (without parent's properties)
-        Assert.assertEquals(adult.getAllVars().size(), 6);
+        Assert.assertEquals(adult.getAllVars().size(), 8);
 
         CodegenProperty cp0 = adult.getAllVars().get(0);
         Assert.assertEquals(cp0.name, "_type");
@@ -472,10 +489,16 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp4.name, "duplicated_required");
 
         CodegenProperty cp5 = adult.getAllVars().get(5);
-        Assert.assertEquals(cp5.name, "children");
+        Assert.assertEquals(cp5.name, "person_required");
+
+        CodegenProperty cp6 = adult.getAllVars().get(6);
+        Assert.assertEquals(cp6.name, "children");
+
+        CodegenProperty cp7 = adult.getAllVars().get(7);
+        Assert.assertEquals(cp7.name, "adult_required");
 
         // to test vars (without parent's properties)
-        Assert.assertEquals(adult.getVars().size(), 3);
+        Assert.assertEquals(adult.getVars().size(), 4);
 
         cp0 = adult.getVars().get(0);
         Assert.assertEquals(cp0.name, "duplicated_optional");
@@ -487,11 +510,13 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp2.name, "children");
 
         // to test requiredVars
-        Assert.assertEquals(adult.getRequiredVars().size(), 1);
+        Assert.assertEquals(adult.getRequiredVars().size(), 2);
 
         cp0 = adult.getRequiredVars().get(0);
         Assert.assertEquals(cp0.name, "duplicated_required");
 
+        cp1 = adult.getRequiredVars().get(1);
+        Assert.assertEquals(cp1.name, "person_required");
     }
 
     @Test(description = "test example string imported from x-example parameterr (OAS2)")

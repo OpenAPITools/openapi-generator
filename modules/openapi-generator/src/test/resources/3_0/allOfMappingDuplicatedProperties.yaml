@@ -29,6 +29,7 @@ components:
     Person:
       required:
         - duplicated_required
+        - person_required
       type: object
       discriminator:
         propertyName: $_type
@@ -46,6 +47,9 @@ components:
            type: string
         duplicated_required:
            type: string
+        person_required:
+           type: string
+           format: date-time
     Adult:
       description: A representation of an adult
       allOf:
@@ -53,6 +57,7 @@ components:
       - type: object
         required:
           - duplicated_required
+          - child_required
         properties:
           duplicated_optional:
              type: integer
@@ -62,6 +67,8 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/Child"
+          adult_required:
+            type: boolean
     Child:
       description: A representation of a child
       allOf:
