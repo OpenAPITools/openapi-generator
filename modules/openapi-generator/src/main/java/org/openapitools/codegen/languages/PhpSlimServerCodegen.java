@@ -160,8 +160,29 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         return objs;
     }
 
+    /**
+     * Sets PHP CodeSniffer &lt;standard&gt; option. Accepts name or path of the coding standard to use.
+     *
+     * @param phpcsStandard standard option value
+     */
     public void setPhpcsStandard(String phpcsStandard) {
         this.phpcsStandard = phpcsStandard;
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return toAbstractName("DefaultApi");
+        }
+        return toAbstractName(initialCaps(name) + "Api");
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        if (name.length() == 0) {
+            return "DefaultApiTest";
+        }
+        return initialCaps(name) + "ApiTest";
     }
 
 }
