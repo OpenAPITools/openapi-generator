@@ -189,21 +189,12 @@ pub struct Cat {
     #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
 
-    #[serde(rename = "className")]
-    pub class_name: String,
-
-    #[serde(rename = "color")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub color: Option<String>,
-
 }
 
 impl Cat {
-    pub fn new(class_name: String, ) -> Cat {
+    pub fn new() -> Cat {
         Cat {
             declawed: None,
-            class_name: class_name,
-            color: Some("red".to_string()),
         }
     }
 }
@@ -269,21 +260,12 @@ pub struct Dog {
     #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
 
-    #[serde(rename = "className")]
-    pub class_name: String,
-
-    #[serde(rename = "color")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub color: Option<String>,
-
 }
 
 impl Dog {
-    pub fn new(class_name: String, ) -> Dog {
+    pub fn new() -> Dog {
         Dog {
             breed: None,
-            class_name: class_name,
-            color: Some("red".to_string()),
         }
     }
 }

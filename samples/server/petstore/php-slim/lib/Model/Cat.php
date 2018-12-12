@@ -12,10 +12,4 @@ class Cat
     
     /** @var bool $declawed */
     private $declawed;
-    
-    /** @var string $className */
-    private $className;
-    
-    /** @var string $color */
-    private $color;
 }

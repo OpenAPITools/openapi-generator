@@ -16,25 +16,17 @@ module Petstore
   class Cat < Animal
     attr_accessor :declawed
 
-    attr_accessor :class_name
-
-    attr_accessor :color
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'declawed' => :'declawed',
-        :'class_name' => :'className',
-        :'color' => :'color'
+        :'declawed' => :'declawed'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'declawed' => :'BOOLEAN',
-        :'class_name' => :'String',
-        :'color' => :'String'
+        :'declawed' => :'BOOLEAN'
       }
     end
 
@@ -59,33 +51,18 @@ module Petstore
       if attributes.has_key?(:'declawed')
         self.declawed = attributes[:'declawed']
       end
-
-      if attributes.has_key?(:'className')
-        self.class_name = attributes[:'className']
-      end
-
-      if attributes.has_key?(:'color')
-        self.color = attributes[:'color']
-      else
-        self.color = 'red'
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = super
-      if @class_name.nil?
-        invalid_properties.push('invalid value for "class_name", class_name cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @class_name.nil?
       true && super
     end
 
@@ -94,9 +71,7 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          declawed == o.declawed &&
-          class_name == o.class_name &&
-          color == o.color && super(o)
+          declawed == o.declawed && super(o)
     end
 
     # @see the `==` method
@@ -108,7 +83,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [declawed, class_name, color].hash
+      [declawed].hash
     end
 
     # Builds the object from hash

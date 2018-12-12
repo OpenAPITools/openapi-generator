@@ -14,16 +14,4 @@ class Cat
      * @var bool
      */
     public $declawed;
-    /**
-     * @DTA\Data(field="className")
-     * @DTA\Validator(name="Type", options={"type":"string"})
-     * @var string
-     */
-    public $class_name;
-    /**
-     * @DTA\Data(field="color", nullable=true)
-     * @DTA\Validator(name="Type", options={"type":"string"})
-     * @var string
-     */
-    public $color;
 }

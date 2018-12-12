@@ -458,8 +458,6 @@ mkCapitalization =
 -- | Cat
 data Cat = Cat
   { catDeclawed :: !(Maybe Bool) -- ^ "declawed"
-  , catClassName :: !(Text) -- ^ /Required/ "className"
-  , catColor :: !(Maybe Text) -- ^ "color"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Cat
@@ -467,28 +465,21 @@ instance A.FromJSON Cat where
   parseJSON = A.withObject "Cat" $ \o ->
     Cat
       <$> (o .:? "declawed")
-      <*> (o .:  "className")
-      <*> (o .:? "color")
 
 -- | ToJSON Cat
 instance A.ToJSON Cat where
   toJSON Cat {..} =
    _omitNulls
       [ "declawed" .= catDeclawed
-      , "className" .= catClassName
-      , "color" .= catColor
       ]
 
 
 -- | Construct a value of type 'Cat' (by applying it's required fields, if any)
 mkCat
-  :: Text -- ^ 'catClassName' 
-  -> Cat
-mkCat catClassName =
+  :: Cat
+mkCat =
   Cat
   { catDeclawed = Nothing
-  , catClassName
-  , catColor = Nothing
   }
 
 -- ** Category
@@ -585,8 +576,6 @@ mkClient =
 -- | Dog
 data Dog = Dog
   { dogBreed :: !(Maybe Text) -- ^ "breed"
-  , dogClassName :: !(Text) -- ^ /Required/ "className"
-  , dogColor :: !(Maybe Text) -- ^ "color"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Dog
@@ -594,28 +583,21 @@ instance A.FromJSON Dog where
   parseJSON = A.withObject "Dog" $ \o ->
     Dog
       <$> (o .:? "breed")
-      <*> (o .:  "className")
-      <*> (o .:? "color")
 
 -- | ToJSON Dog
 instance A.ToJSON Dog where
   toJSON Dog {..} =
    _omitNulls
       [ "breed" .= dogBreed
-      , "className" .= dogClassName
-      , "color" .= dogColor
       ]
 
 
 -- | Construct a value of type 'Dog' (by applying it's required fields, if any)
 mkDog
-  :: Text -- ^ 'dogClassName' 
-  -> Dog
-mkDog dogClassName =
+  :: Dog
+mkDog =
   Dog
   { dogBreed = Nothing
-  , dogClassName
-  , dogColor = Nothing
   }
 
 -- ** EnumArrays
