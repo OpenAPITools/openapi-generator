@@ -269,6 +269,23 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        // loop through properties of each model to detect self-reference
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                for (CodegenProperty cp : cm.allVars) {
+                    // detect self import
+                    if (cp.dataType.equals(cm.classname) ||
+                            (cp.isContainer && cp.items.dataType.equals(cm.classname))) {
+                        cm.imports.remove(cm.classname); // remove self import
+                        cp.isSelfReference = true;
+                    }
+                }
+            }
+        }
+
         return objs;
     }
 

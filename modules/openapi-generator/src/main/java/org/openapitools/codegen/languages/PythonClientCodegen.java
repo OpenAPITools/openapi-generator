@@ -762,27 +762,4 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
     }
-
-    @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        Map<String, CodegenModel> allModels = new HashMap<>();
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
-                for (CodegenProperty cp : cm.allVars) {
-                    // detect self import
-                    if (cp.dataType.equals(cm.classname) ||
-                            (cp.isContainer && cp.items.dataType.equals(cm.classname))) {
-                        cm.imports.remove(cm.classname); // remove self import
-                        cp.vendorExtensions.put("x-self-reference", true); // use vendor extension to indicate self-reference
-                    }
-                }
-            }
-        }
-
-        return objs;
-    }
-
 }
