@@ -1753,9 +1753,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            LOGGER.info("debugging properties size: {} for {}", properties.size(), m.classname);
-            LOGGER.info("debugging all properties size: {} for {}", allProperties.size(), m.classname);
-
             addVars(m, unaliasPropertySchema(allDefinitions, properties), required, unaliasPropertySchema(allDefinitions, allProperties), allRequired);
 
             // end of code block for composed schema
@@ -1786,9 +1783,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // remove duplicated properties
         m.removeAllDuplicatedProperty();
-
-        LOGGER.info("debugging vars size: {} for {}", m.vars.size(), m.classname);
-        LOGGER.info("debugging all vars size: {} for {}", m.allVars.size(), m.classname);
 
         // post process model properties
         if (m.vars != null) {
