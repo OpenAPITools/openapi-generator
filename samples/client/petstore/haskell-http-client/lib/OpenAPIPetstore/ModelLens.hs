@@ -156,6 +156,16 @@ capitalizationAttNameL f Capitalization{..} = (\capitalizationAttName -> Capital
 
 -- * Cat
 
+-- | 'catClassName' Lens
+catClassNameL :: Lens_' Cat (Text)
+catClassNameL f Cat{..} = (\catClassName -> Cat { catClassName, ..} ) <$> f catClassName
+{-# INLINE catClassNameL #-}
+
+-- | 'catColor' Lens
+catColorL :: Lens_' Cat (Maybe Text)
+catColorL f Cat{..} = (\catColor -> Cat { catColor, ..} ) <$> f catColor
+{-# INLINE catColorL #-}
+
 -- | 'catDeclawed' Lens
 catDeclawedL :: Lens_' Cat (Maybe Bool)
 catDeclawedL f Cat{..} = (\catDeclawed -> Cat { catDeclawed, ..} ) <$> f catDeclawed
@@ -196,6 +206,16 @@ clientClientL f Client{..} = (\clientClient -> Client { clientClient, ..} ) <$> 
 
 
 -- * Dog
+
+-- | 'dogClassName' Lens
+dogClassNameL :: Lens_' Dog (Text)
+dogClassNameL f Dog{..} = (\dogClassName -> Dog { dogClassName, ..} ) <$> f dogClassName
+{-# INLINE dogClassNameL #-}
+
+-- | 'dogColor' Lens
+dogColorL :: Lens_' Dog (Maybe Text)
+dogColorL f Dog{..} = (\dogColor -> Dog { dogColor, ..} ) <$> f dogColor
+{-# INLINE dogColorL #-}
 
 -- | 'dogBreed' Lens
 dogBreedL :: Lens_' Dog (Maybe Text)

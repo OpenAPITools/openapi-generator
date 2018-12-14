@@ -95,6 +95,8 @@ CREATE TABLE IF NOT EXISTS `Capitalization` (
 --
 
 CREATE TABLE IF NOT EXISTS `Cat` (
+  `className` TEXT NOT NULL,
+  `color` TEXT,
   `declawed` TINYINT(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -129,6 +131,8 @@ CREATE TABLE IF NOT EXISTS `Client` (
 --
 
 CREATE TABLE IF NOT EXISTS `Dog` (
+  `className` TEXT NOT NULL,
+  `color` TEXT,
   `breed` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

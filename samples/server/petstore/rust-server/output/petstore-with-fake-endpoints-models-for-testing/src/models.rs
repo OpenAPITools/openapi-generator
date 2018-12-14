@@ -185,6 +185,13 @@ impl Capitalization {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Cat {
+    #[serde(rename = "className")]
+    pub class_name: String,
+
+    #[serde(rename = "color")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub color: Option<String>,
+
     #[serde(rename = "declawed")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub declawed: Option<bool>,
@@ -192,8 +199,10 @@ pub struct Cat {
 }
 
 impl Cat {
-    pub fn new() -> Cat {
+    pub fn new(class_name: String, ) -> Cat {
         Cat {
+            class_name: class_name,
+            color: Some("red".to_string()),
             declawed: None,
         }
     }
@@ -256,6 +265,13 @@ impl Client {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Dog {
+    #[serde(rename = "className")]
+    pub class_name: String,
+
+    #[serde(rename = "color")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub color: Option<String>,
+
     #[serde(rename = "breed")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub breed: Option<String>,
@@ -263,8 +279,10 @@ pub struct Dog {
 }
 
 impl Dog {
-    pub fn new() -> Dog {
+    pub fn new(class_name: String, ) -> Dog {
         Dog {
+            class_name: class_name,
+            color: Some("red".to_string()),
             breed: None,
         }
     }
