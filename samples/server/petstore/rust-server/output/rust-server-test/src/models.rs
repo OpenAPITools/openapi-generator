@@ -32,7 +32,6 @@ impl ANullableContainer {
     }
 }
 
-
 impl ANullableContainer {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -42,6 +41,26 @@ impl ANullableContainer {
     }
 }
 
+/// An additionalPropertiesObject
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AdditionalPropertiesObject {
+}
+
+impl AdditionalPropertiesObject {
+    pub fn new() -> AdditionalPropertiesObject {
+        AdditionalPropertiesObject {
+        }
+    }
+}
+
+impl AdditionalPropertiesObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct InlineObject {
@@ -63,7 +82,6 @@ impl InlineObject {
     }
 }
 
-
 impl InlineObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -72,7 +90,6 @@ impl InlineObject {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
-
 
 /// An object of objects
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -91,7 +108,6 @@ impl ObjectOfObjects {
     }
 }
 
-
 impl ObjectOfObjects {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -100,7 +116,6 @@ impl ObjectOfObjects {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
-
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ObjectOfObjectsInner {
@@ -122,7 +137,6 @@ impl ObjectOfObjectsInner {
     }
 }
 
-
 impl ObjectOfObjectsInner {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -131,7 +145,6 @@ impl ObjectOfObjectsInner {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
-
 
 /// An XML list with items directly defined
 // Utility function for wrapping list elements when serializing xml
@@ -204,7 +217,6 @@ impl ::std::ops::DerefMut for XmlList {
 }
 
 
-
 impl XmlList {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -213,7 +225,6 @@ impl XmlList {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
-
 
 /// An XML list with items referenced. The wrapping doesn't currently work - it's stripped during the conversion to openapi v3. See https://github.com/OpenAPITools/openapi-generator/issues/1581.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -278,7 +289,6 @@ impl ::std::ops::DerefMut for XmlListRef {
 }
 
 
-
 impl XmlListRef {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -287,7 +297,6 @@ impl XmlListRef {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
-
 
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename = "xml_list_ref_inner")]
@@ -319,7 +328,6 @@ impl ::std::ops::DerefMut for XmlListRefInner {
 }
 
 
-
 impl XmlListRefInner {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -328,7 +336,6 @@ impl XmlListRefInner {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
-
 
 /// An XML object
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -348,7 +355,6 @@ impl XmlObject {
     }
 }
 
-
 impl XmlObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -360,7 +366,6 @@ impl XmlObject {
         serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
     }
 }
-
 
 //XML namespaces
 pub mod namespaces {

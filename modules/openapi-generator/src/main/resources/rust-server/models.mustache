@@ -164,7 +164,9 @@ impl {{{classname}}} {
         }
     }
 }
-{{/arrayModelType}}{{/dataType}}{{/isEnum}}
+{{/arrayModelType}}
+{{/dataType}}
+{{/isEnum}}
 
 {{#usesXml}}
 impl {{{classname}}} {
@@ -184,8 +186,10 @@ impl {{{classname}}} {
     }
 }
 {{/usesXml}}
+{{/model}}
+{{/models}}
 
-{{/model}}{{/models}}{{#usesXmlNamespaces}}
+{{#usesXmlNamespaces}}
 //XML namespaces
 pub mod namespaces {
     lazy_static!{
