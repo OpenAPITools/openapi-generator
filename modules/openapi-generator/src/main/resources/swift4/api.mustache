@@ -45,15 +45,18 @@ extension {{projectName}}API {
         {{#returnType}}
             completion(response?.body, error)
         {{/returnType}}
-        {{^returnType}}{{#objcCompatible}}
+        {{^returnType}}
+        {{#objcCompatible}}
         completion(error)
-        {{/objcCompatible}}{{^objcCompatible}}
+        {{/objcCompatible}}
+        {{^objcCompatible}}
             if error == nil {
                 completion((), error)
             } else {
                 completion(nil, error)
             }
-        {{/objcCompatible}}{{/returnType}}
+        {{/objcCompatible}}
+        {{/returnType}}
         }
     }
 
