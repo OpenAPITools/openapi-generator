@@ -22,10 +22,18 @@ module Petstore
     # Builds the enum from string
     # @param [String] The enum value in the form of the string
     # @return [String] The enum value
+    def self.build_from_hash(value)
+      new.build_from_hash(value)
+    end
+
+    # Builds the enum from string
+    # @param [String] The enum value in the form of the string
+    # @return [String] The enum value
     def build_from_hash(value)
       constantValues = EnumClass.constants.select { |c| EnumClass::const_get(c) == value }
       raise "Invalid ENUM value #{value} for class #EnumClass" if constantValues.empty?
       value
     end
   end
+
 end
