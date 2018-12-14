@@ -42,7 +42,7 @@
    * Constructs a new <code>Category</code>.
    * @alias module:model/Category
    * @class
-   * @param name {} 
+   * @param name {String} 
    */
   var exports = function(name) {
     var _this = this;

@@ -42,7 +42,7 @@
    * Constructs a new <code>EnumTest</code>.
    * @alias module:model/EnumTest
    * @class
-   * @param enumStringRequired {} 
+   * @param enumStringRequired {module:model/EnumTest.EnumStringRequiredEnum} 
    */
   var exports = function(enumStringRequired) {
     var _this = this;

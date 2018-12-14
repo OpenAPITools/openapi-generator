@@ -42,10 +42,10 @@
    * Constructs a new <code>FormatTest</code>.
    * @alias module:model/FormatTest
    * @class
-   * @param _number {} 
-   * @param _byte {} 
-   * @param _date {} 
-   * @param password {} 
+   * @param _number {Number} 
+   * @param _byte {Blob} 
+   * @param _date {Date} 
+   * @param password {String} 
    */
   var exports = function(_number, _byte, _date, password) {
     var _this = this;

@@ -44,7 +44,7 @@
    * @class
    * @extends module:model/Animal
    * @implements module:model/Animal
-   * @param className {} 
+   * @param className {String} 
    */
   var exports = function(className) {
     var _this = this;
@@ -80,12 +80,12 @@
 
   // Implement Animal interface:
   /**
-   * @member {} className
+   * @member {String} className
    */
 exports.prototype['className'] = undefined;
 
   /**
-   * @member {} color
+   * @member {String} color
    * @default 'red'
    */
 exports.prototype['color'] = 'red';
