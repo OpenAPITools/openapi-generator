@@ -306,7 +306,7 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn dummy_put(&self, param_body: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, param_inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -321,7 +321,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-        let body = param_body.map(|ref body| {
+        let body = param_inline_object.map(|ref body| {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
@@ -572,7 +572,7 @@ if let Some(body) = body {
 
     }
 
-    fn xml_post(&self, param_body: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, param_xml_object: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -587,7 +587,7 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        let body = param_body.to_xml();
+        let body = param_xml_object.to_xml();
 
         request.set_body(body.into_bytes());
 

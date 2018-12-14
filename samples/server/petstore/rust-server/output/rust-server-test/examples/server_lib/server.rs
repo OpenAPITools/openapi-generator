@@ -41,9 +41,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn dummy_put(&self, body: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("dummy_put({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        println!("dummy_put({:?}) - X-Span-ID: {:?}", inline_object, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -69,9 +69,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// Test XML
-    fn xml_post(&self, body: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, xml_object: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("xml_post({}) - X-Span-ID: {:?}", body, context.get().0.clone());
+        println!("xml_post({:?}) - X-Span-ID: {:?}", xml_object, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

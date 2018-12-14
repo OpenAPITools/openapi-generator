@@ -50,7 +50,7 @@ pub enum XmlPostResponse {
 pub trait Api<C> {
 
 
-    fn xml_post(&self, body: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, string: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -58,7 +58,7 @@ pub trait Api<C> {
 pub trait ApiNoContext {
 
 
-    fn xml_post(&self, body: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
+    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -77,8 +77,8 @@ impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
 impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
 
-    fn xml_post(&self, body: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
-        self.api().xml_post(body, &self.context())
+    fn xml_post(&self, string: Option<models::XmlArray>) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+        self.api().xml_post(string, &self.context())
     }
 
 }

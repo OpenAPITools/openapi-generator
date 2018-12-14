@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
@@ -742,191 +743,30 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     // ref. If so, it unwraps the reference and replaces it with its inner
     // type. This causes problems in rust-server, as it means that we use inner
     // types in the API, rather than the correct outer type.
+    //
+    // Thus, we grab the inner schema beforehand, and then tinker afterwards to
+    // restore things to sensible values.
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Map<String, Schema> schemas, Set<String> imports, String bodyParameterName) {
-        if (body == null) {
-            LOGGER.error("body in fromRequestBody cannot be null!");
-        }
-        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-        codegenParameter.baseName = "UNKNOWN_BASE_NAME";
-        codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
-        codegenParameter.description = escapeText(body.getDescription());
-        codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
-        codegenParameter.isBodyParam = Boolean.TRUE;
+        Schema original_schema = ModelUtils.getSchemaFromRequestBody(body);
+        CodegenParameter codegenParameter = super.fromRequestBody(body, schemas, imports, bodyParameterName);
 
-        String name = null;
-        LOGGER.debug("Request body = " + body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
-        if (StringUtils.isNotBlank(schema.get$ref())) {
-            name = ModelUtils.getSimpleRef(schema.get$ref());
-        //     schema = schemas.get(name);
-        }
+        if (StringUtils.isNotBlank(original_schema.get$ref())) {
+            // Undo the mess `super.fromRequestBody` made - re-wrap the inner
+            // type.
+            codegenParameter.dataType = getTypeDeclaration(original_schema);
+            codegenParameter.isPrimitiveType = false;
+            codegenParameter.isListContainer = false;
+            codegenParameter.isString = false;
 
-        if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = ModelUtils.getAdditionalProperties(schema);
-            if (inner == null) {
-                inner = new StringSchema().description("//TODO automatically added by openapi-generator");
-                schema.setAdditionalProperties(inner);
-            }
-            CodegenProperty codegenProperty = fromProperty("property", schema);
-            // only support 1-dimension map only
-            imports.add(codegenProperty.baseType);
-
-            if (StringUtils.isEmpty(bodyParameterName)) {
-                codegenParameter.baseName = "request_body";
+            // This is a model, so should only have an example if explicitly
+            // defined.
+            if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
             } else {
-                codegenParameter.baseName = bodyParameterName;
+                codegenParameter.example = null;
             }
-            codegenParameter.paramName = toParamName(codegenParameter.baseName);
-            codegenParameter.items = codegenProperty.items;
-            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            codegenParameter.dataType = getTypeDeclaration(schema);
-            codegenParameter.baseType = getSchemaType(inner);
-            codegenParameter.isContainer = Boolean.TRUE;
-            codegenParameter.isMapContainer = Boolean.TRUE;
-
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-
-            // set nullable
-            setParameterNullable(codegenParameter, codegenProperty);
-        } else if (ModelUtils.isArraySchema(schema)) {
-            final ArraySchema arraySchema = (ArraySchema) schema;
-            Schema inner = arraySchema.getItems();
-            if (inner == null) {
-                inner = new StringSchema().description("//TODO automatically added by openapi-generator");
-                arraySchema.setItems(inner);
-            }
-            CodegenProperty codegenProperty = fromProperty("property", schema);
-            imports.add(codegenProperty.baseType);
-            CodegenProperty innerCp = codegenProperty;
-            CodegenProperty mostInnerItem = innerCp;
-            // loop through multidimensional array to add proper import
-            // also find the most inner item
-            while (innerCp != null) {
-                if (innerCp.complexType != null) {
-                    imports.add(innerCp.complexType);
-                }
-                mostInnerItem = innerCp;
-                innerCp = innerCp.items;
-            }
-
-            if (StringUtils.isEmpty(bodyParameterName)) {
-                if (StringUtils.isEmpty(mostInnerItem.complexType)) {
-                    codegenParameter.baseName = "request_body";
-                } else {
-                    codegenParameter.baseName = mostInnerItem.complexType;
-                }
-            } else {
-                codegenParameter.baseName = bodyParameterName;
-            }
-            codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
-            codegenParameter.items = codegenProperty.items;
-            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            codegenParameter.dataType = getTypeDeclaration(arraySchema);
-            codegenParameter.baseType = getSchemaType(arraySchema);
-            codegenParameter.isContainer = Boolean.TRUE;
-            codegenParameter.isListContainer = Boolean.TRUE;
-
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-            // set nullable
-            setParameterNullable(codegenParameter, codegenProperty);
-
-            while (codegenProperty != null) {
-                imports.add(codegenProperty.baseType);
-                codegenProperty = codegenProperty.items;
-            }
-
-        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema)) {
-            CodegenModel codegenModel = null;
-            if (StringUtils.isNotBlank(name)) {
-                schema.setName(name);
-                codegenModel = fromModel(name, schema, schemas);
-            }
-            if (codegenModel != null) {
-                codegenParameter.isModel = true;
-            }
-
-            if (codegenModel != null && !codegenModel.emptyVars) {
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    codegenParameter.baseName = codegenModel.classname;
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                codegenParameter.baseType = codegenModel.classname;
-                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
-                codegenParameter.description = codegenModel.description;
-                imports.add(codegenParameter.baseType);
-            } else {
-                CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (ModelUtils.getAdditionalProperties(schema) != null) {// http body is map
-                    LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
-                } else if (codegenProperty != null) {
-                    String codegenModelName, codegenModelDescription;
-
-                    if (codegenModel != null) {
-                        codegenModelName = codegenModel.classname;
-                        codegenModelDescription = codegenModel.description;
-                    } else {
-                        LOGGER.warn("The following schema has undefined (null) baseType. " +
-                                "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
-                                "A correct 'consumes' for form parameters should be " +
-                                "'application/x-www-form-urlencoded' or 'multipart/form-data'");
-                        LOGGER.warn("schema: " + schema);
-                        LOGGER.warn("codegenModel is null. Default to UNKNOWN_BASE_TYPE");
-                        codegenModelName = "UNKNOWN_BASE_TYPE";
-                        codegenModelDescription = "UNKNOWN_DESCRIPTION";
-                    }
-
-                    if (StringUtils.isEmpty(bodyParameterName)) {
-                        codegenParameter.baseName = codegenModelName;
-                    } else {
-                        codegenParameter.baseName = bodyParameterName;
-                    }
-
-                    codegenParameter.paramName = toParamName(codegenParameter.baseName);
-                    codegenParameter.baseType = codegenModelName;
-                    codegenParameter.dataType = getTypeDeclaration(codegenModelName);
-                    codegenParameter.description = codegenModelDescription;
-                    imports.add(codegenParameter.baseType);
-
-                    if (codegenProperty.complexType != null) {
-                        imports.add(codegenProperty.complexType);
-                    }
-                }
-                setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-                // set nullable
-                setParameterNullable(codegenParameter, codegenProperty);
-            }
-
-        } else {
-            // HTTP request body is primitive type (e.g. integer, string, etc)
-            CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
-            if (codegenProperty != null) {
-                if (StringUtils.isEmpty(bodyParameterName)) {
-                    codegenParameter.baseName = "body";  // default to body
-                } else {
-                    codegenParameter.baseName = bodyParameterName;
-                }
-                codegenParameter.isPrimitiveType = true;
-                codegenParameter.baseType = codegenProperty.baseType;
-                codegenParameter.dataType = codegenProperty.dataType;
-                codegenParameter.description = codegenProperty.description;
-                codegenParameter.paramName = toParamName(codegenParameter.baseName);
-
-                if (codegenProperty.complexType != null) {
-                    imports.add(codegenProperty.complexType);
-                }
-
-            }
-            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
-            // set nullable
-            setParameterNullable(codegenParameter, codegenProperty);
         }
-
-        // set the parameter's example value
-        // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter, body);
 
         return codegenParameter;
     }
@@ -971,39 +811,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         return super.getTypeDeclaration(p);
     }
-
-    // @Override
-    // public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-    //     CodegenParameter parameter = super.fromParameter(param, imports);
-    //     if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
-    //         !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
-    //         !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
-    //         !parameter.isListContainer && !parameter.isMapContainer &&
-    //         !languageSpecificPrimitives.contains(parameter.dataType)) {
-
-    //         // String name = "models::" + getTypeDeclaration(parameter.dataType);
-    //         // parameter.dataType = name;
-    //         // parameter.baseType = name;
-    //     }
-
-    //     return parameter;
-    // }
-
-    // @Override
-    // public void postProcessParameter(CodegenParameter parameter) {
-    //     // If this parameter is not a primitive type, prefix it with "models::"
-    //     // to ensure it's namespaced correctly in the Rust code.
-    //     if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
-    //         !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
-    //         !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
-    //         !parameter.isListContainer && !parameter.isMapContainer &&
-    //         !languageSpecificPrimitives.contains(parameter.dataType)) {
-
-    //         // String name = "models::" + getTypeDeclaration(parameter.dataType);
-    //         // parameter.dataType = name;
-    //         // parameter.baseType = name;
-    //     }
-    // }
 
     @Override
     public String toInstantiationType(Schema p) {

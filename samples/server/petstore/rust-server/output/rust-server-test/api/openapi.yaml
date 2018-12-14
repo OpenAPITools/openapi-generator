@@ -19,9 +19,6 @@ paths:
         content:
           '*/*':
             schema:
-              example:
-                password: password
-                id: id
               properties:
                 id:
                   type: string

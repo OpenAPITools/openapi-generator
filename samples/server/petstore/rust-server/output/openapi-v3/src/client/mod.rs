@@ -245,7 +245,7 @@ impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> {
 
-    fn xml_post(&self, param_body: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, param_string: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -262,7 +262,7 @@ impl<F, C> Api<C> for Client<F> where
 
 
         // Body parameter
-        let body = param_body.map(|ref body| {
+        let body = param_string.map(|ref body| {
             body.to_xml()
         });
 

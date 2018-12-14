@@ -196,7 +196,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_body: Option<models::InlineObject> = if !body.is_empty() {
+                                let param_inline_object: Option<models::InlineObject> = if !body.is_empty() {
 
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
 
@@ -204,7 +204,7 @@ where
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_body) => param_body,
+                                        Ok(param_inline_object) => param_inline_object,
 
                                         Err(_) => None,
                                     }
@@ -214,7 +214,7 @@ where
                                 };
 
 
-                                Box::new(api_impl.dummy_put(param_body, &context)
+                                Box::new(api_impl.dummy_put(param_inline_object, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -247,7 +247,7 @@ where
 
 
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter InlineObject: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
@@ -454,27 +454,27 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_body: Option<models::XmlObject> = if !body.is_empty() {
+                                let param_xml_object: Option<models::XmlObject> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_body) => param_body,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter body - doesn't match schema: {}", e)))),
+                                        Ok(param_xml_object) => param_xml_object,
+                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter XmlObject - doesn't match schema: {}", e)))),
                                     }
 
                                 } else {
                                     None
                                 };
-                                let param_body = match param_body {
-                                    Some(param_body) => param_body,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
+                                let param_xml_object = match param_xml_object {
+                                    Some(param_xml_object) => param_xml_object,
+                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter XmlObject"))),
                                 };
 
 
-                                Box::new(api_impl.xml_post(param_body, &context)
+                                Box::new(api_impl.xml_post(param_xml_object, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -518,7 +518,7 @@ where
 
 
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter XmlObject: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
