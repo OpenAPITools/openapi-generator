@@ -80,6 +80,13 @@ module Petstore
     # Builds the object from hash
     # @param [Hash] attributes Model attributes in the form of hash
     # @return [Object] Returns the model itself
+    def self.build_from_hash(attributes)
+      new.build_from_hash(attributes)
+    end
+
+    # Builds the object from hash
+    # @param [Hash] attributes Model attributes in the form of hash
+    # @return [Object] Returns the model itself
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
       self.class.openapi_types.each_pair do |key, type|
@@ -134,8 +141,7 @@ module Petstore
           end
         end
       else # model
-        temp_model = Petstore.const_get(type).new
-        temp_model.build_from_hash(value)
+        Petstore.const_get(type).build_from_hash(value)
       end
     end
 
