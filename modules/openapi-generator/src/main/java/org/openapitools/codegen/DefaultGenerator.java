@@ -458,6 +458,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
 
+        // loop through all models to update children models, isSelfReference, isCircularReference, etc
+        allProcessedModels = config.updateAllModels(allProcessedModels);
+
         // post process all processed models
         allProcessedModels = config.postProcessAllModels(allProcessedModels);
 

@@ -22,11 +22,13 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;
+    public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
     public CodegenModel parentModel;
@@ -46,18 +48,18 @@ public class CodegenModel {
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> readOnlyVars = new ArrayList<CodegenProperty>(); // a list of read-only properties
     public List<CodegenProperty> readWriteVars = new ArrayList<CodegenProperty>(); // a list of properties for read, write
-    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>();
     public List<CodegenProperty> parentVars = new ArrayList<CodegenProperty>();
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
-    public Set<String> mandatory = new TreeSet<String>();
-    public Set<String> allMandatory;
+    public Set<String> mandatory = new TreeSet<String>(); // without parent's required properties
+    public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
@@ -69,16 +71,59 @@ public class CodegenModel {
     //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
 
-    {
-        // By default these are the same collections. Where the code generator supports inheritance, composed models
-        // store the complete closure of owned and inherited properties in allVars and allMandatory.
-        allVars = vars;
-        allMandatory = mandatory;
-    }
-
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "%s(%s)", name, classname);
+        return new ToStringBuilder(this)
+                .append("parent", parent)
+                .append("parentSchema", parentSchema)
+                .append("interfaces", interfaces)
+                .append("parentModel", parentModel)
+                .append("interfaceModels", interfaceModels)
+                .append("children", children)
+                .append("name", name)
+                .append("classname", classname)
+                .append("title", title)
+                .append("description", description)
+                .append("classVarName", classVarName)
+                .append("modelJson", modelJson)
+                .append("dataType", dataType)
+                .append("xmlPrefix", xmlPrefix)
+                .append("xmlNamespace", xmlNamespace)
+                .append("xmlName", xmlName)
+                .append("classFilename", classFilename)
+                .append("unescapedDescription", unescapedDescription)
+                .append("discriminator", discriminator)
+                .append("defaultValue", defaultValue)
+                .append("arrayModelType", arrayModelType)
+                .append("isAlias", isAlias)
+                .append("isString", isString)
+                .append("isInteger", isInteger)
+                .append("vars", vars)
+                .append("requiredVars", requiredVars)
+                .append("optionalVars", optionalVars)
+                .append("readOnlyVars", readOnlyVars)
+                .append("readWriteVars", readWriteVars)
+                .append("allVars", allVars)
+                .append("parentVars", parentVars)
+                .append("allowableValues", allowableValues)
+                .append("mandatory", mandatory)
+                .append("allMandatory", allMandatory)
+                .append("imports", imports)
+                .append("hasVars", hasVars)
+                .append("emptyVars", emptyVars)
+                .append("hasMoreModels", hasMoreModels)
+                .append("hasEnums", hasEnums)
+                .append("isEnum", isEnum)
+                .append("hasRequired", hasRequired)
+                .append("hasOptional", hasOptional)
+                .append("isArrayModel", isArrayModel)
+                .append("hasChildren", hasChildren)
+                .append("isMapModel", isMapModel)
+                .append("hasOnlyReadOnly", hasOnlyReadOnly)
+                .append("externalDocumentation", externalDocumentation)
+                .append("vendorExtensions", vendorExtensions)
+                .append("additionalPropertiesType", additionalPropertiesType)
+                .toString();
     }
 
     @Override
@@ -93,6 +138,8 @@ public class CodegenModel {
         if (parentSchema != null ? !parentSchema.equals(that.parentSchema) : that.parentSchema != null)
             return false;
         if (interfaces != null ? !interfaces.equals(that.interfaces) : that.interfaces != null)
+            return false;
+        if (allParents != null ? !allParents.equals(that.allParents) : that.allParents != null)
             return false;
         if (parentModel != null ? !parentModel.equals(that.parentModel) : that.parentModel != null)
             return false;
@@ -169,6 +216,7 @@ public class CodegenModel {
         int result = parent != null ? parent.hashCode() : 0;
         result = 31 * result + (parentSchema != null ? parentSchema.hashCode() : 0);
         result = 31 * result + (interfaces != null ? interfaces.hashCode() : 0);
+        result = 31 * result + (allParents != null ? allParents.hashCode() : 0);
         result = 31 * result + (parentModel != null ? parentModel.hashCode() : 0);
         result = 31 * result + (interfaceModels != null ? interfaceModels.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
@@ -226,8 +274,16 @@ public class CodegenModel {
         return interfaces;
     }
 
+    public List<String> getAllParents() {
+        return allParents;
+    }
+
     public void setInterfaces(List<String> interfaces) {
         this.interfaces = interfaces;
+    }
+
+    public void setAllParents(List<String> allParents) {
+        this.allParents = allParents;
     }
 
     public CodegenModel getParentModel() {

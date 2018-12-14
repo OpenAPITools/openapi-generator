@@ -16,25 +16,17 @@ module Petstore
   class Dog < Animal
     attr_accessor :breed
 
-    attr_accessor :class_name
-
-    attr_accessor :color
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'breed' => :'breed',
-        :'class_name' => :'className',
-        :'color' => :'color'
+        :'breed' => :'breed'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'breed' => :'String',
-        :'class_name' => :'String',
-        :'color' => :'String'
+        :'breed' => :'String'
       }
     end
 
@@ -59,33 +51,18 @@ module Petstore
       if attributes.has_key?(:'breed')
         self.breed = attributes[:'breed']
       end
-
-      if attributes.has_key?(:'className')
-        self.class_name = attributes[:'className']
-      end
-
-      if attributes.has_key?(:'color')
-        self.color = attributes[:'color']
-      else
-        self.color = 'red'
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = super
-      if @class_name.nil?
-        invalid_properties.push('invalid value for "class_name", class_name cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @class_name.nil?
       true && super
     end
 
@@ -94,9 +71,7 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          breed == o.breed &&
-          class_name == o.class_name &&
-          color == o.color && super(o)
+          breed == o.breed && super(o)
     end
 
     # @see the `==` method
@@ -108,7 +83,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [breed, class_name, color].hash
+      [breed].hash
     end
 
     # Builds the object from hash

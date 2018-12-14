@@ -1046,6 +1046,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
 
+            for (CodegenProperty var : cm.allVars) {
+                // Add JSDoc @type value for this property.
+                String jsDocType = getJSDocType(cm, var);
+                var.vendorExtensions.put("x-jsdoc-type", jsDocType);
+
+                if (Boolean.TRUE.equals(var.required)) {
+                    required.add(var);
+                }
+            }
+
             if (supportsInheritance || supportsMixins) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.required)) {

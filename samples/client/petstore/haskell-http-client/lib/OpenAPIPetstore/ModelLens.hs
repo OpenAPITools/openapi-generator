@@ -156,11 +156,6 @@ capitalizationAttNameL f Capitalization{..} = (\capitalizationAttName -> Capital
 
 -- * Cat
 
--- | 'catDeclawed' Lens
-catDeclawedL :: Lens_' Cat (Maybe Bool)
-catDeclawedL f Cat{..} = (\catDeclawed -> Cat { catDeclawed, ..} ) <$> f catDeclawed
-{-# INLINE catDeclawedL #-}
-
 -- | 'catClassName' Lens
 catClassNameL :: Lens_' Cat (Text)
 catClassNameL f Cat{..} = (\catClassName -> Cat { catClassName, ..} ) <$> f catClassName
@@ -170,6 +165,11 @@ catClassNameL f Cat{..} = (\catClassName -> Cat { catClassName, ..} ) <$> f catC
 catColorL :: Lens_' Cat (Maybe Text)
 catColorL f Cat{..} = (\catColor -> Cat { catColor, ..} ) <$> f catColor
 {-# INLINE catColorL #-}
+
+-- | 'catDeclawed' Lens
+catDeclawedL :: Lens_' Cat (Maybe Bool)
+catDeclawedL f Cat{..} = (\catDeclawed -> Cat { catDeclawed, ..} ) <$> f catDeclawed
+{-# INLINE catDeclawedL #-}
 
 
 
@@ -207,11 +207,6 @@ clientClientL f Client{..} = (\clientClient -> Client { clientClient, ..} ) <$> 
 
 -- * Dog
 
--- | 'dogBreed' Lens
-dogBreedL :: Lens_' Dog (Maybe Text)
-dogBreedL f Dog{..} = (\dogBreed -> Dog { dogBreed, ..} ) <$> f dogBreed
-{-# INLINE dogBreedL #-}
-
 -- | 'dogClassName' Lens
 dogClassNameL :: Lens_' Dog (Text)
 dogClassNameL f Dog{..} = (\dogClassName -> Dog { dogClassName, ..} ) <$> f dogClassName
@@ -221,6 +216,11 @@ dogClassNameL f Dog{..} = (\dogClassName -> Dog { dogClassName, ..} ) <$> f dogC
 dogColorL :: Lens_' Dog (Maybe Text)
 dogColorL f Dog{..} = (\dogColor -> Dog { dogColor, ..} ) <$> f dogColor
 {-# INLINE dogColorL #-}
+
+-- | 'dogBreed' Lens
+dogBreedL :: Lens_' Dog (Maybe Text)
+dogBreedL f Dog{..} = (\dogBreed -> Dog { dogBreed, ..} ) <$> f dogBreed
+{-# INLINE dogBreedL #-}
 
 
 

@@ -877,6 +877,35 @@ public class ModelUtils {
         return null;
     }
 
+    public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        List<Schema> interfaces = getInterfaces(composedSchema);
+        List<String> names = new ArrayList<String>();
+
+        if (interfaces != null && !interfaces.isEmpty()) {
+            for (Schema schema : interfaces) {
+                // get the actual schema
+                if (StringUtils.isNotEmpty(schema.get$ref())) {
+                    String parentName = getSimpleRef(schema.get$ref());
+                    Schema s = allSchemas.get(parentName);
+                    if (s == null) {
+                        LOGGER.error("Failed to obtain schema from {}", parentName);
+                        names.add("UNKNOWN_PARENT_NAME");
+                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                        // discriminator.propertyName is used
+                        names.add(parentName);
+                    } else {
+                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
+                        // not a parent since discriminator.propertyName is not set
+                    }
+                } else {
+                    // not a ref, doing nothing
+                }
+            }
+        }
+
+        return names;
+    }
+
     public static boolean isNullable(Schema schema) {
         if (schema == null) {
             return false;

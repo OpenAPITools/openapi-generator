@@ -50,10 +50,22 @@ components:
         person_required:
            type: string
            format: date-time
+    Human:
+      required:
+        - body
+      type: object
+      discriminator:
+        propertyName: $_type
+      properties:
+        $_type:
+          type: string
+        body:
+          type: string
     Adult:
       description: A representation of an adult
       allOf:
       - $ref: '#/components/schemas/Person'
+      - $ref: '#/components/schemas/Human'
       - type: object
         required:
           - duplicated_required
@@ -80,12 +92,3 @@ components:
           firstName:
             type: string
       - $ref: '#/components/schemas/Person'
-    MapOnly:
-      additionalProperties:
-        type: string
-    MapOnlyWithProperties:
-      additionalProperties:
-        type: string
-      properties:
-        firstName:
-          type: string

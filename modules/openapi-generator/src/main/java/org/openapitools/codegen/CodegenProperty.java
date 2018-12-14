@@ -61,6 +61,7 @@ public class CodegenProperty implements Cloneable {
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
+    public boolean isSelfReference;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -439,6 +440,7 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((isReadOnly ? 13 : 31));
         result = prime * result + ((isWriteOnly ? 13 : 31));
         result = prime * result + ((isNullable ? 13 : 31));
+        result = prime * result + ((isSelfReference ? 13 : 31));
         result = prime * result + ((items == null) ? 0 : items.hashCode());
         result = prime * result + ((mostInnerItems == null) ? 0 : mostInnerItems.hashCode());
         result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
@@ -595,6 +597,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (this.isNullable != other.isNullable) {
+            return false;
+        }
+        if (this.isSelfReference != other.isSelfReference ) {
             return false;
         }
         if (this._enum != other._enum && (this._enum == null || !this._enum.equals(other._enum))) {
@@ -790,6 +795,7 @@ public class CodegenProperty implements Cloneable {
                 ", isReadOnly=" + isReadOnly +
                 ", isWriteOnly=" + isWriteOnly +
                 ", isNullable=" + isNullable +
+                ", isSelfReference=" + isSelfReference +
                 ", _enum=" + _enum +
                 ", allowableValues=" + allowableValues +
                 ", items=" + items +
