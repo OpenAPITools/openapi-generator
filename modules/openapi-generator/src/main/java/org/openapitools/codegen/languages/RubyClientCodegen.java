@@ -68,6 +68,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public RubyClientCodegen() {
         super();
 
+        supportsInheritance = true;
+
         // clear import mapping (from default generator) as ruby does not use it
         // at the moment
         importMapping.clear();
@@ -112,6 +114,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 itr.remove();
             }
         }
+
         cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
                 defaultValue("openapi_client"));
         cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding" +

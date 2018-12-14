@@ -1694,19 +1694,14 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        if (supportsMultipleInheritance) {
-                            // inheritance
-                            if (allParents.contains(modelName)) {
-                                //LOGGER.info("Debugging all parents inheritance: {}", modelName);
-                                addProperties(allProperties, allRequired, refSchema, allDefinitions);
-                            }
-                        } else if (parentName != null && parentName.equals(modelName)) {
+                        if (allParents.contains(modelName) && supportsMultipleInheritance) {
+                            // multiple inheritance
+                            addProperties(allProperties, allRequired, refSchema, allDefinitions);
+                        } else if (parentName != null && parentName.equals(modelName) && supportsInheritance) {
                             // single inheritance
-                            LOGGER.info("Debugging single inheritance: {}", modelName);
                             addProperties(allProperties, allRequired, refSchema, allDefinitions);
                         } else {
                             // composition
-                            LOGGER.info("Debugging composition: {}", modelName);
                             addProperties(properties, required, refSchema, allDefinitions);
                         }
                     }
@@ -1734,7 +1729,7 @@ public class DefaultCodegen implements CodegenConfig {
                         m.allParents.add(pModelName);
                         addImport(m, pModelName);
                     }
-                } else {
+                } else { // single inheritance
                     addImport(m, m.parent);
                 }
             }
