@@ -25,7 +25,7 @@ class Dog {
      * @alias module:model/Dog
      * @extends module:model/Animal
      * @implements module:model/Animal
-     * @param className {} 
+     * @param className {String} 
      */
     constructor(className) { 
         Animal.initialize(this, className);

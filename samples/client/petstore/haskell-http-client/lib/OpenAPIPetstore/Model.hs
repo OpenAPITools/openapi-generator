@@ -457,26 +457,26 @@ mkCapitalization =
 -- ** Cat
 -- | Cat
 data Cat = Cat
-  { catDeclawed :: !(Maybe Bool) -- ^ "declawed"
-  , catClassName :: !(Text) -- ^ /Required/ "className"
+  { catClassName :: !(Text) -- ^ /Required/ "className"
   , catColor :: !(Maybe Text) -- ^ "color"
+  , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Cat
 instance A.FromJSON Cat where
   parseJSON = A.withObject "Cat" $ \o ->
     Cat
-      <$> (o .:? "declawed")
-      <*> (o .:  "className")
+      <$> (o .:  "className")
       <*> (o .:? "color")
+      <*> (o .:? "declawed")
 
 -- | ToJSON Cat
 instance A.ToJSON Cat where
   toJSON Cat {..} =
    _omitNulls
-      [ "declawed" .= catDeclawed
-      , "className" .= catClassName
+      [ "className" .= catClassName
       , "color" .= catColor
+      , "declawed" .= catDeclawed
       ]
 
 
@@ -486,9 +486,9 @@ mkCat
   -> Cat
 mkCat catClassName =
   Cat
-  { catDeclawed = Nothing
-  , catClassName
+  { catClassName
   , catColor = Nothing
+  , catDeclawed = Nothing
   }
 
 -- ** Category
@@ -584,26 +584,26 @@ mkClient =
 -- ** Dog
 -- | Dog
 data Dog = Dog
-  { dogBreed :: !(Maybe Text) -- ^ "breed"
-  , dogClassName :: !(Text) -- ^ /Required/ "className"
+  { dogClassName :: !(Text) -- ^ /Required/ "className"
   , dogColor :: !(Maybe Text) -- ^ "color"
+  , dogBreed :: !(Maybe Text) -- ^ "breed"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON Dog
 instance A.FromJSON Dog where
   parseJSON = A.withObject "Dog" $ \o ->
     Dog
-      <$> (o .:? "breed")
-      <*> (o .:  "className")
+      <$> (o .:  "className")
       <*> (o .:? "color")
+      <*> (o .:? "breed")
 
 -- | ToJSON Dog
 instance A.ToJSON Dog where
   toJSON Dog {..} =
    _omitNulls
-      [ "breed" .= dogBreed
-      , "className" .= dogClassName
+      [ "className" .= dogClassName
       , "color" .= dogColor
+      , "breed" .= dogBreed
       ]
 
 
@@ -613,9 +613,9 @@ mkDog
   -> Dog
 mkDog dogClassName =
   Dog
-  { dogBreed = Nothing
-  , dogClassName
+  { dogClassName
   , dogColor = Nothing
+  , dogBreed = Nothing
   }
 
 -- ** EnumArrays

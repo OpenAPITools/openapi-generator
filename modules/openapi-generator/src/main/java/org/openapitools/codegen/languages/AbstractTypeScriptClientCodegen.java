@@ -54,6 +54,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
         supportsInheritance = true;
 
+        // to support multiple inheritance e.g. export interface ModelC extends ModelA, ModelB
+        //supportsMultipleInheritance = true;
+
         // NOTE: TypeScript uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
         reservedWords.addAll(Arrays.asList(
                 // local variable names used in API methods (endpoints)
