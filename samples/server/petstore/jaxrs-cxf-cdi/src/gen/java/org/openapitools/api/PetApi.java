@@ -64,7 +64,7 @@ public class PetApi  {
     }, tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    public Response deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId,   @ApiParam(value = "" )@HeaderParam("api_key") String apiKey) {
+    public Response deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId,  @ApiParam(value = "" )@HeaderParam("api_key") String apiKey) {
         return delegate.deletePet(petId, apiKey, securityContext);
     }
 

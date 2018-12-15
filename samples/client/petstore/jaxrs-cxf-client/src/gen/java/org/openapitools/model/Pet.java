@@ -23,13 +23,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Pet  {
   
   @ApiModelProperty(value = "")
-  private Long id = null;
+  private Long id;
 
   @ApiModelProperty(value = "")
   private Category category = null;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  private String name = null;
+  private String name;
 
   @ApiModelProperty(required = true, value = "")
   private List<String> photoUrls = new ArrayList<String>();
@@ -73,7 +73,7 @@ public enum StatusEnum {
  /**
    * pet status in the store
   **/
-  private StatusEnum status = null;
+  private StatusEnum status;
  /**
    * Get id
    * @return id
