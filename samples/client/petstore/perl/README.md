@@ -222,6 +222,7 @@ Each of these calls returns a hashref with various useful pieces of information.
 To load the API packages:
 ```perl
 use WWW::OpenAPIClient::AnotherFakeApi;
+use WWW::OpenAPIClient::DefaultApi;
 use WWW::OpenAPIClient::FakeApi;
 use WWW::OpenAPIClient::FakeClassnameTags123Api;
 use WWW::OpenAPIClient::PetApi;
@@ -233,8 +234,8 @@ use WWW::OpenAPIClient::UserApi;
 To load the models:
 ```perl
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::Adult;
 use WWW::OpenAPIClient::Object::Animal;
-use WWW::OpenAPIClient::Object::AnimalFarm;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
@@ -242,6 +243,7 @@ use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::Child;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
 use WWW::OpenAPIClient::Object::Dog;
@@ -250,8 +252,17 @@ use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
+use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
+use WWW::OpenAPIClient::Object::Human;
+use WWW::OpenAPIClient::Object::InlineObject;
+use WWW::OpenAPIClient::Object::InlineObject1;
+use WWW::OpenAPIClient::Object::InlineObject2;
+use WWW::OpenAPIClient::Object::InlineObject3;
+use WWW::OpenAPIClient::Object::InlineObject4;
+use WWW::OpenAPIClient::Object::InlineObject5;
+use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
@@ -262,10 +273,10 @@ use WWW::OpenAPIClient::Object::NumberOnly;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
+use WWW::OpenAPIClient::Object::Person;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
-use WWW::OpenAPIClient::Object::StringBooleanMap;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
 
@@ -280,6 +291,7 @@ use strict;
 use warnings;
 # load the API package
 use WWW::OpenAPIClient::AnotherFakeApi;
+use WWW::OpenAPIClient::DefaultApi;
 use WWW::OpenAPIClient::FakeApi;
 use WWW::OpenAPIClient::FakeClassnameTags123Api;
 use WWW::OpenAPIClient::PetApi;
@@ -288,8 +300,8 @@ use WWW::OpenAPIClient::UserApi;
 
 # load the models
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::Adult;
 use WWW::OpenAPIClient::Object::Animal;
-use WWW::OpenAPIClient::Object::AnimalFarm;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
@@ -297,6 +309,7 @@ use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::Child;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
 use WWW::OpenAPIClient::Object::Dog;
@@ -305,8 +318,17 @@ use WWW::OpenAPIClient::Object::EnumClass;
 use WWW::OpenAPIClient::Object::EnumTest;
 use WWW::OpenAPIClient::Object::File;
 use WWW::OpenAPIClient::Object::FileSchemaTestClass;
+use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
+use WWW::OpenAPIClient::Object::Human;
+use WWW::OpenAPIClient::Object::InlineObject;
+use WWW::OpenAPIClient::Object::InlineObject1;
+use WWW::OpenAPIClient::Object::InlineObject2;
+use WWW::OpenAPIClient::Object::InlineObject3;
+use WWW::OpenAPIClient::Object::InlineObject4;
+use WWW::OpenAPIClient::Object::InlineObject5;
+use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
@@ -317,10 +339,10 @@ use WWW::OpenAPIClient::Object::NumberOnly;
 use WWW::OpenAPIClient::Object::Order;
 use WWW::OpenAPIClient::Object::OuterComposite;
 use WWW::OpenAPIClient::Object::OuterEnum;
+use WWW::OpenAPIClient::Object::Person;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
-use WWW::OpenAPIClient::Object::StringBooleanMap;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
 
@@ -350,6 +372,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -359,6 +382,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -387,8 +411,8 @@ Class | Method | HTTP request | Description
 
 # DOCUMENTATION FOR MODELS
  - [WWW::OpenAPIClient::Object::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [WWW::OpenAPIClient::Object::Adult](docs/Adult.md)
  - [WWW::OpenAPIClient::Object::Animal](docs/Animal.md)
- - [WWW::OpenAPIClient::Object::AnimalFarm](docs/AnimalFarm.md)
  - [WWW::OpenAPIClient::Object::ApiResponse](docs/ApiResponse.md)
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [WWW::OpenAPIClient::Object::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -396,6 +420,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
+ - [WWW::OpenAPIClient::Object::Child](docs/Child.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
@@ -404,8 +429,17 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::EnumTest](docs/EnumTest.md)
  - [WWW::OpenAPIClient::Object::File](docs/File.md)
  - [WWW::OpenAPIClient::Object::FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [WWW::OpenAPIClient::Object::Foo](docs/Foo.md)
  - [WWW::OpenAPIClient::Object::FormatTest](docs/FormatTest.md)
  - [WWW::OpenAPIClient::Object::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [WWW::OpenAPIClient::Object::Human](docs/Human.md)
+ - [WWW::OpenAPIClient::Object::InlineObject](docs/InlineObject.md)
+ - [WWW::OpenAPIClient::Object::InlineObject1](docs/InlineObject1.md)
+ - [WWW::OpenAPIClient::Object::InlineObject2](docs/InlineObject2.md)
+ - [WWW::OpenAPIClient::Object::InlineObject3](docs/InlineObject3.md)
+ - [WWW::OpenAPIClient::Object::InlineObject4](docs/InlineObject4.md)
+ - [WWW::OpenAPIClient::Object::InlineObject5](docs/InlineObject5.md)
+ - [WWW::OpenAPIClient::Object::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [WWW::OpenAPIClient::Object::List](docs/List.md)
  - [WWW::OpenAPIClient::Object::MapTest](docs/MapTest.md)
  - [WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -416,10 +450,10 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Order](docs/Order.md)
  - [WWW::OpenAPIClient::Object::OuterComposite](docs/OuterComposite.md)
  - [WWW::OpenAPIClient::Object::OuterEnum](docs/OuterEnum.md)
+ - [WWW::OpenAPIClient::Object::Person](docs/Person.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
- - [WWW::OpenAPIClient::Object::StringBooleanMap](docs/StringBooleanMap.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
 

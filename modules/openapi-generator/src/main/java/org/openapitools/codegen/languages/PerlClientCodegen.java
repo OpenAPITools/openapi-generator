@@ -53,6 +53,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public PerlClientCodegen() {
         super();
 
+        // add multiple inheritance support (beta)
+        supportsMultipleInheritance = true;
+
         // clear import mapping (from default generator) as perl does not use it
         // at the moment
         importMapping.clear();
