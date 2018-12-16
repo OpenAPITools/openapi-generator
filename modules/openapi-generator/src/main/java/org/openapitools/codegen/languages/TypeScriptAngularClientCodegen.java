@@ -68,8 +68,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public TypeScriptAngularClientCodegen() {
         super();
-        this.outputFolder = "generated-code/typescript-angular";
 
+        // beta support for multiple inheritance
+        supportsMultipleInheritance = true;
+
+        outputFolder = "generated-code/typescript-angular";
         embeddedTemplateDir = templateDir = "typescript-angular";
         modelTemplateFiles.put("model.mustache", ".ts");
         apiTemplateFiles.put("api.service.mustache", ".ts");
