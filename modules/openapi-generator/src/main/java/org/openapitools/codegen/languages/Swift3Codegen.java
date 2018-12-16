@@ -222,12 +222,12 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getName() {
-        return "swift3";
+        return "swift3-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Swift 3.x client library.";
+        return "Generates a Swift 3.x client library. IMPORTANT NOTE: this generator (swfit 3.x)  is no longer actively maintained so please use 'swift4' generator instead.";
     }
 
     @Override

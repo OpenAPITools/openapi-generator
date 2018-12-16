@@ -82,7 +82,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getHelp() {
-        return "Generates a Swift (2.x) client library. IMPORTANT NOTE: this generator (swfit 2.x)  is no longer actively maintained so please use 'swift3' or 'swift4' generator instead.";
+        return "Generates a Swift (2.x) client library. IMPORTANT NOTE: this generator (swfit 2.x)  is no longer actively maintained so please use 'swift4' generator instead.";
     }
 
     public SwiftClientCodegen() {
