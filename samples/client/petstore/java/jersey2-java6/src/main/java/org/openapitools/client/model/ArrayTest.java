@@ -29,13 +29,13 @@ import org.openapitools.client.model.ReadOnlyFirst;
 
 public class ArrayTest {
   @JsonProperty("array_of_string")
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString = new ArrayList<String>();
 
   @JsonProperty("array_array_of_integer")
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
 
   @JsonProperty("array_array_of_model")
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
