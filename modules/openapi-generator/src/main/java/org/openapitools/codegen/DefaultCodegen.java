@@ -555,6 +555,12 @@ public class DefaultCodegen implements CodegenConfig {
                         .replace("\"", "\\\""));
     }
 
+    // override with any special encoding and escaping logic
+    @SuppressWarnings("static-method")
+    public String encodePath(String input) {
+        return escapeText(input);
+    }
+
     /**
      * override with any special text escaping logic to handle unsafe
      * characters so as to avoid code injection
