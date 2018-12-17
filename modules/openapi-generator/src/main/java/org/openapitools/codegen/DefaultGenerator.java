@@ -935,7 +935,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     boolean foundTag = false;
                     for (Tag tag : swaggerTags) {
                         String name = tag.getName();
-                        if (null != name && name.equals(tagName)) {
+                        if (name != null && name.equals(tagName)) {
                             tags.add(tag);
                             foundTag = true;
                             break;
@@ -1141,21 +1141,21 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         final Map<String, SecurityScheme> authMethods = new HashMap<>();
 
-        Components components       = openAPI.getComponents();
-        Map<String, Header> headers = (null != components) ? components.getHeaders() : null;
+        Components components = openAPI.getComponents();
+        Map<String, Header> headers = (components != null) ? components.getHeaders() : null;
 
         for (String key : securitySchemes.keySet()) {
             SecurityScheme securityScheme = securitySchemes.get(key);
-            Header header                 = null;
+            Header header = null;
 
             if (securityScheme.getIn() == SecurityScheme.In.HEADER) {
-                header = (null != headers) ? headers.get(securityScheme.getName()) : null;
+                header = (headers != null) ? headers.get(securityScheme.getName()) : null;
             }
 
-            if (null != header && header.getRequired()) {
+            if (header != null && header.getRequired()) {
                 // If the security scheme is required in the headers, always add it.
                 authMethods.put(key, securityScheme);
-            } else if (null != securities) {
+            } else if (securities != null) {
                 // Otherwise, check if it is set in the securities.
                 for (SecurityRequirement requirement : securities) {
                     if (requirement.get(key) != null) {
