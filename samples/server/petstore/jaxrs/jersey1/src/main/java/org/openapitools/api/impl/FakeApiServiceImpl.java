@@ -83,7 +83,7 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testGroupParameters( @NotNull Integer requiredStringGroup,  @NotNullBoolean requiredBooleanGroup,  @NotNull Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, SecurityContext securityContext)
+    public Response testGroupParameters( @NotNull Integer requiredStringGroup,  @NotNull Boolean requiredBooleanGroup,  @NotNull Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
