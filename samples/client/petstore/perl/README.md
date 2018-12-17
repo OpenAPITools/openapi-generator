@@ -234,7 +234,6 @@ To load the models:
 ```perl
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
 use WWW::OpenAPIClient::Object::Animal;
-use WWW::OpenAPIClient::Object::AnimalFarm;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
@@ -265,7 +264,6 @@ use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
-use WWW::OpenAPIClient::Object::StringBooleanMap;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
 
@@ -289,7 +287,6 @@ use WWW::OpenAPIClient::UserApi;
 # load the models
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
 use WWW::OpenAPIClient::Object::Animal;
-use WWW::OpenAPIClient::Object::AnimalFarm;
 use WWW::OpenAPIClient::Object::ApiResponse;
 use WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly;
 use WWW::OpenAPIClient::Object::ArrayOfNumberOnly;
@@ -320,7 +317,6 @@ use WWW::OpenAPIClient::Object::OuterEnum;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
-use WWW::OpenAPIClient::Object::StringBooleanMap;
 use WWW::OpenAPIClient::Object::Tag;
 use WWW::OpenAPIClient::Object::User;
 
@@ -359,6 +355,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -388,7 +385,6 @@ Class | Method | HTTP request | Description
 # DOCUMENTATION FOR MODELS
  - [WWW::OpenAPIClient::Object::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [WWW::OpenAPIClient::Object::Animal](docs/Animal.md)
- - [WWW::OpenAPIClient::Object::AnimalFarm](docs/AnimalFarm.md)
  - [WWW::OpenAPIClient::Object::ApiResponse](docs/ApiResponse.md)
  - [WWW::OpenAPIClient::Object::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [WWW::OpenAPIClient::Object::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -419,7 +415,6 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
- - [WWW::OpenAPIClient::Object::StringBooleanMap](docs/StringBooleanMap.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
 

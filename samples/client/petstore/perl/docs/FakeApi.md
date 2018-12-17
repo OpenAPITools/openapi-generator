@@ -18,6 +18,7 @@ Method | HTTP request | Description
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+[**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
@@ -472,6 +473,61 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_group_parameters**
+> test_group_parameters(required_string_group => $required_string_group, required_boolean_group => $required_boolean_group, required_int64_group => $required_int64_group, string_group => $string_group, boolean_group => $boolean_group, int64_group => $int64_group)
+
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $required_string_group = 56; # int | Required String in group parameters
+my $required_boolean_group = null; # boolean | Required Boolean in group parameters
+my $required_int64_group = 789; # int | Required Integer in group parameters
+my $string_group = 56; # int | String in group parameters
+my $boolean_group = null; # boolean | Boolean in group parameters
+my $int64_group = 789; # int | Integer in group parameters
+
+eval { 
+    $api_instance->test_group_parameters(required_string_group => $required_string_group, required_boolean_group => $required_boolean_group, required_int64_group => $required_int64_group, string_group => $string_group, boolean_group => $boolean_group, int64_group => $int64_group);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_group_parameters: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **required_string_group** | **int**| Required String in group parameters | 
+ **required_boolean_group** | **boolean**| Required Boolean in group parameters | 
+ **required_int64_group** | **int**| Required Integer in group parameters | 
+ **string_group** | **int**| String in group parameters | [optional] 
+ **boolean_group** | **boolean**| Boolean in group parameters | [optional] 
+ **int64_group** | **int**| Integer in group parameters | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
