@@ -86,7 +86,7 @@ sub fake_outer_boolean_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params
@@ -146,7 +146,7 @@ sub fake_outer_composite_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params
@@ -206,7 +206,7 @@ sub fake_outer_number_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params
@@ -266,7 +266,7 @@ sub fake_outer_string_serialize {
     if ($_header_accept) {
         $header_params->{'Accept'} = $_header_accept;
     }
-    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type();
 
     my $_body_data;
     # body params

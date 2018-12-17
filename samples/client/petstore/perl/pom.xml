@@ -78,7 +78,7 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <execution>
+                    <!--<execution>
                         <id>Test::More for Inheritance</id>
                         <phase>integration-test</phase>
                         <goals>
@@ -90,7 +90,7 @@
                                 <argument>tests/06_inheritance.t</argument>
                             </arguments>
                         </configuration>
-                    </execution>
+                    </execution>-->
                 </executions>
             </plugin>
         </plugins>
