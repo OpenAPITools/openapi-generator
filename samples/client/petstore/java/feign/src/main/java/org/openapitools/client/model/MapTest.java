@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class MapTest {
   @JsonProperty("map_map_of_string")
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
   /**
    * Gets or Sets inner
@@ -68,13 +68,13 @@ public class MapTest {
   }
 
   @JsonProperty("map_of_enum_string")
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
 
   @JsonProperty("direct_map")
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<String, Boolean>();
 
   @JsonProperty("indirect_map")
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
