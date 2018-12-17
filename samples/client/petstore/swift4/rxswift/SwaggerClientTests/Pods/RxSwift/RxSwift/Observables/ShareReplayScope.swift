@@ -77,7 +77,7 @@ public enum SubjectLifetimeScope {
        continue holding a reference to the same subject.
        If at some later moment a new observer initiates a new connection to source it can potentially receive
        some of the stale events received during previous connection.
-     * After source sequence terminates any new observer will always immediatelly receive replayed elements and terminal event.
+     * After source sequence terminates any new observer will always immediately receive replayed elements and terminal event.
        No new subscriptions to source observable sequence will be attempted.
 
      ```

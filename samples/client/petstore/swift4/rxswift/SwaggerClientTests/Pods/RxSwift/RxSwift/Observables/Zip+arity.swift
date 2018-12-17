@@ -64,8 +64,8 @@ final class ZipSink2_<E1, E2, O: ObserverType> : ZipSink<O> {
 
     override func hasElements(_ index: Int) -> Bool {
         switch (index) {
-        case 0: return _values1.count > 0
-        case 1: return _values2.count > 0
+        case 0: return !_values1.isEmpty
+        case 1: return !_values2.isEmpty
 
         default:
             rxFatalError("Unhandled case (Function)")
@@ -175,9 +175,9 @@ final class ZipSink3_<E1, E2, E3, O: ObserverType> : ZipSink<O> {
 
     override func hasElements(_ index: Int) -> Bool {
         switch (index) {
-        case 0: return _values1.count > 0
-        case 1: return _values2.count > 0
-        case 2: return _values3.count > 0
+        case 0: return !_values1.isEmpty
+        case 1: return !_values2.isEmpty
+        case 2: return !_values3.isEmpty
 
         default:
             rxFatalError("Unhandled case (Function)")
@@ -294,10 +294,10 @@ final class ZipSink4_<E1, E2, E3, E4, O: ObserverType> : ZipSink<O> {
 
     override func hasElements(_ index: Int) -> Bool {
         switch (index) {
-        case 0: return _values1.count > 0
-        case 1: return _values2.count > 0
-        case 2: return _values3.count > 0
-        case 3: return _values4.count > 0
+        case 0: return !_values1.isEmpty
+        case 1: return !_values2.isEmpty
+        case 2: return !_values3.isEmpty
+        case 3: return !_values4.isEmpty
 
         default:
             rxFatalError("Unhandled case (Function)")
@@ -421,11 +421,11 @@ final class ZipSink5_<E1, E2, E3, E4, E5, O: ObserverType> : ZipSink<O> {
 
     override func hasElements(_ index: Int) -> Bool {
         switch (index) {
-        case 0: return _values1.count > 0
-        case 1: return _values2.count > 0
-        case 2: return _values3.count > 0
-        case 3: return _values4.count > 0
-        case 4: return _values5.count > 0
+        case 0: return !_values1.isEmpty
+        case 1: return !_values2.isEmpty
+        case 2: return !_values3.isEmpty
+        case 3: return !_values4.isEmpty
+        case 4: return !_values5.isEmpty
 
         default:
             rxFatalError("Unhandled case (Function)")
@@ -556,12 +556,12 @@ final class ZipSink6_<E1, E2, E3, E4, E5, E6, O: ObserverType> : ZipSink<O> {
 
     override func hasElements(_ index: Int) -> Bool {
         switch (index) {
-        case 0: return _values1.count > 0
-        case 1: return _values2.count > 0
-        case 2: return _values3.count > 0
-        case 3: return _values4.count > 0
-        case 4: return _values5.count > 0
-        case 5: return _values6.count > 0
+        case 0: return !_values1.isEmpty
+        case 1: return !_values2.isEmpty
+        case 2: return !_values3.isEmpty
+        case 3: return !_values4.isEmpty
+        case 4: return !_values5.isEmpty
+        case 5: return !_values6.isEmpty
 
         default:
             rxFatalError("Unhandled case (Function)")
@@ -699,13 +699,13 @@ final class ZipSink7_<E1, E2, E3, E4, E5, E6, E7, O: ObserverType> : ZipSink<O> 
 
     override func hasElements(_ index: Int) -> Bool {
         switch (index) {
-        case 0: return _values1.count > 0
-        case 1: return _values2.count > 0
-        case 2: return _values3.count > 0
-        case 3: return _values4.count > 0
-        case 4: return _values5.count > 0
-        case 5: return _values6.count > 0
-        case 6: return _values7.count > 0
+        case 0: return !_values1.isEmpty
+        case 1: return !_values2.isEmpty
+        case 2: return !_values3.isEmpty
+        case 3: return !_values4.isEmpty
+        case 4: return !_values5.isEmpty
+        case 5: return !_values6.isEmpty
+        case 6: return !_values7.isEmpty
 
         default:
             rxFatalError("Unhandled case (Function)")
@@ -850,14 +850,14 @@ final class ZipSink8_<E1, E2, E3, E4, E5, E6, E7, E8, O: ObserverType> : ZipSink
 
     override func hasElements(_ index: Int) -> Bool {
         switch (index) {
-        case 0: return _values1.count > 0
-        case 1: return _values2.count > 0
-        case 2: return _values3.count > 0
-        case 3: return _values4.count > 0
-        case 4: return _values5.count > 0
-        case 5: return _values6.count > 0
-        case 6: return _values7.count > 0
-        case 7: return _values8.count > 0
+        case 0: return !_values1.isEmpty
+        case 1: return !_values2.isEmpty
+        case 2: return !_values3.isEmpty
+        case 3: return !_values4.isEmpty
+        case 4: return !_values5.isEmpty
+        case 5: return !_values6.isEmpty
+        case 6: return !_values7.isEmpty
+        case 7: return !_values8.isEmpty
 
         default:
             rxFatalError("Unhandled case (Function)")
