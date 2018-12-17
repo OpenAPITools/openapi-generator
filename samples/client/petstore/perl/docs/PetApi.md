@@ -180,7 +180,7 @@ my $api_instance = WWW::OpenAPIClient::PetApi->new(
     access_token => 'YOUR_ACCESS_TOKEN',
 );
 
-my $tags = [("inner_example")]; # ARRAY[string] | Tags to filter by
+my $tags = [("null")]; # ARRAY[string] | Tags to filter by
 
 eval { 
     my $result = $api_instance->find_pets_by_tags(tags => $tags);

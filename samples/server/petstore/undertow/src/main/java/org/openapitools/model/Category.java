@@ -16,8 +16,8 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
 public class Category   {
   
-  private Long id = null;
-  private String name = null;
+  private Long id;
+  private String name;
 
   /**
    **/

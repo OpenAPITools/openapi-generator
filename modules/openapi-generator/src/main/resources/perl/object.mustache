@@ -23,8 +23,7 @@ use DateTime;
 use {{moduleName}}::Object::{{.}};
 {{/imports}}
 
-use base ("Class::Accessor", "Class::Data::Inheritable");
-
+use base ("Class::Accessor", "Class::Data::Inheritable"{{#allParents}}, "{{moduleName}}::Object::{{{.}}}"{{/allParents}});
 
 #
 #{{description}}

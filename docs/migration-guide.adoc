@@ -11,6 +11,17 @@ Another approach to find breaking changes is to look at issue and pull requests 
 * link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28with%20fallback%29[Breaking change (with fallback)]
 * link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28without%20fallback%29[Breaking change (without fallback)]
 
+=== From 3.x to 4.0.0
+
+Version `4.0.0` is a major release, which contains some breaking changes without fallback.
+
+==== The `-l` (`--lang`) option has been deleted
+
+The option is replaced with `-g` (`--generator-name`).
+
+* `-g` allows the same values as `-l`
+* See `langs` command for the list of generator name
+
 === From 3.1.x to 3.2.0
 
 Version `3.2.0` is a minor version of OpenAPI-Generator, in comparison to `3.1.x` it contains some breaking changes, but with the possibility to fallback to the old behavior.

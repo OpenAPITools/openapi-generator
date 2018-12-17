@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -47,10 +48,6 @@ public class Generate implements Runnable {
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
-
-    @Option(name = {"-l", "--lang"}, title = "language",
-            description = "client language to generate (maybe class name in classpath, required)")
-    private String lang;
 
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
             description = "generator to use (see langs command for list)")
@@ -246,15 +243,16 @@ public class Generate implements Runnable {
         }
 
         if (isNotEmpty(spec)) {
+            if (!spec.matches("^http(s)?://.*") && !new File(spec).exists()) {
+                System.err.println("[error] The spec file is not found: " + spec);
+                System.err.println("[error] Check the path of the OpenAPI spec and try again.");
+                System.exit(1);
+            }
             configurator.setInputSpec(spec);
         }
 
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-        } else if (isNotEmpty(lang)) {
-            LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
-            configurator.setGeneratorName(lang);
         } else {
             System.err.println("[error] A generator name (--generator-name / -g) is required.");
             System.exit(1);

@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Api;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Api\FakeApi;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Api\FakeApi;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\FakeApi
  */
-class FakeApiTest extends \PHPUnit_Framework_TestCase
+class FakeApiTest extends TestCase
 {
 
     /**

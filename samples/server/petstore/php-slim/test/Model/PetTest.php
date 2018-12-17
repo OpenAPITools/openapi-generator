@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\Pet;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\Pet;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\Pet
  */
-class PetTest extends \PHPUnit_Framework_TestCase
+class PetTest extends TestCase
 {
 
     /**

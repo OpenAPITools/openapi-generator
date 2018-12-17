@@ -19,26 +19,26 @@ package org.openapitools.codegen;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {
     public String parent, parentSchema;
     public List<String> interfaces;
+    public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
     public CodegenModel parentModel;
     public List<CodegenModel> interfaceModels;
     public List<CodegenModel> children;
+
+    // anyOf, oneOf, allOf
+    public Set<String> anyOf = new TreeSet<String>();
+    public Set<String> oneOf = new TreeSet<String>();
+    public Set<String> allOf = new TreeSet<String>();
 
     public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
     public String classFilename; // store the class file name, mainly used for import
@@ -48,18 +48,18 @@ public class CodegenModel {
     public String arrayModelType;
     public boolean isAlias; // Is this effectively an alias of another simple type
     public boolean isString, isInteger;
-    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>();
+    public List<CodegenProperty> vars = new ArrayList<CodegenProperty>(); // all properties (without parent's properties)
+    public List<CodegenProperty> allVars = new ArrayList<CodegenProperty>(); // all properties (with parent's properties)
     public List<CodegenProperty> requiredVars = new ArrayList<CodegenProperty>(); // a list of required properties
     public List<CodegenProperty> optionalVars = new ArrayList<CodegenProperty>(); // a list of optional properties
     public List<CodegenProperty> readOnlyVars = new ArrayList<CodegenProperty>(); // a list of read-only properties
     public List<CodegenProperty> readWriteVars = new ArrayList<CodegenProperty>(); // a list of properties for read, write
-    public List<CodegenProperty> allVars;
-    public List<CodegenProperty> parentVars = new ArrayList<>();
+    public List<CodegenProperty> parentVars = new ArrayList<CodegenProperty>();
     public Map<String, Object> allowableValues;
 
     // Sorted sets of required parameters.
-    public Set<String> mandatory = new TreeSet<String>();
-    public Set<String> allMandatory;
+    public Set<String> mandatory = new TreeSet<String>(); // without parent's required properties
+    public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
     public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
@@ -71,16 +71,59 @@ public class CodegenModel {
     //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
 
-    {
-        // By default these are the same collections. Where the code generator supports inheritance, composed models
-        // store the complete closure of owned and inherited properties in allVars and allMandatory.
-        allVars = vars;
-        allMandatory = mandatory;
-    }
-
     @Override
     public String toString() {
-        return String.format(Locale.ROOT, "%s(%s)", name, classname);
+        return new ToStringBuilder(this)
+                .append("parent", parent)
+                .append("parentSchema", parentSchema)
+                .append("interfaces", interfaces)
+                .append("parentModel", parentModel)
+                .append("interfaceModels", interfaceModels)
+                .append("children", children)
+                .append("name", name)
+                .append("classname", classname)
+                .append("title", title)
+                .append("description", description)
+                .append("classVarName", classVarName)
+                .append("modelJson", modelJson)
+                .append("dataType", dataType)
+                .append("xmlPrefix", xmlPrefix)
+                .append("xmlNamespace", xmlNamespace)
+                .append("xmlName", xmlName)
+                .append("classFilename", classFilename)
+                .append("unescapedDescription", unescapedDescription)
+                .append("discriminator", discriminator)
+                .append("defaultValue", defaultValue)
+                .append("arrayModelType", arrayModelType)
+                .append("isAlias", isAlias)
+                .append("isString", isString)
+                .append("isInteger", isInteger)
+                .append("vars", vars)
+                .append("requiredVars", requiredVars)
+                .append("optionalVars", optionalVars)
+                .append("readOnlyVars", readOnlyVars)
+                .append("readWriteVars", readWriteVars)
+                .append("allVars", allVars)
+                .append("parentVars", parentVars)
+                .append("allowableValues", allowableValues)
+                .append("mandatory", mandatory)
+                .append("allMandatory", allMandatory)
+                .append("imports", imports)
+                .append("hasVars", hasVars)
+                .append("emptyVars", emptyVars)
+                .append("hasMoreModels", hasMoreModels)
+                .append("hasEnums", hasEnums)
+                .append("isEnum", isEnum)
+                .append("hasRequired", hasRequired)
+                .append("hasOptional", hasOptional)
+                .append("isArrayModel", isArrayModel)
+                .append("hasChildren", hasChildren)
+                .append("isMapModel", isMapModel)
+                .append("hasOnlyReadOnly", hasOnlyReadOnly)
+                .append("externalDocumentation", externalDocumentation)
+                .append("vendorExtensions", vendorExtensions)
+                .append("additionalPropertiesType", additionalPropertiesType)
+                .toString();
     }
 
     @Override
@@ -95,6 +138,8 @@ public class CodegenModel {
         if (parentSchema != null ? !parentSchema.equals(that.parentSchema) : that.parentSchema != null)
             return false;
         if (interfaces != null ? !interfaces.equals(that.interfaces) : that.interfaces != null)
+            return false;
+        if (allParents != null ? !allParents.equals(that.allParents) : that.allParents != null)
             return false;
         if (parentModel != null ? !parentModel.equals(that.parentModel) : that.parentModel != null)
             return false;
@@ -171,6 +216,7 @@ public class CodegenModel {
         int result = parent != null ? parent.hashCode() : 0;
         result = 31 * result + (parentSchema != null ? parentSchema.hashCode() : 0);
         result = 31 * result + (interfaces != null ? interfaces.hashCode() : 0);
+        result = 31 * result + (allParents != null ? allParents.hashCode() : 0);
         result = 31 * result + (parentModel != null ? parentModel.hashCode() : 0);
         result = 31 * result + (interfaceModels != null ? interfaceModels.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
@@ -195,11 +241,11 @@ public class CodegenModel {
         result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
         result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
         result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (hasVars ? 13:31);
-        result = 31 * result + (emptyVars ? 13:31);
-        result = 31 * result + (hasMoreModels ? 13:31);
-        result = 31 * result + (hasEnums ? 13:31);
-        result = 31 * result + (isEnum ? 13:31);
+        result = 31 * result + (hasVars ? 13 : 31);
+        result = 31 * result + (emptyVars ? 13 : 31);
+        result = 31 * result + (hasMoreModels ? 13 : 31);
+        result = 31 * result + (hasEnums ? 13 : 31);
+        result = 31 * result + (isEnum ? 13 : 31);
         result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
         result = 31 * result + Objects.hash(hasOnlyReadOnly);
@@ -228,8 +274,16 @@ public class CodegenModel {
         return interfaces;
     }
 
+    public List<String> getAllParents() {
+        return allParents;
+    }
+
     public void setInterfaces(List<String> interfaces) {
         this.interfaces = interfaces;
+    }
+
+    public void setAllParents(List<String> allParents) {
+        this.allParents = allParents;
     }
 
     public CodegenModel getParentModel() {
@@ -498,5 +552,68 @@ public class CodegenModel {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    /**
+     * Remove duplicated properties in all variable list and update "hasMore"
+     */
+    public void removeAllDuplicatedProperty() {
+        // remove duplicated properties
+        vars = removeDuplicatedProperty(vars);
+        optionalVars = removeDuplicatedProperty(optionalVars);
+        requiredVars = removeDuplicatedProperty(requiredVars);
+        parentVars = removeDuplicatedProperty(parentVars);
+        allVars = removeDuplicatedProperty(allVars);
+        readOnlyVars = removeDuplicatedProperty(readOnlyVars);
+        readWriteVars = removeDuplicatedProperty(readWriteVars);
+
+        // update property list's "hasMore"
+        updatePropertyListHasMore(vars);
+        updatePropertyListHasMore(optionalVars);
+        updatePropertyListHasMore(requiredVars);
+        updatePropertyListHasMore(parentVars);
+        updatePropertyListHasMore(allVars);
+        updatePropertyListHasMore(readOnlyVars);
+        updatePropertyListHasMore(readWriteVars);
+    }
+
+    private List<CodegenProperty> removeDuplicatedProperty(List<CodegenProperty> vars) {
+        // clone the list first
+        List<CodegenProperty> newList = new ArrayList<CodegenProperty>();
+        for (CodegenProperty cp : vars) {
+            newList.add(cp.clone());
+        }
+
+        Set<String> propertyNames = new TreeSet<String>();
+        Set<String> duplicatedNames = new TreeSet<String>();
+
+        ListIterator<CodegenProperty> iterator = newList.listIterator();
+        while (iterator.hasNext()) {
+            CodegenProperty element = iterator.next();
+
+            if (propertyNames.contains(element.baseName)) {
+                duplicatedNames.add(element.baseName);
+                iterator.remove();
+            } else {
+                propertyNames.add(element.baseName);
+            }
+        }
+
+        return newList;
+    }
+
+    /**
+     * Clone the element and update "hasMore" in the list of codegen properties
+     */
+    private void updatePropertyListHasMore(List<CodegenProperty> vars) {
+        if (vars != null) {
+            for (int i = 0; i < vars.size(); i++) {
+                if (i < vars.size() - 1) {
+                    vars.get(i).hasMore = true;
+                } else { // last element
+                    vars.get(i).hasMore = false;
+                }
+            }
+        }
     }
 }

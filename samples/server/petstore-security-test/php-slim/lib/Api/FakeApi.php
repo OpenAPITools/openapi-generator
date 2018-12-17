@@ -40,7 +40,7 @@ use OpenAPIServer\AbstractApiController;
  */
 class FakeApi extends AbstractApiController
 {
-    
+
     /**
      * PUT testCodeInjectEndRnNR
      * Summary: To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
@@ -52,7 +52,7 @@ class FakeApi extends AbstractApiController
      */
     public function testCodeInjectEndRnNR($request, $response, $args)
     {
-        $body = $request->getParsedBody();
+        $testCodeInjectEndRnNR = $request->getParsedBodyParam('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r');
         $response->write('How about implementing testCodeInjectEndRnNR as a PUT method ?');
         return $response;
     }

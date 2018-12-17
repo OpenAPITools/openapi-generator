@@ -9,23 +9,44 @@ __PACKAGE__->mk_classdata('openapi_types' => {});
 __PACKAGE__->mk_classdata('method_documentation' => {}); 
 __PACKAGE__->mk_classdata('class_documentation' => {});
 
-# new object
+# new plain object
 sub new { 
     my ($class, %args) = @_; 
 
 	my $self = bless {}, $class;
-	
-	foreach my $attribute (keys %{$class->attribute_map}) {
-		my $args_key = $class->attribute_map->{$attribute};
-		$self->$attribute( $args{ $args_key } );
-	}
+
+	$self->init(%args);
 	
 	return $self;
-}  
+}
+
+# initialize the object
+sub init
+{
+    my ($self, %args) = @_;
+
+	foreach my $attribute (keys %{$self->attribute_map}) {
+		my $args_key = $self->attribute_map->{$attribute};
+		$self->$attribute( $args{ $args_key } );
+	}
+	{{#allParents}}
+
+	# initialize parent object {{{.}}}
+    $self->{{moduleName}}::Object::{{{.}}}::init(%args);
+	{{/allParents}}
+}
 
 # return perl hash
 sub to_hash {
-    return decode_json(JSON->new->convert_blessed->encode( shift ));
+    my $self = shift;
+    my $_hash = decode_json(JSON->new->convert_blessed->encode($self));
+	{{#allParents}}
+
+	# call {{{.}}} to_hash and then combine hash
+    $_hash = { %$_hash, %$self->{{moduleName}}::Object::{{{.}}}::to_hash };
+	{{/allParents}}
+
+    return $_hash;
 }
 
 # used by JSON for serialization
@@ -37,6 +58,12 @@ sub TO_JSON {
             $_data->{$self->attribute_map->{$_key}} = $self->{$_key};
         }
     }
+    {{#allParents}}
+
+    # combine parent ({{{.}}}) TO_JSON
+    $_data = { %$_data, %$self->{{moduleName}}::Object::{{{.}}}::TO_JSON };
+    {{/allParents}}
+
     return $_data;
 }
 
@@ -60,6 +87,11 @@ sub from_hash {
         	$log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
         }
     }
+    {{#allParents}}
+
+    # call parent ({{{.}}}) from_hash
+    $self->{{moduleName}}::Object::{{{.}}}::from_hash($hash);
+    {{/allParents}}
   
     return $self;
 }

@@ -29,6 +29,14 @@ ApiClient::~ApiClient()
 {
 }
 
+const ApiClient::ResponseHandlerType& ApiClient::getResponseHandler() const {
+    return m_ResponseHandler;
+}
+
+void ApiClient::setResponseHandler(const ResponseHandlerType& responseHandler) {
+    m_ResponseHandler = responseHandler;
+}
+
 std::shared_ptr<ApiConfiguration> ApiClient::getConfiguration() const
 {
     return m_Configuration;

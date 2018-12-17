@@ -21,7 +21,7 @@ create_user(PetstoreUser) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user"],
   Body        = PetstoreUser,
-  ContentType = <<"text/plain">>,
+  ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
@@ -34,7 +34,7 @@ create_users_with_array_input(PetstoreUserArray) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/createWithArray"],
   Body        = PetstoreUserArray,
-  ContentType = <<"text/plain">>,
+  ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
@@ -47,7 +47,7 @@ create_users_with_list_input(PetstoreUserArray) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/createWithList"],
   Body        = PetstoreUserArray,
-  ContentType = <<"text/plain">>,
+  ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 
@@ -59,10 +59,8 @@ delete_user(Username) ->
   Method      = delete,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/", Username, ""],
-  Body        = [],
-  ContentType = <<"text/plain">>,
 
-  petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
+  petstore_utils:request(Method, [Host, ?BASE_URL, Path]).
 
 %% @doc Get user by user name
 %% 
@@ -72,10 +70,8 @@ get_user_by_name(Username) ->
   Method      = get,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/", Username, ""],
-  Body        = [],
-  ContentType = <<"text/plain">>,
 
-  petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
+  petstore_utils:request(Method, [Host, ?BASE_URL, Path]).
 
 %% @doc Logs user into the system
 %% 
@@ -85,11 +81,9 @@ login_user(Username, Password) ->
   Method      = get,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/login"],
-  Body        = [],
-  ContentType = <<"text/plain">>,
   QueryString = [<<"username=">>, Username, <<"&">>, <<"password=">>, Password, <<"&">>],
 
-  petstore_utils:request(Method, [Host, ?BASE_URL, Path, <<"?">>, QueryString], jsx:encode(Body), ContentType).
+  petstore_utils:request(Method, [Host, ?BASE_URL, Path, <<"?">>, QueryString]).
 
 %% @doc Logs out current logged in user session
 %% 
@@ -99,10 +93,8 @@ logout_user() ->
   Method      = get,
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/logout"],
-  Body        = [],
-  ContentType = <<"text/plain">>,
 
-  petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
+  petstore_utils:request(Method, [Host, ?BASE_URL, Path]).
 
 %% @doc Updated user
 %% This can only be done by the logged in user.
@@ -113,7 +105,7 @@ update_user(Username, PetstoreUser) ->
   Host        = application:get_env(petstore, host, "http://localhost:8080"),
   Path        = ["/user/", Username, ""],
   Body        = PetstoreUser,
-  ContentType = <<"text/plain">>,
+  ContentType = "text/plain",
 
   petstore_utils:request(Method, [Host, ?BASE_URL, Path], jsx:encode(Body), ContentType).
 

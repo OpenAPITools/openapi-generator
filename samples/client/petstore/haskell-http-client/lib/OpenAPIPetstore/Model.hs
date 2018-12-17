@@ -278,34 +278,6 @@ mkAnimal animalClassName =
   , animalColor = Nothing
   }
 
--- ** AnimalFarm
--- | AnimalFarm
-data AnimalFarm = AnimalFarm
-  { 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON AnimalFarm
-instance A.FromJSON AnimalFarm where
-  parseJSON = A.withObject "AnimalFarm" $ \o ->
-    pure AnimalFarm
-      
-
--- | ToJSON AnimalFarm
-instance A.ToJSON AnimalFarm where
-  toJSON AnimalFarm  =
-   _omitNulls
-      [ 
-      ]
-
-
--- | Construct a value of type 'AnimalFarm' (by applying it's required fields, if any)
-mkAnimalFarm
-  :: AnimalFarm
-mkAnimalFarm =
-  AnimalFarm
-  { 
-  }
-
 -- ** ApiResponse
 -- | ApiResponse
 data ApiResponse = ApiResponse
@@ -1326,34 +1298,6 @@ mkSpecialModelName =
   { specialModelNameSpecialPropertyName = Nothing
   }
 
--- ** StringBooleanMap
--- | StringBooleanMap
-data StringBooleanMap = StringBooleanMap
-  { 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON StringBooleanMap
-instance A.FromJSON StringBooleanMap where
-  parseJSON = A.withObject "StringBooleanMap" $ \o ->
-    pure StringBooleanMap
-      
-
--- | ToJSON StringBooleanMap
-instance A.ToJSON StringBooleanMap where
-  toJSON StringBooleanMap  =
-   _omitNulls
-      [ 
-      ]
-
-
--- | Construct a value of type 'StringBooleanMap' (by applying it's required fields, if any)
-mkStringBooleanMap
-  :: StringBooleanMap
-mkStringBooleanMap =
-  StringBooleanMap
-  { 
-  }
-
 -- ** Tag
 -- | Tag
 data Tag = Tag
@@ -1885,4 +1829,5 @@ instance AuthMethod AuthOAuthPetstoreAuth where
       then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
+
 

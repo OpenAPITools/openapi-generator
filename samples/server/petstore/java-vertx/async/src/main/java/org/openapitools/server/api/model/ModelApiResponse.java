@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class ModelApiResponse   {
   
-  private Integer code = null;
-  private String type = null;
-  private String message = null;
+  private Integer code;
+  private String type;
+  private String message;
 
   public ModelApiResponse () {
 

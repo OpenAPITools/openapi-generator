@@ -33,6 +33,7 @@
  */
 namespace {{apiPackage}};
 
+use PHPUnit\Framework\TestCase;
 use {{apiPackage}}\{{classname}};
 
 /**
@@ -45,7 +46,7 @@ use {{apiPackage}}\{{classname}};
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \{{modelPackage}}\{{classname}}
  */
-{{#operations}}class {{classname}}Test extends \PHPUnit_Framework_TestCase
+{{#operations}}class {{classname}}Test extends TestCase
 {
 
     /**

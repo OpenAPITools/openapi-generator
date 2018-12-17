@@ -50,7 +50,7 @@ public class Generator {
         try {
             config = CodegenConfigLoader.forName(language);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(Locale.ROOT,"Unsupported target %s supplied. %s",
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(Locale.ROOT,"Unsupported target %s supplied. %s",
                     language, e));
         }
         Map<String, CliOption> map = new LinkedHashMap<>();

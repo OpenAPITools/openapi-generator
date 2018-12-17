@@ -15,8 +15,9 @@ part '{{classFilename}}.jretro.dart';
 class {{classname}} extends _${{classname}}Client implements ApiClient {
     final Route base;
     final SerializerRepo serializers;
+    final Duration timeout;
 
-    {{classname}}({this.base, this.serializers});
+    {{classname}}({this.base, this.serializers, this.timeout = const Duration(minutes: 2)});
 
     {{#operation}}
     /// {{summary}}
@@ -29,23 +30,46 @@ class {{classname}} extends _${{classname}}Client implements ApiClient {
     {{/pathParams}}
     {{#headerParams}}
         {{#-first}}{{#hasPathParams}},{{/hasPathParams}}{{/-first}}
-        @Header("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+            @Header("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
     {{/headerParams}}
     {{#queryParams}}
         {{#-first}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/-first}}
-        @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+            @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
     {{/queryParams}}
     {{#vendorExtensions}}
+        {{#formParams}}
+            {{#-first}}{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/-first}}
+            {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsFormField() {{/isForm}}{{#isMultipart}}@AsMultipartField() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{/formParams}}
+        {{#bodyParam}}
+            {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
+            {{^isJson}}{{^isForm}}{{^isMultipart}}@AsBody(){{/isMultipart}}{{/isForm}}{{/isJson}}  {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{/bodyParam}}
+    {{/vendorExtensions}}
+        ) {
+        return super.{{nickname}}(
+    {{#pathParams}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/pathParams}}
+    {{#headerParams}}
+        {{#-first}}{{#hasPathParams}},{{/hasPathParams}}{{/-first}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/headerParams}}
+    {{#queryParams}}
+        {{#-first}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/-first}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/queryParams}}
+
     {{#formParams}}
         {{#-first}}{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/-first}}
-        {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsFormField() {{/isForm}}{{#isMultipart}}@AsMultipartField() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
     {{/formParams}}
     {{#bodyParam}}
         {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
-        {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
     {{/bodyParam}}
-    {{/vendorExtensions}}
-    );
+        ).timeout(timeout);
+    }
 
   {{/operation}}
 

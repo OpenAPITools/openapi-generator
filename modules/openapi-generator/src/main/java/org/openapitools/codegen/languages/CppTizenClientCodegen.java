@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppTizenClientCodegen extends AbstractCppCodegen implements CodegenConfig {
     protected static String PREFIX = "ArtikCloud";
@@ -284,7 +285,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
         }
 
         // add_pet_by_id => addPetById
-        return org.openapitools.codegen.utils.StringUtils.camelize(operationId, true);
+        return camelize(operationId, true);
     }
     /**
      * Output the Getter name for boolean property, e.g. getActive

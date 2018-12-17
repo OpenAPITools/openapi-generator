@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
 
 public abstract class PetApiService {
     public abstract Response addPet(Pet pet,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response deletePet(Long petId,String apiKey,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response deletePet(Long petId, String apiKey,SecurityContext securityContext) throws NotFoundException;
     public abstract Response findPetsByStatus( @NotNull List<String> status,SecurityContext securityContext) throws NotFoundException;
     public abstract Response findPetsByTags( @NotNull List<String> tags,SecurityContext securityContext) throws NotFoundException;
     public abstract Response getPetById(Long petId,SecurityContext securityContext) throws NotFoundException;

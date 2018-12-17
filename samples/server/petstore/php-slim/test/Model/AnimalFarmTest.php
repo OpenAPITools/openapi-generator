@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\AnimalFarm;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\AnimalFarm;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\AnimalFarm
  */
-class AnimalFarmTest extends \PHPUnit_Framework_TestCase
+class AnimalFarmTest extends TestCase
 {
 
     /**

@@ -43,10 +43,10 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{^isNotContainer}}{{{dataType}}}& {{getter}}();
-    {{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{getter}}() const;
+    {{#isContainer}}{{{dataType}}}& {{getter}}();
+    {{/isContainer}}{{^isContainer}}{{{dataType}}} {{getter}}() const;
     void {{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value);
-    {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
+    {{/isContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}
     {{/vars}}

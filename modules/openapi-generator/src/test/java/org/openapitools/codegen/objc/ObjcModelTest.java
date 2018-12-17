@@ -80,8 +80,7 @@ public class ObjcModelTest {
                 .addProperties("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
-                .addRequiredItem("name")
-                .discriminator(new Discriminator().mapping("test", "test"));
+                .addRequiredItem("name");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
 
@@ -89,7 +88,6 @@ public class ObjcModelTest {
         Assert.assertEquals(cm.classname, "OAISample");
         Assert.assertEquals(cm.description, "a sample model");
         Assert.assertEquals(cm.vars.size(), 3);
-        Assert.assertEquals(cm.discriminator.getMapping().get("test"),"test");
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "id");
@@ -100,7 +98,7 @@ public class ObjcModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -111,7 +109,7 @@ public class ObjcModelTest {
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -121,7 +119,7 @@ public class ObjcModelTest {
         Assert.assertEquals(property3.baseType, "NSDate");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -149,7 +147,7 @@ public class ObjcModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
@@ -210,7 +208,7 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "OAIChildren");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -262,7 +260,6 @@ public class ObjcModelTest {
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertFalse(property1.isNotContainer);
     }
 
     @Test(description = "convert an array model")

@@ -192,13 +192,13 @@ export class {{classname}} {
         // authentication ({{name}}) required
 {{#isApiKey}}
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
             {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
             {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 

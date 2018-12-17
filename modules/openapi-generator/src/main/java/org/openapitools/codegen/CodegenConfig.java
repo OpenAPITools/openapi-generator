@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -170,6 +171,8 @@ public interface CodegenConfig {
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
+    Map<String, Object> updateAllModels(Map<String, Object> objs);
+
     Map<String, Object> postProcessAllModels(Map<String, Object> objs);
 
     Map<String, Object> postProcessModels(Map<String, Object> objs);
@@ -260,5 +263,10 @@ public interface CodegenConfig {
     boolean isEnablePostProcessFile();
 
     public void setEnablePostProcessFile(boolean isEnablePostProcessFile);
+
+    // set OpenAPI and schemas
+    public void setGlobalOpenAPI(OpenAPI openAPI);
+
+    public void setGlobalSchemas(OpenAPI openAPI);
 
 }

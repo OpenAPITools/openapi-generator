@@ -1,5 +1,7 @@
 package {{invokerPackage}}.auth;
 
+import {{invokerPackage}}.Pair;
+
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -17,6 +19,7 @@ import org.apache.oltu.oauth2.common.message.types.GrantType;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
+import java.util.List;
 
 public class RetryingOAuth extends OAuth implements Interceptor {
     private OAuthClient oAuthClient;
@@ -161,5 +164,11 @@ public class RetryingOAuth extends OAuth implements Interceptor {
 
     public void setTokenRequestBuilder(TokenRequestBuilder tokenRequestBuilder) {
         this.tokenRequestBuilder = tokenRequestBuilder;
+    }
+
+    // Applying authorization to parameters is performed in the retryingIntercept method
+    @Override
+    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+        // No implementation necessary
     }
 }
