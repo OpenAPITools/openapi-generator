@@ -37,35 +37,29 @@ class Producer<Element> : Observable<Element> {
 }
 
 fileprivate final class SinkDisposer: Cancelable {
-    fileprivate enum DisposeState: UInt32 {
+    fileprivate enum DisposeState: Int32 {
         case disposed = 1
         case sinkAndSubscriptionSet = 2
     }
 
-    // Jeej, swift API consistency rules
-    fileprivate enum DisposeStateInt32: Int32 {
-        case disposed = 1
-        case sinkAndSubscriptionSet = 2
-    }
-    
-    private var _state: AtomicInt = 0
+    private var _state = AtomicInt(0)
     private var _sink: Disposable? = nil
     private var _subscription: Disposable? = nil
 
     var isDisposed: Bool {
-        return AtomicFlagSet(DisposeState.disposed.rawValue, &_state)
+        return _state.isFlagSet(DisposeState.disposed.rawValue)
     }
 
     func setSinkAndSubscription(sink: Disposable, subscription: Disposable) {
         _sink = sink
         _subscription = subscription
 
-        let previousState = AtomicOr(DisposeState.sinkAndSubscriptionSet.rawValue, &_state)
-        if (previousState & DisposeStateInt32.sinkAndSubscriptionSet.rawValue) != 0 {
+        let previousState = _state.fetchOr(DisposeState.sinkAndSubscriptionSet.rawValue)
+        if (previousState & DisposeState.sinkAndSubscriptionSet.rawValue) != 0 {
             rxFatalError("Sink and subscription were already set")
         }
 
-        if (previousState & DisposeStateInt32.disposed.rawValue) != 0 {
+        if (previousState & DisposeState.disposed.rawValue) != 0 {
             sink.dispose()
             subscription.dispose()
             _sink = nil
@@ -74,13 +68,13 @@ fileprivate final class SinkDisposer: Cancelable {
     }
     
     func dispose() {
-        let previousState = AtomicOr(DisposeState.disposed.rawValue, &_state)
+        let previousState = _state.fetchOr(DisposeState.disposed.rawValue)
 
-        if (previousState & DisposeStateInt32.disposed.rawValue) != 0 {
+        if (previousState & DisposeState.disposed.rawValue) != 0 {
             return
         }
 
-        if (previousState & DisposeStateInt32.sinkAndSubscriptionSet.rawValue) != 0 {
+        if (previousState & DisposeState.sinkAndSubscriptionSet.rawValue) != 0 {
             guard let sink = _sink else {
                 rxFatalError("Sink not set")
             }

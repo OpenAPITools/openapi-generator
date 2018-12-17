@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
   s.summary = 'PetstoreClient'
   s.source_files = 'PetstoreClient/Classes/**/*.swift'
   s.dependency 'RxSwift', '~> 4.0'
-  s.dependency 'Alamofire', '~> 4.5.0'
+  s.dependency 'Alamofire', '~> 4.7.0'
 end
