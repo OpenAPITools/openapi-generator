@@ -44,7 +44,7 @@ public class ModelUtilsTest {
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        Assert.assertEquals(allUsedSchemas.size(), 30);
+        Assert.assertEquals(allUsedSchemas.size(), 32);
 
         Assert.assertTrue(allUsedSchemas.contains("SomeObjShared"), "contains 'SomeObjShared'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj1"), "contains 'UnusedObj1'");
@@ -76,6 +76,8 @@ public class ModelUtilsTest {
         Assert.assertTrue(allUsedSchemas.contains("OtherObj20"), "contains 'OtherObj20'");
         Assert.assertTrue(allUsedSchemas.contains("PingDataInput21"), "contains 'PingDataInput21'");
         Assert.assertTrue(allUsedSchemas.contains("PingDataOutput21"), "contains 'PingDataOutput21'");
+        Assert.assertTrue(allUsedSchemas.contains("SInput22"), "contains 'SInput22'");
+        Assert.assertTrue(allUsedSchemas.contains("SOutput22"), "contains 'SInput22'");
     }
 
     @Test

@@ -1206,6 +1206,40 @@ paths:
       - tag: pet
 components:
   schemas:
+    Order:
+      example:
+        petId: 6
+        quantity: 1
+        id: 0
+        shipDate: 2000-01-23T04:56:07.000+00:00
+        complete: false
+        status: placed
+      properties:
+        id:
+          format: int64
+          type: integer
+        petId:
+          format: int64
+          type: integer
+        quantity:
+          format: int32
+          type: integer
+        shipDate:
+          format: date-time
+          type: string
+        status:
+          description: Order Status
+          enum:
+          - placed
+          - approved
+          - delivered
+          type: string
+        complete:
+          default: false
+          type: boolean
+      type: object
+      xml:
+        name: Order
     Category:
       example:
         name: default-name
@@ -1256,45 +1290,72 @@ components:
       type: object
       xml:
         name: User
-    OuterNumber:
-      type: number
-    ArrayOfNumberOnly:
+    Tag:
+      example:
+        name: name
+        id: 1
       properties:
-        ArrayNumber:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+      xml:
+        name: Tag
+    Pet:
+      example:
+        photoUrls:
+        - photoUrls
+        - photoUrls
+        name: doggie
+        id: 0
+        category:
+          name: default-name
+          id: 6
+        tags:
+        - name: name
+          id: 1
+        - name: name
+          id: 1
+        status: available
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
           items:
-            type: number
+            type: string
           type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
       type: object
-    Capitalization:
-      properties:
-        smallCamel:
-          type: string
-        CapitalCamel:
-          type: string
-        small_Snake:
-          type: string
-        Capital_Snake:
-          type: string
-        SCA_ETH_Flow_Points:
-          type: string
-        ATT_NAME:
-          description: |
-            Name of the pet
-          type: string
-      type: object
-    MixedPropertiesAndAdditionalPropertiesClass:
-      properties:
-        uuid:
-          format: uuid
-          type: string
-        dateTime:
-          format: date-time
-          type: string
-        map:
-          additionalProperties:
-            $ref: '#/components/schemas/Animal'
-          type: object
-      type: object
+      xml:
+        name: Pet
     ApiResponse:
       example:
         code: 0
@@ -1309,6 +1370,23 @@ components:
         message:
           type: string
       type: object
+    $special[model.name]:
+      properties:
+        $special[property.name]:
+          format: int64
+          type: integer
+      type: object
+      xml:
+        name: $special[model.name]
+    Return:
+      description: Model for testing reserved words
+      properties:
+        return:
+          format: int32
+          type: integer
+      type: object
+      xml:
+        name: Return
     Name:
       description: Model for testing model name same as property name
       properties:
@@ -1329,25 +1407,6 @@ components:
       type: object
       xml:
         name: Name
-    EnumClass:
-      default: -efg
-      enum:
-      - _abc
-      - -efg
-      - (xyz)
-      type: string
-    List:
-      example:
-        123-list: 123-list
-      properties:
-        123-list:
-          type: string
-      type: object
-    NumberOnly:
-      properties:
-        JustNumber:
-          type: number
-      type: object
     200_response:
       description: Model for testing model name starting with number
       properties:
@@ -1359,11 +1418,10 @@ components:
       type: object
       xml:
         name: Name
-    Client:
-      example:
-        client: client
+    ClassModel:
+      description: Model for testing model with "_class" property
       properties:
-        client:
+        _class:
           type: string
       type: object
     Dog:
@@ -1373,158 +1431,29 @@ components:
           breed:
             type: string
         type: object
-    Enum_Test:
+    Cat:
+      allOf:
+      - $ref: '#/components/schemas/Animal'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
+    Animal:
+      discriminator:
+        propertyName: className
       properties:
-        enum_string:
-          enum:
-          - UPPER
-          - lower
-          - ""
+        className:
           type: string
-        enum_string_required:
-          enum:
-          - UPPER
-          - lower
-          - ""
+        color:
+          default: red
           type: string
-        enum_integer:
-          enum:
-          - 1
-          - -1
-          format: int32
-          type: integer
-        enum_number:
-          enum:
-          - 1.1
-          - -1.2
-          format: double
-          type: number
-        outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
       required:
-      - enum_string_required
+      - className
       type: object
-    Order:
-      example:
-        petId: 6
-        quantity: 1
-        id: 0
-        shipDate: 2000-01-23T04:56:07.000+00:00
-        complete: false
-        status: placed
-      properties:
-        id:
-          format: int64
-          type: integer
-        petId:
-          format: int64
-          type: integer
-        quantity:
-          format: int32
-          type: integer
-        shipDate:
-          format: date-time
-          type: string
-        status:
-          description: Order Status
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
-        complete:
-          default: false
-          type: boolean
-      type: object
-      xml:
-        name: Order
-    AdditionalPropertiesClass:
-      properties:
-        map_property:
-          additionalProperties:
-            type: string
-          type: object
-        map_of_map_property:
-          additionalProperties:
-            additionalProperties:
-              type: string
-            type: object
-          type: object
-      type: object
-    $special[model.name]:
-      properties:
-        $special[property.name]:
-          format: int64
-          type: integer
-      type: object
-      xml:
-        name: $special[model.name]
-    Return:
-      description: Model for testing reserved words
-      properties:
-        return:
-          format: int32
-          type: integer
-      type: object
-      xml:
-        name: Return
-    ReadOnlyFirst:
-      properties:
-        bar:
-          readOnly: true
-          type: string
-        baz:
-          type: string
-      type: object
-    ArrayOfArrayOfNumberOnly:
-      properties:
-        ArrayArrayNumber:
-          items:
-            items:
-              type: number
-            type: array
-          type: array
-      type: object
-    OuterEnum:
-      enum:
-      - placed
-      - approved
-      - delivered
-      type: string
-    ArrayTest:
-      properties:
-        array_of_string:
-          items:
-            type: string
-          type: array
-        array_array_of_integer:
-          items:
-            items:
-              format: int64
-              type: integer
-            type: array
-          type: array
-        array_array_of_model:
-          items:
-            items:
-              $ref: '#/components/schemas/ReadOnlyFirst'
-            type: array
-          type: array
-      type: object
-    OuterComposite:
-      example:
-        my_string: my_string
-        my_number: 0.80082819046101150206595775671303272247314453125
-        my_boolean: true
-      properties:
-        my_number:
-          type: number
-        my_string:
-          type: string
-        my_boolean:
-          type: boolean
-          x-codegen-body-parameter-name: boolean_post_body
-      type: object
+    AnimalFarm:
+      items:
+        $ref: '#/components/schemas/Animal'
+      type: array
     format_test:
       properties:
         integer:
@@ -1583,70 +1512,118 @@ components:
       - number
       - password
       type: object
-    EnumArrays:
-      properties:
-        just_symbol:
-          enum:
-          - '>='
-          - $
-          type: string
-        array_enum:
-          items:
-            enum:
-            - fish
-            - crab
-            type: string
-          type: array
-      type: object
-    OuterString:
+    EnumClass:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
       type: string
-    ClassModel:
-      description: Model for testing model with "_class" property
+    Enum_Test:
       properties:
-        _class:
+        enum_string:
+          enum:
+          - UPPER
+          - lower
+          - ""
           type: string
-      type: object
-    OuterBoolean:
-      type: boolean
-      x-codegen-body-parameter-name: boolean_post_body
-    FileSchemaTestClass:
-      example:
-        file:
-          sourceURI: sourceURI
-        files:
-        - sourceURI: sourceURI
-        - sourceURI: sourceURI
-      properties:
-        file:
-          $ref: '#/components/schemas/File'
-        files:
-          items:
-            $ref: '#/components/schemas/File'
-          type: array
-      type: object
-    Animal:
-      discriminator:
-        propertyName: className
-      properties:
-        className:
+        enum_string_required:
+          enum:
+          - UPPER
+          - lower
+          - ""
           type: string
-        color:
-          default: red
-          type: string
+        enum_integer:
+          enum:
+          - 1
+          - -1
+          format: int32
+          type: integer
+        enum_number:
+          enum:
+          - 1.1
+          - -1.2
+          format: double
+          type: number
+        outerEnum:
+          $ref: '#/components/schemas/OuterEnum'
       required:
-      - className
+      - enum_string_required
       type: object
-    StringBooleanMap:
-      additionalProperties:
-        type: boolean
+    AdditionalPropertiesClass:
+      properties:
+        map_property:
+          additionalProperties:
+            type: string
+          type: object
+        map_of_map_property:
+          additionalProperties:
+            additionalProperties:
+              type: string
+            type: object
+          type: object
       type: object
-    Cat:
-      allOf:
-      - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
-        type: object
+    MixedPropertiesAndAdditionalPropertiesClass:
+      properties:
+        uuid:
+          format: uuid
+          type: string
+        dateTime:
+          format: date-time
+          type: string
+        map:
+          additionalProperties:
+            $ref: '#/components/schemas/Animal'
+          type: object
+      type: object
+    List:
+      example:
+        123-list: 123-list
+      properties:
+        123-list:
+          type: string
+      type: object
+    Client:
+      example:
+        client: client
+      properties:
+        client:
+          type: string
+      type: object
+    ReadOnlyFirst:
+      properties:
+        bar:
+          readOnly: true
+          type: string
+        baz:
+          type: string
+      type: object
+    hasOnlyReadOnly:
+      properties:
+        bar:
+          readOnly: true
+          type: string
+        foo:
+          readOnly: true
+          type: string
+      type: object
+    Capitalization:
+      properties:
+        smallCamel:
+          type: string
+        CapitalCamel:
+          type: string
+        small_Snake:
+          type: string
+        Capital_Snake:
+          type: string
+        SCA_ETH_Flow_Points:
+          type: string
+        ATT_NAME:
+          description: |
+            Name of the pet
+          type: string
+      type: object
     MapTest:
       properties:
         map_map_of_string:
@@ -1671,23 +1648,108 @@ components:
             type: boolean
           type: object
       type: object
-    Tag:
-      example:
-        name: name
-        id: 1
+    ArrayTest:
       properties:
-        id:
-          format: int64
-          type: integer
-        name:
-          type: string
+        array_of_string:
+          items:
+            type: string
+          type: array
+        array_array_of_integer:
+          items:
+            items:
+              format: int64
+              type: integer
+            type: array
+          type: array
+        array_array_of_model:
+          items:
+            items:
+              $ref: '#/components/schemas/ReadOnlyFirst'
+            type: array
+          type: array
       type: object
-      xml:
-        name: Tag
-    AnimalFarm:
-      items:
-        $ref: '#/components/schemas/Animal'
-      type: array
+    NumberOnly:
+      properties:
+        JustNumber:
+          type: number
+      type: object
+    ArrayOfNumberOnly:
+      properties:
+        ArrayNumber:
+          items:
+            type: number
+          type: array
+      type: object
+    ArrayOfArrayOfNumberOnly:
+      properties:
+        ArrayArrayNumber:
+          items:
+            items:
+              type: number
+            type: array
+          type: array
+      type: object
+    EnumArrays:
+      properties:
+        just_symbol:
+          enum:
+          - '>='
+          - $
+          type: string
+        array_enum:
+          items:
+            enum:
+            - fish
+            - crab
+            type: string
+          type: array
+      type: object
+    OuterEnum:
+      enum:
+      - placed
+      - approved
+      - delivered
+      type: string
+    OuterComposite:
+      example:
+        my_string: my_string
+        my_number: 0.80082819046101150206595775671303272247314453125
+        my_boolean: true
+      properties:
+        my_number:
+          type: number
+        my_string:
+          type: string
+        my_boolean:
+          type: boolean
+          x-codegen-body-parameter-name: boolean_post_body
+      type: object
+    OuterNumber:
+      type: number
+    OuterString:
+      type: string
+    OuterBoolean:
+      type: boolean
+      x-codegen-body-parameter-name: boolean_post_body
+    StringBooleanMap:
+      additionalProperties:
+        type: boolean
+      type: object
+    FileSchemaTestClass:
+      example:
+        file:
+          sourceURI: sourceURI
+        files:
+        - sourceURI: sourceURI
+        - sourceURI: sourceURI
+      properties:
+        file:
+          $ref: '#/components/schemas/File'
+        files:
+          items:
+            $ref: '#/components/schemas/File'
+          type: array
+      type: object
     File:
       description: Must be named `File` for test.
       example:
@@ -1695,68 +1757,6 @@ components:
       properties:
         sourceURI:
           description: Test capitalization
-          type: string
-      type: object
-    Pet:
-      example:
-        photoUrls:
-        - photoUrls
-        - photoUrls
-        name: doggie
-        id: 0
-        category:
-          name: default-name
-          id: 6
-        tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
-        status: available
-      properties:
-        id:
-          format: int64
-          type: integer
-          x-is-unique: true
-        category:
-          $ref: '#/components/schemas/Category'
-        name:
-          example: doggie
-          type: string
-        photoUrls:
-          items:
-            type: string
-          type: array
-          xml:
-            name: photoUrl
-            wrapped: true
-        tags:
-          items:
-            $ref: '#/components/schemas/Tag'
-          type: array
-          xml:
-            name: tag
-            wrapped: true
-        status:
-          description: pet status in the store
-          enum:
-          - available
-          - pending
-          - sold
-          type: string
-      required:
-      - name
-      - photoUrls
-      type: object
-      xml:
-        name: Pet
-    hasOnlyReadOnly:
-      properties:
-        bar:
-          readOnly: true
-          type: string
-        foo:
-          readOnly: true
           type: string
       type: object
   securitySchemes:
@@ -1768,9 +1768,6 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-    http_basic_test:
-      scheme: basic
-      type: http
     api_key:
       in: header
       name: api_key
@@ -1779,3 +1776,6 @@ components:
       in: query
       name: api_key_query
       type: apiKey
+    http_basic_test:
+      scheme: basic
+      type: http
