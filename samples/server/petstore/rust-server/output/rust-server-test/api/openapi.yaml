@@ -96,6 +96,17 @@ components:
       description: An additionalPropertiesObject
       example: foo
       type: object
+    aNullableContainer:
+      properties:
+        NullableThing:
+          nullable: true
+          type: string
+        RequiredNullableThing:
+          nullable: true
+          type: string
+      required:
+      - RequiredNullableThing
+      type: object
     ObjectOfObjects:
       description: An object of objects
       properties:
@@ -119,15 +130,4 @@ components:
           type: string
       required:
       - required_thing
-    aNullableContainer:
-      properties:
-        NullableThing:
-          nullable: true
-          type: string
-        RequiredNullableThing:
-          nullable: true
-          type: string
-      required:
-      - RequiredNullableThing
-      type: object
 
