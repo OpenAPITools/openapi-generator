@@ -35,7 +35,7 @@ impl ANullableContainer {
 impl ANullableContainer {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -56,7 +56,7 @@ impl AdditionalPropertiesObject {
 impl AdditionalPropertiesObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -85,7 +85,7 @@ impl InlineObject {
 impl InlineObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -111,7 +111,7 @@ impl ObjectOfObjects {
 impl ObjectOfObjects {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -140,7 +140,7 @@ impl ObjectOfObjectsInner {
 impl ObjectOfObjectsInner {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -220,7 +220,7 @@ impl ::std::ops::DerefMut for XmlList {
 impl XmlList {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -292,7 +292,7 @@ impl ::std::ops::DerefMut for XmlListRef {
 impl XmlListRef {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -331,7 +331,7 @@ impl ::std::ops::DerefMut for XmlListRefInner {
 impl XmlListRefInner {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -358,7 +358,7 @@ impl XmlObject {
 impl XmlObject {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         let mut namespaces = BTreeMap::new();
         // An empty string is used to indicate a global namespace in xmltree.

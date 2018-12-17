@@ -34,7 +34,7 @@ impl AdditionalPropertiesClass {
 impl AdditionalPropertiesClass {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -63,7 +63,7 @@ impl Animal {
 impl Animal {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -134,7 +134,7 @@ impl ::std::ops::DerefMut for AnimalFarm {
 impl AnimalFarm {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -169,7 +169,7 @@ impl ApiResponse {
 impl ApiResponse {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -194,7 +194,7 @@ impl ArrayOfArrayOfNumberOnly {
 impl ArrayOfArrayOfNumberOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -219,7 +219,7 @@ impl ArrayOfNumberOnly {
 impl ArrayOfNumberOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -260,7 +260,7 @@ impl ArrayTest {
 impl ArrayTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -311,7 +311,7 @@ impl Capitalization {
 impl Capitalization {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -345,7 +345,7 @@ impl Cat {
 impl Cat {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -376,7 +376,7 @@ impl Category {
 impl Category {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -402,7 +402,7 @@ impl ClassModel {
 impl ClassModel {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -427,7 +427,7 @@ impl Client {
 impl Client {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -461,7 +461,7 @@ impl Dog {
 impl Dog {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -499,7 +499,7 @@ impl EnumArrays {
 impl EnumArrays {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -545,7 +545,7 @@ impl ::std::str::FromStr for EnumClass {
 impl EnumClass {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -593,7 +593,7 @@ impl EnumTest {
 impl EnumTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -674,7 +674,7 @@ impl FormatTest {
 impl FormatTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -704,7 +704,7 @@ impl HasOnlyReadOnly {
 impl HasOnlyReadOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -729,7 +729,7 @@ impl List {
 impl List {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -766,7 +766,7 @@ impl MapTest {
 impl MapTest {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -801,7 +801,7 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 impl MixedPropertiesAndAdditionalPropertiesClass {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -833,7 +833,7 @@ impl Model200Response {
 impl Model200Response {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -860,7 +860,7 @@ impl ModelReturn {
 impl ModelReturn {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -901,7 +901,7 @@ impl Name {
 impl Name {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -926,7 +926,7 @@ impl NumberOnly {
 impl NumberOnly {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -979,7 +979,7 @@ impl Order {
 impl Order {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1018,7 +1018,7 @@ impl ::std::ops::DerefMut for OuterBoolean {
 impl OuterBoolean {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1053,7 +1053,7 @@ impl OuterComposite {
 impl OuterComposite {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1099,7 +1099,7 @@ impl ::std::str::FromStr for OuterEnum {
 impl OuterEnum {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1138,7 +1138,7 @@ impl ::std::ops::DerefMut for OuterNumber {
 impl OuterNumber {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1177,7 +1177,7 @@ impl ::std::ops::DerefMut for OuterString {
 impl OuterString {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1228,7 +1228,7 @@ impl Pet {
 impl Pet {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1258,7 +1258,7 @@ impl ReadOnlyFirst {
 impl ReadOnlyFirst {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1284,7 +1284,7 @@ impl SpecialModelName {
 impl SpecialModelName {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1315,7 +1315,7 @@ impl Tag {
 impl Tag {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
@@ -1377,7 +1377,7 @@ impl User {
 impl User {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
-    #[allow(dead_code)]
+    #[allow(dead_code, non_snake_case)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
