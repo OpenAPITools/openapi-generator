@@ -4069,7 +4069,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private void updateEnumVarsWithExtensions
             (List<Map<String, Object>> enumVars, Map<String, Object> vendorExtensions) {
-        if (null == vendorExtensions) {
+        if (vendorExtensions == null) {
             return;
         }
 
