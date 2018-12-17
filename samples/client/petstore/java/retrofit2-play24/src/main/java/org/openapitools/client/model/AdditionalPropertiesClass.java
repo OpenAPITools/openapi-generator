@@ -32,10 +32,10 @@ import javax.validation.Valid;
 
 public class AdditionalPropertiesClass {
   @JsonProperty("map_property")
-  private Map<String, String> mapProperty = null;
+  private Map<String, String> mapProperty = new HashMap<>();
 
   @JsonProperty("map_of_map_property")
-  private Map<String, Map<String, String>> mapOfMapProperty = null;
+  private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
