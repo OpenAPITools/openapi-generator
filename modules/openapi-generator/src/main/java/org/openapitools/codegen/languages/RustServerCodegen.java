@@ -771,10 +771,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
-        parameter.isNullable = property.isNullable;
-    }
-
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
