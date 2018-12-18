@@ -23,8 +23,7 @@ use rust_server_test::{ApiNoContext, ContextWrapperExt,
                       DummyPutResponse,
                       FileResponseGetResponse,
                       HtmlPostResponse,
-                      RawJsonGetResponse,
-                      XmlPostResponse
+                      RawJsonGetResponse
                      };
 use clap::{App, Arg};
 
@@ -102,12 +101,6 @@ fn main() {
             let result = core.run(client.raw_json_get());
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
-
-        // Disabled because there's no example.
-        // Some("XmlPost") => {
-        //     let result = core.run(client.xml_post(???));
-        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-        //  },
 
         _ => {
             panic!("Invalid operation provided")

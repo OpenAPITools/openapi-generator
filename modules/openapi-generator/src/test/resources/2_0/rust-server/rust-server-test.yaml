@@ -52,24 +52,6 @@ paths:
           description: Success
           schema:
             type: object
-  /xml:
-    post:
-      summary: Test XML
-      consumes:
-        - application/xml
-      produces:
-        - application/xml
-      parameters:
-      - in: body
-        name: body
-        required: true
-        schema:
-          $ref: '#/definitions/XmlObject'
-      responses:
-        200:
-          description: Success
-          schema:
-            $ref: '#/definitions/XmlObject'
 
     # Requests with arbitrary JSON currently fail.
     # post:
@@ -133,35 +115,6 @@ definitions:
             type: string
           optional_thing:
             type: integer
-  XmlObject:
-    description: An XML object
-    type: object
-    properties:
-      inner:
-        type: string
-    xml:
-      name: an_xml_object
-      namespace: foo.bar
-  XmlList:
-    description: An XML list with items directly defined
-    type: array
-    xml:
-      wrapped: true
-    items:
-      type: string
-      xml:
-        name: xml_list_inner
-  XmlListRef:
-    description: An XML list with items referenced. The wrapping doesn't currently work - it's stripped during the conversion to openapi v3. See https://github.com/OpenAPITools/openapi-generator/issues/1581.
-    type: array
-    xml:
-      wrapped: true
-    items:
-      $ref: '#/definitions/XmlListRefInner'
-  XmlListRefInner:
-    type: string
-    xml:
-      name: xml_list_ref_inner
   # Currently broken - see https://github.com/OpenAPITools/openapi-generator/issues/8
   # ArrayOfObjects:
   #   description: An array of objects

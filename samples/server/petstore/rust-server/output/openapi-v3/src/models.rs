@@ -10,85 +10,6 @@ use models;
 use swagger;
 
 
-// Utility function for wrapping list elements when serializing xml
-fn wrap_in_another<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
-where
-    S: Serializer,
-{
-    serde_xml_rs::wrap_primitives(item, serializer, "another")
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct XmlArray(#[serde(serialize_with = "wrap_in_another")]Vec<String>);
-
-impl ::std::convert::From<Vec<String>> for XmlArray {
-    fn from(x: Vec<String>) -> Self {
-        XmlArray(x)
-    }
-}
-
-impl ::std::convert::From<XmlArray> for Vec<String> {
-    fn from(x: XmlArray) -> Self {
-        x.0
-    }
-}
-
-impl ::std::iter::FromIterator<String> for XmlArray {
-    fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
-        XmlArray(Vec::<String>::from_iter(u))
-    }
-}
-
-impl ::std::iter::IntoIterator for XmlArray {
-    type Item = String;
-    type IntoIter = ::std::vec::IntoIter<String>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        self.0.into_iter()
-    }
-}
-
-impl<'a> ::std::iter::IntoIterator for &'a XmlArray {
-    type Item = &'a String;
-    type IntoIter = ::std::slice::Iter<'a, String>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        (&self.0).into_iter()
-    }
-}
-
-impl<'a> ::std::iter::IntoIterator for &'a mut XmlArray {
-    type Item = &'a mut String;
-    type IntoIter = ::std::slice::IterMut<'a, String>;
-
-    fn into_iter(self) -> Self::IntoIter {
-        (&mut self.0).into_iter()
-    }
-}
-
-impl ::std::ops::Deref for XmlArray {
-    type Target = Vec<String>;
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl ::std::ops::DerefMut for XmlArray {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-
-
-impl XmlArray {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code, non_snake_case)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename = "another")]
 pub struct XmlInner(String);
@@ -128,3 +49,39 @@ impl XmlInner {
     }
 }
 
+/// An XML object
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename = "an_xml_object")]
+pub struct XmlObject {
+    #[serde(rename = "inner")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub inner: Option<String>,
+
+}
+
+impl XmlObject {
+    pub fn new() -> XmlObject {
+        XmlObject {
+            inner: None,
+        }
+    }
+}
+
+impl XmlObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code, non_snake_case)]
+    pub(crate) fn to_xml(&self) -> String {
+        let mut namespaces = BTreeMap::new();
+        // An empty string is used to indicate a global namespace in xmltree.
+        namespaces.insert("".to_string(), models::namespaces::XMLOBJECT.clone());
+        serde_xml_rs::to_string_with_namespaces(&self, namespaces).expect("impossible to fail to serialize")
+    }
+}
+
+//XML namespaces
+pub mod namespaces {
+    lazy_static!{
+        pub static ref XMLOBJECT: String = "foo.bar".to_string();
+    }
+}

@@ -21,7 +21,7 @@ use self::url::form_urlencoded;
 use mimetypes;
 
 use serde_json;
-use serde_xml_rs;
+
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -41,8 +41,7 @@ use {Api,
      DummyPutResponse,
      FileResponseGetResponse,
      HtmlPostResponse,
-     RawJsonGetResponse,
-     XmlPostResponse
+     RawJsonGetResponse
      };
 #[allow(unused_imports)]
 use models;
@@ -59,15 +58,13 @@ mod paths {
             r"^/dummy$",
             r"^/file_response$",
             r"^/html$",
-            r"^/raw_json$",
-            r"^/xml$"
+            r"^/raw_json$"
         ]).unwrap();
     }
     pub static ID_DUMMY: usize = 0;
     pub static ID_FILE_RESPONSE: usize = 1;
     pub static ID_HTML: usize = 2;
     pub static ID_RAW_JSON: usize = 3;
-    pub static ID_XML: usize = 4;
 }
 
 pub struct NewService<T, C> {
@@ -437,95 +434,6 @@ where
             },
 
 
-            // XmlPost - POST /xml
-            &hyper::Method::Post if path.matched(paths::ID_XML) => {
-
-
-
-
-
-
-                // Body parameters (note that non-required body parameters will ignore garbage
-                // values, rather than causing a 400 response). Produce warning header and logs for
-                // any unused fields.
-                Box::new(body.concat2()
-                    .then(move |result| -> Box<Future<Item=Response, Error=Error>> {
-                        match result {
-                            Ok(body) => {
-
-                                let mut unused_elements = Vec::new();
-                                let param_xml_object: Option<models::XmlObject> = if !body.is_empty() {
-                                    let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
-
-                                    match serde_ignored::deserialize(deserializer, |path| {
-                                            warn!("Ignoring unknown field in body: {}", path);
-                                            unused_elements.push(path.to_string());
-                                    }) {
-                                        Ok(param_xml_object) => param_xml_object,
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter XmlObject - doesn't match schema: {}", e)))),
-                                    }
-
-                                } else {
-                                    None
-                                };
-                                let param_xml_object = match param_xml_object {
-                                    Some(param_xml_object) => param_xml_object,
-                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter XmlObject"))),
-                                };
-
-
-                                Box::new(api_impl.xml_post(param_xml_object, &context)
-                                    .then(move |result| {
-                                        let mut response = Response::new();
-                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
-
-                                        if !unused_elements.is_empty() {
-                                            response.headers_mut().set(Warning(format!("Ignoring unknown fields in body: {:?}", unused_elements)));
-                                        }
-
-                                        match result {
-                                            Ok(rsp) => match rsp {
-                                                XmlPostResponse::Success
-
-                                                    (body)
-
-
-                                                => {
-                                                    response.set_status(StatusCode::try_from(200).unwrap());
-
-                                                    response.headers_mut().set(ContentType(mimetypes::responses::XML_POST_SUCCESS.clone()));
-
-
-                                                    let mut namespaces = BTreeMap::new();
-                                                    // An empty string is used to indicate a global namespace in xmltree.
-                                                    namespaces.insert("".to_string(), models::namespaces::XMLOBJECT.clone());
-                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
-
-                                                    response.set_body(body);
-                                                },
-                                            },
-                                            Err(_) => {
-                                                // Application code returned an error. This should not happen, as the implementation should
-                                                // return a valid response.
-                                                response.set_status(StatusCode::InternalServerError);
-                                                response.set_body("An internal error occurred");
-                                            },
-                                        }
-
-                                        future::ok(response)
-                                    }
-                                ))
-
-
-                            },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter XmlObject: {}", e)))),
-                        }
-                    })
-                ) as Box<Future<Item=Response, Error=Error>>
-
-            },
-
-
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }
     }
@@ -562,9 +470,6 @@ impl RequestParser for ApiRequestParser {
 
             // RawJsonGet - GET /raw_json
             &hyper::Method::Get if path.matched(paths::ID_RAW_JSON) => Ok("RawJsonGet"),
-
-            // XmlPost - POST /xml
-            &hyper::Method::Post if path.matched(paths::ID_XML) => Ok("XmlPost"),
             _ => Err(()),
         }
     }

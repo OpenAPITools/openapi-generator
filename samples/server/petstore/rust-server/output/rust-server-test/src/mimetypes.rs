@@ -16,10 +16,6 @@ pub mod responses {
     lazy_static! {
         pub static ref RAW_JSON_GET_SUCCESS: Mime = "*/*".parse().unwrap();
     }
-    /// Create Mime objects for the response content types for XmlPost
-    lazy_static! {
-        pub static ref XML_POST_SUCCESS: Mime = "application/xml".parse().unwrap();
-    }
 
 }
 
@@ -32,10 +28,6 @@ pub mod requests {
    /// Create Mime objects for the request content types for HtmlPost
     lazy_static! {
         pub static ref HTML_POST: Mime = "text/html".parse().unwrap();
-    }
-   /// Create Mime objects for the request content types for XmlPost
-    lazy_static! {
-        pub static ref XML_POST: Mime = "application/xml".parse().unwrap();
     }
 
 }

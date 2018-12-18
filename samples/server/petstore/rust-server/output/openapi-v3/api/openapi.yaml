@@ -15,6 +15,10 @@ paths:
               $ref: '#/components/schemas/XmlArray'
       responses:
         201:
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/XmlObject'
           description: OK
 components:
   schemas:
@@ -28,4 +32,13 @@ components:
       type: string
       xml:
         name: another
+    XmlObject:
+      description: An XML object
+      properties:
+        inner:
+          type: string
+      type: object
+      xml:
+        name: an_xml_object
+        namespace: foo.bar
 

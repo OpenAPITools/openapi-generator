@@ -281,9 +281,21 @@ if let Some(body) = body {
                 201 => {
                     let body = response.body();
                     Box::new(
+                        body
+                        .concat2()
+                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
+                        .and_then(|body| str::from_utf8(&body)
+                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
+                                             .and_then(|body|
 
-                        future::ok(
-                            XmlPostResponse::OK
+                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
+                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
+                                                 serde_xml_rs::from_str::<models::XmlObject>(body)
+                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+
+                                             ))
+                        .map(move |body|
+                            XmlPostResponse::OK(body)
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },

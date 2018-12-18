@@ -42,7 +42,7 @@ pub const API_VERSION: &'static str = "1.0.7";
 #[derive(Debug, PartialEq)]
 pub enum XmlPostResponse {
     /// OK
-    OK ,
+    OK ( models::XmlObject ) ,
 }
 
 

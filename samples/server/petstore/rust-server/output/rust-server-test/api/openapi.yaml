@@ -69,22 +69,6 @@ paths:
                 type: object
           description: Success
       summary: Get an arbitrary JSON blob.
-  /xml:
-    post:
-      requestBody:
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/XmlObject'
-        required: true
-      responses:
-        200:
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/XmlObject'
-          description: Success
-      summary: Test XML
 components:
   requestBodies:
     nested_response:
@@ -129,19 +113,6 @@ components:
         inner:
           $ref: '#/components/schemas/ObjectOfObjects_inner'
       type: object
-    XmlListRefInner:
-      type: string
-      xml:
-        name: xml_list_ref_inner
-    XmlObject:
-      description: An XML object
-      properties:
-        inner:
-          type: string
-      type: object
-      xml:
-        name: an_xml_object
-        namespace: foo.bar
     inline_object:
       properties:
         id:
@@ -159,16 +130,4 @@ components:
           type: string
       required:
       - required_thing
-    XmlListRef:
-      description: An XML list with items referenced. The wrapping doesn't currently work - it's stripped during the conversion to openapi v3. See https://github.com/OpenAPITools/openapi-generator/issues/1581.
-      items:
-        $ref: '#/components/schemas/XmlListRefInner'
-      type: array
-    XmlList:
-      description: An XML list with items directly defined
-      items:
-        type: string
-        xml:
-          name: xml_list_inner
-      type: array
 

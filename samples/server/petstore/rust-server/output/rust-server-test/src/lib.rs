@@ -4,7 +4,7 @@ extern crate serde;
 extern crate serde_derive;
 extern crate serde_json;
 
-extern crate serde_xml_rs;
+
 extern crate futures;
 extern crate chrono;
 #[macro_use]
@@ -69,12 +69,6 @@ pub enum RawJsonGetResponse {
     Success ( serde_json::Value ) ,
 }
 
-#[derive(Debug, PartialEq)]
-pub enum XmlPostResponse {
-    /// Success
-    Success ( models::XmlObject ) ,
-}
-
 
 /// API
 pub trait Api<C> {
@@ -93,9 +87,6 @@ pub trait Api<C> {
 
     /// Get an arbitrary JSON blob.
     fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>>;
-
-    /// Test XML
-    fn xml_post(&self, xml_object: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -116,9 +107,6 @@ pub trait ApiNoContext {
 
     /// Get an arbitrary JSON blob.
     fn raw_json_get(&self) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>>;
-
-    /// Test XML
-    fn xml_post(&self, xml_object: models::XmlObject) -> Box<Future<Item=XmlPostResponse, Error=ApiError>>;
 
 }
 
@@ -159,11 +147,6 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     /// Get an arbitrary JSON blob.
     fn raw_json_get(&self) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>> {
         self.api().raw_json_get(&self.context())
-    }
-
-    /// Test XML
-    fn xml_post(&self, xml_object: models::XmlObject) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
-        self.api().xml_post(xml_object, &self.context())
     }
 
 }

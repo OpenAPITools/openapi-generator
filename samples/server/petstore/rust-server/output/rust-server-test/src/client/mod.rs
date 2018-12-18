@@ -29,7 +29,7 @@ use std::str::FromStr;
 use mimetypes;
 
 use serde_json;
-use serde_xml_rs;
+
 
 #[allow(unused_imports)]
 use std::collections::{HashMap, BTreeMap};
@@ -43,8 +43,7 @@ use {Api,
      DummyPutResponse,
      FileResponseGetResponse,
      HtmlPostResponse,
-     RawJsonGetResponse,
-     XmlPostResponse
+     RawJsonGetResponse
      };
 use models;
 
@@ -545,79 +544,6 @@ if let Some(body) = body {
                                              ))
                         .map(move |body|
                             RawJsonGetResponse::Success(body)
-                        )
-                    ) as Box<Future<Item=_, Error=_>>
-                },
-                code => {
-                    let headers = response.headers().clone();
-                    Box::new(response.body()
-                            .take(100)
-                            .concat2()
-                            .then(move |body|
-                                future::err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
-                                    code,
-                                    headers,
-                                    match body {
-                                        Ok(ref body) => match str::from_utf8(body) {
-                                            Ok(body) => Cow::from(body),
-                                            Err(e) => Cow::from(format!("<Body was not UTF8: {:?}>", e)),
-                                        },
-                                        Err(e) => Cow::from(format!("<Failed to read body: {}>", e)),
-                                    })))
-                            )
-                    ) as Box<Future<Item=_, Error=_>>
-                }
-            }
-        }))
-
-    }
-
-    fn xml_post(&self, param_xml_object: models::XmlObject, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
-
-
-        let uri = format!(
-            "{}/xml",
-            self.base_path
-        );
-
-        let uri = match Uri::from_str(&uri) {
-            Ok(uri) => uri,
-            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
-        };
-
-        let mut request = hyper::Request::new(hyper::Method::Post, uri);
-
-        let body = param_xml_object.to_xml();
-
-        request.set_body(body.into_bytes());
-
-
-        request.headers_mut().set(ContentType(mimetypes::requests::XML_POST.clone()));
-        request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
-
-        Box::new(self.client_service.call(request)
-                             .map_err(|e| ApiError(format!("No response received: {}", e)))
-                             .and_then(|mut response| {
-            match response.status().as_u16() {
-                200 => {
-                    let body = response.body();
-                    Box::new(
-                        body
-                        .concat2()
-                        .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
-                                             .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
-                                             .and_then(|body|
-
-                                                 // ToDo: this will move to swagger-rs and become a standard From conversion trait
-                                                 // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
-                                                 serde_xml_rs::from_str::<models::XmlObject>(body)
-                                                     .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
-
-                                             ))
-                        .map(move |body|
-                            XmlPostResponse::Success(body)
                         )
                     ) as Box<Future<Item=_, Error=_>>
                 },
