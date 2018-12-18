@@ -14,6 +14,8 @@ Name | Type | Description | Notes
 ## Enum: Map&lt;String, InnerEnum&gt;
 Name | Value
 ---- | -----
+UPPER | &quot;UPPER&quot;
+LOWER | &quot;lower&quot;
 
 
 
