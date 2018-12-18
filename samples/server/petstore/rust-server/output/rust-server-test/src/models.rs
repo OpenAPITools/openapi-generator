@@ -2,10 +2,9 @@
 extern crate chrono;
 extern crate uuid;
 
-
 use serde::ser::Serializer;
 
-use std::collections::{HashMap, BTreeMap};
+use std::collections::HashMap;
 use models;
 use swagger;
 

@@ -2,10 +2,17 @@
 extern crate chrono;
 extern crate uuid;
 
-{{#usesXml}}use serde_xml_rs;{{/usesXml}}
+{{#usesXml}}
+use serde_xml_rs;
+{{/usesXml}}
 use serde::ser::Serializer;
 
+{{#usesXml}}
 use std::collections::{HashMap, BTreeMap};
+{{/usesXml}}
+{{^usesXml}}
+use std::collections::HashMap;
+{{/usesXml}}
 use models;
 use swagger;
 
