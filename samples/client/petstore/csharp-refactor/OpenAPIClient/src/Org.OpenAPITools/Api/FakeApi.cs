@@ -795,13 +795,13 @@ namespace Org.OpenAPITools.Api
             String[] @accepts = new String[] {
                 "*/*"
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = body;
 
 
@@ -902,13 +902,13 @@ namespace Org.OpenAPITools.Api
             String[] @accepts = new String[] {
                 "*/*"
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = outerComposite;
 
 
@@ -1009,13 +1009,13 @@ namespace Org.OpenAPITools.Api
             String[] @accepts = new String[] {
                 "*/*"
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = body;
 
 
@@ -1116,13 +1116,13 @@ namespace Org.OpenAPITools.Api
             String[] @accepts = new String[] {
                 "*/*"
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = body;
 
 
@@ -1225,13 +1225,13 @@ namespace Org.OpenAPITools.Api
             // to determine the Accept header
             String[] @accepts = new String[] {
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = fileSchemaTestClass;
 
 
@@ -1341,13 +1341,13 @@ namespace Org.OpenAPITools.Api
             // to determine the Accept header
             String[] @accepts = new String[] {
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             if (query != null)
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query", query))
@@ -1479,13 +1479,13 @@ namespace Org.OpenAPITools.Api
             String[] @accepts = new String[] {
                 "application/json"
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = modelClient;
 
 
@@ -1627,13 +1627,13 @@ namespace Org.OpenAPITools.Api
             // to determine the Accept header
             String[] @accepts = new String[] {
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             if (integer != null)
             {
                 requestOptions.FormParameters.Add("integer", Org.OpenAPITools.Client.ClientUtils.ParameterToString(integer)); // form parameter
@@ -1906,13 +1906,13 @@ namespace Org.OpenAPITools.Api
             // to determine the Accept header
             String[] @accepts = new String[] {
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             if (enumQueryStringArray != null)
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "enum_query_string_array", enumQueryStringArray))
@@ -2145,13 +2145,13 @@ namespace Org.OpenAPITools.Api
             // to determine the Accept header
             String[] @accepts = new String[] {
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             if (requiredStringGroup != null)
             {
                 foreach (var kvp in Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "required_string_group", requiredStringGroup))
@@ -2357,13 +2357,13 @@ namespace Org.OpenAPITools.Api
             // to determine the Accept header
             String[] @accepts = new String[] {
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = requestBody;
 
 
@@ -2473,13 +2473,13 @@ namespace Org.OpenAPITools.Api
             // to determine the Accept header
             String[] @accepts = new String[] {
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             if (param != null)
             {
                 requestOptions.FormParameters.Add("param", Org.OpenAPITools.Client.ClientUtils.ParameterToString(param)); // form parameter
