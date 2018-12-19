@@ -30,8 +30,10 @@ local function new_store_api(host, basePath, schemes)
 		schemes_map[v] = v
 	end
 	local default_scheme = schemes_map.https or schemes_map.http
+	local port = http_util.split_authority(host, default_scheme)
 	return setmetatable({
 		host = host;
+		port = port;
 		basePath = basePath or "http://petstore.swagger.io/v2";
 		schemes = schemes_map;
 		default_scheme = default_scheme;
@@ -46,6 +48,7 @@ function store_api:delete_order(order_id)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/store/order/%s",
 			self.basePath, order_id);
 	})
@@ -76,6 +79,7 @@ function store_api:get_inventory()
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/store/inventory",
 			self.basePath);
 	})
@@ -125,6 +129,7 @@ function store_api:get_order_by_id(order_id)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/store/order/%s",
 			self.basePath, order_id);
 	})
@@ -170,6 +175,7 @@ function store_api:place_order(order)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/store/order",
 			self.basePath);
 	})
