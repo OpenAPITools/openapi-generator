@@ -629,15 +629,15 @@ public class CodegenConfigurator implements Serializable {
                 "\n - [debugOperations] prints operations passed to the template engine" +
                 "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-        System.setProperty("debugOpenAPI", "");
-        System.setProperty("debugModels", "");
-        System.setProperty("debugOperations", "");
-        System.setProperty("debugSupportingFiles", "");
+        GeneratorProperties.setProperty("debugOpenAPI", "");
+        GeneratorProperties.setProperty("debugModels", "");
+        GeneratorProperties.setProperty("debugOperations", "");
+        GeneratorProperties.setProperty("debugSupportingFiles", "");
     }
 
     private void setSystemProperties() {
         for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
-            System.setProperty(entry.getKey(), entry.getValue());
+            GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
         }
     }
 

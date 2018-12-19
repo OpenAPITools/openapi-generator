@@ -51,6 +51,7 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GeneratorProperties;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
@@ -499,28 +500,28 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Set generation options
             if (null != generateApis && generateApis) {
-                System.setProperty(CodegenConstants.APIS, "");
+                GeneratorProperties.setProperty(CodegenConstants.APIS, "");
             } else {
-                System.clearProperty(CodegenConstants.APIS);
+                GeneratorProperties.clearProperty(CodegenConstants.APIS);
             }
 
             if (null != generateModels && generateModels) {
-                System.setProperty(CodegenConstants.MODELS, modelsToGenerate);
+                GeneratorProperties.setProperty(CodegenConstants.MODELS, modelsToGenerate);
             } else {
-                System.clearProperty(CodegenConstants.MODELS);
+                GeneratorProperties.clearProperty(CodegenConstants.MODELS);
             }
 
             if (null != generateSupportingFiles && generateSupportingFiles) {
-                System.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
+                GeneratorProperties.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
             } else {
-                System.clearProperty(CodegenConstants.SUPPORTING_FILES);
+                GeneratorProperties.clearProperty(CodegenConstants.SUPPORTING_FILES);
             }
 
-            System.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
-            System.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
-            System.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
-            System.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
-            System.setProperty(CodegenConstants.WITH_XML, withXml.toString());
+            GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
+            GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
+            GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
+            GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
+            GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
             if (configOptions != null) {
                 // Retained for backwards-compataibility with configOptions -> instantiation-types
@@ -593,13 +594,13 @@ public class CodeGenMojo extends AbstractMojo {
             if (environmentVariables != null) {
 
                 for (String key : environmentVariables.keySet()) {
-                    originalEnvironmentVariables.put(key, System.getProperty(key));
+                    originalEnvironmentVariables.put(key, GeneratorProperties.getProperty(key));
                     String value = environmentVariables.get(key);
                     if (value == null) {
                         // don't put null values
                         value = "";
                     }
-                    System.setProperty(key, value);
+                    GeneratorProperties.setProperty(key, value);
                     configurator.addSystemProperty(key, value);
                 }
             }
@@ -680,9 +681,9 @@ public class CodeGenMojo extends AbstractMojo {
         // when running the plugin multiple consecutive times with different configurations.
         for (Map.Entry<String, String> entry : originalEnvironmentVariables.entrySet()) {
             if (entry.getValue() == null) {
-                System.clearProperty(entry.getKey());
+                GeneratorProperties.clearProperty(entry.getKey());
             } else {
-                System.setProperty(entry.getKey(), entry.getValue());
+                GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
             }
         }
     }
