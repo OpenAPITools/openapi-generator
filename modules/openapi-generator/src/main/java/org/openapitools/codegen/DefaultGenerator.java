@@ -37,6 +37,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -129,9 +130,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private void configureGeneratorProperties() {
         // allows generating only models by specifying a CSV of models to generate, or empty for all
         // NOTE: Boolean.TRUE is required below rather than `true` because of JVM boxing constraints and type inference.
-        generateApis = System.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
-        generateModels = System.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
-        generateSupportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
+        generateApis = GeneratorProperties.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
+        generateModels = GeneratorProperties.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
+        generateSupportingFiles = GeneratorProperties.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
 
         if (generateApis == null && generateModels == null && generateSupportingFiles == null) {
             // no specifics are set, generate everything
@@ -149,10 +150,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         // model/api tests and documentation options rely on parent generate options (api or model) and no other options.
         // They default to true in all scenarios and can only be marked false explicitly
-        generateModelTests = System.getProperty(CodegenConstants.MODEL_TESTS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.MODEL_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_TESTS, true);
-        generateModelDocumentation = System.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
-        generateApiTests = System.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
-        generateApiDocumentation = System.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(System.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
+        generateModelTests = GeneratorProperties.getProperty(CodegenConstants.MODEL_TESTS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.MODEL_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_TESTS, true);
+        generateModelDocumentation = GeneratorProperties.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
+        generateApiTests = GeneratorProperties.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
+        generateApiDocumentation = GeneratorProperties.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
 
 
         // Additional properties added for tests to exclude references in project related files
@@ -169,9 +170,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
         }
 
-        if (System.getProperty("debugOpenAPI") != null) {
+        if (GeneratorProperties.getProperty("debugOpenAPI") != null) {
             Json.prettyPrint(openAPI);
-        } else if (System.getProperty("debugSwagger") != null) {
+        } else if (GeneratorProperties.getProperty("debugSwagger") != null) {
             // This exists for backward compatibility
             // We fall to this block only if debugOpenAPI is null. No need to dump this twice.
             LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
@@ -330,7 +331,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             return;
         }
 
-        String modelNames = System.getProperty("models");
+        String modelNames = GeneratorProperties.getProperty("models");
         Set<String> modelsToGenerate = null;
         if (modelNames != null && !modelNames.isEmpty()) {
             modelsToGenerate = new HashSet<String>(Arrays.asList(modelNames.split(",")));
@@ -403,8 +404,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             } */
         });
 
-        Boolean skipFormModel = System.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
-                Boolean.valueOf(System.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
+        Boolean skipFormModel = GeneratorProperties.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
+                Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
                 getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, false);
 
         // process models only
@@ -500,7 +501,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 throw new RuntimeException("Could not generate model '" + modelName + "'", e);
             }
         }
-        if (System.getProperty("debugModels") != null) {
+        if (GeneratorProperties.getProperty("debugModels") != null) {
             LOGGER.info("############ Model info ############");
             Json.prettyPrint(allModels);
         }
@@ -513,7 +514,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         Set<String> apisToGenerate = null;
-        String apiNames = System.getProperty("apis");
+        String apiNames = GeneratorProperties.getProperty("apis");
         if (apiNames != null && !apiNames.isEmpty()) {
             apisToGenerate = new HashSet<String>(Arrays.asList(apiNames.split(",")));
         }
@@ -654,7 +655,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 throw new RuntimeException("Could not generate api file for '" + tag + "'", e);
             }
         }
-        if (System.getProperty("debugOperations") != null) {
+        if (GeneratorProperties.getProperty("debugOperations") != null) {
             LOGGER.info("############ Operation info ############");
             Json.prettyPrint(allOperations);
         }
@@ -666,7 +667,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             return;
         }
         Set<String> supportingFilesToGenerate = null;
-        String supportingFiles = System.getProperty(CodegenConstants.SUPPORTING_FILES);
+        String supportingFiles = GeneratorProperties.getProperty(CodegenConstants.SUPPORTING_FILES);
         if (supportingFiles != null && !supportingFiles.isEmpty()) {
             supportingFilesToGenerate = new HashSet<String>(Arrays.asList(supportingFiles.split(",")));
         }
@@ -859,7 +860,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         config.postProcessSupportingFileData(bundle);
 
-        if (System.getProperty("debugSupportingFiles") != null) {
+        if (GeneratorProperties.getProperty("debugSupportingFiles") != null) {
             LOGGER.info("############ Supporting file info ############");
             Json.prettyPrint(bundle);
         }
@@ -897,6 +898,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
         config.processOpenAPI(openAPI);
+        
+        // reset GeneratorProperties, so that the running thread can be reused for another generator-run
+        GeneratorProperties.reset();
+
         return files;
     }
 
@@ -946,7 +951,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             return;
         }
 
-        if (System.getProperty("debugOperations") != null) {
+        if (GeneratorProperties.getProperty("debugOperations") != null) {
             LOGGER.info("processOperation: resourcePath= " + resourcePath + "\t;" + httpMethod + " " + operation + "\n");
         }
 
