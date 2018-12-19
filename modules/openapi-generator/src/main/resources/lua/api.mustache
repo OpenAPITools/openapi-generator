@@ -24,8 +24,10 @@ local function new_{{classname}}(host, basePath, schemes)
 		schemes_map[v] = v
 	end
 	local default_scheme = schemes_map.https or schemes_map.http
+	local port = http_util.split_authority(host, default_scheme)
 	return setmetatable({
 		host = host;
+		port = port;
 		basePath = basePath or "{{{basePath}}}";
 		schemes = schemes_map;
 		default_scheme = default_scheme;
@@ -41,6 +43,7 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, 
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s{{{vendorExtensions.x-codegen-path}}}{{#queryParams}}{{#-first}}?{{/-first}}{{{baseName}}}=%s{{^-last}}&{{/-last}}{{/queryParams}}",
 			self.basePath{{#pathParams}}, {{paramName}}{{/pathParams}}{{#queryParams}}, http_util.encodeURIComponent({{paramName}}){{/queryParams}});
 	})
