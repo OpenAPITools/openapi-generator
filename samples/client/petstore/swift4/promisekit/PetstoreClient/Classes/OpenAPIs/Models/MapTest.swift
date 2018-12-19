@@ -12,8 +12,6 @@ import Foundation
 public struct MapTest: Codable {
 
     public enum MapOfEnumString: String, Codable {
-        case upper = "UPPER"
-        case lower = "lower"
     }
     public var mapMapOfString: [String:[String:String]]?
     public var mapOfEnumString: [String:String]?

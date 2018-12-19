@@ -11,6 +11,7 @@ import Alamofire
 
 
 open class UserAPI {
+    
     /**
      Create user
      
@@ -47,6 +48,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
      Creates list of users with given input array
      
@@ -82,6 +84,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
      Creates list of users with given input array
      
@@ -117,6 +120,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
      Delete user
      
@@ -156,6 +160,7 @@ open class UserAPI {
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
+    
     /**
      Get user by user name
      
@@ -190,6 +195,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
+    
     /**
      Logs user into the system
      
@@ -228,6 +234,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
+    
     /**
      Logs out current logged in user session
      
@@ -261,6 +268,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
+    
     /**
      Updated user
      

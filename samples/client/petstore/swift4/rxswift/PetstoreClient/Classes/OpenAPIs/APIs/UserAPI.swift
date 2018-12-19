@@ -12,22 +12,7 @@ import RxSwift
 
 
 open class UserAPI {
-    /**
-     Create user
-     
-     - parameter user: (body) Created user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func createUser(user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
+    
     /**
      Create user
      
@@ -36,13 +21,13 @@ open class UserAPI {
      */
     open class func createUser(user: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUser(user: user) { data, error in
+            createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -67,22 +52,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
-    /**
-     Creates list of users with given input array
-     
-     - parameter user: (body) List of user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func createUsersWithArrayInput(user: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
+    
     /**
      Creates list of users with given input array
      
@@ -91,13 +61,13 @@ open class UserAPI {
      */
     open class func createUsersWithArrayInput(user: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithArrayInput(user: user) { data, error in
+            createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -121,22 +91,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
-    /**
-     Creates list of users with given input array
-     
-     - parameter user: (body) List of user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func createUsersWithListInput(user: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
+    
     /**
      Creates list of users with given input array
      
@@ -145,13 +100,13 @@ open class UserAPI {
      */
     open class func createUsersWithListInput(user: [User]) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            createUsersWithListInput(user: user) { data, error in
+            createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -175,22 +130,7 @@ open class UserAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
-    /**
-     Delete user
-     
-     - parameter username: (path) The name that needs to be deleted 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func deleteUser(username: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
+    
     /**
      Delete user
      
@@ -199,13 +139,13 @@ open class UserAPI {
      */
     open class func deleteUser(username: String) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            deleteUser(username: username) { data, error in
+            deleteUserWithRequestBuilder(username: username).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -233,18 +173,7 @@ open class UserAPI {
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    /**
-     Get user by user name
-     
-     - parameter username: (path) The name that needs to be fetched. Use user1 for testing. 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void)) {
-        getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
+    
     /**
      Get user by user name
      
@@ -253,13 +182,15 @@ open class UserAPI {
      */
     open class func getUserByName(username: String) -> Observable<User> {
         return Observable.create { observer -> Disposable in
-            getUserByName(username: username) { data, error in
+            getUserByNameWithRequestBuilder(username: username).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -286,19 +217,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    /**
-     Logs user into the system
-     
-     - parameter username: (query) The user name for login 
-     - parameter password: (query) The password for login in clear text 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?,_ error: Error?) -> Void)) {
-        loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
+    
     /**
      Logs user into the system
      
@@ -308,13 +227,15 @@ open class UserAPI {
      */
     open class func loginUser(username: String, password: String) -> Observable<String> {
         return Observable.create { observer -> Disposable in
-            loginUser(username: username, password: password) { data, error in
+            loginUserWithRequestBuilder(username: username, password: password).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -344,21 +265,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    /**
-     Logs out current logged in user session
-     
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func logoutUser(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        logoutUserWithRequestBuilder().execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
+    
     /**
      Logs out current logged in user session
      
@@ -366,13 +273,13 @@ open class UserAPI {
      */
     open class func logoutUser() -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            logoutUser() { data, error in
+            logoutUserWithRequestBuilder().execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -395,23 +302,7 @@ open class UserAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    /**
-     Updated user
-     
-     - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func updateUser(username: String, user: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
+    
     /**
      Updated user
      
@@ -421,13 +312,13 @@ open class UserAPI {
      */
     open class func updateUser(username: String, user: User) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updateUser(username: username, user: user) { data, error in
+            updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
                 } else {
-                    observer.on(.next(data!))
+                    observer.onNext(())
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }

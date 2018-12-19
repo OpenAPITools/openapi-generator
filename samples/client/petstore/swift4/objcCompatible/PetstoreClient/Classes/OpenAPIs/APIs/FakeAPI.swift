@@ -11,6 +11,7 @@ import Alamofire
 
 
 open class FakeAPI {
+    
     /**
 
      - parameter body: (body) Input boolean as post body (optional)
@@ -41,6 +42,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
 
      - parameter outerComposite: (body) Input composite as post body (optional)
@@ -71,6 +73,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
 
      - parameter body: (body) Input number as post body (optional)
@@ -101,6 +104,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
 
      - parameter body: (body) Input string as post body (optional)
@@ -131,6 +135,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
 
      - parameter fileSchemaTestClass: (body)  
@@ -165,6 +170,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
 
      - parameter query: (query)  
@@ -203,6 +209,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
      To test \"client\" model
      
@@ -235,6 +242,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "PATCH", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
      Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      
@@ -385,6 +393,7 @@ open class FakeAPI {
         case xyz = "(xyz)"
     }
 
+    
     /**
      To test enum parameters
      
@@ -452,6 +461,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
     }
 
+    
     /**
      Fake endpoint to test group parameters (optional)
      
@@ -509,6 +519,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
     }
 
+    
     /**
      test inline additionalProperties
      
@@ -544,6 +555,7 @@ open class FakeAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
+    
     /**
      test json serialization of form data
      
