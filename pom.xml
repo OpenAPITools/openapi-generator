@@ -235,6 +235,7 @@
                     <failOnWarnings>true</failOnWarnings>
                     <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
                     <additionalparam>-Xdoclint:none</additionalparam>
+                    <additionalOptions>-Xdoclint:none</additionalOptions>
                 </configuration>
                 <executions>
                     <execution>
@@ -1055,7 +1056,6 @@
                 <module>samples/client/petstore/typescript-angular-v4.3/npm</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!--<module>samples/client/petstore/bash</module>-->
-                <module>samples/openapi3/client/petstore/ruby</module>
                 <module>samples/server/petstore/rust-server</module>
             </modules>
         </profile>
@@ -1220,6 +1220,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/openapi3/client/petstore/ruby</module>
                 <module>samples/client/petstore/elm</module>
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
