@@ -72,7 +72,7 @@ public class OpenAPIGenerator {
                 System.exit(1);
             }
         } catch (ParseArgumentsUnexpectedException e) {
-            System.err.printf(Locale.ROOT,"[error] %s%n%nSee 'openapi-generator-cli help' for usage.%n", e.getMessage());
+            System.err.printf(Locale.ROOT,"[error] %s%n%nSee 'openapi-generator help' for usage.%n", e.getMessage());
             System.exit(1);
         } catch (ParseOptionMissingException | ParseOptionMissingValueException e) {
             System.err.printf(Locale.ROOT,"[error] %s%n", e.getMessage());
