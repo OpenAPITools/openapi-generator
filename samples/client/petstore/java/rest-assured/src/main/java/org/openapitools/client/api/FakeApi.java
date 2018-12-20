@@ -303,11 +303,11 @@ public class FakeApi {
         }
 
          /**
-         * @param outerComposite (OuterComposite) Input composite as post body (optional)
+         * @param body (OuterComposite) Input composite as post body (optional)
          * @return operation
          */
-        public FakeOuterCompositeSerializeOper body(OuterComposite outerComposite) {
-            reqSpec.setBody(outerComposite);
+        public FakeOuterCompositeSerializeOper body(OuterComposite body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -505,11 +505,11 @@ public class FakeApi {
         }
 
          /**
-         * @param fileSchemaTestClass (FileSchemaTestClass)  (required)
+         * @param body (FileSchemaTestClass)  (required)
          * @return operation
          */
-        public TestBodyWithFileSchemaOper body(FileSchemaTestClass fileSchemaTestClass) {
-            reqSpec.setBody(fileSchemaTestClass);
+        public TestBodyWithFileSchemaOper body(FileSchemaTestClass body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -566,11 +566,11 @@ public class FakeApi {
         }
 
          /**
-         * @param user (User)  (required)
+         * @param body (User)  (required)
          * @return operation
          */
-        public TestBodyWithQueryParamsOper body(User user) {
-            reqSpec.setBody(user);
+        public TestBodyWithQueryParamsOper body(User body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -648,11 +648,11 @@ public class FakeApi {
         }
 
          /**
-         * @param client (Client) client model (required)
+         * @param body (Client) client model (required)
          * @return operation
          */
-        public TestClientModelOper body(Client client) {
-            reqSpec.setBody(client);
+        public TestClientModelOper body(Client body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -1193,11 +1193,11 @@ public class FakeApi {
         }
 
          /**
-         * @param requestBody (Map&lt;String, String&gt;) request body (required)
+         * @param param (Map&lt;String, String&gt;) request body (required)
          * @return operation
          */
-        public TestInlineAdditionalPropertiesOper body(Map<String, String> requestBody) {
-            reqSpec.setBody(requestBody);
+        public TestInlineAdditionalPropertiesOper body(Map<String, String> param) {
+            reqSpec.setBody(param);
             return this;
         }
 

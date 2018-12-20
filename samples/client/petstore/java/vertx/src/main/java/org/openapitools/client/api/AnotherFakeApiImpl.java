@@ -40,15 +40,15 @@ public class AnotherFakeApiImpl implements AnotherFakeApi {
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
-     * @param client client model (required)
+     * @param body client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void call123testSpecialTags(Client client, Handler<AsyncResult<Client>> resultHandler) {
-        Object localVarBody = client;
+    public void call123testSpecialTags(Client body, Handler<AsyncResult<Client>> resultHandler) {
+        Object localVarBody = body;
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling call123testSpecialTags"));
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling call123testSpecialTags"));
             return;
         }
         

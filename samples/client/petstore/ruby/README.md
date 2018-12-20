@@ -55,11 +55,11 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new
-client = Petstore::Client.new # Client | client model
+body = Petstore::Client.new # Client | client model
 
 begin
   #To test special tags
-  result = api_instance.call_123_test_special_tags(client)
+  result = api_instance.call_123_test_special_tags(body)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling AnotherFakeApi->call_123_test_special_tags: #{e}"

@@ -40,9 +40,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, nested_response: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("dummy_put({:?}) - X-Span-ID: {:?}", inline_object, context.get().0.clone());
+        println!("dummy_put({:?}) - X-Span-ID: {:?}", nested_response, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

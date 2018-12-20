@@ -193,7 +193,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_inline_object: Option<models::InlineObject> = if !body.is_empty() {
+                                let param_nested_response: Option<models::InlineObject> = if !body.is_empty() {
 
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
 
@@ -201,7 +201,7 @@ where
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_inline_object) => param_inline_object,
+                                        Ok(param_nested_response) => param_nested_response,
 
                                         Err(_) => None,
                                     }
@@ -211,7 +211,7 @@ where
                                 };
 
 
-                                Box::new(api_impl.dummy_put(param_inline_object, &context)
+                                Box::new(api_impl.dummy_put(param_nested_response, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -244,7 +244,7 @@ where
 
 
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter InlineObject: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter nested_response: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>

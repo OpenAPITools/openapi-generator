@@ -34,6 +34,6 @@ public interface StoreApiDelegate {
     /**
      * @see StoreApi#placeOrder
      */
-    ResponseEntity<Order> placeOrder(Order order);
+    ResponseEntity<Order> placeOrder(Order body);
 
 }

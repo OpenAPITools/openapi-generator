@@ -31,7 +31,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#addPet
      */
-    default Mono<ResponseEntity<Void>> addPet(Mono<Pet> pet,
+    default Mono<ResponseEntity<Void>> addPet(Mono<Pet> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -117,7 +117,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#updatePet
      */
-    default Mono<ResponseEntity<Void>> updatePet(Mono<Pet> pet,
+    default Mono<ResponseEntity<Void>> updatePet(Mono<Pet> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

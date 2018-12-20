@@ -306,7 +306,7 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn dummy_put(&self, param_inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, param_nested_response: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -321,7 +321,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-        let body = param_inline_object.map(|ref body| {
+        let body = param_nested_response.map(|ref body| {
 
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
