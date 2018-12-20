@@ -229,13 +229,13 @@ namespace Org.OpenAPITools.Api
             String[] @accepts = new String[] {
                 "application/json"
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             requestOptions.Data = modelClient;
 
             // authentication (api_key_query) required

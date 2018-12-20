@@ -243,13 +243,13 @@ namespace {{packageName}}.{{apiPackage}}
                 "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
                 {{/produces}}
             };
-            
-            foreach (var contentType in @contentTypes)
-                requestOptions.HeaderParameters.Add("Content-Type", contentType);
-            
-            foreach (var accept in @accepts)
-                requestOptions.HeaderParameters.Add("Accept", accept);
-            
+
+            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
             {{#pathParams}}
             if ({{paramName}} != null)
                 requestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter

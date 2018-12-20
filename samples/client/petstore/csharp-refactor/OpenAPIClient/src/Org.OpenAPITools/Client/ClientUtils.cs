@@ -192,6 +192,61 @@ namespace Org.OpenAPITools.Client
         public static dynamic ConvertType(dynamic fromObject, Type toObject)
         {
             return Convert.ChangeType(fromObject, toObject);
-}
+        }
+
+        /// <summary>
+        /// Select the Content-Type header's value from the given content-type array:
+        /// if JSON type exists in the given array, use it;
+        /// otherwise use the first one defined in 'consumes'
+        /// </summary>
+        /// <param name="contentTypes">The Content-Type array to select from.</param>
+        /// <returns>The Content-Type header to use.</returns>
+        public static String SelectHeaderContentType(String[] contentTypes)
+        {
+            if (contentTypes.Length == 0)
+                return "application/json";
+
+            foreach (var contentType in contentTypes)
+            {
+                if (IsJsonMime(contentType.ToLower()))
+                    return contentType;
+            }
+
+            return contentTypes[0]; // use the first content type specified in 'consumes'
+        }
+
+        /// <summary>
+        /// Select the Accept header's value from the given accepts array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use all of them (joining into a string)
+        /// </summary>
+        /// <param name="accepts">The accepts array to select from.</param>
+        /// <returns>The Accept header to use.</returns>
+        public static String SelectHeaderAccept(String[] accepts)
+        {
+            if (accepts.Length == 0)
+                return null;
+
+            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                return "application/json";
+
+            return String.Join(",", accepts);
+        }
+
+        /// <summary>
+        /// Check if the given MIME is a JSON MIME.
+        /// JSON MIME examples:
+        ///    application/json
+        ///    application/json; charset=UTF8
+        ///    APPLICATION/JSON
+        ///    application/vnd.company+json
+        /// </summary>
+        /// <param name="mime">MIME</param>
+        /// <returns>Returns True if MIME type is json.</returns>
+        public static bool IsJsonMime(String mime)
+        {
+            var jsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+            return mime != null && (jsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json"));
+        }
     }
 }
