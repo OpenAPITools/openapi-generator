@@ -208,7 +208,7 @@ namespace Org.OpenAPITools.Client
 
             foreach (var contentType in contentTypes)
             {
-                if (IsJsonMime(contentType.ToLower()))
+                if (IsJsonMime(contentType))
                     return contentType;
             }
 
@@ -234,6 +234,11 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
+        /// </summary>
+        public static readonly Regex JsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
+
+        /// <summary>
         /// Check if the given MIME is a JSON MIME.
         /// JSON MIME examples:
         ///    application/json
@@ -245,8 +250,9 @@ namespace Org.OpenAPITools.Client
         /// <returns>Returns True if MIME type is json.</returns>
         public static bool IsJsonMime(String mime)
         {
-            var jsonRegex = new Regex("(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$");
-            return mime != null && (jsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json"));
+            if (String.IsNullOrWhiteSpace(mime)) return false;
+
+            return JsonRegex.IsMatch(mime) || mime.Equals("application/json-patch+json");
         }
     }
 }
