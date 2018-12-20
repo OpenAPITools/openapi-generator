@@ -4076,7 +4076,8 @@ public class DefaultCodegen implements CodegenConfig {
             enumVars.add(enumVar);
         }
         // if "x-enum-varnames" defined, update varnames
-        updateEnumVarsWithExtensions(enumVars, var.getVendorExtensions());
+        Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
+        updateEnumVarsWithExtensions(enumVars, extensions);
         allowableValues.put("enumVars", enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE

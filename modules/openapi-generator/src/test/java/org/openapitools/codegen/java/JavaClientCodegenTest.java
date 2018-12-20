@@ -233,6 +233,22 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void updateCodegenPropertyEnumWithCustomNames() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty array = codegenPropertyWithArrayOfIntegerValues();
+        array.getItems().setVendorExtensions(Collections.singletonMap("x-enum-varnames", Collections.singletonList("ONE")));
+
+        codegen.updateCodegenPropertyEnum(array);
+
+        List<Map<String, String>> enumVars = (List<Map<String, String>>) array.getItems().getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Map<String, String> testedEnumVar = enumVars.get(0);
+        Assert.assertNotNull(testedEnumVar);
+        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"ONE");
+        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+    }
+
+    @Test
     public void testGeneratePing() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(JavaClientCodegen.JAVA8_MODE, true);
