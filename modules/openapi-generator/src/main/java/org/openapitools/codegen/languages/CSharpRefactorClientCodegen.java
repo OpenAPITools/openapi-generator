@@ -49,7 +49,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
-    private static final String NET45 = "v4.5";
+    private static final String NET45 = "v4.5.2";
     private static final String NET40 = "v4.0";
     private static final String NET35 = "v3.5";
     // TODO: v5.0 is PCL, not netstandard version 1.3, and not a specific .NET Framework. This needs to be updated,
@@ -127,7 +127,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         frameworks = new ImmutableMap.Builder<String, String>()
                 .put(NET35, ".NET Framework 3.5 compatible")
                 .put(NET40, ".NET Framework 4.0 compatible")
-                .put(NET45, ".NET Framework 4.5+ compatible")
+                .put(NET45, ".NET Framework 4.5.2+ compatible")
                 .put(NETSTANDARD, ".NET Standard 1.3 compatible")
                 .put(UWP, "Universal Windows Platform (IMPORTANT: this will be decommissioned and replaced by v5.0)")
                 .build();
@@ -295,8 +295,10 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
             setTargetFrameworkNuget("net40");
             setSupportsAsync(Boolean.FALSE);
-        } else {
+        } else { // 4.5+
             additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
+            // some libs need 452 isntead of 45 in the config
+            additionalProperties.put("isNet452", true);
             setTargetFrameworkNuget("net45");
             setSupportsAsync(Boolean.TRUE);
         }

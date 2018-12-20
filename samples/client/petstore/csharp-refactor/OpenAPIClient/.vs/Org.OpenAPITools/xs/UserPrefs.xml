@@ -1,5 +1,13 @@
 ﻿<Properties StartupConfiguration="{19F1DEBC-DE5E-4517-8062-F000CD499087}|Unit Tests">
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/Org.OpenAPITools.Test/Api/PetApiTests.cs">
+    <Files>
+      <File FileName="src/Org.OpenAPITools.Test/Api/PetApiTests.cs" Line="302" Column="15" />
+      <File FileName="src/Org.OpenAPITools/Client/ApiClient.cs" Line="239" Column="82" />
+      <File FileName="src/Org.OpenAPITools.Test/packages.config" Line="1" Column="1" />
+      <File FileName="src/Org.OpenAPITools/Api/PetApi.cs" Line="1583" Column="1" />
+      <File FileName="src/Org.OpenAPITools/Client/ClientUtils.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

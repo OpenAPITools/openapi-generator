@@ -19,9 +19,14 @@ using System.IO;
 using System.Web;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RestSharp;
+using RestSharp.Deserializers;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
 
 namespace Org.OpenAPITools.Client
@@ -36,8 +41,15 @@ namespace Org.OpenAPITools.Client
         private string _contentType = "application/json";
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
-            // Swagger generated types generally hide default constructors.
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                    {
+                        OverrideSpecifiedNames = true
+                    }
+                }
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -55,21 +67,14 @@ namespace Org.OpenAPITools.Client
 
         public string Serialize(object obj)
         {
-            using (var writer = new StringWriter())
-            using (var jsonWriter = new JsonTextWriter(writer)
-            {
-                Formatting = Formatting.None, 
-                DateFormatString = _configuration.DateTimeFormat
-            })
-            {
-                _serializer.Serialize(jsonWriter, obj);
-                return writer.ToString();
-            }
+            String result = JsonConvert.SerializeObject(obj, _serializerSettings);
+            return result;
         }
 
         public T Deserialize<T>(IRestResponse response)
         {
-            return (T) Deserialize(response, typeof(T));
+            var result = (T) Deserialize(response, typeof(T));
+            return result;
         }
 
         /// <summary>
@@ -244,7 +249,11 @@ namespace Org.OpenAPITools.Client
             if (options == null) throw new ArgumentNullException("options");
             if (configuration == null) throw new ArgumentNullException("configuration");
             
-            RestRequest request = new RestRequest(path, Method(method));
+            RestRequest request = new RestRequest(Method(method))
+            {
+                Resource = path,
+                JsonSerializer = new CustomJsonCodec(configuration)
+            };
 
             if (options.PathParameters != null)
             {
@@ -369,9 +378,19 @@ namespace Org.OpenAPITools.Client
         {
             RestClient client = new RestClient(_baseUrl);
 
-            var codec = new CustomJsonCodec(configuration);
-            req.JsonSerializer = codec;
-            client.AddHandler(codec.ContentType, codec);
+            client.ClearHandlers();
+            var existingDeserializer = req.JsonSerializer as IDeserializer;
+            if (existingDeserializer != null)
+            {
+                client.AddHandler(existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+            }
+            else
+            {
+                var codec = new CustomJsonCodec(configuration);
+                client.AddHandler(codec, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+            }
+
+            client.AddHandler(new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
 
             client.Timeout = configuration.Timeout;
 
@@ -379,7 +398,7 @@ namespace Org.OpenAPITools.Client
             {
                 client.UserAgent = configuration.UserAgent;
             }
-            
+
             InterceptRequest(req);
             var response = await client.ExecuteTaskAsync<T>(req);
             InterceptResponse(req, response);
