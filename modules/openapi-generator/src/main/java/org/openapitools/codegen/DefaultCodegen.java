@@ -342,6 +342,30 @@ public class DefaultCodegen implements CodegenConfig {
                 updateCodegenPropertyEnum(var);
             }
 
+            for (CodegenProperty var : cm.allVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
+            for (CodegenProperty var : cm.requiredVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
+            for (CodegenProperty var : cm.optionalVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
+            for (CodegenProperty var : cm.parentVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
+            for (CodegenProperty var : cm.readOnlyVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
+            for (CodegenProperty var : cm.readWriteVars) {
+                updateCodegenPropertyEnum(var);
+            }
+
         }
         return objs;
     }
@@ -2302,6 +2326,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (property.defaultValue != null) {
                 property.defaultValue = property.defaultValue.replace(", " + property.items.baseType, ", " + toEnumName(property.items));
             }
+
+            updateCodegenPropertyEnum(property);
         }
     }
 
