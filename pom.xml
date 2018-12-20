@@ -234,8 +234,6 @@
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>true</failOnWarnings>
                     <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
-                    <additionalparam>-Xdoclint:none</additionalparam>
-                    <additionalOptions>-Xdoclint:none</additionalOptions>
                 </configuration>
                 <executions>
                     <execution>
