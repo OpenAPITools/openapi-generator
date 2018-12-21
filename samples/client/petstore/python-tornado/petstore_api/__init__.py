@@ -30,7 +30,6 @@ from petstore_api.configuration import Configuration
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.animal import Animal
-from petstore_api.models.animal_farm import AnimalFarm
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
@@ -61,6 +60,5 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
-from petstore_api.models.string_boolean_map import StringBooleanMap
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
