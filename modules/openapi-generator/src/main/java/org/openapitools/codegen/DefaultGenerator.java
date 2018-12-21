@@ -432,7 +432,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // check to see if it's a "map" model
                 if (ModelUtils.isMapSchema(schema)) {
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to map
                         LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
                         continue;
@@ -441,7 +441,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 // check to see if it's an "array" model
                 if (ModelUtils.isArraySchema(schema)) {
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to array
                         LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
                         continue;
