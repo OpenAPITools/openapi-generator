@@ -12,7 +12,6 @@ import PromiseKit
 
 
 open class PetAPI {
-    
     /**
      Add a new pet to the store
      
@@ -52,7 +51,6 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
-    
     /**
      Deletes a pet
      
@@ -110,7 +108,6 @@ open class PetAPI {
         case sold = "sold"
     }
 
-    
     /**
      Finds Pets by status
      
@@ -156,7 +153,6 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Finds Pets by tags
      
@@ -202,7 +198,6 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Find pet by ID
      
@@ -248,7 +243,6 @@ open class PetAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Update an existing pet
      
@@ -288,7 +282,6 @@ open class PetAPI {
         return requestBuilder.init(method: "PUT", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
-    
     /**
      Updates a pet in the store with form data
      
@@ -341,7 +334,6 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      uploads an image
      
@@ -396,7 +388,6 @@ open class PetAPI {
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      uploads an image (required)
      

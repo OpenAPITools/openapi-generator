@@ -12,7 +12,6 @@ import PromiseKit
 
 
 open class StoreAPI {
-    
     /**
      Delete purchase order by ID
      
@@ -53,7 +52,6 @@ open class StoreAPI {
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Returns pet inventories by status
      
@@ -94,7 +92,6 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Find purchase order by ID
      
@@ -137,7 +134,6 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Place an order for a pet
      

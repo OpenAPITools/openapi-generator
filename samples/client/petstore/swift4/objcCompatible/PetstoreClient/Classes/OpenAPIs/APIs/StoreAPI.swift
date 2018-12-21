@@ -11,7 +11,6 @@ import Alamofire
 
 
 open class StoreAPI {
-    
     /**
      Delete purchase order by ID
      
@@ -27,7 +26,6 @@ open class StoreAPI {
             }
         }
     }
-
 
     /**
      Delete purchase order by ID
@@ -51,7 +49,6 @@ open class StoreAPI {
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Returns pet inventories by status
      
@@ -62,7 +59,6 @@ open class StoreAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Returns pet inventories by status
@@ -85,7 +81,6 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Find purchase order by ID
      
@@ -97,7 +92,6 @@ open class StoreAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Find purchase order by ID
@@ -121,7 +115,6 @@ open class StoreAPI {
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
-    
     /**
      Place an order for a pet
      
@@ -133,7 +126,6 @@ open class StoreAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Place an order for a pet

@@ -33,7 +33,8 @@ open class {{classname}} {
 
     {{/isEnum}}
     {{/allParams}}
-    {{^usePromiseKit}}{{^useRxSwift}}
+{{^usePromiseKit}}
+{{^useRxSwift}}
     /**
      {{#summary}}
      {{{summary}}}
@@ -55,7 +56,8 @@ open class {{classname}} {
         {{/returnType}}
         }
     }
-{{/useRxSwift}}{{/usePromiseKit}}
+{{/useRxSwift}}
+{{/usePromiseKit}}
 {{#usePromiseKit}}
     /**
      {{#summary}}

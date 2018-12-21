@@ -11,7 +11,6 @@ import Alamofire
 
 
 open class AnotherFakeAPI {
-    
     /**
      To test special tags
      
@@ -23,7 +22,6 @@ open class AnotherFakeAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      To test special tags

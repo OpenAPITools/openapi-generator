@@ -11,7 +11,6 @@ import Alamofire
 
 
 open class Swift4TestAPI {
-    
     /**
      Get all of the models
      
@@ -23,7 +22,6 @@ open class Swift4TestAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Get all of the models

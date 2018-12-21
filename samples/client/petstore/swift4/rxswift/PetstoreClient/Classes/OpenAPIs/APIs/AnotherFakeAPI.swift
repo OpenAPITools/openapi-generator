@@ -12,7 +12,6 @@ import RxSwift
 
 
 open class AnotherFakeAPI {
-    
     /**
      To test special tags
      

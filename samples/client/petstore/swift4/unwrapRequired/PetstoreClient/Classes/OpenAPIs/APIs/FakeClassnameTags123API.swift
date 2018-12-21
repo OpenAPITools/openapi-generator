@@ -11,7 +11,6 @@ import Alamofire
 
 
 open class FakeClassnameTags123API {
-    
     /**
      To test class name in snake case
      
@@ -23,7 +22,6 @@ open class FakeClassnameTags123API {
             completion(response?.body, error)
         }
     }
-
 
     /**
      To test class name in snake case
