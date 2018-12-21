@@ -21,7 +21,7 @@ impl {{{classname}}}Client {
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isListContainer}}Vec<{{/isListContainer}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#isListContainer}}>{{/isListContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
 {{/operation}}
 {{/operations}}
 }
@@ -30,16 +30,23 @@ pub trait {{{classname}}} {
 impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isListContainer}}Vec<{{/isListContainer}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#isListContainer}}>{{/isListContainer}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
+        {{#hasFormParams}}
+        let form = [
+            {{#formParams}}
+            ("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string()),
+            {{/formParams}}
+        ];
+        {{/hasFormParams}}
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-{{#queryParams}}
+            {{#queryParams}}
             query.append_pair("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string());
-{{/queryParams}}
-{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+            {{/queryParams}}
+            {{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
             if let Some(ref apikey) = configuration.api_key {
                 let key = apikey.key.clone();
                 let val = match apikey.prefix {
@@ -48,7 +55,7 @@ impl {{{classname}}} for {{{classname}}}Client {
                 };
                 query.append_pair("{{{keyParamName}}}".to_owned(), val);
             }
-{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
+            {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
             query.finish()
         };
         let uri_str = format!("{}{{{path}}}?{}", configuration.base_path, query_string{{#pathParams}}, {{{baseName}}}={{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{/pathParams}});
@@ -95,6 +102,10 @@ impl {{{classname}}} for {{{classname}}}Client {
         req_builder = req_builder.json(&{{{paramName}}});
         {{/bodyParams}}
         {{/hasBodyParam}}
+
+        {{#hasFormParams}}
+        req_builder = req_builder.form(&form);
+        {{/hasFormParams}}
 
         // send request
         let req = req_builder.build()?;
