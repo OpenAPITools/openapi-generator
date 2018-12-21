@@ -30,8 +30,8 @@ impl PetApiClient {
 pub trait PetApi {
     fn add_pet(&self, pet: ::models::Pet) -> Result<(), Error>;
     fn delete_pet(&self, pet_id: i64, api_key: &str) -> Result<(), Error>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<::models::Pet>, Error>;
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<::models::Pet>, Error>;
+    fn find_pets_by_status(&self, status: Vec<Vec<String>>) -> Result<Vec<::models::Pet>, Error>;
+    fn find_pets_by_tags(&self, tags: Vec<Vec<String>>) -> Result<Vec<::models::Pet>, Error>;
     fn get_pet_by_id(&self, pet_id: i64) -> Result<::models::Pet, Error>;
     fn update_pet(&self, pet: ::models::Pet) -> Result<(), Error>;
     fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Result<(), Error>;
@@ -46,7 +46,7 @@ impl PetApi for PetApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet?{}", configuration.base_path, query_string);
@@ -65,6 +65,7 @@ impl PetApi for PetApiClient {
 
         req_builder = req_builder.json(&pet);
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -78,7 +79,7 @@ impl PetApi for PetApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet/{petId}?{}", configuration.base_path, query_string, petId=pet_id);
@@ -97,6 +98,7 @@ impl PetApi for PetApiClient {
         };
 
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -104,14 +106,14 @@ impl PetApi for PetApiClient {
         Ok(())
     }
 
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<::models::Pet>, Error> {
+    fn find_pets_by_status(&self, status: Vec<Vec<String>>) -> Result<Vec<::models::Pet>, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
             query.append_pair("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet/findByStatus?{}", configuration.base_path, query_string);
@@ -129,20 +131,21 @@ impl PetApi for PetApiClient {
         };
 
 
+
         // send request
         let req = req_builder.build()?;
 
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<::models::Pet>, Error> {
+    fn find_pets_by_tags(&self, tags: Vec<Vec<String>>) -> Result<Vec<::models::Pet>, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
             query.append_pair("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet/findByTags?{}", configuration.base_path, query_string);
@@ -160,6 +163,7 @@ impl PetApi for PetApiClient {
         };
 
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -172,7 +176,7 @@ impl PetApi for PetApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet/{petId}?{}", configuration.base_path, query_string, petId=pet_id);
@@ -196,6 +200,7 @@ impl PetApi for PetApiClient {
         
 
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -208,7 +213,7 @@ impl PetApi for PetApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet?{}", configuration.base_path, query_string);
@@ -227,6 +232,7 @@ impl PetApi for PetApiClient {
 
         req_builder = req_builder.json(&pet);
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -238,9 +244,13 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
+        let form = [
+            ("name", &name.to_string()),
+            ("status", &status.to_string()),
+        ];
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet/{petId}?{}", configuration.base_path, query_string, petId=pet_id);
@@ -258,6 +268,8 @@ impl PetApi for PetApiClient {
         };
 
 
+        req_builder = req_builder.form(&form);
+
         // send request
         let req = req_builder.build()?;
 
@@ -269,9 +281,13 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
+        let form = [
+            ("additionalMetadata", &additional_metadata.to_string()),
+            ("file", &file.to_string()),
+        ];
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
+            
             query.finish()
         };
         let uri_str = format!("{}/pet/{petId}/uploadImage?{}", configuration.base_path, query_string, petId=pet_id);
@@ -288,6 +304,8 @@ impl PetApi for PetApiClient {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
 
+
+        req_builder = req_builder.form(&form);
 
         // send request
         let req = req_builder.build()?;
