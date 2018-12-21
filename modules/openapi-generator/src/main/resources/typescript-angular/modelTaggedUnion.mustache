@@ -8,7 +8,6 @@ export interface {{classname}} { {{>modelGenericAdditionalProperties}}
     {{#description}}
     /**
     * {{{description}}}
-    * OI
     */
     {{/description}}
     {{name}}{{^required}}?{{/required}}: {{#discriminatorValue}}'{{discriminatorValue}}'{{/discriminatorValue}}{{^discriminatorValue}}{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{/discriminatorValue}}{{#isNullable}} | null{{/isNullable}};
