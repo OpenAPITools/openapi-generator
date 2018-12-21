@@ -65,6 +65,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ELM_VERSION = "elmVersion";
     private static final String ELM_PREFIX_CUSTOM_TYPE_VARIANTS = "elmPrefixCustomTypeVariants";
     private static final String ELM_ENABLE_CUSTOM_BASE_PATHS = "elmEnableCustomBasePaths";
+    private static final String ELM_ENABLE_CUSTOM_HEADERS = "elmEnableCustomHeaders";
     private static final String ELM_ENABLE_HTTP_REQUEST_TRACKERS = "elmEnableHttpRequestTrackers";
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
@@ -173,6 +174,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(elmPrefixCustomTypeVariants);
         final CliOption elmEnableCustomBasePaths = CliOption.newBoolean(ELM_ENABLE_CUSTOM_BASE_PATHS, "Enable setting the base path for each request");
         cliOptions.add(elmEnableCustomBasePaths);
+        final CliOption elmEnableCustomHeaders = CliOption.newBoolean(ELM_ENABLE_CUSTOM_HEADERS, "Enable setting custom headers for each request");
+        cliOptions.add(elmEnableCustomHeaders);
         final CliOption elmEnableHttpRequestTrackers = CliOption.newBoolean(ELM_ENABLE_HTTP_REQUEST_TRACKERS, "Enable adding a tracker to each http request");
         cliOptions.add(elmEnableHttpRequestTrackers);
     }
@@ -197,6 +200,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(ELM_ENABLE_CUSTOM_BASE_PATHS)) {
             final boolean enable = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_ENABLE_CUSTOM_BASE_PATHS).toString()));
             additionalProperties.put("enableCustomBasePaths", enable);
+        }
+
+        if (additionalProperties.containsKey(ELM_ENABLE_CUSTOM_HEADERS)) {
+            final boolean enable = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_ENABLE_CUSTOM_HEADERS).toString()));
+            additionalProperties.put("enableCustomHeaders", enable);
         }
 
         if (additionalProperties.containsKey(ELM_ENABLE_HTTP_REQUEST_TRACKERS)) {

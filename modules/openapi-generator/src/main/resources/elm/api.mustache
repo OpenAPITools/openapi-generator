@@ -23,6 +23,7 @@ basePath =
 {{operationId}} :
     { onSend : Result Http.Error {{^responses}}(){{/responses}}{{#responses}}{{#-first}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/-first}}{{/responses}} -> msg
 {{#enableCustomBasePaths}}    , basePath : String{{/enableCustomBasePaths}}
+{{#enableCustomHeaders}}    , headers : List Http.Header{{/enableCustomHeaders}}
 {{#enableHttpRequestTrackers}}    , tracker : Maybe String{{/enableHttpRequestTrackers}}
 {{#bodyParam}}    , body : {{^required}}Maybe {{/required}}{{dataType}}{{/bodyParam}}
 {{#pathParams}}    , {{paramName}} : {{#isListContainer}}List {{/isListContainer}}{{dataType}}{{/pathParams}}
@@ -32,7 +33,7 @@ basePath =
 {{operationId}} params =
     Http.request
         { method = "{{httpMethod}}"
-        , headers = []
+        , headers = {{#enableCustomHeaders}}params.headers{{/enableCustomHeaders}}{{^enableCustomHeaders}}[]{{/enableCustomHeaders}}
         , url = Url.crossOrigin {{#enableCustomBasePaths}}params.{{/enableCustomBasePaths}}basePath
             [{{{path}}}]
             (List.filterMap identity [{{{vendorExtensions.query}}}])
