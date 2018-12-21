@@ -39,11 +39,11 @@ public class PetApiController implements PetApi {
         return delegate.deletePet(petId, apiKey);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold", defaultValue = "new ArrayList<String>()") @Valid @RequestParam(value = "status", required = true, defaultValue="new ArrayList<String>()") List<String> status) {
+    public ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
         return delegate.findPetsByStatus(status);
     }
 
-    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true, defaultValue = "new ArrayList<String>()") @Valid @RequestParam(value = "tags", required = true, defaultValue="new ArrayList<String>()") List<String> tags) {
+    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
         return delegate.findPetsByTags(tags);
     }
 
