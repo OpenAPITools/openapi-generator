@@ -903,7 +903,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
         config.processOpenAPI(openAPI);
-
+        
         // reset GeneratorProperties, so that the running thread can be reused for another generator-run
         GeneratorProperties.reset();
 
