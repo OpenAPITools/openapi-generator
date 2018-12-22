@@ -73,10 +73,13 @@ newtype AdditionalMetadata = AdditionalMetadata { unAdditionalMetadata :: Text }
 newtype ApiKey = ApiKey { unApiKey :: Text } deriving (P.Eq, P.Show)
 
 -- ** Body
-newtype Body = Body { unBody :: Double } deriving (P.Eq, P.Show, A.ToJSON)
+newtype Body = Body { unBody :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** BodyBool
 newtype BodyBool = BodyBool { unBodyBool :: Bool } deriving (P.Eq, P.Show, A.ToJSON)
+
+-- ** BodyDouble
+newtype BodyDouble = BodyDouble { unBodyDouble :: Double } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** BodyText
 newtype BodyText = BodyText { unBodyText :: Text } deriving (P.Eq, P.Show, A.ToJSON)
@@ -162,6 +165,9 @@ newtype ParamFloat = ParamFloat { unParamFloat :: Float } deriving (P.Eq, P.Show
 -- ** ParamInteger
 newtype ParamInteger = ParamInteger { unParamInteger :: Int } deriving (P.Eq, P.Show)
 
+-- ** ParamMapMapStringText
+newtype ParamMapMapStringText = ParamMapMapStringText { unParamMapMapStringText :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
+
 -- ** ParamString
 newtype ParamString = ParamString { unParamString :: Text } deriving (P.Eq, P.Show)
 
@@ -176,9 +182,6 @@ newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
 
 -- ** Query
 newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
-
--- ** RequestBody
-newtype RequestBody = RequestBody { unRequestBody :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** RequiredBooleanGroup
 newtype RequiredBooleanGroup = RequiredBooleanGroup { unRequiredBooleanGroup :: Bool } deriving (P.Eq, P.Show)
@@ -203,9 +206,6 @@ newtype StringGroup = StringGroup { unStringGroup :: Int } deriving (P.Eq, P.Sho
 
 -- ** Tags
 newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)
-
--- ** User2
-newtype User2 = User2 { unUser2 :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)

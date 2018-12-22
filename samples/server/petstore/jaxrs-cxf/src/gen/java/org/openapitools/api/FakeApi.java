@@ -51,7 +51,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    public OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite);
+    public OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
 
     @POST
     @Path("/fake/outer/number")
@@ -75,7 +75,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass);
+    public void testBodyWithFileSchema(@Valid FileSchemaTestClass body);
 
     @PUT
     @Path("/fake/body-with-query-params")
@@ -83,7 +83,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testBodyWithQueryParams(@QueryParam("query") @NotNull  String query, @Valid User user);
+    public void testBodyWithQueryParams(@QueryParam("query") @NotNull  String query, @Valid User body);
 
     /**
      * To test \&quot;client\&quot; model
@@ -98,7 +98,7 @@ public interface FakeApi  {
     @ApiOperation(value = "To test \"client\" model", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client testClientModel(@Valid Client client);
+    public Client testClientModel(@Valid Client body);
 
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -153,7 +153,7 @@ public interface FakeApi  {
     @ApiOperation(value = "test inline additionalProperties", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void testInlineAdditionalProperties(@Valid Map<String, String> requestBody);
+    public void testInlineAdditionalProperties(@Valid Map<String, String> param);
 
     /**
      * test json serialization of form data

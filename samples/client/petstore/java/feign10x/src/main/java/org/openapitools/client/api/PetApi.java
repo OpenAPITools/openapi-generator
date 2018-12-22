@@ -20,14 +20,14 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    */
   @RequestLine("POST /pet")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void addPet(Pet pet);
+  void addPet(Pet body);
 
   /**
    * Deletes a pet
@@ -145,14 +145,14 @@ public interface PetApi extends ApiClient.Api {
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    */
   @RequestLine("PUT /pet")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void updatePet(Pet pet);
+  void updatePet(Pet body);
 
   /**
    * Updates a pet in the store with form data

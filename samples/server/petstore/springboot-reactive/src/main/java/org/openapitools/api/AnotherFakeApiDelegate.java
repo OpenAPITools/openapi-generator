@@ -29,7 +29,7 @@ public interface AnotherFakeApiDelegate {
     /**
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> client,
+    default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

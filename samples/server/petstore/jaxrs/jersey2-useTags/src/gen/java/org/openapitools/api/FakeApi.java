@@ -81,10 +81,10 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" ) @Valid OuterComposite outerComposite
+    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" ) @Valid OuterComposite body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.fakeOuterCompositeSerialize(outerComposite,securityContext);
+        return delegate.fakeOuterCompositeSerialize(body,securityContext);
     }
     @POST
     @Path("/outer/number")
@@ -117,10 +117,10 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
-    public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) @Valid FileSchemaTestClass fileSchemaTestClass
+    public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) @Valid FileSchemaTestClass body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testBodyWithFileSchema(fileSchemaTestClass,securityContext);
+        return delegate.testBodyWithFileSchema(body,securityContext);
     }
     @PUT
     @Path("/body-with-query-params")
@@ -130,10 +130,10 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
     public Response testBodyWithQueryParams(@ApiParam(value = "",required=true) @QueryParam("query") String query
-,@ApiParam(value = "" ,required=true) @Valid User user
+,@ApiParam(value = "" ,required=true) @Valid User body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testBodyWithQueryParams(query,user,securityContext);
+        return delegate.testBodyWithQueryParams(query,body,securityContext);
     }
     @PATCH
     
@@ -142,10 +142,10 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClientModel(@ApiParam(value = "client model" ,required=true) @Valid Client client
+    public Response testClientModel(@ApiParam(value = "client model" ,required=true) @Valid Client body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testClientModel(client,securityContext);
+        return delegate.testClientModel(body,securityContext);
     }
     @POST
     
@@ -223,10 +223,10 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) @Valid Map<String, String> requestBody
+    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) @Valid Map<String, String> param
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testInlineAdditionalProperties(requestBody,securityContext);
+        return delegate.testInlineAdditionalProperties(param,securityContext);
     }
     @GET
     @Path("/jsonFormData")

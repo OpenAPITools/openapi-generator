@@ -99,8 +99,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() {
-        OuterComposite outerComposite = null;
-        //OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
+        OuterComposite body = null;
+        //OuterComposite response = api.fakeOuterCompositeSerialize(body);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -141,8 +141,8 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithFileSchemaTest() {
-        FileSchemaTestClass fileSchemaTestClass = null;
-        //api.testBodyWithFileSchema(fileSchemaTestClass);
+        FileSchemaTestClass body = null;
+        //api.testBodyWithFileSchema(body);
         
         // TODO: test validations
         
@@ -156,8 +156,8 @@ public class FakeApiTest {
     @Test
     public void testBodyWithQueryParamsTest() {
         String query = null;
-        User user = null;
-        //api.testBodyWithQueryParams(query, user);
+        User body = null;
+        //api.testBodyWithQueryParams(query, body);
         
         // TODO: test validations
         
@@ -174,8 +174,8 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() {
-        Client client = null;
-        //Client response = api.testClientModel(client);
+        Client body = null;
+        //Client response = api.testClientModel(body);
         //assertNotNull(response);
         // TODO: test validations
         
@@ -269,8 +269,8 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() {
-        Map<String, String> requestBody = null;
-        //api.testInlineAdditionalProperties(requestBody);
+        Map<String, String> param = null;
+        //api.testInlineAdditionalProperties(param);
         
         // TODO: test validations
         

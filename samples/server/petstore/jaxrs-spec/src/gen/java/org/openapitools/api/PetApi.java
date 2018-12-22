@@ -30,7 +30,7 @@ public class PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class)
     })
-    public Response addPet(@Valid Pet pet) {
+    public Response addPet(@Valid Pet body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -111,7 +111,7 @@ public class PetApi {
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class)
     })
-    public Response updatePet(@Valid Pet pet) {
+    public Response updatePet(@Valid Pet body) {
         return Response.ok().entity("magic!").build();
     }
 

@@ -40,7 +40,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    ResponseEntity<Void> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
 
 
     @ApiOperation(value = "Deletes a pet", nickname = "deletePet", notes = "", authorizations = {
@@ -112,7 +112,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    ResponseEntity<Void> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
 
 
     @ApiOperation(value = "Updates a pet in the store with form data", nickname = "updatePetWithForm", notes = "", authorizations = {

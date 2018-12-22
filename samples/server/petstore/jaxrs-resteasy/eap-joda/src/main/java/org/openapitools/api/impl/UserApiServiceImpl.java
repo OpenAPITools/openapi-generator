@@ -16,15 +16,15 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public class UserApiServiceImpl implements UserApi {
-      public Response createUser(User user,SecurityContext securityContext) {
+      public Response createUser(User body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
-      public Response createUsersWithArrayInput(List<User> user,SecurityContext securityContext) {
+      public Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
-      public Response createUsersWithListInput(List<User> user,SecurityContext securityContext) {
+      public Response createUsersWithListInput(List<User> body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
@@ -44,7 +44,7 @@ public class UserApiServiceImpl implements UserApi {
       // do some magic!
       return Response.ok().build();
   }
-      public Response updateUser(String username,User user,SecurityContext securityContext) {
+      public Response updateUser(String username,User body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

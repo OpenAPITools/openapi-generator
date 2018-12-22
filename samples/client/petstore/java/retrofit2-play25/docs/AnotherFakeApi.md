@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="call123testSpecialTags"></a>
 # **call123testSpecialTags**
-> Client call123testSpecialTags(client)
+> Client call123testSpecialTags(body)
 
 To test special tags
 
@@ -23,9 +23,9 @@ To test special tags and operation ID starting with number
 
 
 AnotherFakeApi apiInstance = new AnotherFakeApi();
-Client client = new Client(); // Client | client model
+Client body = new Client(); // Client | client model
 try {
-    Client result = apiInstance.call123testSpecialTags(client);
+    Client result = apiInstance.call123testSpecialTags(body);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model |
+ **body** | [**Client**](Client.md)| client model |
 
 ### Return type
 

@@ -34,7 +34,7 @@ public class StoreApiServiceImpl implements StoreApiService {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response placeOrder(Order order,SecurityContext securityContext)
+      public Response placeOrder(Order body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

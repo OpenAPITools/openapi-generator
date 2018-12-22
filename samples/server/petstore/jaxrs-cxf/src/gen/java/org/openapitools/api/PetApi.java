@@ -41,7 +41,7 @@ public interface PetApi  {
     @ApiOperation(value = "Add a new pet to the store", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    public void addPet(@Valid Pet pet);
+    public void addPet(@Valid Pet body);
 
     /**
      * Deletes a pet
@@ -112,7 +112,7 @@ public interface PetApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    public void updatePet(@Valid Pet pet);
+    public void updatePet(@Valid Pet body);
 
     /**
      * Updates a pet in the store with form data

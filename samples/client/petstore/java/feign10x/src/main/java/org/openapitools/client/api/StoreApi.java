@@ -52,7 +52,7 @@ public interface StoreApi extends ApiClient.Api {
   /**
    * Place an order for a pet
    * 
-   * @param order order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (required)
    * @return Order
    */
   @RequestLine("POST /store/order")
@@ -60,5 +60,5 @@ public interface StoreApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: application/json",
   })
-  Order placeOrder(Order order);
+  Order placeOrder(Order body);
 }
