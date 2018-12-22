@@ -101,6 +101,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         typeMapping.put("object", "Any");
         typeMapping.put("binary", "Array<kotlin.Byte>");
 
+        typeMapping.put("date", "java.time.LocalDate");
+        typeMapping.put("date-time", "java.time.OffsetDateTime");
+        typeMapping.put("Date", "java.time.LocalDate");
+        typeMapping.put("DateTime", "java.time.OffsetDateTime");
+
+        importMapping.put("Date", "java.time.LocalDate");
+        importMapping.put("DateTime", "java.time.OffsetDateTime");
+
         languageSpecificPrimitives.addAll(Arrays.asList(
                 "Any",
                 "Byte",
@@ -242,14 +250,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-
-        typeMapping.put("date", "java.time.LocalDate");
-        typeMapping.put("date-time", "java.time.OffsetDateTime");
-        typeMapping.put("Date", "java.time.LocalDate");
-        typeMapping.put("DateTime", "java.time.OffsetDateTime");
-
-        importMapping.put("Date", "java.time.LocalDate");
-        importMapping.put("DateTime", "java.time.OffsetDateTime");
 
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
