@@ -42,7 +42,7 @@ impl StoreApi for StoreApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            
+
             query.finish()
         };
         let uri_str = format!("{}/store/order/{orderId}?{}", configuration.base_path, query_string, orderId=order_id);
@@ -52,7 +52,6 @@ impl StoreApi for StoreApiClient {
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
 
 
 
@@ -70,7 +69,7 @@ impl StoreApi for StoreApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            
+
             query.finish()
         };
         let uri_str = format!("{}/store/inventory?{}", configuration.base_path, query_string);
@@ -94,7 +93,6 @@ impl StoreApi for StoreApiClient {
         
 
 
-
         // send request
         let req = req_builder.build()?;
 
@@ -107,7 +105,7 @@ impl StoreApi for StoreApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            
+
             query.finish()
         };
         let uri_str = format!("{}/store/order/{orderId}?{}", configuration.base_path, query_string, orderId=order_id);
@@ -117,7 +115,6 @@ impl StoreApi for StoreApiClient {
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
 
 
 
@@ -134,7 +131,7 @@ impl StoreApi for StoreApiClient {
 
         let query_string = {
             let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            
+
             query.finish()
         };
         let uri_str = format!("{}/store/order?{}", configuration.base_path, query_string);
@@ -148,7 +145,6 @@ impl StoreApi for StoreApiClient {
 
 
         req_builder = req_builder.json(&order);
-
 
         // send request
         let req = req_builder.build()?;
