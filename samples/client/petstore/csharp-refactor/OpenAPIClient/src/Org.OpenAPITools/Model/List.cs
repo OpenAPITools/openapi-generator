@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="_123list">_123list.</param>
         public List(string _123list = default(string))
         {
-            this._123List = _123list;
+                        this._123List = _123list;
         }
         
         /// <summary>

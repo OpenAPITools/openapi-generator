@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfMapProperty">mapOfMapProperty.</param>
         public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>))
         {
-            this.MapProperty = mapProperty;
-            this.MapOfMapProperty = mapOfMapProperty;
+                        this.MapProperty = mapProperty;
+                        this.MapOfMapProperty = mapOfMapProperty;
         }
         
         /// <summary>

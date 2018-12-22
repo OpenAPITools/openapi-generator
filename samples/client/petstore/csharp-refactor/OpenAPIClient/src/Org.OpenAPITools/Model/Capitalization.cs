@@ -42,12 +42,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="aTTNAME">Name of the pet .</param>
         public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
         {
-            this.SmallCamel = smallCamel;
-            this.CapitalCamel = capitalCamel;
-            this.SmallSnake = smallSnake;
-            this.CapitalSnake = capitalSnake;
-            this.SCAETHFlowPoints = sCAETHFlowPoints;
-            this.ATT_NAME = aTTNAME;
+                        this.SmallCamel = smallCamel;
+                        this.CapitalCamel = capitalCamel;
+                        this.SmallSnake = smallSnake;
+                        this.CapitalSnake = capitalSnake;
+                        this.SCAETHFlowPoints = sCAETHFlowPoints;
+                        this.ATT_NAME = aTTNAME;
         }
         
         /// <summary>

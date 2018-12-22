@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayNumber">arrayNumber.</param>
         public ArrayOfNumberOnly(List<decimal?> arrayNumber = default(List<decimal?>))
         {
-            this.ArrayNumber = arrayNumber;
+                        this.ArrayNumber = arrayNumber;
         }
         
         /// <summary>

@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="sourceURI">Test capitalization.</param>
         public File(string sourceURI = default(string))
         {
-            this.SourceURI = sourceURI;
+                        this.SourceURI = sourceURI;
         }
         
         /// <summary>

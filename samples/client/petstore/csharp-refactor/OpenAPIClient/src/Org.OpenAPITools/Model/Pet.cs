@@ -98,10 +98,10 @@ namespace Org.OpenAPITools.Model
             {
                 this.PhotoUrls = photoUrls;
             }
-            this.Id = id;
-            this.Category = category;
-            this.Tags = tags;
-            this.Status = status;
+                        this.Id = id;
+                        this.Category = category;
+                        this.Tags = tags;
+                        this.Status = status;
         }
         
         /// <summary>
@@ -133,7 +133,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name="tags", EmitDefaultValue=false)]
         public List<Tag> Tags { get; set; }
-
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -210,8 +209,7 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Status == input.Status ||
-                    (this.Status != null &&
-                    this.Status.Equals(input.Status))
+                    this.Status.Equals(input.Status)
                 );
         }
 
@@ -234,8 +232,7 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.PhotoUrls.GetHashCode();
                 if (this.Tags != null)
                     hashCode = hashCode * 59 + this.Tags.GetHashCode();
-                if (this.Status != null)
-                    hashCode = hashCode * 59 + this.Status.GetHashCode();
+                hashCode = hashCode * 59 + this.Status.GetHashCode();
                 return hashCode;
             }
         }

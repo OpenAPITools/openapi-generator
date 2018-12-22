@@ -445,6 +445,9 @@ namespace Org.OpenAPITools.Api
         #endregion Asynchronous Operations
     }
 
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// </summary>
     public interface IPetApi : IPetApiSync, IPetApiAsync
     {
         

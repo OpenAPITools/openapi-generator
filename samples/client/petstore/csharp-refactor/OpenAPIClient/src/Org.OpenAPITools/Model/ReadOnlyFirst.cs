@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="baz">baz.</param>
         public ReadOnlyFirst(string baz = default(string))
         {
-            this.Baz = baz;
+                        this.Baz = baz;
         }
         
         /// <summary>

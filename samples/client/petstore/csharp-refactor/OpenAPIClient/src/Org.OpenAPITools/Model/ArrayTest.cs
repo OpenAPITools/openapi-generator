@@ -39,9 +39,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
         public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long?>> arrayArrayOfInteger = default(List<List<long?>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
-            this.ArrayOfString = arrayOfString;
-            this.ArrayArrayOfInteger = arrayArrayOfInteger;
-            this.ArrayArrayOfModel = arrayArrayOfModel;
+                        this.ArrayOfString = arrayOfString;
+                        this.ArrayArrayOfInteger = arrayArrayOfInteger;
+                        this.ArrayArrayOfModel = arrayArrayOfModel;
         }
         
         /// <summary>

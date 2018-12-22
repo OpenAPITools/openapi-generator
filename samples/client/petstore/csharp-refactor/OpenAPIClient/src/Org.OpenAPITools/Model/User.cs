@@ -44,14 +44,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="userStatus">User Status.</param>
         public User(long? id = default(long?), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int? userStatus = default(int?))
         {
-            this.Id = id;
-            this.Username = username;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.Email = email;
-            this.Password = password;
-            this.Phone = phone;
-            this.UserStatus = userStatus;
+                        this.Id = id;
+                        this.Username = username;
+                        this.FirstName = firstName;
+                        this.LastName = lastName;
+                        this.Email = email;
+                        this.Password = password;
+                        this.Phone = phone;
+                        this.UserStatus = userStatus;
         }
         
         /// <summary>

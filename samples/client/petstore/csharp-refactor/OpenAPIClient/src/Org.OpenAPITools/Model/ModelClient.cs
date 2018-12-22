@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="_client">_client.</param>
         public ModelClient(string _client = default(string))
         {
-            this.__Client = _client;
+                        this.__Client = _client;
         }
         
         /// <summary>

@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="_class">_class.</param>
         public ClassModel(string _class = default(string))
         {
-            this.Class = _class;
+                        this.Class = _class;
         }
         
         /// <summary>

@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="files">files.</param>
         public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
         {
-            this.File = file;
-            this.Files = files;
+                        this.File = file;
+                        this.Files = files;
         }
         
         /// <summary>

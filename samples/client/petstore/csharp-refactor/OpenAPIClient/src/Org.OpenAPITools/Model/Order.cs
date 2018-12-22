@@ -75,11 +75,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="complete">complete (default to false).</param>
         public Order(long? id = default(long?), long? petId = default(long?), int? quantity = default(int?), DateTime? shipDate = default(DateTime?), StatusEnum? status = default(StatusEnum?), bool? complete = false)
         {
-            this.Id = id;
-            this.PetId = petId;
-            this.Quantity = quantity;
-            this.ShipDate = shipDate;
-            this.Status = status;
+                        this.Id = id;
+                        this.PetId = petId;
+                        this.Quantity = quantity;
+                        this.ShipDate = shipDate;
+                        this.Status = status;
             // use default value if no "complete" provided
             if (complete == null)
             {
@@ -114,7 +114,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
         public DateTime? ShipDate { get; set; }
-
 
         /// <summary>
         /// Gets or Sets Complete
@@ -192,8 +191,7 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Status == input.Status ||
-                    (this.Status != null &&
-                    this.Status.Equals(input.Status))
+                    this.Status.Equals(input.Status)
                 ) && 
                 (
                     this.Complete == input.Complete ||
@@ -219,8 +217,7 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Quantity.GetHashCode();
                 if (this.ShipDate != null)
                     hashCode = hashCode * 59 + this.ShipDate.GetHashCode();
-                if (this.Status != null)
-                    hashCode = hashCode * 59 + this.Status.GetHashCode();
+                hashCode = hashCode * 59 + this.Status.GetHashCode();
                 if (this.Complete != null)
                     hashCode = hashCode * 59 + this.Complete.GetHashCode();
                 return hashCode;

@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Name = name;
             }
-            this.Id = id;
+                        this.Id = id;
         }
         
         /// <summary>

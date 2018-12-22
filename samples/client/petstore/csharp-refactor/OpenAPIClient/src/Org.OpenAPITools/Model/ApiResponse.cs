@@ -39,9 +39,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="message">message.</param>
         public ApiResponse(int? code = default(int?), string type = default(string), string message = default(string))
         {
-            this.Code = code;
-            this.Type = type;
-            this.Message = message;
+                        this.Code = code;
+                        this.Type = type;
+                        this.Message = message;
         }
         
         /// <summary>

@@ -362,6 +362,12 @@ namespace Org.OpenAPITools.Client
         #endregion Methods
 
         #region Static Members
+        /// <summary>
+        /// Merge configurations.
+        /// </summary>
+        /// <param name="first">First configuration.</param>
+        /// <param name="second">Second configuration.</param>
+        /// <return>Merged configuration.</return>
         public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first, IReadableConfiguration second)
         {
             if (second == null) return first ?? GlobalConfiguration.Instance;

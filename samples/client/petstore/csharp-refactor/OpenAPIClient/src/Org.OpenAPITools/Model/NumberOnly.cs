@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="justNumber">justNumber.</param>
         public NumberOnly(decimal? justNumber = default(decimal?))
         {
-            this.JustNumber = justNumber;
+                        this.JustNumber = justNumber;
         }
         
         /// <summary>
