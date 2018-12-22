@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color (default to &quot;red&quot;).</param>
         public Cat(bool? declawed = default(bool?), string className = default(string), string color = "red") : base(className, color)
         {
-                        this.Declawed = declawed;
+            this.Declawed = declawed;
         }
         
         /// <summary>

@@ -90,15 +90,15 @@ namespace Org.OpenAPITools.Model
             {
                 this.Password = password;
             }
-                        this.Integer = integer;
-                        this.Int32 = int32;
-                        this.Int64 = int64;
-                        this.Float = _float;
-                        this.Double = _double;
-                        this.String = _string;
-                        this.Binary = binary;
-                        this.DateTime = dateTime;
-                        this.Uuid = uuid;
+            this.Integer = integer;
+            this.Int32 = int32;
+            this.Int64 = int64;
+            this.Float = _float;
+            this.Double = _double;
+            this.String = _string;
+            this.Binary = binary;
+            this.DateTime = dateTime;
+            this.Uuid = uuid;
         }
         
         /// <summary>

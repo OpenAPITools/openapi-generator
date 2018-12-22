@@ -75,11 +75,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="complete">complete (default to false).</param>
         public Order(long? id = default(long?), long? petId = default(long?), int? quantity = default(int?), DateTime? shipDate = default(DateTime?), StatusEnum? status = default(StatusEnum?), bool? complete = false)
         {
-                        this.Id = id;
-                        this.PetId = petId;
-                        this.Quantity = quantity;
-                        this.ShipDate = shipDate;
-                        this.Status = status;
+            this.Id = id;
+            this.PetId = petId;
+            this.Quantity = quantity;
+            this.ShipDate = shipDate;
+            this.Status = status;
             // use default value if no "complete" provided
             if (complete == null)
             {

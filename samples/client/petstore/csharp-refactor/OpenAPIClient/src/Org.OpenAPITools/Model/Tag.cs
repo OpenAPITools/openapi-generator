@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="name">name.</param>
         public Tag(long? id = default(long?), string name = default(string))
         {
-                        this.Id = id;
-                        this.Name = name;
+            this.Id = id;
+            this.Name = name;
         }
         
         /// <summary>

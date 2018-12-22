@@ -81,7 +81,8 @@
             {{^isInherited}}
             {{^isReadOnly}}
             {{^required}}
-            {{#defaultValue}}// use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
+            {{#defaultValue}}
+            // use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
             {
                 this.{{name}} = {{{defaultValue}}};

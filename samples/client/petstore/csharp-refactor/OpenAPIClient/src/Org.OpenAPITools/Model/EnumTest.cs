@@ -156,10 +156,10 @@ namespace Org.OpenAPITools.Model
         public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum outerEnum = default(OuterEnum))
         {
             this.EnumStringRequired = enumStringRequired;
-                        this.EnumString = enumString;
-                        this.EnumInteger = enumInteger;
-                        this.EnumNumber = enumNumber;
-                        this.OuterEnum = outerEnum;
+            this.EnumString = enumString;
+            this.EnumInteger = enumInteger;
+            this.EnumNumber = enumNumber;
+            this.OuterEnum = outerEnum;
         }
         
         /// <summary>

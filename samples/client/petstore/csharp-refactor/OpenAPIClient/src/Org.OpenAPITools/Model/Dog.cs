@@ -44,7 +44,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color (default to &quot;red&quot;).</param>
         public Dog(string breed = default(string), string className = default(string), string color = "red") : base(className, color)
         {
-                        this.Breed = breed;
+            this.Breed = breed;
         }
         
         /// <summary>

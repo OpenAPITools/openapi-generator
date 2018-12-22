@@ -98,10 +98,10 @@ namespace Org.OpenAPITools.Model
             {
                 this.PhotoUrls = photoUrls;
             }
-                        this.Id = id;
-                        this.Category = category;
-                        this.Tags = tags;
-                        this.Status = status;
+            this.Id = id;
+            this.Category = category;
+            this.Tags = tags;
+            this.Status = status;
         }
         
         /// <summary>

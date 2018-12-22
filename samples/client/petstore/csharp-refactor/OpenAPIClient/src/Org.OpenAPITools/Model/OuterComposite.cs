@@ -39,9 +39,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="myBoolean">myBoolean.</param>
         public OuterComposite(decimal? myNumber = default(decimal?), string myString = default(string), bool? myBoolean = default(bool?))
         {
-                        this.MyNumber = myNumber;
-                        this.MyString = myString;
-                        this.MyBoolean = myBoolean;
+            this.MyNumber = myNumber;
+            this.MyString = myString;
+            this.MyBoolean = myBoolean;
         }
         
         /// <summary>

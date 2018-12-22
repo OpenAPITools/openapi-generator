@@ -66,10 +66,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="indirectMap">indirectMap.</param>
         public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool?> directMap = default(Dictionary<string, bool?>), Dictionary<string, bool?> indirectMap = default(Dictionary<string, bool?>))
         {
-                        this.MapMapOfString = mapMapOfString;
-                        this.MapOfEnumString = mapOfEnumString;
-                        this.DirectMap = directMap;
-                        this.IndirectMap = indirectMap;
+            this.MapMapOfString = mapMapOfString;
+            this.MapOfEnumString = mapOfEnumString;
+            this.DirectMap = directMap;
+            this.IndirectMap = indirectMap;
         }
         
         /// <summary>

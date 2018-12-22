@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="_class">_class.</param>
         public Model200Response(int? name = default(int?), string _class = default(string))
         {
-                        this.Name = name;
-                        this.Class = _class;
+            this.Name = name;
+            this.Class = _class;
         }
         
         /// <summary>
