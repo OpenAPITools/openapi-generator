@@ -303,7 +303,7 @@ class FakeApi(basePath: kotlin.String = "http://petstore.swagger.io:80/v2") : Ap
     fun testEnumParameters(enumHeaderStringArray: kotlin.Array<kotlin.String>, enumHeaderString: kotlin.String, enumQueryStringArray: kotlin.Array<kotlin.String>, enumQueryString: kotlin.String, enumQueryInteger: kotlin.Int, enumQueryDouble: kotlin.Double, enumFormStringArray: kotlin.Array<kotlin.String>, enumFormString: kotlin.String) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("enum_form_string_array" to "$enumFormStringArray", "enum_form_string" to "$enumFormString")
         val localVariableQuery: MultiValueMap = mapOf("enum_query_string_array" to toMultiValue(enumQueryStringArray.toList(), "multi"), "enum_query_string" to listOf("$enumQueryString"), "enum_query_integer" to listOf("$enumQueryInteger"), "enum_query_double" to listOf("$enumQueryDouble"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("Content-Type" to "multipart/form-data", "enum_header_string_array" to enumHeaderStringArray.joinToString(separator = collectionDelimiter("csv"), "enum_header_string" to enumHeaderString)
+        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("Content-Type" to "multipart/form-data", "enum_header_string_array" to enumHeaderStringArray.joinToString(separator = collectionDelimiter("csv")), "enum_header_string" to enumHeaderString)
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/fake",
