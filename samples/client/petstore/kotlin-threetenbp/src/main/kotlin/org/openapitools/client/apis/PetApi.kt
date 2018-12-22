@@ -22,11 +22,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     /**
     * Add a new pet to the store
     * 
-    * @param pet Pet object that needs to be added to the store 
+    * @param body Pet object that needs to be added to the store 
     * @return void
     */
-    fun addPet(pet: Pet) : Unit {
-        val localVariableBody: kotlin.Any? = pet
+    fun addPet(body: Pet) : Unit {
+        val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -181,11 +181,11 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     /**
     * Update an existing pet
     * 
-    * @param pet Pet object that needs to be added to the store 
+    * @param body Pet object that needs to be added to the store 
     * @return void
     */
-    fun updatePet(pet: Pet) : Unit {
-        val localVariableBody: kotlin.Any? = pet
+    fun updatePet(body: Pet) : Unit {
+        val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(

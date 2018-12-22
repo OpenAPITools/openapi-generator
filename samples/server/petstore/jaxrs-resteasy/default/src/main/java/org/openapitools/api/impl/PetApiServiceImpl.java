@@ -21,7 +21,7 @@ import javax.ws.rs.core.SecurityContext;
 @RequestScoped
 
 public class PetApiServiceImpl implements PetApiService {
-      public Response addPet(Pet pet,SecurityContext securityContext)
+      public Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -46,7 +46,7 @@ public class PetApiServiceImpl implements PetApiService {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response updatePet(Pet pet,SecurityContext securityContext)
+      public Response updatePet(Pet body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

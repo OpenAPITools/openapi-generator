@@ -63,7 +63,7 @@ public class StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class)
     })
-    public Response placeOrder(@Valid Order order) {
+    public Response placeOrder(@Valid Order body) {
         return Response.ok().entity("magic!").build();
     }
 }

@@ -61,7 +61,7 @@ No authorization required
 
 <a name="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
-> OuterComposite fakeOuterCompositeSerialize(outerComposite)
+> OuterComposite fakeOuterCompositeSerialize(body)
 
 
 
@@ -85,7 +85,7 @@ api.fakeOuterCompositeSerialize().execute(r -> r.prettyPeek());
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -184,7 +184,7 @@ No authorization required
 
 <a name="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema(fileSchemaTestClass)
+> testBodyWithFileSchema(body)
 
 
 
@@ -202,14 +202,14 @@ FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
 
 api.testBodyWithFileSchema()
-    .body(fileSchemaTestClass).execute(r -> r.prettyPeek());
+    .body(body).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
 
 ### Return type
 
@@ -226,7 +226,7 @@ No authorization required
 
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, user)
+> testBodyWithQueryParams(query, body)
 
 
 
@@ -243,7 +243,7 @@ FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
 
 api.testBodyWithQueryParams()
     .queryQuery(query)
-    .body(user).execute(r -> r.prettyPeek());
+    .body(body).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
@@ -251,7 +251,7 @@ api.testBodyWithQueryParams()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  |
- **user** | [**User**](User.md)|  |
+ **body** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -268,7 +268,7 @@ No authorization required
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(client)
+> Client testClientModel(body)
 
 To test \&quot;client\&quot; model
 
@@ -286,14 +286,14 @@ FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
 
 api.testClientModel()
-    .body(client).execute(r -> r.prettyPeek());
+    .body(body).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model |
+ **body** | [**Client**](Client.md)| client model |
 
 ### Return type
 
@@ -465,7 +465,7 @@ No authorization required
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(requestBody)
+> testInlineAdditionalProperties(param)
 
 test inline additionalProperties
 
@@ -481,14 +481,14 @@ FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
 
 api.testInlineAdditionalProperties()
-    .body(requestBody).execute(r -> r.prettyPeek());
+    .body(param).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body |
+ **param** | [**Map&lt;String, String&gt;**](String.md)| request body |
 
 ### Return type
 

@@ -78,18 +78,18 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $user = $this->deserialize($user, 'OpenAPI\Server\Model\User', $inputFormat);
+        $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
-        $response = $this->validate($user, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -102,7 +102,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUser($user, $responseCode, $responseHeaders);
+            $result = $handler->createUser($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -160,12 +160,12 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $user = $this->deserialize($user, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
 
         // Validate the input values
         $asserts = [];
@@ -173,7 +173,7 @@ class UserController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("OpenAPI\Server\Model\User")
         ]);
-        $response = $this->validate($user, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -186,7 +186,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithArrayInput($user, $responseCode, $responseHeaders);
+            $result = $handler->createUsersWithArrayInput($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -244,12 +244,12 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $user = $this->deserialize($user, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
 
         // Validate the input values
         $asserts = [];
@@ -257,7 +257,7 @@ class UserController extends Controller
         $asserts[] = new Assert\All([
             new Assert\Type("OpenAPI\Server\Model\User")
         ]);
-        $response = $this->validate($user, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -270,7 +270,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithListInput($user, $responseCode, $responseHeaders);
+            $result = $handler->createUsersWithListInput($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -634,13 +634,13 @@ class UserController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
         $username = $this->deserialize($username, 'string', 'string');
-        $user = $this->deserialize($user, 'OpenAPI\Server\Model\User', $inputFormat);
+        $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
 
         // Validate the input values
         $asserts = [];
@@ -653,7 +653,7 @@ class UserController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
-        $response = $this->validate($user, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -666,7 +666,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updateUser($username, $user, $responseCode, $responseHeaders);
+            $result = $handler->updateUser($username, $body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';

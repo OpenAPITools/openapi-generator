@@ -27,7 +27,7 @@ services:
 ```
 
 ## **createUser**
-> createUser($user)
+> createUser($body)
 
 Create user
 
@@ -50,7 +50,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUser
      */
-    public function createUser(User $user)
+    public function createUser(User $body)
     {
         // Implement the operation ...
     }
@@ -63,7 +63,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Created user object |
+ **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -81,7 +81,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **createUsersWithArrayInput**
-> createUsersWithArrayInput($user)
+> createUsersWithArrayInput($body)
 
 Creates list of users with given input array
 
@@ -102,7 +102,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithArrayInput
      */
-    public function createUsersWithArrayInput(array $user)
+    public function createUsersWithArrayInput(array $body)
     {
         // Implement the operation ...
     }
@@ -115,7 +115,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
+ **body** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -133,7 +133,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **createUsersWithListInput**
-> createUsersWithListInput($user)
+> createUsersWithListInput($body)
 
 Creates list of users with given input array
 
@@ -154,7 +154,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#createUsersWithListInput
      */
-    public function createUsersWithListInput(array $user)
+    public function createUsersWithListInput(array $body)
     {
         // Implement the operation ...
     }
@@ -167,7 +167,7 @@ class UserApi implements UserApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
+ **body** | [**OpenAPI\Server\Model\User**](../Model/array.md)| List of user object |
 
 ### Return type
 
@@ -393,7 +393,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updateUser**
-> updateUser($username, $user)
+> updateUser($username, $body)
 
 Updated user
 
@@ -416,7 +416,7 @@ class UserApi implements UserApiInterface
     /**
      * Implementation of UserApiInterface#updateUser
      */
-    public function updateUser($username, User $user)
+    public function updateUser($username, User $body)
     {
         // Implement the operation ...
     }
@@ -430,7 +430,7 @@ class UserApi implements UserApiInterface
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **user** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Updated user object |
+ **body** | [**OpenAPI\Server\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type
 

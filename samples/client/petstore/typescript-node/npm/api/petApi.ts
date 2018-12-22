@@ -81,17 +81,17 @@ export class PetApi {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public addPet (pet: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public addPet (body: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new Error('Required parameter pet was null or undefined when calling addPet.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
 
 
@@ -104,7 +104,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(pet, "Pet")
+            body: ObjectSerializer.serialize(body, "Pet")
         };
 
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);
@@ -362,17 +362,17 @@ export class PetApi {
     /**
      * 
      * @summary Update an existing pet
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public updatePet (pet: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public updatePet (body: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
 
 
@@ -385,7 +385,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(pet, "Pet")
+            body: ObjectSerializer.serialize(body, "Pet")
         };
 
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);

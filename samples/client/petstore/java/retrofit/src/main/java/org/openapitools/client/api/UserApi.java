@@ -18,73 +18,73 @@ public interface UserApi {
    * Create user
    * Sync method
    * This can only be done by the logged in user.
-   * @param user Created user object (required)
+   * @param body Created user object (required)
    * @return Void
    */
   
   @POST("/user")
   Void createUser(
-    @retrofit.http.Body User user
+    @retrofit.http.Body User body
   );
 
   /**
    * Create user
    * Async method
-   * @param user Created user object (required)
+   * @param body Created user object (required)
    * @param cb callback method
    */
   
   @POST("/user")
   void createUser(
-    @retrofit.http.Body User user, Callback<Void> cb
+    @retrofit.http.Body User body, Callback<Void> cb
   );
   /**
    * Creates list of users with given input array
    * Sync method
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @return Void
    */
   
   @POST("/user/createWithArray")
   Void createUsersWithArrayInput(
-    @retrofit.http.Body List<User> user
+    @retrofit.http.Body List<User> body
   );
 
   /**
    * Creates list of users with given input array
    * Async method
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @param cb callback method
    */
   
   @POST("/user/createWithArray")
   void createUsersWithArrayInput(
-    @retrofit.http.Body List<User> user, Callback<Void> cb
+    @retrofit.http.Body List<User> body, Callback<Void> cb
   );
   /**
    * Creates list of users with given input array
    * Sync method
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @return Void
    */
   
   @POST("/user/createWithList")
   Void createUsersWithListInput(
-    @retrofit.http.Body List<User> user
+    @retrofit.http.Body List<User> body
   );
 
   /**
    * Creates list of users with given input array
    * Async method
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @param cb callback method
    */
   
   @POST("/user/createWithList")
   void createUsersWithListInput(
-    @retrofit.http.Body List<User> user, Callback<Void> cb
+    @retrofit.http.Body List<User> body, Callback<Void> cb
   );
   /**
    * Delete user
@@ -186,25 +186,25 @@ public interface UserApi {
    * Sync method
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param user Updated user object (required)
+   * @param body Updated user object (required)
    * @return Void
    */
   
   @PUT("/user/{username}")
   Void updateUser(
-    @retrofit.http.Path("username") String username, @retrofit.http.Body User user
+    @retrofit.http.Path("username") String username, @retrofit.http.Body User body
   );
 
   /**
    * Updated user
    * Async method
    * @param username name that need to be deleted (required)
-   * @param user Updated user object (required)
+   * @param body Updated user object (required)
    * @param cb callback method
    */
   
   @PUT("/user/{username}")
   void updateUser(
-    @retrofit.http.Path("username") String username, @retrofit.http.Body User user, Callback<Void> cb
+    @retrofit.http.Path("username") String username, @retrofit.http.Body User body, Callback<Void> cb
   );
 }

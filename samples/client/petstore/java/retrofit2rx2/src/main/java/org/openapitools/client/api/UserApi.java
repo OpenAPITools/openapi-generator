@@ -21,34 +21,34 @@ public interface UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param user Created user object (required)
+   * @param body Created user object (required)
    * @return Completable
    */
   @POST("user")
   Completable createUser(
-    @retrofit2.http.Body User user
+    @retrofit2.http.Body User body
   );
 
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @return Completable
    */
   @POST("user/createWithArray")
   Completable createUsersWithArrayInput(
-    @retrofit2.http.Body List<User> user
+    @retrofit2.http.Body List<User> body
   );
 
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @return Completable
    */
   @POST("user/createWithList")
   Completable createUsersWithListInput(
-    @retrofit2.http.Body List<User> user
+    @retrofit2.http.Body List<User> body
   );
 
   /**
@@ -98,12 +98,12 @@ public interface UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param user Updated user object (required)
+   * @param body Updated user object (required)
    * @return Completable
    */
   @PUT("user/{username}")
   Completable updateUser(
-    @retrofit2.http.Path("username") String username, @retrofit2.http.Body User user
+    @retrofit2.http.Path("username") String username, @retrofit2.http.Body User body
   );
 
 }

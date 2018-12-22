@@ -19,17 +19,17 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUser
      */
-    ResponseEntity<Void> createUser(User user);
+    ResponseEntity<Void> createUser(User body);
 
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    ResponseEntity<Void> createUsersWithArrayInput(List<User> user);
+    ResponseEntity<Void> createUsersWithArrayInput(List<User> body);
 
     /**
      * @see UserApi#createUsersWithListInput
      */
-    ResponseEntity<Void> createUsersWithListInput(List<User> user);
+    ResponseEntity<Void> createUsersWithListInput(List<User> body);
 
     /**
      * @see UserApi#deleteUser
@@ -56,6 +56,6 @@ public interface UserApiDelegate {
      * @see UserApi#updateUser
      */
     ResponseEntity<Void> updateUser(String username,
-        User user);
+        User body);
 
 }
