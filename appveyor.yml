@@ -25,7 +25,7 @@ install:
 build_script:
   # build C# API client (refactor)
   - nuget restore samples\client\petstore\csharp-refactor\OpenAPIClient\Org.OpenAPITools.sln
-  - msbuild samples\client\petstore\csharp-refoctor\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild samples\client\petstore\csharp-refactor\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # build C# API client
   - nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
   - msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
