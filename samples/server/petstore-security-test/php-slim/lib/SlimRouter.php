@@ -53,7 +53,7 @@ class SlimRouter
     private $operations = [
         [
             'httpMethod' => 'PUT',
-            'basePathWithoutHost' => '/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r',
+            'basePathWithoutHost' => '/%20%27%20%22%20%3Dend%20--%20%5C%5Cr%5C%5Cn%20%5C%5Cn%20%5C%5Cr/v2%20*_/%20%27%20%22%20%3Dend%20--%20%5C%5Cr%5C%5Cn%20%5C%5Cn%20%5C%5Cr',
             'path' => '/fake',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractFakeApi',
