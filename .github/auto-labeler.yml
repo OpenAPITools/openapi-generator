@@ -2,7 +2,7 @@ comment: |
     👍 Thanks for opening this issue!
     🏷 I have applied any labels matching special text in your issue.
 
-    Please review the labels and make any necessary changes.
+    The team will review the labels and make any necessary changes.
 labels:
     'Announcement':
       - '\s*?\[[Aa]nnouncement\]\s*?'
