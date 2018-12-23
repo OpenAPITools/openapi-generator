@@ -93,8 +93,6 @@ namespace Org.OpenAPITools.Model
             this.ArrayEnum = arrayEnum;
         }
         
-
-
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -141,8 +139,7 @@ namespace Org.OpenAPITools.Model
             return 
                 (
                     this.JustSymbol == input.JustSymbol ||
-                    (this.JustSymbol != null &&
-                    this.JustSymbol.Equals(input.JustSymbol))
+                    this.JustSymbol.Equals(input.JustSymbol)
                 ) && 
                 (
                     this.ArrayEnum == input.ArrayEnum ||
@@ -160,10 +157,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.JustSymbol != null)
-                    hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
-                if (this.ArrayEnum != null)
-                    hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
+                hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
+                hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
                 return hashCode;
             }
         }

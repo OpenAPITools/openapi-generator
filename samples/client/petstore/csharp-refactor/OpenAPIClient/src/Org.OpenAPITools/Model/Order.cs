@@ -115,7 +115,6 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
         public DateTime? ShipDate { get; set; }
 
-
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
@@ -192,8 +191,7 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Status == input.Status ||
-                    (this.Status != null &&
-                    this.Status.Equals(input.Status))
+                    this.Status.Equals(input.Status)
                 ) && 
                 (
                     this.Complete == input.Complete ||
@@ -219,8 +217,7 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Quantity.GetHashCode();
                 if (this.ShipDate != null)
                     hashCode = hashCode * 59 + this.ShipDate.GetHashCode();
-                if (this.Status != null)
-                    hashCode = hashCode * 59 + this.Status.GetHashCode();
+                hashCode = hashCode * 59 + this.Status.GetHashCode();
                 if (this.Complete != null)
                     hashCode = hashCode * 59 + this.Complete.GetHashCode();
                 return hashCode;

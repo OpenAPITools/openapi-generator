@@ -47,11 +47,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
-        {{#vars}}
-        {{^isReadOnly}}
+        {{#readWriteVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{#description}}{{description}}{{/description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
-        {{/isReadOnly}}
-        {{/vars}}
+        {{/readWriteVars}}
     {{#hasOnlyReadOnly}}
         [JsonConstructorAttribute]
     {{/hasOnlyReadOnly}}
@@ -61,6 +59,7 @@
             {{^isInherited}}
             {{^isReadOnly}}
             {{#required}}
+            {{^isEnum}}
             // to ensure "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" is required (not null)
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
             {
@@ -70,6 +69,10 @@
             {
                 this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             }
+            {{/isEnum}}
+            {{#isEnum}}
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isEnum}}
             {{/required}}
             {{/isReadOnly}}
             {{/isInherited}}
@@ -78,7 +81,8 @@
             {{^isInherited}}
             {{^isReadOnly}}
             {{^required}}
-            {{#defaultValue}}// use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
+            {{#defaultValue}}
+            // use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
             if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
             {
                 this.{{name}} = {{{defaultValue}}};
@@ -89,7 +93,7 @@
             }
             {{/defaultValue}}
             {{^defaultValue}}
-this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/defaultValue}}
             {{/required}}
             {{/isReadOnly}}
@@ -107,9 +111,9 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]{{#isDate}}
         [JsonConverter(typeof(OpenAPIDateConverter))]{{/isDate}}
         public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
         {{/isEnum}}
         {{/isInherited}}
-
         {{/vars}}
         /// <summary>
         /// Returns the string presentation of the object
@@ -161,8 +165,13 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
+                    {{^isEnum}}
                     (this.{{name}} != null &&
                     this.{{name}}.Equals(input.{{name}}))
+                    {{/isEnum}}
+                    {{#isEnum}}
+                    this.{{name}}.Equals(input.{{name}})
+                    {{/isEnum}}
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
@@ -186,8 +195,13 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
                 int hashCode = 41;
                 {{/parent}}
                 {{#vars}}
+                {{^isEnum}}
                 if (this.{{name}} != null)
                     hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                {{/isEnum}}
+                {{#isEnum}}
+                hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                {{/isEnum}}
                 {{/vars}}
                 return hashCode;
             }
