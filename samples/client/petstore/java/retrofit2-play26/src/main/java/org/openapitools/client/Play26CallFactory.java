@@ -126,7 +126,7 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
         }
 
         @Override
-            public Timeout timeout() {
+        public Timeout timeout() {
             return timeout;
         }
 
