@@ -18,8 +18,6 @@
 package org.openapitools.codegen;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 
 public final class CodegenModelFactory {
     @SuppressWarnings("unchecked")
