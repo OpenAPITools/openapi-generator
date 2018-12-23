@@ -1,6 +1,6 @@
 <?php
 /**
- * FakeApi
+ * AbstractFakeApi
  *
  * PHP version 5
  *
@@ -25,10 +25,8 @@
  */
 namespace OpenAPIServer\Api;
 
-use OpenAPIServer\AbstractApiController;
-
 /**
- * FakeApi Class Doc Comment
+ * AbstractFakeApi Class Doc Comment
  *
  * PHP version 5
  *
@@ -37,8 +35,24 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class FakeApi extends AbstractApiController
+abstract class AbstractFakeApi
 {
+
+    /**
+     * @var \Interop\Container\ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
 
     /**
      * POST fakeOuterBooleanSerialize
@@ -48,12 +62,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function fakeOuterBooleanSerialize($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing fakeOuterBooleanSerialize as a POST method ?');
-        return $response;
+        $message = "How about implementing fakeOuterBooleanSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -64,12 +82,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function fakeOuterCompositeSerialize($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing fakeOuterCompositeSerialize as a POST method ?');
-        return $response;
+        $message = "How about implementing fakeOuterCompositeSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -80,12 +102,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function fakeOuterNumberSerialize($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing fakeOuterNumberSerialize as a POST method ?');
-        return $response;
+        $message = "How about implementing fakeOuterNumberSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -96,12 +122,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function fakeOuterStringSerialize($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing fakeOuterStringSerialize as a POST method ?');
-        return $response;
+        $message = "How about implementing fakeOuterStringSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -111,12 +141,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testBodyWithFileSchema($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing testBodyWithFileSchema as a PUT method ?');
-        return $response;
+        $message = "How about implementing testBodyWithFileSchema as a PUT method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -125,14 +159,18 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testBodyWithQueryParams($request, $response, $args)
     {
         $queryParams = $request->getQueryParams();
         $query = $request->getQueryParam('query');
         $body = $request->getParsedBody();
-        $response->write('How about implementing testBodyWithQueryParams as a PUT method ?');
-        return $response;
+        $message = "How about implementing testBodyWithQueryParams as a PUT method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -144,12 +182,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testClientModel($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing testClientModel as a PATCH method ?');
-        return $response;
+        $message = "How about implementing testClientModel as a PATCH method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -160,6 +202,8 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testEndpointParameters($request, $response, $args)
     {
@@ -177,8 +221,10 @@ class FakeApi extends AbstractApiController
         $dateTime = $request->getParsedBodyParam('dateTime');
         $password = $request->getParsedBodyParam('password');
         $callback = $request->getParsedBodyParam('callback');
-        $response->write('How about implementing testEndpointParameters as a POST method ?');
-        return $response;
+        $message = "How about implementing testEndpointParameters as a POST method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -189,6 +235,8 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testEnumParameters($request, $response, $args)
     {
@@ -202,8 +250,10 @@ class FakeApi extends AbstractApiController
         $enumQueryDouble = $request->getQueryParam('enum_query_double');
         $enumFormStringArray = $request->getParsedBodyParam('enum_form_string_array');
         $enumFormString = $request->getParsedBodyParam('enum_form_string');
-        $response->write('How about implementing testEnumParameters as a GET method ?');
-        return $response;
+        $message = "How about implementing testEnumParameters as a GET method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -214,6 +264,8 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testGroupParameters($request, $response, $args)
     {
@@ -225,8 +277,10 @@ class FakeApi extends AbstractApiController
         $requiredInt64Group = $request->getQueryParam('required_int64_group');
         $stringGroup = $request->getQueryParam('string_group');
         $int64Group = $request->getQueryParam('int64_group');
-        $response->write('How about implementing testGroupParameters as a DELETE method ?');
-        return $response;
+        $message = "How about implementing testGroupParameters as a DELETE method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -236,12 +290,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testInlineAdditionalProperties($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing testInlineAdditionalProperties as a POST method ?');
-        return $response;
+        $message = "How about implementing testInlineAdditionalProperties as a POST method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -251,12 +309,16 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testJsonFormData($request, $response, $args)
     {
         $param = $request->getParsedBodyParam('param');
         $param2 = $request->getParsedBodyParam('param2');
-        $response->write('How about implementing testJsonFormData as a GET method ?');
-        return $response;
+        $message = "How about implementing testJsonFormData as a GET method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 }

@@ -1,6 +1,6 @@
 <?php
-/**
- * {{classname}}Test
+{{#operations}}/**
+ * {{userClassname}}Test
  * PHP version 5
  *
  * @category Class
@@ -34,19 +34,19 @@
 namespace {{apiPackage}};
 
 use PHPUnit\Framework\TestCase;
-use {{apiPackage}}\{{classname}};
+use {{apiPackage}}\{{userClassname}};
 
 /**
- * {{classname}}Test Class Doc Comment
+ * {{userClassname}}Test Class Doc Comment
  *
  * @category Class
- * @description {{#description}}{{description}}{{/description}}{{^description}}{{classname}}{{/description}}
+ * @description {{#description}}{{description}}{{/description}}{{^description}}{{userClassname}}{{/description}}
  * @package  {{apiPackage}}
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
- * @coversDefaultClass \{{modelPackage}}\{{classname}}
+ * @coversDefaultClass \{{apiPackage}}\{{userClassname}}
  */
-{{#operations}}class {{classname}}Test extends TestCase
+class {{userClassname}}Test extends TestCase
 {
 
     /**

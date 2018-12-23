@@ -36,6 +36,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
 
     public static final String PHPCS_STANDARD = "phpcsStandard";
+    public static final String USER_CLASSNAME_KEY = "userClassname";
 
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
@@ -125,7 +126,6 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
-        supportingFiles.add(new SupportingFile("AbstractApiController.mustache", toSrcPath(invokerPackage, srcBasePath), toAbstractName("ApiController") + ".php"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
     }
@@ -134,6 +134,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        addUserClassnameToOperations(operations);
         escapeMediaType(operationList);
         return objs;
     }
@@ -160,8 +161,41 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         return objs;
     }
 
+    /**
+     * Sets PHP CodeSniffer &lt;standard&gt; option. Accepts name or path of the coding standard to use.
+     *
+     * @param phpcsStandard standard option value
+     */
     public void setPhpcsStandard(String phpcsStandard) {
         this.phpcsStandard = phpcsStandard;
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return toAbstractName("DefaultApi");
+        }
+        return toAbstractName(initialCaps(name) + "Api");
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        if (name.length() == 0) {
+            return "DefaultApiTest";
+        }
+        return initialCaps(name) + "ApiTest";
+    }
+
+    /**
+     * Strips out abstract prefix and suffix from classname and puts it in "userClassname" property of operations object.
+     *
+     * @param operations codegen object with operations
+     */
+    private void addUserClassnameToOperations(Map<String, Object> operations) {
+        String classname = (String) operations.get("classname");
+        classname = classname.replaceAll("^" + abstractNamePrefix, "");
+        classname = classname.replaceAll(abstractNameSuffix + "$", "");
+        operations.put(USER_CLASSNAME_KEY, classname);
     }
 
 }

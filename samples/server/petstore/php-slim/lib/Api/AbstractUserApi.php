@@ -1,6 +1,6 @@
 <?php
 /**
- * UserApi
+ * AbstractUserApi
  *
  * PHP version 5
  *
@@ -25,10 +25,8 @@
  */
 namespace OpenAPIServer\Api;
 
-use OpenAPIServer\AbstractApiController;
-
 /**
- * UserApi Class Doc Comment
+ * AbstractUserApi Class Doc Comment
  *
  * PHP version 5
  *
@@ -37,8 +35,24 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class UserApi extends AbstractApiController
+abstract class AbstractUserApi
 {
+
+    /**
+     * @var \Interop\Container\ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
 
     /**
      * POST createUser
@@ -48,12 +62,16 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function createUser($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing createUser as a POST method ?');
-        return $response;
+        $message = "How about implementing createUser as a POST method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -63,12 +81,16 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function createUsersWithArrayInput($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing createUsersWithArrayInput as a POST method ?');
-        return $response;
+        $message = "How about implementing createUsersWithArrayInput as a POST method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -78,12 +100,16 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function createUsersWithListInput($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing createUsersWithListInput as a POST method ?');
-        return $response;
+        $message = "How about implementing createUsersWithListInput as a POST method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -94,12 +120,16 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function deleteUser($request, $response, $args)
     {
         $username = $args['username'];
-        $response->write('How about implementing deleteUser as a DELETE method ?');
-        return $response;
+        $message = "How about implementing deleteUser as a DELETE method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -110,12 +140,16 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getUserByName($request, $response, $args)
     {
         $username = $args['username'];
-        $response->write('How about implementing getUserByName as a GET method ?');
-        return $response;
+        $message = "How about implementing getUserByName as a GET method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -126,14 +160,18 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function loginUser($request, $response, $args)
     {
         $queryParams = $request->getQueryParams();
         $username = $request->getQueryParam('username');
         $password = $request->getQueryParam('password');
-        $response->write('How about implementing loginUser as a GET method ?');
-        return $response;
+        $message = "How about implementing loginUser as a GET method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -143,11 +181,15 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function logoutUser($request, $response, $args)
     {
-        $response->write('How about implementing logoutUser as a GET method ?');
-        return $response;
+        $message = "How about implementing logoutUser as a GET method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -158,12 +200,16 @@ class UserApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function updateUser($request, $response, $args)
     {
         $username = $args['username'];
         $body = $request->getParsedBody();
-        $response->write('How about implementing updateUser as a PUT method ?');
-        return $response;
+        $message = "How about implementing updateUser as a PUT method in OpenAPIServer\Api\UserApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 }

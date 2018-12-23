@@ -1,6 +1,6 @@
 <?php
 /**
- * StoreApi
+ * AbstractStoreApi
  *
  * PHP version 5
  *
@@ -25,10 +25,8 @@
  */
 namespace OpenAPIServer\Api;
 
-use OpenAPIServer\AbstractApiController;
-
 /**
- * StoreApi Class Doc Comment
+ * AbstractStoreApi Class Doc Comment
  *
  * PHP version 5
  *
@@ -37,8 +35,24 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class StoreApi extends AbstractApiController
+abstract class AbstractStoreApi
 {
+
+    /**
+     * @var \Interop\Container\ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
 
     /**
      * DELETE deleteOrder
@@ -48,12 +62,16 @@ class StoreApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function deleteOrder($request, $response, $args)
     {
         $orderId = $args['order_id'];
-        $response->write('How about implementing deleteOrder as a DELETE method ?');
-        return $response;
+        $message = "How about implementing deleteOrder as a DELETE method in OpenAPIServer\Api\StoreApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -65,11 +83,15 @@ class StoreApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getInventory($request, $response, $args)
     {
-        $response->write('How about implementing getInventory as a GET method ?');
-        return $response;
+        $message = "How about implementing getInventory as a GET method in OpenAPIServer\Api\StoreApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -81,12 +103,16 @@ class StoreApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getOrderById($request, $response, $args)
     {
         $orderId = $args['order_id'];
-        $response->write('How about implementing getOrderById as a GET method ?');
-        return $response;
+        $message = "How about implementing getOrderById as a GET method in OpenAPIServer\Api\StoreApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -97,11 +123,15 @@ class StoreApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function placeOrder($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing placeOrder as a POST method ?');
-        return $response;
+        $message = "How about implementing placeOrder as a POST method in OpenAPIServer\Api\StoreApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 }

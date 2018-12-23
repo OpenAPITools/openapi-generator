@@ -44,14 +44,43 @@ Command | Tool | Target
 `$ composer run phpcs` | PHP CodeSniffer | All files
 `$ composer run phplint` | phplint | All files
 
+## Show errors
+
+Change line in `./index.php`:
+```diff
+--- $router = new SlimRouter();
++++ $router = new SlimRouter(['settings' => ['displayErrorDetails' => true]]);
+```
 
 ## API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io *_/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r*
 
+> Important! Do not modify abstract API controllers directly! Instead extend them by implementation classes like:
+
+```php
+// src/Api/PetApi.php
+
+namespace OpenAPIServer\Api;
+
+use OpenAPIServer\Api\AbstractPetApi;
+
+class PetApi extends AbstractPetApi
+{
+
+    public function addPet($request, $response, $args)
+    {
+        // your implementation of addPet method here
+    }
+}
+```
+
+Place all your implementation classes in `./src` folder accordingly.
+For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you need to create implementation class at `./src/Api/PetApi.php`.
+
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FakeApi* | **testCodeInjectEndRnNR** | **PUT** /fake | To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
+*AbstractFakeApi* | **testCodeInjectEndRnNR** | **PUT** /fake | To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 
 
 ## Models
