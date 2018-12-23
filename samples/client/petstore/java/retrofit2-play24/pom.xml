@@ -270,7 +270,7 @@
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jackson-version>2.6.6</jackson-version>
         <play-version>2.4.11</play-version>
-        <retrofit-version>2.3.0</retrofit-version>
+        <retrofit-version>2.5.0</retrofit-version>
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.12</junit-version>
     </properties>
