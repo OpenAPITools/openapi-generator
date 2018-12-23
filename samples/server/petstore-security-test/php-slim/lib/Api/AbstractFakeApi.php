@@ -1,6 +1,6 @@
 <?php
 /**
- * FakeApi
+ * AbstractFakeApi
  *
  * PHP version 5
  *
@@ -26,10 +26,8 @@
  */
 namespace OpenAPIServer\Api;
 
-use OpenAPIServer\AbstractApiController;
-
 /**
- * FakeApi Class Doc Comment
+ * AbstractFakeApi Class Doc Comment
  *
  * PHP version 5
  *
@@ -38,8 +36,24 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class FakeApi extends AbstractApiController
+abstract class AbstractFakeApi
 {
+
+    /**
+     * @var \Interop\Container\ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
 
     /**
      * PUT testCodeInjectEndRnNR
@@ -49,11 +63,15 @@ class FakeApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function testCodeInjectEndRnNR($request, $response, $args)
     {
         $testCodeInjectEndRnNR = $request->getParsedBodyParam('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r');
-        $response->write('How about implementing testCodeInjectEndRnNR as a PUT method ?');
-        return $response;
+        $message = "How about implementing testCodeInjectEndRnNR as a PUT method in OpenAPIServer\Api\FakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 }

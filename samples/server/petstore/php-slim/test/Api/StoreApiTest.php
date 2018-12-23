@@ -35,7 +35,7 @@ use OpenAPIServer\Api\StoreApi;
  * @package  OpenAPIServer\Api
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
- * @coversDefaultClass \OpenAPIServer\Model\StoreApi
+ * @coversDefaultClass \OpenAPIServer\Api\StoreApi
  */
 class StoreApiTest extends TestCase
 {

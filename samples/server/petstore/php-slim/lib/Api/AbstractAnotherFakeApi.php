@@ -1,11 +1,11 @@
 <?php
 /**
- * Abstract Api Controller
+ * AbstractAnotherFakeApi
  *
  * PHP version 5
  *
  * @category Class
- * @package  OpenAPIServer
+ * @package  OpenAPIServer\Api
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
@@ -23,19 +23,19 @@
  * https://github.com/openapitools/openapi-generator
  * Do not edit the class manually.
  */
-namespace OpenAPIServer;
+namespace OpenAPIServer\Api;
 
 /**
- * ApiServer Class Doc Comment
+ * AbstractAnotherFakeApi Class Doc Comment
  *
  * PHP version 5
  *
  * @category Class
- * @package  OpenAPIServer
+ * @package  OpenAPIServer\Api
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-abstract class AbstractApiController
+abstract class AbstractAnotherFakeApi
 {
 
     /**
@@ -51,5 +51,27 @@ abstract class AbstractApiController
     public function __construct($container)
     {
         $this->container = $container;
+    }
+
+
+    /**
+     * PATCH call123TestSpecialTags
+     * Summary: To test special tags
+     * Notes: To test special tags and operation ID starting with number
+     * Output-Formats: [application/json]
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
+     * @param \Psr\Http\Message\ResponseInterface      $response Response
+     * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function call123TestSpecialTags($request, $response, $args)
+    {
+        $body = $request->getParsedBody();
+        $message = "How about implementing call123TestSpecialTags as a PATCH method in OpenAPIServer\Api\AnotherFakeApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 }

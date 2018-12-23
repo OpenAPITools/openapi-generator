@@ -1,6 +1,6 @@
 <?php
 /**
- * PetApi
+ * AbstractPetApi
  *
  * PHP version 5
  *
@@ -25,10 +25,8 @@
  */
 namespace OpenAPIServer\Api;
 
-use OpenAPIServer\AbstractApiController;
-
 /**
- * PetApi Class Doc Comment
+ * AbstractPetApi Class Doc Comment
  *
  * PHP version 5
  *
@@ -37,8 +35,24 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class PetApi extends AbstractApiController
+abstract class AbstractPetApi
 {
+
+    /**
+     * @var \Interop\Container\ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
 
     /**
      * POST addPet
@@ -47,12 +61,16 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function addPet($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing addPet as a POST method ?');
-        return $response;
+        $message = "How about implementing addPet as a POST method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -62,14 +80,18 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function deletePet($request, $response, $args)
     {
         $headers = $request->getHeaders();
         $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
         $petId = $args['petId'];
-        $response->write('How about implementing deletePet as a DELETE method ?');
-        return $response;
+        $message = "How about implementing deletePet as a DELETE method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -81,13 +103,17 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function findPetsByStatus($request, $response, $args)
     {
         $queryParams = $request->getQueryParams();
         $status = $request->getQueryParam('status');
-        $response->write('How about implementing findPetsByStatus as a GET method ?');
-        return $response;
+        $message = "How about implementing findPetsByStatus as a GET method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -99,13 +125,17 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function findPetsByTags($request, $response, $args)
     {
         $queryParams = $request->getQueryParams();
         $tags = $request->getQueryParam('tags');
-        $response->write('How about implementing findPetsByTags as a GET method ?');
-        return $response;
+        $message = "How about implementing findPetsByTags as a GET method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -117,12 +147,16 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function getPetById($request, $response, $args)
     {
         $petId = $args['petId'];
-        $response->write('How about implementing getPetById as a GET method ?');
-        return $response;
+        $message = "How about implementing getPetById as a GET method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -132,12 +166,16 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function updatePet($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing updatePet as a PUT method ?');
-        return $response;
+        $message = "How about implementing updatePet as a PUT method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -147,14 +185,18 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function updatePetWithForm($request, $response, $args)
     {
         $petId = $args['petId'];
         $name = $request->getParsedBodyParam('name');
         $status = $request->getParsedBodyParam('status');
-        $response->write('How about implementing updatePetWithForm as a POST method ?');
-        return $response;
+        $message = "How about implementing updatePetWithForm as a POST method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -165,14 +207,18 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function uploadFile($request, $response, $args)
     {
         $petId = $args['petId'];
         $additionalMetadata = $request->getParsedBodyParam('additionalMetadata');
         $file = (key_exists('file', $request->getUploadedFiles())) ? $request->getUploadedFiles()['file'] : null;
-        $response->write('How about implementing uploadFile as a POST method ?');
-        return $response;
+        $message = "How about implementing uploadFile as a POST method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 
     /**
@@ -183,13 +229,17 @@ class PetApi extends AbstractApiController
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function uploadFileWithRequiredFile($request, $response, $args)
     {
         $petId = $args['petId'];
         $additionalMetadata = $request->getParsedBodyParam('additionalMetadata');
         $requiredFile = (key_exists('requiredFile', $request->getUploadedFiles())) ? $request->getUploadedFiles()['requiredFile'] : null;
-        $response->write('How about implementing uploadFileWithRequiredFile as a POST method ?');
-        return $response;
+        $message = "How about implementing uploadFileWithRequiredFile as a POST method in OpenAPIServer\Api\PetApi class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 }

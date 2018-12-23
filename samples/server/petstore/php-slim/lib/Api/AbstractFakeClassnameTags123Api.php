@@ -1,6 +1,6 @@
 <?php
 /**
- * AnotherFakeApi
+ * AbstractFakeClassnameTags123Api
  *
  * PHP version 5
  *
@@ -25,10 +25,8 @@
  */
 namespace OpenAPIServer\Api;
 
-use OpenAPIServer\AbstractApiController;
-
 /**
- * AnotherFakeApi Class Doc Comment
+ * AbstractFakeClassnameTags123Api Class Doc Comment
  *
  * PHP version 5
  *
@@ -37,23 +35,43 @@ use OpenAPIServer\AbstractApiController;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class AnotherFakeApi extends AbstractApiController
+abstract class AbstractFakeClassnameTags123Api
 {
 
     /**
-     * PATCH call123TestSpecialTags
-     * Summary: To test special tags
-     * Notes: To test special tags and operation ID starting with number
+     * @var \Interop\Container\ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
+
+    /**
+     * PATCH testClassname
+     * Summary: To test class name in snake case
+     * Notes: To test class name in snake case
      * Output-Formats: [application/json]
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request  Request
      * @param \Psr\Http\Message\ResponseInterface      $response Response
      * @param array|null                               $args     Path arguments
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function call123TestSpecialTags($request, $response, $args)
+    public function testClassname($request, $response, $args)
     {
         $body = $request->getParsedBody();
-        $response->write('How about implementing call123TestSpecialTags as a PATCH method ?');
-        return $response;
+        $message = "How about implementing testClassname as a PATCH method in OpenAPIServer\Api\FakeClassnameTags123Api class?";
+        throw new \Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
 }
