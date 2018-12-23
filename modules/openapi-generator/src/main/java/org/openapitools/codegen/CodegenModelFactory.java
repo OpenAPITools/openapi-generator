@@ -22,14 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CodegenModelFactory {
-
-    private static final Map<CodegenModelType, Class<?>> typeMapping = new HashMap<CodegenModelType, Class<?>>();
-
     @SuppressWarnings("unchecked")
     public static <T> T newInstance(CodegenModelType type) {
-        Class<?> classType = typeMapping.get(type);
         try {
-            return (T) (classType != null ? classType : type.getDefaultImplementation()).getDeclaredConstructor().newInstance();
+            return (T) type.getDefaultImplementation().getDeclaredConstructor().newInstance();
         } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
