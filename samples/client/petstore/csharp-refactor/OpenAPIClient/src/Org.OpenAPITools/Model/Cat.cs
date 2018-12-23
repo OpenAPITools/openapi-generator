@@ -40,6 +40,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="declawed">declawed.</param>
+        /// <param name="className">className (required).</param>
+        /// <param name="color">color (default to &quot;red&quot;).</param>
         public Cat(bool? declawed = default(bool?), string className = default(string), string color = "red") : base(className, color)
         {
             this.Declawed = declawed;

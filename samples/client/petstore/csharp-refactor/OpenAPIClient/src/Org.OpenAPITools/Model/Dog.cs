@@ -40,6 +40,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
+        /// <param name="className">className (required).</param>
+        /// <param name="color">color (default to &quot;red&quot;).</param>
         public Dog(string breed = default(string), string className = default(string), string color = "red") : base(className, color)
         {
             this.Breed = breed;

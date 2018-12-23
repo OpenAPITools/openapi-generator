@@ -80,6 +80,9 @@ namespace {{packageName}}.{{apiPackage}}
     }
     {{/supportsAsync}}
 
+    /// <summary>
+    /// Represents a collection of functions to interact with the API endpoints
+    /// </summary>
     {{>visibility}} interface {{interfacePrefix}}{{classname}} : {{interfacePrefix}}{{classname}}Sync{{#supportsAsync}}, {{interfacePrefix}}{{classname}}Async{{/supportsAsync}}
     {
         

@@ -134,7 +134,6 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="tags", EmitDefaultValue=false)]
         public List<Tag> Tags { get; set; }
 
-
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -210,8 +209,7 @@ namespace Org.OpenAPITools.Model
                 ) && 
                 (
                     this.Status == input.Status ||
-                    (this.Status != null &&
-                    this.Status.Equals(input.Status))
+                    this.Status.Equals(input.Status)
                 );
         }
 
@@ -234,8 +232,7 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.PhotoUrls.GetHashCode();
                 if (this.Tags != null)
                     hashCode = hashCode * 59 + this.Tags.GetHashCode();
-                if (this.Status != null)
-                    hashCode = hashCode * 59 + this.Status.GetHashCode();
+                hashCode = hashCode * 59 + this.Status.GetHashCode();
                 return hashCode;
             }
         }
