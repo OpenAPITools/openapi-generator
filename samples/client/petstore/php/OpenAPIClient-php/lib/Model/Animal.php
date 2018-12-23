@@ -186,7 +186,7 @@ class Animal implements ModelInterface, ArrayAccess
         $this->container['color'] = isset($data['color']) ? $data['color'] : 'red';
 
         // Initialize discriminator property with the model name.
-        $this->container[class_name] = static::$openAPIModelName;
+        $this->container['class_name'] = static::$openAPIModelName;
     }
 
     /**

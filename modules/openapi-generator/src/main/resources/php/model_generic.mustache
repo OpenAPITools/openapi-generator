@@ -166,7 +166,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{#discriminator}}
 
         // Initialize discriminator property with the model name.
-        $this->container[{{discriminatorName}}] = static::$openAPIModelName;
+        $this->container['{{discriminatorName}}'] = static::$openAPIModelName;
         {{/discriminator}}
     }
 
