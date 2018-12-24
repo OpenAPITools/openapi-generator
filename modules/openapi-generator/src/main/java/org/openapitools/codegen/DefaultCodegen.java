@@ -1413,8 +1413,8 @@ public class DefaultCodegen implements CodegenConfig {
                         // primitive type or model
                         names.add(getAlias(getPrimitiveType(s)));
                     }
-                    return "oneOf<" + String.join(",", names) + ">";
                 }
+                return "oneOf<" + String.join(",", names) + ">";
             }
         }
 
