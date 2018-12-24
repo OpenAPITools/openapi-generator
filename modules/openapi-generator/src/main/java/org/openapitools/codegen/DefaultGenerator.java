@@ -430,17 +430,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                // check to see if it's a "map" model
-                if (ModelUtils.isMapSchema(schema)) {
+                if (ModelUtils.isFreeFormObject(schema)) { // check to see if it'a a free-form object
+                    LOGGER.info("Model " + name + " not generated since it's a free-form object");
+                    continue;
+                } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
                         // schema without property, i.e. alias to map
                         LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
                         continue;
                     }
-                }
-
-                // check to see if it's an "array" model
-                if (ModelUtils.isArraySchema(schema)) {
+                } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
                     if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
                         // schema without property, i.e. alias to array
                         LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
@@ -898,7 +897,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
         config.processOpenAPI(openAPI);
-        
+
         // reset GeneratorProperties, so that the running thread can be reused for another generator-run
         GeneratorProperties.reset();
 
