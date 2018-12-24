@@ -44,9 +44,9 @@ components:
         firstName:
           type: string
         duplicated_optional:
-           type: string
+           type: integer
         duplicated_required:
-           type: string
+           type: integer
         person_required:
            type: string
            format: date-time

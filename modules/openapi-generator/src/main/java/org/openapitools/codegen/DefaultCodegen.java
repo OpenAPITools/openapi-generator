@@ -235,6 +235,7 @@ public class DefaultCodegen implements CodegenConfig {
                 allModels.put(modelName, cm);
             }
         }
+
         // Fix up all parent and interface CodegenModel references.
         for (CodegenModel cm : allModels.values()) {
             if (cm.getParent() != null) {
@@ -250,6 +251,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
+
         // Let parent know about all its children
         for (String name : allModels.keySet()) {
             CodegenModel cm = allModels.get(name);
@@ -1820,7 +1822,7 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
-        discriminator.setPropertyName(schema.getDiscriminator().getPropertyName());
+        discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
