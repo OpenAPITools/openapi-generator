@@ -252,6 +252,7 @@ public class DefaultCodegenTest {
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
+        Assert.assertEquals(type, "oneOf<ObjA,ObjB>");
     }
 
     @Test
