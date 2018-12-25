@@ -46,7 +46,7 @@ public class InlineModelResolver {
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
     private Map<String, String> generatedSignature = new HashMap<String, String>();
 
-    public void flatten(OpenAPI openapi) {
+    void flatten(OpenAPI openapi) {
         this.openapi = openapi;
 
         if (openapi.getComponents() == null) {
