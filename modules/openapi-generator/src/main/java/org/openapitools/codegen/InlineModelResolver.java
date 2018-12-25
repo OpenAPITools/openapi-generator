@@ -42,7 +42,6 @@ import io.swagger.v3.oas.models.media.XML;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
-    private boolean skipMatches;
     static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
     Map<String, Schema> addedModels = new HashMap<String, Schema>();
     Map<String, String> generatedSignature = new HashMap<String, String>();
@@ -342,9 +341,6 @@ public class InlineModelResolver {
     }
 
     public String matchGenerated(Schema model) {
-        if (this.skipMatches) {
-            return null;
-        }
         String json = Json.pretty(model);
         if (generatedSignature.containsKey(json)) {
             return generatedSignature.get(json);
@@ -465,27 +461,6 @@ public class InlineModelResolver {
         }
     }
 
-    @SuppressWarnings("static-method")
-    public Schema modelFromProperty(ArraySchema object, @SuppressWarnings("unused") String path) {
-        String description = object.getDescription();
-        String example = null;
-        Object obj = object.getExample();
-
-        if (obj != null) {
-            example = obj.toString();
-        }
-        Schema inner = object.getItems();
-        if (inner instanceof ObjectSchema) {
-            ArraySchema model = new ArraySchema();
-            model.setDescription(description);
-            model.setExample(example);
-            model.setItems(object.getItems());
-            model.setName(object.getName());
-            return model;
-        }
-        return null;
-    }
-
     public Schema modelFromProperty(ObjectSchema object, String path) {
         String description = object.getDescription();
         String example = null;
@@ -505,22 +480,6 @@ public class InlineModelResolver {
             flattenProperties(properties, path);
             model.setProperties(properties);
         }
-        return model;
-    }
-
-    @SuppressWarnings("static-method")
-    public Schema modelFromProperty(MapSchema object, @SuppressWarnings("unused") String path) {
-        String description = object.getDescription();
-        String example = null;
-        Object obj = object.getExample();
-        if (obj != null) {
-            example = obj.toString();
-        }
-        ArraySchema model = new ArraySchema();
-        model.setDescription(description);
-        model.setName(object.getName());
-        model.setExample(example);
-        model.setItems(ModelUtils.getAdditionalProperties(object));
         return model;
     }
 
@@ -552,13 +511,5 @@ public class InlineModelResolver {
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));
         }
-    }
-
-    public boolean isSkipMatches() {
-        return skipMatches;
-    }
-
-    public void setSkipMatches(boolean skipMatches) {
-        this.skipMatches = skipMatches;
     }
 }
