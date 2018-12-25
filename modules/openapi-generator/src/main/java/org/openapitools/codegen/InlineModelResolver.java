@@ -43,8 +43,8 @@ import io.swagger.v3.oas.models.media.XML;
 public class InlineModelResolver {
     private OpenAPI openapi;
     static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
-    Map<String, Schema> addedModels = new HashMap<String, Schema>();
-    Map<String, String> generatedSignature = new HashMap<String, String>();
+    private Map<String, Schema> addedModels = new HashMap<String, Schema>();
+    private Map<String, String> generatedSignature = new HashMap<String, String>();
 
     public void flatten(OpenAPI openapi) {
         this.openapi = openapi;
@@ -340,7 +340,7 @@ public class InlineModelResolver {
         }
     }
 
-    public String matchGenerated(Schema model) {
+    private String matchGenerated(Schema model) {
         String json = Json.pretty(model);
         if (generatedSignature.containsKey(json)) {
             return generatedSignature.get(json);
@@ -348,11 +348,11 @@ public class InlineModelResolver {
         return null;
     }
 
-    public void addGenerated(String name, Schema model) {
+    private void addGenerated(String name, Schema model) {
         generatedSignature.put(Json.pretty(model), name);
     }
 
-    public String uniqueName(String key) {
+    private String uniqueName(String key) {
         if (key == null) {
             key = "NULL_UNIQUE_NAME";
             LOGGER.warn("null key found. Default to NULL_UNIQUE_NAME");
@@ -376,7 +376,7 @@ public class InlineModelResolver {
         return key;
     }
 
-    public void flattenProperties(Map<String, Schema> properties, String path) {
+    private void flattenProperties(Map<String, Schema> properties, String path) {
         if (properties == null) {
             return;
         }
@@ -461,7 +461,7 @@ public class InlineModelResolver {
         }
     }
 
-    public Schema modelFromProperty(ObjectSchema object, String path) {
+    private Schema modelFromProperty(ObjectSchema object, String path) {
         String description = object.getDescription();
         String example = null;
         Object obj = object.getExample();
@@ -490,7 +490,7 @@ public class InlineModelResolver {
      * @param property Schema
      * @return {@link Schema} A constructed OpenAPI property
      */
-    public Schema makeSchema(String ref, Schema property) {
+    private Schema makeSchema(String ref, Schema property) {
         Schema newProperty = new Schema().$ref(ref);
         this.copyVendorExtensions(property, newProperty);
         return newProperty;
@@ -503,7 +503,7 @@ public class InlineModelResolver {
      * @param target target property
      */
 
-    public void copyVendorExtensions(Schema source, Schema target) {
+    private void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
         if (vendorExtensions == null) {
              return;
