@@ -41,9 +41,9 @@ import io.swagger.v3.oas.models.media.XML;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
-    static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
     private Map<String, String> generatedSignature = new HashMap<String, String>();
+    static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     void flatten(OpenAPI openapi) {
         this.openapi = openapi;
