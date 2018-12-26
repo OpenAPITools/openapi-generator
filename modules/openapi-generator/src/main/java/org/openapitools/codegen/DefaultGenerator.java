@@ -877,12 +877,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             throw new RuntimeException("missing config!");
         }
 
-        configureGeneratorProperties();
-        configureOpenAPIInfo();
-
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
         inlineModelResolver.flatten(openAPI);
+
+        configureGeneratorProperties();
+        configureOpenAPIInfo();
 
         List<File> files = new ArrayList<File>();
         // models
