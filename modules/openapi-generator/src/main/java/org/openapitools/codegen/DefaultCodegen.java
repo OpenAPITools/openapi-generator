@@ -278,8 +278,8 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 for (CodegenProperty cp : cm.allVars) {
                     // detect self import
-                    if (cp.dataType.equals(cm.classname) ||
-                            (cp.isContainer && cp.items.dataType.equals(cm.classname))) {
+                    if (cp.dataType.equalsIgnoreCase(cm.classname) ||
+                            (cp.isContainer && cp.items.dataType.equalsIgnoreCase(cm.classname))) {
                         cm.imports.remove(cm.classname); // remove self import
                         cp.isSelfReference = true;
                     }

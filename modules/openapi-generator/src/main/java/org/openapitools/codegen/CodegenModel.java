@@ -616,4 +616,18 @@ public class CodegenModel {
             }
         }
     }
+
+    /**
+     * Remove self reference import
+     */
+    public void removeSelfReferenceImport() {
+        for (CodegenProperty cp : allVars) {
+            // detect self import
+            if (cp.dataType.equalsIgnoreCase(this.classname) ||
+                    (cp.isContainer && cp.items.dataType.equalsIgnoreCase(this.classname))) {
+                this.imports.remove(this.classname); // remove self import
+                cp.isSelfReference = true;
+            }
+        }
+    }
 }

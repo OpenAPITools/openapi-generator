@@ -40,6 +40,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
+      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.pet_controller
     put:
       operationId: update_pet
@@ -70,6 +71,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
+      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.pet_controller
   /pet/findByStatus:
     get:
@@ -334,6 +336,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
+      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.store_controller
   /store/order/{orderId}:
     delete:
@@ -408,6 +411,7 @@ paths:
       summary: Create user
       tags:
       - user
+      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithArray:
     post:
@@ -428,6 +432,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/createWithList:
     post:
@@ -448,6 +453,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/login:
     get:
@@ -582,6 +588,7 @@ paths:
       summary: Updated user
       tags:
       - user
+      x-codegen-request-body-name: body
       x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
   schemas:

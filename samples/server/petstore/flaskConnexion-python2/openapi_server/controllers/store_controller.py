@@ -42,16 +42,16 @@ def get_order_by_id(order_id):  # noqa: E501
     return 'do some magic!'
 
 
-def place_order(order):  # noqa: E501
+def place_order(body):  # noqa: E501
     """Place an order for a pet
 
      # noqa: E501
 
-    :param order: order placed for purchasing the pet
-    :type order: dict | bytes
+    :param body: order placed for purchasing the pet
+    :type body: dict | bytes
 
     :rtype: Order
     """
     if connexion.request.is_json:
-        order = Order.from_dict(connexion.request.get_json())  # noqa: E501
+        body = Order.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
