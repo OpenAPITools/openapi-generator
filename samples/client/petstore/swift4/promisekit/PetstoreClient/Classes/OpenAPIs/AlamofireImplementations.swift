@@ -64,6 +64,9 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         return Alamofire.SessionManager(configuration: configuration)
     }
 
+    /**
+     May be overridden by a subclass if you want to custom request constructor.
+     */
     open func createURLRequest() -> URLRequest? {
         let encoding: ParameterEncoding = isBody ? JSONDataEncoding() : URLEncoding()
         guard let originalRequest = try? URLRequest(url: URLString, method: HTTPMethod(rawValue: method)!, headers: buildHeaders()) else { return nil }
