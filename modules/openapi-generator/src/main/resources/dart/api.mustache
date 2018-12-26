@@ -89,7 +89,7 @@ class {{classname}} {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
