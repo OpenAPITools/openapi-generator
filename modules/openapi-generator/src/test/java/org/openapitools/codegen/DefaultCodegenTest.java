@@ -252,6 +252,7 @@ public class DefaultCodegenTest {
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
+        Assert.assertEquals(type, "oneOf<ObjA,ObjB>");
     }
 
     @Test
@@ -534,7 +535,7 @@ public class DefaultCodegenTest {
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
-        test.setPropertyName("$_type");
+        test.setPropertyName("DollarUnderscoretype");
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
         test.getMapping().put("c", "#/components/schemas/Child");

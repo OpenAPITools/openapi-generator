@@ -85,22 +85,22 @@ public class StoreApi {
     /**
      * Place an order for a pet
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void placeOrder(Order order, Handler<AsyncResult<Order>> resultHandler) {
-        delegate.placeOrder(order, resultHandler);
+    public void placeOrder(Order body, Handler<AsyncResult<Order>> resultHandler) {
+        delegate.placeOrder(body, resultHandler);
     }
 
     /**
      * Place an order for a pet
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Order> rxPlaceOrder(Order order) {
+    public Single<Order> rxPlaceOrder(Order body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.placeOrder(order, fut);
+            delegate.placeOrder(body, fut);
         }));
     }
 

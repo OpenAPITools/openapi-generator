@@ -129,12 +129,12 @@ FakeApiService
 Test serialization of object with outer number type
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterCompositeSerializeOpts - Optional Parameters:
- * @param "OuterComposite" (optional.Interface of OuterComposite) -  Input composite as post body
+ * @param "Body" (optional.Interface of OuterComposite) -  Input composite as post body
 @return OuterComposite
 */
 
 type FakeOuterCompositeSerializeOpts struct {
-	OuterComposite optional.Interface
+	Body optional.Interface
 }
 
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *http.Response, error) {
@@ -172,12 +172,12 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	if localVarOptionals != nil && localVarOptionals.OuterComposite.IsSet() {
-		localVarOptionalOuterComposite, localVarOptionalOuterCompositeok := localVarOptionals.OuterComposite.Value().(OuterComposite)
-		if !localVarOptionalOuterCompositeok {
-			return localVarReturnValue, nil, reportError("outerComposite should be OuterComposite")
+	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
+		localVarOptionalBody, localVarOptionalBodyok := localVarOptionals.Body.Value().(OuterComposite)
+		if !localVarOptionalBodyok {
+			return localVarReturnValue, nil, reportError("body should be OuterComposite")
 		}
-		localVarPostBody = &localVarOptionalOuterComposite
+		localVarPostBody = &localVarOptionalBody
 	}
 
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
@@ -426,9 +426,9 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 FakeApiService
 For this test, the body for this request much reference a schema named &#x60;File&#x60;.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param fileSchemaTestClass
+ * @param body
 */
-func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, fileSchemaTestClass FileSchemaTestClass) (*http.Response, error) {
+func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSchemaTestClass) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Put")
 		localVarPostBody     interface{}
@@ -462,7 +462,7 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, fileSchemaT
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &fileSchemaTestClass
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -494,9 +494,9 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, fileSchemaT
 FakeApiService
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param query
- * @param user
+ * @param body
 */
-func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query string, user User) (*http.Response, error) {
+func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query string, body User) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Put")
 		localVarPostBody     interface{}
@@ -531,7 +531,7 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -563,10 +563,10 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 FakeApiService To test \"client\" model
 To test \&quot;client\&quot; model
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param client client model
+ * @param body client model
 @return Client
 */
-func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Client, *http.Response, error) {
+func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Patch")
 		localVarPostBody     interface{}
@@ -601,7 +601,7 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Cl
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &client
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -1004,9 +1004,9 @@ func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredString
 /*
 FakeApiService test inline additionalProperties
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param requestBody request body
+ * @param param request body
 */
-func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, requestBody map[string]string) (*http.Response, error) {
+func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, param map[string]string) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
@@ -1040,7 +1040,7 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, req
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &requestBody
+	localVarPostBody = &param
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err

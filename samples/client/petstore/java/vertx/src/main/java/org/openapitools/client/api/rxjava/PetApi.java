@@ -26,22 +26,22 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void addPet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.addPet(pet, resultHandler);
+    public void addPet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.addPet(body, resultHandler);
     }
 
     /**
      * Add a new pet to the store
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxAddPet(Pet pet) {
+    public Single<Void> rxAddPet(Pet body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.addPet(pet, fut);
+            delegate.addPet(body, fut);
         }));
     }
     /**
@@ -133,22 +133,22 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void updatePet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.updatePet(pet, resultHandler);
+    public void updatePet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.updatePet(body, resultHandler);
     }
 
     /**
      * Update an existing pet
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxUpdatePet(Pet pet) {
+    public Single<Void> rxUpdatePet(Pet body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.updatePet(pet, fut);
+            delegate.updatePet(body, fut);
         }));
     }
     /**

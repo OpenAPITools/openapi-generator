@@ -23,7 +23,7 @@ import {
 } from '../models';
 
 export interface AddPetRequest {
-    pet: Pet;
+    body: Pet;
 }
 
 export interface DeletePetRequest {
@@ -44,7 +44,7 @@ export interface GetPetByIdRequest {
 }
 
 export interface UpdatePetRequest {
-    pet: Pet;
+    body: Pet;
 }
 
 export interface UpdatePetWithFormRequest {
@@ -68,8 +68,8 @@ export class PetApi extends runtime.BaseAPI {
      * Add a new pet to the store
      */
     async addPetRaw(requestParameters: AddPetRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.pet === null || requestParameters.pet === undefined) {
-            throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling addPet.');
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -92,7 +92,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PetToJSON(requestParameters.pet),
+            body: PetToJSON(requestParameters.body),
         });
 
         return new runtime.VoidApiResponse(response);
@@ -277,8 +277,8 @@ export class PetApi extends runtime.BaseAPI {
      * Update an existing pet
      */
     async updatePetRaw(requestParameters: UpdatePetRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.pet === null || requestParameters.pet === undefined) {
-            throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling updatePet.');
+        if (requestParameters.body === null || requestParameters.body === undefined) {
+            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -301,7 +301,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: PetToJSON(requestParameters.pet),
+            body: PetToJSON(requestParameters.body),
         });
 
         return new runtime.VoidApiResponse(response);

@@ -42,7 +42,7 @@ use \OpenAPI\Client\ObjectSerializer;
  */
 class Animal implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = 'className';
+    const DISCRIMINATOR = 'class_name';
 
     /**
       * The original name of the model.
@@ -186,8 +186,7 @@ class Animal implements ModelInterface, ArrayAccess
         $this->container['color'] = isset($data['color']) ? $data['color'] : 'red';
 
         // Initialize discriminator property with the model name.
-        $discriminator = array_search('className', self::$attributeMap, true);
-        $this->container[$discriminator] = static::$openAPIModelName;
+        $this->container['class_name'] = static::$openAPIModelName;
     }
 
     /**

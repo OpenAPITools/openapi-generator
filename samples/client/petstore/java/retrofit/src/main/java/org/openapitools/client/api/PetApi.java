@@ -20,25 +20,25 @@ public interface PetApi {
    * Add a new pet to the store
    * Sync method
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Void
    */
   
   @POST("/pet")
   Void addPet(
-    @retrofit.http.Body Pet pet
+    @retrofit.http.Body Pet body
   );
 
   /**
    * Add a new pet to the store
    * Async method
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @param cb callback method
    */
   
   @POST("/pet")
   void addPet(
-    @retrofit.http.Body Pet pet, Callback<Void> cb
+    @retrofit.http.Body Pet body, Callback<Void> cb
   );
   /**
    * Deletes a pet
@@ -142,25 +142,25 @@ public interface PetApi {
    * Update an existing pet
    * Sync method
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Void
    */
   
   @PUT("/pet")
   Void updatePet(
-    @retrofit.http.Body Pet pet
+    @retrofit.http.Body Pet body
   );
 
   /**
    * Update an existing pet
    * Async method
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @param cb callback method
    */
   
   @PUT("/pet")
   void updatePet(
-    @retrofit.http.Body Pet pet, Callback<Void> cb
+    @retrofit.http.Body Pet body, Callback<Void> cb
   );
   /**
    * Updates a pet in the store with form data

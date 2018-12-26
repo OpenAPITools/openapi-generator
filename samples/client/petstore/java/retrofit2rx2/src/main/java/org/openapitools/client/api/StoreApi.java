@@ -52,12 +52,12 @@ public interface StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param order order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (required)
    * @return Observable&lt;Order&gt;
    */
   @POST("store/order")
   Observable<Order> placeOrder(
-    @retrofit2.http.Body Order order
+    @retrofit2.http.Body Order body
   );
 
 }

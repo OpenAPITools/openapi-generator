@@ -27,7 +27,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUser
      */
-    default ResponseEntity<Void> createUser(User user) {
+    default ResponseEntity<Void> createUser(User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -35,7 +35,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    default ResponseEntity<Void> createUsersWithArrayInput(List<User> user) {
+    default ResponseEntity<Void> createUsersWithArrayInput(List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -43,7 +43,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    default ResponseEntity<Void> createUsersWithListInput(List<User> user) {
+    default ResponseEntity<Void> createUsersWithListInput(List<User> body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -97,7 +97,7 @@ public interface UserApiDelegate {
      * @see UserApi#updateUser
      */
     default ResponseEntity<Void> updateUser(String username,
-        User user) {
+        User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

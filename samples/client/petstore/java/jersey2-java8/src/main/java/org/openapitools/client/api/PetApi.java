@@ -40,26 +40,26 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void addPet(Pet pet) throws ApiException {
+  public void addPet(Pet body) throws ApiException {
 
-    addPetWithHttpInfo(pet);
+    addPetWithHttpInfo(body);
   }
 
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
-    Object localVarPostBody = pet;
+  public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'pet' is set
-    if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
     }
     
     // create path and map variables
@@ -310,26 +310,26 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void updatePet(Pet pet) throws ApiException {
+  public void updatePet(Pet body) throws ApiException {
 
-    updatePetWithHttpInfo(pet);
+    updatePetWithHttpInfo(body);
   }
 
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
-    Object localVarPostBody = pet;
+  public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'pet' is set
-    if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
     }
     
     // create path and map variables

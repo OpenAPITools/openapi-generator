@@ -95,12 +95,12 @@ public class FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return OuterComposite
    * @throws ApiException if fails to make API call
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
-    Object localVarPostBody = outerComposite;
+  public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
+    Object localVarPostBody = body;
     
     // create path and map variables
     String localVarPath = "/fake/outer/composite";
@@ -206,15 +206,15 @@ public class FakeApi {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param fileSchemaTestClass  (required)
+   * @param body  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
-    Object localVarPostBody = fileSchemaTestClass;
+  public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'fileSchemaTestClass' is set
-    if (fileSchemaTestClass == null) {
-      throw new ApiException(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
     }
     
     // create path and map variables
@@ -248,20 +248,20 @@ public class FakeApi {
    * 
    * 
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithQueryParams(String query, User user) throws ApiException {
-    Object localVarPostBody = user;
+  public void testBodyWithQueryParams(String query, User body) throws ApiException {
+    Object localVarPostBody = body;
     
     // verify the required parameter 'query' is set
     if (query == null) {
       throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
     }
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
     }
     
     // create path and map variables
@@ -295,16 +295,16 @@ public class FakeApi {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClientModel(Client client) throws ApiException {
-    Object localVarPostBody = client;
+  public Client testClientModel(Client body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'client' is set
-    if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling testClientModel");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
     }
     
     // create path and map variables
@@ -553,15 +553,15 @@ if (booleanGroup != null)
   /**
    * test inline additionalProperties
    * 
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
-    Object localVarPostBody = requestBody;
+  public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
+    Object localVarPostBody = param;
     
-    // verify the required parameter 'requestBody' is set
-    if (requestBody == null) {
-      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+    // verify the required parameter 'param' is set
+    if (param == null) {
+      throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
     }
     
     // create path and map variables

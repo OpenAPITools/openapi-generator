@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **TestClassname**
-> Client TestClassname(ctx, client)
+> Client TestClassname(ctx, body)
 To test class name in snake case
 
 To test class name in snake case
@@ -18,7 +18,7 @@ To test class name in snake case
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **client** | [**Client**](Client.md)| client model | 
+  **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

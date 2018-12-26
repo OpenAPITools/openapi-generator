@@ -26,7 +26,6 @@
  */
 namespace OpenAPIServer;
 
-use OpenAPIServer\Api\FakeApi;
 use Slim\App;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
@@ -38,7 +37,7 @@ use Tuupola\Middleware\HttpBasicAuthentication;
  * PHP version 5
  *
  * @category Class
- * @package  OpenAPIServer\Api
+ * @package  OpenAPIServer
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
@@ -50,6 +49,21 @@ class SlimRouter
      */
     private $slimApp;
 
+    /** @var array[] list of all api operations */
+    private $operations = [
+        [
+            'httpMethod' => 'PUT',
+            'basePathWithoutHost' => '/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r',
+            'path' => '/fake',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'testCodeInjectEndRnNR',
+            'authMethods' => [
+            ],
+        ],
+    ];
+
     /**
      * Class constructor
      *
@@ -58,7 +72,7 @@ class SlimRouter
      */
     public function __construct($container = [])
     {
-        $app = new App($container);
+        $this->slimApp = new App($container);
 
         $basicAuth = new HttpBasicAuthentication([
             "secure" => false,
@@ -69,12 +83,53 @@ class SlimRouter
             }
         ]);
 
-        $app->PUT(
-            '/ ' \" =end -- \\r\\n \\n \\r/v2 *_/ ' \" =end -- \\r\\n \\n \\r/fake',
-            FakeApi::class . ':testCodeInjectEndRnNR'
-        );
+        foreach ($this->operations as $operation) {
+            $callback = function ($request, $response, $arguments) use ($operation) {
+                $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
+                throw new \Exception($message);
+                return $response->withStatus(501)->write($message);
+            };
+            $middlewares = [];
 
-        $this->slimApp = $app;
+            if (class_exists("\\{$operation['apiPackage']}\\{$operation['userClassname']}")) {
+                $callback = "\\{$operation['apiPackage']}\\{$operation['userClassname']}:{$operation['operationId']}";
+            }
+
+
+            foreach ($operation['authMethods'] as $authMethod) {
+                if ($authMethod['type'] === 'http') {
+                    $middlewares[] = $basicAuth;
+                }
+            }
+
+            $this->addRoute(
+                [$operation['httpMethod']],
+                "{$operation['basePathWithoutHost']}{$operation['path']}",
+                $callback,
+                $middlewares
+            )->setName($operation['operationId']);
+        }
+    }
+
+    /**
+     * Add route with multiple methods
+     *
+     * @param string[]        $methods     Numeric array of HTTP method names
+     * @param string          $pattern     The route URI pattern
+     * @param callable|string $callable    The route callback routine
+     * @param array|null      $middlewares List of middlewares
+     *
+     * @return Slim\Interfaces\RouteInterface
+     *
+     * @throws InvalidArgumentException if the route pattern isn't a string
+     */
+    public function addRoute($methods, $pattern, $callable, $middlewares = [])
+    {
+        $route = $this->slimApp->map($methods, $pattern, $callable);
+        foreach ($middlewares as $middleware) {
+            $route->add($middleware);
+        }
+        return $route;
     }
 
     /**

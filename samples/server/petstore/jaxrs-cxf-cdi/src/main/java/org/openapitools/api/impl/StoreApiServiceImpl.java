@@ -35,7 +35,7 @@ public class StoreApiServiceImpl implements StoreApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response placeOrder(Order order, SecurityContext securityContext) {
+      public Response placeOrder(Order body, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

@@ -21,11 +21,11 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     /**
     * Create user
     * This can only be done by the logged in user.
-    * @param user Created user object 
+    * @param body Created user object 
     * @return void
     */
-    fun createUser(user: User) : Unit {
-        val localVariableBody: kotlin.Any? = user
+    fun createUser(body: User) : Unit {
+        val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -52,11 +52,11 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     /**
     * Creates list of users with given input array
     * 
-    * @param user List of user object 
+    * @param body List of user object 
     * @return void
     */
-    fun createUsersWithArrayInput(user: kotlin.Array<User>) : Unit {
-        val localVariableBody: kotlin.Any? = user
+    fun createUsersWithArrayInput(body: kotlin.Array<User>) : Unit {
+        val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -83,11 +83,11 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     /**
     * Creates list of users with given input array
     * 
-    * @param user List of user object 
+    * @param body List of user object 
     * @return void
     */
-    fun createUsersWithListInput(user: kotlin.Array<User>) : Unit {
-        val localVariableBody: kotlin.Any? = user
+    fun createUsersWithListInput(body: kotlin.Array<User>) : Unit {
+        val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -241,11 +241,11 @@ class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCl
     * Updated user
     * This can only be done by the logged in user.
     * @param username name that need to be deleted 
-    * @param user Updated user object 
+    * @param body Updated user object 
     * @return void
     */
-    fun updateUser(username: kotlin.String, user: User) : Unit {
-        val localVariableBody: kotlin.Any? = user
+    fun updateUser(username: kotlin.String, body: User) : Unit {
+        val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
