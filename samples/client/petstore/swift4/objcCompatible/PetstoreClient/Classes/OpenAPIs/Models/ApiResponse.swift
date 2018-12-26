@@ -12,11 +12,6 @@ import Foundation
 public struct ApiResponse: Codable {
 
     public var code: Int?
-    public var codeNum: NSNumber? {
-        get {
-            return code.map({ return NSNumber(value: $0) })
-        }
-    }
     public var type: String?
     public var message: String?
 
