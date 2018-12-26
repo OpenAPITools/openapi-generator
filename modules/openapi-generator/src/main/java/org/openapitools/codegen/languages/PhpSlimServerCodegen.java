@@ -128,6 +128,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
     }
 
     @Override
