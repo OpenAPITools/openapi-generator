@@ -24,8 +24,8 @@ class Category(Model):
         :type name: str
         """
         self.openapi_types = {
-            'id': 'int',
-            'name': 'str'
+            'id': int,
+            'name': str
         }
 
         self.attribute_map = {
