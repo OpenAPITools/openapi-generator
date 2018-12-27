@@ -1,7 +1,13 @@
 <?php
 {{#apiInfo}}/**
  * {{appName}}
+ *
+ * PHP version 7
+ *
+ * @package {{apiPackage}}
+ * @author  OpenAPI Generator team
  * @version {{appVersion}}
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -20,13 +26,13 @@ $config['settings'] = [
      * The protocol version used by the Response object. (Default: '1.1')
      * Default: '1.1'
      */
-    //'httpVersion' => '1.1',
+    // 'httpVersion' => '1.1',
 
     /**
      * Size of each chunk read from the Response body when sending to the browser.
      * Default: 4096
      */
-    //'responseChunkSize' => 4096,
+    // 'responseChunkSize' => 4096,
 
     /**
      * If false, then no output buffering is enabled. If 'append' or 'prepend', then
@@ -34,28 +40,28 @@ $config['settings'] = [
      * to the Response returned from the route callable.
      * Default: 'append'
      */
-    //'outputBuffering' => 'append',
+    // 'outputBuffering' => 'append',
 
     /**
      * When true, the route is calculated before any middleware is executed. This
      * means that you can inspect route parameters in middleware if you need to.
      * Default: false
      */
-    //'determineRouteBeforeAppMiddleware' => false,
+    // 'determineRouteBeforeAppMiddleware' => false,
 
     /**
      * When true, additional information about exceptions are displayed by the default
      * error handler.
      * Default: false
      */
-    //'displayErrorDetails' => false,
+    // 'displayErrorDetails' => false,
 
     /**
      * When true, Slim will add a Content-Length header to the response. If you are using
      * a runtime analytics tool, such as New Relic, then this should be disabled.
      * Default: true
      */
-    //'addContentLengthHeader' => true,
+    // 'addContentLengthHeader' => true,
 
     /**
      * Filename for caching the FastRoute routes. Must be set to to a valid filename within
@@ -64,7 +70,7 @@ $config['settings'] = [
      * Set to false to disable the FastRoute cache system.
      * Default: false
      */
-    //'routerCacheFile' => false,
+    // 'routerCacheFile' => false,
 ];
 
 /**
@@ -83,13 +89,13 @@ $config['tokenAuthenticationOptions'] = [
      * false.
      * Default: true
      */
-    //'secure' => true,
+    // 'secure' => true,
 
     /**
      * Alternatively you can list your development host to have relaxed security.
      * Default: ['localhost', '127.0.0.1']
      */
-    //'relaxed' => ['localhost', '127.0.0.1'],
+    // 'relaxed' => ['localhost', '127.0.0.1'],
 
     /**
      * By default on ocurred a fail on authentication, is sent a response on json format with a
@@ -97,7 +103,7 @@ $config['tokenAuthenticationOptions'] = [
      * `401 Unauthorized`. You can customize it by setting a callable function on error option.
      * Default: null
      */
-    //'error' => null,
+    // 'error' => null,
 ];
 
 $router = new SlimRouter($config);

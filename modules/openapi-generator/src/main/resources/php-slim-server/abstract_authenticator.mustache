@@ -2,12 +2,11 @@
 /**
  * {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  {{invokerPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{invokerPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**{{#apiInfo}}{{#appName}}
@@ -42,12 +41,9 @@ use Dyorg\TokenAuthentication\Exceptions\UnauthorizedExceptionInterface;
 /**
  * {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}} Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  {{authPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{authPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 abstract class {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}
 {
@@ -69,9 +65,9 @@ abstract class {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}
      * @param string $token Api Key
      *
      * @return array User object or associative array
-     * @throws UnauthorizedExceptionInterface
+     * @throws UnauthorizedExceptionInterface on invalid token
      */
-    abstract protected function getUserByToken($token);
+    abstract protected function getUserByToken(string $token);
 
     /**
      * Authenticator constructor
@@ -79,7 +75,7 @@ abstract class {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}
      * @param ContainerInterface $container     Slim app container instance
      * @param string[]|null      $requiredScope List of required scopes
      */
-    public function __construct($container, $requiredScope = null)
+    public function __construct(ContainerInterface $container, $requiredScope = null)
     {
         $this->container = $container;
         $this->requiredScope = $requiredScope;
@@ -90,11 +86,11 @@ abstract class {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}
      *
      * Just an example of implementation. Override this method to fit your needs
      *
-     * @param ServerRequestInterface $request   HTTP request
-     * @param TokenAuthentication    $tokenAuth Middleware instance which contains api key in token
+     * @param ServerRequestInterface $request     HTTP request
+     * @param TokenSearch            $tokenSearch Middleware instance which contains api key in token
      *
      * @return bool Must return either true or false
-     * @throws UnauthorizedExceptionInterface
+     * @throws UnauthorizedExceptionInterface when cannot parse token
      */
     public function __invoke(ServerRequestInterface &$request, TokenSearch $tokenSearch)
     {

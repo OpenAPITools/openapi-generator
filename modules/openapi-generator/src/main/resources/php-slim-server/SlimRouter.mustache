@@ -2,12 +2,11 @@
 /**
  * SlimRouter
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  {{invokerPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{invokerPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**{{#apiInfo}}{{#appName}}
@@ -34,28 +33,25 @@
 namespace {{invokerPackage}};
 
 use Slim\App;
+use Slim\Interfaces\RouteInterface;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
 use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Psr\Http\Message\ServerRequestInterface;
+use Exception;
 
 /**
  * SlimRouter Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  {{invokerPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{invokerPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 class SlimRouter
 {
 
-    /**
-     * @var $slimApp Slim\App instance
-     */
+    /** @var App instance */
     private $slimApp;
 
     /** @var array[] list of all api operations */
@@ -74,7 +70,7 @@ class SlimRouter
             'authMethods' => [
                 {{#hasAuthMethods}}
                 {{#authMethods}}
-                // {{type}} authentication middleware for schema named '{{name}}'
+                // {{type}} security schema named '{{name}}'
                 {{#isBasic}}
                 [
                     'type' => '{{type}}',
@@ -103,7 +99,7 @@ class SlimRouter
                     'isOAuth' => true,
                     'scopes' => [
                     {{#scopes}}
-                        '{{scope}}',{{#description}}// {{description}}{{/description}}
+                        '{{scope}}',{{#description}} // {{description}}{{/description}}
                     {{/scopes}}
                     ],
                 ],
@@ -121,7 +117,9 @@ class SlimRouter
      * Class constructor
      *
      * @param ContainerInterface|array $container Either a ContainerInterface or an associative array of app settings
-     * @throws InvalidArgumentException when no container is provided that implements ContainerInterface
+     *
+     * @throws InvalidArgumentException When no container is provided that implements ContainerInterface
+     * @throws Exception When implementation class doesn't exists
      */
     public function __construct($container = [])
     {
@@ -131,22 +129,22 @@ class SlimRouter
         $authPackage = '{{authPackage}}';
         $basicAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
             $message = "How about extending {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}} class by {$authPackage}\BasicAuthenticator?";
-            throw new \Exception($message);
+            throw new Exception($message);
         };
         $apiKeyAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
             $message = "How about extending {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}} class by {$authPackage}\ApiKeyAuthenticator?";
-            throw new \Exception($message);
+            throw new Exception($message);
         };
         $oAuthAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
             $message = "How about extending {{abstractNamePrefix}}Authenticator{{abstractNameSuffix}} class by {$authPackage}\OAuthAuthenticator?";
-            throw new \Exception($message);
+            throw new Exception($message);
         };
         {{/hasAuthMethods}}
 
         foreach ($this->operations as $operation) {
             $callback = function ($request, $response, $arguments) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
-                throw new \Exception($message);
+                throw new Exception($message);
                 return $response->withStatus(501)->write($message);
             };
             $middlewares = [];
@@ -204,7 +202,7 @@ class SlimRouter
                         ]));
                         break;
                     default:
-                        throw new \Exception('Unknown authorization schema type');
+                        throw new Exception('Unknown authorization schema type');
                 }
             }
             {{/hasAuthMethods}}
@@ -219,13 +217,13 @@ class SlimRouter
     }
 
     /**
-     * Merges user defined options with dynamic params.
+     * Merges user defined options with dynamic params
      *
-     * @param array $optionsOverride Params which need to merge into user options
+     * @param array $options Params which need to merge into user options
      *
      * @return array Merged array
      */
-    private function getTokenAuthenticationOptions($options)
+    private function getTokenAuthenticationOptions(array $options)
     {
         if (is_array($this->slimApp->getContainer()['tokenAuthenticationOptions']) === false) {
             return $options;
@@ -242,11 +240,11 @@ class SlimRouter
      * @param callable|string $callable    The route callback routine
      * @param array|null      $middlewares List of middlewares
      *
-     * @return Slim\Interfaces\RouteInterface
+     * @return RouteInterface
      *
-     * @throws InvalidArgumentException if the route pattern isn't a string
+     * @throws InvalidArgumentException If the route pattern isn't a string
      */
-    public function addRoute($methods, $pattern, $callable, $middlewares = [])
+    public function addRoute(array $methods, string $pattern, $callable, $middlewares = [])
     {
         $route = $this->slimApp->map($methods, $pattern, $callable);
         foreach ($middlewares as $middleware) {
@@ -257,6 +255,7 @@ class SlimRouter
 
     /**
      * Returns Slim Framework instance
+     *
      * @return App
      */
     public function getSlimApp()
