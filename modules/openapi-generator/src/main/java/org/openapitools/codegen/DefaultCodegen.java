@@ -1371,53 +1371,40 @@ public class DefaultCodegen implements CodegenConfig {
             ComposedSchema cs = (ComposedSchema) schema;
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
             if (cs.getAllOf() != null) {
-                for (Schema s : cs.getAllOf()) {
-                    if (s != null) {
-                        //schema = s;
-                    }
-                    //LOGGER.info("ALL OF SCHEMA: {}", s);
+                List<String> names = new ArrayList<>();
+                for (Schema s : schemas) {
+                    names.add(getSingleSchemaType(s));
                 }
 
-                LOGGER.info("Composed schema not yet supported: {}", cs);
-                // get the model (allOf)
-                return getAlias("UNKNOWN_COMPOSED_SCHMEA");
-            } else if (cs.getAnyOf() != null) { // anyOf
-                List<String> names = new ArrayList<String>();
-                for (Schema s : schemas) {
-                    if (StringUtils.isNotBlank(s.get$ref())) { // reference to another definition/schema
-                        String schemaName = ModelUtils.getSimpleRef(s.get$ref());
-                        if (StringUtils.isNotEmpty(schemaName)) {
-                            names.add(getAlias(schemaName));
-                        } else {
-                            LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref() + ". Default to 'object'");
-                            return "object";
-                        }
-                    } else {
-                        // primitive type or model
-                        names.add(getAlias(getPrimitiveType(s)));
-                    }
-                    return "anyOf<" + String.join(",", names) + ">";
+                if (names.size() == 0) {
+                    LOGGER.error("allOf has no member defined: {}. Default to ERROR_ALLOF_SCHEMA", cs);
+                    return "ERROR_ALLOF_SCHEMA";
+                } else if (names.size() == 1) {
+                    return names.get(0);
+                } else {
+                    LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
+                    return names.get(0);
                 }
-            } else if (cs.getOneOf() != null) { // oneOf
-                List<String> names = new ArrayList<String>();
+            } else if (cs.getAnyOf() != null) { // anyOf
+                List<String> names = new ArrayList<>();
                 for (Schema s : schemas) {
-                    if (StringUtils.isNotBlank(s.get$ref())) { // reference to another definition/schema
-                        String schemaName = ModelUtils.getSimpleRef(s.get$ref());
-                        if (StringUtils.isNotEmpty(schemaName)) {
-                            names.add(getAlias(schemaName));
-                        } else {
-                            LOGGER.warn("Error obtaining the datatype from ref:" + schema.get$ref() + ". Default to 'object'");
-                            return "object";
-                        }
-                    } else {
-                        // primitive type or model
-                        names.add(getAlias(getPrimitiveType(s)));
-                    }
+                    names.add(getSingleSchemaType(s));
+                }
+                return "anyOf<" + String.join(",", names) + ">";
+            } else if (cs.getOneOf() != null) { // oneOf
+                List<String> names = new ArrayList<>();
+                for (Schema s : schemas) {
+                    names.add(getSingleSchemaType(s));
                 }
                 return "oneOf<" + String.join(",", names) + ">";
             }
         }
 
+        return getSingleSchemaType(schema);
+
+    }
+
+    private String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = ModelUtils.unaliasSchema(globalSchemas, schema);
 
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
