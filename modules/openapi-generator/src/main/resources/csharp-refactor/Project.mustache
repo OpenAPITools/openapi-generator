@@ -84,6 +84,12 @@
         <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.106.5.4\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\RestSharp.dll</HintPath>
         <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.106.5.4\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="KellermanSoftware.Compare-NET-Objects">
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+    </Reference>
     {{#generatePropertyChanged}}
     <Reference Include="PropertyChanged">
       <HintPath>..\..\packages\PropertyChanged.Fody.1.51.3\Lib\portable-net4+sl4+wp8+win8+wpa81+MonoAndroid16+MonoTouch40\PropertyChanged.dll</HintPath>
