@@ -81,7 +81,6 @@ public class ArrayOfNumberOnly {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfNumberOnly {\n");
-    
     sb.append("    arrayNumber: ").append(toIndentedString(arrayNumber)).append("\n");
     sb.append("}");
     return sb.toString();
