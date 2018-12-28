@@ -1,4 +1,7 @@
-## Online OpenAPI generator
+---
+id: openapi-generator-online
+title: Online OpenAPI Generator
+---
 
 One can also generate API clients or server stubs using the online openapi-generator.
 

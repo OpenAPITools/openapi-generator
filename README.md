@@ -88,7 +88,7 @@ For old releases, please refer to the [**Release**](https://github.com/OpenAPITo
 
 ## [1.2 - Artifacts on Maven Central](#table-of-contents)
 
-You can find our released artefacts on maven central:
+You can find our released artifacts on maven central:
 
 **Core:**
 ```xml

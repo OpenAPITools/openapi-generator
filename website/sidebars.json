@@ -1,0 +1,48 @@
+{
+  "docs": {
+    "About": [
+      "roadmap",
+      "faq",
+      "swagger-codegen-migration",
+      "fork-qna"
+    ],
+
+    "Process Documentation": [
+      {
+        "type": "subcategory",
+        "label": "Contributing",
+        "ids": [
+          "contributing",
+          "code-of-conduct"
+        ]
+      },
+
+      {
+        "type": "subcategory",
+        "label": "Extending",
+        "ids": [
+          "customization",
+          "integrations"
+        ]
+      },
+
+      {
+        "type": "subcategory",
+        "label": "Documentation",
+        "ids": [
+        ]
+      }
+    ],
+
+    "Releases": [
+      "release-3-0-0"
+    ],
+
+    "API": [
+      "generators"
+    ]
+  },
+  "docs-other": {
+    "First Category": ["doc4", "doc5"]
+  }
+}
