@@ -277,8 +277,8 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void resolveInlineRequestBody() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+    public void resolveInlineRequestBodyWhenNoComponents() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_request_body_no_components.yaml", null, new ParseOptions()).getOpenAPI();
         new InlineModelResolver().flatten(openAPI);
 
         assertNotNull(openAPI.getComponents());
