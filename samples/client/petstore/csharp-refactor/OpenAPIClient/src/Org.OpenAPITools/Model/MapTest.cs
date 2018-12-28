@@ -22,7 +22,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
-using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -123,7 +122,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as MapTest).AreEqual;
+            return this.Equals(input as MapTest);
         }
 
         /// <summary>
@@ -133,7 +132,30 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(MapTest input)
         {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            if (input == null)
+                return false;
+
+            return 
+                (
+                    this.MapMapOfString == input.MapMapOfString ||
+                    this.MapMapOfString != null &&
+                    this.MapMapOfString.SequenceEqual(input.MapMapOfString)
+                ) && 
+                (
+                    this.MapOfEnumString == input.MapOfEnumString ||
+                    this.MapOfEnumString != null &&
+                    this.MapOfEnumString.SequenceEqual(input.MapOfEnumString)
+                ) && 
+                (
+                    this.DirectMap == input.DirectMap ||
+                    this.DirectMap != null &&
+                    this.DirectMap.SequenceEqual(input.DirectMap)
+                ) && 
+                (
+                    this.IndirectMap == input.IndirectMap ||
+                    this.IndirectMap != null &&
+                    this.IndirectMap.SequenceEqual(input.IndirectMap)
+                );
         }
 
         /// <summary>

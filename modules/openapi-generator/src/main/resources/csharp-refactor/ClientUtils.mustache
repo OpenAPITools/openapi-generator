@@ -9,8 +9,9 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
+{{#useCompareNetObjects}}
 using KellermanSoftware.CompareNetObjects;
+{{/useCompareNetObjects}}
 
 namespace {{packageName}}.Client
 {
@@ -19,6 +20,7 @@ namespace {{packageName}}.Client
     /// </summary>
     public static class ClientUtils
     {
+        {{#useCompareNetObjects}}
         /// <summary>
         /// An instance of CompareLogic.
         /// </summary>
@@ -32,6 +34,7 @@ namespace {{packageName}}.Client
             compareLogic = new CompareLogic();
         }
 
+        {{/useCompareNetObjects}}
         /// <summary>
         /// Sanitize filename by removing the path
         /// </summary>

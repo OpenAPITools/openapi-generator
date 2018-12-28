@@ -22,7 +22,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
-using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -94,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as OuterComposite).AreEqual;
+            return this.Equals(input as OuterComposite);
         }
 
         /// <summary>
@@ -104,7 +103,25 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(OuterComposite input)
         {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            if (input == null)
+                return false;
+
+            return 
+                (
+                    this.MyNumber == input.MyNumber ||
+                    (this.MyNumber != null &&
+                    this.MyNumber.Equals(input.MyNumber))
+                ) && 
+                (
+                    this.MyString == input.MyString ||
+                    (this.MyString != null &&
+                    this.MyString.Equals(input.MyString))
+                ) && 
+                (
+                    this.MyBoolean == input.MyBoolean ||
+                    (this.MyBoolean != null &&
+                    this.MyBoolean.Equals(input.MyBoolean))
+                );
         }
 
         /// <summary>

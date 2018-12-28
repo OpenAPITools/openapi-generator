@@ -22,7 +22,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
-using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -222,7 +221,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input as FormatTest).AreEqual;
+            return this.Equals(input as FormatTest);
         }
 
         /// <summary>
@@ -232,7 +231,75 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(FormatTest input)
         {
-            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            if (input == null)
+                return false;
+
+            return 
+                (
+                    this.Integer == input.Integer ||
+                    (this.Integer != null &&
+                    this.Integer.Equals(input.Integer))
+                ) && 
+                (
+                    this.Int32 == input.Int32 ||
+                    (this.Int32 != null &&
+                    this.Int32.Equals(input.Int32))
+                ) && 
+                (
+                    this.Int64 == input.Int64 ||
+                    (this.Int64 != null &&
+                    this.Int64.Equals(input.Int64))
+                ) && 
+                (
+                    this.Number == input.Number ||
+                    (this.Number != null &&
+                    this.Number.Equals(input.Number))
+                ) && 
+                (
+                    this.Float == input.Float ||
+                    (this.Float != null &&
+                    this.Float.Equals(input.Float))
+                ) && 
+                (
+                    this.Double == input.Double ||
+                    (this.Double != null &&
+                    this.Double.Equals(input.Double))
+                ) && 
+                (
+                    this.String == input.String ||
+                    (this.String != null &&
+                    this.String.Equals(input.String))
+                ) && 
+                (
+                    this.Byte == input.Byte ||
+                    (this.Byte != null &&
+                    this.Byte.Equals(input.Byte))
+                ) && 
+                (
+                    this.Binary == input.Binary ||
+                    (this.Binary != null &&
+                    this.Binary.Equals(input.Binary))
+                ) && 
+                (
+                    this.Date == input.Date ||
+                    (this.Date != null &&
+                    this.Date.Equals(input.Date))
+                ) && 
+                (
+                    this.DateTime == input.DateTime ||
+                    (this.DateTime != null &&
+                    this.DateTime.Equals(input.DateTime))
+                ) && 
+                (
+                    this.Uuid == input.Uuid ||
+                    (this.Uuid != null &&
+                    this.Uuid.Equals(input.Uuid))
+                ) && 
+                (
+                    this.Password == input.Password ||
+                    (this.Password != null &&
+                    this.Password.Equals(input.Password))
+                );
         }
 
         /// <summary>

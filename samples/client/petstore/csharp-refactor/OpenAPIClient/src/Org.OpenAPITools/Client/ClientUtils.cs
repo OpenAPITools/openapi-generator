@@ -19,8 +19,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using KellermanSoftware.CompareNetObjects;
-
 namespace Org.OpenAPITools.Client
 {
     /// <summary>
@@ -28,19 +26,6 @@ namespace Org.OpenAPITools.Client
     /// </summary>
     public static class ClientUtils
     {
-        /// <summary>
-        /// An instance of CompareLogic.
-        /// </summary>
-        public static CompareLogic compareLogic;
-
-        /// <summary>
-        /// Static contstructor to initialise compareLogic.
-        /// </summary>
-        static ClientUtils()
-        {
-            compareLogic = new CompareLogic();
-        }
-
         /// <summary>
         /// Sanitize filename by removing the path
         /// </summary>
