@@ -73,7 +73,7 @@ public class ListGenerators implements Runnable {
             list.forEach(generator -> {
                 if (docusaurus) {
                     sb.append("* ");
-                    String id = String.format("generators/%s", generator.getName());
+                    String id = "generators/" + generator.getName();
                     sb.append("[").append(generator.getName()).append("](").append(id).append(")");
 
                     // trailing space is important for markdown list formatting
