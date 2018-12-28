@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -216,12 +214,24 @@ public class Order {
 
   @Override
   public boolean equals(java.lang.Object o) {
-    return EqualsBuilder.reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Order order = (Order) o;
+    return Objects.equals(this.id, order.id) &&
+        Objects.equals(this.petId, order.petId) &&
+        Objects.equals(this.quantity, order.quantity) &&
+        Objects.equals(this.shipDate, order.shipDate) &&
+        Objects.equals(this.status, order.status) &&
+        Objects.equals(this.complete, order.complete);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(id, petId, quantity, shipDate, status, complete);
   }
 
 

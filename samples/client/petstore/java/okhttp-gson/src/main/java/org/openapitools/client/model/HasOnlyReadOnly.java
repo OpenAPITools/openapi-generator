@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -60,12 +58,20 @@ public class HasOnlyReadOnly {
 
   @Override
   public boolean equals(java.lang.Object o) {
-    return EqualsBuilder.reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(bar, foo);
   }
 
 

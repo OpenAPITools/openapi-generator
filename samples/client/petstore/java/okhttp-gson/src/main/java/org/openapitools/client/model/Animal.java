@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -82,12 +80,20 @@ public class Animal {
 
   @Override
   public boolean equals(java.lang.Object o) {
-    return EqualsBuilder.reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Animal animal = (Animal) o;
+    return Objects.equals(this.className, animal.className) &&
+        Objects.equals(this.color, animal.color);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(className, color);
   }
 
 

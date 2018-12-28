@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -337,12 +335,23 @@ public class EnumTest {
 
   @Override
   public boolean equals(java.lang.Object o) {
-    return EqualsBuilder.reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    EnumTest enumTest = (EnumTest) o;
+    return Objects.equals(this.enumString, enumTest.enumString) &&
+        Objects.equals(this.enumStringRequired, enumTest.enumStringRequired) &&
+        Objects.equals(this.enumInteger, enumTest.enumInteger) &&
+        Objects.equals(this.enumNumber, enumTest.enumNumber) &&
+        Objects.equals(this.outerEnum, enumTest.outerEnum);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(enumString, enumStringRequired, enumInteger, enumNumber, outerEnum);
   }
 
 

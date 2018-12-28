@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -166,12 +164,24 @@ public class Capitalization {
 
   @Override
   public boolean equals(java.lang.Object o) {
-    return EqualsBuilder.reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Capitalization capitalization = (Capitalization) o;
+    return Objects.equals(this.smallCamel, capitalization.smallCamel) &&
+        Objects.equals(this.capitalCamel, capitalization.capitalCamel) &&
+        Objects.equals(this.smallSnake, capitalization.smallSnake) &&
+        Objects.equals(this.capitalSnake, capitalization.capitalSnake) &&
+        Objects.equals(this.scAETHFlowPoints, capitalization.scAETHFlowPoints) &&
+        Objects.equals(this.ATT_NAME, capitalization.ATT_NAME);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(smallCamel, capitalCamel, smallSnake, capitalSnake, scAETHFlowPoints, ATT_NAME);
   }
 
 

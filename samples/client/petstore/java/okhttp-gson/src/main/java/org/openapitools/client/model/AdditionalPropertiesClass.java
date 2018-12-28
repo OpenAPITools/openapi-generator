@@ -13,8 +13,6 @@
 
 package org.openapitools.client.model;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -97,12 +95,20 @@ public class AdditionalPropertiesClass {
 
   @Override
   public boolean equals(java.lang.Object o) {
-    return EqualsBuilder.reflectionEquals(this, o);
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
+    return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
+        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
   }
 
   @Override
   public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this);
+    return Objects.hash(mapProperty, mapOfMapProperty);
   }
 
 
