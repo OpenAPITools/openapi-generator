@@ -110,6 +110,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         apiTestTemplateFiles.put("api_test.mustache", ".java");
+        modelTestTemplateFiles.put("model_test.mustache", ".java");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
@@ -534,17 +535,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', '/');
+        return (outputFolder + "/" + sourceFolder + "/" + apiPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + "/" + testFolder + "/" + apiPackage().replace('.', '/');
+        return (outputFolder + "/" + testFolder + "/" + apiPackage()).replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + "/" + testFolder + "/" + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', '/');
+        return (outputFolder + "/" + sourceFolder + "/" + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override
@@ -570,6 +576,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     @Override
     public String toApiTestFilename(String name) {
         return toApiName(name) + "Test";
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return toModelName(name) + "Test";
     }
 
     @Override

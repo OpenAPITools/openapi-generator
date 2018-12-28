@@ -13,6 +13,8 @@
 
 package org.openapitools.client.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Objects;
 import java.util.Arrays;
 import com.google.gson.TypeAdapter;
@@ -55,19 +57,12 @@ public class ModelReturn {
 
   @Override
   public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ModelReturn _return = (ModelReturn) o;
-    return Objects.equals(this._return, _return._return);
+    return EqualsBuilder.reflectionEquals(this, o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_return);
+    return HashCodeBuilder.reflectionHashCode(this);
   }
 
 
@@ -75,7 +70,6 @@ public class ModelReturn {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelReturn {\n");
-    
     sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
     sb.append("}");
     return sb.toString();
