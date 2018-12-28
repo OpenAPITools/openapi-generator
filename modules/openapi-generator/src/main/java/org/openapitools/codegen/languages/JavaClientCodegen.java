@@ -111,6 +111,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
 
+        modelTestTemplateFiles.put("model_test.mustache", ".java");
+
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
