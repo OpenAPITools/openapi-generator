@@ -43,7 +43,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param UNKNOWN_BASE_TYPE unknown_base_type:
+        :param str test_code_inject____end____rn_n_r: To test code injection */ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -65,7 +65,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param UNKNOWN_BASE_TYPE unknown_base_type:
+        :param str test_code_inject____end____rn_n_r: To test code injection */ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -73,7 +73,7 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = ['unknown_base_type']  # noqa: E501
+        all_params = ['test_code_inject____end____rn_n_r']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -98,13 +98,13 @@ class FakeApi(object):
 
         form_params = []
         local_var_files = {}
+        if 'test_code_inject____end____rn_n_r' in local_var_params:
+            form_params.append(('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r', local_var_params['test_code_inject____end____rn_n_r']))  # noqa: E501
 
         body_params = None
-        if 'unknown_base_type' in local_var_params:
-            body_params = local_var_params['unknown_base_type']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
-            ['application/json', '*/  \" =end --       '])  # noqa: E501
+            ['application/x-www-form-urlencoded', '*/  \" =end --       '])  # noqa: E501
 
         # Authentication setting
         auth_settings = []  # noqa: E501
