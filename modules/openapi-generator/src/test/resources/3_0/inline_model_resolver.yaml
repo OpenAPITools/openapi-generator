@@ -58,6 +58,7 @@ components:
     Users:
       type: array
       items:
+        title: User
         type: object
         properties:
           street:
