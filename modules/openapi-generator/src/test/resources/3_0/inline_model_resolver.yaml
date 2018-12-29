@@ -26,5 +26,20 @@ paths:
       responses:
         '200':
           description: OK
+  /resolve_inline_request_body_with_required:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+        required: true
+      operationId: resolveInlineRequestBodyWithRequired
+      responses:
+        '200':
+          description: OK
 components:
   schemas:

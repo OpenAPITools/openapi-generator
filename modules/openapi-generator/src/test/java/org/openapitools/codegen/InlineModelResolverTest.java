@@ -348,6 +348,15 @@ public class InlineModelResolverTest {
         assertTrue(address.getProperties().get("street") instanceof StringSchema);
     }
 
+    @Test
+    public void resolveInlineRequestBodyWithRequired() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_required").getPost().getRequestBody();
+        assertTrue(requestBodyReference.getRequired());
+    }
+
 /*
     @Test
     public void resolveInlineBodyParameterWithRequired() throws Exception {
