@@ -17,14 +17,14 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.apache.commons.lang3.StringUtils;
-import org.testng.Assert;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -326,10 +326,29 @@ public class InlineModelResolverTest {
         assertNotNull(user);
         assertEquals("description", user.getDescription());
     }    
-    
-    
-    
+ */
 
+    @Test
+    public void resolveInlineRequestBody() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body").getPost().getRequestBody();
+        assertNotNull(requestBodyReference.get$ref());
+
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
+        MediaType mediaType = requestBody.getContent().get("application/json");
+        assertTrue(ModelUtils.getReferencedSchema(openAPI, mediaType.getSchema()) instanceof ObjectSchema);
+
+        ObjectSchema schema = (ObjectSchema) ModelUtils.getReferencedSchema(openAPI, mediaType.getSchema());
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertNotNull(schema.getProperties().get("address").get$ref());
+
+        Schema address = ModelUtils.getReferencedSchema(openAPI, schema.getProperties().get("address"));
+        assertTrue(address.getProperties().get("street") instanceof StringSchema);
+    }
+
+/*
     @Test
     public void resolveInlineBodyParameter() throws Exception {
         OpenAPI openapi = new OpenAPI();
