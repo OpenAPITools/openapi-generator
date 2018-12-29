@@ -44,6 +44,9 @@ ${nuget_cmd} install src/{{packageName}}/packages.config -o packages;
 
 echo "[INFO] Copy DLLs to the 'bin' folder"
 mkdir -p bin;
+{{#useCompareNetObjects}}
+cp packages/CompareNETObjects.4.57.0/lib/{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}/KellermanSoftware.Compare-NET-Objects.dll bin/KellermanSoftware.Compare-NET-Objects.dll;
+{{/useCompareNetObjects}}
 cp packages/Newtonsoft.Json.12.0.1/lib/{{targetFrameworkNuget}}/Newtonsoft.Json.dll bin/Newtonsoft.Json.dll;
 cp packages/RestSharp.106.5.4/lib/{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}/RestSharp.dll bin/RestSharp.dll;
 cp packages/JsonSubTypes.1.5.1/lib/{{targetFrameworkNuget}}/JsonSubTypes.dll bin/JsonSubTypes.dll
@@ -60,6 +63,9 @@ bin/Fody.dll,\
 bin/PropertyChanged.Fody.dll,\
 bin/PropertyChanged.dll,\
 {{/generatePropertyChanged}}
+{{#useCompareNetObjects}}
+bin/KellermanSoftware.Compare-NET-Objects.dll,\
+{{/useCompareNetObjects}}
 bin/RestSharp.dll,\
 System.ComponentModel.DataAnnotations.dll,\
 System.Runtime.Serialization.dll \

@@ -71,12 +71,12 @@ namespace Example
         {
 
             var apiInstance = new AnotherFakeApi();
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var body = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
+                ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)

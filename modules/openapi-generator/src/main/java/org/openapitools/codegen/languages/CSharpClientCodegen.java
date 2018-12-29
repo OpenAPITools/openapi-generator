@@ -83,6 +83,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
+    // use KellermanSoftware.CompareNetObjects for deep recursive object comparision
+    protected boolean useCompareNetObjects = Boolean.FALSE;
+
     public CSharpClientCodegen() {
         super();
         supportsInheritance = true;
@@ -195,6 +198,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.VALIDATABLE,
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
+
+        addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
+                CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
+                this.useCompareNetObjects);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
@@ -796,6 +803,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setGeneratePropertyChanged(final Boolean generatePropertyChanged) {
         this.generatePropertyChanged = generatePropertyChanged;
+    }
+
+    public void setUseCompareNetObjects(final Boolean useCompareNetObjects) {
+        this.useCompareNetObjects = useCompareNetObjects;
     }
 
     public boolean isNonPublicApi() {
