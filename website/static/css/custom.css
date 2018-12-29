@@ -40,6 +40,13 @@ dd {
     opacity: 0.6;
 }
 
+.nav-footer .attribution {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto 1em;
+    max-width: 1080px;
+}
+
 .splashLogo {
     display: block;
     margin: 0;

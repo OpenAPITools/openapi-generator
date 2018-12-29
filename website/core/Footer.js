@@ -80,18 +80,32 @@ class Footer extends React.Component {
           </div>
         </section>
 
-        <a
-          href="https://code.facebook.com/projects/"
-          target="_blank"
-          rel="noreferrer noopener"
-          className="fbOpenSource">
-          <img
-            src={`${this.props.config.baseUrl}img/oss_logo.png`}
-            alt="Facebook Open Source"
-            width="170"
-            height="45"
-          />
-        </a>
+        <section className="attribution">
+          <a
+            href="https://code.facebook.com/projects/"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="fbOpenSource">
+            <img
+              src={`${this.props.config.baseUrl}img/oss_logo.png`}
+              alt="Facebook Open Source"
+              width="170"
+              height="45"
+            />
+          </a>
+          <a
+            href="https://fontawesome.com/license/free"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="fbOpenSource">
+            <img
+                src={`${this.props.config.baseUrl}img/fa-logo.svg`}
+                alt="Fontawesome (Free)"
+                width="170"
+                height="45"
+            />
+          </a>
+        </section>
         <section className="copyright">{this.props.config.copyright}</section>
       </footer>
     );
