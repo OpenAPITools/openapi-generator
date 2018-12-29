@@ -402,28 +402,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void notResolveNonModelBodyParameter() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ObjectSchema()
-                                        .type("string")
-                                        .format("binary")))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof ObjectSchema);
-        ObjectSchema m = (ObjectSchema) bp.getSchema();
-        assertEquals("string", m.getType());
-        assertEquals("binary", m.getFormat());
-    }
-
-    @Test
     public void resolveInlineArrayBodyParameter() throws Exception {
         OpenAPI openapi = new OpenAPI();
 
