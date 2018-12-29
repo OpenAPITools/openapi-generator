@@ -890,45 +890,4 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
             return null;
         }
     }
-
-    /**
-     * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
-     *
-     * @param arr The input array property
-     * @return The type declaration when the type is an array of arrays.
-     */
-    private String getArrayTypeDeclaration(ArraySchema arr) {
-        // TODO: collection type here should be fully qualified namespace to avoid model conflicts
-        // This supports arrays of arrays.
-        String arrayType = typeMapping.get("array");
-        StringBuilder instantiationType = new StringBuilder(arrayType);
-        Schema items = arr.getItems();
-        String nestedType = getTypeDeclaration(items);
-        // TODO: We may want to differentiate here between generics and primitive arrays.
-        instantiationType.append("<").append(nestedType).append(">");
-        return instantiationType.toString();
-    }
-
-    @Override
-    public String toInstantiationType(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
-        }
-        return super.toInstantiationType(p);
-    }
-
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
-        } else if (ModelUtils.isMapSchema(p)) {
-            // Should we also support maps of maps?
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";
-        }
-
-        return getSchemaType(p);
-
-    }
-
 }
