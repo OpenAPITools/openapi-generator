@@ -17,14 +17,14 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.apache.commons.lang3.StringUtils;
-import org.testng.Assert;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -326,78 +326,38 @@ public class InlineModelResolverTest {
         assertNotNull(user);
         assertEquals("description", user.getDescription());
     }    
-    
-    
-    
+ */
 
     @Test
-    public void resolveInlineBodyParameter() throws Exception {
-        OpenAPI openapi = new OpenAPI();
+    public void resolveInlineRequestBody() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ObjectSchema()
-                                        .addProperties("address", new ObjectSchema()
-                                            .addProperties("street", new StringSchema()))
-                                        .addProperties("name", new StringSchema())))));
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body").getPost().getRequestBody();
+        assertNotNull(requestBodyReference.get$ref());
 
-        new InlineModelResolver().flatten(openapi);
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
+        MediaType mediaType = requestBody.getContent().get("application/json");
+        assertTrue(ModelUtils.getReferencedSchema(openAPI, mediaType.getSchema()) instanceof ObjectSchema);
 
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof RefModel);
+        ObjectSchema schema = (ObjectSchema) ModelUtils.getReferencedSchema(openAPI, mediaType.getSchema());
+        assertTrue(schema.getProperties().get("name") instanceof StringSchema);
+        assertNotNull(schema.getProperties().get("address").get$ref());
 
-        Model body = openapi.getComponents().getSchemas().get("body");
-        assertTrue(body instanceof ObjectSchema);
-
-        ObjectSchema impl = (ObjectSchema) body;
-        assertNotNull(impl.getProperties().get("address"));
+        Schema address = ModelUtils.getReferencedSchema(openAPI, schema.getProperties().get("address"));
+        assertTrue(address.getProperties().get("street") instanceof StringSchema);
     }
 
     @Test
-    public void resolveInlineBodyParameterWithRequired() throws Exception {
-        OpenAPI openapi = new OpenAPI();
+    public void resolveInlineRequestBodyWithRequired() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ObjectSchema()
-                                        .addProperties("address", new ObjectSchema()
-                                                .addProperties("street", new StringSchema()
-                                                        .required(true))
-                                                .required(true))
-                                        .addProperties("name", new StringSchema())))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof RefModel);
-
-        Model body = openapi.getComponents().getSchemas().get("body");
-        assertTrue(body instanceof ObjectSchema);
-
-        ObjectSchema impl = (ObjectSchema) body;
-        assertNotNull(impl.getProperties().get("address"));
-
-        Property addressProperty = impl.getProperties().get("address");
-        assertTrue(addressProperty instanceof Schema);
-        assertTrue(addressProperty.getRequired());
-
-        Model helloAddress = openapi.getComponents().getSchemas().get("hello_address");
-        assertTrue(helloAddress instanceof ObjectSchema);
-
-        ObjectSchema addressImpl = (ObjectSchema) helloAddress;
-        assertNotNull(addressImpl);
-
-        Property streetProperty = addressImpl.getProperties().get("street");
-        assertTrue(streetProperty instanceof  StringSchema);
-        assertTrue(streetProperty.getRequired());
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_required").getPost().getRequestBody();
+        assertTrue(requestBodyReference.getRequired());
     }
-    
+
+/*
     @Test
     public void resolveInlineBodyParameterWithTitle() throws Exception {
         OpenAPI openapi = new OpenAPI();
