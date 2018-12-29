@@ -41,7 +41,7 @@ public class PetTest {
      */
     @Test
     public void testPet() {
-        // TODO: test Pet
+        // test Pet
         model.setId(1029L);
         model.setName("Dog");
 

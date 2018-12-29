@@ -147,7 +147,7 @@ CONFIG OPTIONS for java
 	    Version of OpenFeign: '10.x', '9.x' (default) (Default: false)
 
 	useReflectionEqualsHashCode
-	    Use org.apache.commons.lang3.builder for equals and hashCode in the models (Default: false)
+	    Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact. (Default: false)
 
 	library
 	    library template (sub-template) to use (Default: okhttp-gson)

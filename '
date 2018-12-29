@@ -1,5 +1,0 @@
-{
-    "library": "okhttp-gson",
-    "useReflectionEqualsHashCode": "okhttp-gson",
-    "artifactId": "petstore-okhttp-gson"
-}
