@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /resolve_inline_request_body:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+      operationId: resolveInlineRequestBody
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_request_body_with_required:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+        required: true
+      operationId: resolveInlineRequestBodyWithRequired
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
