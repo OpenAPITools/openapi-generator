@@ -290,58 +290,6 @@ public class InlineModelResolverTest {
         assertTrue(user.getProperties().get("city") instanceof StringSchema);
     }
     
-    /*
-    @Test
-    public void resolveInlineArraySchemaWithTitle() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.getComponents().addSchemas("User", new ArraySchema()
-                .items(new ObjectSchema()
-                        .title("InnerUserTitle")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Schema model = openapi.getComponents().getSchemas().get("User");
-        assertTrue(model instanceof ArraySchema);
-
-        Schema user = openapi.getComponents().getSchemas().get("InnerUserTitle");
-        assertNotNull(user);
-        assertEquals("description", user.getDescription());
-    }
-/*
-    @Test
-    public void resolveInlineArraySchemaWithoutTitle() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.getComponents().addSchemas("User", new ArraySchema()
-                .items(new ObjectSchema()
-                        ._default("default")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Schema model = openapi.getComponents().getSchemas().get("User");
-        assertTrue(model instanceof ArraySchema);
-
-        Model user = openapi.getComponents().getSchemas().get("User_inner");
-        assertNotNull(user);
-        assertEquals("description", user.getDescription());
-    }
- */
-
     @Test
     public void resolveInlineRequestBody() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
