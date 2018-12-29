@@ -58,6 +58,7 @@
             {{#vars}}
             {{^isInherited}}
             {{^isReadOnly}}
+            {{^isNullable}}
             {{#required}}
             {{^isEnum}}
             // to ensure "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" is required (not null)
@@ -74,6 +75,7 @@
             this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             {{/isEnum}}
             {{/required}}
+            {{/isNullable}}
             {{/isReadOnly}}
             {{/isInherited}}
             {{/vars}}

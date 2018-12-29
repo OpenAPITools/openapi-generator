@@ -75,6 +75,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
 
+    // true if support nullable type
+    protected boolean supportNullable = Boolean.FALSE;
+
+    // nullable type
+    protected Set<String> nullableType = new HashSet<String>();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     public AbstractCSharpCodegen() {
@@ -130,19 +136,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "String",
                         "string",
                         "bool?",
+                        "bool",
                         "double?",
+                        "double",
                         "decimal?",
+                        "decimal",
                         "int?",
+                        "int",
                         "long?",
+                        "long",
                         "float?",
+                        "float",
                         "byte[]",
                         "ICollection",
                         "Collection",
                         "List",
                         "Dictionary",
                         "DateTime?",
+                        "DateTime",
                         "DateTimeOffset?",
-                        "String",
+                        "DataTimeOffset",
                         "Boolean",
                         "Double",
                         "Int32",
@@ -156,6 +169,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("array", "List");
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
+
 
         // Nullable types here assume C# 2 support is not part of base
         typeMapping = new HashMap<String, String>();
@@ -176,6 +190,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid?");
+
+        // nullable type
+        nullableType = new HashSet<String>(
+                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "Guid")
+        );
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -209,8 +228,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.useDateTimeOffsetFlag = flag;
         if (flag) {
             typeMapping.put("DateTime", "DateTimeOffset?");
-        }
-        else {
+        } else {
             typeMapping.put("DateTime", "DateTime?");
         }
     }
@@ -421,8 +439,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String swaggerName = entry.getKey();
-            CodegenModel model = ModelUtils.getModelByName(swaggerName, models);
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
                     if (enumRefs.containsKey(var.dataType)) {
@@ -483,7 +501,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
             } else {
-                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", swaggerName);
+                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
             }
         }
     }
@@ -573,28 +591,30 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
-                    for (CodegenParameter parameter: operation.allParams) {
-                        CodegenModel model = null;
-                        for(Object modelHashMap: allModels) {
-                            CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
-                            if (codegenModel.getClassname().equals(parameter.dataType)) {
-                                model = codegenModel;
-                                break;
+                    if (!isSupportNullable()) {
+                        for (CodegenParameter parameter : operation.allParams) {
+                            CodegenModel model = null;
+                            for (Object modelHashMap : allModels) {
+                                CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+                                if (codegenModel.getClassname().equals(parameter.dataType)) {
+                                    model = codegenModel;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (model == null) {
-                            // Primitive data types all come already marked
-                            parameter.isNullable = true;
-                        } else {
-                            // Effectively mark enum models as enums and non-nullable
-                            if (model.isEnum) {
-                                parameter.isEnum = true;
-                                parameter.allowableValues = model.allowableValues;
-                                parameter.isPrimitiveType = true;
-                                parameter.isNullable = false;
-                            } else {
+                            if (model == null) {
+                                // Primitive data types all come already marked
                                 parameter.isNullable = true;
+                            } else {
+                                // Effectively mark enum models as enums and non-nullable
+                                if (model.isEnum) {
+                                    parameter.isEnum = true;
+                                    parameter.allowableValues = model.allowableValues;
+                                    parameter.isPrimitiveType = true;
+                                    parameter.isNullable = false;
+                                } else {
+                                    parameter.isNullable = true;
+                                }
                             }
                         }
                     }
@@ -792,6 +812,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return reservedWords.contains(word);
     }
 
+    public String getNullableType(Schema p, String type) {
+        if (languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
@@ -804,8 +832,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
+            String languageType = getNullableType(p, type);
+            if (languageType != null) {
+                return languageType;
             }
         } else {
             type = openAPIType;
@@ -950,6 +979,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.interfacePrefix = interfacePrefix;
     }
 
+    public boolean isSupportNullable() {
+        return supportNullable;
+    }
+
+    public void setSupportNullable(final boolean supportNullable) {
+        this.supportNullable = supportNullable;
+    }
+
     @Override
     public String toEnumValue(String value, String datatype) {
         // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
@@ -1011,7 +1048,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public boolean isDataTypeString(String dataType) {
         // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
-        return "String".equalsIgnoreCase(dataType) || "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType);
+        return "String".equalsIgnoreCase(dataType) ||
+                "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType) ||
+                "double".equals(dataType) || "decimal".equals(dataType) || "float".equals(dataType);
     }
 
     @Override

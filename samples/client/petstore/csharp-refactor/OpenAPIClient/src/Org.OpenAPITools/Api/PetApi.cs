@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns></returns>
-        void DeletePet (long? petId, string apiKey = null);
+        void DeletePet (long petId, string apiKey = null);
 
         /// <summary>
         /// Deletes a pet
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null);
+        ApiResponse<Object> DeletePetWithHttpInfo (long petId, string apiKey = null);
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -122,7 +122,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Pet</returns>
-        Pet GetPetById (long? petId);
+        Pet GetPetById (long petId);
 
         /// <summary>
         /// Find pet by ID
@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>ApiResponse of Pet</returns>
-        ApiResponse<Pet> GetPetByIdWithHttpInfo (long? petId);
+        ApiResponse<Pet> GetPetByIdWithHttpInfo (long petId);
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
-        void UpdatePetWithForm (long? petId, string name = null, string status = null);
+        void UpdatePetWithForm (long petId, string name = null, string status = null);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long? petId, string name = null, string status = null);
+        ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long petId, string name = null, string status = null);
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -191,7 +191,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null);
 
         /// <summary>
         /// uploads an image
@@ -204,7 +204,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long petId, string additionalMetadata = null, System.IO.Stream file = null);
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -216,7 +216,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
 
         /// <summary>
         /// uploads an image (required)
@@ -229,7 +229,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
         #endregion Synchronous Operations
     }
 
@@ -270,7 +270,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task DeletePetAsync (long? petId, string apiKey = null);
+        System.Threading.Tasks.Task DeletePetAsync (long petId, string apiKey = null);
 
         /// <summary>
         /// Deletes a pet
@@ -282,7 +282,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long petId, string apiKey = null);
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -334,7 +334,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Task of Pet</returns>
-        System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId);
+        System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long petId);
 
         /// <summary>
         /// Find pet by ID
@@ -345,7 +345,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long? petId);
+        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long petId);
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -378,7 +378,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdatePetWithFormAsync (long? petId, string name = null, string status = null);
+        System.Threading.Tasks.Task UpdatePetWithFormAsync (long petId, string name = null, string status = null);
 
         /// <summary>
         /// Updates a pet in the store with form data
@@ -391,7 +391,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long? petId, string name = null, string status = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long petId, string name = null, string status = null);
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -403,7 +403,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long petId, string additionalMetadata = null, System.IO.Stream file = null);
 
         /// <summary>
         /// uploads an image
@@ -416,7 +416,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long petId, string additionalMetadata = null, System.IO.Stream file = null);
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -428,7 +428,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
 
         /// <summary>
         /// uploads an image (required)
@@ -441,7 +441,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = null);
         #endregion Asynchronous Operations
     }
 
@@ -450,7 +450,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public interface IPetApi : IPetApiSync, IPetApiAsync
     {
-        
+
     }
 
     /// <summary>
@@ -459,7 +459,7 @@ namespace Org.OpenAPITools.Api
     public partial class PetApi : IPetApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PetApi"/> class.
         /// </summary>
@@ -514,7 +514,7 @@ namespace Org.OpenAPITools.Api
             if(client == null) throw new ArgumentNullException("client");
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             this.AsynchronousClient = asyncClient;
             this.Configuration = configuration;
@@ -648,6 +648,7 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->AddPet");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -694,7 +695,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns></returns>
-        public void DeletePet (long? petId, string apiKey = null)
+        public void DeletePet (long petId, string apiKey = null)
         {
              DeletePetWithHttpInfo(petId, apiKey);
         }
@@ -706,7 +707,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> DeletePetWithHttpInfo (long? petId, string apiKey = null)
+        public Org.OpenAPITools.Client.ApiResponse<Object> DeletePetWithHttpInfo (long petId, string apiKey = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -759,7 +760,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task DeletePetAsync (long? petId, string apiKey = null)
+        public async System.Threading.Tasks.Task DeletePetAsync (long petId, string apiKey = null)
         {
              await DeletePetAsyncWithHttpInfo(petId, apiKey);
 
@@ -772,11 +773,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="petId">Pet id to delete</param>
         /// <param name="apiKey"> (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long? petId, string apiKey = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long petId, string apiKey = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->DeletePet");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -914,6 +916,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'status' is set
             if (status == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'status' when calling PetApi->FindPetsByStatus");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1060,6 +1063,7 @@ namespace Org.OpenAPITools.Api
             if (tags == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'tags' when calling PetApi->FindPetsByTags");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1114,7 +1118,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Pet</returns>
-        public Pet GetPetById (long? petId)
+        public Pet GetPetById (long petId)
         {
              Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = GetPetByIdWithHttpInfo(petId);
              return localVarResponse.Data;
@@ -1126,7 +1130,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>ApiResponse of Pet</returns>
-        public Org.OpenAPITools.Client.ApiResponse< Pet > GetPetByIdWithHttpInfo (long? petId)
+        public Org.OpenAPITools.Client.ApiResponse< Pet > GetPetByIdWithHttpInfo (long petId)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -1177,7 +1181,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Task of Pet</returns>
-        public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long? petId)
+        public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long petId)
         {
              Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await GetPetByIdAsyncWithHttpInfo(petId);
              return localVarResponse.Data;
@@ -1190,11 +1194,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to return</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long? petId)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long petId)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->GetPetById");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1321,6 +1326,7 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->UpdatePet");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1368,7 +1374,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns></returns>
-        public void UpdatePetWithForm (long? petId, string name = null, string status = null)
+        public void UpdatePetWithForm (long petId, string name = null, string status = null)
         {
              UpdatePetWithFormWithHttpInfo(petId, name, status);
         }
@@ -1381,7 +1387,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long? petId, string name = null, string status = null)
+        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetWithFormWithHttpInfo (long petId, string name = null, string status = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -1442,7 +1448,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdatePetWithFormAsync (long? petId, string name = null, string status = null)
+        public async System.Threading.Tasks.Task UpdatePetWithFormAsync (long petId, string name = null, string status = null)
         {
              await UpdatePetWithFormAsyncWithHttpInfo(petId, name, status);
 
@@ -1456,11 +1462,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="name">Updated name of the pet (optional)</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long? petId, string name = null, string status = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long petId, string name = null, string status = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UpdatePetWithForm");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1517,7 +1524,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public ApiResponse UploadFile (long petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
              Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
              return localVarResponse.Data;
@@ -1531,7 +1538,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse< ApiResponse > UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public Org.OpenAPITools.Client.ApiResponse< ApiResponse > UploadFileWithHttpInfo (long petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -1593,7 +1600,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
              Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileAsyncWithHttpInfo(petId, additionalMetadata, file);
              return localVarResponse.Data;
@@ -1608,11 +1615,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long petId, string additionalMetadata = null, System.IO.Stream file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFile");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1670,7 +1678,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
         {
              Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
              return localVarResponse.Data;
@@ -1684,11 +1692,12 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public Org.OpenAPITools.Client.ApiResponse< ApiResponse > UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public Org.OpenAPITools.Client.ApiResponse< ApiResponse > UploadFileWithRequiredFileWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFileWithRequiredFile");
+
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredFile' when calling PetApi->UploadFileWithRequiredFile");
@@ -1749,7 +1758,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
         {
              Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileAsyncWithHttpInfo(petId, requiredFile, additionalMetadata);
              return localVarResponse.Data;
@@ -1764,14 +1773,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'petId' when calling PetApi->UploadFileWithRequiredFile");
+
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredFile' when calling PetApi->UploadFileWithRequiredFile");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
