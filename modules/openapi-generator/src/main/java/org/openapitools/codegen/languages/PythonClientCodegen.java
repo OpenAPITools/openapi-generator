@@ -673,6 +673,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 else
                     return "'" + p.getExample() + "'";
             }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
         }
 
         return null;

@@ -33,9 +33,9 @@ class TestTypeHolderExample(unittest.TestCase):
         model = TypeHolderExample()
         self.assertEqual(model.string_item, 'what')
         self.assertEqual(model.number_item, 1.234)
-        self.assertEqual(model.integer_item, 2)
+        self.assertEqual(model.integer_item, -2)
         self.assertEqual(model.bool_item, True)
-        self.assertEqual(model.array_item, None)
+        self.assertEqual(model.array_item, [0, 1, 2, 3])
 
 
 if __name__ == '__main__':
