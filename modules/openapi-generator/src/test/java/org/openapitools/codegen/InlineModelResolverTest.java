@@ -274,7 +274,21 @@ public class InlineModelResolverTest {
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
     }
 
+    @Test
+    public void resolveInlineArraySchemaWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
+        assertTrue(openAPI.getComponents().getSchemas().get("Users") instanceof ArraySchema);
+
+        ArraySchema users = (ArraySchema) openAPI.getComponents().getSchemas().get("Users");
+        assertTrue(users.getItems() instanceof ObjectSchema);
+
+        ObjectSchema user = (ObjectSchema) users.getItems();
+        assertEquals("User", user.getTitle());
+        assertTrue(user.getProperties().get("street") instanceof StringSchema);
+        assertTrue(user.getProperties().get("city") instanceof StringSchema);
+    }
     
     /*
     @Test
@@ -325,7 +339,7 @@ public class InlineModelResolverTest {
         Model user = openapi.getComponents().getSchemas().get("User_inner");
         assertNotNull(user);
         assertEquals("description", user.getDescription());
-    }    
+    }
  */
 
     @Test

@@ -55,3 +55,12 @@ paths:
           description: OK
 components:
   schemas:
+    Users:
+      type: array
+      items:
+        type: object
+        properties:
+          street:
+            type: string
+          city:
+            type: string
