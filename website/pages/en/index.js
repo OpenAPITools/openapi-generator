@@ -138,7 +138,7 @@ class Index extends React.Component {
         | \`\`\`
         `;
     const TryOutHomebrew = () => (
-      <Block id="try">
+      <Block id="tryHomebrew">
         {[
           {
             content: `${tryHomebrewContents}`,
@@ -163,7 +163,7 @@ class Index extends React.Component {
     |
     `;
    const TryOutDocker = () => (
-      <Block id="try">
+      <Block id="tryDocker">
           {[
               {
                   content: `${tryDockerContents}`,
@@ -174,6 +174,40 @@ class Index extends React.Component {
           ]}
       </Block>
   );
+
+   const tryNpmContents = stripMargin`
+      | The [NPM package wrapper](https://github.com/openapitools/openapi-generator-cli) is cross-platform wrapper around the .jar artifact.
+      | **Install** globally, exposing the CLI on the command line:
+      | 
+      | \`\`\`bash
+      | # install the latest version of "openapi-generator-cli"
+      | npm install @openapitools/openapi-generator-cli -g
+      | 
+      | # install a specific version of "openapi-generator-cli"
+      | npm install @openapitools/openapi-generator-cli@cli-3.0.0 -g
+      |
+      | # Or install it as dev-dependency in your node.js projects
+      | npm install @openapitools/openapi-generator-cli -D
+      | \`\`\`
+      |
+      | Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
+      | \`\`\`bash
+      | openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
+      | \`\`\`
+    `;
+   const TryNpm = () => (
+       // note: id here is the topmost anchor linked via the "Try it out" button above.
+       <Block id="try">
+           {[
+               {
+                   content: `${tryNpmContents}`,
+                   image: `${baseUrl}img/tools/npm.svg`,
+                   imageAlign: 'left',
+                   title: 'Try via NPM',
+               }
+           ]}
+       </Block>
+   );
 
     // const Description = () => (
     //   <Block background="dark">
@@ -295,6 +329,7 @@ class Index extends React.Component {
           <Features />
           {/*<FeatureCallout />*/}
           <LearnHow />
+          <TryNpm />
           <TryOutHomebrew />
           <TryOutDocker />
           {/*<Description />*/}

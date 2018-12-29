@@ -59,6 +59,13 @@ dd {
     max-height: 150px;
 }
 
+#try .blockImage,
+#tryHomebrew .blockImage,
+#tryDocker .blockImage {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }
 
