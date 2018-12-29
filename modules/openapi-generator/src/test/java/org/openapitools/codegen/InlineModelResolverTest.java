@@ -359,48 +359,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void resolveInlineBodyParameterWithRequired() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ObjectSchema()
-                                        .addProperties("address", new ObjectSchema()
-                                                .addProperties("street", new StringSchema()
-                                                        .required(true))
-                                                .required(true))
-                                        .addProperties("name", new StringSchema())))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof RefModel);
-
-        Model body = openapi.getComponents().getSchemas().get("body");
-        assertTrue(body instanceof ObjectSchema);
-
-        ObjectSchema impl = (ObjectSchema) body;
-        assertNotNull(impl.getProperties().get("address"));
-
-        Property addressProperty = impl.getProperties().get("address");
-        assertTrue(addressProperty instanceof Schema);
-        assertTrue(addressProperty.getRequired());
-
-        Model helloAddress = openapi.getComponents().getSchemas().get("hello_address");
-        assertTrue(helloAddress instanceof ObjectSchema);
-
-        ObjectSchema addressImpl = (ObjectSchema) helloAddress;
-        assertNotNull(addressImpl);
-
-        Property streetProperty = addressImpl.getProperties().get("street");
-        assertTrue(streetProperty instanceof  StringSchema);
-        assertTrue(streetProperty.getRequired());
-    }
-    
-    @Test
     public void resolveInlineBodyParameterWithTitle() throws Exception {
         OpenAPI openapi = new OpenAPI();
 
