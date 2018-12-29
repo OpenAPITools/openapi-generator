@@ -385,8 +385,22 @@ public class InlineModelResolverTest {
 
         ObjectSchema impl = (ObjectSchema) body;
         assertNotNull(impl.getProperties().get("address"));
-    }    
+    }
+    */
 
+    @Test
+    public void nonModelRequestBody() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI.getPaths().get("/non_model_request_body").getPost().getRequestBody().getContent().get("multipart/form-data");
+
+        assertTrue(mediaType.getSchema() instanceof BinarySchema);
+        assertEquals("string", mediaType.getSchema().getType());
+        assertEquals("binary", mediaType.getSchema().getFormat());
+    }
+
+/*
     @Test
     public void notResolveNonModelBodyParameter() throws Exception {
         OpenAPI openapi = new OpenAPI();
