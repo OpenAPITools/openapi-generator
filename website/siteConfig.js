@@ -23,7 +23,7 @@ const users = [
     caption: 'Angular.Schule',
     image: '/img/companies/angular-schule.svg',
     infoLink: 'https://angular.schule/',
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'ASKUL',
@@ -35,7 +35,7 @@ const users = [
     caption: 'b<>com',
     image: '/img/companies/b-com.png',
     infoLink: 'https://b-com.com/en',
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'Bithost GmbH',
@@ -47,13 +47,13 @@ const users = [
     caption: 'Boxever',
     image: '/img/companies/boxever.svg',
     infoLink: 'https://www.boxever.com/',
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'GMO Pepabo',
     image: '/img/companies/pepabo.png',
     infoLink: 'https://pepabo.com/en/',
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'JustStar',
@@ -65,13 +65,13 @@ const users = [
     caption: 'Klarna',
     image: '/img/companies/klarna.svg',
     infoLink: 'https://www.klarna.com/us/',
-    pinned: true,
+    pinned: false,
   },
   {
     caption: 'Metaswitch',
     image: '/img/companies/metaswitch.svg',
     infoLink: 'https://www.metaswitch.com/',
-    pinned: false,
+    pinned: true,
   },
   {
     caption: 'Myworkout',
@@ -101,7 +101,7 @@ const users = [
     caption: 'Stingray',
     image: '/img/companies/stingray.png',
     infoLink: 'http://www.stingray.com/',
-    pinned: false,
+    pinned: true,
   },
   {
     caption: 'Suva',
@@ -113,7 +113,7 @@ const users = [
     caption: 'Telstra',
     image: '/img/companies/telstra.svg',
     infoLink: 'https://dev.telstra.com/',
-    pinned: false,
+    pinned: true,
   },
 
   {
@@ -126,13 +126,13 @@ const users = [
     caption: 'unblu inc.',
     image: '/img/companies/unblu.svg',
     infoLink: 'https://www.unblu.com/',
-    pinned: false,
+    pinned: true,
   },
   {
     caption: 'Zalando',
     image: '/img/companies/zalando.jpg',
     infoLink: 'https://www.zalando.com/',
-    pinned: false,
+    pinned: true,
   },
 ];
 
