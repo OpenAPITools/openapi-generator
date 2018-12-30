@@ -27,7 +27,6 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
