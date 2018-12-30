@@ -74,6 +74,7 @@ class HomeSplash extends React.Component {
           <Logo img_src={`${baseUrl}img/color-logo.svg`} />
           <PromoSection>
             <Button href="#try">Try It Out</Button>
+              <Button href={docUrl('installation.html')}>Install</Button>
               <Button href={docUrl('generators.html')}>Generators</Button>
             <Button href={docUrl('customization.html')}>Customization</Button>
             <Button href={docUrl('integrations.html')}>Integrations</Button>
@@ -160,7 +161,7 @@ class Index extends React.Component {
     | -i petstore.yaml \\
     | -g go \\
     | -o /local/out/go
-    |
+    | \`\`\`
     `;
    const TryOutDocker = () => (
       <Block id="tryDocker">

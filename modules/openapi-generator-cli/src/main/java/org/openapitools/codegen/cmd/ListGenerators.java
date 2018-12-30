@@ -22,7 +22,7 @@ public class ListGenerators implements Runnable {
     @Option(name = {"-s", "--short" }, description = "shortened output (suitable for scripting)")
     private Boolean shortened = false;
 
-    @Option(name = {"-d", "--docsite" }, description = "format for docusaurus site output")
+    @Option(name = {"-d", "--docsite" }, description = "format for docusaurus site output", hidden = true)
     private Boolean docusaurus = false;
 
     @Override

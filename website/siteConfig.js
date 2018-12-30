@@ -154,8 +154,9 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'roadmap', label: 'Roadmap'},
+    {doc: 'installation', label: 'Get Started'},
     {doc: 'generators', label: 'Generators'},
+    {doc: 'roadmap', label: 'Roadmap'},
     // {doc: 'doc4', label: 'API'},
     { page: "team", label: "Team" },
     // {page: 'help', label: 'Help'},
@@ -221,7 +222,6 @@ const siteConfig = {
   repoUrl: 'https://https://github.com/OpenAPITools/openapi-generator',
 
   team: team,
-
 };
 
 module.exports = siteConfig;

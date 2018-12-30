@@ -1,6 +1,7 @@
 ---
 id: contributing
 title: Guidelines For Contributing
+sidebar_label: Guidelines
 ---
 
 ## Before submitting an issue

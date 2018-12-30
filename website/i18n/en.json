@@ -9,11 +9,15 @@
         "title": "Release Notes: 3.0.0",
         "sidebar_label": "Release Notes: 3.0.0"
       },
+      "contribute-building": {
+        "title": "Building the code"
+      },
       "code-of-conduct": {
-        "title": "Contributor Covenant Code of Conduct"
+        "title": "Code of Conduct"
       },
       "contributing": {
-        "title": "Guidelines For Contributing"
+        "title": "Guidelines For Contributing",
+        "sidebar_label": "Guidelines"
       },
       "core-team": {
         "title": "Core Team Members"
@@ -339,6 +343,9 @@
       "generators/typescript-node": {
         "title": "generators/typescript-node"
       },
+      "installation": {
+        "title": "CLI Installation"
+      },
       "integrations": {
         "title": "Workflow Integrations"
       },
@@ -348,22 +355,34 @@
       "openapi-generator-online": {
         "title": "Online OpenAPI Generator"
       },
+      "online": {
+        "title": "Online"
+      },
+      "plugins": {
+        "title": "Plugins"
+      },
       "fork-qna": {
         "title": "Swagger Codegen Fork: Q&A"
       },
       "roadmap": {
         "title": "Roadmap"
+      },
+      "usage": {
+        "title": "Usage"
       }
     },
     "links": {
-      "Roadmap": "Roadmap",
+      "Get Started": "Get Started",
       "Generators": "Generators",
+      "Roadmap": "Roadmap",
       "Team": "Team",
       "Blog": "Blog"
     },
     "categories": {
+      "Getting Started": "Getting Started",
+      "Extending": "Extending",
+      "Contributing": "Contributing",
       "About": "About",
-      "Process Documentation": "Process Documentation",
       "Releases": "Releases",
       "API": "API",
       "First Category": "First Category"
