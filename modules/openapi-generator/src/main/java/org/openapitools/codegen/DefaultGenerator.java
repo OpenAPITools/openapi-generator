@@ -568,8 +568,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     @SuppressWarnings("unchecked")
                     List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
                     for (CodegenOperation op : operations) {
-                        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-                        if (!op.vendorExtensions.containsKey("x-group-parameters")) {
+                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
                             op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
                         }
                     }
