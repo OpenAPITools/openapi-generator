@@ -274,60 +274,22 @@ public class InlineModelResolverTest {
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
     }
 
-
-    
-    /*
     @Test
-    public void resolveInlineArraySchemaWithTitle() throws Exception {
-        OpenAPI openapi = new OpenAPI();
+    public void resolveInlineArraySchemaWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.getComponents().addSchemas("User", new ArraySchema()
-                .items(new ObjectSchema()
-                        .title("InnerUserTitle")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
+        assertTrue(openAPI.getComponents().getSchemas().get("Users") instanceof ArraySchema);
 
-        new InlineModelResolver().flatten(openapi);
+        ArraySchema users = (ArraySchema) openAPI.getComponents().getSchemas().get("Users");
+        assertTrue(users.getItems() instanceof ObjectSchema);
 
-        Schema model = openapi.getComponents().getSchemas().get("User");
-        assertTrue(model instanceof ArraySchema);
-
-        Schema user = openapi.getComponents().getSchemas().get("InnerUserTitle");
-        assertNotNull(user);
-        assertEquals("description", user.getDescription());
+        ObjectSchema user = (ObjectSchema) users.getItems();
+        assertEquals("User", user.getTitle());
+        assertTrue(user.getProperties().get("street") instanceof StringSchema);
+        assertTrue(user.getProperties().get("city") instanceof StringSchema);
     }
-/*
-    @Test
-    public void resolveInlineArraySchemaWithoutTitle() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.getComponents().addSchemas("User", new ArraySchema()
-                .items(new ObjectSchema()
-                        ._default("default")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")
-                        .addProperties("street", new StringSchema())
-                        .addProperties("city", new StringSchema())));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Schema model = openapi.getComponents().getSchemas().get("User");
-        assertTrue(model instanceof ArraySchema);
-
-        Model user = openapi.getComponents().getSchemas().get("User_inner");
-        assertNotNull(user);
-        assertEquals("description", user.getDescription());
-    }    
- */
-
+    
     @Test
     public void resolveInlineRequestBody() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
@@ -385,30 +347,22 @@ public class InlineModelResolverTest {
 
         ObjectSchema impl = (ObjectSchema) body;
         assertNotNull(impl.getProperties().get("address"));
-    }    
+    }
+    */
 
     @Test
-    public void notResolveNonModelBodyParameter() throws Exception {
-        OpenAPI openapi = new OpenAPI();
+    public void nonModelRequestBody() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ObjectSchema()
-                                        .type("string")
-                                        .format("binary")))));
+        MediaType mediaType = openAPI.getPaths().get("/non_model_request_body").getPost().getRequestBody().getContent().get("multipart/form-data");
 
-        new InlineModelResolver().flatten(openapi);
-
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof ObjectSchema);
-        ObjectSchema m = (ObjectSchema) bp.getSchema();
-        assertEquals("string", m.getType());
-        assertEquals("binary", m.getFormat());
+        assertTrue(mediaType.getSchema() instanceof BinarySchema);
+        assertEquals("string", mediaType.getSchema().getType());
+        assertEquals("binary", mediaType.getSchema().getFormat());
     }
 
+/*
     @Test
     public void resolveInlineArrayBodyParameter() throws Exception {
         OpenAPI openapi = new OpenAPI();
