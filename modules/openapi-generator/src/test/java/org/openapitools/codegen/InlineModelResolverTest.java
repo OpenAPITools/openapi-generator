@@ -454,6 +454,28 @@ public class InlineModelResolverTest {
         ArraySchema responseSchema = (ArraySchema) mediaType.getSchema();
         assertEquals("#/components/schemas/resolveInlineArrayResponseWithTitleItems", responseSchema.getItems().get$ref());
     }
+
+    @Test
+    public void resolveInlineObjectResponseWithAdditionalProperties() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/resolve_inline_object_response_with_additional_properties")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
+
+        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertTrue(mediaType.getSchema().getAdditionalProperties() instanceof ObjectSchema);
+
+        ObjectSchema additionalProperties = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
+        assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
+    }
+
 /*
     @Test
     public void testInlineMapResponse() throws Exception {

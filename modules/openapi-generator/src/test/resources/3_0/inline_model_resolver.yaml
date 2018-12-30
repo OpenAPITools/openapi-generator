@@ -121,6 +121,21 @@ paths:
                   properties:
                     array_response_with_title_property:
                       type: string
+  /resolve_inline_object_response_with_additional_properties:
+    get:
+      operationId: resolveInlineObjectResponseWithAdditionalProperties
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    resolve_inline_object_response_with_additional_properties:
+                      type: string
 components:
   schemas:
     Users:
