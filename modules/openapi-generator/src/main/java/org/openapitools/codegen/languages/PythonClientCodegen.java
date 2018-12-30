@@ -640,7 +640,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-            // default numbers are not yet returned by v2.0 spec openAPI results
+            // default numbers are not yet returned by v2 spec openAPI results
             // https://github.com/swagger-api/swagger-parser/issues/971
             // include fallback to example, default defined as server only
             // example is not defined as server only
@@ -651,7 +651,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-            // default integers are not yet returned by v2.0 spec openAPI results
+            // default integers are not yet returned by v2 spec openAPI results
             // https://github.com/swagger-api/swagger-parser/issues/971
             // include fallback to example, default defined as server only
             // example is not defined as server only
