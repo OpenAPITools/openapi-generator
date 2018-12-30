@@ -41,5 +41,27 @@ paths:
       responses:
         '200':
           description: OK
+  /non_model_request_body:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+      operationId: nonModelRequestBody
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
+    Users:
+      type: array
+      items:
+        title: User
+        type: object
+        properties:
+          street:
+            type: string
+          city:
+            type: string
