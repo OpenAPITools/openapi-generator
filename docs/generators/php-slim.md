@@ -40,4 +40,7 @@ CONFIG OPTIONS for php-slim
 	artifactVersion
 	    The version to use in the composer package version field. e.g. 1.2.3
 
+	phpcsStandard
+	    PHP CodeSniffer <standard> option. Accepts name or path of the coding standard to use. (Default: PSR12)
+
 Back to the [generators list](README.md)

@@ -36,7 +36,7 @@ module Petstore
 
     # discriminator's property name in OpenAPI v3
     def self.openapi_discriminator_name
-      :'class_name'
+      :'className'
     end
 
     # Initializes the object
