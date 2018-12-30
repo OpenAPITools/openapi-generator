@@ -53,6 +53,43 @@ paths:
       responses:
         '200':
           description: OK
+  /resolve_inline_array_request_body:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  street:
+                    type: string
+                  city:
+                    type: string
+      operationId: resolveInlineArrayRequestBody
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_array_request_body_with_title:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                title: resolveInlineArrayRequestBodyWithTitleItems
+                type: object
+                properties:
+                  street_2:
+                    type: string
+                  city_2:
+                    type: string
+      operationId: resolveInlineArrayRequestBodyWithTitle
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     Users:
