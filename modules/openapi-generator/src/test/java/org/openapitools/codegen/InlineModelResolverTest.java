@@ -478,63 +478,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void testInlineMapResponse() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        MapProperty schema = new MapProperty();
-        schema.setAdditionalProperties(new StringSchema());
-        schema.setVendorExtension("x-ext", "ext-prop");
-
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(schema))));
-        new InlineModelResolver().flatten(openapi);
-        Json.prettyPrint(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-
-        Property property = response.getSchema();
-        assertTrue(property instanceof MapProperty);
-        assertTrue(openapi.getComponents().getSchemas().size() == 0);
-        assertEquals(1, property.getVendorExtensions().size());
-        assertEquals("ext-prop", property.getVendorExtensions().get("x-ext"));
-    }
-
-    @Test
-    public void testInlineMapResponseWithObjectSchema() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        MapProperty schema = new MapProperty();
-        schema.setAdditionalProperties(new ObjectSchema()
-                .addProperties("name", new StringSchema()));
-        schema.setVendorExtension("x-ext", "ext-prop");
-
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(schema))));
-        new InlineModelResolver().flatten(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        Property property = response.getSchema();
-        assertTrue(property instanceof MapProperty);
-        assertEquals(1, property.getVendorExtensions().size());
-        assertEquals("ext-prop", property.getVendorExtensions().get("x-ext"));
-        assertTrue(openapi.getComponents().getSchemas().size() == 1);
-
-        Model inline = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        assertNotNull(impl.getProperties().get("name"));
-        assertTrue(impl.getProperties().get("name") instanceof StringSchema);
-    }
-
-    @Test
     public void testArrayResponse() {
         OpenAPI openapi = new OpenAPI();
 
