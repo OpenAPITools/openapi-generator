@@ -414,100 +414,47 @@ public class InlineModelResolverTest {
         assertEquals("#/components/schemas/resolveInlineArrayRequestBodyWithTitleItems", requestBodySchema.getItems().get$ref());
     }
 
+    @Test
+    public void resolveInlineArrayResponse() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/resolve_inline_array_response")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
+
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
+
+        ArraySchema responseSchema = (ArraySchema) mediaType.getSchema();
+        assertEquals("#/components/schemas/inline_response_200", responseSchema.getItems().get$ref());
+
+        Schema items = ModelUtils.getReferencedSchema(openAPI, responseSchema.getItems());
+        assertTrue(items.getProperties().get("array_response_property") instanceof StringSchema);
+    }
+
+    @Test
+    public void resolveInlineArrayResponseWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/resolve_inline_array_response_with_title")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
+
+        ArraySchema responseSchema = (ArraySchema) mediaType.getSchema();
+        assertEquals("#/components/schemas/resolveInlineArrayResponseWithTitleItems", responseSchema.getItems().get$ref());
+    }
 /*
-    @Test
-    public void resolveInlineArrayResponse() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        ArrayProperty schema = new ArrayProperty()
-                .items(new ObjectSchema()
-                        .addProperties("name", new StringSchema())
-                        .vendorExtension("x-ext", "ext-items"))
-                .vendorExtension("x-ext", "ext-prop");
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(schema))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertNotNull(response);
-
-        assertNotNull(response.getSchema());
-        Property responseProperty = response.getSchema();
-
-        // no need to flatten more
-        assertTrue(responseProperty instanceof ArrayProperty);
-
-        ArrayProperty ap = (ArrayProperty) responseProperty;
-        assertEquals(1, ap.getVendorExtensions().size());
-        assertEquals("ext-prop", ap.getVendorExtensions().get("x-ext"));
-        
-        Property p = ap.getItems();
-
-        assertNotNull(p);
-
-        Schema rp = (Schema) p;
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/inline_response_200");
-        assertEquals(rp.getSimpleRef(), "inline_response_200");
-        assertEquals(1, rp.getVendorExtensions().size());
-        assertEquals("ext-items", rp.getVendorExtensions().get("x-ext"));
-
-        Model inline = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertNotNull(inline);
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        assertNotNull(impl.getProperties().get("name"));
-        assertTrue(impl.getProperties().get("name") instanceof StringSchema);
-    }
-
-    @Test
-    public void resolveInlineArrayResponseWithTitle() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.path("/foo/baz", new Path()
-            .get(new Operation()
-                .response(200, new Response()
-                    .vendorExtension("x-foo", "bar")
-                    .description("it works!")
-                    .schema(new ArrayProperty()
-                        .items(new ObjectSchema()
-                            .title("FooBar")
-                            .addProperties("name", new StringSchema()))))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertNotNull(response);
-
-        assertNotNull(response.getSchema());
-        Property responseProperty = response.getSchema();
-
-        // no need to flatten more
-        assertTrue(responseProperty instanceof ArrayProperty);
-
-        ArrayProperty ap = (ArrayProperty) responseProperty;
-        Property p = ap.getItems();
-
-        assertNotNull(p);
-
-        Schema rp = (Schema) p;
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/"+ "FooBar");
-        assertEquals(rp.getSimpleRef(), "FooBar");
-
-        Model inline = openapi.getComponents().getSchemas().get("FooBar");
-        assertNotNull(inline);
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        assertNotNull(impl.getProperties().get("name"));
-        assertTrue(impl.getProperties().get("name") instanceof StringSchema);
-    }
-    
     @Test
     public void testInlineMapResponse() throws Exception {
         OpenAPI openapi = new OpenAPI();
