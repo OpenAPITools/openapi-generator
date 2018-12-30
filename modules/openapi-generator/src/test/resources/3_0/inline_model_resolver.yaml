@@ -105,6 +105,22 @@ paths:
                   properties:
                     array_response_property:
                       type: string
+  /resolve_inline_array_response_with_title:
+    get:
+      operationId: resolveInlineArrayResponseWithTitle
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: resolveInlineArrayResponseWithTitleItems
+                  type: object
+                  properties:
+                    array_response_with_title_property:
+                      type: string
 components:
   schemas:
     Users:
