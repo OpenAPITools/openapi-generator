@@ -296,7 +296,11 @@ public class InlineModelResolverTest {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
         new InlineModelResolver().flatten(openAPI);
 
-        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body").getPost().getRequestBody();
+        RequestBody requestBodyReference = openAPI
+                .getPaths()
+                .get("/resolve_inline_request_body")
+                .getPost()
+                .getRequestBody();
         assertNotNull(requestBodyReference.get$ref());
 
         RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
@@ -356,7 +360,13 @@ public class InlineModelResolverTest {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
         new InlineModelResolver().flatten(openAPI);
 
-        MediaType mediaType = openAPI.getPaths().get("/non_model_request_body").getPost().getRequestBody().getContent().get("multipart/form-data");
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/non_model_request_body")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("multipart/form-data");
 
         assertTrue(mediaType.getSchema() instanceof BinarySchema);
         assertEquals("string", mediaType.getSchema().getType());
