@@ -27,6 +27,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -360,6 +361,48 @@ public class InlineModelResolverTest {
         assertTrue(mediaType.getSchema() instanceof BinarySchema);
         assertEquals("string", mediaType.getSchema().getType());
         assertEquals("binary", mediaType.getSchema().getFormat());
+    }
+
+    @Test
+    public void resolveInlineArrayRequestBody() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/resolve_inline_array_request_body")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json");
+
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
+
+        ArraySchema requestBody = (ArraySchema) mediaType.getSchema();
+        assertNotNull(requestBody.getItems().get$ref());
+        assertEquals("#/components/schemas/NULL_UNIQUE_NAME", requestBody.getItems().get$ref());
+
+        Schema items = ModelUtils.getReferencedSchema(openAPI, ((ArraySchema) mediaType.getSchema()).getItems());
+        assertTrue(items.getProperties().get("street") instanceof StringSchema);
+        assertTrue(items.getProperties().get("city") instanceof StringSchema);
+    }
+
+    @Test
+    public void resolveInlineArrayRequestBodyWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        ArraySchema requestBodySchema = (ArraySchema) openAPI
+                .getPaths()
+                .get("/resolve_inline_array_request_body_with_title")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json")
+                .getSchema();
+
+        assertNotNull(requestBodySchema.getItems().get$ref());
+        assertEquals("#/components/schemas/resolveInlineArrayRequestBodyWithTitleItems", requestBodySchema.getItems().get$ref());
     }
 
 /*
