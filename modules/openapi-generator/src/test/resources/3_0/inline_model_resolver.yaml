@@ -90,6 +90,21 @@ paths:
       responses:
         '200':
           description: OK
+  /resolve_inline_array_response:
+    get:
+      operationId: resolveInlineArrayResponse
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    array_response_property:
+                      type: string
 components:
   schemas:
     Users:
