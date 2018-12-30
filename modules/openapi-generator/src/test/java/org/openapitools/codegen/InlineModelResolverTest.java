@@ -407,57 +407,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void resolveInlineArrayBodyParameter() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ArraySchema()
-                                        .items(new ObjectSchema()
-                                            .addProperties("address", new ObjectSchema()
-                                                .addProperties("street", new StringSchema())))))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Parameter param = openapi.getPaths().get("/hello").getGet().getParameters().get(0);
-        assertTrue(param instanceof BodyParameter);
-
-        BodyParameter bp = (BodyParameter) param;
-        Model schema = bp.getSchema();
-
-        assertTrue(schema instanceof ArraySchema);
-
-        ArraySchema am = (ArraySchema) schema;
-        Property inner = am.getItems();
-        assertTrue(inner instanceof Schema);
-
-        Schema rp = (Schema) inner;
-
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/body");
-        assertEquals(rp.getSimpleRef(), "body");
-
-        Model inline = openapi.getComponents().getSchemas().get("body");
-        assertNotNull(inline);
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        Schema rpAddress = (Schema) impl.getProperties().get("address");
-        assertNotNull(rpAddress);
-        assertEquals(rpAddress.getType(), "ref");
-        assertEquals(rpAddress.get$ref(), "#/definitions/hello_address");
-        assertEquals(rpAddress.getSimpleRef(), "hello_address");
-
-        Model inlineProp = openapi.getComponents().getSchemas().get("hello_address");
-        assertNotNull(inlineProp);
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema implProp = (ObjectSchema) inlineProp;
-        assertNotNull(implProp.getProperties().get("street"));
-        assertTrue(implProp.getProperties().get("street") instanceof StringSchema);
-    }
-
-    @Test
     public void resolveInlineArrayResponse() throws Exception {
         OpenAPI openapi = new OpenAPI();
 
