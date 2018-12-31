@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -121,7 +122,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Capitalization);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Capitalization).AreEqual;
         }
 
         /// <summary>
@@ -131,40 +132,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Capitalization input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.SmallCamel == input.SmallCamel ||
-                    (this.SmallCamel != null &&
-                    this.SmallCamel.Equals(input.SmallCamel))
-                ) && 
-                (
-                    this.CapitalCamel == input.CapitalCamel ||
-                    (this.CapitalCamel != null &&
-                    this.CapitalCamel.Equals(input.CapitalCamel))
-                ) && 
-                (
-                    this.SmallSnake == input.SmallSnake ||
-                    (this.SmallSnake != null &&
-                    this.SmallSnake.Equals(input.SmallSnake))
-                ) && 
-                (
-                    this.CapitalSnake == input.CapitalSnake ||
-                    (this.CapitalSnake != null &&
-                    this.CapitalSnake.Equals(input.CapitalSnake))
-                ) && 
-                (
-                    this.SCAETHFlowPoints == input.SCAETHFlowPoints ||
-                    (this.SCAETHFlowPoints != null &&
-                    this.SCAETHFlowPoints.Equals(input.SCAETHFlowPoints))
-                ) && 
-                (
-                    this.ATT_NAME == input.ATT_NAME ||
-                    (this.ATT_NAME != null &&
-                    this.ATT_NAME.Equals(input.ATT_NAME))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

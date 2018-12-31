@@ -430,17 +430,16 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                // check to see if it's a "map" model
-                if (ModelUtils.isMapSchema(schema)) {
+                if (ModelUtils.isFreeFormObject(schema)) { // check to see if it'a a free-form object
+                    LOGGER.info("Model " + name + " not generated since it's a free-form object");
+                    continue;
+                } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
                         // schema without property, i.e. alias to map
                         LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
                         continue;
                     }
-                }
-
-                // check to see if it's an "array" model
-                if (ModelUtils.isArraySchema(schema)) {
+                } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
                     if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
                         // schema without property, i.e. alias to array
                         LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
@@ -475,6 +474,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
 
+                // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
                 // Special handling of aliases only applies to Java
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
@@ -537,9 +537,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 });
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
-
+                URL url = URLPathUtils.getServerURL(openAPI);
                 operation.put("basePath", basePath);
-                operation.put("basePathWithoutHost", basePathWithoutHost);
+                operation.put("basePathWithoutHost", config.encodePath(url.getPath()).replaceAll("/$", ""));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
                 operation.put("apiPackage", config.apiPackage());
@@ -568,8 +568,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     @SuppressWarnings("unchecked")
                     List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
                     for (CodegenOperation op : operations) {
-                        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-                        if (!op.vendorExtensions.containsKey("x-group-parameters")) {
+                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
                             op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
                         }
                     }
@@ -878,12 +877,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             throw new RuntimeException("missing config!");
         }
 
-        configureGeneratorProperties();
-        configureOpenAPIInfo();
-
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
         inlineModelResolver.flatten(openAPI);
+
+        configureGeneratorProperties();
+        configureOpenAPIInfo();
 
         List<File> files = new ArrayList<File>();
         // models
@@ -898,7 +897,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
         config.processOpenAPI(openAPI);
-        
+
         // reset GeneratorProperties, so that the running thread can be reused for another generator-run
         GeneratorProperties.reset();
 
@@ -1136,6 +1135,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(cm.classname));
             models.add(mo);
+
+            cm.removeSelfReferenceImport();
 
             allImports.addAll(cm.imports);
         }

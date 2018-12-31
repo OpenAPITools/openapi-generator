@@ -81,6 +81,8 @@ public interface CodegenConfig {
 
     String escapeTextWhileAllowingNewLines(String text);
 
+    String encodePath(String text);
+
     String escapeUnsafeCharacters(String input);
 
     String escapeReservedWord(String name);

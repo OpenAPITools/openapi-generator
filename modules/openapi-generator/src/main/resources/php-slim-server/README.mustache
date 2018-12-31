@@ -28,21 +28,54 @@ $ php -S localhost:8888 -t php-slim-server
 > It may also be useful for testing purposes or for application demonstrations that are run in controlled environments.
 > It is not intended to be a full-featured web server. It should not be used on a public network.
 
-## Run tests
+## Tests
 
-This package uses PHPUnit 6 or 7(depends from your PHP version) for unit testing and PHP Codesniffer to check source code against user defined coding standard(`phpcsStandard` generator config option).
+### PHPUnit
+
+This package uses PHPUnit 6 or 7(depends from your PHP version) for unit testing.
 [Test folder]({{testBasePath}}) contains templates which you can fill with real test assertions.
 How to write tests read at [PHPUnit Manual - Chapter 2. Writing Tests for PHPUnit](https://phpunit.de/manual/6.5/en/writing-tests-for-phpunit.html).
-How to configure PHP CodeSniffer read at [PHP CodeSniffer Documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki).
-There is [phplint](https://github.com/overtrue/phplint) tool to check php syntax automatically.
 
-Command | Tool | Target
----- | ---- | ----
-`$ composer test` | PHPUnit | All tests
-`$ composer run test-apis` | PHPUnit | Apis tests
-`$ composer run test-models` | PHPUnit | Models tests
-`$ composer run phpcs` | PHP CodeSniffer | All files
-`$ composer run phplint` | phplint | All files
+#### Run
+
+Command | Target
+---- | ----
+`$ composer test` | All tests
+`$ composer test-apis` | Apis tests
+`$ composer test-models` | Models tests
+
+#### Config
+
+Package contains fully functional config `./phpunit.xml.dist` file. Create `./phpunit.xml` in root folder to override it.
+
+Quote from [3. The Command-Line Test Runner — PHPUnit 7.4 Manual](https://phpunit.readthedocs.io/en/7.4/textui.html#command-line-options):
+
+> If phpunit.xml or phpunit.xml.dist (in that order) exist in the current working directory and --configuration is not used, the configuration will be automatically read from that file.
+
+### PHP CodeSniffer
+
+[PHP CodeSniffer Documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki). This tool helps to follow coding style and avoid common PHP coding mistakes.
+
+#### Run
+
+```bash
+$ composer phpcs
+```
+
+#### Config
+
+Package contains fully functional config `./phpcs.xml.dist` file. It checks source code against PSR-1 and PSR-2 coding standards.
+Create `./phpcs.xml` in root folder to override it. More info at [Using a Default Configuration File](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file)
+
+### PHPLint
+
+[PHPLint Documentation](https://github.com/overtrue/phplint). Checks PHP syntax only.
+
+#### Run
+
+```bash
+$ composer phplint
+```
 
 ## Show errors
 

@@ -20,4 +20,3 @@ sidebar_label: php-slim
 |gitUserId|Git user ID, e.g. openapitools.| |null|
 |gitRepoId|Git repo ID, e.g. openapi-generator.| |null|
 |artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|
-|phpcsStandard|PHP CodeSniffer &lt;standard&gt; option. Accepts name or path of the coding standard to use.| |PSR12|

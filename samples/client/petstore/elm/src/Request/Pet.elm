@@ -37,7 +37,7 @@ addPet params =
         , url =
             Url.crossOrigin basePath
                 [ "pet" ]
-                (List.filterMap identity [])
+                []
         , body = Http.jsonBody <| Pet.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -46,18 +46,21 @@ addPet params =
 
 
 deletePet :
-    { onSend : Result Http.Error () -> msg
-    , petId : Int
+    { apiKey : Maybe String
     }
+    ->
+        { onSend : Result Http.Error () -> msg
+        , petId : Int
+        }
     -> Cmd msg
-deletePet params =
+deletePet headers params =
     Http.request
         { method = "DELETE"
-        , headers = []
+        , headers = List.filterMap identity [ Maybe.map (Http.header "api_key") headers.apiKey ]
         , url =
             Url.crossOrigin basePath
                 [ "pet", String.fromInt params.petId ]
-                (List.filterMap identity [])
+                []
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -123,7 +126,7 @@ getPetById params =
         , url =
             Url.crossOrigin basePath
                 [ "pet", String.fromInt params.petId ]
-                (List.filterMap identity [])
+                []
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend Pet.decoder
         , timeout = Just 30000
@@ -143,7 +146,7 @@ updatePet params =
         , url =
             Url.crossOrigin basePath
                 [ "pet" ]
-                (List.filterMap identity [])
+                []
         , body = Http.jsonBody <| Pet.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -163,7 +166,7 @@ updatePetWithForm params =
         , url =
             Url.crossOrigin basePath
                 [ "pet", String.fromInt params.petId ]
-                (List.filterMap identity [])
+                []
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -183,7 +186,7 @@ uploadFile params =
         , url =
             Url.crossOrigin basePath
                 [ "pet", String.fromInt params.petId, "uploadImage" ]
-                (List.filterMap identity [])
+                []
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend ApiResponse.decoder
         , timeout = Just 30000

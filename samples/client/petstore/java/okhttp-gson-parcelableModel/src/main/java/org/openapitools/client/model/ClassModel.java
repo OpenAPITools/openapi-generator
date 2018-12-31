@@ -79,7 +79,6 @@ public class ClassModel implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClassModel {\n");
-    
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");
     return sb.toString();

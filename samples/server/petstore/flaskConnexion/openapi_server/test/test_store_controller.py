@@ -50,11 +50,11 @@ class TestStoreController(BaseTestCase):
 
         Place an order for a pet
         """
-        order = Order()
+        body = Order()
         response = self.client.open(
             '/v2/store/order',
             method='POST',
-            data=json.dumps(order),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

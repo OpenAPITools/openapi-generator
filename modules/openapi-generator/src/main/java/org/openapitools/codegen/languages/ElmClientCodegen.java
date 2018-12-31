@@ -447,7 +447,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (ElmVersion.ELM_018.equals(elmVersion)) {
                 String path = op.path;
                 for (CodegenParameter param : op.pathParams) {
-                    final String var = paramToString(param, false, null);
+                    final String var = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
                     hasDateTime = hasDateTime || param.isDateTime;
                     hasDate = hasDate || param.isDate;
@@ -457,7 +457,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 final List<String> paths = Arrays.asList(op.path.substring(1).split("/"));
                 String path = paths.stream().map(str -> str.charAt(0) == '{' ? str : "\"" + str + "\"").collect(Collectors.joining(", "));
                 for (CodegenParameter param : op.pathParams) {
-                    String str = paramToString(param, false, null);
+                    String str = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", str);
                     hasDateTime = hasDateTime || param.isDateTime;
                     hasDate = hasDate || param.isDate;
@@ -465,10 +465,15 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 op.path = path;
 
                 final String query = op.queryParams.stream()
-                    .map(param -> paramToString(param, true, "Url.string \"" + param.paramName + "\""))
+                    .map(param -> paramToString("params", param, true, "Url.string \"" + param.baseName + "\""))
                     .collect(Collectors.joining(", "));
                 op.vendorExtensions.put("query", query);
-                // TODO headers
+
+                final String headers = op.headerParams.stream()
+                    .map(param -> paramToString("headers", param, true, "Http.header \"" + param.baseName + "\""))
+                    .collect(Collectors.joining(", "));
+                op.vendorExtensions.put("headers", headers);
+                // TODO cookies
                 // TODO forms
             }
 
@@ -563,8 +568,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "(Just " + value + ")";
     }
 
-    private String paramToString(final CodegenParameter param, final boolean useMaybe, final String maybeMapResult) {
-        final String paramName = (ElmVersion.ELM_018.equals(elmVersion) ? "" : "params.") + param.paramName;
+    private String paramToString(final String prefix, final CodegenParameter param, final boolean useMaybe, final String maybeMapResult) {
+        final String paramName = (ElmVersion.ELM_018.equals(elmVersion) ? "" : prefix + ".") + param.paramName;
         if (!useMaybe) {
             param.required = true;
         }
@@ -601,11 +606,15 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         String mapResult = "";
         if (maybeMapResult != null) {
-            mapResult = maybeMapResult + (param.required ? " <|" : " <<");
+            if (mapFn == "") {
+                mapResult = maybeMapResult;
+            } else {
+                mapResult = maybeMapResult + (param.required ? " <|" : " <<");
+            }
         }
         final String just = useMaybe ? "Just (" : "";
         final String justEnd = useMaybe ? ")" : "";
-        return (param.required ? just : "Maybe.map") + mapResult + " " + mapFn + " " + paramName + (param.required ? justEnd : "");
+        return (param.required ? just : "Maybe.map (") + mapResult + " " + mapFn + (param.required ? " " : ") ") + paramName + (param.required ? justEnd : "");
     }
 
     @Override

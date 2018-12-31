@@ -27,7 +27,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.core.util.Json;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -42,12 +41,11 @@ import io.swagger.v3.oas.models.media.XML;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
-    private boolean skipMatches;
+    private Map<String, Schema> addedModels = new HashMap<String, Schema>();
+    private Map<String, String> generatedSignature = new HashMap<String, String>();
     static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
-    Map<String, Schema> addedModels = new HashMap<String, Schema>();
-    Map<String, String> generatedSignature = new HashMap<String, String>();
 
-    public void flatten(OpenAPI openapi) {
+    void flatten(OpenAPI openapi) {
         this.openapi = openapi;
 
         if (openapi.getComponents() == null) {
@@ -341,10 +339,7 @@ public class InlineModelResolver {
         }
     }
 
-    public String matchGenerated(Schema model) {
-        if (this.skipMatches) {
-            return null;
-        }
+    private String matchGenerated(Schema model) {
         String json = Json.pretty(model);
         if (generatedSignature.containsKey(json)) {
             return generatedSignature.get(json);
@@ -352,11 +347,11 @@ public class InlineModelResolver {
         return null;
     }
 
-    public void addGenerated(String name, Schema model) {
+    private void addGenerated(String name, Schema model) {
         generatedSignature.put(Json.pretty(model), name);
     }
 
-    public String uniqueName(String key) {
+    private String uniqueName(String key) {
         if (key == null) {
             key = "NULL_UNIQUE_NAME";
             LOGGER.warn("null key found. Default to NULL_UNIQUE_NAME");
@@ -380,7 +375,7 @@ public class InlineModelResolver {
         return key;
     }
 
-    public void flattenProperties(Map<String, Schema> properties, String path) {
+    private void flattenProperties(Map<String, Schema> properties, String path) {
         if (properties == null) {
             return;
         }
@@ -465,28 +460,7 @@ public class InlineModelResolver {
         }
     }
 
-    @SuppressWarnings("static-method")
-    public Schema modelFromProperty(ArraySchema object, @SuppressWarnings("unused") String path) {
-        String description = object.getDescription();
-        String example = null;
-        Object obj = object.getExample();
-
-        if (obj != null) {
-            example = obj.toString();
-        }
-        Schema inner = object.getItems();
-        if (inner instanceof ObjectSchema) {
-            ArraySchema model = new ArraySchema();
-            model.setDescription(description);
-            model.setExample(example);
-            model.setItems(object.getItems());
-            model.setName(object.getName());
-            return model;
-        }
-        return null;
-    }
-
-    public Schema modelFromProperty(ObjectSchema object, String path) {
+    private Schema modelFromProperty(ObjectSchema object, String path) {
         String description = object.getDescription();
         String example = null;
         Object obj = object.getExample();
@@ -508,22 +482,6 @@ public class InlineModelResolver {
         return model;
     }
 
-    @SuppressWarnings("static-method")
-    public Schema modelFromProperty(MapSchema object, @SuppressWarnings("unused") String path) {
-        String description = object.getDescription();
-        String example = null;
-        Object obj = object.getExample();
-        if (obj != null) {
-            example = obj.toString();
-        }
-        ArraySchema model = new ArraySchema();
-        model.setDescription(description);
-        model.setName(object.getName());
-        model.setExample(example);
-        model.setItems(ModelUtils.getAdditionalProperties(object));
-        return model;
-    }
-
     /**
      * Make a Schema
      *
@@ -531,7 +489,7 @@ public class InlineModelResolver {
      * @param property Schema
      * @return {@link Schema} A constructed OpenAPI property
      */
-    public Schema makeSchema(String ref, Schema property) {
+    private Schema makeSchema(String ref, Schema property) {
         Schema newProperty = new Schema().$ref(ref);
         this.copyVendorExtensions(property, newProperty);
         return newProperty;
@@ -544,7 +502,7 @@ public class InlineModelResolver {
      * @param target target property
      */
 
-    public void copyVendorExtensions(Schema source, Schema target) {
+    private void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
         if (vendorExtensions == null) {
              return;
@@ -552,13 +510,5 @@ public class InlineModelResolver {
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));
         }
-    }
-
-    public boolean isSkipMatches() {
-        return skipMatches;
-    }
-
-    public void setSkipMatches(boolean skipMatches) {
-        this.skipMatches = skipMatches;
     }
 }
