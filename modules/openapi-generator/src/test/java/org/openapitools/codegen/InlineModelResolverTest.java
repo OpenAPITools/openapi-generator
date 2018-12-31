@@ -24,9 +24,7 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
