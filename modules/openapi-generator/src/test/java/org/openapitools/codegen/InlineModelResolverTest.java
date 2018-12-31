@@ -465,40 +465,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void testArrayResponse() {
-        OpenAPI openapi = new OpenAPI();
-
-        ArrayProperty schema = new ArrayProperty();
-        schema.setItems(new ObjectSchema()
-                .addProperties("name", new StringSchema()));
-
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(schema))));
-        new InlineModelResolver().flatten(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertTrue(response.getSchema() instanceof ArrayProperty);
-
-        ArrayProperty am = (ArrayProperty) response.getSchema();
-        Property items = am.getItems();
-        assertTrue(items instanceof Schema);
-        Schema rp = (Schema) items;
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/inline_response_200");
-        assertEquals(rp.getSimpleRef(), "inline_response_200");
-
-        Model inline = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        assertNotNull(impl.getProperties().get("name"));
-        assertTrue(impl.getProperties().get("name") instanceof StringSchema);
-    }
-
-    @Test
     public void testBasicInput() {
         OpenAPI openapi = new OpenAPI();
 
