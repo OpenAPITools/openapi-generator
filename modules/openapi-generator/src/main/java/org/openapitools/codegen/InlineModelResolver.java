@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -49,7 +50,7 @@ public class InlineModelResolver {
         this.openapi = openapi;
 
         if (openapi.getComponents() == null) {
-            return; // There's nothing here
+            openapi.setComponents(new Components());
         }
 
         if (openapi.getComponents().getSchemas() == null) {
