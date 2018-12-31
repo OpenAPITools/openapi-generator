@@ -285,7 +285,6 @@ public class InlineModelResolverTest {
         assertNotNull(openAPI.getComponents().getRequestBodies());
     }
     
-    /*
     @Test
     public void resolveInlineArraySchemaWithTitle() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
