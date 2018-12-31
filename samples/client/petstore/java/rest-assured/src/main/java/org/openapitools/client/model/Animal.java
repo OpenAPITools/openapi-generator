@@ -101,7 +101,6 @@ public class Animal {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
-    
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");

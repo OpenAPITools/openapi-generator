@@ -227,7 +227,6 @@ public class MapTest {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MapTest {\n");
-    
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
     sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
