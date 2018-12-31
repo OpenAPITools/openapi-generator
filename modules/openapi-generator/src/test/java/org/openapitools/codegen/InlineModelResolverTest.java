@@ -465,26 +465,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void testBasicInput() {
-        OpenAPI openapi = new OpenAPI();
-
-        ObjectSchema user = new ObjectSchema()
-                .addProperties("name", new StringSchema());
-
-        openapi.path("/foo/baz", new Path()
-                .post(new Operation()
-                        .parameter(new BodyParameter()
-                            .name("myBody")
-                            .schema(new RefModel("User")))));
-
-        openapi.getComponents().addSchemas("User", user);
-
-        new InlineModelResolver().flatten(openapi);
-
-        Json.prettyPrint(openapi);
-    }
-
-    @Test
     public void testArbitraryObjectBodyParam() {
         OpenAPI openapi = new OpenAPI();
 
