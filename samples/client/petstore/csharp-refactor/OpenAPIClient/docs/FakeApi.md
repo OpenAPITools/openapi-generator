@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 <a name="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
-> bool? FakeOuterBooleanSerialize (bool? body = null)
+> bool FakeOuterBooleanSerialize (bool? body = null)
 
 
 
@@ -45,7 +45,7 @@ namespace Example
 
             try
             {
-                bool? result = apiInstance.FakeOuterBooleanSerialize(body);
+                bool result = apiInstance.FakeOuterBooleanSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bool?**
+**bool**
 
 ### Authorization
 
@@ -80,7 +80,7 @@ No authorization required
 
 <a name="fakeoutercompositeserialize"></a>
 # **FakeOuterCompositeSerialize**
-> OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
+> OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
 
 
 
@@ -101,11 +101,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
+            var body = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
             try
             {
-                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(outerComposite);
+                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -121,7 +121,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -140,7 +140,7 @@ No authorization required
 
 <a name="fakeouternumberserialize"></a>
 # **FakeOuterNumberSerialize**
-> decimal? FakeOuterNumberSerialize (decimal? body = null)
+> decimal FakeOuterNumberSerialize (decimal? body = null)
 
 
 
@@ -165,7 +165,7 @@ namespace Example
 
             try
             {
-                decimal? result = apiInstance.FakeOuterNumberSerialize(body);
+                decimal result = apiInstance.FakeOuterNumberSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -185,7 +185,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**decimal?**
+**decimal**
 
 ### Authorization
 
@@ -260,7 +260,7 @@ No authorization required
 
 <a name="testbodywithfileschema"></a>
 # **TestBodyWithFileSchema**
-> void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
+> void TestBodyWithFileSchema (FileSchemaTestClass body)
 
 
 
@@ -281,11 +281,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
+            var body = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
             try
             {
-                apiInstance.TestBodyWithFileSchema(fileSchemaTestClass);
+                apiInstance.TestBodyWithFileSchema(body);
             }
             catch (Exception e)
             {
@@ -300,7 +300,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -319,7 +319,7 @@ No authorization required
 
 <a name="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
-> void TestBodyWithQueryParams (string query, User user)
+> void TestBodyWithQueryParams (string query, User body)
 
 
 
@@ -339,11 +339,11 @@ namespace Example
         {
             var apiInstance = new FakeApi();
             var query = query_example;  // string | 
-            var user = new User(); // User | 
+            var body = new User(); // User | 
 
             try
             {
-                apiInstance.TestBodyWithQueryParams(query, user);
+                apiInstance.TestBodyWithQueryParams(query, body);
             }
             catch (Exception e)
             {
@@ -359,7 +359,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  | 
- **user** | [**User**](User.md)|  | 
+ **body** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -378,7 +378,7 @@ No authorization required
 
 <a name="testclientmodel"></a>
 # **TestClientModel**
-> ModelClient TestClientModel (ModelClient modelClient)
+> ModelClient TestClientModel (ModelClient body)
 
 To test \"client\" model
 
@@ -399,12 +399,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var body = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(modelClient);
+                ModelClient result = apiInstance.TestClientModel(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -420,7 +420,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **body** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -439,7 +439,7 @@ No authorization required
 
 <a name="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+> void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -464,8 +464,8 @@ namespace Example
             Configuration.Default.Password = "YOUR_PASSWORD";
 
             var apiInstance = new FakeApi();
-            var number = 8.14;  // decimal? | None
-            var _double = 1.2D;  // double? | None
+            var number = 8.14;  // decimal | None
+            var _double = 1.2D;  // double | None
             var patternWithoutDelimiter = patternWithoutDelimiter_example;  // string | None
             var _byte = BYTE_ARRAY_DATA_HERE;  // byte[] | None
             var integer = 56;  // int? | None (optional) 
@@ -497,8 +497,8 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **decimal?**| None | 
- **_double** | **double?**| None | 
+ **number** | **decimal**| None | 
+ **_double** | **double**| None | 
  **patternWithoutDelimiter** | **string**| None | 
  **_byte** | **byte[]**| None | 
  **integer** | **int?**| None | [optional] 
@@ -603,7 +603,7 @@ No authorization required
 
 <a name="testgroupparameters"></a>
 # **TestGroupParameters**
-> void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+> void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
 
 Fake endpoint to test group parameters (optional)
 
@@ -624,9 +624,9 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var requiredStringGroup = 56;  // int? | Required String in group parameters
-            var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
-            var requiredInt64Group = 789;  // long? | Required Integer in group parameters
+            var requiredStringGroup = 56;  // int | Required String in group parameters
+            var requiredBooleanGroup = true;  // bool | Required Boolean in group parameters
+            var requiredInt64Group = 789;  // long | Required Integer in group parameters
             var stringGroup = 56;  // int? | String in group parameters (optional) 
             var booleanGroup = true;  // bool? | Boolean in group parameters (optional) 
             var int64Group = 789;  // long? | Integer in group parameters (optional) 
@@ -649,9 +649,9 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **int?**| Required String in group parameters | 
- **requiredBooleanGroup** | **bool?**| Required Boolean in group parameters | 
- **requiredInt64Group** | **long?**| Required Integer in group parameters | 
+ **requiredStringGroup** | **int**| Required String in group parameters | 
+ **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **long**| Required Integer in group parameters | 
  **stringGroup** | **int?**| String in group parameters | [optional] 
  **booleanGroup** | **bool?**| Boolean in group parameters | [optional] 
  **int64Group** | **long?**| Integer in group parameters | [optional] 
@@ -673,7 +673,7 @@ No authorization required
 
 <a name="testinlineadditionalproperties"></a>
 # **TestInlineAdditionalProperties**
-> void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
+> void TestInlineAdditionalProperties (Dictionary<string, string> param)
 
 test inline additionalProperties
 
@@ -692,12 +692,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
+            var param = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
             try
             {
                 // test inline additionalProperties
-                apiInstance.TestInlineAdditionalProperties(requestBody);
+                apiInstance.TestInlineAdditionalProperties(param);
             }
             catch (Exception e)
             {
@@ -712,7 +712,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
+ **param** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
 
 ### Return type
 

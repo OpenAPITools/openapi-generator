@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns></returns>
-        void CreateUser (User user);
+        void CreateUser (User body);
 
         /// <summary>
         /// Create user
@@ -45,9 +45,9 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> CreateUserWithHttpInfo (User user);
+        ApiResponse<Object> CreateUserWithHttpInfo (User body);
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -55,9 +55,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithArrayInput (List<User> user);
+        void CreateUsersWithArrayInput (List<User> body);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -66,9 +66,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> user);
+        ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> body);
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -76,9 +76,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
-        void CreateUsersWithListInput (List<User> user);
+        void CreateUsersWithListInput (List<User> body);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -87,9 +87,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> user);
+        ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> body);
         /// <summary>
         /// Delete user
         /// </summary>
@@ -182,9 +182,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns></returns>
-        void UpdateUser (string username, User user);
+        void UpdateUser (string username, User body);
 
         /// <summary>
         /// Updated user
@@ -194,9 +194,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdateUserWithHttpInfo (string username, User user);
+        ApiResponse<Object> UpdateUserWithHttpInfo (string username, User body);
         #endregion Synchronous Operations
     }
 
@@ -213,9 +213,9 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task CreateUserAsync (User user);
+        System.Threading.Tasks.Task CreateUserAsync (User body);
 
         /// <summary>
         /// Create user
@@ -224,9 +224,9 @@ namespace Org.OpenAPITools.Api
         /// This can only be done by the logged in user.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserAsyncWithHttpInfo (User user);
+        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUserAsyncWithHttpInfo (User body);
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -234,9 +234,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> user);
+        System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -245,9 +245,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithArrayInputAsyncWithHttpInfo (List<User> user);
+        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithArrayInputAsyncWithHttpInfo (List<User> body);
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
@@ -255,9 +255,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> user);
+        System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body);
 
         /// <summary>
         /// Creates list of users with given input array
@@ -266,9 +266,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithListInputAsyncWithHttpInfo (List<User> user);
+        System.Threading.Tasks.Task<ApiResponse<Object>> CreateUsersWithListInputAsyncWithHttpInfo (List<User> body);
         /// <summary>
         /// Delete user
         /// </summary>
@@ -361,9 +361,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdateUserAsync (string username, User user);
+        System.Threading.Tasks.Task UpdateUserAsync (string username, User body);
 
         /// <summary>
         /// Updated user
@@ -373,9 +373,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserAsyncWithHttpInfo (string username, User user);
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdateUserAsyncWithHttpInfo (string username, User body);
         #endregion Asynchronous Operations
     }
 
@@ -384,7 +384,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public interface IUserApi : IUserApiSync, IUserApiAsync
     {
-        
+
     }
 
     /// <summary>
@@ -393,7 +393,7 @@ namespace Org.OpenAPITools.Api
     public partial class UserApi : IUserApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
@@ -448,7 +448,7 @@ namespace Org.OpenAPITools.Api
             if(client == null) throw new ArgumentNullException("client");
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             this.AsynchronousClient = asyncClient;
             this.Configuration = configuration;
@@ -500,24 +500,24 @@ namespace Org.OpenAPITools.Api
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns></returns>
-        public void CreateUser (User user)
+        public void CreateUser (User body)
         {
-             CreateUserWithHttpInfo(user);
+             CreateUserWithHttpInfo(body);
         }
 
         /// <summary>
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUserWithHttpInfo (User user)
+        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUserWithHttpInfo (User body)
         {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUser");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUser");
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -534,7 +534,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
             if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -554,11 +554,11 @@ namespace Org.OpenAPITools.Api
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task CreateUserAsync (User user)
+        public async System.Threading.Tasks.Task CreateUserAsync (User body)
         {
-             await CreateUserAsyncWithHttpInfo(user);
+             await CreateUserAsyncWithHttpInfo(body);
 
         }
 
@@ -566,13 +566,14 @@ namespace Org.OpenAPITools.Api
         /// Create user This can only be done by the logged in user.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUserAsyncWithHttpInfo (User user)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUserAsyncWithHttpInfo (User body)
         {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUser");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUser");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -589,7 +590,7 @@ namespace Org.OpenAPITools.Api
             foreach (var accept in @accepts)
                 requestOptions.HeaderParameters.Add("Accept", accept);
             
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -609,24 +610,24 @@ namespace Org.OpenAPITools.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
-        public void CreateUsersWithArrayInput (List<User> user)
+        public void CreateUsersWithArrayInput (List<User> body)
         {
-             CreateUsersWithArrayInputWithHttpInfo(user);
+             CreateUsersWithArrayInputWithHttpInfo(body);
         }
 
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> user)
+        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUsersWithArrayInputWithHttpInfo (List<User> body)
         {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput");
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -643,7 +644,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
             if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -663,11 +664,11 @@ namespace Org.OpenAPITools.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> user)
+        public async System.Threading.Tasks.Task CreateUsersWithArrayInputAsync (List<User> body)
         {
-             await CreateUsersWithArrayInputAsyncWithHttpInfo(user);
+             await CreateUsersWithArrayInputAsyncWithHttpInfo(body);
 
         }
 
@@ -675,13 +676,14 @@ namespace Org.OpenAPITools.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithArrayInputAsyncWithHttpInfo (List<User> user)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithArrayInputAsyncWithHttpInfo (List<User> body)
         {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithArrayInput");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -698,7 +700,7 @@ namespace Org.OpenAPITools.Api
             foreach (var accept in @accepts)
                 requestOptions.HeaderParameters.Add("Accept", accept);
             
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -718,24 +720,24 @@ namespace Org.OpenAPITools.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns></returns>
-        public void CreateUsersWithListInput (List<User> user)
+        public void CreateUsersWithListInput (List<User> body)
         {
-             CreateUsersWithListInputWithHttpInfo(user);
+             CreateUsersWithListInputWithHttpInfo(body);
         }
 
         /// <summary>
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> user)
+        public Org.OpenAPITools.Client.ApiResponse<Object> CreateUsersWithListInputWithHttpInfo (List<User> body)
         {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithListInput");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput");
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -752,7 +754,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
             if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -772,11 +774,11 @@ namespace Org.OpenAPITools.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> user)
+        public async System.Threading.Tasks.Task CreateUsersWithListInputAsync (List<User> body)
         {
-             await CreateUsersWithListInputAsyncWithHttpInfo(user);
+             await CreateUsersWithListInputAsyncWithHttpInfo(body);
 
         }
 
@@ -784,13 +786,14 @@ namespace Org.OpenAPITools.Api
         /// Creates list of users with given input array 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithListInputAsyncWithHttpInfo (List<User> user)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateUsersWithListInputAsyncWithHttpInfo (List<User> body)
         {
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->CreateUsersWithListInput");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -807,7 +810,7 @@ namespace Org.OpenAPITools.Api
             foreach (var accept in @accepts)
                 requestOptions.HeaderParameters.Add("Accept", accept);
             
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -901,6 +904,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->DeleteUser");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1017,6 +1021,7 @@ namespace Org.OpenAPITools.Api
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->GetUserByName");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1076,6 +1081,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
+
             // verify the required parameter 'password' is set
             if (password == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
@@ -1158,9 +1164,11 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
+
             // verify the required parameter 'password' is set
             if (password == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1231,7 +1239,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Org.OpenAPITools.Client.ApiResponse<Object> LogoutUserWithHttpInfo ()
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1316,11 +1323,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns></returns>
-        public void UpdateUser (string username, User user)
+        public void UpdateUser (string username, User body)
         {
-             UpdateUserWithHttpInfo(username, user);
+             UpdateUserWithHttpInfo(username, body);
         }
 
         /// <summary>
@@ -1328,16 +1335,17 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateUserWithHttpInfo (string username, User user)
+        public Org.OpenAPITools.Client.ApiResponse<Object> UpdateUserWithHttpInfo (string username, User body)
         {
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->UpdateUser");
+
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->UpdateUser");
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1356,7 +1364,7 @@ namespace Org.OpenAPITools.Api
 
             if (username != null)
                 requestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -1377,11 +1385,11 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdateUserAsync (string username, User user)
+        public async System.Threading.Tasks.Task UpdateUserAsync (string username, User body)
         {
-             await UpdateUserAsyncWithHttpInfo(username, user);
+             await UpdateUserAsyncWithHttpInfo(username, body);
 
         }
 
@@ -1390,16 +1398,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateUserAsyncWithHttpInfo (string username, User user)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdateUserAsyncWithHttpInfo (string username, User body)
         {
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'user' when calling UserApi->UpdateUser");
+
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->UpdateUser");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1418,7 +1428,7 @@ namespace Org.OpenAPITools.Api
             
             if (username != null)
                 requestOptions.PathParameters.Add("username", Org.OpenAPITools.Client.ClientUtils.ParameterToString(username)); // path parameter
-            requestOptions.Data = user;
+            requestOptions.Data = body;
 
 
             // make the HTTP request

@@ -76,7 +76,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold", defaultValue = "new ArrayList<>()") @Valid @RequestParam(value = "status", required = true, defaultValue="new ArrayList<>()") List<String> status) {
+    default ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
         return getDelegate().findPetsByStatus(status);
     }
 
@@ -93,7 +93,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true, defaultValue = "new ArrayList<>()") @Valid @RequestParam(value = "tags", required = true, defaultValue="new ArrayList<>()") List<String> tags) {
+    default ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
         return getDelegate().findPetsByTags(tags);
     }
 

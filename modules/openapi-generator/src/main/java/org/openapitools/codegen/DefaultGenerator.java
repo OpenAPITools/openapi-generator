@@ -434,13 +434,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     LOGGER.info("Model " + name + " not generated since it's a free-form object");
                     continue;
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to map
                         LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
                         continue;
                     }
                 } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to array
                         LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
                         continue;
@@ -537,9 +537,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 });
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
-
+                URL url = URLPathUtils.getServerURL(openAPI);
                 operation.put("basePath", basePath);
-                operation.put("basePathWithoutHost", basePathWithoutHost);
+                operation.put("basePathWithoutHost", config.encodePath(url.getPath()).replaceAll("/$", ""));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
                 operation.put("apiPackage", config.apiPackage());
@@ -568,8 +568,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     @SuppressWarnings("unchecked")
                     List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
                     for (CodegenOperation op : operations) {
-                        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-                        if (!op.vendorExtensions.containsKey("x-group-parameters")) {
+                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
                             op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
                         }
                     }

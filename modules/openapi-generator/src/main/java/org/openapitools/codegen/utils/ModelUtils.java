@@ -61,6 +61,16 @@ import java.util.stream.Collectors;
 
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
+    private static boolean generateAliasAsModel = false;
+
+    public static void setGenerateAliasAsModel(boolean value) {
+        generateAliasAsModel = value;
+    }
+
+    public static boolean isGenerateAliasAsModel() {
+        return generateAliasAsModel;
+    }
+
 
     /**
      * Searches for the model by name in the map of models and returns it
@@ -769,15 +779,23 @@ public class ModelUtils {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
-                return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                if (generateAliasAsModel) {
+                    return schema; // generate a model extending array
+                } else {
+                    return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                }
             } else if (isComposedSchema(ref)) {
                 return schema;
             } else if (isMapSchema(ref)) {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
-                    // treat it as a typical map
-                    return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                    if (generateAliasAsModel) {
+                        return schema; // generate a model extending map
+                    } else {
+                        // treat it as a typical map
+                        return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                    }
                 }
             } else if (isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property

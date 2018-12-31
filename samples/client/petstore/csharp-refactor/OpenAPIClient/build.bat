@@ -9,7 +9,6 @@ if not exist ".\nuget.exe" powershell -Command "(new-object System.Net.WebClient
 .\nuget.exe install src\Org.OpenAPITools\packages.config -o packages
 
 if not exist ".\bin" mkdir bin
-
 copy packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll bin\Newtonsoft.Json.dll
 copy packages\JsonSubTypes.1.5.1\lib\net45\JsonSubTypes.dll bin\JsonSubTypes.dll
 copy packages\RestSharp.106.5.4\lib\net452\RestSharp.dll bin\RestSharp.dll

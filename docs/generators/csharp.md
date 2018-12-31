@@ -69,4 +69,7 @@ CONFIG OPTIONS for csharp
 	validatable
 	    Generates self-validatable models. (Default: true)
 
+	useCompareNetObjects
+	    Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact. (Default: false)
+
 Back to the [generators list](README.md)

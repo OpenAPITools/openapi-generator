@@ -78,7 +78,6 @@ public class ModelReturn {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelReturn {\n");
-    
     sb.append("    _return: ").append(toIndentedString(_return)).append("\n");
     sb.append("}");
     return sb.toString();

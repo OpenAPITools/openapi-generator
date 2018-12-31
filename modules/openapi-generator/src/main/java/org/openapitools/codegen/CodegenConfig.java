@@ -81,6 +81,8 @@ public interface CodegenConfig {
 
     String escapeTextWhileAllowingNewLines(String text);
 
+    String encodePath(String text);
+
     String escapeUnsafeCharacters(String input);
 
     String escapeReservedWord(String name);
@@ -262,11 +264,11 @@ public interface CodegenConfig {
 
     boolean isEnablePostProcessFile();
 
-    public void setEnablePostProcessFile(boolean isEnablePostProcessFile);
+    void setEnablePostProcessFile(boolean isEnablePostProcessFile);
 
     // set OpenAPI and schemas
-    public void setGlobalOpenAPI(OpenAPI openAPI);
+    void setGlobalOpenAPI(OpenAPI openAPI);
 
-    public void setGlobalSchemas(OpenAPI openAPI);
+    void setGlobalSchemas(OpenAPI openAPI);
 
 }

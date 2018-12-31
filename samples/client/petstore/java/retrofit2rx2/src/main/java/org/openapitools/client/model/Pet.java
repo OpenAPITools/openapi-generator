@@ -255,7 +255,6 @@ public class Pet {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

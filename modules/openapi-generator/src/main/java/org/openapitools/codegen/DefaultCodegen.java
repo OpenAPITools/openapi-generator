@@ -209,6 +209,11 @@ public class DefaultCodegen implements CodegenConfig {
             this.setEnablePostProcessFile(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
+            ModelUtils.setGenerateAliasAsModel(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.GENERATE_ALIAS_AS_MODEL).toString()));
+        }
     }
 
     // override with any special post-processing for all models
@@ -555,6 +560,12 @@ public class DefaultCodegen implements CodegenConfig {
                         .replaceAll("[\\t]", " ")
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\""));
+    }
+
+    // override with any special encoding and escaping logic
+    @SuppressWarnings("static-method")
+    public String encodePath(String input) {
+        return escapeText(input);
     }
 
     /**

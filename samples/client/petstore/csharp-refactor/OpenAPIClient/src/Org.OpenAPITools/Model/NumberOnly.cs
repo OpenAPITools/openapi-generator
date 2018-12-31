@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="NumberOnly" /> class.
         /// </summary>
         /// <param name="justNumber">justNumber.</param>
-        public NumberOnly(decimal? justNumber = default(decimal?))
+        public NumberOnly(decimal justNumber = default(decimal))
         {
             this.JustNumber = justNumber;
         }
@@ -44,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [DataMember(Name="JustNumber", EmitDefaultValue=false)]
-        public decimal? JustNumber { get; set; }
+        public decimal JustNumber { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -75,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as NumberOnly);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as NumberOnly).AreEqual;
         }
 
         /// <summary>
@@ -85,15 +86,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(NumberOnly input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.JustNumber == input.JustNumber ||
-                    (this.JustNumber != null &&
-                    this.JustNumber.Equals(input.JustNumber))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

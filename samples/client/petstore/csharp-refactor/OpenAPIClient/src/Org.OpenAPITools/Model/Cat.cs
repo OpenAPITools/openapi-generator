@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -42,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool? declawed = default(bool?), string className = default(string), string color = "red") : base(className, color)
+        public Cat(bool declawed = default(bool), string className = default(string), string color = "red") : base(className, color)
         {
             this.Declawed = declawed;
         }
@@ -51,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name="declawed", EmitDefaultValue=false)]
-        public bool? Declawed { get; set; }
+        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -83,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Cat);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Cat).AreEqual;
         }
 
         /// <summary>
@@ -93,15 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Cat input)
         {
-            if (input == null)
-                return false;
-
-            return base.Equals(input) && 
-                (
-                    this.Declawed == input.Declawed ||
-                    (this.Declawed != null &&
-                    this.Declawed.Equals(input.Declawed))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

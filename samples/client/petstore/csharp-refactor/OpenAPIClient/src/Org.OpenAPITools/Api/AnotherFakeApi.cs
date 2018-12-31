@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Api
         /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient Call123TestSpecialTags (ModelClient modelClient);
+        ModelClient Call123TestSpecialTags (ModelClient body);
 
         /// <summary>
         /// To test special tags
@@ -45,9 +45,9 @@ namespace Org.OpenAPITools.Api
         /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo (ModelClient modelClient);
+        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo (ModelClient body);
         #endregion Synchronous Operations
     }
 
@@ -64,9 +64,9 @@ namespace Org.OpenAPITools.Api
         /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient modelClient);
+        System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient body);
 
         /// <summary>
         /// To test special tags
@@ -75,9 +75,9 @@ namespace Org.OpenAPITools.Api
         /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient);
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient body);
         #endregion Asynchronous Operations
     }
 
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public interface IAnotherFakeApi : IAnotherFakeApiSync, IAnotherFakeApiAsync
     {
-        
+
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Api
     public partial class AnotherFakeApi : IAnotherFakeApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Api
             if(client == null) throw new ArgumentNullException("client");
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             this.AsynchronousClient = asyncClient;
             this.Configuration = configuration;
@@ -202,11 +202,11 @@ namespace Org.OpenAPITools.Api
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient Call123TestSpecialTags (ModelClient modelClient)
+        public ModelClient Call123TestSpecialTags (ModelClient body)
         {
-             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(modelClient);
+             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -214,13 +214,13 @@ namespace Org.OpenAPITools.Api
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse< ModelClient > Call123TestSpecialTagsWithHttpInfo (ModelClient modelClient)
+        public Org.OpenAPITools.Client.ApiResponse< ModelClient > Call123TestSpecialTagsWithHttpInfo (ModelClient body)
         {
-            // verify the required parameter 'modelClient' is set
-            if (modelClient == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->Call123TestSpecialTags");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->Call123TestSpecialTags");
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -239,7 +239,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
             if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = modelClient;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -259,11 +259,11 @@ namespace Org.OpenAPITools.Api
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient modelClient)
+        public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient body)
         {
-             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsAsyncWithHttpInfo(modelClient);
+             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsAsyncWithHttpInfo(body);
              return localVarResponse.Data;
 
         }
@@ -272,13 +272,14 @@ namespace Org.OpenAPITools.Api
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient modelClient)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient body)
         {
-            // verify the required parameter 'modelClient' is set
-            if (modelClient == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->Call123TestSpecialTags");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->Call123TestSpecialTags");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -297,7 +298,7 @@ namespace Org.OpenAPITools.Api
             foreach (var accept in @accepts)
                 requestOptions.HeaderParameters.Add("Accept", accept);
             
-            requestOptions.Data = modelClient;
+            requestOptions.Data = body;
 
 
             // make the HTTP request

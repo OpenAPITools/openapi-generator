@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="uuid">uuid.</param>
         /// <param name="dateTime">dateTime.</param>
         /// <param name="map">map.</param>
-        public MixedPropertiesAndAdditionalPropertiesClass(Guid? uuid = default(Guid?), DateTime? dateTime = default(DateTime?), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
+        public MixedPropertiesAndAdditionalPropertiesClass(Guid uuid = default(Guid), DateTime dateTime = default(DateTime), Dictionary<string, Animal> map = default(Dictionary<string, Animal>))
         {
             this.Uuid = uuid;
             this.DateTime = dateTime;
@@ -48,13 +49,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Uuid
         /// </summary>
         [DataMember(Name="uuid", EmitDefaultValue=false)]
-        public Guid? Uuid { get; set; }
+        public Guid Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
         [DataMember(Name="dateTime", EmitDefaultValue=false)]
-        public DateTime? DateTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Map
@@ -93,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as MixedPropertiesAndAdditionalPropertiesClass);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as MixedPropertiesAndAdditionalPropertiesClass).AreEqual;
         }
 
         /// <summary>
@@ -103,25 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(MixedPropertiesAndAdditionalPropertiesClass input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.Uuid == input.Uuid ||
-                    (this.Uuid != null &&
-                    this.Uuid.Equals(input.Uuid))
-                ) && 
-                (
-                    this.DateTime == input.DateTime ||
-                    (this.DateTime != null &&
-                    this.DateTime.Equals(input.DateTime))
-                ) && 
-                (
-                    this.Map == input.Map ||
-                    this.Map != null &&
-                    this.Map.SequenceEqual(input.Map)
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

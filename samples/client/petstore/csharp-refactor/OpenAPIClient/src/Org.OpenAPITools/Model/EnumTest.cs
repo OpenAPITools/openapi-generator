@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -201,7 +202,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EnumTest);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as EnumTest).AreEqual;
         }
 
         /// <summary>
@@ -211,31 +212,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(EnumTest input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.EnumString == input.EnumString ||
-                    this.EnumString.Equals(input.EnumString)
-                ) && 
-                (
-                    this.EnumStringRequired == input.EnumStringRequired ||
-                    this.EnumStringRequired.Equals(input.EnumStringRequired)
-                ) && 
-                (
-                    this.EnumInteger == input.EnumInteger ||
-                    this.EnumInteger.Equals(input.EnumInteger)
-                ) && 
-                (
-                    this.EnumNumber == input.EnumNumber ||
-                    this.EnumNumber.Equals(input.EnumNumber)
-                ) && 
-                (
-                    this.OuterEnum == input.OuterEnum ||
-                    (this.OuterEnum != null &&
-                    this.OuterEnum.Equals(input.OuterEnum))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

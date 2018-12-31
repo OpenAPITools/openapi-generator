@@ -55,8 +55,8 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int?&gt;</returns>
-        Dictionary<string, int?> GetInventory ();
+        /// <returns>Dictionary&lt;string, int&gt;</returns>
+        Dictionary<string, int> GetInventory ();
 
         /// <summary>
         /// Returns pet inventories by status
@@ -65,8 +65,8 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
-        ApiResponse<Dictionary<string, int?>> GetInventoryWithHttpInfo ();
+        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
+        ApiResponse<Dictionary<string, int>> GetInventoryWithHttpInfo ();
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        Order GetOrderById (long? orderId);
+        Order GetOrderById (long orderId);
 
         /// <summary>
         /// Find purchase order by ID
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> GetOrderByIdWithHttpInfo (long? orderId);
+        ApiResponse<Order> GetOrderByIdWithHttpInfo (long orderId);
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -95,9 +95,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder (Order order);
+        Order PlaceOrder (Order body);
 
         /// <summary>
         /// Place an order for a pet
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> PlaceOrderWithHttpInfo (Order order);
+        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body);
         #endregion Synchronous Operations
     }
 
@@ -146,8 +146,8 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
-        System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ();
+        /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
+        System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync ();
 
         /// <summary>
         /// Returns pet inventories by status
@@ -156,8 +156,8 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ();
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryAsyncWithHttpInfo ();
         /// <summary>
         /// Find purchase order by ID
         /// </summary>
@@ -167,7 +167,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> GetOrderByIdAsync (long? orderId);
+        System.Threading.Tasks.Task<Order> GetOrderByIdAsync (long orderId);
 
         /// <summary>
         /// Find purchase order by ID
@@ -178,7 +178,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (long? orderId);
+        System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (long orderId);
         /// <summary>
         /// Place an order for a pet
         /// </summary>
@@ -186,9 +186,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order order);
+        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body);
 
         /// <summary>
         /// Place an order for a pet
@@ -197,9 +197,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order order);
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body);
         #endregion Asynchronous Operations
     }
 
@@ -208,7 +208,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public interface IStoreApi : IStoreApiSync, IStoreApiAsync
     {
-        
+
     }
 
     /// <summary>
@@ -217,7 +217,7 @@ namespace Org.OpenAPITools.Api
     public partial class StoreApi : IStoreApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
@@ -272,7 +272,7 @@ namespace Org.OpenAPITools.Api
             if(client == null) throw new ArgumentNullException("client");
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             this.AsynchronousClient = asyncClient;
             this.Configuration = configuration;
@@ -399,6 +399,7 @@ namespace Org.OpenAPITools.Api
             if (orderId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->DeleteOrder");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -435,10 +436,10 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Dictionary&lt;string, int?&gt;</returns>
-        public Dictionary<string, int?> GetInventory ()
+        /// <returns>Dictionary&lt;string, int&gt;</returns>
+        public Dictionary<string, int> GetInventory ()
         {
-             Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int?>> localVarResponse = GetInventoryWithHttpInfo();
+             Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> localVarResponse = GetInventoryWithHttpInfo();
              return localVarResponse.Data;
         }
 
@@ -446,10 +447,9 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Dictionary&lt;string, int?&gt;</returns>
-        public Org.OpenAPITools.Client.ApiResponse< Dictionary<string, int?> > GetInventoryWithHttpInfo ()
+        /// <returns>ApiResponse of Dictionary&lt;string, int&gt;</returns>
+        public Org.OpenAPITools.Client.ApiResponse< Dictionary<string, int> > GetInventoryWithHttpInfo ()
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -475,7 +475,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var response = this.Client.Get< Dictionary<string, int?> >("/store/inventory", requestOptions, this.Configuration);
+            var response = this.Client.Get< Dictionary<string, int> >("/store/inventory", requestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -490,10 +490,10 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of Dictionary&lt;string, int?&gt;</returns>
-        public async System.Threading.Tasks.Task<Dictionary<string, int?>> GetInventoryAsync ()
+        /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
+        public async System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync ()
         {
-             Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int?>> localVarResponse = await GetInventoryAsyncWithHttpInfo();
+             Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>> localVarResponse = await GetInventoryAsyncWithHttpInfo();
              return localVarResponse.Data;
 
         }
@@ -502,8 +502,8 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse (Dictionary&lt;string, int?&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int?>>> GetInventoryAsyncWithHttpInfo ()
+        /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>>> GetInventoryAsyncWithHttpInfo ()
         {
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -531,7 +531,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.GetAsync<Dictionary<string, int?>>("/store/inventory", requestOptions, this.Configuration);
+            var response = await this.AsynchronousClient.GetAsync<Dictionary<string, int>>("/store/inventory", requestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -548,7 +548,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Order</returns>
-        public Order GetOrderById (long? orderId)
+        public Order GetOrderById (long orderId)
         {
              Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = GetOrderByIdWithHttpInfo(orderId);
              return localVarResponse.Data;
@@ -560,7 +560,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse< Order > GetOrderByIdWithHttpInfo (long? orderId)
+        public Org.OpenAPITools.Client.ApiResponse< Order > GetOrderByIdWithHttpInfo (long orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
@@ -606,7 +606,7 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (long? orderId)
+        public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (long orderId)
         {
              Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await GetOrderByIdAsyncWithHttpInfo(orderId);
              return localVarResponse.Data;
@@ -619,11 +619,12 @@ namespace Org.OpenAPITools.Api
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (long? orderId)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdAsyncWithHttpInfo (long orderId)
         {
             // verify the required parameter 'orderId' is set
             if (orderId == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'orderId' when calling StoreApi->GetOrderById");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -663,11 +664,11 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        public Order PlaceOrder (Order order)
+        public Order PlaceOrder (Order body)
         {
-             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(order);
+             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -675,13 +676,13 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse< Order > PlaceOrderWithHttpInfo (Order order)
+        public Org.OpenAPITools.Client.ApiResponse< Order > PlaceOrderWithHttpInfo (Order body)
         {
-            // verify the required parameter 'order' is set
-            if (order == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -700,7 +701,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
             if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            requestOptions.Data = order;
+            requestOptions.Data = body;
 
 
             // make the HTTP request
@@ -720,11 +721,11 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order order)
+        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body)
         {
-             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await PlaceOrderAsyncWithHttpInfo(order);
+             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await PlaceOrderAsyncWithHttpInfo(body);
              return localVarResponse.Data;
 
         }
@@ -733,13 +734,14 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order order)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderAsyncWithHttpInfo (Order body)
         {
-            // verify the required parameter 'order' is set
-            if (order == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -758,7 +760,7 @@ namespace Org.OpenAPITools.Api
             foreach (var accept in @accepts)
                 requestOptions.HeaderParameters.Add("Accept", accept);
             
-            requestOptions.Data = order;
+            requestOptions.Data = body;
 
 
             // make the HTTP request

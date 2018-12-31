@@ -208,6 +208,9 @@ public class Generate implements Runnable {
     @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
     private Boolean enablePostProcessFile;
 
+    @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
+    private Boolean generateAliasAsModel;
+
     @Override
     public void run() {
         if (logToStderr != null) {
@@ -332,6 +335,10 @@ public class Generate implements Runnable {
 
         if (enablePostProcessFile != null) {
             configurator.setEnablePostProcessFile(enablePostProcessFile);
+        }
+
+        if (generateAliasAsModel != null) {
+            configurator.setGenerateAliasAsModel(generateAliasAsModel);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);
