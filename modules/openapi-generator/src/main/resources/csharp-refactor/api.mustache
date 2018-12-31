@@ -85,7 +85,7 @@ namespace {{packageName}}.{{apiPackage}}
     /// </summary>
     {{>visibility}} interface {{interfacePrefix}}{{classname}} : {{interfacePrefix}}{{classname}}Sync{{#supportsAsync}}, {{interfacePrefix}}{{classname}}Async{{/supportsAsync}}
     {
-        
+
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ namespace {{packageName}}.{{apiPackage}}
     {{>visibility}} partial class {{classname}} : {{interfacePrefix}}{{classname}}
     {
         private {{packageName}}.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
@@ -151,7 +151,7 @@ namespace {{packageName}}.{{apiPackage}}
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             {{/supportsAsync}}
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             {{#supportsAsync}}
             this.AsynchronousClient = asyncClient;
@@ -225,13 +225,15 @@ namespace {{packageName}}.{{apiPackage}}
         public {{packageName}}.Client.ApiResponse<{{#returnType}} {{{returnType}}} {{/returnType}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}
+            {{^isNullable}}
             {{#required}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
-            {{/required}}
-            {{/allParams}}
 
+            {{/required}}
+            {{/isNullable}}
+            {{/allParams}}
             {{packageName}}.Client.RequestOptions requestOptions = new {{packageName}}.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -362,11 +364,14 @@ namespace {{packageName}}.{{apiPackage}}
         public async System.Threading.Tasks.Task<{{packageName}}.Client.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = null{{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
             {{#allParams}}
+            {{^isNullable}}
             {{#required}}
             // verify the required parameter '{{paramName}}' is set
             if ({{paramName}} == null)
                 throw new {{packageName}}.Client.ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
+
             {{/required}}
+            {{/isNullable}}
             {{/allParams}}
 
             {{packageName}}.Client.RequestOptions requestOptions = new {{packageName}}.Client.RequestOptions();

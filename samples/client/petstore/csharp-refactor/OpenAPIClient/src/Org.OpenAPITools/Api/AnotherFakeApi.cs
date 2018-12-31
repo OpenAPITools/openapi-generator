@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public interface IAnotherFakeApi : IAnotherFakeApiSync, IAnotherFakeApiAsync
     {
-        
+
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Api
     public partial class AnotherFakeApi : IAnotherFakeApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
@@ -150,7 +150,7 @@ namespace Org.OpenAPITools.Api
             if(client == null) throw new ArgumentNullException("client");
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             this.AsynchronousClient = asyncClient;
             this.Configuration = configuration;
@@ -279,6 +279,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'body' is set
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->Call123TestSpecialTags");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 

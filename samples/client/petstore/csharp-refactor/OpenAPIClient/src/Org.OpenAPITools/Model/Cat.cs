@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="declawed">declawed.</param>
         /// <param name="className">className (required).</param>
         /// <param name="color">color (default to &quot;red&quot;).</param>
-        public Cat(bool? declawed = default(bool?), string className = default(string), string color = "red") : base(className, color)
+        public Cat(bool declawed = default(bool), string className = default(string), string color = "red") : base(className, color)
         {
             this.Declawed = declawed;
         }
@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name="declawed", EmitDefaultValue=false)]
-        public bool? Declawed { get; set; }
+        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
