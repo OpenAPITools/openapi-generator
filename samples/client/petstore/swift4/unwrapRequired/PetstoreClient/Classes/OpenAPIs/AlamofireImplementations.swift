@@ -65,6 +65,15 @@ open class AlamofireRequestBuilder<T>: RequestBuilder<T> {
     }
 
     /**
+     May be overridden by a subclass if you want to custom request constructor.
+     */
+    open func createURLRequest() -> URLRequest? {
+        let encoding: ParameterEncoding = isBody ? JSONDataEncoding() : URLEncoding()
+        guard let originalRequest = try? URLRequest(url: URLString, method: HTTPMethod(rawValue: method)!, headers: buildHeaders()) else { return nil }
+        return try? encoding.encode(originalRequest, with: parameters)
+    }
+
+    /**
      May be overridden by a subclass if you want to control the Content-Type
      that is given to an uploaded form part.
 

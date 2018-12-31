@@ -12,41 +12,11 @@ import Foundation
 public struct FormatTest: Codable {
 
     public var integer: Int?
-    public var integerNum: NSNumber? {
-        get {
-            return integer.map({ return NSNumber(value: $0) })
-        }
-    }
     public var int32: Int?
-    public var int32Num: NSNumber? {
-        get {
-            return int32.map({ return NSNumber(value: $0) })
-        }
-    }
     public var int64: Int64?
-    public var int64Num: NSNumber? {
-        get {
-            return int64.map({ return NSNumber(value: $0) })
-        }
-    }
     public var number: Double
-    public var numberNum: NSNumber? {
-        get {
-            return number.map({ return NSNumber(value: $0) })
-        }
-    }
     public var float: Float?
-    public var floatNum: NSNumber? {
-        get {
-            return float.map({ return NSNumber(value: $0) })
-        }
-    }
     public var double: Double?
-    public var doubleNum: NSNumber? {
-        get {
-            return double.map({ return NSNumber(value: $0) })
-        }
-    }
     public var string: String?
     public var byte: Data
     public var binary: URL?

@@ -22,7 +22,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
@@ -51,7 +50,6 @@ open class FakeAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      - POST /fake/outer/composite
@@ -82,7 +80,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      - POST /fake/outer/number
      - Test serialization of outer number types
@@ -111,7 +108,6 @@ open class FakeAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      - POST /fake/outer/string
@@ -145,7 +141,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      - PUT /fake/body-with-file-schema
@@ -181,7 +176,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
@@ -214,7 +208,6 @@ open class FakeAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      To test \"client\" model
@@ -263,7 +256,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -408,7 +400,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      To test enum parameters
      - GET /fake
@@ -473,7 +464,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      Fake endpoint to test group parameters (optional)
      - DELETE /fake
@@ -525,7 +515,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
@@ -560,7 +549,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      test json serialization of form data

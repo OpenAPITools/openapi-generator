@@ -35,12 +35,10 @@ import java.util.Map;
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
 
-    public static final String PHPCS_STANDARD = "phpcsStandard";
     public static final String USER_CLASSNAME_KEY = "userClassname";
 
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
-    protected String phpcsStandard = "PSR12";
 
     public PhpSlimServerCodegen() {
         super();
@@ -74,9 +72,6 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
                 break;
             }
         }
-
-        cliOptions.add(new CliOption(PHPCS_STANDARD, "PHP CodeSniffer <standard> option. Accepts name or path of the coding standard to use.")
-                .defaultValue("PSR12"));
     }
 
     @Override
@@ -116,18 +111,13 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(PHPCS_STANDARD)) {
-            this.setPhpcsStandard((String) additionalProperties.get(PHPCS_STANDARD));
-        } else {
-            additionalProperties.put(PHPCS_STANDARD, phpcsStandard);
-        }
-
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
         supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
         supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
     }
 
     @Override
@@ -159,15 +149,6 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
             });
         }
         return objs;
-    }
-
-    /**
-     * Sets PHP CodeSniffer &lt;standard&gt; option. Accepts name or path of the coding standard to use.
-     *
-     * @param phpcsStandard standard option value
-     */
-    public void setPhpcsStandard(String phpcsStandard) {
-        this.phpcsStandard = phpcsStandard;
     }
 
     @Override

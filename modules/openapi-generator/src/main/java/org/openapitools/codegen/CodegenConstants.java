@@ -286,4 +286,7 @@ public class CodegenConstants {
 
     public static final String GENERATE_ALIAS_AS_MODEL = "generateAliasAsModel";
     public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate alias to map, array as models";
+
+    public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
+    public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
 }

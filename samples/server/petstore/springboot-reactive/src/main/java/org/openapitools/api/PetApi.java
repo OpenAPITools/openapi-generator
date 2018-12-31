@@ -79,7 +79,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold", defaultValue = "new ArrayList<>()") @Valid @RequestParam(value = "status", required = true, defaultValue="new ArrayList<>()") List<String> status, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status, ServerWebExchange exchange) {
         return getDelegate().findPetsByStatus(status, exchange);
     }
 
@@ -96,7 +96,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true, defaultValue = "new ArrayList<>()") @Valid @RequestParam(value = "tags", required = true, defaultValue="new ArrayList<>()") List<String> tags, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags, ServerWebExchange exchange) {
         return getDelegate().findPetsByTags(tags, exchange);
     }
 

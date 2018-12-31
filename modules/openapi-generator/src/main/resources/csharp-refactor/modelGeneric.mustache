@@ -149,7 +149,12 @@
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
             return this.Equals(input as {{classname}});
+            {{/useCompareNetObjects}}
         }
 
         /// <summary>
@@ -159,6 +164,10 @@
         /// <returns>Boolean</returns>
         public bool Equals({{classname}} input)
         {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
             if (input == null)
                 return false;
 
@@ -178,6 +187,7 @@
                     this.{{name}} != null &&
                     this.{{name}}.SequenceEqual(input.{{name}})
                 ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
+            {{/useCompareNetObjects}}
         }
 
         /// <summary>

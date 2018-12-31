@@ -474,6 +474,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     continue;
                 }
 
+                // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
                 Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
                 // Special handling of aliases only applies to Java
                 if (modelTemplate != null && modelTemplate.containsKey("model")) {
@@ -567,8 +568,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     @SuppressWarnings("unchecked")
                     List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
                     for (CodegenOperation op : operations) {
-                        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
-                        if (!op.vendorExtensions.containsKey("x-group-parameters")) {
+                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
                             op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
                         }
                     }
@@ -877,12 +877,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             throw new RuntimeException("missing config!");
         }
 
-        configureGeneratorProperties();
-        configureOpenAPIInfo();
-
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
         inlineModelResolver.flatten(openAPI);
+
+        configureGeneratorProperties();
+        configureOpenAPIInfo();
 
         List<File> files = new ArrayList<File>();
         // models
@@ -1135,6 +1135,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(cm.classname));
             models.add(mo);
+
+            cm.removeSelfReferenceImport();
 
             allImports.addAll(cm.imports);
         }
