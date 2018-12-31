@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 {{#threetenbp}}
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 {{/threetenbp}}
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -94,9 +95,7 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
     return new Jackson2ObjectMapperBuilder()
         .indentOutput(true)
         .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        {{#threetenbp}}
-        .modulesToInstall(module)
-        {{/threetenbp}}
+        .modulesToInstall({{#threetenbp}}module, {{/threetenbp}}new JsonNullableModule())
         .dateFormat(new RFC3339DateFormat());
   }
 
