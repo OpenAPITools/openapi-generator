@@ -579,28 +579,6 @@ public class InlineModelResolverTest {
     }
 /*
     @Test
-    public void testArbitraryObjectResponseArray() {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .description("it works!")
-                                .schema(new ArrayProperty()
-                                        .items(new ObjectSchema())))));
-        new InlineModelResolver().flatten(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertTrue(response.getSchema() instanceof ArrayProperty);
-
-        ArrayProperty am = (ArrayProperty) response.getSchema();
-        Property items = am.getItems();
-        assertTrue(items instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) items;
-        assertNull(op.getProperties());
-    }
-
-    @Test
     public void testArbitraryObjectResponseArrayInline() {
         OpenAPI openapi = new OpenAPI();
 
