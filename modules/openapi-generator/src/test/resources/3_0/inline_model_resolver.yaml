@@ -162,6 +162,20 @@ paths:
       responses:
         '200':
           description: OK
+  /arbitrary_object_request_body_property:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                arbitrary_object_request_body_property:
+                  type: object
+      operationId: arbitraryObjectRequestBodyProperty
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     Users:
