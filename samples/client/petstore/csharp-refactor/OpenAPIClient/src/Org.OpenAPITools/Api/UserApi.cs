@@ -384,7 +384,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public interface IUserApi : IUserApiSync, IUserApiAsync
     {
-        
+
     }
 
     /// <summary>
@@ -393,7 +393,7 @@ namespace Org.OpenAPITools.Api
     public partial class UserApi : IUserApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
@@ -448,7 +448,7 @@ namespace Org.OpenAPITools.Api
             if(client == null) throw new ArgumentNullException("client");
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             this.AsynchronousClient = asyncClient;
             this.Configuration = configuration;
@@ -574,6 +574,7 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUser");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -682,6 +683,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'body' is set
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUsersWithArrayInput");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -792,6 +794,7 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->CreateUsersWithListInput");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -901,6 +904,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->DeleteUser");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1017,6 +1021,7 @@ namespace Org.OpenAPITools.Api
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->GetUserByName");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1076,6 +1081,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
+
             // verify the required parameter 'password' is set
             if (password == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
@@ -1158,9 +1164,11 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->LoginUser");
+
             // verify the required parameter 'password' is set
             if (password == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'password' when calling UserApi->LoginUser");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1231,7 +1239,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Org.OpenAPITools.Client.ApiResponse<Object> LogoutUserWithHttpInfo ()
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1335,6 +1342,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
+
             // verify the required parameter 'body' is set
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->UpdateUser");
@@ -1397,9 +1405,11 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'username' is set
             if (username == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'username' when calling UserApi->UpdateUser");
+
             // verify the required parameter 'body' is set
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling UserApi->UpdateUser");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 

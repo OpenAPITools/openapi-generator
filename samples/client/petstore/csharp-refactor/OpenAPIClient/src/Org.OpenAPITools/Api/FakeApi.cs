@@ -35,8 +35,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>bool?</returns>
-        bool? FakeOuterBooleanSerialize (bool? body = null);
+        /// <returns>bool</returns>
+        bool FakeOuterBooleanSerialize (bool? body = null);
 
         /// <summary>
         /// 
@@ -46,8 +46,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>ApiResponse of bool?</returns>
-        ApiResponse<bool?> FakeOuterBooleanSerializeWithHttpInfo (bool? body = null);
+        /// <returns>ApiResponse of bool</returns>
+        ApiResponse<bool> FakeOuterBooleanSerializeWithHttpInfo (bool? body = null);
         /// <summary>
         /// 
         /// </summary>
@@ -77,8 +77,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>decimal?</returns>
-        decimal? FakeOuterNumberSerialize (decimal? body = null);
+        /// <returns>decimal</returns>
+        decimal FakeOuterNumberSerialize (decimal? body = null);
 
         /// <summary>
         /// 
@@ -88,8 +88,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>ApiResponse of decimal?</returns>
-        ApiResponse<decimal?> FakeOuterNumberSerializeWithHttpInfo (decimal? body = null);
+        /// <returns>ApiResponse of decimal</returns>
+        ApiResponse<decimal> FakeOuterNumberSerializeWithHttpInfo (decimal? body = null);
         /// <summary>
         /// 
         /// </summary>
@@ -198,7 +198,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -222,7 +222,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -272,7 +272,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns></returns>
-        void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -288,7 +288,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -350,8 +350,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>Task of bool?</returns>
-        System.Threading.Tasks.Task<bool?> FakeOuterBooleanSerializeAsync (bool? body = null);
+        /// <returns>Task of bool</returns>
+        System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync (bool? body = null);
 
         /// <summary>
         /// 
@@ -361,8 +361,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>Task of ApiResponse (bool?)</returns>
-        System.Threading.Tasks.Task<ApiResponse<bool?>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = null);
+        /// <returns>Task of ApiResponse (bool)</returns>
+        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = null);
         /// <summary>
         /// 
         /// </summary>
@@ -392,8 +392,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>Task of decimal?</returns>
-        System.Threading.Tasks.Task<decimal?> FakeOuterNumberSerializeAsync (decimal? body = null);
+        /// <returns>Task of decimal</returns>
+        System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync (decimal? body = null);
 
         /// <summary>
         /// 
@@ -403,8 +403,8 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>Task of ApiResponse (decimal?)</returns>
-        System.Threading.Tasks.Task<ApiResponse<decimal?>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = null);
+        /// <returns>Task of ApiResponse (decimal)</returns>
+        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = null);
         /// <summary>
         /// 
         /// </summary>
@@ -513,7 +513,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -537,7 +537,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -587,7 +587,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestGroupParametersAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
 
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
@@ -603,7 +603,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -656,7 +656,7 @@ namespace Org.OpenAPITools.Api
     /// </summary>
     public interface IFakeApi : IFakeApiSync, IFakeApiAsync
     {
-        
+
     }
 
     /// <summary>
@@ -665,7 +665,7 @@ namespace Org.OpenAPITools.Api
     public partial class FakeApi : IFakeApi
     {
         private Org.OpenAPITools.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
@@ -720,7 +720,7 @@ namespace Org.OpenAPITools.Api
             if(client == null) throw new ArgumentNullException("client");
             if(asyncClient == null) throw new ArgumentNullException("asyncClient");
             if(configuration == null) throw new ArgumentNullException("configuration");
-            
+
             this.Client = client;
             this.AsynchronousClient = asyncClient;
             this.Configuration = configuration;
@@ -773,10 +773,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>bool?</returns>
-        public bool? FakeOuterBooleanSerialize (bool? body = null)
+        /// <returns>bool</returns>
+        public bool FakeOuterBooleanSerialize (bool? body = null)
         {
-             Org.OpenAPITools.Client.ApiResponse<bool?> localVarResponse = FakeOuterBooleanSerializeWithHttpInfo(body);
+             Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = FakeOuterBooleanSerializeWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -785,10 +785,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>ApiResponse of bool?</returns>
-        public Org.OpenAPITools.Client.ApiResponse< bool? > FakeOuterBooleanSerializeWithHttpInfo (bool? body = null)
+        /// <returns>ApiResponse of bool</returns>
+        public Org.OpenAPITools.Client.ApiResponse< bool > FakeOuterBooleanSerializeWithHttpInfo (bool? body = null)
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -810,7 +809,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var response = this.Client.Post< bool? >("/fake/outer/boolean", requestOptions, this.Configuration);
+            var response = this.Client.Post< bool >("/fake/outer/boolean", requestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -826,10 +825,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>Task of bool?</returns>
-        public async System.Threading.Tasks.Task<bool?> FakeOuterBooleanSerializeAsync (bool? body = null)
+        /// <returns>Task of bool</returns>
+        public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync (bool? body = null)
         {
-             Org.OpenAPITools.Client.ApiResponse<bool?> localVarResponse = await FakeOuterBooleanSerializeAsyncWithHttpInfo(body);
+             Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeAsyncWithHttpInfo(body);
              return localVarResponse.Data;
 
         }
@@ -839,8 +838,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input boolean as post body (optional)</param>
-        /// <returns>Task of ApiResponse (bool?)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool?>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = null)
+        /// <returns>Task of ApiResponse (bool)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeAsyncWithHttpInfo (bool? body = null)
         {
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -864,7 +863,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<bool?>("/fake/outer/boolean", requestOptions, this.Configuration);
+            var response = await this.AsynchronousClient.PostAsync<bool>("/fake/outer/boolean", requestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -895,7 +894,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of OuterComposite</returns>
         public Org.OpenAPITools.Client.ApiResponse< OuterComposite > FakeOuterCompositeSerializeWithHttpInfo (OuterComposite body = null)
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -987,10 +985,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>decimal?</returns>
-        public decimal? FakeOuterNumberSerialize (decimal? body = null)
+        /// <returns>decimal</returns>
+        public decimal FakeOuterNumberSerialize (decimal? body = null)
         {
-             Org.OpenAPITools.Client.ApiResponse<decimal?> localVarResponse = FakeOuterNumberSerializeWithHttpInfo(body);
+             Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = FakeOuterNumberSerializeWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -999,10 +997,9 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>ApiResponse of decimal?</returns>
-        public Org.OpenAPITools.Client.ApiResponse< decimal? > FakeOuterNumberSerializeWithHttpInfo (decimal? body = null)
+        /// <returns>ApiResponse of decimal</returns>
+        public Org.OpenAPITools.Client.ApiResponse< decimal > FakeOuterNumberSerializeWithHttpInfo (decimal? body = null)
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1024,7 +1021,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var response = this.Client.Post< decimal? >("/fake/outer/number", requestOptions, this.Configuration);
+            var response = this.Client.Post< decimal >("/fake/outer/number", requestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1040,10 +1037,10 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>Task of decimal?</returns>
-        public async System.Threading.Tasks.Task<decimal?> FakeOuterNumberSerializeAsync (decimal? body = null)
+        /// <returns>Task of decimal</returns>
+        public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync (decimal? body = null)
         {
-             Org.OpenAPITools.Client.ApiResponse<decimal?> localVarResponse = await FakeOuterNumberSerializeAsyncWithHttpInfo(body);
+             Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeAsyncWithHttpInfo(body);
              return localVarResponse.Data;
 
         }
@@ -1053,8 +1050,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">Input number as post body (optional)</param>
-        /// <returns>Task of ApiResponse (decimal?)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal?>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = null)
+        /// <returns>Task of ApiResponse (decimal)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeAsyncWithHttpInfo (decimal? body = null)
         {
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1078,7 +1075,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var response = await this.AsynchronousClient.PostAsync<decimal?>("/fake/outer/number", requestOptions, this.Configuration);
+            var response = await this.AsynchronousClient.PostAsync<decimal>("/fake/outer/number", requestOptions, this.Configuration);
 
             if (this.ExceptionFactory != null)
             {
@@ -1109,7 +1106,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of string</returns>
         public Org.OpenAPITools.Client.ApiResponse< string > FakeOuterStringSerializeWithHttpInfo (string body = null)
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1275,6 +1271,7 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithFileSchema");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1331,6 +1328,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'query' is set
             if (query == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
+
             // verify the required parameter 'body' is set
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithQueryParams");
@@ -1402,9 +1400,11 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'query' is set
             if (query == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
+
             // verify the required parameter 'body' is set
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithQueryParams");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1530,6 +1530,7 @@ namespace Org.OpenAPITools.Api
             if (body == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestClientModel");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -1582,7 +1583,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        public void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public void TestEndpointParameters (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
              TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
         }
@@ -1606,17 +1607,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
             // verify the required parameter 'number' is set
             if (number == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'number' when calling FakeApi->TestEndpointParameters");
+
             // verify the required parameter '_double' is set
             if (_double == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_double' when calling FakeApi->TestEndpointParameters");
+
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
+
             // verify the required parameter '_byte' is set
             if (_byte == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
@@ -1733,7 +1737,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
              await TestEndpointParametersAsyncWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
 
@@ -1758,20 +1762,24 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
             // verify the required parameter 'number' is set
             if (number == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'number' when calling FakeApi->TestEndpointParameters");
+
             // verify the required parameter '_double' is set
             if (_double == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_double' when calling FakeApi->TestEndpointParameters");
+
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'patternWithoutDelimiter' when calling FakeApi->TestEndpointParameters");
+
             // verify the required parameter '_byte' is set
             if (_byte == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter '_byte' when calling FakeApi->TestEndpointParameters");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1899,7 +1907,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         public Org.OpenAPITools.Client.ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
         {
-
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -2112,7 +2119,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns></returns>
-        public void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public void TestGroupParameters (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
         {
              TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
         }
@@ -2128,14 +2135,16 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestGroupParametersWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
         {
             // verify the required parameter 'requiredStringGroup' is set
             if (requiredStringGroup == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredStringGroup' when calling FakeApi->TestGroupParameters");
+
             // verify the required parameter 'requiredBooleanGroup' is set
             if (requiredBooleanGroup == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredBooleanGroup' when calling FakeApi->TestGroupParameters");
+
             // verify the required parameter 'requiredInt64Group' is set
             if (requiredInt64Group == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
@@ -2225,7 +2234,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestGroupParametersAsync (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public async System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
         {
              await TestGroupParametersAsyncWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
@@ -2242,17 +2251,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
         /// <param name="int64Group">Integer in group parameters (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersAsyncWithHttpInfo (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
         {
             // verify the required parameter 'requiredStringGroup' is set
             if (requiredStringGroup == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredStringGroup' when calling FakeApi->TestGroupParameters");
+
             // verify the required parameter 'requiredBooleanGroup' is set
             if (requiredBooleanGroup == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredBooleanGroup' when calling FakeApi->TestGroupParameters");
+
             // verify the required parameter 'requiredInt64Group' is set
             if (requiredInt64Group == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -2407,6 +2419,7 @@ namespace Org.OpenAPITools.Api
             if (param == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestInlineAdditionalProperties");
 
+
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] @contentTypes = new String[] {
@@ -2463,6 +2476,7 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'param' is set
             if (param == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
+
             // verify the required parameter 'param2' is set
             if (param2 == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
@@ -2531,9 +2545,11 @@ namespace Org.OpenAPITools.Api
             // verify the required parameter 'param' is set
             if (param == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestJsonFormData");
+
             // verify the required parameter 'param2' is set
             if (param2 == null)
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'param2' when calling FakeApi->TestJsonFormData");
+
 
             Org.OpenAPITools.Client.RequestOptions requestOptions = new Org.OpenAPITools.Client.RequestOptions();
 

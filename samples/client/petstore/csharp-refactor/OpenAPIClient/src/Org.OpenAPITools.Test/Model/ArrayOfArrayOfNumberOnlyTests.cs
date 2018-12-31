@@ -74,22 +74,22 @@ namespace Org.OpenAPITools.Test
         {
             // 1st instance
             ArrayOfArrayOfNumberOnly instance1 = new ArrayOfArrayOfNumberOnly();
-            List<decimal?> list1 = new List<decimal?>();
+            List<decimal> list1 = new List<decimal>();
             list1.Add(11.1m);
             list1.Add(8.9m);
 
-            List<List<decimal?>> listOfList1 = new List<List<decimal?>>();
+            List<List<decimal>> listOfList1 = new List<List<decimal>>();
             listOfList1.Add(list1);
 
             instance1.ArrayArrayNumber = listOfList1;
 
             // 2nd instance
             ArrayOfArrayOfNumberOnly instance2 = new ArrayOfArrayOfNumberOnly();
-            List<decimal?> list2 = new List<decimal?>();
+            List<decimal> list2 = new List<decimal>();
             list2.Add(11.1m);
             list2.Add(8.9m);
 
-            List<List<decimal?>> listOfList2 = new List<List<decimal?>>();
+            List<List<decimal>> listOfList2 = new List<List<decimal>>();
             listOfList2.Add(list2);
 
             instance2.ArrayArrayNumber = listOfList2;
@@ -102,15 +102,14 @@ namespace Org.OpenAPITools.Test
 
             // 3rd instance
             ArrayOfArrayOfNumberOnly instance3 = new ArrayOfArrayOfNumberOnly();
-            List<decimal?> list3 = new List<decimal?>();
+            List<decimal> list3 = new List<decimal>();
             list3.Add(11.1m);
             list3.Add(1.1m); // not the same as 8.9
 
-            List<List<decimal?>> listOfList3 = new List<List<decimal?>>();
+            List<List<decimal>> listOfList3 = new List<List<decimal>>();
             instance2.ArrayArrayNumber = listOfList3;
 
             Assert.IsFalse(instance1.Equals(instance3));
-
         }
 
     }
