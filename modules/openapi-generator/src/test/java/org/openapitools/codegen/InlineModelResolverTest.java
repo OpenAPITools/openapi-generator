@@ -558,7 +558,6 @@ public class InlineModelResolverTest {
         assertNull(mediaType.getSchema().getProperties());
     }
 
-
     @Test
     public void arbitraryObjectResponseArray() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
@@ -577,6 +576,32 @@ public class InlineModelResolverTest {
         ArraySchema schema = (ArraySchema) mediaType.getSchema();
         assertNull(schema.getItems().getProperties());
     }
+
+    @Test
+    public void arbitraryObjectResponseArrayInline() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_response_array_inline")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
+
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
+        ArraySchema schema = (ArraySchema) mediaType.getSchema();
+        assertNotNull(schema.getItems().get$ref());
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, schema.getItems());
+        assertTrue(referencedSchema.getProperties().get("arbitrary_object_response_array_inline") instanceof ObjectSchema);
+
+        ObjectSchema arbitaryObject = (ObjectSchema) referencedSchema.getProperties().get("arbitrary_object_response_array_inline");
+        assertNull(arbitaryObject.getProperties());
+    }
+
 /*
     @Test
     public void testArbitraryObjectResponseArrayInline() {

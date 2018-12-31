@@ -227,6 +227,21 @@ paths:
                 type: array
                 items:
                   type: object
+  /arbitrary_object_response_array_inline:
+    get:
+      operationId: arbitraryObjectResponseArrayInline
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    arbitrary_object_response_array_inline:
+                      type: object
 components:
   schemas:
     Users:
