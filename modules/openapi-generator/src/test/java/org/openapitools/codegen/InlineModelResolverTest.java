@@ -343,37 +343,6 @@ public class InlineModelResolverTest {
         assertEquals("#/components/requestBodies/resolve_inline_request_body_with_title", requestBodyReference.get$ref());
     }
 
-/*
-    @Test
-    public void resolveInlineBodyParameterWithTitle() throws Exception {
-        OpenAPI openapi = new OpenAPI();
-
-        ObjectSchema addressModelItem = new ObjectSchema();
-        String addressModelName = "DetailedAddress";
-    addressModelItem.setTitle(addressModelName);
-    openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(addressModelItem
-                                        .addProperties("address", new ObjectSchema()
-                                            .addProperties("street", new StringSchema()))
-                                        .addProperties("name", new StringSchema())))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof RefModel);
-
-        Model body = openapi.getComponents().getSchemas().get(addressModelName);
-        assertTrue(body instanceof ObjectSchema);
-
-        ObjectSchema impl = (ObjectSchema) body;
-        assertNotNull(impl.getProperties().get("address"));
-    }
-    */
-
     @Test
     public void nonModelRequestBody() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
