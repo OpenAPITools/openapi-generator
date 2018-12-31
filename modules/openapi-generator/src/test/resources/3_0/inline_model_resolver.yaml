@@ -242,6 +242,18 @@ paths:
                   properties:
                     arbitrary_object_response_array_inline:
                       type: object
+  /arbitrary_object_response_with_additional_property:
+    get:
+      operationId: arbitraryObjectResponseWithAdditionalProperty
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
 components:
   schemas:
     Users:
