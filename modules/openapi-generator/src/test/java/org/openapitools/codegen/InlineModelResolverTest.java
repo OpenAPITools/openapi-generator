@@ -334,6 +334,15 @@ public class InlineModelResolverTest {
         assertTrue(requestBodyReference.getRequired());
     }
 
+    @Test
+    public void resolveInlineRequestBodyWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_title").getPost().getRequestBody();
+        assertEquals("#/components/requestBodies/resolve_inline_request_body_with_title", requestBodyReference.get$ref());
+    }
+
 /*
     @Test
     public void resolveInlineBodyParameterWithTitle() throws Exception {

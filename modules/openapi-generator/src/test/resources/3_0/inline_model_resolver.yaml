@@ -41,6 +41,21 @@ paths:
       responses:
         '200':
           description: OK
+  /resolve_inline_request_body_with_title:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: resolve_inline_request_body_with_title
+              type: object
+              properties:
+                name:
+                  type: string
+      operationId: resolveInlineRequestBodyWithRequired
+      responses:
+        '200':
+          description: OK
   /non_model_request_body:
     post:
       requestBody:
