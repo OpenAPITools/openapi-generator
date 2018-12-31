@@ -70,7 +70,6 @@ public class Client {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Client {\n");
-    
     sb.append("    client: ").append(toIndentedString(client)).append("\n");
     sb.append("}");
     return sb.toString();

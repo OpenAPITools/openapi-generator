@@ -74,7 +74,6 @@ public class HasOnlyReadOnly {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HasOnlyReadOnly {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");
