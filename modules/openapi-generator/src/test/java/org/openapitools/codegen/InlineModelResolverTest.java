@@ -497,6 +497,27 @@ public class InlineModelResolverTest {
         ObjectSchema requestBodySchema = (ObjectSchema) mediaType.getSchema();
         assertTrue(requestBodySchema.getProperties().get("arbitrary_object_request_body_property") instanceof ObjectSchema);
     }
+
+    @Test
+    public void arbitraryRequestBodyArray() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_request_body_array")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json");
+
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
+
+        ArraySchema requestBodySchema = (ArraySchema) mediaType.getSchema();
+        assertTrue(requestBodySchema.getItems() instanceof ObjectSchema);
+        assertNull(requestBodySchema.getItems().getProperties());
+    }
+
 /*
     @Test
     public void testArbitraryObjectBodyParamWithArray() {

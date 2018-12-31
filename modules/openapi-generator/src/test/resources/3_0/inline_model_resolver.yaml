@@ -176,6 +176,19 @@ paths:
       responses:
         '200':
           description: OK
+  /arbitrary_request_body_array:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: item
+              items:
+                type: object
+      operationId: arbitraryRequestBodyArray
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     Users:
