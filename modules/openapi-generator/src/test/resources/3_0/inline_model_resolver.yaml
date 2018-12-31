@@ -151,6 +151,17 @@ paths:
                   properties:
                     resolve_inline_object_response_with_additional_properties:
                       type: string
+  /arbitrary_object_request_body:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      operationId: arbitraryObjectRequestBody
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     Users:

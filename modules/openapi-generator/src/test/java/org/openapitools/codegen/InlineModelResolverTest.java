@@ -463,6 +463,22 @@ public class InlineModelResolverTest {
         assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
     }
 
+    @Test
+    public void arbitraryObjectBodyParam() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_request_body")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
+
+        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+    }
 /*
     @Test
     public void testArbitraryObjectBodyParam() {
