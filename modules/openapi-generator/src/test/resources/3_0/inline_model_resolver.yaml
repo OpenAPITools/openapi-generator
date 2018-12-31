@@ -205,6 +205,16 @@ paths:
       responses:
         '200':
           description: OK
+  /arbitrary_object_response:
+    get:
+      operationId: arbitraryObjectResponse
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
 components:
   schemas:
     Users:
