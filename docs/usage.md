@@ -451,6 +451,33 @@ openapi-generator generate \
 
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
+### Target External Models
+
+Sometimes you don't want the codegen to make a model for you--you might want to just include one that already exists in your codebase.  Say you already have a `User` object and want to reuse that, which has a different model package from the other generated files:
+
+First, indicate that the class is already included by default. This will keep the codegen from trying to generate the class.
+
+```bash
+--language-specific-primitives=Pet
+```
+
+This command line option will tell the generator to consider `Pet` a "primitive" type.
+
+Next, if the `Pet` class is a different package, add an `--import-mapping` to tell the generator to include that import wherever `Pet` is used:
+
+```bash
+--import-mappings=Pet=com.yourpackage.models.Pet
+```
+
+Now the codegen will know what to import from that specific package.
+
+NOTE: `import-mappings` is assigned a key-value pair in this example, but multiple values can be comma-separate. For instance:
+
+```bash
+--import-mappings=Pet=com.yourpackage.models.Pet,User=com.yourpackage.models.User
+```
+
+
 #### Configuration File
 
 Rather than passing generator options in a CSV of `--additional-properties`, you may also provide the settings via JSON file.

@@ -352,9 +352,6 @@
       "swagger-codegen-migration": {
         "title": "Migrating from Swagger Codegen"
       },
-      "openapi-generator-online": {
-        "title": "Online OpenAPI Generator"
-      },
       "online": {
         "title": "Online"
       },
@@ -366,6 +363,9 @@
       },
       "roadmap": {
         "title": "Roadmap"
+      },
+      "templating": {
+        "title": "Using Templates"
       },
       "usage": {
         "title": "Usage"

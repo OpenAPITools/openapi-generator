@@ -3,26 +3,6 @@ id: customization
 title: Customization
 ---
 
-## Modifying a template
-
-Clone OpenAPI Generator and navigate to `modules/openapi-generator/src/main/resources/${template}`, where `${template}` is the name of the generator you wish to modify. For example, if you are looking for the C# template, it's named `csharp`.  This directory contains all the templates used to generate your target client/server/doc output.
-
-Templates consist of multiple mustache files. [Mustache](https://mustache.github.io/) is used as the templating language for these templates, and the specific engine used is [jmustache](https://github.com/samskivert/jmustache).
-
-If you wish to modify one of these templates, copy and paste the template you're interested in to a templates directory you control. To let OpenAPI Generator know where this templates directory is, use the `-t` option (e.g: `-t ./templates/`).
-
-To tie that all together (example for modifying ruby templates):
-
-```sh
-mkdir templates
-export template=ruby
-cp -r modules/openapi-generator/src/main/resources/${template} templates/${template}
-java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
-  -t ./templates/${template} -g ruby -i ./foo.yml -o ./out/ruby
-```
-
-_**Note:** You cannot use this approach to create new templates, only override existing ones. If you'd like to create a new generator within the project, see `new.sh` in the repository root._
-
 ## Creating a new template
 
 If none of the templates suit your needs, you can create a brand new template. OpenAPI Generator can help with this, using the `meta` command:

@@ -1,9 +1,9 @@
 ---
-id: creating-templates
-title: Creating Templates
+id: templating
+title: Using Templates
 ---
 
-It's easy to build new templates for codegen!  Here are a few steps you should follow to do so.
+It's easy to work with templates for codegen!
 
 The generator workflow has [transforming logic](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages) as well as templates for each generation of code.
 
@@ -22,9 +22,11 @@ Built-in templates are written in Mustache and processed by [jmustache](https://
 
 OpenAPI Generator supports user-defined templates. This approach is often the easiest when creating a custom template. Our generators implement a combination of language and framework features, and it's fully possible to use an existing generator to implement a custom template for a different framework. Suppose you have internal utilities which you'd like to incorporate into generated code (e.g. logging, monitoring, fault-handling)... this is easy to add via custom templates.
 
+> **Note:** You cannot use this approach to create new templates, only override existing ones. If you'd like to create a new generator to contribute back to the project, see `new.sh` in the repository root. If you'd like to create a private generator for more templating control, see the [customization](./customization.md) docs.
+
 ### Custom Logic
 
-For this example, let's modify a Java client to use AOP via [jcabi/jcabi-aspects](https://github.com/jcabi/jcabi-aspects). We'll log API method execution at the `INFO` level, and retry every API call a maximum of 2 times.
+For this example, let's modify a Java client to use AOP via [jcabi/jcabi-aspects](https://github.com/jcabi/jcabi-aspects). We'll log API method execution at the `INFO` level. The jcabi-aspects project could also be used to implement method retries on failures; this would be a great exercise to further play around with templating. 
 
 The Java generator supports a `library` option. This option works by defining base templates, then applying library-specific template overrides. This allows for template reuse for libraries sharing the same programming language. Templates defined as a library need only modify or extend the templates concerning the library, and generation falls back to the root templates (the "defaults") when not extended by the library. Generators which support the `library` option will only support the libraries known by the generator at compile time, and will throw a runtime error if you try to provide a custom library name.
 
@@ -64,7 +66,6 @@ libraries/resteasy/
 ```
 
 > NOTE: Some generators may be sensitive to _which_ files exist. If you're concerned with redundant files like `pom.mustache` and `build.sbt.mustache`, you can try deleting them. If the generator you're customizing fails at runtime, just `touch` these files to create an empty file.
-
 
 
 First, let's add our new dependency to `libraries/resteasy/build.gradle.mustache`:
@@ -166,7 +167,7 @@ index 04a9d55..7a93c50 100644
 
 ```
 
-> NOTE: This example includes log4j-slf4j-impl to demonstrate our new code working. Generally you'll want to leave logging implementations up to your consumers.
+> NOTE: This example includes log4j-slf4j-impl to demonstrate that our new code is working. Generally you'll want to leave logging implementations up to your consumers.
 
 And because the java client generates with an outdated Gradle 2.6, let's update the gradle version in the default template (`Java/gradle-wrapper.properties.mustache`):
 
@@ -197,6 +198,8 @@ Make sure your custom template compiles:
 
 ```bash
 cd ~/.openapi-generator/example
+gradle assemble
+# or, regenerate the wrapper 
 gradle wrapper --gradle-version 4.8 --distribution-type all
 ./gradlew assemble
 ```
@@ -256,15 +259,64 @@ Execute `./gradlew build` and then `cat target/rolling/rollingtest.log`. You sho
 
 Congratulations! You've now modified one of the built-in templates to meet your client code's needs. Adding/modifying template logic simply requires a little bit of [mustache](https://mustache.github.io/), for which you can use existing templates as a guide.
 
-### Custom Framework
-
 ## Structures
 
 Aside from transforming an API document, the implementing class gets to decide how to apply the data structure to templates. We can decide which data structure to apply to which template files. You have the following structures at your disposal.
 
+Examples for the following structures will be presented using the following spec document:
+
+```yaml
+  swagger: "2.0"
+  info: 
+    version: "1.0.0"
+    title: "Swagger Petstore"
+    description: "A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification"
+    termsOfService: "http://swagger.io/terms/"
+    contact: 
+      name: "Swagger API Team"
+    license: 
+      name: "MIT"
+  host: "petstore.swagger.io"
+  basePath: "/api"
+  schemes: 
+    - "http"
+  consumes: 
+    - "application/json"
+  produces: 
+    - "application/json"
+  paths: 
+    /pets: 
+      get: 
+        description: "Returns all pets from the system that the user has access to"
+        produces: 
+          - "application/json"
+        responses: 
+          "200":
+            description: "A list of pets."
+            schema: 
+              type: "array"
+              items: 
+                $ref: "#/definitions/Pet"
+  definitions: 
+    Pet: 
+      type: "object"
+      required: 
+        - "id"
+        - "name"
+      properties: 
+        id: 
+          type: "integer"
+          format: "int64"
+        name: 
+          type: "string"
+        tag: 
+          type: "string"
+
+```
+
 ### Operations
 
-> Dump operation structures passed to templates with `-DdebugOpenAPI`
+> Inspect operation structures passed to templates with `-DdebugOpenAPI`
 
 There is a data structure which represents all the operations that are defined in the OpenAPI specification.  A single API file is created for each `OperationGroup`, which is essentially a grouping of different operations.  See the `addOperationToGroup` in `DefaultCodegen.java` for details on this operation.
 
@@ -282,17 +334,229 @@ For C-like languages which also require header files, you may create two files p
 apiTemplateFiles.put("api-header.mustache", ".h");
 apiTemplateFiles.put("api-body.mustache", ".m");
 ```
-Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SWGPetApi.m`. The `SWG` prefix and `Api` suffix are options specific to the Objective-C generator.
+Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SWGPetApi.m`. The `SWG` prefix and `Api` suffix are options specific to the Objective-C geneator.
 
 ### Models
 
-> Dump models passed to templates with `-DdebugModels`
+> Inspect models passed to templates with `-DdebugModels`
 
 Each model identified inside the generator will be passed into the `Models` data structure and will generate a new model file (or files) for each model.
 
+A `Pet` model with three properties will provide a _lot_ of information about the type and properties. The output from `-DdebugModels` is presented in truncated format here.
+
+
+```json
+[ {
+  "importPath" : "openapi.Pet",
+  "model" : {
+    "name" : "Pet",
+    "classname" : "Pet",
+    "classVarName" : "Pet",
+    "modelJson" : "{\n  \"required\" : [ \"id\", \"name\" ],\n  \"type\" : \"object\",\n  \"properties\" : {\n    \"id\" : {\n      \"type\" : \"integer\",\n      \"format\" : \"int64\"\n    },\n    \"name\" : {\n      \"type\" : \"string\"\n    },\n    \"tag\" : {\n      \"type\" : \"string\"\n    }\n  }\n}",
+    "dataType" : "map[string]interface{}",
+    "classFilename" : "model_pet",
+    "isAlias" : false,
+    "isString" : false,
+    "isInteger" : false,
+    "vars" : [ {
+      "baseName" : "id",
+      "getter" : "getId",
+      "setter" : "setId",
+      "dataType" : "int64",
+      "datatypeWithEnum" : "int64",
+      "dataFormat" : "int64",
+      "name" : "Id",
+      "defaultValueWithParam" : " = data.id;",
+      "baseType" : "int64",
+      "example" : "null",
+      "jsonSchema" : "{\n  \"type\" : \"integer\",\n  \"format\" : \"int64\"\n}",
+      "exclusiveMinimum" : false,
+      "exclusiveMaximum" : false,
+      "hasMore" : true,
+      "required" : true,
+      "secondaryParam" : false,
+      "hasMoreNonReadOnly" : true,
+      "isPrimitiveType" : true,
+      "isModel" : false,
+      "isContainer" : false,
+      "isNotContainer" : true,
+      "isString" : false,
+      "isNumeric" : true,
+      "isInteger" : false,
+      "isLong" : true,
+      "isNumber" : false,
+      "isFloat" : false,
+      "isDouble" : false,
+      "isByteArray" : false,
+      "isBinary" : false,
+      "isFile" : false,
+      "isBoolean" : false,
+      "isDate" : false,
+      "isDateTime" : false,
+      "isUuid" : false,
+      "isEmail" : false,
+      "isFreeFormObject" : false,
+      "isListContainer" : false,
+      "isMapContainer" : false,
+      "isEnum" : false,
+      "isReadOnly" : false,
+      "isWriteOnly" : false,
+      "isNullable" : false,
+      "vendorExtensions" : { },
+      "hasValidation" : false,
+      "isInherited" : false,
+      "nameInCamelCase" : "Id",
+      "nameInSnakeCase" : "ID",
+      "isXmlAttribute" : false,
+      "isXmlWrapped" : false,
+      "datatype" : "int64",
+      "iexclusiveMaximum" : false
+    }, {
+      "baseName" : "name",
+      "getter" : "getName",
+      "setter" : "setName",
+      "dataType" : "string",
+      "datatypeWithEnum" : "string",
+      "name" : "Name",
+      "defaultValueWithParam" : " = data.name;",
+      "baseType" : "string",
+      "example" : "null",
+      "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
+      "exclusiveMinimum" : false,
+      "exclusiveMaximum" : false,
+      "hasMore" : true,
+      "required" : true,
+      "secondaryParam" : false,
+      "hasMoreNonReadOnly" : true,
+      "isPrimitiveType" : true,
+      "isModel" : false,
+      "isContainer" : false,
+      "isNotContainer" : true,
+      "isString" : true,
+      "isNumeric" : false,
+      "isInteger" : false,
+      "isLong" : false,
+      "isNumber" : false,
+      "isFloat" : false,
+      "isDouble" : false,
+      "isByteArray" : false,
+      "isBinary" : false,
+      "isFile" : false,
+      "isBoolean" : false,
+      "isDate" : false,
+      "isDateTime" : false,
+      "isUuid" : false,
+      "isEmail" : false,
+      "isFreeFormObject" : false,
+      "isListContainer" : false,
+      "isMapContainer" : false,
+      "isEnum" : false,
+      "isReadOnly" : false,
+      "isWriteOnly" : false,
+      "isNullable" : false,
+      "vendorExtensions" : { },
+      "hasValidation" : false,
+      "isInherited" : false,
+      "nameInCamelCase" : "Name",
+      "nameInSnakeCase" : "NAME",
+      "isXmlAttribute" : false,
+      "isXmlWrapped" : false,
+      "datatype" : "string",
+      "iexclusiveMaximum" : false
+    }, {
+      "baseName" : "tag",
+      "getter" : "getTag",
+      "setter" : "setTag",
+      "dataType" : "string",
+      "datatypeWithEnum" : "string",
+      "name" : "Tag",
+      "defaultValueWithParam" : " = data.tag;",
+      "baseType" : "string",
+      "example" : "null",
+      "jsonSchema" : "{\n  \"type\" : \"string\"\n}",
+      "exclusiveMinimum" : false,
+      "exclusiveMaximum" : false,
+      "hasMore" : false,
+      "required" : false,
+      "secondaryParam" : false,
+      "hasMoreNonReadOnly" : false,
+      "isPrimitiveType" : true,
+      "isModel" : false,
+      "isContainer" : false,
+      "isNotContainer" : true,
+      "isString" : true,
+      "isNumeric" : false,
+      "isInteger" : false,
+      "isLong" : false,
+      "isNumber" : false,
+      "isFloat" : false,
+      "isDouble" : false,
+      "isByteArray" : false,
+      "isBinary" : false,
+      "isFile" : false,
+      "isBoolean" : false,
+      "isDate" : false,
+      "isDateTime" : false,
+      "isUuid" : false,
+      "isEmail" : false,
+      "isFreeFormObject" : false,
+      "isListContainer" : false,
+      "isMapContainer" : false,
+      "isEnum" : false,
+      "isReadOnly" : false,
+      "isWriteOnly" : false,
+      "isNullable" : false,
+      "vendorExtensions" : { },
+      "hasValidation" : false,
+      "isInherited" : false,
+      "nameInCamelCase" : "Tag",
+      "nameInSnakeCase" : "TAG",
+      "isXmlAttribute" : false,
+      "isXmlWrapped" : false,
+      "datatype" : "string",
+      "iexclusiveMaximum" : false
+    } ],
+    "requiredVars" : [ /* id, name */ ],
+    "optionalVars" : [ /* tag */ ],
+    "readOnlyVars" : [ ],
+    "readWriteVars" : [ /* lists metadata for all three properties */ ],
+    "allVars" : [ /* lists all properties */],
+    "parentVars" : [ ],
+    "mandatory" : [ "id", "name" ],
+    "allMandatory" : [ "id", "name" ],
+    "imports" : [ ],
+    "hasVars" : true,
+    "emptyVars" : false,
+    "hasMoreModels" : false,
+    "hasEnums" : false,
+    "isEnum" : false,
+    "hasRequired" : true,
+    "hasOptional" : true,
+    "isArrayModel" : false,
+    "hasChildren" : false,
+    "isMapModel" : false,
+    "hasOnlyReadOnly" : false,
+    "vendorExtensions" : { }
+  }
+} ]
+```
+
+Templates are passed redundant properties, depending on the semantics of the array. For example:
+
+* `vars` lists all defined model properties
+* `requiredVars` lists all model properties marked with `required` in the spec document
+* `optionalVars` lists all model properties _not_ marked with `required` in the spec document
+* `readWriteVars` lists all model properties _not_ marked with `readonly` in the spec document
+* `readOnlyVars` lists all model properties marked with `readonly` in the spec document
+* `allVars` lists all model properties. This may include the same set as `vars`, but may also include generator-defined properties
+
+We expose the same properties in multiple sets because this allows us to conditionally iterate over properties based on some condition ("is it required" or "is it readonly"). This is driven by the use of the logic-less Mustache templates. It is possible that models passed to the templating engine may be cleaned up as we support more template engines, but such an effort will go through a deprecation phase and would be communicated at runtime through log messages. 
+
 ### supportingFiles
 
-> Dump supportingFiles passed to templates with `-DdebugSupportingFiles`
+> Inspect supportingFiles passed to templates with `-DdebugSupportingFiles`
 
 This is a "catch-all" which gives you the entire structure--operations, model, etc--so you can create "single-file" code from them.
+
+Supporting files can either be processed through the templating engine or copied as-is. When creating your own templates, you're limited to the files and extensions expected by the generator implementation. For more control over the supporting files produced by a generator, see our [customization](./customization.md) documentation.
 

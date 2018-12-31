@@ -15,8 +15,6 @@ We offer online services, publicly and free of charge:
 
 These services are beta and do not have any guarantee on service level
 
-Please refer to [Online OpenAPI Generator](./online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
-
 ## Docker Image
 
 The openapi-generator-online Docker image can act as a self-hosted web application and API for generating code. This container can be incorporated into a CI pipeline, and requires at least two HTTP requests and some docker orchestration to access generated code.
