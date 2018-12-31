@@ -24,7 +24,9 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -274,6 +276,16 @@ public class InlineModelResolverTest {
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
     }
 
+    @Test
+    public void resolveInlineRequestBodyWhenNoComponents() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_request_body_no_components.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        assertNotNull(openAPI.getComponents());
+        assertNotNull(openAPI.getComponents().getRequestBodies());
+    }
+    
+    /*
     @Test
     public void resolveInlineArraySchemaWithTitle() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
