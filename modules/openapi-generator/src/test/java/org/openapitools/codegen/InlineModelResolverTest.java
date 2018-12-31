@@ -520,36 +520,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void testArbitraryObjectBodyParamWithArray() {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ArraySchema()
-                                        .items(new ObjectSchema())))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Parameter param = openapi.getPaths().get("/hello").getGet().getParameters().get(0);
-        assertTrue(param instanceof BodyParameter);
-
-        BodyParameter bp = (BodyParameter) param;
-        Model schema = bp.getSchema();
-
-        assertTrue(schema instanceof ArraySchema);
-
-        ArraySchema am = (ArraySchema) schema;
-        Property inner = am.getItems();
-        assertTrue(inner instanceof ObjectSchema);
-
-        ObjectSchema op = (ObjectSchema) inner;
-        assertNotNull(op);
-        assertNull(op.getProperties());
-    }
-
-    @Test
     public void testArbitraryObjectBodyParamArrayInline() {
         OpenAPI openapi = new OpenAPI();
 
