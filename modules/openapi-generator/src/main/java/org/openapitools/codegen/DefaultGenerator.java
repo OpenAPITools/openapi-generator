@@ -434,13 +434,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     LOGGER.info("Model " + name + " not generated since it's a free-form object");
                     continue;
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to map
                         LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
                         continue;
                     }
                 } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to array
                         LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
                         continue;

@@ -220,6 +220,15 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
+    public boolean isGenerateAliasAsModel() {
+        return ModelUtils.isGenerateAliasAsModel();
+    }
+
+    public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
+        ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
+        return this;
+    }
+
     public String getModelNameSuffix() {
         return modelNameSuffix;
     }

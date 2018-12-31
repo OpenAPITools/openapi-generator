@@ -209,6 +209,11 @@ public class DefaultCodegen implements CodegenConfig {
             this.setEnablePostProcessFile(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.ENABLE_POST_PROCESS_FILE).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
+            ModelUtils.setGenerateAliasAsModel(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.GENERATE_ALIAS_AS_MODEL).toString()));
+        }
     }
 
     // override with any special post-processing for all models
