@@ -31,6 +31,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.net.URLEncoder;
+import org.apache.commons.lang3.StringEscapeUtils;
+import java.io.UnsupportedEncodingException;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -177,6 +184,59 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         classname = classname.replaceAll("^" + abstractNamePrefix, "");
         classname = classname.replaceAll(abstractNameSuffix + "$", "");
         operations.put(USER_CLASSNAME_KEY, classname);
+    }
+
+    @Override
+    public String encodePath(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // from DefaultCodegen.java
+        // remove \t, \n, \r
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        input = super.escapeUnsafeCharacters(
+                StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                        .replaceAll("[\\t\\n\\r]", " ")
+                        .replace("\\", "\\\\"));
+                        // .replace("\"", "\\\""));
+
+        // from AbstractPhpCodegen.java
+        // Trim the string to avoid leading and trailing spaces.
+        input = input.trim();
+        try {
+
+            input = URLEncoder.encode(input, "UTF-8")
+                    .replaceAll("\\+", "%20")
+                    .replaceAll("\\%2F", "/")
+                    .replaceAll("\\%7B", "{") // keep { part of complex placeholders
+                    .replaceAll("\\%7D", "}") // } part
+                    .replaceAll("\\%5B", "[") // [ part
+                    .replaceAll("\\%5D", "]") // ] part
+                    .replaceAll("\\%3A", ":") // : part
+                    .replaceAll("\\%2B", "+") // + part
+                    .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
+        } catch (UnsupportedEncodingException e) {
+            // continue
+            LOGGER.error(e.getMessage(), e);
+        }
+        return input;
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path,
+                                          String httpMethod,
+                                          Operation operation,
+                                          Map<String, Schema> schemas,
+                                          OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
+        op.path = encodePath(path);
+        return op;
     }
 
 }

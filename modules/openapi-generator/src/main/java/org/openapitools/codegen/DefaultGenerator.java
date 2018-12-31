@@ -537,9 +537,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 });
                 Map<String, Object> operation = processOperations(config, tag, ops, allModels);
-
+                URL url = URLPathUtils.getServerURL(openAPI);
                 operation.put("basePath", basePath);
-                operation.put("basePathWithoutHost", basePathWithoutHost);
+                operation.put("basePathWithoutHost", config.encodePath(url.getPath()).replaceAll("/$", ""));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
                 operation.put("apiPackage", config.apiPackage());
