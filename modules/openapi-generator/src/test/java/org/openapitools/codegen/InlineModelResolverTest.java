@@ -604,48 +604,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void testArbitraryObjectResponseArrayInline() {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(new ArrayProperty()
-                                        .items(new ObjectSchema()
-                                            .addProperties("arbitrary", new ObjectSchema()))))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertNotNull(response);
-
-        assertNotNull(response.getSchema());
-        Property responseProperty = response.getSchema();
-        assertTrue(responseProperty instanceof ArrayProperty);
-
-        ArrayProperty ap = (ArrayProperty) responseProperty;
-        Property p = ap.getItems();
-        assertNotNull(p);
-
-        Schema rp = (Schema) p;
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/inline_response_200");
-        assertEquals(rp.getSimpleRef(), "inline_response_200");
-
-        Model inline = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertNotNull(inline);
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        Property inlineProp = impl.getProperties().get("arbitrary");
-        assertNotNull(inlineProp);
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) inlineProp;
-        assertNull(op.getProperties());
-    }
-
-    @Test
     public void testArbitraryObjectResponseMapInline() {
         OpenAPI openapi = new OpenAPI();
 
