@@ -215,6 +215,18 @@ paths:
             application/json:
               schema:
                 type: object
+  /arbitrary_object_response_array:
+    get:
+      operationId: arbitraryObjectResponseArray
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
 components:
   schemas:
     Users:
