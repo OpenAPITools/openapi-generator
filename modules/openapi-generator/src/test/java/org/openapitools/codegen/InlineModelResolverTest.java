@@ -623,6 +623,18 @@ public class InlineModelResolverTest {
         assertNull(additionalProperty.getProperties());
     }
 
+    @Test
+    public void arbitraryObjectModelInline() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        ObjectSchema model = (ObjectSchema) openAPI.getComponents().getSchemas().get("ArbitraryObjectModelInline");
+        assertTrue(model.getProperties().get("arbitrary_object_model_inline") instanceof ObjectSchema);
+
+        ObjectSchema schema = (ObjectSchema) model.getProperties().get("arbitrary_object_model_inline");
+        assertNull(schema.getProperties());
+    }
+
 /*
     @Test
     public void testArbitraryObjectModelInline() {

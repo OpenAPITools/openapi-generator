@@ -266,3 +266,8 @@ components:
             type: string
           city:
             type: string
+    ArbitraryObjectModelInline:
+      type: object
+      properties:
+        arbitrary_object_model_inline:
+          type: object
