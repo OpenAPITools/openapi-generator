@@ -671,6 +671,29 @@ public class InlineModelResolverTest {
         assertNull(itemsProperty.getProperties());
     }
 
+    @Test
+    public void emptyExampleOnStringTypeModels() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/empty_example_on_string_models")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
+
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
+
+        ArraySchema schema = (ArraySchema) mediaType.getSchema();
+        assertEquals("#/components/schemas/EmptyExampleOnStringTypeModels", schema.getItems().get$ref());
+
+        assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
+        assertNull(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample());
+    }
+
 /*
     @Test
     public void testEmptyExampleOnStrinngTypeModels() {
