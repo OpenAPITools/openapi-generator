@@ -35,7 +35,7 @@ import static org.testng.AssertJUnit.*;
 @SuppressWarnings("static-method")
 public class InlineModelResolverTest {
     @Test
-    public void resolveInlineModelTestWithoutTitle() throws Exception {
+    public void resolveInlineModelTestWithoutTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -70,7 +70,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void resolveInlineModelTestWithTitle() throws Exception {
+    public void resolveInlineModelTestWithTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -99,7 +99,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void resolveInlineModel2EqualInnerModels() throws Exception {
+    public void resolveInlineModel2EqualInnerModels() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -143,7 +143,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void resolveInlineModel2DifferentInnerModelsWIthSameTitle() throws Exception {
+    public void resolveInlineModel2DifferentInnerModelsWIthSameTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -191,7 +191,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void testInlineResponseModel() throws Exception {
+    public void testInlineResponseModel() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
 
@@ -233,7 +233,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void testInlineResponseModelWithTitle() throws Exception {
+    public void testInlineResponseModelWithTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
 
