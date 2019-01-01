@@ -44,8 +44,6 @@ public class InlineModelResolverTest {
                 .addProperties("name", new StringSchema())
                 .addProperties("address", new ObjectSchema()
                         .description("description")
-                        //._default("default")
-                        //.access("access")
                         .readOnly(false)
                         .description("description")
                         .name("name")
