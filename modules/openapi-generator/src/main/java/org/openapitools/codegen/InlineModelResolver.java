@@ -17,15 +17,12 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.core.util.Json;
@@ -57,8 +54,7 @@ public class InlineModelResolver {
             openapi.getComponents().setSchemas(new HashMap<String, Schema>());
         }
         // operations
-        Map<String, PathItem> paths = openapi.getPaths();
-        flattenPaths(paths);
+        flattenPaths(openapi);
         Map<String, Schema> models = openapi.getComponents().getSchemas();
 
         // definitions
@@ -115,9 +111,10 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in Paths
      *
-     * @param paths target paths
+     * @param openapi target spec
      */
-    private void flattenPaths(Map<String, PathItem> paths) {
+    private void flattenPaths(OpenAPI openapi) {
+        Paths paths = openapi.getPaths();
         if (paths == null) {
             return;
         }
