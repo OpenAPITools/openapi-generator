@@ -52,18 +52,18 @@ public class InlineModelResolverTest {
                         .addProperties("street", new StringSchema())
                         .addProperties("city", new StringSchema())));
 
-        assertNotNull(((Schema) openapi.getComponents().getSchemas().get("User")).getProperties().get("address"));
+        assertNotNull((openapi.getComponents().getSchemas().get("User")).getProperties().get("address"));
 
         new InlineModelResolver().flatten(openapi);
 
-        Schema user = (Schema) openapi.getComponents().getSchemas().get("User");
+        Schema user = openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
         assertNotNull(user.getProperties().get("address"));
         assertNotNull(((Schema) user.getProperties().get("address")).get$ref());
         assertEquals(((Schema) user.getProperties().get("address")).get$ref(), "#/components/schemas/User_address");
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("User_address");
+        Schema address = openapi.getComponents().getSchemas().get("User_address");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
@@ -87,12 +87,12 @@ public class InlineModelResolverTest {
 
         new InlineModelResolver().flatten(openapi);
 
-        Schema user = (Schema) openapi.getComponents().getSchemas().get("User");
+        Schema user = openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
@@ -134,11 +134,11 @@ public class InlineModelResolverTest {
         assertNotNull(user);
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
-        Schema duplicateAddress = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle_0");
+        Schema duplicateAddress = openapi.getComponents().getSchemas().get("UserAddressTitle_0");
         assertNull(duplicateAddress);
     }
 
@@ -174,16 +174,16 @@ public class InlineModelResolverTest {
 
         new InlineModelResolver().flatten(openapi);
 
-        Schema user = (Schema) openapi.getComponents().getSchemas().get("User");
+        Schema user = openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
-        Schema duplicateAddress = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle_1");
+        Schema duplicateAddress = openapi.getComponents().getSchemas().get("UserAddressTitle_1");
         assertNotNull(duplicateAddress);
         assertNotNull(duplicateAddress.getProperties().get("city"));
         assertNotNull(duplicateAddress.getProperties().get("street"));
@@ -226,7 +226,7 @@ public class InlineModelResolverTest {
         assertEquals(1, schema.getExtensions().size());
         assertEquals("ext-prop", schema.getExtensions().get("x-ext"));
 
-        Schema model = (Schema) openapi.getComponents().getSchemas().get("inline_response_200");
+        Schema model = openapi.getComponents().getSchemas().get("inline_response_200");
         assertTrue(model.getProperties().size() == 1);
         assertNotNull(model.getProperties().get("name"));
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
@@ -268,7 +268,7 @@ public class InlineModelResolverTest {
         assertEquals(1, schema.getExtensions().size());
         assertEquals("ext-prop", schema.getExtensions().get("x-ext"));
 
-        Schema model = (Schema) openapi.getComponents().getSchemas().get("GetBarResponse");
+        Schema model = openapi.getComponents().getSchemas().get("GetBarResponse");
         assertTrue(model.getProperties().size() == 1);
         assertNotNull(model.getProperties().get("name"));
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
