@@ -281,10 +281,10 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in models
      *
-     * @param openapi target spec
+     * @param openAPI target spec
      */
-    private void flattenModels(OpenAPI openapi) {
-        Map<String, Schema> models = openapi.getComponents().getSchemas();
+    private void flattenModels(OpenAPI openAPI) {
+        Map<String, Schema> models = openAPI.getComponents().getSchemas();
         if (models == null) {
             return;
         }
@@ -307,7 +307,7 @@ public class InlineModelResolver {
                         Schema innerModel = modelFromProperty(op, innerModelName);
                         String existing = matchGenerated(innerModel);
                         if (existing == null) {
-                            openapi.getComponents().addSchemas(innerModelName, innerModel);
+                            openAPI.getComponents().addSchemas(innerModelName, innerModel);
                             addGenerated(innerModelName, innerModel);
                             Schema schema = new Schema().$ref(innerModelName);
                             schema.setRequired(op.getRequired());
