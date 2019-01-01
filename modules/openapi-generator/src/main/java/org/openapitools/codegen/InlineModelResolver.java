@@ -72,82 +72,7 @@ public class InlineModelResolver {
         for (String pathname : paths.keySet()) {
             PathItem path = paths.get(pathname);
             for (Operation operation : path.readOperations()) {
-                RequestBody requestBody = operation.getRequestBody();
-                if (requestBody != null) {
-                    Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
-                    if (model instanceof ObjectSchema) {
-                        Schema obj = (Schema) model;
-                        if (obj.getType() == null || "object".equals(obj.getType())) {
-                            if (obj.getProperties() != null && obj.getProperties().size() > 0) {
-                                flattenProperties(obj.getProperties(), pathname);
-                                // for model name, use "title" if defined, otherwise default to 'inline_object'
-                                String modelName = resolveModelName(obj.getTitle(), "inline_object");
-                                addGenerated(modelName, model);
-                                openAPI.getComponents().addSchemas(modelName, model);
-
-                                // create request body
-                                RequestBody rb = new RequestBody();
-                                Content content = new Content();
-                                MediaType mt = new MediaType();
-                                Schema schema = new Schema();
-                                schema.set$ref(modelName);
-                                mt.setSchema(schema);
-
-                                // get "consumes", e.g. application/xml, application/json
-                                Set<String> consumes;
-                                if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-                                    consumes = new HashSet<>();
-                                    consumes.add("application/json"); // default to application/json
-                                    LOGGER.info("Default to application/json for inline body schema");
-                                } else {
-                                    consumes = requestBody.getContent().keySet();
-                                }
-
-                                for (String consume : consumes) {
-                                    content.addMediaType(consume, mt);
-                                }
-
-                                rb.setContent(content);
-
-                                // add to openapi "components"
-                                if (openAPI.getComponents().getRequestBodies() == null) {
-                                    Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
-                                    requestBodies.put(modelName, rb);
-                                    openAPI.getComponents().setRequestBodies(requestBodies);
-                                } else {
-                                    openAPI.getComponents().getRequestBodies().put(modelName, rb);
-                                }
-
-                                // update requestBody to use $ref instead of inline def
-                                requestBody.set$ref(modelName);
-
-                            }
-                        }
-                    } else if (model instanceof ArraySchema) {
-                        ArraySchema am = (ArraySchema) model;
-                        Schema inner = am.getItems();
-                        if (inner instanceof ObjectSchema) {
-                            ObjectSchema op = (ObjectSchema) inner;
-                            if (op.getProperties() != null && op.getProperties().size() > 0) {
-                                flattenProperties(op.getProperties(), pathname);
-                                String modelName = resolveModelName(op.getTitle(), null);
-                                Schema innerModel = modelFromProperty(op, modelName);
-                                String existing = matchGenerated(innerModel);
-                                if (existing != null) {
-                                    Schema schema = new Schema().$ref(existing);
-                                    schema.setRequired(op.getRequired());
-                                    am.setItems(schema);
-                                } else {
-                                    Schema schema = new Schema().$ref(modelName);
-                                    schema.setRequired(op.getRequired());
-                                    am.setItems(schema);
-                                    addGenerated(modelName, innerModel);
-                                    openAPI.getComponents().addSchemas(modelName, innerModel);
-                                }
-                            }
-                        }
-                    }
-                }
+                flattenRequestBody(openAPI, pathname, operation);
 
                 List<Parameter> parameters = operation.getParameters();
                 if (parameters != null) {
@@ -270,6 +195,94 @@ public class InlineModelResolver {
                                 }
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Flatten inline models in RequestBody
+     *
+     * @param openAPI target spec
+     * @param pathname target pathname
+     * @param operation target operation
+     */
+    private void flattenRequestBody(OpenAPI openAPI, String pathname, Operation operation) {
+        RequestBody requestBody = operation.getRequestBody();
+        if (requestBody == null) {
+            return;
+        }
+
+        Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
+        if (model instanceof ObjectSchema) {
+            Schema obj = (Schema) model;
+            if (obj.getType() == null || "object".equals(obj.getType())) {
+                if (obj.getProperties() != null && obj.getProperties().size() > 0) {
+                    flattenProperties(obj.getProperties(), pathname);
+                    // for model name, use "title" if defined, otherwise default to 'inline_object'
+                    String modelName = resolveModelName(obj.getTitle(), "inline_object");
+                    addGenerated(modelName, model);
+                    openAPI.getComponents().addSchemas(modelName, model);
+
+                    // create request body
+                    RequestBody rb = new RequestBody();
+                    Content content = new Content();
+                    MediaType mt = new MediaType();
+                    Schema schema = new Schema();
+                    schema.set$ref(modelName);
+                    mt.setSchema(schema);
+
+                    // get "consumes", e.g. application/xml, application/json
+                    Set<String> consumes;
+                    if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+                        consumes = new HashSet<>();
+                        consumes.add("application/json"); // default to application/json
+                        LOGGER.info("Default to application/json for inline body schema");
+                    } else {
+                        consumes = requestBody.getContent().keySet();
+                    }
+
+                    for (String consume : consumes) {
+                        content.addMediaType(consume, mt);
+                    }
+
+                    rb.setContent(content);
+
+                    // add to openapi "components"
+                    if (openAPI.getComponents().getRequestBodies() == null) {
+                        Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
+                        requestBodies.put(modelName, rb);
+                        openAPI.getComponents().setRequestBodies(requestBodies);
+                    } else {
+                        openAPI.getComponents().getRequestBodies().put(modelName, rb);
+                    }
+
+                    // update requestBody to use $ref instead of inline def
+                    requestBody.set$ref(modelName);
+
+                }
+            }
+        } else if (model instanceof ArraySchema) {
+            ArraySchema am = (ArraySchema) model;
+            Schema inner = am.getItems();
+            if (inner instanceof ObjectSchema) {
+                ObjectSchema op = (ObjectSchema) inner;
+                if (op.getProperties() != null && op.getProperties().size() > 0) {
+                    flattenProperties(op.getProperties(), pathname);
+                    String modelName = resolveModelName(op.getTitle(), null);
+                    Schema innerModel = modelFromProperty(op, modelName);
+                    String existing = matchGenerated(innerModel);
+                    if (existing != null) {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(op.getRequired());
+                        am.setItems(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(modelName);
+                        schema.setRequired(op.getRequired());
+                        am.setItems(schema);
+                        addGenerated(modelName, innerModel);
+                        openAPI.getComponents().addSchemas(modelName, innerModel);
                     }
                 }
             }
