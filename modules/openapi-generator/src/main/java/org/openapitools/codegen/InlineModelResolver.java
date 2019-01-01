@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -231,7 +232,7 @@ public class InlineModelResolver {
      * @param operation target operation
      */
     private void flattenResponses(OpenAPI openAPI, String pathname, Operation operation) {
-        Map<String, ApiResponse> responses = operation.getResponses();
+        ApiResponses responses = operation.getResponses();
         if (responses == null) {
             return;
         }
