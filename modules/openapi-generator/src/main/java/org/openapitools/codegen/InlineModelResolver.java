@@ -57,7 +57,7 @@ public class InlineModelResolver {
         flattenPaths(openapi);
 
         // definitions
-        flattenModels(openapi);
+        flattenComponents(openapi);
     }
 
     /**
@@ -279,11 +279,11 @@ public class InlineModelResolver {
     }
 
     /**
-     * Flatten inline models in models
+     * Flatten inline models in components
      *
      * @param openAPI target spec
      */
-    private void flattenModels(OpenAPI openAPI) {
+    private void flattenComponents(OpenAPI openAPI) {
         Map<String, Schema> models = openAPI.getComponents().getSchemas();
         if (models == null) {
             return;
