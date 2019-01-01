@@ -652,6 +652,25 @@ public class InlineModelResolverTest {
         assertNull(itemsProperty.getProperties());
     }
 
+    @Test
+    public void arbitraryObjectModelWithArrayInlineWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithTitle") instanceof ArraySchema);
+
+        ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithTitle");
+        assertTrue(schema.getItems() instanceof ObjectSchema);
+
+        ObjectSchema items = (ObjectSchema) schema.getItems();
+        // TODO: Fix the model as referenced schema which named with the title value
+        assertEquals("ArbitraryObjectModelWithArrayInlineWithTitleInner", items.getTitle());
+        assertTrue(items.getProperties().get("arbitrary_object_model_with_array_inline_with_title") instanceof ObjectSchema);
+
+        ObjectSchema itemsProperty = (ObjectSchema) items.getProperties().get("arbitrary_object_model_with_array_inline_with_title");
+        assertNull(itemsProperty.getProperties());
+    }
+
 /*
     @Test
     public void testArbitraryObjectModelWithArrayInlineWithTitle() {

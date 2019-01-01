@@ -278,3 +278,11 @@ components:
         properties:
           arbitrary_object_model_with_array_inline_without_title:
             type: object
+    ArbitraryObjectModelWithArrayInlineWithTitle:
+      type: array
+      items:
+        title: ArbitraryObjectModelWithArrayInlineWithTitleInner
+        type: object
+        properties:
+          arbitrary_object_model_with_array_inline_with_title:
+            type: object
