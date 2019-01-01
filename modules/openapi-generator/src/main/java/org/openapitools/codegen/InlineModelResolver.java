@@ -111,10 +111,10 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in Paths
      *
-     * @param openapi target spec
+     * @param openAPI target spec
      */
-    private void flattenPaths(OpenAPI openapi) {
-        Paths paths = openapi.getPaths();
+    private void flattenPaths(OpenAPI openAPI) {
+        Paths paths = openAPI.getPaths();
         if (paths == null) {
             return;
         }
@@ -133,7 +133,7 @@ public class InlineModelResolver {
                                 // for model name, use "title" if defined, otherwise default to 'inline_object'
                                 String modelName = resolveModelName(obj.getTitle(), "inline_object");
                                 addGenerated(modelName, model);
-                                openapi.getComponents().addSchemas(modelName, model);
+                                openAPI.getComponents().addSchemas(modelName, model);
 
                                 // create request body
                                 RequestBody rb = new RequestBody();
@@ -160,12 +160,12 @@ public class InlineModelResolver {
                                 rb.setContent(content);
 
                                 // add to openapi "components"
-                                if (openapi.getComponents().getRequestBodies() == null) {
+                                if (openAPI.getComponents().getRequestBodies() == null) {
                                     Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
                                     requestBodies.put(modelName, rb);
-                                    openapi.getComponents().setRequestBodies(requestBodies);
+                                    openAPI.getComponents().setRequestBodies(requestBodies);
                                 } else {
-                                    openapi.getComponents().getRequestBodies().put(modelName, rb);
+                                    openAPI.getComponents().getRequestBodies().put(modelName, rb);
                                 }
 
                                 // update requestBody to use $ref instead of inline def
@@ -192,7 +192,7 @@ public class InlineModelResolver {
                                     schema.setRequired(op.getRequired());
                                     am.setItems(schema);
                                     addGenerated(modelName, innerModel);
-                                    openapi.getComponents().addSchemas(modelName, innerModel);
+                                    openAPI.getComponents().addSchemas(modelName, innerModel);
                                 }
                             }
                         }
@@ -213,7 +213,7 @@ public class InlineModelResolver {
 
                                         parameter.$ref(modelName);
                                         addGenerated(modelName, model);
-                                        openapi.getComponents().addSchemas(modelName, model);
+                                        openAPI.getComponents().addSchemas(modelName, model);
                                     }
                                 }
                             } else if (model instanceof ArraySchema) {
@@ -235,7 +235,7 @@ public class InlineModelResolver {
                                             schema.setRequired(op.getRequired());
                                             am.setItems(schema);
                                             addGenerated(modelName, innerModel);
-                                            openapi.getComponents().addSchemas(modelName, innerModel);
+                                            openAPI.getComponents().addSchemas(modelName, innerModel);
                                         }
                                     }
                                 }
@@ -266,7 +266,7 @@ public class InlineModelResolver {
                                             schema.setRequired(op.getRequired());
                                             mediaType.setSchema(schema);
                                             addGenerated(modelName, model);
-                                            openapi.getComponents().addSchemas(modelName, model);
+                                            openAPI.getComponents().addSchemas(modelName, model);
                                         }
                                     }
                                 }
@@ -290,7 +290,7 @@ public class InlineModelResolver {
                                             schema.setRequired(op.getRequired());
                                             ap.setItems(schema);
                                             addGenerated(modelName, innerModel);
-                                            openapi.getComponents().addSchemas(modelName, innerModel);
+                                            openAPI.getComponents().addSchemas(modelName, innerModel);
                                         }
                                     }
                                 }
@@ -314,7 +314,7 @@ public class InlineModelResolver {
                                             schema.setRequired(op.getRequired());
                                             mp.setAdditionalProperties(schema);
                                             addGenerated(modelName, innerModel);
-                                            openapi.getComponents().addSchemas(modelName, innerModel);
+                                            openAPI.getComponents().addSchemas(modelName, innerModel);
                                         }
                                     }
                                 }
