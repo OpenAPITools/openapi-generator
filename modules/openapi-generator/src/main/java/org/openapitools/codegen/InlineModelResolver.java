@@ -73,51 +73,8 @@ public class InlineModelResolver {
             PathItem path = paths.get(pathname);
             for (Operation operation : path.readOperations()) {
                 flattenRequestBody(openAPI, pathname, operation);
+                flattenParameters(openAPI, pathname, operation);
 
-                List<Parameter> parameters = operation.getParameters();
-                if (parameters != null) {
-                    for (Parameter parameter : parameters) {
-                        if (parameter.getSchema() != null) {
-                            Schema model = parameter.getSchema();
-                            if (model instanceof ObjectSchema) {
-                                Schema obj = (Schema) model;
-                                if (obj.getType() == null || "object".equals(obj.getType())) {
-                                    if (obj.getProperties() != null && obj.getProperties().size() > 0) {
-                                        flattenProperties(obj.getProperties(), pathname);
-                                        String modelName = resolveModelName(obj.getTitle(), parameter.getName());
-
-                                        parameter.$ref(modelName);
-                                        addGenerated(modelName, model);
-                                        openAPI.getComponents().addSchemas(modelName, model);
-                                    }
-                                }
-                            } else if (model instanceof ArraySchema) {
-                                ArraySchema am = (ArraySchema) model;
-                                Schema inner = am.getItems();
-                                if (inner instanceof ObjectSchema) {
-                                    ObjectSchema op = (ObjectSchema) inner;
-                                    if (op.getProperties() != null && op.getProperties().size() > 0) {
-                                        flattenProperties(op.getProperties(), pathname);
-                                        String modelName = resolveModelName(op.getTitle(), parameter.getName());
-                                        Schema innerModel = modelFromProperty(op, modelName);
-                                        String existing = matchGenerated(innerModel);
-                                        if (existing != null) {
-                                            Schema schema = new Schema().$ref(existing);
-                                            schema.setRequired(op.getRequired());
-                                            am.setItems(schema);
-                                        } else {
-                                            Schema schema = new Schema().$ref(modelName);
-                                            schema.setRequired(op.getRequired());
-                                            am.setItems(schema);
-                                            addGenerated(modelName, innerModel);
-                                            openAPI.getComponents().addSchemas(modelName, innerModel);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
                 Map<String, ApiResponse> responses = operation.getResponses();
                 if (responses != null) {
                     for (String key : responses.keySet()) {
@@ -283,6 +240,62 @@ public class InlineModelResolver {
                         am.setItems(schema);
                         addGenerated(modelName, innerModel);
                         openAPI.getComponents().addSchemas(modelName, innerModel);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Flatten inline models in parameters
+     *
+     * @param openAPI target spec
+     * @param pathname target pathname
+     * @param operation target operation
+     */
+    private void flattenParameters(OpenAPI openAPI, String pathname, Operation operation) {
+        List<Parameter> parameters = operation.getParameters();
+        if (parameters == null) {
+            return;
+        }
+
+        for (Parameter parameter : parameters) {
+            if (parameter.getSchema() != null) {
+                Schema model = parameter.getSchema();
+                if (model instanceof ObjectSchema) {
+                    Schema obj = (Schema) model;
+                    if (obj.getType() == null || "object".equals(obj.getType())) {
+                        if (obj.getProperties() != null && obj.getProperties().size() > 0) {
+                            flattenProperties(obj.getProperties(), pathname);
+                            String modelName = resolveModelName(obj.getTitle(), parameter.getName());
+
+                            parameter.$ref(modelName);
+                            addGenerated(modelName, model);
+                            openAPI.getComponents().addSchemas(modelName, model);
+                        }
+                    }
+                } else if (model instanceof ArraySchema) {
+                    ArraySchema am = (ArraySchema) model;
+                    Schema inner = am.getItems();
+                    if (inner instanceof ObjectSchema) {
+                        ObjectSchema op = (ObjectSchema) inner;
+                        if (op.getProperties() != null && op.getProperties().size() > 0) {
+                            flattenProperties(op.getProperties(), pathname);
+                            String modelName = resolveModelName(op.getTitle(), parameter.getName());
+                            Schema innerModel = modelFromProperty(op, modelName);
+                            String existing = matchGenerated(innerModel);
+                            if (existing != null) {
+                                Schema schema = new Schema().$ref(existing);
+                                schema.setRequired(op.getRequired());
+                                am.setItems(schema);
+                            } else {
+                                Schema schema = new Schema().$ref(modelName);
+                                schema.setRequired(op.getRequired());
+                                am.setItems(schema);
+                                addGenerated(modelName, innerModel);
+                                openAPI.getComponents().addSchemas(modelName, innerModel);
+                            }
+                        }
                     }
                 }
             }
