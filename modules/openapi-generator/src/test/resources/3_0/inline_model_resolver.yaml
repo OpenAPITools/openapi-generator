@@ -271,3 +271,10 @@ components:
       properties:
         arbitrary_object_model_inline:
           type: object
+    ArbitraryObjectModelWithArrayInlineWithoutTitle:
+      type: array
+      items:
+        type: object
+        properties:
+          arbitrary_object_model_with_array_inline_without_title:
+            type: object
