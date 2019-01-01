@@ -53,10 +53,8 @@ public class InlineModelResolver {
         if (openapi.getComponents().getSchemas() == null) {
             openapi.getComponents().setSchemas(new HashMap<String, Schema>());
         }
-        // operations
-        flattenPaths(openapi);
 
-        // definitions
+        flattenPaths(openapi);
         flattenComponents(openapi);
     }
 
