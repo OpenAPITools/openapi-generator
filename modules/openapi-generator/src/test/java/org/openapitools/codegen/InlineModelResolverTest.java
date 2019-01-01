@@ -637,33 +637,6 @@ public class InlineModelResolverTest {
 
 /*
     @Test
-    public void testArbitraryObjectModelInline() {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.getComponents().addSchemas("User", new ObjectSchema()
-                .name("user")
-                .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("arbitrary", new ObjectSchema()
-                        .title("title")
-                        ._default("default")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")));
-
-        new InlineModelResolver().flatten(openapi);
-
-        ObjectSchema user = (ObjectSchema)openapi.getComponents().getSchemas().get("User");
-        assertNotNull(user);
-        Property inlineProp = user.getProperties().get("arbitrary");
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) inlineProp;
-        assertNull(op.getProperties());
-    }
-
-    @Test
     public void testArbitraryObjectModelWithArrayInlineWithoutTitle() {
         OpenAPI openapi = new OpenAPI();
 
