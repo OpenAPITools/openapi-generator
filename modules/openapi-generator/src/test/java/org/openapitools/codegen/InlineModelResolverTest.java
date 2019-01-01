@@ -132,7 +132,7 @@ public class InlineModelResolverTest {
         ObjectSchema user = (ObjectSchema) openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
-        assertTrue(user.getProperties().get("address") instanceof Schema);
+        assertNotNull(user.getProperties().get("address"));
 
         Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
         assertNotNull(address);
@@ -222,12 +222,12 @@ public class InlineModelResolverTest {
         ApiResponse response = responses.get("200");
         assertNotNull(response);
         Schema schema = response.getContent().get("application/json").getSchema();
-        assertTrue(schema instanceof Schema);
+        assertNotNull(schema);
         assertEquals(1, schema.getExtensions().size());
         assertEquals("ext-prop", schema.getExtensions().get("x-ext"));
 
         Schema model = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertTrue(model.getProperties().size() == 1);
+        assertEquals(1, model.getProperties().size());
         assertNotNull(model.getProperties().get("name"));
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
     }
@@ -264,12 +264,12 @@ public class InlineModelResolverTest {
         ApiResponse response = responses.get("200");
         assertNotNull(response);
         Schema schema = response.getContent().get("application/json").getSchema();
-        assertTrue(schema instanceof Schema);
+        assertNotNull(schema);
         assertEquals(1, schema.getExtensions().size());
         assertEquals("ext-prop", schema.getExtensions().get("x-ext"));
 
         Schema model = openapi.getComponents().getSchemas().get("GetBarResponse");
-        assertTrue(model.getProperties().size() == 1);
+        assertEquals(1, model.getProperties().size());
         assertNotNull(model.getProperties().get("name"));
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
     }
