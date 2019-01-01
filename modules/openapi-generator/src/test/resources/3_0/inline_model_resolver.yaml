@@ -254,6 +254,18 @@ paths:
                 type: object
                 additionalProperties:
                   type: object
+  /empty_example_on_string_models:
+    get:
+      operationId: emptyExampleoOnStringTypeModels
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmptyExampleOnStringTypeModels'
 components:
   schemas:
     Users:
@@ -266,3 +278,26 @@ components:
             type: string
           city:
             type: string
+    ArbitraryObjectModelInline:
+      type: object
+      properties:
+        arbitrary_object_model_inline:
+          type: object
+    ArbitraryObjectModelWithArrayInlineWithoutTitle:
+      type: array
+      items:
+        type: object
+        properties:
+          arbitrary_object_model_with_array_inline_without_title:
+            type: object
+    ArbitraryObjectModelWithArrayInlineWithTitle:
+      type: array
+      items:
+        title: ArbitraryObjectModelWithArrayInlineWithTitleInner
+        type: object
+        properties:
+          arbitrary_object_model_with_array_inline_with_title:
+            type: object
+    EmptyExampleOnStringTypeModels:
+      type: string
+      example: ''
