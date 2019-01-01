@@ -693,25 +693,4 @@ public class InlineModelResolverTest {
         assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
         assertNull(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample());
     }
-
-/*
-    @Test
-    public void testEmptyExampleOnStrinngTypeModels() {
-        OpenAPI openapi = new OpenAPI();
-
-        Schema Schema = new Schema();
-        Schema.set$ref("#/definitions/Test");
-
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .schema(new ArrayProperty()
-                                        .items(Schema)))));
-
-        openapi.getComponents().addSchemas("Test", new ObjectSchema()
-                .example(StringUtils.EMPTY)
-                .type("string"));
-        new InlineModelResolver().flatten(openapi);
-    }
-*/
 }
