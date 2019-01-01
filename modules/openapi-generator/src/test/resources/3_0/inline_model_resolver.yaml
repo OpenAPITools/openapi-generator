@@ -205,6 +205,55 @@ paths:
       responses:
         '200':
           description: OK
+  /arbitrary_object_response:
+    get:
+      operationId: arbitraryObjectResponse
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /arbitrary_object_response_array:
+    get:
+      operationId: arbitraryObjectResponseArray
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /arbitrary_object_response_array_inline:
+    get:
+      operationId: arbitraryObjectResponseArrayInline
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    arbitrary_object_response_array_inline:
+                      type: object
+  /arbitrary_object_response_with_additional_property:
+    get:
+      operationId: arbitraryObjectResponseWithAdditionalProperty
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
 components:
   schemas:
     Users:
