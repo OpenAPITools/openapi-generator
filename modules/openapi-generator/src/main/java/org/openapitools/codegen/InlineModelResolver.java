@@ -17,18 +17,16 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,261 +54,324 @@ public class InlineModelResolver {
         if (openapi.getComponents().getSchemas() == null) {
             openapi.getComponents().setSchemas(new HashMap<String, Schema>());
         }
-        // operations
-        Map<String, PathItem> paths = openapi.getPaths();
-        Map<String, Schema> models = openapi.getComponents().getSchemas();
-        if (paths != null) {
-            for (String pathname : paths.keySet()) {
-                PathItem path = paths.get(pathname);
-                for (Operation operation : path.readOperations()) {
-                    RequestBody requestBody = operation.getRequestBody();
-                    if (requestBody != null) {
-                        Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
-                        if (model instanceof ObjectSchema) {
-                            Schema obj = (Schema) model;
-                            if (obj.getType() == null || "object".equals(obj.getType())) {
-                                if (obj.getProperties() != null && obj.getProperties().size() > 0) {
-                                    flattenProperties(obj.getProperties(), pathname);
-                                    // for model name, use "title" if defined, otherwise default to 'inline_object'
-                                    String modelName = resolveModelName(obj.getTitle(), "inline_object");
-                                    addGenerated(modelName, model);
-                                    openapi.getComponents().addSchemas(modelName, model);
 
-                                    // create request body
-                                    RequestBody rb = new RequestBody();
-                                    Content content = new Content();
-                                    MediaType mt = new MediaType();
-                                    Schema schema = new Schema();
-                                    schema.set$ref(modelName);
-                                    mt.setSchema(schema);
+        flattenPaths(openapi);
+        flattenComponents(openapi);
+    }
 
-                                    // get "consumes", e.g. application/xml, application/json
-                                    Set<String> consumes;
-                                    if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-                                        consumes = new HashSet<>();
-                                        consumes.add("application/json"); // default to application/json
-                                        LOGGER.info("Default to application/json for inline body schema");
-                                    } else {
-                                        consumes = requestBody.getContent().keySet();
-                                    }
+    /**
+     * Flatten inline models in Paths
+     *
+     * @param openAPI target spec
+     */
+    private void flattenPaths(OpenAPI openAPI) {
+        Paths paths = openAPI.getPaths();
+        if (paths == null) {
+            return;
+        }
 
-                                    for (String consume : consumes) {
-                                        content.addMediaType(consume, mt);
-                                    }
+        for (String pathname : paths.keySet()) {
+            PathItem path = paths.get(pathname);
+            for (Operation operation : path.readOperations()) {
+                flattenRequestBody(openAPI, pathname, operation);
+                flattenParameters(openAPI, pathname, operation);
+                flattenResponses(openAPI, pathname, operation);
+            }
+        }
+    }
 
-                                    rb.setContent(content);
+    /**
+     * Flatten inline models in RequestBody
+     *
+     * @param openAPI target spec
+     * @param pathname target pathname
+     * @param operation target operation
+     */
+    private void flattenRequestBody(OpenAPI openAPI, String pathname, Operation operation) {
+        RequestBody requestBody = operation.getRequestBody();
+        if (requestBody == null) {
+            return;
+        }
 
-                                    // add to openapi "components"
-                                    if (openapi.getComponents().getRequestBodies() == null) {
-                                        Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
-                                        requestBodies.put(modelName, rb);
-                                        openapi.getComponents().setRequestBodies(requestBodies);
-                                    } else {
-                                        openapi.getComponents().getRequestBodies().put(modelName, rb);
-                                    }
+        Schema model = ModelUtils.getSchemaFromRequestBody(requestBody);
+        if (model instanceof ObjectSchema) {
+            Schema obj = (Schema) model;
+            if (obj.getType() == null || "object".equals(obj.getType())) {
+                if (obj.getProperties() != null && obj.getProperties().size() > 0) {
+                    flattenProperties(obj.getProperties(), pathname);
+                    // for model name, use "title" if defined, otherwise default to 'inline_object'
+                    String modelName = resolveModelName(obj.getTitle(), "inline_object");
+                    addGenerated(modelName, model);
+                    openAPI.getComponents().addSchemas(modelName, model);
 
-                                    // update requestBody to use $ref instead of inline def
-                                    requestBody.set$ref(modelName);
+                    // create request body
+                    RequestBody rb = new RequestBody();
+                    Content content = new Content();
+                    MediaType mt = new MediaType();
+                    Schema schema = new Schema();
+                    schema.set$ref(modelName);
+                    mt.setSchema(schema);
 
-                                }
-                            }
-                        } else if (model instanceof ArraySchema) {
-                            ArraySchema am = (ArraySchema) model;
-                            Schema inner = am.getItems();
-                            if (inner instanceof ObjectSchema) {
-                                ObjectSchema op = (ObjectSchema) inner;
-                                if (op.getProperties() != null && op.getProperties().size() > 0) {
-                                    flattenProperties(op.getProperties(), pathname);
-                                    String modelName = resolveModelName(op.getTitle(), null);
-                                    Schema innerModel = modelFromProperty(op, modelName);
-                                    String existing = matchGenerated(innerModel);
-                                    if (existing != null) {
-                                        Schema schema = new Schema().$ref(existing);
-                                        schema.setRequired(op.getRequired());
-                                        am.setItems(schema);
-                                    } else {
-                                        Schema schema = new Schema().$ref(modelName);
-                                        schema.setRequired(op.getRequired());
-                                        am.setItems(schema);
-                                        addGenerated(modelName, innerModel);
-                                        openapi.getComponents().addSchemas(modelName, innerModel);
-                                    }
-                                }
-                            }
-                        }
+                    // get "consumes", e.g. application/xml, application/json
+                    Set<String> consumes;
+                    if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
+                        consumes = new HashSet<>();
+                        consumes.add("application/json"); // default to application/json
+                        LOGGER.info("Default to application/json for inline body schema");
+                    } else {
+                        consumes = requestBody.getContent().keySet();
                     }
 
-                    List<Parameter> parameters = operation.getParameters();
-                    if (parameters != null) {
-                        for (Parameter parameter : parameters) {
-                            if (parameter.getSchema() != null) {
-                                Schema model = parameter.getSchema();
-                                if (model instanceof ObjectSchema) {
-                                    Schema obj = (Schema) model;
-                                    if (obj.getType() == null || "object".equals(obj.getType())) {
-                                        if (obj.getProperties() != null && obj.getProperties().size() > 0) {
-                                            flattenProperties(obj.getProperties(), pathname);
-                                            String modelName = resolveModelName(obj.getTitle(), parameter.getName());
-
-                                            parameter.$ref(modelName);
-                                            addGenerated(modelName, model);
-                                            openapi.getComponents().addSchemas(modelName, model);
-                                        }
-                                    }
-                                } else if (model instanceof ArraySchema) {
-                                    ArraySchema am = (ArraySchema) model;
-                                    Schema inner = am.getItems();
-                                    if (inner instanceof ObjectSchema) {
-                                        ObjectSchema op = (ObjectSchema) inner;
-                                        if (op.getProperties() != null && op.getProperties().size() > 0) {
-                                            flattenProperties(op.getProperties(), pathname);
-                                            String modelName = resolveModelName(op.getTitle(), parameter.getName());
-                                            Schema innerModel = modelFromProperty(op, modelName);
-                                            String existing = matchGenerated(innerModel);
-                                            if (existing != null) {
-                                                Schema schema = new Schema().$ref(existing);
-                                                schema.setRequired(op.getRequired());
-                                                am.setItems(schema);
-                                            } else {
-                                                Schema schema = new Schema().$ref(modelName);
-                                                schema.setRequired(op.getRequired());
-                                                am.setItems(schema);
-                                                addGenerated(modelName, innerModel);
-                                                openapi.getComponents().addSchemas(modelName, innerModel);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    for (String consume : consumes) {
+                        content.addMediaType(consume, mt);
                     }
-                    Map<String, ApiResponse> responses = operation.getResponses();
-                    if (responses != null) {
-                        for (String key : responses.keySet()) {
-                            ApiResponse response = responses.get(key);
-                            if (ModelUtils.getSchemaFromResponse(response) != null) {
-                                Schema property = ModelUtils.getSchemaFromResponse(response);
-                                if (property instanceof ObjectSchema) {
-                                    ObjectSchema op = (ObjectSchema) property;
-                                    if (op.getProperties() != null && op.getProperties().size() > 0) {
-                                        String modelName = resolveModelName(op.getTitle(), "inline_response_" + key);
-                                        Schema model = modelFromProperty(op, modelName);
-                                        String existing = matchGenerated(model);
-                                        Content content = response.getContent();
-                                        for (MediaType mediaType : content.values()) {
-                                            if (existing != null) {
-                                                Schema schema = this.makeSchema(existing, property);
-                                                schema.setRequired(op.getRequired());
-                                                mediaType.setSchema(schema);
-                                            } else {
-                                                Schema schema = this.makeSchema(modelName, property);
-                                                schema.setRequired(op.getRequired());
-                                                mediaType.setSchema(schema);
-                                                addGenerated(modelName, model);
-                                                openapi.getComponents().addSchemas(modelName, model);
-                                            }
-                                        }
-                                    }
-                                } else if (property instanceof ArraySchema) {
-                                    ArraySchema ap = (ArraySchema) property;
-                                    Schema inner = ap.getItems();
-                                    if (inner instanceof ObjectSchema) {
-                                        ObjectSchema op = (ObjectSchema) inner;
-                                        if (op.getProperties() != null && op.getProperties().size() > 0) {
-                                            flattenProperties(op.getProperties(), pathname);
-                                            String modelName = resolveModelName(op.getTitle(),
-                                                    "inline_response_" + key);
-                                            Schema innerModel = modelFromProperty(op, modelName);
-                                            String existing = matchGenerated(innerModel);
-                                            if (existing != null) {
-                                                Schema schema = this.makeSchema(existing, op);
-                                                schema.setRequired(op.getRequired());
-                                                ap.setItems(schema);
-                                            } else {
-                                                Schema schema = this.makeSchema(modelName, op);
-                                                schema.setRequired(op.getRequired());
-                                                ap.setItems(schema);
-                                                addGenerated(modelName, innerModel);
-                                                openapi.getComponents().addSchemas(modelName, innerModel);
-                                            }
-                                        }
-                                    }
-                                } else if (property instanceof MapSchema) {
-                                    MapSchema mp = (MapSchema) property;
-                                    Schema innerProperty = ModelUtils.getAdditionalProperties(mp);
-                                    if (innerProperty instanceof ObjectSchema) {
-                                        ObjectSchema op = (ObjectSchema) innerProperty;
-                                        if (op.getProperties() != null && op.getProperties().size() > 0) {
-                                            flattenProperties(op.getProperties(), pathname);
-                                            String modelName = resolveModelName(op.getTitle(),
-                                                    "inline_response_" + key);
-                                            Schema innerModel = modelFromProperty(op, modelName);
-                                            String existing = matchGenerated(innerModel);
-                                            if (existing != null) {
-                                                Schema schema = new Schema().$ref(existing);
-                                                schema.setRequired(op.getRequired());
-                                                mp.setAdditionalProperties(schema);
-                                            } else {
-                                                Schema schema = new Schema().$ref(modelName);
-                                                schema.setRequired(op.getRequired());
-                                                mp.setAdditionalProperties(schema);
-                                                addGenerated(modelName, innerModel);
-                                                openapi.getComponents().addSchemas(modelName, innerModel);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+
+                    rb.setContent(content);
+
+                    // add to openapi "components"
+                    if (openAPI.getComponents().getRequestBodies() == null) {
+                        Map<String, RequestBody> requestBodies = new HashMap<String, RequestBody>();
+                        requestBodies.put(modelName, rb);
+                        openAPI.getComponents().setRequestBodies(requestBodies);
+                    } else {
+                        openAPI.getComponents().getRequestBodies().put(modelName, rb);
+                    }
+
+                    // update requestBody to use $ref instead of inline def
+                    requestBody.set$ref(modelName);
+
+                }
+            }
+        } else if (model instanceof ArraySchema) {
+            ArraySchema am = (ArraySchema) model;
+            Schema inner = am.getItems();
+            if (inner instanceof ObjectSchema) {
+                ObjectSchema op = (ObjectSchema) inner;
+                if (op.getProperties() != null && op.getProperties().size() > 0) {
+                    flattenProperties(op.getProperties(), pathname);
+                    String modelName = resolveModelName(op.getTitle(), null);
+                    Schema innerModel = modelFromProperty(op, modelName);
+                    String existing = matchGenerated(innerModel);
+                    if (existing != null) {
+                        Schema schema = new Schema().$ref(existing);
+                        schema.setRequired(op.getRequired());
+                        am.setItems(schema);
+                    } else {
+                        Schema schema = new Schema().$ref(modelName);
+                        schema.setRequired(op.getRequired());
+                        am.setItems(schema);
+                        addGenerated(modelName, innerModel);
+                        openAPI.getComponents().addSchemas(modelName, innerModel);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Flatten inline models in parameters
+     *
+     * @param openAPI target spec
+     * @param pathname target pathname
+     * @param operation target operation
+     */
+    private void flattenParameters(OpenAPI openAPI, String pathname, Operation operation) {
+        List<Parameter> parameters = operation.getParameters();
+        if (parameters == null) {
+            return;
+        }
+
+        for (Parameter parameter : parameters) {
+            if (parameter.getSchema() == null) {
+                continue;
+            }
+
+            Schema model = parameter.getSchema();
+            if (model instanceof ObjectSchema) {
+                Schema obj = (Schema) model;
+                if (obj.getType() == null || "object".equals(obj.getType())) {
+                    if (obj.getProperties() != null && obj.getProperties().size() > 0) {
+                        flattenProperties(obj.getProperties(), pathname);
+                        String modelName = resolveModelName(obj.getTitle(), parameter.getName());
+
+                        parameter.$ref(modelName);
+                        addGenerated(modelName, model);
+                        openAPI.getComponents().addSchemas(modelName, model);
+                    }
+                }
+            } else if (model instanceof ArraySchema) {
+                ArraySchema am = (ArraySchema) model;
+                Schema inner = am.getItems();
+                if (inner instanceof ObjectSchema) {
+                    ObjectSchema op = (ObjectSchema) inner;
+                    if (op.getProperties() != null && op.getProperties().size() > 0) {
+                        flattenProperties(op.getProperties(), pathname);
+                        String modelName = resolveModelName(op.getTitle(), parameter.getName());
+                        Schema innerModel = modelFromProperty(op, modelName);
+                        String existing = matchGenerated(innerModel);
+                        if (existing != null) {
+                            Schema schema = new Schema().$ref(existing);
+                            schema.setRequired(op.getRequired());
+                            am.setItems(schema);
+                        } else {
+                            Schema schema = new Schema().$ref(modelName);
+                            schema.setRequired(op.getRequired());
+                            am.setItems(schema);
+                            addGenerated(modelName, innerModel);
+                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
                     }
                 }
             }
         }
-        // definitions
-        if (models != null) {
-            List<String> modelNames = new ArrayList<String>(models.keySet());
-            for (String modelName : modelNames) {
-                Schema model = models.get(modelName);
-                if (model instanceof Schema) {
-                    Schema m = (Schema) model;
-                    Map<String, Schema> properties = m.getProperties();
-                    flattenProperties(properties, modelName);
-                    fixStringModel(m);
-                } else if (ModelUtils.isArraySchema(model)) {
-                    ArraySchema m = (ArraySchema) model;
-                    Schema inner = m.getItems();
-                    if (inner instanceof ObjectSchema) {
-                        ObjectSchema op = (ObjectSchema) inner;
-                        if (op.getProperties() != null && op.getProperties().size() > 0) {
-                            String innerModelName = resolveModelName(op.getTitle(), modelName + "_inner");
-                            Schema innerModel = modelFromProperty(op, innerModelName);
-                            String existing = matchGenerated(innerModel);
-                            if (existing == null) {
-                                openapi.getComponents().addSchemas(innerModelName, innerModel);
-                                addGenerated(innerModelName, innerModel);
-                                Schema schema = new Schema().$ref(innerModelName);
-                                schema.setRequired(op.getRequired());
-                                m.setItems(schema);
-                            } else {
-                                Schema schema = new Schema().$ref(existing);
-                                schema.setRequired(op.getRequired());
-                                m.setItems(schema);
-                            }
+    }
+
+    /**
+     * Flatten inline models in ApiResponses
+     *
+     * @param openAPI target spec
+     * @param pathname target pathname
+     * @param operation target operation
+     */
+    private void flattenResponses(OpenAPI openAPI, String pathname, Operation operation) {
+        ApiResponses responses = operation.getResponses();
+        if (responses == null) {
+            return;
+        }
+
+        for (String key : responses.keySet()) {
+            ApiResponse response = responses.get(key);
+            if (ModelUtils.getSchemaFromResponse(response) == null) {
+                continue;
+            }
+
+            Schema property = ModelUtils.getSchemaFromResponse(response);
+            if (property instanceof ObjectSchema) {
+                ObjectSchema op = (ObjectSchema) property;
+                if (op.getProperties() != null && op.getProperties().size() > 0) {
+                    String modelName = resolveModelName(op.getTitle(), "inline_response_" + key);
+                    Schema model = modelFromProperty(op, modelName);
+                    String existing = matchGenerated(model);
+                    Content content = response.getContent();
+                    for (MediaType mediaType : content.values()) {
+                        if (existing != null) {
+                            Schema schema = this.makeSchema(existing, property);
+                            schema.setRequired(op.getRequired());
+                            mediaType.setSchema(schema);
+                        } else {
+                            Schema schema = this.makeSchema(modelName, property);
+                            schema.setRequired(op.getRequired());
+                            mediaType.setSchema(schema);
+                            addGenerated(modelName, model);
+                            openAPI.getComponents().addSchemas(modelName, model);
                         }
                     }
-                } else if (ModelUtils.isComposedSchema(model)) {
-                    ComposedSchema m = (ComposedSchema) model;
-                    if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                        Schema child = null;
-                        for (Schema component : m.getAllOf()) {
-                            if (component.get$ref() == null) {
-                                child = component;
-                            }
+                }
+            } else if (property instanceof ArraySchema) {
+                ArraySchema ap = (ArraySchema) property;
+                Schema inner = ap.getItems();
+                if (inner instanceof ObjectSchema) {
+                    ObjectSchema op = (ObjectSchema) inner;
+                    if (op.getProperties() != null && op.getProperties().size() > 0) {
+                        flattenProperties(op.getProperties(), pathname);
+                        String modelName = resolveModelName(op.getTitle(),
+                                "inline_response_" + key);
+                        Schema innerModel = modelFromProperty(op, modelName);
+                        String existing = matchGenerated(innerModel);
+                        if (existing != null) {
+                            Schema schema = this.makeSchema(existing, op);
+                            schema.setRequired(op.getRequired());
+                            ap.setItems(schema);
+                        } else {
+                            Schema schema = this.makeSchema(modelName, op);
+                            schema.setRequired(op.getRequired());
+                            ap.setItems(schema);
+                            addGenerated(modelName, innerModel);
+                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
-                        if (child != null) {
-                            Map<String, Schema> properties = child.getProperties();
-                            flattenProperties(properties, modelName);
+                    }
+                }
+            } else if (property instanceof MapSchema) {
+                MapSchema mp = (MapSchema) property;
+                Schema innerProperty = ModelUtils.getAdditionalProperties(mp);
+                if (innerProperty instanceof ObjectSchema) {
+                    ObjectSchema op = (ObjectSchema) innerProperty;
+                    if (op.getProperties() != null && op.getProperties().size() > 0) {
+                        flattenProperties(op.getProperties(), pathname);
+                        String modelName = resolveModelName(op.getTitle(),
+                                "inline_response_" + key);
+                        Schema innerModel = modelFromProperty(op, modelName);
+                        String existing = matchGenerated(innerModel);
+                        if (existing != null) {
+                            Schema schema = new Schema().$ref(existing);
+                            schema.setRequired(op.getRequired());
+                            mp.setAdditionalProperties(schema);
+                        } else {
+                            Schema schema = new Schema().$ref(modelName);
+                            schema.setRequired(op.getRequired());
+                            mp.setAdditionalProperties(schema);
+                            addGenerated(modelName, innerModel);
+                            openAPI.getComponents().addSchemas(modelName, innerModel);
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Flatten inline models in components
+     *
+     * @param openAPI target spec
+     */
+    private void flattenComponents(OpenAPI openAPI) {
+        Map<String, Schema> models = openAPI.getComponents().getSchemas();
+        if (models == null) {
+            return;
+        }
+
+        List<String> modelNames = new ArrayList<String>(models.keySet());
+        for (String modelName : modelNames) {
+            Schema model = models.get(modelName);
+            if (model instanceof Schema) {
+                Schema m = (Schema) model;
+                Map<String, Schema> properties = m.getProperties();
+                flattenProperties(properties, modelName);
+                fixStringModel(m);
+            } else if (ModelUtils.isArraySchema(model)) {
+                ArraySchema m = (ArraySchema) model;
+                Schema inner = m.getItems();
+                if (inner instanceof ObjectSchema) {
+                    ObjectSchema op = (ObjectSchema) inner;
+                    if (op.getProperties() != null && op.getProperties().size() > 0) {
+                        String innerModelName = resolveModelName(op.getTitle(), modelName + "_inner");
+                        Schema innerModel = modelFromProperty(op, innerModelName);
+                        String existing = matchGenerated(innerModel);
+                        if (existing == null) {
+                            openAPI.getComponents().addSchemas(innerModelName, innerModel);
+                            addGenerated(innerModelName, innerModel);
+                            Schema schema = new Schema().$ref(innerModelName);
+                            schema.setRequired(op.getRequired());
+                            m.setItems(schema);
+                        } else {
+                            Schema schema = new Schema().$ref(existing);
+                            schema.setRequired(op.getRequired());
+                            m.setItems(schema);
+                        }
+                    }
+                }
+            } else if (ModelUtils.isComposedSchema(model)) {
+                ComposedSchema m = (ComposedSchema) model;
+                if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
+                    Schema child = null;
+                    for (Schema component : m.getAllOf()) {
+                        if (component.get$ref() == null) {
+                            child = component;
+                        }
+                    }
+                    if (child != null) {
+                        Map<String, Schema> properties = child.getProperties();
+                        flattenProperties(properties, modelName);
                     }
                 }
             }
