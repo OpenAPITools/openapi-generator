@@ -29,7 +29,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
@@ -37,6 +41,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String SEPARATE_MODELS = "withSeparateModels";
+    public static final String SEPARATE_API = "withSeparateApi";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -57,6 +63,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SEPARATE_MODELS, "Put the model of the API calls in a separate folder in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -97,11 +104,19 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public void processOpts() {
         super.processOpts();
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
+        supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("custom.d.mustache", "", "custom.d.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+
+        if ((boolean)additionalProperties.get(SEPARATE_MODELS)) {
+            modelTemplateFiles.put("model.mustache", ".ts");
+
+        } else {
+            LOGGER.error("No separate models in config ({}). {}", additionalProperties.get(SEPARATE_MODELS), additionalProperties);
+        }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();

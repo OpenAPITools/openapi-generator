@@ -1,0 +1,5 @@
+// tslint:disable
+/// <reference path="./custom.d.ts" />
+{{>licenseInfo}}
+
+{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
