@@ -3,7 +3,7 @@ function Invoke-UserApiCreateUser {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Org.OpenAPITools.Model.User]
-        ${user}
+        ${body}
     )
 
     Process {
@@ -11,7 +11,7 @@ function Invoke-UserApiCreateUser {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $Script:UserApi.CreateUser(
-            ${user}
+            ${body}
         )
     }
 }
@@ -21,7 +21,7 @@ function Invoke-UserApiCreateUsersWithArrayInput {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Org.OpenAPITools.Model.User[]]
-        ${user}
+        ${body}
     )
 
     Process {
@@ -29,7 +29,7 @@ function Invoke-UserApiCreateUsersWithArrayInput {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $Script:UserApi.CreateUsersWithArrayInput(
-            ${user}
+            ${body}
         )
     }
 }
@@ -39,7 +39,7 @@ function Invoke-UserApiCreateUsersWithListInput {
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Org.OpenAPITools.Model.User[]]
-        ${user}
+        ${body}
     )
 
     Process {
@@ -47,7 +47,7 @@ function Invoke-UserApiCreateUsersWithListInput {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $Script:UserApi.CreateUsersWithListInput(
-            ${user}
+            ${body}
         )
     }
 }
@@ -132,7 +132,7 @@ function Invoke-UserApiUpdateUser {
         ${username},
         [Parameter(Position = 1, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $true)]
         [Org.OpenAPITools.Model.User]
-        ${user}
+        ${body}
     )
 
     Process {
@@ -141,7 +141,7 @@ function Invoke-UserApiUpdateUser {
 
         $Script:UserApi.UpdateUser(
             ${username},
-            ${user}
+            ${body}
         )
     }
 }
