@@ -10,8 +10,8 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 {{^withSeparateModels}}{{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
 {{/models}}
-{{/withSeparateModels}}{{#withSeparateModels}}{{#models}}
-{{#model}}import { {{classname}} } from './{{classname}}';{{/model}}{{/models}}
+{{/withSeparateModels}}{{#withSeparateModels}}
+import * from './{{modelPackage}}';
 {{/withSeparateModels}}
 {{#apiInfo}}{{#apis}}{{#operations}}
 /**

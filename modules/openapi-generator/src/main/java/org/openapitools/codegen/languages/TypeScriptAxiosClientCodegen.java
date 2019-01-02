@@ -111,8 +111,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
-        if ((boolean)additionalProperties.get(SEPARATE_MODELS)) {
+        if (additionalProperties.get(SEPARATE_MODELS) != null && (boolean)additionalProperties.get(SEPARATE_MODELS)) {
             modelTemplateFiles.put("model.mustache", ".ts");
+            supportingFiles.add(new SupportingFile("modelIndex.mustache", modelPackage, "index.ts"));
 
         } else {
             LOGGER.error("No separate models in config ({}). {}", additionalProperties.get(SEPARATE_MODELS), additionalProperties);

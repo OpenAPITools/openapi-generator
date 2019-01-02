@@ -2,4 +2,9 @@
 /// <reference path="./custom.d.ts" />
 {{>licenseInfo}}
 
-{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
+{{#models}}
+    {{#model}}
+{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}
+    {{/model}}
+{{/models}}
+
