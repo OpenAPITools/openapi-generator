@@ -1,0 +1,9 @@
+
+syntax = "proto3";
+
+message ApiResponse {
+    int32 code = 1;
+    String type = 2;
+    String message = 3;
+}
+

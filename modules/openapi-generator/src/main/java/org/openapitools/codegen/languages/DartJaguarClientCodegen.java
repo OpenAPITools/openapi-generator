@@ -16,7 +16,16 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.Schema;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -28,7 +37,11 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final String NULLABLE_FIELDS = "nullableFields";
+    private static final String SERIALIZATION_FORMAT = "serialization";
+    private static final String IS_FORMAT_JSON = "jsonFormat";
+    private static final String IS_FORMAT_PROTO = "protoFormat";
     private static Set<String> modelToIgnore = new HashSet<>();
+    private HashMap<String, String> protoTypeMapping = new HashMap<>();
 
     static {
         modelToIgnore.add("datetime");
@@ -37,7 +50,11 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         modelToIgnore.add("file");
     }
 
+    private static final String SERIALIZATION_JSON = "json";
+    private static final String SERIALIZATION_PROTO = "proto";
+
     private boolean nullableFields = true;
+    private String serialization = SERIALIZATION_JSON;
 
     public DartJaguarClientCodegen() {
         super();
@@ -46,6 +63,29 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         embeddedTemplateDir = templateDir = "dart-jaguar";
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
+        cliOptions.add(new CliOption(SERIALIZATION_FORMAT, "Choose serialization format JSON or PROTO is supported"));
+
+        protoTypeMapping.put("Array", "repeated");
+        protoTypeMapping.put("array", "repeated");
+        protoTypeMapping.put("List", "repeated");
+        protoTypeMapping.put("boolean", "bool");
+        protoTypeMapping.put("string", "string");
+        protoTypeMapping.put("char", "string");
+        protoTypeMapping.put("int", "int32");
+        protoTypeMapping.put("long", "int64");
+        protoTypeMapping.put("short", "int32");
+        protoTypeMapping.put("number", "double");
+        protoTypeMapping.put("float", "float");
+        protoTypeMapping.put("double", "double");
+        protoTypeMapping.put("object", "google.protobuf.Any");
+        protoTypeMapping.put("integer", "int32");
+        protoTypeMapping.put("Date", "google.protobuf.Timestamp");
+        protoTypeMapping.put("date", "google.protobuf.Timestamp");
+        protoTypeMapping.put("File", "bytes");
+        protoTypeMapping.put("binary", "bytes");
+        protoTypeMapping.put("UUID", "string");
+        protoTypeMapping.put("ByteArray", "bytes");
+
     }
 
     @Override
@@ -75,6 +115,20 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         } else {
             //not set, use to be passed to template
             additionalProperties.put(NULLABLE_FIELDS, nullableFields);
+        }
+
+        if (additionalProperties.containsKey(SERIALIZATION_FORMAT)) {
+            serialization = ((String) additionalProperties.get(SERIALIZATION_FORMAT));
+            boolean isProto = serialization.equalsIgnoreCase(SERIALIZATION_PROTO);
+            additionalProperties.put(IS_FORMAT_JSON, serialization.equalsIgnoreCase(SERIALIZATION_JSON));
+            additionalProperties.put(IS_FORMAT_PROTO, isProto);
+
+            modelTemplateFiles.put("model.mustache", isProto ? ".proto" : ".dart");
+
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(IS_FORMAT_JSON, true);
+            additionalProperties.put(IS_FORMAT_PROTO, false);
         }
 
         if (additionalProperties.containsKey(PUB_NAME)) {
@@ -142,6 +196,19 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                     modelImports.add(underscore(modelImport));
                 }
             }
+
+            int index = 1;
+            for (CodegenProperty p : cm.vars) {
+                p.vendorExtensions.put("x-index", index);
+                String protoType = protoTypeMapping.get(p.baseType);
+                if(p.isListContainer) {
+                    String innerType = protoTypeMapping.get(p.mostInnerItems.baseType);
+                    protoType = protoType+" "+ (innerType == null ? p.mostInnerItems.baseType : innerType);
+                }
+                p.vendorExtensions.put("x-proto-type", protoType == null ? p.baseType : protoType);
+                index++;
+            }
+
             cm.imports = modelImports;
             cm.vendorExtensions.put("hasVars", cm.vars.size() > 0);
         }
@@ -160,12 +227,14 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             op.httpMethod = StringUtils.capitalize(op.httpMethod.toLowerCase(Locale.ROOT));
             boolean isJson = true; //default to JSON
             boolean isForm = false;
+            boolean isProto = false;
             boolean isMultipart = false;
             if (op.consumes != null) {
                 for (Map<String, String> consume : op.consumes) {
                     if (consume.containsKey("mediaType")) {
                         String type = consume.get("mediaType");
                         isJson = type.equalsIgnoreCase("application/json");
+                        isProto = type.equalsIgnoreCase("application/octet-stream");
                         isForm = type.equalsIgnoreCase("application/x-www-form-urlencoded");
                         isMultipart = type.equalsIgnoreCase("multipart/form-data");
                         break;
@@ -174,6 +243,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             }
 
             op.vendorExtensions.put("isJson", isJson);
+            op.vendorExtensions.put("isProto", isProto);
             op.vendorExtensions.put("isForm", isForm);
             op.vendorExtensions.put("isMultipart", isMultipart);
 

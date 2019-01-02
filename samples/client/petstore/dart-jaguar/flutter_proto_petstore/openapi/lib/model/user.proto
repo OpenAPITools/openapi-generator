@@ -1,0 +1,14 @@
+
+syntax = "proto3";
+
+message User {
+    int32 id = 1;
+    String username = 2;
+    String firstName = 3;
+    String lastName = 4;
+    String email = 5;
+    String password = 6;
+    String phone = 7;
+    int32 userStatus = 8;
+}
+
