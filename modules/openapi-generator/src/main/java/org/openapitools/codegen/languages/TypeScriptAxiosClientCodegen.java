@@ -64,6 +64,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SEPARATE_MODELS, "Put the model of the API calls in a separate folder in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SEPARATE_API, "Put the API calls in a separate folder in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -112,11 +113,13 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
         if (additionalProperties.get(SEPARATE_MODELS) != null && (boolean)additionalProperties.get(SEPARATE_MODELS)) {
+            LOGGER.error("{}", additionalProperties);
             modelTemplateFiles.put("model.mustache", ".ts");
             supportingFiles.add(new SupportingFile("modelIndex.mustache", modelPackage, "index.ts"));
+        }
 
-        } else {
-            LOGGER.error("No separate models in config ({}). {}", additionalProperties.get(SEPARATE_MODELS), additionalProperties);
+        if (additionalProperties.get(SEPARATE_API) != null && (boolean)additionalProperties.get(SEPARATE_API)) {
+            apiTemplateFiles.put("apiInner.mustache", ".ts");
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
@@ -171,5 +174,4 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
-
 }
