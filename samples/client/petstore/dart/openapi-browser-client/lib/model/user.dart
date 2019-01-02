@@ -26,14 +26,46 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    id = json['id'];
-    username = json['username'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    email = json['email'];
-    password = json['password'];
-    phone = json['phone'];
-    userStatus = json['userStatus'];
+    if (json['id'] == null) {
+      id = null;
+    } else {
+      id = json['id'];
+    }
+    if (json['username'] == null) {
+      username = null;
+    } else {
+      username = json['username'];
+    }
+    if (json['firstName'] == null) {
+      firstName = null;
+    } else {
+      firstName = json['firstName'];
+    }
+    if (json['lastName'] == null) {
+      lastName = null;
+    } else {
+      lastName = json['lastName'];
+    }
+    if (json['email'] == null) {
+      email = null;
+    } else {
+      email = json['email'];
+    }
+    if (json['password'] == null) {
+      password = null;
+    } else {
+      password = json['password'];
+    }
+    if (json['phone'] == null) {
+      phone = null;
+    } else {
+      phone = json['phone'];
+    }
+    if (json['userStatus'] == null) {
+      userStatus = null;
+    } else {
+      userStatus = json['userStatus'];
+    }
   }
 
   Map<String, dynamic> toJson() {
