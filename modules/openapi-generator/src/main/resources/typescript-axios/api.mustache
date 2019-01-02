@@ -2,6 +2,7 @@
 /// <reference path="./custom.d.ts" />
 {{>licenseInfo}}
 
+{{^withSeparateApi}}
 import * as url from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
@@ -14,6 +15,9 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import * from '/{{modelPackage}}';
 {{/withSeparateModels}}
 
-{{^withSeparateApi}}
 {{>apiInner}}
+{{/withSeparateApi}}
+{{#withSeparateApi}}
+{{#apiInfo}}{{#apis}}{{#operations}}export * from '/{{apiPackage}}/{{classname}}';
+{{/operations}}{{/apis}}{{/apiInfo}}
 {{/withSeparateApi}}
