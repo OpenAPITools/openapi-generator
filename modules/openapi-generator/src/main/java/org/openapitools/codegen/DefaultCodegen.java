@@ -2180,7 +2180,7 @@ public class DefaultCodegen implements CodegenConfig {
             // --END of revision
 
             // set is enum to true when a model is enum and type is non-primitive.
-            if (!StringUtils.isBlank(p.get$ref())) {
+            if (StringUtils.isNotBlank(p.get$ref()) && globalSchemas != null) {
                Schema ref = globalSchemas.get(ModelUtils.getSimpleRef(p.get$ref()));
                if (ref != null) {
                    if (ref.getEnum() != null) {
