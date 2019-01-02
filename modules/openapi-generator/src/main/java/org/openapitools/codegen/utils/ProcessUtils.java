@@ -3,7 +3,6 @@ package org.openapitools.codegen.utils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +12,6 @@ public class ProcessUtils {
      * Add x-index extension to the model's properties
      *
      * @param models  List of models
-     * @return Map of objects
      */
     public static void addIndexToProperties(List<Object> models) {
         for (Object _mo : models) {
