@@ -3,5 +3,7 @@
   "npmVersion": "1.0.0",
   "npmRepository": "https://skimdb.npmjs.com/registry",
   "snapshot": false,
-  "supportsES6": true
+  "withSeparateModelsAndApi": true,
+  "modelPackage": "model.some.levels.deep",
+  "apiPackage": "api.another.level"
 }
