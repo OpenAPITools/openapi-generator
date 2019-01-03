@@ -1,18 +1,19 @@
 {{#withSeparateApi}}
 // tslint:disable
-/// <reference path="./custom.d.ts" />
+/// <reference path="{{apiRelativeToRoot}}custom.d.ts" />
 {{>licenseInfo}}
 
 import * as url from 'url';
-import { Configuration } from '/configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '/base';
+import { Configuration } from '{{apiRelativeToRoot}}configuration';
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '{{apiRelativeToRoot}}base';
 
 {{^withSeparateModels}}{{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
 {{/models}}
 {{/withSeparateModels}}{{#withSeparateModels}}
-import * from '/{{modelPackage}}';
+{{#imports}}import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
+{{/imports}}
 {{/withSeparateModels}}{{/withSeparateApi}}
 {{#operations}}
 /**

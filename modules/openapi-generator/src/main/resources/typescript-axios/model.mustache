@@ -1,6 +1,11 @@
 // tslint:disable
-/// <reference path="./custom.d.ts" />
+/// <reference path="{{modelRelativeToRoot}}custom.d.ts" />
 {{>licenseInfo}}
+
+{{#withSeparateModels}}{{#imports}}
+import { {{class}} } from './{{class}}';
+{{/imports}}
+{{/withSeparateModels}}
 
 {{#models}}
     {{#model}}
