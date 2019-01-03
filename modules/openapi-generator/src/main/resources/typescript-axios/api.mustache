@@ -18,6 +18,6 @@ import * from '/{{modelPackage}}';
 {{>apiInner}}
 {{/withSeparateApi}}
 {{#withSeparateApi}}
-{{#apiInfo}}{{#apis}}{{#operations}}export * from '/{{apiPackage}}/{{classname}}';
+{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{apiPackage}}/{{classname}}';
 {{/operations}}{{/apis}}{{/apiInfo}}
 {{/withSeparateApi}}
