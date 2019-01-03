@@ -8,13 +8,9 @@ import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '{{apiRelativeToRoot}}base';
 
-{{^withSeparateModelsAndApi}}{{#models}}
-{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
-{{/models}}
-{{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
 {{#imports}}import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
 {{/imports}}
-{{/withSeparateModelsAndApi}}{{/withSeparateModelsAndApi}}
+{{/withSeparateModelsAndApi}}
 {{#operations}}
 /**
  * {{classname}} - axios parameter creator{{#description}}
