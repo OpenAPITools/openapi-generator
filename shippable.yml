@@ -15,13 +15,13 @@ build:
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
     # prepare environment for tests
-    - sudo apt-get update -qq
+    #- sudo apt-get update -qq
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
     - stack upgrade
     - stack --version
     # install elixir
-    - sudo apt-get install erlang
+    #- sudo apt-get install erlang
     - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
     - sudo apt-get update
     - sudo apt-get install elixir
