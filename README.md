@@ -504,6 +504,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [b<>com](https://b-com.com/en)
 - [Bithost GmbH](https://www.bithost.ch)
 - [Boxever](https://www.boxever.com/)
+- [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [JustStar](https://www.juststarinfo.com)
 - [Klarna](https://www.klarna.com/)
