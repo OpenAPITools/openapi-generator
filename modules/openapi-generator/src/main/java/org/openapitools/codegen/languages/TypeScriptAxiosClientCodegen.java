@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -27,7 +28,9 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +51,17 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
 
+    private String tsModelPackage = "";
+    private String tsApiPackage = "";
+    private String apiRelativeToRoot = "";
+    private String modelRelativeToRoot = "";
+
     public TypeScriptAxiosClientCodegen() {
         super();
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
-        importMapping.clear();
+//        importMapping.clear();
 
         outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
@@ -101,9 +109,33 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.npmRepository = npmRepository;
     }
 
+    private String getRelativeToRoot(String path) {
+        StringBuilder sb = new StringBuilder();
+        int slashCount = path.split("/").length;
+        if (slashCount == 0) {
+            sb.append("./");
+        } else {
+            for (int i = 0; i < slashCount; ++i) {
+                sb.append("../");
+            }
+        }
+        return sb.toString();
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
+        tsModelPackage = modelPackage.replaceAll("\\.", "/");
+        tsApiPackage = apiPackage.replaceAll("\\.", "/");
+
+        modelRelativeToRoot = getRelativeToRoot(tsModelPackage);
+        apiRelativeToRoot = getRelativeToRoot(tsApiPackage);
+
+        additionalProperties.put("tsModelPackage", tsModelPackage);
+        additionalProperties.put("tsApiPackage", tsApiPackage);
+        additionalProperties.put("apiRelativeToRoot", apiRelativeToRoot);
+        additionalProperties.put("modelRelativeToRoot", modelRelativeToRoot);
+
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
         supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
@@ -113,9 +145,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
         if (additionalProperties.get(SEPARATE_MODELS) != null && (boolean)additionalProperties.get(SEPARATE_MODELS)) {
-            LOGGER.error("{}", additionalProperties);
             modelTemplateFiles.put("model.mustache", ".ts");
-            supportingFiles.add(new SupportingFile("modelIndex.mustache", modelPackage, "index.ts"));
+            supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
         }
 
         if (additionalProperties.get(SEPARATE_API) != null && (boolean)additionalProperties.get(SEPARATE_API)) {
@@ -149,6 +180,19 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> ret = super.postProcessModels(objs);
+
+        for (Map<String, String> m : (List<Map<String, String>>) ret.get("imports")) {
+            String javaImport = m.get("import").substring(modelPackage.length() + 1);
+            String tsImport = tsModelPackage + "/" + javaImport;
+            m.put("tsImport", tsImport);
+            m.put("class", javaImport);
+        }
+        return ret;
     }
 
     private void addNpmPackageGeneration() {
