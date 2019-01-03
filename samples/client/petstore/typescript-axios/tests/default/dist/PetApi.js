@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
-var typescript_axios_petstore_1 = require("@swagger/typescript-axios-petstore");
+var api_1 = require("@swagger/typescript-axios-petstore/api");
 var axios_1 = require("axios");
 describe("PetApi", function () {
     function runSuite(description, requestOptions, customAxiosInstance) {
@@ -9,7 +9,7 @@ describe("PetApi", function () {
             var api;
             var fixture = createTestFixture();
             beforeEach(function () {
-                api = new typescript_axios_petstore_1.PetApi(undefined, undefined, customAxiosInstance);
+                api = new api_1.PetApi(undefined, undefined, customAxiosInstance);
             });
             it("should add and delete Pet", function () {
                 return api.addPet(fixture, requestOptions).then(function () { });
@@ -71,7 +71,7 @@ function createTestFixture(ts) {
         name: "pet" + ts,
         category: category,
         photoUrls: ["http://foo.bar.com/1", "http://foo.bar.com/2"],
-        status: typescript_axios_petstore_1.Pet.StatusEnum.Available,
+        status: api_1.Pet.StatusEnum.Available,
         tags: []
     };
     return pet;

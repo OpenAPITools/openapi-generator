@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { PetApi, Pet, Category } from "@swagger/typescript-axios-petstore";
+import { PetApi, Pet, Category  } from "@swagger/typescript-axios-petstore/api";
 import axios, {AxiosInstance, AxiosResponse} from "axios";
 
 describe("PetApi", () => {
