@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -31,13 +30,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
@@ -105,7 +99,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.npmRepository = npmRepository;
     }
 
-    private String getRelativeToRoot(String path) {
+    private static String getRelativeToRoot(String path) {
         StringBuilder sb = new StringBuilder();
         int slashCount = path.split("/").length;
         if (slashCount == 0) {
@@ -176,6 +170,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         Map<String, Object> ret = super.postProcessModels(objs);
 
