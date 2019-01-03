@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-axios -o samples/client/petstore/typescript-axios/builds/default $@"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-axios -c bin/typescript-axios-petstore-with-npm-version-and-separate-models-and-api.json -o samples/client/petstore/typescript-axios/builds/with-npm-version-and-separate-models-and-api $@"
 
 java $JAVA_OPTS -jar $executable $ags
