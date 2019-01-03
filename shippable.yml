@@ -15,13 +15,13 @@ build:
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
     # prepare environment for tests
-    - sudo apt-get update -qq
+    #- sudo apt-get update -qq
     # install stack
     - curl -sSL https://get.haskellstack.org/ | sh
     - stack upgrade
     - stack --version
     # install elixir
-    - sudo apt-get install erlang
+    #- sudo apt-get install erlang
     - wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb && sudo dpkg -i erlang-solutions_1.0_all.deb
     - sudo apt-get update
     - sudo apt-get install elixir
@@ -30,9 +30,9 @@ build:
     # install rebar3
     - wget https://s3.amazonaws.com/rebar3/rebar3 && chmod +x rebar3 && cp rebar3 /usr/bin
     # install php
-    - apt-get install php
+    #- apt-get install php
     # show version
-    - php -v
+    #- php -v
     - rebar3 -v
     - elixir --version
     - mix --version
