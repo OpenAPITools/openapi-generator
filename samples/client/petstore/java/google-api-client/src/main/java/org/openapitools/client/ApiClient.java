@@ -88,6 +88,10 @@ public class ApiClient {
         return new AnotherFakeApi(this);
     }
     
+    public DefaultApi defaultApi() {
+        return new DefaultApi(this);
+    }
+    
     public FakeApi fakeApi() {
         return new FakeApi(this);
     }

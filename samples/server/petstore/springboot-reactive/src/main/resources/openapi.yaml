@@ -1221,6 +1221,40 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: pet
+  /fake/create_xml_item:
+    post:
+      description: this route creates an XmlItem
+      operationId: createXmlItem
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+        description: XmlItem Body
+        required: true
+      responses:
+        200:
+          content: {}
+          description: successful operation
+      summary: creates an XmlItem
+      x-codegen-request-body-name: XmlItem
+      x-contentType: application/xml
+      x-accepts: application/json
 components:
   schemas:
     Order:
@@ -1829,6 +1863,185 @@ components:
       - number_item
       - string_item
       type: object
+    XmlItem:
+      properties:
+        attribute_string:
+          example: string
+          type: string
+          xml:
+            attribute: true
+        attribute_number:
+          example: 1.234
+          type: number
+          xml:
+            attribute: true
+        attribute_integer:
+          example: -2
+          type: integer
+          xml:
+            attribute: true
+        attribute_boolean:
+          example: true
+          type: boolean
+          xml:
+            attribute: true
+        wrapped_array:
+          items:
+            type: integer
+          type: array
+          xml:
+            wrapped: true
+        name_string:
+          example: string
+          type: string
+          xml:
+            name: xml_name_string
+        name_number:
+          example: 1.234
+          type: number
+          xml:
+            name: xml_name_number
+        name_integer:
+          example: -2
+          type: integer
+          xml:
+            name: xml_name_integer
+        name_boolean:
+          example: true
+          type: boolean
+          xml:
+            name: xml_name_boolean
+        name_array:
+          items:
+            type: integer
+            xml:
+              name: xml_name_array_item
+          type: array
+        name_wrapped_array:
+          items:
+            type: integer
+            xml:
+              name: xml_name_wrapped_array_item
+          type: array
+          xml:
+            name: xml_name_wrapped_array
+            wrapped: true
+        prefix_string:
+          example: string
+          type: string
+          xml:
+            prefix: ab
+        prefix_number:
+          example: 1.234
+          type: number
+          xml:
+            prefix: cd
+        prefix_integer:
+          example: -2
+          type: integer
+          xml:
+            prefix: ef
+        prefix_boolean:
+          example: true
+          type: boolean
+          xml:
+            prefix: gh
+        prefix_array:
+          items:
+            type: integer
+            xml:
+              prefix: ij
+          type: array
+        prefix_wrapped_array:
+          items:
+            type: integer
+            xml:
+              prefix: mn
+          type: array
+          xml:
+            prefix: kl
+            wrapped: true
+        namespace_string:
+          example: string
+          type: string
+          xml:
+            namespace: http://a.com/schema
+        namespace_number:
+          example: 1.234
+          type: number
+          xml:
+            namespace: http://b.com/schema
+        namespace_integer:
+          example: -2
+          type: integer
+          xml:
+            namespace: http://c.com/schema
+        namespace_boolean:
+          example: true
+          type: boolean
+          xml:
+            namespace: http://d.com/schema
+        namespace_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+          type: array
+        namespace_wrapped_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+          type: array
+          xml:
+            namespace: http://f.com/schema
+            wrapped: true
+        prefix_namespace_string:
+          example: string
+          type: string
+          xml:
+            namespace: http://a.com/schema
+            prefix: a
+        prefix_namespace_number:
+          example: 1.234
+          type: number
+          xml:
+            namespace: http://b.com/schema
+            prefix: b
+        prefix_namespace_integer:
+          example: -2
+          type: integer
+          xml:
+            namespace: http://c.com/schema
+            prefix: c
+        prefix_namespace_boolean:
+          example: true
+          type: boolean
+          xml:
+            namespace: http://d.com/schema
+            prefix: d
+        prefix_namespace_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://e.com/schema
+              prefix: e
+          type: array
+        prefix_namespace_wrapped_array:
+          items:
+            type: integer
+            xml:
+              namespace: http://g.com/schema
+              prefix: g
+          type: array
+          xml:
+            namespace: http://f.com/schema
+            prefix: f
+            wrapped: true
+      type: object
+      xml:
+        namespace: http://a.com/schema
+        prefix: pre
   securitySchemes:
     petstore_auth:
       flows:

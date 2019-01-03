@@ -332,6 +332,39 @@ instance Arbitrary User where
       <*> arbitrary -- userPhone :: Maybe Text
       <*> arbitrary -- userUserStatus :: Maybe Int
     
+instance Arbitrary XmlItem where
+  arbitrary =
+    XmlItem
+      <$> arbitrary -- xmlItemAttributeString :: Maybe Text
+      <*> arbitrary -- xmlItemAttributeNumber :: Maybe Double
+      <*> arbitrary -- xmlItemAttributeInteger :: Maybe Int
+      <*> arbitrary -- xmlItemAttributeBoolean :: Maybe Bool
+      <*> arbitrary -- xmlItemWrappedArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemNameString :: Maybe Text
+      <*> arbitrary -- xmlItemNameNumber :: Maybe Double
+      <*> arbitrary -- xmlItemNameInteger :: Maybe Int
+      <*> arbitrary -- xmlItemNameBoolean :: Maybe Bool
+      <*> arbitrary -- xmlItemNameArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemNameWrappedArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemPrefixString :: Maybe Text
+      <*> arbitrary -- xmlItemPrefixNumber :: Maybe Double
+      <*> arbitrary -- xmlItemPrefixInteger :: Maybe Int
+      <*> arbitrary -- xmlItemPrefixBoolean :: Maybe Bool
+      <*> arbitrary -- xmlItemPrefixArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemPrefixWrappedArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemNamespaceString :: Maybe Text
+      <*> arbitrary -- xmlItemNamespaceNumber :: Maybe Double
+      <*> arbitrary -- xmlItemNamespaceInteger :: Maybe Int
+      <*> arbitrary -- xmlItemNamespaceBoolean :: Maybe Bool
+      <*> arbitrary -- xmlItemNamespaceArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemNamespaceWrappedArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemPrefixNamespaceString :: Maybe Text
+      <*> arbitrary -- xmlItemPrefixNamespaceNumber :: Maybe Double
+      <*> arbitrary -- xmlItemPrefixNamespaceInteger :: Maybe Int
+      <*> arbitrary -- xmlItemPrefixNamespaceBoolean :: Maybe Bool
+      <*> arbitrary -- xmlItemPrefixNamespaceArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemPrefixNamespaceWrappedArray :: Maybe [Int]
+    
 
 
 

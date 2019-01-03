@@ -80,6 +80,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**createXmlItem**](docs/Api/DefaultApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/Api/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -154,6 +155,7 @@ Class | Method | HTTP request | Description
  - [TypeHolderDefault](docs/Model/TypeHolderDefault.md)
  - [TypeHolderExample](docs/Model/TypeHolderExample.md)
  - [User](docs/Model/User.md)
+ - [XmlItem](docs/Model/XmlItem.md)
 
 
 ## Documentation For Authorization

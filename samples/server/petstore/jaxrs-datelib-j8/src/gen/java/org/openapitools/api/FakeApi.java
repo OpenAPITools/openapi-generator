@@ -17,6 +17,7 @@ import org.openapitools.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import java.util.Map;
 import java.util.List;
@@ -64,6 +65,18 @@ public class FakeApi  {
       this.delegate = delegate;
    }
 
+    @POST
+    @Path("/create_xml_item")
+    @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
+    
+    @io.swagger.annotations.ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    public Response createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true) @Valid XmlItem xmlItem
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.createXmlItem(xmlItem,securityContext);
+    }
     @POST
     @Path("/outer/boolean")
     

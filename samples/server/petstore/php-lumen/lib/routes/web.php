@@ -28,6 +28,12 @@ $router->get('/', function () use ($router) {
  */
 $router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
+ * post createXmlItem
+ * Summary: creates an XmlItem
+ * Notes: this route creates an XmlItem
+ */
+$router->post('/v2/fake/create_xml_item', 'DefaultApi@createXmlItem');
+/**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
  * Notes: To test \&quot;client\&quot; model

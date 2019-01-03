@@ -53,9 +53,11 @@ require 'petstore/models/tag'
 require 'petstore/models/type_holder_default'
 require 'petstore/models/type_holder_example'
 require 'petstore/models/user'
+require 'petstore/models/xml_item'
 
 # APIs
 require 'petstore/api/another_fake_api'
+require 'petstore/api/default_api'
 require 'petstore/api/fake_api'
 require 'petstore/api/fake_classname_tags123_api'
 require 'petstore/api/pet_api'

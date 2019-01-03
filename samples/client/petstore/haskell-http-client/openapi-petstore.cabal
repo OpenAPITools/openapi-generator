@@ -61,6 +61,7 @@ library
       OpenAPIPetstore
       OpenAPIPetstore.API
       OpenAPIPetstore.API.AnotherFake
+      OpenAPIPetstore.API.ApiDefault
       OpenAPIPetstore.API.Fake
       OpenAPIPetstore.API.FakeClassnameTags123
       OpenAPIPetstore.API.Pet

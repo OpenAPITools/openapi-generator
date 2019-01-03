@@ -14,6 +14,7 @@ Module : OpenAPIPetstore.API
 
 module OpenAPIPetstore.API
   ( module OpenAPIPetstore.API.AnotherFake
+  , module OpenAPIPetstore.API.ApiDefault
   , module OpenAPIPetstore.API.Fake
   , module OpenAPIPetstore.API.FakeClassnameTags123
   , module OpenAPIPetstore.API.Pet
@@ -22,6 +23,7 @@ module OpenAPIPetstore.API
   ) where
 
 import OpenAPIPetstore.API.AnotherFake
+import OpenAPIPetstore.API.ApiDefault
 import OpenAPIPetstore.API.Fake
 import OpenAPIPetstore.API.FakeClassnameTags123
 import OpenAPIPetstore.API.Pet
