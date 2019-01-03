@@ -29,6 +29,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -425,6 +426,16 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 index++;
             }
         }
+
         return objs;
     }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        // add x-index to properties
+        ProcessUtils.addIndexToProperties(models);
+        return objs;
+    }
+
 }
