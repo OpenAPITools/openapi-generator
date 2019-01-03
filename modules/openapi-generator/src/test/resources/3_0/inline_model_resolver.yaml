@@ -151,6 +151,15 @@ paths:
                   properties:
                     resolve_inline_object_response_with_additional_properties:
                       type: string
+  /resolve_inline_map_schema_in_response:
+    get:
+      operationId: resolveInlineMapSchemaInResponse
+      responses:
+        '200':
+          description: OK
+          # Swagger parser doesn't use MapSchema currently,
+          # so we need to set a MapSchema instance as the schema manually for testing.
+          # see InlineModelResolverTest#resolveInlineMapSchemaInResponse()
   /arbitrary_object_request_body:
     post:
       requestBody:
