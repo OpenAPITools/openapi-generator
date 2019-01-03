@@ -14,6 +14,6 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 
 {{>apiInner}}
 {{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
-{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{apiPackage}}/{{classname}}';
+{{#apiInfo}}{{#apis}}{{#operations}}export * from './{{apiPackage}}/{{classFilename}}';
 {{/operations}}{{/apis}}{{/apiInfo}}
 {{/withSeparateModelsAndApi}}

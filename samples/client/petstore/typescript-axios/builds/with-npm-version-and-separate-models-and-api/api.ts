@@ -13,7 +13,8 @@
  */
 
 
-export * from './api.another.level/PetApi';
-export * from './api.another.level/StoreApi';
-export * from './api.another.level/UserApi';
+
+export * from './api.another.level/pet-api';
+export * from './api.another.level/store-api';
+export * from './api.another.level/user-api';
 

@@ -173,14 +173,29 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         Map<String, Object> ret = super.postProcessModels(objs);
-
+        List<Map<String, Object>> models = (List<Map<String, Object>>) ret.get("models");
+        for (Map<String, Object> m : models) {
+            CodegenModel model = (CodegenModel) m.get("model");
+            model.classFilename = model.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+        }
         for (Map<String, String> m : (List<Map<String, String>>) ret.get("imports")) {
             String javaImport = m.get("import").substring(modelPackage.length() + 1);
             String tsImport = tsModelPackage + "/" + javaImport;
             m.put("tsImport", tsImport);
             m.put("class", javaImport);
+            m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
         return ret;
+    }
+
+    @Override
+    public String toModelFilename(String name) {
+        return super.toModelFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        return super.toApiFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
     }
 
     private void addNpmPackageGeneration() {
