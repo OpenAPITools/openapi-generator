@@ -1,0 +1,24 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+paths:
+  /generate_from_response_schema_with_array_of_model:
+    get:
+      operationId: generateFromResponseSchemaWithArrayOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StringSchema'
+components:
+  schemas:
+    StringSchema:
+      type: string
+      example: string schema example value
