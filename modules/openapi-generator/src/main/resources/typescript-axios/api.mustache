@@ -2,22 +2,22 @@
 /// <reference path="./custom.d.ts" />
 {{>licenseInfo}}
 
-{{^withSeparateApi}}
+{{^withSeparateModelsAndApi}}
 import * as url from 'url';
 import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
-{{^withSeparateModels}}{{#models}}
+{{^withSeparateModelsAndApi}}{{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
 {{/models}}
-{{/withSeparateModels}}{{#withSeparateModels}}
+{{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
 import * from '/{{modelPackage}}';
-{{/withSeparateModels}}
+{{/withSeparateModelsAndApi}}
 
 {{>apiInner}}
-{{/withSeparateApi}}
-{{#withSeparateApi}}
+{{/withSeparateModelsAndApi}}
+{{#withSeparateModelsAndApi}}
 {{#apiInfo}}{{#apis}}{{#operations}}export * from './{{apiPackage}}/{{classname}}';
 {{/operations}}{{/apis}}{{/apiInfo}}
-{{/withSeparateApi}}
+{{/withSeparateModelsAndApi}}
