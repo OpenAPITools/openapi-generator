@@ -8,16 +8,12 @@ import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
-{{^withSeparateModelsAndApi}}{{#models}}
+{{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
 {{/models}}
-{{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
-import * from '/{{modelPackage}}';
-{{/withSeparateModelsAndApi}}
 
 {{>apiInner}}
-{{/withSeparateModelsAndApi}}
-{{#withSeparateModelsAndApi}}
+{{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
 {{#apiInfo}}{{#apis}}{{#operations}}export * from './{{apiPackage}}/{{classname}}';
 {{/operations}}{{/apis}}{{/apiInfo}}
 {{/withSeparateModelsAndApi}}
