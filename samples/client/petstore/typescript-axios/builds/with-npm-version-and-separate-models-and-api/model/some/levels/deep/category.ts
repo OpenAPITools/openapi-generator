@@ -1,5 +1,5 @@
 // tslint:disable
-/// <reference path="../custom.d.ts" />
+/// <reference path="../../../../custom.d.ts" />
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -15,29 +15,24 @@
 
 
 /**
- * Describes the result of uploading an image resource
+ * A category for a pet
  * @export
- * @interface ApiResponse
+ * @interface Category
  */
-export interface ApiResponse {
+export interface Category {
     /**
      * 
      * @type {number}
-     * @memberof ApiResponse
+     * @memberof Category
      */
-    code?: number;
+    id?: number;
     /**
      * 
      * @type {string}
-     * @memberof ApiResponse
+     * @memberof Category
      */
-    type?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApiResponse
-     */
-    message?: string;
+    name?: string;
 }
+
 
 

@@ -18,7 +18,6 @@ import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
-
 /**
  * Describes the result of uploading an image resource
  * @export
@@ -45,7 +44,6 @@ export interface ApiResponse {
     message?: string;
 }
 
-
 /**
  * A category for a pet
  * @export
@@ -65,7 +63,6 @@ export interface Category {
      */
     name?: string;
 }
-
 
 /**
  * An order for a pets from the pet store
@@ -127,7 +124,6 @@ export namespace Order {
     }
 }
 
-
 /**
  * A pet for sale in the pet store
  * @export
@@ -188,7 +184,6 @@ export namespace Pet {
     }
 }
 
-
 /**
  * A tag for a pet
  * @export
@@ -208,7 +203,6 @@ export interface Tag {
      */
     name?: string;
 }
-
 
 /**
  * A User who is purchasing from the pet store
@@ -265,7 +259,6 @@ export interface User {
      */
     userStatus?: number;
 }
-
 
 
 

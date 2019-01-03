@@ -18,9 +18,7 @@ import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '../../../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../../../base';
 
-
 import { User } from '../../../model/some/levels/deep';
-
 /**
  * UserApi - axios parameter creator
  * @export

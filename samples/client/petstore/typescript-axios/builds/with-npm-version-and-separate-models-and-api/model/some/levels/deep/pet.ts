@@ -1,5 +1,5 @@
 // tslint:disable
-/// <reference path="../custom.d.ts" />
+/// <reference path="../../../../custom.d.ts" />
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -13,10 +13,8 @@
  */
 
 
-
-import { ategory } from './ategory';
-
-import { ag } from './ag';
+import { Category } from './category';
+import { Tag } from './tag';
 
 /**
  * A pet for sale in the pet store
@@ -77,5 +75,6 @@ export namespace Pet {
         Sold = 'sold'
     }
 }
+
 
 

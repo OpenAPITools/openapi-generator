@@ -1,5 +1,5 @@
 // tslint:disable
-/// <reference path="../custom.d.ts" />
+/// <reference path="../../../custom.d.ts" />
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -15,12 +15,10 @@
 
 import * as url from 'url';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
-import { Configuration } from '../configuration';
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { Configuration } from '../../../configuration';
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../../../base';
 
-
-import { Order } from '../';
-
+import { Order } from '../../../model/some/levels/deep';
 /**
  * StoreApi - axios parameter creator
  * @export
