@@ -2,10 +2,10 @@
 /// <reference path="{{modelRelativeToRoot}}custom.d.ts" />
 {{>licenseInfo}}
 
-{{#withSeparateModels}}{{#imports}}
+{{#withSeparateModelsAndApi}}{{#imports}}
 import { {{class}} } from './{{class}}';
 {{/imports}}
-{{/withSeparateModels}}
+{{/withSeparateModelsAndApi}}
 
 {{#models}}
     {{#model}}

@@ -1,4 +1,4 @@
-{{#withSeparateApi}}
+{{#withSeparateModelsAndApi}}
 // tslint:disable
 /// <reference path="{{apiRelativeToRoot}}custom.d.ts" />
 {{>licenseInfo}}
@@ -8,13 +8,13 @@ import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '{{apiRelativeToRoot}}base';
 
-{{^withSeparateModels}}{{#models}}
+{{^withSeparateModelsAndApi}}{{#models}}
 {{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
 {{/models}}
-{{/withSeparateModels}}{{#withSeparateModels}}
+{{/withSeparateModelsAndApi}}{{#withSeparateModelsAndApi}}
 {{#imports}}import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
 {{/imports}}
-{{/withSeparateModels}}{{/withSeparateApi}}
+{{/withSeparateModelsAndApi}}{{/withSeparateModelsAndApi}}
 {{#operations}}
 /**
  * {{classname}} - axios parameter creator{{#description}}

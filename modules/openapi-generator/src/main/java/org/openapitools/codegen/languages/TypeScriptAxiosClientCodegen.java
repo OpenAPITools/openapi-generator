@@ -45,24 +45,20 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
-    public static final String SEPARATE_MODELS = "withSeparateModels";
-    public static final String SEPARATE_API = "withSeparateApi";
+    public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
 
     private String tsModelPackage = "";
-    private String tsApiPackage = "";
-    private String apiRelativeToRoot = "";
-    private String modelRelativeToRoot = "";
 
     public TypeScriptAxiosClientCodegen() {
         super();
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
-//        importMapping.clear();
+        importMapping.clear();
 
         outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
@@ -72,8 +68,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(SEPARATE_MODELS, "Put the model of the API calls in a separate folder in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(SEPARATE_API, "Put the API calls in a separate folder in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -127,10 +122,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public void processOpts() {
         super.processOpts();
         tsModelPackage = modelPackage.replaceAll("\\.", "/");
-        tsApiPackage = apiPackage.replaceAll("\\.", "/");
+        String tsApiPackage = apiPackage.replaceAll("\\.", "/");
 
-        modelRelativeToRoot = getRelativeToRoot(tsModelPackage);
-        apiRelativeToRoot = getRelativeToRoot(tsApiPackage);
+        String modelRelativeToRoot = getRelativeToRoot(tsModelPackage);
+        String apiRelativeToRoot = getRelativeToRoot(tsApiPackage);
 
         additionalProperties.put("tsModelPackage", tsModelPackage);
         additionalProperties.put("tsApiPackage", tsApiPackage);
@@ -145,13 +140,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
-        if (additionalProperties.get(SEPARATE_MODELS) != null && (boolean)additionalProperties.get(SEPARATE_MODELS)) {
+        if (additionalProperties.get(SEPARATE_MODELS_AND_API) != null && (boolean)additionalProperties.get(SEPARATE_MODELS_AND_API)) {
             modelTemplateFiles.put("model.mustache", ".ts");
-            supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
-        }
-
-        if (additionalProperties.get(SEPARATE_API) != null && (boolean)additionalProperties.get(SEPARATE_API)) {
             apiTemplateFiles.put("apiInner.mustache", ".ts");
+            supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
