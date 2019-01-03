@@ -17,6 +17,19 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/StringSchema'
+  /generate_from_response_schema_with_array_of_primitive_types:
+    get:
+      operationId: generateFromResponseSchemaWithArrayOfPrimitiveTypes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: primitive types example value
 components:
   schemas:
     StringSchema:

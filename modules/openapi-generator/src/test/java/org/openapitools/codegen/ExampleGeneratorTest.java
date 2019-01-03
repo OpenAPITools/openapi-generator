@@ -44,4 +44,33 @@ public class ExampleGeneratorTest {
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 
+    @Test
+    public void generateFromResponseSchemaWithArrayOfPrimitiveTypes() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
+                ParseOptions()).getOpenAPI();
+
+        new InlineModelResolver().flatten(openAPI);
+
+        ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+        Set<String> mediaTypeKeys = new TreeSet<>();
+        mediaTypeKeys.add("application/json");
+        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+                "200",
+                openAPI
+                        .getPaths()
+                        .get("/generate_from_response_schema_with_array_of_primitive_types")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
+                mediaTypeKeys
+        );
+
+        assertEquals(1, examples.size());
+        assertEquals("application/json", examples.get(0).get("contentType"));
+        assertEquals("\"primitive types example value\"", examples.get(0).get("example"));
+        assertEquals("200", examples.get(0).get("statusCode"));
+    }
 }
