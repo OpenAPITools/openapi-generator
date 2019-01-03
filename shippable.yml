@@ -32,7 +32,7 @@ build:
     # install php
     #- apt-get install php
     # show version
-    - php -v
+    #- php -v
     - rebar3 -v
     - elixir --version
     - mix --version
