@@ -567,7 +567,7 @@ Here is a list of template creators:
    * Dart 2: @swipesight
    * Dart (Jaguar): @jaumard
    * Elixir: @niku
-   * Elm: @trenneman
+   * Elm: @eriktim
    * Eiffel: @jvelilla
    * Erlang: @tsloughter
    * Erlang (PropEr): @jfacorro @robertoaloi
@@ -694,7 +694,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) |
 | Eiffel    | @jvelilla (2017/09) |
 | Elixir    |  |
-| Elm       | @trenneman (2018/09) |
+| Elm       | @eriktim (2018/09) |
 | Erlang    | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10) |
 | Go        | @antihax (2017/11) @bvwells (2017/12) @grokify (2018/07) @kemokemo (2018/09 |
 | GraphQL   | @renepardon (2018/12) |
@@ -733,7 +733,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Daiki Matsudate](https://github.com/d-date)
 - [Daniel](https://github.com/Danielku15)
 - [Emiliano Bonassi](https://github.com/emilianobonassi)
-- [Erik Timmers](https://github.com/trenneman)
+- [Erik Timmers](https://github.com/eriktim)
 - [Esteban Marin](https://github.com/macjohnny)
 - [Gustavo Paz](https://github.com/gustavoapaz)
 - [Javier Velilla](https://github.com/jvelilla)
