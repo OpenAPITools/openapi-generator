@@ -8,7 +8,6 @@
     ],
     "Extending": [
       "templating",
-      "generator-vendor-extensions",
       "customization",
       "integrations"
     ],

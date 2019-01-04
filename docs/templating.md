@@ -257,7 +257,9 @@ rootLogger.appenderRef.stdout.ref = STDOUT
 
 Execute `./gradlew build` and then `cat target/rolling/rollingtest.log`. You should see messages logged for every call in PetApi with a stubbed unit test.
 
-Congratulations! You've now modified one of the built-in templates to meet your client code's needs. Adding/modifying template logic simply requires a little bit of [mustache](https://mustache.github.io/), for which you can use existing templates as a guide.
+Congratulations! You've now modified one of the built-in templates to meet your client code's needs.
+
+Adding/modifying template logic simply requires a little bit of [mustache](https://mustache.github.io/), for which you can use existing templates as a guide.
 
 ## Structures
 
@@ -316,7 +318,17 @@ Examples for the following structures will be presented using the following spec
 
 ### Operations
 
-> Inspect operation structures passed to templates with `-DdebugOpenAPI`
+> Inspect operation structures passed to templates with system property `-DdebugOpenAPI`
+> 
+> Example:
+> 
+> ```bash
+> openapi-generator generate -g go \
+>     -o out \
+>     -i petstore-minimal.yaml \
+>     -DdebugOpenAPI
+> ```
+>
 
 There is a data structure which represents all the operations that are defined in the OpenAPI specification.  A single API file is created for each `OperationGroup`, which is essentially a grouping of different operations.  See the `addOperationToGroup` in `DefaultCodegen.java` for details on this operation.
 
@@ -338,12 +350,21 @@ Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SW
 
 ### Models
 
-> Inspect models passed to templates with `-DdebugModels`
+> Inspect models passed to templates with system property `-DdebugModels`
+> 
+> Execute:
+> 
+> ```bash
+> openapi-generator generate -g go \
+>     -o out \
+>     -i petstore-minimal.yaml \
+>     -DdebugModels
+> ```
+>
 
 Each model identified inside the generator will be passed into the `Models` data structure and will generate a new model file (or files) for each model.
 
 A `Pet` model with three properties will provide a _lot_ of information about the type and properties. The output from `-DdebugModels` is presented in truncated format here.
-
 
 ```json
 [ {
@@ -554,9 +575,169 @@ We expose the same properties in multiple sets because this allows us to conditi
 
 ### supportingFiles
 
-> Inspect supportingFiles passed to templates with `-DdebugSupportingFiles`
+> Inspect supportingFiles passed to templates with system property `-DdebugSupportingFiles`
+> 
+> Execute:
+> 
+> ```bash
+> openapi-generator generate -g go \
+>     -o out \
+>     -i petstore-minimal.yaml \
+>     -DdebugSupportingFiles
+> ```
+>
+
 
 This is a "catch-all" which gives you the entire structure--operations, model, etc--so you can create "single-file" code from them.
 
 Supporting files can either be processed through the templating engine or copied as-is. When creating your own templates, you're limited to the files and extensions expected by the generator implementation. For more control over the supporting files produced by a generator, see our [customization](./customization.md) documentation.
 
+## Variables
+
+> This is a very limited list of variable name explanations. Feel free to [open a pull request](https://github.com/OpenAPITools/openapi-generator/pull/new/master) to add to this documentation!
+
+- **complexType**: stores the name of the model (e.g. Pet) 
+- **isContainer**: true if the parameter or property is an array or a map.
+- **isPrimitiveType**: true if the parameter or property type is a primitive type (e.g. string, integer, etc) as defined in the spec.
+
+## Extensions
+
+OpenAPI supports a concept called "Extensions". These are called "Specification Extensions" [in 3.x](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#specificationExtensions) and "Vendor Extensions" [in 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#vendorExtensions).
+You'll see them referred to as "Vendor Extensions" in most places in this project.
+
+Vendor extensions allow you to provide vendor-specific configurations to your specification document.
+
+For example, suppose you use your specification document for code generation with a (hypothetical) C# OpenAPI generator supporting a desired operationId prefix where the extension is `x-csharp-operationid`, you can define this property alongside the object you'd like to extend (which would be a Path Object in this case). You could then apply additional extensions alongside this property, whether they're for another language or other tooling.
+
+> Well-defined vendor extensions don't cause conflicts with other tooling.
+
+<!-- TODO: Auto-generate this list using generator metadata -->
+
+The following are vendor extensions supported by OpenAPI Generator. The list may not be up-to-date, the best way is to look for "x-" in the built-in mustache templates.
+
+### ObjC
+#### x-objc-operationId
+
+To customize the method name, you can provide a different name in x-objc-operationId, e.g.
+```yaml
+summary: Add a new pet to the store
+description: ''
+operationId: addPet
+x-objc-operationId: CreateNewPet
+```  
+
+### Java (Feign)
+#### x-accepts
+
+A single `Accepts` value as the Feign API client needs a single value for `Accepts` header, e.g.
+```yaml
+consumes:
+  - application/json
+  - application/xml
+x-accepts: application/json
+```
+
+### x-content-type
+
+A single "Content-Type" value as the Feign API client needs a single value for `Content-Type` header, e.g.
+```yaml
+produces:
+  - application/xml
+  - application/json
+x-content-type: application/json
+```
+
+### Rust-server
+
+#### x-responseId
+
+Each response may specify a unique `x-responseId`. `rust-server` will use this to name the corresponding enum variant in the code. e.g.
+
+```yaml
+paths:
+  /ping:
+    get:
+      responses:
+        200:
+          description: OK
+          x-responseId: Pong
+```
+
+### MySQL Schema
+
+#### x-mysqlSchema
+
+MySQL schema generator creates vendor extensions based on openapi `dataType` and `dataFormat`. When user defined extensions with same key already exists codegen accepts those as is. It means it won't validate properties or correct it for you. Every model in `definitions` can contain table related and column related extensions like in example below: 
+
+```yaml
+definitions:
+  Order:
+    description: This should be most common InnoDB table
+    type: object
+    properties:
+      id:
+        description: >-
+          This column should be unsigned BIGINT with AUTO_INCREMENT
+        type: integer
+        format: int64
+        x-mysqlSchema:
+          columnDefinition:
+            colName: id
+            colDataType: DECIMAL
+            colDataTypeArguments:
+              - argumentValue: 16
+                isString: false
+                hasMore: true
+              - argumentValue: 4
+                isString: false
+                hasMore: false
+            colUnsigned: true
+            colNotNull: true
+            colDefault:
+              defaultValue: AUTO_INCREMENT
+              isString: false
+              isNumeric: false
+              isKeyword: true
+            colComment: >-
+              Column comment. This column should be unsigned BIGINT with AUTO_INCREMENT
+    x-mysqlSchema:
+      tableDefinition:
+        tblName: orders
+        tblStorageEngine: InnoDB
+        tblComment: >-
+          Table comment. This should be most common InnoDB table
+```
+> There are properties that are not implemented by now(`tblStorageEngine`), but you can see how generator can be enhanced in future.
+
+
+## Mustache Tips
+
+Here are a few tips we've found useful for new template authors.
+For more details on Mustache see [mustache.5](https://mustache.github.io/mustache.5.html). See also [samskivert/jmustache](https://github.com/samskivert/jmustache) for implementation-specific details.
+
+### First/Last
+
+To access the first or last element in a list using Mustache:
+
+```mustache
+{{#vars}}{{#-first}} this is the first element {{.}} {{/-first}}{{/vars}}
+{{#vars}}{{#-last}} this is the last element {{.}} {{/-last}}{{/vars}}
+```
+
+### This
+
+Mustache evaluates template variables contextually. If the variable isn't found in the immediate object, mustache will search the parent. This is similar to JavaScript's prototype object (if you're familiar with the concept).
+
+You can inspect this entire context by outputting `{{this}}`. For example:
+
+```mustache
+{{#operations}}{{this}}{{/operations}}
+```
+
+### Index
+
+If you'd like a 1-based index in your array traversal, you can use `{{-index}}`:
+
+```mustache
+{{#enums}}{{-index}} {{enum}}{{/enums}}
+```
