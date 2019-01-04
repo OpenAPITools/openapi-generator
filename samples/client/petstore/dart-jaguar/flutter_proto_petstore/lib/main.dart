@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 import 'package:openapi/api.dart';
-import 'package:openapi/model/order.dart';
-import 'package:openapi/model/pet.dart';
-import 'package:openapi/model/user.dart';
+import 'package:openapi/model/order.pb.dart';
+import 'package:openapi/model/pet.pb.dart';
+import 'package:openapi/model/user.pb.dart';
 import 'package:jaguar_resty/jaguar_resty.dart';
 
 
@@ -83,7 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .then((List<Pet> pets) {
       print('pets received: ');
       print(pets);
-      var order = Order(petId: pets[0].id, quantity: 1);
+      var order = Order();
+      order.petId = pets[0].id;
+      order.quantity = 1;
       jaguarApiGen.getStoreApi().placeOrder(order)
       .then((Order order) => print(order));
     }).catchError((error) {

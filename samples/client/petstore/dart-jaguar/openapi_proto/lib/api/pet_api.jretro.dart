@@ -8,7 +8,7 @@ part of 'pet_api.dart';
 
 abstract class _$PetApiClient implements ApiClient {
   final String basePath = "";
-  Future<void> addPet(Pet pet) async {
+  Future<void> addPet(Pet body) async {
     var req = base.post
         .metadata({
           "auth": [
@@ -20,8 +20,8 @@ abstract class _$PetApiClient implements ApiClient {
         })
         .path(basePath)
         .path("/pet")
-        .json(serializers.to(pet));
-    await req.go();
+        .json(jsonConverter.to(body));
+    await req.go(throwOnErr: true);
   }
 
   Future<void> deletePet(int petId, String apiKey) async {
@@ -38,7 +38,7 @@ abstract class _$PetApiClient implements ApiClient {
         .path("/pet/:petId")
         .pathParams("petId", petId)
         .header("api_key", apiKey);
-    await req.go();
+    await req.go(throwOnErr: true);
   }
 
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
@@ -54,7 +54,7 @@ abstract class _$PetApiClient implements ApiClient {
         .path(basePath)
         .path("/pet/findByStatus")
         .query("status", status);
-    return req.list(convert: serializers.oneFrom);
+    return req.go(throwOnErr: true).then(decodeList);
   }
 
   Future<List<Pet>> findPetsByTags(List<String> tags) async {
@@ -70,7 +70,7 @@ abstract class _$PetApiClient implements ApiClient {
         .path(basePath)
         .path("/pet/findByTags")
         .query("tags", tags);
-    return req.list(convert: serializers.oneFrom);
+    return req.go(throwOnErr: true).then(decodeList);
   }
 
   Future<Pet> getPetById(int petId) async {
@@ -88,10 +88,10 @@ abstract class _$PetApiClient implements ApiClient {
         .path(basePath)
         .path("/pet/:petId")
         .pathParams("petId", petId);
-    return req.one(convert: serializers.oneFrom);
+    return req.go(throwOnErr: true).then(decodeOne);
   }
 
-  Future<void> updatePet(Pet pet) async {
+  Future<void> updatePet(Pet body) async {
     var req = base.put
         .metadata({
           "auth": [
@@ -103,8 +103,8 @@ abstract class _$PetApiClient implements ApiClient {
         })
         .path(basePath)
         .path("/pet")
-        .json(serializers.to(pet));
-    await req.go();
+        .json(jsonConverter.to(body));
+    await req.go(throwOnErr: true);
   }
 
   Future<void> updatePetWithForm(int petId, String name, String status) async {
@@ -122,7 +122,7 @@ abstract class _$PetApiClient implements ApiClient {
         .pathParams("petId", petId)
         .urlEncodedFormField(name, name)
         .urlEncodedFormField(status, status);
-    await req.go();
+    await req.go(throwOnErr: true);
   }
 
   Future<ApiResponse> uploadFile(
@@ -141,6 +141,6 @@ abstract class _$PetApiClient implements ApiClient {
         .pathParams("petId", petId)
         .multipart({"additionalMetadata": additionalMetadata})
         .multipart({"file": file});
-    return req.one(convert: serializers.oneFrom);
+    return req.go(throwOnErr: true).then(decodeOne);
   }
 }

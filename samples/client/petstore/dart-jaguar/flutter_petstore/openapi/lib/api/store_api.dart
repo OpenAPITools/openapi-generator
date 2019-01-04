@@ -1,7 +1,6 @@
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_serializer/src/repo/repo.dart';
 import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 import 'dart:async';
 

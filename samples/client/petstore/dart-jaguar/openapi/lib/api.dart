@@ -20,7 +20,6 @@ import 'package:openapi/model/tag.dart';
 import 'package:openapi/model/user.dart';
 
 
-final Map<String, CodecRepo> _converters = {};
 
 final _jsonJaguarRepo = JsonRepo()
 ..add(ApiResponseSerializer())
@@ -30,7 +29,10 @@ final _jsonJaguarRepo = JsonRepo()
 ..add(TagSerializer())
 ..add(UserSerializer())
 ;
-_converters[ApiClient.contentTypeJson] = _jsonJaguarRepo;
+final Map<String, CodecRepo> _converters = {
+    MimeTypes.json: _jsonJaguarRepo,
+};
+
 
 
 final _defaultInterceptors = [OAuthInterceptor(), BasicAuthInterceptor(), ApiKeyAuthInterceptor()];

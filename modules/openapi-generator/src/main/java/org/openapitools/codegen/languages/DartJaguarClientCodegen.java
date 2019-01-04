@@ -16,12 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.io.FilenameUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
@@ -29,6 +25,7 @@ import io.swagger.v3.oas.models.media.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
 import java.util.*;
@@ -48,6 +45,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         modelToIgnore.add("map");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
+        modelToIgnore.add("uint8list");
     }
 
     private static final String SERIALIZATION_JSON = "json";
@@ -64,6 +62,9 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
         cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
         cliOptions.add(new CliOption(SERIALIZATION_FORMAT, "Choose serialization format JSON or PROTO is supported"));
+
+        typeMapping.put("file", "Uint8List");
+        typeMapping.put("binary", "Uint8List");
 
         protoTypeMapping.put("Array", "repeated");
         protoTypeMapping.put("array", "repeated");
@@ -82,6 +83,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         protoTypeMapping.put("Date", "google.protobuf.Timestamp");
         protoTypeMapping.put("date", "google.protobuf.Timestamp");
         protoTypeMapping.put("File", "bytes");
+        protoTypeMapping.put("file", "bytes");
         protoTypeMapping.put("binary", "bytes");
         protoTypeMapping.put("UUID", "string");
         protoTypeMapping.put("ByteArray", "bytes");
@@ -187,6 +189,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
+        ProcessUtils.addIndexToProperties(models, 1);
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             Set<String> modelImports = new HashSet<>();
@@ -197,16 +200,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 }
             }
 
-            int index = 1;
             for (CodegenProperty p : cm.vars) {
-                p.vendorExtensions.put("x-index", index);
-                String protoType = protoTypeMapping.get(p.baseType);
-                if(p.isListContainer) {
-                    String innerType = protoTypeMapping.get(p.mostInnerItems.baseType);
-                    protoType = protoType+" "+ (innerType == null ? p.mostInnerItems.baseType : innerType);
+                String protoType = protoTypeMapping.get(p.openApiType);
+                if (p.isListContainer) {
+                    String innerType = protoTypeMapping.get(p.mostInnerItems.openApiType);
+                    protoType = protoType + " " + (innerType == null ? p.mostInnerItems.openApiType : innerType);
                 }
-                p.vendorExtensions.put("x-proto-type", protoType == null ? p.baseType : protoType);
-                index++;
+                p.vendorExtensions.put("x-proto-type", protoType == null ? p.openApiType : protoType);
             }
 
             cm.imports = modelImports;
@@ -222,6 +222,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
         Set<String> modelImports = new HashSet<>();
+        Set<String> fullImports = new HashSet<>();
 
         for (CodegenOperation op : operationList) {
             op.httpMethod = StringUtils.capitalize(op.httpMethod.toLowerCase(Locale.ROOT));
@@ -242,6 +243,25 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 }
             }
 
+            for (CodegenParameter param : op.allParams) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                    param.baseType = "MultipartFile";
+                    param.dataType = "MultipartFile";
+                }
+            }
+            for (CodegenParameter param : op.formParams) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                    param.baseType = "MultipartFile";
+                    param.dataType = "MultipartFile";
+                }
+            }
+            for (CodegenParameter param : op.bodyParams) {
+                if (param.baseType != null && param.baseType.equalsIgnoreCase("Uint8List") && isMultipart) {
+                    param.baseType = "MultipartFile";
+                    param.dataType = "MultipartFile";
+                }
+            }
+
             op.vendorExtensions.put("isJson", isJson);
             op.vendorExtensions.put("isProto", isProto);
             op.vendorExtensions.put("isForm", isForm);
@@ -251,6 +271,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             for (String item : op.imports) {
                 if (!modelToIgnore.contains(item.toLowerCase(Locale.ROOT))) {
                     imports.add(underscore(item));
+                } else if (item.equalsIgnoreCase("Uint8List")) {
+                    fullImports.add("dart:typed_data");
                 }
             }
             modelImports.addAll(imports);
@@ -275,6 +297,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         }
 
         objs.put("modelImports", modelImports);
+        objs.put("fullImports", fullImports);
 
         return objs;
     }

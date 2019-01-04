@@ -20,7 +20,7 @@ package org.openapitools.codegen;
 import java.util.*;
 
 public class CodegenProperty implements Cloneable {
-    public String baseName, complexType, getter, setter, description, dataType,
+    public String openApiType, baseName, complexType, getter, setter, description, dataType,
             datatypeWithEnum, dataFormat, name, min, max, defaultValue, defaultValueWithParam,
             baseType, containerType, title;
 
@@ -415,6 +415,7 @@ public class CodegenProperty implements Cloneable {
         return Objects.hash(
             _enum,
             allowableValues,
+            openApiType,
             baseName,
             baseType,
             complexType,
@@ -501,6 +502,7 @@ public class CodegenProperty implements Cloneable {
         final CodegenProperty other = (CodegenProperty) obj;
 
         return Objects.equals(baseName, other.baseName) &&
+            Objects.equals(openApiType, other.openApiType) &&
             Objects.equals(complexType, other.complexType) &&
             Objects.equals(getter, other.getter) &&
             Objects.equals(setter, other.setter) &&
@@ -600,6 +602,7 @@ public class CodegenProperty implements Cloneable {
     public java.lang.String toString() {
         return "CodegenProperty{" +
                 "baseName='" + baseName + '\'' +
+                ", openApiType='" + openApiType + '\'' +
                 ", complexType='" + complexType + '\'' +
                 ", getter='" + getter + '\'' +
                 ", setter='" + setter + '\'' +
