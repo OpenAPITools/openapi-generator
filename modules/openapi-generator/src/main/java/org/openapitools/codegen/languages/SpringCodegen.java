@@ -498,7 +498,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                             List<Map<String, String>> tags = new ArrayList<Map<String, String>>();
                             for (String tag : operation.getTags()) {
                                 Map<String, String> value = new HashMap<String, String>();
-                                value.put("tag", tag);
+                                // Replace single backslashes with double backslash to prevent 
+                                // String escape compilation errors
+                                value.put("tag", tag.replaceAll("(?<!\\\\)\\\\(?!\\\\)", "\\\\\\\\"));
                                 value.put("hasMore", "true");
                                 tags.add(value);
                             }
