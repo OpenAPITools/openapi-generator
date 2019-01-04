@@ -77,9 +77,10 @@ const MemberGroup = props => {
 class Team extends React.Component {
     render() {
         const team = siteConfig.team;
+        const editUrl = `${siteConfig.repoUrl}/edit/master/website/dynamic/team.yml`;
         return (
             <div>
-                <EditThisPage title="The Team" url="https://github.com/openapitools/openapi-generator/blob/master/website/dynamic/team.yml" />
+                <EditThisPage title="The Team" url={editUrl} />
                 <Container padding={["bottom"]}>
                     <div>
                         <MemberGroup title="Core Team" members={team.core} />

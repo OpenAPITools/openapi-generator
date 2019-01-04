@@ -6,8 +6,11 @@
  */
 
 const React = require('react');
+const path = require("path");
 
 const CompLibrary = require('../../core/CompLibrary.js');
+
+const EditThisPage = require(path.resolve(process.cwd(), "core/EditThisPage.js"));
 
 const Container = CompLibrary.Container;
 
@@ -18,7 +21,7 @@ class Users extends React.Component {
       return null;
     }
 
-    const editUrl = `${siteConfig.repoUrl}/edit/master/website/siteConfig.js`;
+    const editUrl = `${siteConfig.repoUrl}/edit/master/website/dynamic/team.yml`;
     const showcase = siteConfig.users.map(user => (
       <a href={user.infoLink} key={user.infoLink}>
         <img src={user.image} alt={user.caption} title={user.caption} />
@@ -26,21 +29,15 @@ class Users extends React.Component {
     ));
 
     return (
-      <div className="mainContainer">
-        <Container padding={['bottom', 'top']}>
-          <div className="showcaseSection">
-            <div className="prose">
-              <h1>Who is Using This?</h1>
-              <p>This project is used by many folks</p>
-            </div>
-            <div className="logos">{showcase}</div>
-            <p>Are you using this project?</p>
-            <a href={editUrl} className="button">
-              Add your company
-            </a>
+      <Container padding={['bottom']}>
+        <EditThisPage title="Who is Using This?" url={editUrl} />
+        <div className="showcaseSection">
+          <div className="prose">
+            <p>This project is used by many folks</p>
           </div>
-        </Container>
-      </div>
+          <div className="logos">{showcase}</div>
+        </div>
+      </Container>
     );
   }
 }

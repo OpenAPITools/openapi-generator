@@ -8,133 +8,7 @@ const loadYaml = relativePath => parseYaml(fs.readFileSync(path.join(__dirname, 
 // site configuration options.
 
 const team = loadYaml("dynamic/team.yml");
-
-const users = [
-  // {
-  //   caption: 'User1',
-  //   // You will need to prepend the image path with your baseUrl
-  //   // if it is not '/', like: '/test-site/img/docusaurus.svg'.
-  //   image: '/img/docusaurus.svg',
-  //   infoLink: 'https://www.facebook.com',
-  //   pinned: true,
-  // },
-
-  {
-    caption: 'Angular.Schule',
-    image: '/img/companies/angular-schule.svg',
-    infoLink: 'https://angular.schule/',
-    pinned: false,
-  },
-  {
-    caption: 'ASKUL',
-    image: '/img/companies/logo-askul-01.gif',
-    infoLink: 'https://www.askul.co.jp/',
-    pinned: true,
-  },
-  {
-    caption: 'b<>com',
-    image: '/img/companies/b-com.png',
-    infoLink: 'https://b-com.com/en',
-    pinned: false,
-  },
-  {
-    caption: 'Bithost GmbH',
-    image: '/img/companies/bithost.svg',
-    infoLink: 'https://www.bithost.ch/',
-    pinned: true,
-  },
-  {
-    caption: 'Boxever',
-    image: '/img/companies/boxever.svg',
-    infoLink: 'https://www.boxever.com/',
-    pinned: false,
-  },
-  {
-    caption: 'GMO Pepabo',
-    image: '/img/companies/pepabo.png',
-    infoLink: 'https://pepabo.com/en/',
-    pinned: false,
-  },
-  {
-    caption: 'JustStar',
-    image: '/img/companies/juststar.png',
-    infoLink: 'https://www.juststarinfo.com/',
-    pinned: true,
-  },
-  {
-    caption: 'Klarna',
-    image: '/img/companies/klarna.svg',
-    infoLink: 'https://www.klarna.com/us/',
-    pinned: false,
-  },
-  {
-    caption: 'Metaswitch',
-    image: '/img/companies/metaswitch.svg',
-    infoLink: 'https://www.metaswitch.com/',
-    pinned: true,
-  },
-  {
-    caption: 'Myworkout',
-    image: '/img/companies/myworkout.png',
-    infoLink: 'https://myworkout.com/',
-    pinned: false,
-  },
-  {
-    caption: 'Raiffeisen Schweiz Genossenschaft',
-    image: '/img/companies/raiffeisen.png',
-    infoLink: 'https://www.raiffeisen.ch/',
-    pinned: false,
-  },
-  {
-    caption: 'RepreZen API Studio',
-    image: '/img/companies/reprezen.png',
-    infoLink: 'https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development',
-    pinned: false,
-  },
-  {
-    caption: 'REST United',
-    image: '/img/companies/rest-united.png',
-    infoLink: 'https://restunited.com/',
-    pinned: false,
-  },
-  {
-    caption: 'Stingray',
-    image: '/img/companies/stingray.png',
-    infoLink: 'http://www.stingray.com/',
-    pinned: true,
-  },
-  {
-    caption: 'Suva',
-    image: '/img/companies/suva.svg',
-    infoLink: 'https://www.suva.ch/',
-    pinned: false,
-  },
-  {
-    caption: 'Telstra',
-    image: '/img/companies/telstra.svg',
-    infoLink: 'https://dev.telstra.com/',
-    pinned: true,
-  },
-
-  {
-    caption: 'TUI InfoTec GmbH',
-    image: '/img/companies/infotec.png',
-    infoLink: 'http://www.tui-infotec.com/',
-    pinned: false,
-  },
-  {
-    caption: 'unblu inc.',
-    image: '/img/companies/unblu.svg',
-    infoLink: 'https://www.unblu.com/',
-    pinned: true,
-  },
-  {
-    caption: 'Zalando',
-    image: '/img/companies/zalando.jpg',
-    infoLink: 'https://www.zalando.com/',
-    pinned: true,
-  },
-];
+const users = loadYaml("dynamic/users.yml");
 
 const siteConfig = {
   title: 'OpenAPI Generator', // Title for your website.
@@ -219,7 +93,7 @@ const siteConfig = {
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
-  repoUrl: 'https://https://github.com/OpenAPITools/openapi-generator',
+  repoUrl: 'https://github.com/OpenAPITools/openapi-generator',
 
   team: team,
 };
