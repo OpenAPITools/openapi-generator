@@ -29,10 +29,13 @@ const MediaLink = props => {
 };
 
 const Member = ({member}) => {
+    const { baseUrl } = siteConfig;
     const { github, twitter, name, joined } = member;
     const avatarUrl = `https://avatars.githubusercontent.com/${github}`;
     const twitterUrl = `https://twitter.com/${twitter}`;
     const githubUrl = `https://github.com/${github}`;
+    const ghIcon = `${baseUrl}img/icons/github.svg`;
+    const twitterIcon = `${baseUrl}img/icons/twitter.svg`;
 
     return (
         <div className="member">
@@ -43,14 +46,14 @@ const Member = ({member}) => {
                 <div style={{ fontWeight: 600 }}>{name}</div>
                 <MediaLink
                     iconAlt="github"
-                    iconSource="/img/icons/github.svg"
+                    iconSource={ghIcon}
                     size="16"
                     url={githubUrl}
                     text={github}
                 />
                 <MediaLink
                     iconAlt="twitter"
-                    iconSource="/img/icons/twitter.svg"
+                    iconSource={twitterIcon}
                     size="16"
                     url={twitterUrl}
                     text={twitter}
@@ -76,8 +79,8 @@ const MemberGroup = props => {
 
 class Team extends React.Component {
     render() {
-        const team = siteConfig.team;
-        const editUrl = `${siteConfig.repoUrl}/edit/master/website/dynamic/team.yml`;
+        const {team, repoUrl} = siteConfig;
+        const editUrl = `${repoUrl}/edit/master/website/dynamic/team.yml`;
         return (
             <div>
                 <EditThisPage title="The Team" url={editUrl} />

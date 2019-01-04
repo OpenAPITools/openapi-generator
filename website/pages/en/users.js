@@ -17,16 +17,21 @@ const Container = CompLibrary.Container;
 class Users extends React.Component {
   render() {
     const {config: siteConfig} = this.props;
+    const {baseUrl, repoUrl} = siteConfig;
     if ((siteConfig.users || []).length === 0) {
       return null;
     }
 
-    const editUrl = `${siteConfig.repoUrl}/edit/master/website/dynamic/team.yml`;
-    const showcase = siteConfig.users.map(user => (
-      <a href={user.infoLink} key={user.infoLink}>
-        <img src={user.image} alt={user.caption} title={user.caption} />
-      </a>
-    ));
+    const editUrl = `${repoUrl}/edit/master/website/dynamic/team.yml`;
+    const showcase = siteConfig.users.map(user => {
+          let imgUrl = `${baseUrl}${user.infoLink.startsWith("/") ? user.image : "/" + user.image}`;
+          return (
+              <a href={user.infoLink} key={user.infoLink}>
+                <img src={imgUrl} alt={user.caption} title={user.caption}/>
+              </a>
+          );
+        }
+    );
 
     return (
       <Container padding={['bottom']}>

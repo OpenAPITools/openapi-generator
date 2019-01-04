@@ -13,15 +13,15 @@ const users = loadYaml("dynamic/users.yml");
 const siteConfig = {
   title: 'OpenAPI Generator', // Title for your website.
   tagline: 'Generate clients, servers, and documentation from OpenAPI 2.0/3.x documents',
-  url: 'https://your-docusaurus-test-site.com', // Your website URL
-  baseUrl: '/', // Base URL for your project */
+  url: 'https://OpenAPITools.github.io', // Your website URL
+  baseUrl: '/openapi-generator/', // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
 
   // Used for publishing and more
   projectName: 'openapi-generator',
-  organizationName: 'openapitools',
+  organizationName: 'OpenAPITools',
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'

@@ -303,7 +303,7 @@ class Index extends React.Component {
         .filter(user => user.pinned)
         .map(user => (
           <a href={user.infoLink} key={user.infoLink}>
-            <img src={user.image} alt={user.caption} title={user.caption} />
+            <img src={baseUrl + user.image} alt={user.caption} title={user.caption} />
           </a>
         ));
 
