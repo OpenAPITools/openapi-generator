@@ -35,6 +35,6 @@ CONFIG OPTIONS for typescript-axios
 	    Setting this property to true will generate interfaces next to the default class implementations. (Default: false)
 
 	withSeparateModelsAndApi
-	    Put the model and api in separate folders and in separate classes (Default: false)        
+	    Put the model and api in separate folders and in separate classes (Default: false)
 
 Back to the [generators list](README.md)
