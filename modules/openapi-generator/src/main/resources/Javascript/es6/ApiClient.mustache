@@ -425,7 +425,14 @@ class ApiClient {
         {{#usePromises}}return new Promise((resolve, reject) => {
             request.end((error, response) => {
                 if (error) {
-                    reject(error);
+                    var err = {};
+                    err.status = response.status;
+                    err.statusText = response.statusText;
+                    err.body = response.body;
+                    err.response = response;
+                    err.error = error;
+
+                    reject(err);
                 } else {
                     try {
                         var data = this.deserialize(response, returnType);
