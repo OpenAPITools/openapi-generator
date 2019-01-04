@@ -161,7 +161,7 @@ public class XmlItem implements Parcelable {
    * Get attributeString
    * @return attributeString
   **/
-  @ApiModelProperty(example = "string", value = "")
+  @ApiModelProperty(example = "a_string", value = "")
   public String getAttributeString() {
     return attributeString;
   }

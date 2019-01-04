@@ -127,7 +127,7 @@ public class XmlItem  implements Serializable {
    * @return attributeString
    **/
   @JsonProperty("attribute_string")
-  @ApiModelProperty(example = "string", value = "")
+  @ApiModelProperty(example = "a_string", value = "")
   
   public String getAttributeString() {
     return attributeString;
