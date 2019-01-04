@@ -1671,7 +1671,7 @@ definitions:
     properties:
       attribute_string:
         type: string
-        example: a_string
+        example: string
         xml:
           attribute: true
       attribute_number:

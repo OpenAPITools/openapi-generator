@@ -57,7 +57,7 @@ public class XmlItem  implements Serializable {
   }
 
   
-  @ApiModelProperty(example = "a_string", value = "")
+  @ApiModelProperty(example = "string", value = "")
   @JsonProperty("attribute_string")
   public String getAttributeString() {
     return attributeString;

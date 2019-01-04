@@ -126,7 +126,7 @@ public class XmlItem   {
    * @return attributeString
    **/
   @JsonProperty("attribute_string")
-  @ApiModelProperty(example = "a_string", value = "")
+  @ApiModelProperty(example = "string", value = "")
   
   public String getAttributeString() {
     return attributeString;

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class XmlItem  {
   
-  @ApiModelProperty(example = "a_string", value = "")
+  @ApiModelProperty(example = "string", value = "")
   private String attributeString;
 
   @ApiModelProperty(example = "1.234", value = "")

@@ -221,7 +221,7 @@ public class XmlItem {
    * Get attributeString
    * @return attributeString
   **/
-  @ApiModelProperty(example = "a_string", value = "")
+  @ApiModelProperty(example = "string", value = "")
   public String getAttributeString() {
     return attributeString;
   }

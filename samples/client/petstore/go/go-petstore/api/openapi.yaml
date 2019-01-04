@@ -1734,7 +1734,7 @@ components:
     XmlItem:
       properties:
         attribute_string:
-          example: a_string
+          example: string
           type: string
           xml:
             attribute: true
