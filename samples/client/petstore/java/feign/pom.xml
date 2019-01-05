@@ -270,7 +270,7 @@
         <feign-version>9.4.0</feign-version>
         <feign-form-version>2.1.0</feign-form-version>
         <jackson-version>2.8.11</jackson-version>
-        <jackson-databind-version>2.8.11.2</jackson-databind-version>
+        <jackson-databind-version>2.8.11.3</jackson-databind-version>
         <jackson-threetenbp-version>2.6.4</jackson-threetenbp-version>
         <junit-version>4.12</junit-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
