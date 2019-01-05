@@ -5,6 +5,16 @@ info:
   license:
     name: Apache-2.0
 paths:
+  /generate_from_response_schema_with_no_example:
+    get:
+      operationId: generateFromResponseSchemaWithNoExample
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
   /generate_from_response_schema_with_array_of_model:
     get:
       operationId: generateFromResponseSchemaWithArrayOfModel

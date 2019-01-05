@@ -15,6 +15,33 @@ import static org.testng.AssertJUnit.*;
 
 public class ExampleGeneratorTest {
     @Test
+    public void generateFromResponseSchemaWithNoExample() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
+                ParseOptions()).getOpenAPI();
+
+        new InlineModelResolver().flatten(openAPI);
+
+        ExampleGenerator exampleGenerator = new ExampleGenerator(openAPI.getComponents().getSchemas(), openAPI);
+        Set<String> mediaTypeKeys = new TreeSet<>();
+        mediaTypeKeys.add("application/json");
+        List<Map<String, String>> examples = exampleGenerator.generateFromResponseSchema(
+                "200",
+                openAPI
+                        .getPaths()
+                        .get("/generate_from_response_schema_with_no_example")
+                        .getGet()
+                        .getResponses()
+                        .get("200")
+                        .getContent()
+                        .get("application/json")
+                        .getSchema(),
+                mediaTypeKeys
+        );
+
+        assertNull(examples);
+    }
+
+    @Test
     public void generateFromResponseSchemaWithArrayOfModel() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
                 ParseOptions()).getOpenAPI();
