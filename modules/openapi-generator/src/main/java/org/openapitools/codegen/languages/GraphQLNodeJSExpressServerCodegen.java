@@ -26,9 +26,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class GraphQLServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
+public class GraphQLNodeJSExpressServerCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLServerCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GraphQLNodeJSExpressServerCodegen.class);
 
     @Override
     public CodegenType getTag() {
@@ -37,22 +37,22 @@ public class GraphQLServerCodegen extends AbstractGraphQLCodegen implements Code
 
     @Override
     public String getName() {
-        return "graphql-server";
+        return "graphql-nodejs-express-server";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a GraphQL express server including it's types, queries, mutations, (resolvers)";
+        return "Generates a GraphQL Node.js Express server (beta) including it's types, queries, mutations, (resolvers)";
     }
 
-    public GraphQLServerCodegen() {
+    public GraphQLNodeJSExpressServerCodegen() {
         super();
 
         packageName = "openapi3graphql-server";
         packageVersion = "1.0.0";
 
-        outputFolder = "generated-code/graphql-server";
-        embeddedTemplateDir = templateDir = "graphql-server";
+        outputFolder = "generated-code/graphql-nodejs-express-server";
+        embeddedTemplateDir = templateDir = "graphql-nodejs-express-server";
 
         hideGenerationTimestamp = Boolean.TRUE;
 
@@ -64,9 +64,9 @@ public class GraphQLServerCodegen extends AbstractGraphQLCodegen implements Code
         // TODO check why api doc is not written
 
         cliOptions.clear();
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GraphQL express server package name (convention: lowercase).")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "GraphQL Node.js Express server package name (convention: lowercase).")
                 .defaultValue("openapi3graphql-server"));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL express server package version.")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "GraphQL Node.js Express server package version.")
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
