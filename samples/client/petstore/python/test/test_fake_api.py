@@ -79,33 +79,66 @@ class TestFakeApi(unittest.TestCase):
 
         To test enum parameters  # noqa: E501
         """
-        # ensure that the default values are used when we call_api
         with patch.object(ApiClient, 'call_api', return_value=None) as mock_method:
             fake_api = FakeApi()
             fake_api.test_enum_parameters()
+            # defaults are used
+            mock_method.assert_called_with(
+                '/fake',
+                'GET',
+                {},
+                [('enum_query_string', '-efg')],
+                {
+                    'enum_header_string': '-efg',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                _preload_content=True,
+                _request_timeout=None,
+                _return_http_data_only=True,
+                async_req=None, auth_settings=[],
+                body=None,
+                collection_formats={'enum_form_string_array': 'csv'},
+                files={},
+                post_params=[
+                    ('enum_form_string_array', '$'),
+                    ('enum_form_string', '-efg')
+                ],
+                response_type=None
+            )
+            # we can overwrite the defaults
+            enum_header_string = 'def'
+            enum_query_string = 'abc'
+            enum_form_string = 'ghi'
+            enum_form_string_array = 'jkl'
+            fake_api.test_enum_parameters(
+                enum_header_string=enum_header_string,
+                enum_query_string=enum_query_string,
+                enum_form_string=enum_form_string,
+                enum_form_string_array=enum_form_string_array
+            )
+            mock_method.assert_called_with(
+                '/fake',
+                'GET',
+                {},
+                [('enum_query_string', enum_query_string)],
+                {
+                    'enum_header_string': enum_header_string,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                _preload_content=True,
+                _request_timeout=None,
+                _return_http_data_only=True,
+                async_req=None, auth_settings=[],
+                body=None,
+                collection_formats={'enum_form_string_array': 'csv'},
+                files={},
+                post_params=[
+                    ('enum_form_string_array', enum_form_string_array),
+                    ('enum_form_string', enum_form_string)
+                ],
+                response_type=None
+            )
 
-        mock_method.assert_called_once_with(
-            '/fake',
-            'GET',
-            {},
-            [('enum_query_string', '-efg')],
-            {
-                'enum_header_string': '-efg',
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            _preload_content=True,
-            _request_timeout=None,
-            _return_http_data_only=True,
-            async_req=None, auth_settings=[],
-            body=None,
-            collection_formats={'enum_form_string_array': 'csv'},
-            files={},
-            post_params=[
-                ('enum_form_string_array', '$'),
-                ('enum_form_string', '-efg')
-            ],
-            response_type=None
-        )
 
     def test_test_inline_additional_properties(self):
         """Test case for test_inline_additional_properties
