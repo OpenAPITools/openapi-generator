@@ -69,8 +69,9 @@ class FakeClassnameTags123Api(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')

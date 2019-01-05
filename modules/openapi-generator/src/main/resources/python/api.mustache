@@ -75,14 +75,16 @@ class {{classname}}(object):
 
         :param async_req bool
 {{#allParams}}
-        :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/optional}}
+        :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional{{#defaultValue}}, default to {{defaultValue}}{{/defaultValue}}){{/optional}}
 {{/allParams}}
         :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+{{#allParams}}{{#defaultValue}}            '{{paramName}}': {{{defaultValue}}}{{#hasMore}},{{/hasMore}}
+{{/defaultValue}}{{/allParams}}        }
+        local_var_params.update(locals())
 
         all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]  # noqa: E501
         all_params.append('async_req')

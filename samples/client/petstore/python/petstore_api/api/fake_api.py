@@ -69,8 +69,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -161,8 +162,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -253,8 +255,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -345,8 +348,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -437,8 +441,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -533,8 +538,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['query', 'body']  # noqa: E501
         all_params.append('async_req')
@@ -635,8 +641,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -761,8 +768,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']  # noqa: E501
         all_params.append('async_req')
@@ -937,8 +945,13 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+            'enum_header_string': '-efg',
+            'enum_query_string': '-efg',
+            'enum_form_string_array': '$',
+            'enum_form_string': '-efg'
+        }
+        local_var_params.update(locals())
 
         all_params = ['enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double', 'enum_form_string_array', 'enum_form_string']  # noqa: E501
         all_params.append('async_req')
@@ -1056,8 +1069,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['required_string_group', 'required_boolean_group', 'required_int64_group', 'string_group', 'boolean_group', 'int64_group']  # noqa: E501
         all_params.append('async_req')
@@ -1164,8 +1178,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['param']  # noqa: E501
         all_params.append('async_req')
@@ -1260,8 +1275,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['param', 'param2']  # noqa: E501
         all_params.append('async_req')

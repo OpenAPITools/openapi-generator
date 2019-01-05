@@ -69,8 +69,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -159,8 +160,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -249,8 +251,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -341,8 +344,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['username']  # noqa: E501
         all_params.append('async_req')
@@ -431,8 +435,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['username']  # noqa: E501
         all_params.append('async_req')
@@ -527,8 +532,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['username', 'password']  # noqa: E501
         all_params.append('async_req')
@@ -625,8 +631,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = []  # noqa: E501
         all_params.append('async_req')
@@ -713,8 +720,9 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['username', 'body']  # noqa: E501
         all_params.append('async_req')

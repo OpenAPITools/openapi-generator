@@ -13,8 +13,10 @@
 from __future__ import absolute_import
 
 import unittest
+from unittest.mock import patch
 
 import petstore_api
+from petstore_api.api.fake_api import ApiClient  # noqa: E501
 from petstore_api.api.fake_api import FakeApi  # noqa: E501
 from petstore_api.rest import ApiException
 
@@ -77,7 +79,33 @@ class TestFakeApi(unittest.TestCase):
 
         To test enum parameters  # noqa: E501
         """
-        pass
+        # ensure that the default values are used when we call_api
+        with patch.object(ApiClient, 'call_api', return_value=None) as mock_method:
+            fake_api = FakeApi()
+            fake_api.test_enum_parameters()
+
+        mock_method.assert_called_once_with(
+            '/fake',
+            'GET',
+            {},
+            [('enum_query_string', '-efg')],
+            {
+                'enum_header_string': '-efg',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            _preload_content=True,
+            _request_timeout=None,
+            _return_http_data_only=True,
+            async_req=None, auth_settings=[],
+            body=None,
+            collection_formats={'enum_form_string_array': 'csv'},
+            files={},
+            post_params=[
+                ('enum_form_string_array', '$'),
+                ('enum_form_string', '-efg')
+            ],
+            response_type=None
+        )
 
     def test_test_inline_additional_properties(self):
         """Test case for test_inline_additional_properties

@@ -67,8 +67,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -163,8 +164,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'api_key']  # noqa: E501
         all_params.append('async_req')
@@ -257,8 +259,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['status']  # noqa: E501
         all_params.append('async_req')
@@ -354,8 +357,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['tags']  # noqa: E501
         all_params.append('async_req')
@@ -451,8 +455,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id']  # noqa: E501
         all_params.append('async_req')
@@ -545,8 +550,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -643,8 +649,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'name', 'status']  # noqa: E501
         all_params.append('async_req')
@@ -745,8 +752,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'additional_metadata', 'file']  # noqa: E501
         all_params.append('async_req')
@@ -851,8 +859,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'required_file', 'additional_metadata']  # noqa: E501
         all_params.append('async_req')
