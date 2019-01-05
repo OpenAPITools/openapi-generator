@@ -2,12 +2,11 @@
 /**
  * AbstractPetApi
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -25,30 +24,32 @@
  */
 namespace OpenAPIServer\Api;
 
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Exception;
+
 /**
  * AbstractPetApi Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 abstract class AbstractPetApi
 {
 
     /**
-     * @var \Interop\Container\ContainerInterface Slim app container instance
+     * @var ContainerInterface Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     * @param ContainerInterface $container Slim app container instance
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -58,17 +59,18 @@ abstract class AbstractPetApi
      * POST addPet
      * Summary: Add a new pet to the store
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function addPet($request, $response, $args)
+    public function addPet(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing addPet as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -77,19 +79,20 @@ abstract class AbstractPetApi
      * DELETE deletePet
      * Summary: Deletes a pet
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function deletePet($request, $response, $args)
+    public function deletePet(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $headers = $request->getHeaders();
         $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
         $petId = $args['petId'];
         $message = "How about implementing deletePet as a DELETE method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -100,18 +103,19 @@ abstract class AbstractPetApi
      * Notes: Multiple status values can be provided with comma separated strings
      * Output-Formats: [application/xml, application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function findPetsByStatus($request, $response, $args)
+    public function findPetsByStatus(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $queryParams = $request->getQueryParams();
         $status = $request->getQueryParam('status');
         $message = "How about implementing findPetsByStatus as a GET method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -122,18 +126,19 @@ abstract class AbstractPetApi
      * Notes: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Output-Formats: [application/xml, application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function findPetsByTags($request, $response, $args)
+    public function findPetsByTags(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $queryParams = $request->getQueryParams();
         $tags = $request->getQueryParam('tags');
         $message = "How about implementing findPetsByTags as a GET method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -144,17 +149,18 @@ abstract class AbstractPetApi
      * Notes: Returns a single pet
      * Output-Formats: [application/xml, application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function getPetById($request, $response, $args)
+    public function getPetById(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $petId = $args['petId'];
         $message = "How about implementing getPetById as a GET method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -163,17 +169,18 @@ abstract class AbstractPetApi
      * PUT updatePet
      * Summary: Update an existing pet
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function updatePet($request, $response, $args)
+    public function updatePet(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing updatePet as a PUT method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -182,19 +189,20 @@ abstract class AbstractPetApi
      * POST updatePetWithForm
      * Summary: Updates a pet in the store with form data
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function updatePetWithForm($request, $response, $args)
+    public function updatePetWithForm(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $petId = $args['petId'];
         $name = $request->getParsedBodyParam('name');
         $status = $request->getParsedBodyParam('status');
         $message = "How about implementing updatePetWithForm as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -204,19 +212,20 @@ abstract class AbstractPetApi
      * Summary: uploads an image
      * Output-Formats: [application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function uploadFile($request, $response, $args)
+    public function uploadFile(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $petId = $args['petId'];
         $additionalMetadata = $request->getParsedBodyParam('additionalMetadata');
         $file = (key_exists('file', $request->getUploadedFiles())) ? $request->getUploadedFiles()['file'] : null;
         $message = "How about implementing uploadFile as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -226,19 +235,20 @@ abstract class AbstractPetApi
      * Summary: uploads an image (required)
      * Output-Formats: [application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function uploadFileWithRequiredFile($request, $response, $args)
+    public function uploadFileWithRequiredFile(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $petId = $args['petId'];
         $additionalMetadata = $request->getParsedBodyParam('additionalMetadata');
         $requiredFile = (key_exists('requiredFile', $request->getUploadedFiles())) ? $request->getUploadedFiles()['requiredFile'] : null;
         $message = "How about implementing uploadFileWithRequiredFile as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }

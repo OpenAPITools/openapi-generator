@@ -2,12 +2,11 @@
 /**
  * AbstractUserApi
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -25,30 +24,32 @@
  */
 namespace OpenAPIServer\Api;
 
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Exception;
+
 /**
  * AbstractUserApi Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 abstract class AbstractUserApi
 {
 
     /**
-     * @var \Interop\Container\ContainerInterface Slim app container instance
+     * @var ContainerInterface Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     * @param ContainerInterface $container Slim app container instance
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -59,17 +60,18 @@ abstract class AbstractUserApi
      * Summary: Create user
      * Notes: This can only be done by the logged in user.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function createUser($request, $response, $args)
+    public function createUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing createUser as a POST method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -78,17 +80,18 @@ abstract class AbstractUserApi
      * POST createUsersWithArrayInput
      * Summary: Creates list of users with given input array
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function createUsersWithArrayInput($request, $response, $args)
+    public function createUsersWithArrayInput(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing createUsersWithArrayInput as a POST method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -97,17 +100,18 @@ abstract class AbstractUserApi
      * POST createUsersWithListInput
      * Summary: Creates list of users with given input array
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function createUsersWithListInput($request, $response, $args)
+    public function createUsersWithListInput(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing createUsersWithListInput as a POST method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -117,17 +121,18 @@ abstract class AbstractUserApi
      * Summary: Delete user
      * Notes: This can only be done by the logged in user.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function deleteUser($request, $response, $args)
+    public function deleteUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $username = $args['username'];
         $message = "How about implementing deleteUser as a DELETE method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -137,17 +142,18 @@ abstract class AbstractUserApi
      * Summary: Get user by user name
      * Output-Formats: [application/xml, application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function getUserByName($request, $response, $args)
+    public function getUserByName(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $username = $args['username'];
         $message = "How about implementing getUserByName as a GET method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -157,19 +163,20 @@ abstract class AbstractUserApi
      * Summary: Logs user into the system
      * Output-Formats: [application/xml, application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function loginUser($request, $response, $args)
+    public function loginUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $queryParams = $request->getQueryParams();
         $username = $request->getQueryParam('username');
         $password = $request->getQueryParam('password');
         $message = "How about implementing loginUser as a GET method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -178,16 +185,17 @@ abstract class AbstractUserApi
      * GET logoutUser
      * Summary: Logs out current logged in user session
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function logoutUser($request, $response, $args)
+    public function logoutUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $message = "How about implementing logoutUser as a GET method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -197,18 +205,19 @@ abstract class AbstractUserApi
      * Summary: Updated user
      * Notes: This can only be done by the logged in user.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function updateUser($request, $response, $args)
+    public function updateUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $username = $args['username'];
         $body = $request->getParsedBody();
         $message = "How about implementing updateUser as a PUT method in OpenAPIServer\Api\UserApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
