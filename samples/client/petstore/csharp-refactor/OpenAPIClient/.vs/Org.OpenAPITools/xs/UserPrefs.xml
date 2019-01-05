@@ -1,12 +1,21 @@
 ﻿<Properties StartupConfiguration="{19F1DEBC-DE5E-4517-8062-F000CD499087}|Unit Tests">
-  <MonoDevelop.Ide.Workbench ActiveDocument="src/Org.OpenAPITools.Test/Model/PetTests.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/Org.OpenAPITools/Model/Pet.cs">
     <Files>
-      <File FileName="src/Org.OpenAPITools.Test/Model/PetTests.cs" Line="159" Column="29" />
+      <File FileName="src/Org.OpenAPITools.Test/Model/PetTests.cs" Line="126" Column="37" />
+      <File FileName="src/Org.OpenAPITools/Model/Pet.cs" Line="93" Column="26" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">
-          <Node name="Org.OpenAPITools" expanded="True" selected="True" />
+          <Node name="Org.OpenAPITools" expanded="True">
+            <Node name="Org.OpenAPITools.Test" expanded="True">
+              <Node name="Org" expanded="True">
+                <Node name="PetTests" expanded="True">
+                  <Node name="TestSerialization" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
