@@ -127,7 +127,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals("{\n  \"example_schema_property\" : \"example schema property value\"\n}", examples.get(0).get("example"));
+        assertEquals(String.format("{%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 }
