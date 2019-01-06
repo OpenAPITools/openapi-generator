@@ -35,7 +35,7 @@ public class {{classname}}Test {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("{{{basePath}}}"))).{{classVarName}}();
+                        .setBaseUri("{{{basePath}}}"))).{{classVarName}}Api();
     }
 {{#operations}}
 {{#operation}}
