@@ -327,10 +327,10 @@ use WWW::OpenAPIClient::;
 my $api_instance = WWW::OpenAPIClient::->new(
 );
 
-my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
+my $body = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
 eval {
-    my $result = $api_instance->call_123_test_special_tags(client => $client);
+    my $result = $api_instance->call_123_test_special_tags(body => $body);
     print Dumper($result);
 };
 if ($@) {

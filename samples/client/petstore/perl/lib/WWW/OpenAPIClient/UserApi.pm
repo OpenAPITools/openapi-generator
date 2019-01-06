@@ -53,17 +53,17 @@ sub new {
 #
 # Create user
 # 
-# @param User $user Created user object (required)
+# @param User $body Created user object (required)
 {
     my $params = {
-    'user' => {
+    'body' => {
         data_type => 'User',
         description => 'Created user object',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'create_user' } = { 
-    	summary => 'Create user',
+        summary => 'Create user',
         params => $params,
         returns => undef,
         };
@@ -73,9 +73,9 @@ sub new {
 sub create_user {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling create_user");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling create_user");
     }
 
     # parse inputs
@@ -95,8 +95,8 @@ sub create_user {
 
     my $_body_data;
     # body params
-    if ( exists $args{'user'}) {
-        $_body_data = $args{'user'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -114,17 +114,17 @@ sub create_user {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $user List of user object (required)
+# @param ARRAY[User] $body List of user object (required)
 {
     my $params = {
-    'user' => {
+    'body' => {
         data_type => 'ARRAY[User]',
         description => 'List of user object',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'create_users_with_array_input' } = { 
-    	summary => 'Creates list of users with given input array',
+        summary => 'Creates list of users with given input array',
         params => $params,
         returns => undef,
         };
@@ -134,9 +134,9 @@ sub create_user {
 sub create_users_with_array_input {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling create_users_with_array_input");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling create_users_with_array_input");
     }
 
     # parse inputs
@@ -156,8 +156,8 @@ sub create_users_with_array_input {
 
     my $_body_data;
     # body params
-    if ( exists $args{'user'}) {
-        $_body_data = $args{'user'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -175,17 +175,17 @@ sub create_users_with_array_input {
 #
 # Creates list of users with given input array
 # 
-# @param ARRAY[User] $user List of user object (required)
+# @param ARRAY[User] $body List of user object (required)
 {
     my $params = {
-    'user' => {
+    'body' => {
         data_type => 'ARRAY[User]',
         description => 'List of user object',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'create_users_with_list_input' } = { 
-    	summary => 'Creates list of users with given input array',
+        summary => 'Creates list of users with given input array',
         params => $params,
         returns => undef,
         };
@@ -195,9 +195,9 @@ sub create_users_with_array_input {
 sub create_users_with_list_input {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling create_users_with_list_input");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling create_users_with_list_input");
     }
 
     # parse inputs
@@ -217,8 +217,8 @@ sub create_users_with_list_input {
 
     my $_body_data;
     # body params
-    if ( exists $args{'user'}) {
-        $_body_data = $args{'user'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -246,7 +246,7 @@ sub create_users_with_list_input {
     },
     };
     __PACKAGE__->method_documentation->{ 'delete_user' } = { 
-    	summary => 'Delete user',
+        summary => 'Delete user',
         params => $params,
         returns => undef,
         };
@@ -309,7 +309,7 @@ sub delete_user {
     },
     };
     __PACKAGE__->method_documentation->{ 'get_user_by_name' } = { 
-    	summary => 'Get user by user name',
+        summary => 'Get user by user name',
         params => $params,
         returns => 'User',
         };
@@ -382,7 +382,7 @@ sub get_user_by_name {
     },
     };
     __PACKAGE__->method_documentation->{ 'login_user' } = { 
-    	summary => 'Logs user into the system',
+        summary => 'Logs user into the system',
         params => $params,
         returns => 'string',
         };
@@ -451,7 +451,7 @@ sub login_user {
     my $params = {
     };
     __PACKAGE__->method_documentation->{ 'logout_user' } = { 
-    	summary => 'Logs out current logged in user session',
+        summary => 'Logs out current logged in user session',
         params => $params,
         returns => undef,
         };
@@ -493,7 +493,7 @@ sub logout_user {
 # Updated user
 # 
 # @param string $username name that need to be deleted (required)
-# @param User $user Updated user object (required)
+# @param User $body Updated user object (required)
 {
     my $params = {
     'username' => {
@@ -501,14 +501,14 @@ sub logout_user {
         description => 'name that need to be deleted',
         required => '1',
     },
-    'user' => {
+    'body' => {
         data_type => 'User',
         description => 'Updated user object',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'update_user' } = { 
-    	summary => 'Updated user',
+        summary => 'Updated user',
         params => $params,
         returns => undef,
         };
@@ -523,9 +523,9 @@ sub update_user {
       croak("Missing the required parameter 'username' when calling update_user");
     }
 
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling update_user");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling update_user");
     }
 
     # parse inputs
@@ -552,8 +552,8 @@ sub update_user {
 
     my $_body_data;
     # body params
-    if ( exists $args{'user'}) {
-        $_body_data = $args{'user'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
