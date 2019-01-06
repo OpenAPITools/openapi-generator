@@ -71,6 +71,7 @@ OAIStoreApi::deleteOrderCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit deleteOrderSignal();
+        emit deleteOrderSignalFull(worker);
     } else {
         emit deleteOrderSignalE(error_type, error_str);
         emit deleteOrderSignalEFull(worker, error_type, error_str);
@@ -124,6 +125,7 @@ OAIStoreApi::getInventoryCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit getInventorySignal(output);
+        emit getInventorySignalFull(worker, output);
     } else {
         emit getInventorySignalE(output, error_type, error_str);
         emit getInventorySignalEFull(worker, error_type, error_str);
@@ -171,6 +173,7 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit getOrderByIdSignal(output);
+        emit getOrderByIdSignalFull(worker, output);
     } else {
         emit getOrderByIdSignalE(output, error_type, error_str);
         emit getOrderByIdSignalEFull(worker, error_type, error_str);
@@ -178,7 +181,7 @@ OAIStoreApi::getOrderByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIStoreApi::placeOrder(const OAIOrder& oai_order) {
+OAIStoreApi::placeOrder(const OAIOrder& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/store/order");
     
@@ -186,7 +189,7 @@ OAIStoreApi::placeOrder(const OAIOrder& oai_order) {
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QString output = oai_order.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 
@@ -219,6 +222,7 @@ OAIStoreApi::placeOrderCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit placeOrderSignal(output);
+        emit placeOrderSignalFull(worker, output);
     } else {
         emit placeOrderSignalE(output, error_type, error_str);
         emit placeOrderSignalEFull(worker, error_type, error_str);

@@ -38,7 +38,7 @@ public:
     void deleteOrder(const QString& order_id);
     void getInventory();
     void getOrderById(const qint64& order_id);
-    void placeOrder(const OAIOrder& oai_order);
+    void placeOrder(const OAIOrder& body);
     
 private:
     void deleteOrderCallback (OAIHttpRequestWorker * worker);
@@ -51,6 +51,11 @@ signals:
     void getInventorySignal(QMap<QString, qint32> summary);
     void getOrderByIdSignal(OAIOrder summary);
     void placeOrderSignal(OAIOrder summary);
+    
+    void deleteOrderSignalFull(OAIHttpRequestWorker* worker);
+    void getInventorySignalFull(OAIHttpRequestWorker* worker, QMap<QString, qint32> summary);
+    void getOrderByIdSignalFull(OAIHttpRequestWorker* worker, OAIOrder summary);
+    void placeOrderSignalFull(OAIHttpRequestWorker* worker, OAIOrder summary);
     
     void deleteOrderSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
     void getInventorySignalE(QMap<QString, qint32> summary, QNetworkReply::NetworkError error_type, QString& error_str);
