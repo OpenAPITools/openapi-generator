@@ -20,6 +20,14 @@ namespace OpenAPI {
 
 class OAIObject {
   public:
+    OAIObject() {
+
+    }
+    
+    OAIObject(QString jsonString) {
+        fromJson(jsonString);
+    }
+
     virtual ~OAIObject(){
 
     }
@@ -50,7 +58,7 @@ class OAIObject {
         return true;
     }
 private :
-   QJsonObject jObj;
+    QJsonObject jObj;
 };
 
 }
