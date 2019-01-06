@@ -63,7 +63,7 @@ sub new {
     },
     };
     __PACKAGE__->method_documentation->{ 'fake_outer_boolean_serialize' } = { 
-    	summary => '',
+        summary => '',
         params => $params,
         returns => 'boolean',
         };
@@ -113,17 +113,17 @@ sub fake_outer_boolean_serialize {
 #
 # 
 # 
-# @param OuterComposite $outer_composite Input composite as post body (optional)
+# @param OuterComposite $body Input composite as post body (optional)
 {
     my $params = {
-    'outer_composite' => {
+    'body' => {
         data_type => 'OuterComposite',
         description => 'Input composite as post body',
         required => '0',
     },
     };
     __PACKAGE__->method_documentation->{ 'fake_outer_composite_serialize' } = { 
-    	summary => '',
+        summary => '',
         params => $params,
         returns => 'OuterComposite',
         };
@@ -150,8 +150,8 @@ sub fake_outer_composite_serialize {
 
     my $_body_data;
     # body params
-    if ( exists $args{'outer_composite'}) {
-        $_body_data = $args{'outer_composite'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -183,7 +183,7 @@ sub fake_outer_composite_serialize {
     },
     };
     __PACKAGE__->method_documentation->{ 'fake_outer_number_serialize' } = { 
-    	summary => '',
+        summary => '',
         params => $params,
         returns => 'double',
         };
@@ -243,7 +243,7 @@ sub fake_outer_number_serialize {
     },
     };
     __PACKAGE__->method_documentation->{ 'fake_outer_string_serialize' } = { 
-    	summary => '',
+        summary => '',
         params => $params,
         returns => 'string',
         };
@@ -293,17 +293,17 @@ sub fake_outer_string_serialize {
 #
 # 
 # 
-# @param FileSchemaTestClass $file_schema_test_class  (required)
+# @param FileSchemaTestClass $body  (required)
 {
     my $params = {
-    'file_schema_test_class' => {
+    'body' => {
         data_type => 'FileSchemaTestClass',
         description => '',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'test_body_with_file_schema' } = { 
-    	summary => '',
+        summary => '',
         params => $params,
         returns => undef,
         };
@@ -313,9 +313,9 @@ sub fake_outer_string_serialize {
 sub test_body_with_file_schema {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'file_schema_test_class' is set
-    unless (exists $args{'file_schema_test_class'}) {
-      croak("Missing the required parameter 'file_schema_test_class' when calling test_body_with_file_schema");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_body_with_file_schema");
     }
 
     # parse inputs
@@ -335,8 +335,8 @@ sub test_body_with_file_schema {
 
     my $_body_data;
     # body params
-    if ( exists $args{'file_schema_test_class'}) {
-        $_body_data = $args{'file_schema_test_class'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -355,7 +355,7 @@ sub test_body_with_file_schema {
 # 
 # 
 # @param string $query  (required)
-# @param User $user  (required)
+# @param User $body  (required)
 {
     my $params = {
     'query' => {
@@ -363,14 +363,14 @@ sub test_body_with_file_schema {
         description => '',
         required => '1',
     },
-    'user' => {
+    'body' => {
         data_type => 'User',
         description => '',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'test_body_with_query_params' } = { 
-    	summary => '',
+        summary => '',
         params => $params,
         returns => undef,
         };
@@ -385,9 +385,9 @@ sub test_body_with_query_params {
       croak("Missing the required parameter 'query' when calling test_body_with_query_params");
     }
 
-    # verify the required parameter 'user' is set
-    unless (exists $args{'user'}) {
-      croak("Missing the required parameter 'user' when calling test_body_with_query_params");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_body_with_query_params");
     }
 
     # parse inputs
@@ -412,8 +412,8 @@ sub test_body_with_query_params {
 
     my $_body_data;
     # body params
-    if ( exists $args{'user'}) {
-        $_body_data = $args{'user'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -431,17 +431,17 @@ sub test_body_with_query_params {
 #
 # To test \"client\" model
 # 
-# @param Client $client client model (required)
+# @param Client $body client model (required)
 {
     my $params = {
-    'client' => {
+    'body' => {
         data_type => 'Client',
         description => 'client model',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'test_client_model' } = { 
-    	summary => 'To test \&quot;client\&quot; model',
+        summary => 'To test \&quot;client\&quot; model',
         params => $params,
         returns => 'Client',
         };
@@ -451,9 +451,9 @@ sub test_body_with_query_params {
 sub test_client_model {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'client' is set
-    unless (exists $args{'client'}) {
-      croak("Missing the required parameter 'client' when calling test_client_model");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling test_client_model");
     }
 
     # parse inputs
@@ -473,8 +473,8 @@ sub test_client_model {
 
     my $_body_data;
     # body params
-    if ( exists $args{'client'}) {
-        $_body_data = $args{'client'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -584,7 +584,7 @@ sub test_client_model {
     },
     };
     __PACKAGE__->method_documentation->{ 'test_endpoint_parameters' } = { 
-    	summary => 'Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ',
+        summary => 'Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ',
         params => $params,
         returns => undef,
         };
@@ -768,7 +768,7 @@ sub test_endpoint_parameters {
     },
     };
     __PACKAGE__->method_documentation->{ 'test_enum_parameters' } = { 
-    	summary => 'To test enum parameters',
+        summary => 'To test enum parameters',
         params => $params,
         returns => undef,
         };
@@ -889,7 +889,7 @@ sub test_enum_parameters {
     },
     };
     __PACKAGE__->method_documentation->{ 'test_group_parameters' } = { 
-    	summary => 'Fake endpoint to test group parameters (optional)',
+        summary => 'Fake endpoint to test group parameters (optional)',
         params => $params,
         returns => undef,
         };
@@ -975,17 +975,17 @@ sub test_group_parameters {
 #
 # test inline additionalProperties
 # 
-# @param HASH[string,string] $request_body request body (required)
+# @param HASH[string,string] $param request body (required)
 {
     my $params = {
-    'request_body' => {
+    'param' => {
         data_type => 'HASH[string,string]',
         description => 'request body',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'test_inline_additional_properties' } = { 
-    	summary => 'test inline additionalProperties',
+        summary => 'test inline additionalProperties',
         params => $params,
         returns => undef,
         };
@@ -995,9 +995,9 @@ sub test_group_parameters {
 sub test_inline_additional_properties {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'request_body' is set
-    unless (exists $args{'request_body'}) {
-      croak("Missing the required parameter 'request_body' when calling test_inline_additional_properties");
+    # verify the required parameter 'param' is set
+    unless (exists $args{'param'}) {
+      croak("Missing the required parameter 'param' when calling test_inline_additional_properties");
     }
 
     # parse inputs
@@ -1017,8 +1017,8 @@ sub test_inline_additional_properties {
 
     my $_body_data;
     # body params
-    if ( exists $args{'request_body'}) {
-        $_body_data = $args{'request_body'};
+    if ( exists $args{'param'}) {
+        $_body_data = $args{'param'};
     }
 
     # authentication setting, if any
@@ -1052,7 +1052,7 @@ sub test_inline_additional_properties {
     },
     };
     __PACKAGE__->method_documentation->{ 'test_json_form_data' } = { 
-    	summary => 'test json serialization of form data',
+        summary => 'test json serialization of form data',
         params => $params,
         returns => undef,
         };
