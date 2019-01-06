@@ -6,10 +6,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.testng.annotations.Test;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.testng.AssertJUnit.*;
 
@@ -127,7 +124,7 @@ public class ExampleGeneratorTest {
 
         assertEquals(1, examples.size());
         assertEquals("application/json", examples.get(0).get("contentType"));
-        assertEquals(String.format("{%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
+        assertEquals(String.format(Locale.ROOT, "{%n  \"example_schema_property\" : \"example schema property value\"%n}"), examples.get(0).get("example"));
         assertEquals("200", examples.get(0).get("statusCode"));
     }
 }
