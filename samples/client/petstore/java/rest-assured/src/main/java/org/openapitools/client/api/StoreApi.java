@@ -46,7 +46,7 @@ public class StoreApi {
     }
 
     public static StoreApi storeApi(RequestSpecBuilder reqSpec) {
-        return new StoreApiApi(reqSpec);
+        return new StoreApi(reqSpec);
     }
 
 

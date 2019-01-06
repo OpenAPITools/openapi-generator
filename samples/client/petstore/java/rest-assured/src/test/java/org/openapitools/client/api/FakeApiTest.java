@@ -50,7 +50,7 @@ public class FakeApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
     }
 
     /**
@@ -69,7 +69,7 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterFakeOuterCompositeSerialize() {
-        OuterComposite outerComposite = null;
+        OuterComposite body = null;
         api.fakeOuterCompositeSerialize().execute(r -> r.prettyPeek());
         // TODO: test validations
     }
@@ -102,9 +102,9 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestBodyWithFileSchema() {
-        FileSchemaTestClass fileSchemaTestClass = null;
+        FileSchemaTestClass body = null;
         api.testBodyWithFileSchema()
-                .body(fileSchemaTestClass).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -115,10 +115,10 @@ public class FakeApiTest {
     @Test
     public void shouldSee200AfterTestBodyWithQueryParams() {
         String query = null;
-        User user = null;
+        User body = null;
         api.testBodyWithQueryParams()
                 .queryQuery(query)
-                .body(user).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -128,9 +128,9 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestClientModel() {
-        Client client = null;
+        Client body = null;
         api.testClientModel()
-                .body(client).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -249,9 +249,9 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestInlineAdditionalProperties() {
-        Map<String, String> requestBody = null;
+        Map<String, String> param = null;
         api.testInlineAdditionalProperties()
-                .body(requestBody).execute(r -> r.prettyPeek());
+                .body(param).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

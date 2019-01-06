@@ -43,7 +43,7 @@ public class DefaultApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).default();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).defaultApi();
     }
 
     /**

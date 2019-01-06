@@ -24,7 +24,7 @@ To test class name in snake case
 
 FakeClassnameTags123Api api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeClassnameTags123();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeClassnameTags123Api();
 
 api.testClassname()
     .body(body).execute(r -> r.prettyPeek());

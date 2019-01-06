@@ -14,8 +14,6 @@
 package org.openapitools.client.api;
 
 import java.io.File;
-
-import io.restassured.response.ResponseBody;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.ApiClient;
@@ -47,7 +45,7 @@ public class PetApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
     }
 
     /**
@@ -55,9 +53,9 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee405AfterAddPet() {
-        Pet pet = null;
+        Pet body = null;
         api.addPet()
-                .body(pet).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -160,9 +158,9 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee400AfterUpdatePet() {
-        Pet pet = null;
+        Pet body = null;
         api.updatePet()
-                .body(pet).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -171,9 +169,9 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee404AfterUpdatePet() {
-        Pet pet = null;
+        Pet body = null;
         api.updatePet()
-                .body(pet).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -182,9 +180,9 @@ public class PetApiTest {
      */
     @Test
     public void shouldSee405AfterUpdatePet() {
-        Pet pet = null;
+        Pet body = null;
         api.updatePet()
-                .body(pet).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -213,6 +211,21 @@ public class PetApiTest {
         File file = null;
         api.uploadFile()
                 .petIdPath(petId).execute(r -> r.prettyPeek());
+        // TODO: test validations
+    }
+
+
+    /**
+     * successful operation
+     */
+    @Test
+    public void shouldSee200AfterUploadFileWithRequiredFile() {
+        Long petId = null;
+        File requiredFile = null;
+        String additionalMetadata = null;
+        api.uploadFileWithRequiredFile()
+                .petIdPath(petId)
+                .requiredFileMultiPart(requiredFile).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

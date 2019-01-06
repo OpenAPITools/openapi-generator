@@ -46,7 +46,7 @@ public class DefaultApi {
     }
 
     public static DefaultApi defaultApi(RequestSpecBuilder reqSpec) {
-        return new DefaultApiApi(reqSpec);
+        return new DefaultApi(reqSpec);
     }
 
 

@@ -24,7 +24,7 @@ this route creates an XmlItem
 
 DefaultApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).default();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).defaultApi();
 
 api.createXmlItem()
     .body(xmlItem).execute(r -> r.prettyPeek());

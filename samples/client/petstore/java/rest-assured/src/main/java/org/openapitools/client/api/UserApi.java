@@ -46,7 +46,7 @@ public class UserApi {
     }
 
     public static UserApi userApi(RequestSpecBuilder reqSpec) {
-        return new UserApiApi(reqSpec);
+        return new UserApi(reqSpec);
     }
 
 

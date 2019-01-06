@@ -53,7 +53,7 @@ public class FakeApi {
     }
 
     public static FakeApi fakeApi(RequestSpecBuilder reqSpec) {
-        return new FakeApiApi(reqSpec);
+        return new FakeApi(reqSpec);
     }
 
 
