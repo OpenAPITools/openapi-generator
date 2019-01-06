@@ -52,8 +52,8 @@ public class FakeApi {
         this.reqSpec = reqSpec;
     }
 
-    public static FakeApi fake(RequestSpecBuilder reqSpec) {
-        return new FakeApi(reqSpec);
+    public static FakeApi fakeApi(RequestSpecBuilder reqSpec) {
+        return new FakeApiApi(reqSpec);
     }
 
 

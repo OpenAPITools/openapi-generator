@@ -45,8 +45,8 @@ public class DefaultApi {
         this.reqSpec = reqSpec;
     }
 
-    public static DefaultApi default(RequestSpecBuilder reqSpec) {
-        return new DefaultApi(reqSpec);
+    public static DefaultApi defaultApi(RequestSpecBuilder reqSpec) {
+        return new DefaultApiApi(reqSpec);
     }
 
 
