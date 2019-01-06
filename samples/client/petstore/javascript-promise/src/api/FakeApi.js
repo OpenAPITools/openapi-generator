@@ -99,12 +99,12 @@
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterComposite} and HTTP response
      */
     this.fakeOuterCompositeSerializeWithHttpInfo = function(opts) {
       opts = opts || {};
-      var postBody = opts['outerComposite'];
+      var postBody = opts['body'];
 
 
       var pathParams = {
@@ -133,7 +133,7 @@
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OuterComposite}
      */
     this.fakeOuterCompositeSerialize = function(opts) {
@@ -242,15 +242,15 @@
 
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.testBodyWithFileSchemaWithHttpInfo = function(fileSchemaTestClass) {
-      var postBody = fileSchemaTestClass;
+    this.testBodyWithFileSchemaWithHttpInfo = function(body) {
+      var postBody = body;
 
-      // verify the required parameter 'fileSchemaTestClass' is set
-      if (fileSchemaTestClass === undefined || fileSchemaTestClass === null) {
-        throw new Error("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithFileSchema");
       }
 
 
@@ -279,11 +279,11 @@
 
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    this.testBodyWithFileSchema = function(fileSchemaTestClass) {
-      return this.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
+    this.testBodyWithFileSchema = function(body) {
+      return this.testBodyWithFileSchemaWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -292,20 +292,20 @@
 
     /**
      * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {module:model/User} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.testBodyWithQueryParamsWithHttpInfo = function(query, user) {
-      var postBody = user;
+    this.testBodyWithQueryParamsWithHttpInfo = function(query, body) {
+      var postBody = body;
 
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
         throw new Error("Missing the required parameter 'query' when calling testBodyWithQueryParams");
       }
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling testBodyWithQueryParams");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithQueryParams");
       }
 
 
@@ -335,11 +335,11 @@
 
     /**
      * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {module:model/User} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    this.testBodyWithQueryParams = function(query, user) {
-      return this.testBodyWithQueryParamsWithHttpInfo(query, user)
+    this.testBodyWithQueryParams = function(query, body) {
+      return this.testBodyWithQueryParamsWithHttpInfo(query, body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -349,15 +349,15 @@
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
-    this.testClientModelWithHttpInfo = function(client) {
-      var postBody = client;
+    this.testClientModelWithHttpInfo = function(body) {
+      var postBody = body;
 
-      // verify the required parameter 'client' is set
-      if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling testClientModel");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
 
 
@@ -387,11 +387,11 @@
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
      */
-    this.testClientModel = function(client) {
-      return this.testClientModelWithHttpInfo(client)
+    this.testClientModel = function(body) {
+      return this.testClientModelWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -666,15 +666,15 @@
 
     /**
      * test inline additionalProperties
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} param request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.testInlineAdditionalPropertiesWithHttpInfo = function(requestBody) {
-      var postBody = requestBody;
+    this.testInlineAdditionalPropertiesWithHttpInfo = function(param) {
+      var postBody = param;
 
-      // verify the required parameter 'requestBody' is set
-      if (requestBody === undefined || requestBody === null) {
-        throw new Error("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
       }
 
 
@@ -703,11 +703,11 @@
 
     /**
      * test inline additionalProperties
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} param request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    this.testInlineAdditionalProperties = function(requestBody) {
-      return this.testInlineAdditionalPropertiesWithHttpInfo(requestBody)
+    this.testInlineAdditionalProperties = function(param) {
+      return this.testInlineAdditionalPropertiesWithHttpInfo(param)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

@@ -101,13 +101,13 @@
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @param {module:api/FakeApi~fakeOuterCompositeSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/OuterComposite}
      */
     this.fakeOuterCompositeSerialize = function(opts, callback) {
       opts = opts || {};
-      var postBody = opts['outerComposite'];
+      var postBody = opts['body'];
 
 
       var pathParams = {
@@ -229,15 +229,15 @@
 
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} body 
      * @param {module:api/FakeApi~testBodyWithFileSchemaCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.testBodyWithFileSchema = function(fileSchemaTestClass, callback) {
-      var postBody = fileSchemaTestClass;
+    this.testBodyWithFileSchema = function(body, callback) {
+      var postBody = body;
 
-      // verify the required parameter 'fileSchemaTestClass' is set
-      if (fileSchemaTestClass === undefined || fileSchemaTestClass === null) {
-        throw new Error("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithFileSchema");
       }
 
 
@@ -274,20 +274,20 @@
 
     /**
      * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {module:model/User} body 
      * @param {module:api/FakeApi~testBodyWithQueryParamsCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.testBodyWithQueryParams = function(query, user, callback) {
-      var postBody = user;
+    this.testBodyWithQueryParams = function(query, body, callback) {
+      var postBody = body;
 
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
         throw new Error("Missing the required parameter 'query' when calling testBodyWithQueryParams");
       }
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling testBodyWithQueryParams");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithQueryParams");
       }
 
 
@@ -326,16 +326,16 @@
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @param {module:api/FakeApi~testClientModelCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
      */
-    this.testClientModel = function(client, callback) {
-      var postBody = client;
+    this.testClientModel = function(body, callback) {
+      var postBody = body;
 
-      // verify the required parameter 'client' is set
-      if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling testClientModel");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
 
 
@@ -592,15 +592,15 @@
 
     /**
      * test inline additionalProperties
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} param request body
      * @param {module:api/FakeApi~testInlineAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.testInlineAdditionalProperties = function(requestBody, callback) {
-      var postBody = requestBody;
+    this.testInlineAdditionalProperties = function(param, callback) {
+      var postBody = param;
 
-      // verify the required parameter 'requestBody' is set
-      if (requestBody === undefined || requestBody === null) {
-        throw new Error("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
       }
 
 

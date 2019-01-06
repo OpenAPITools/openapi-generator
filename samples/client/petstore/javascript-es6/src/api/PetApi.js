@@ -45,15 +45,15 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    addPet(pet, callback) {
-      let postBody = pet;
+    addPet(body, callback) {
+      let postBody = body;
 
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling addPet");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling addPet");
       }
 
 
@@ -274,15 +274,15 @@ export default class PetApi {
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updatePet(pet, callback) {
-      let postBody = pet;
+    updatePet(body, callback) {
+      let postBody = body;
 
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling updatePet");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updatePet");
       }
 
 

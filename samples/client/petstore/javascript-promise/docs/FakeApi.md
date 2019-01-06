@@ -75,7 +75,7 @@ var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.FakeApi();
 var opts = {
-  'outerComposite': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
+  'body': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
 apiInstance.fakeOuterCompositeSerialize(opts).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
@@ -89,7 +89,7 @@ apiInstance.fakeOuterCompositeSerialize(opts).then(function(data) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -192,7 +192,7 @@ No authorization required
 
 <a name="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema(fileSchemaTestClass)
+> testBodyWithFileSchema(body)
 
 
 
@@ -203,8 +203,8 @@ For this test, the body for this request much reference a schema named &#x60;Fil
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.FakeApi();
-var fileSchemaTestClass = new OpenApiPetstore.FileSchemaTestClass(); // FileSchemaTestClass | 
-apiInstance.testBodyWithFileSchema(fileSchemaTestClass).then(function() {
+var body = new OpenApiPetstore.FileSchemaTestClass(); // FileSchemaTestClass | 
+apiInstance.testBodyWithFileSchema(body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -216,7 +216,7 @@ apiInstance.testBodyWithFileSchema(fileSchemaTestClass).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -233,7 +233,7 @@ No authorization required
 
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, user)
+> testBodyWithQueryParams(query, body)
 
 
 
@@ -243,8 +243,8 @@ var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.FakeApi();
 var query = "query_example"; // String | 
-var user = new OpenApiPetstore.User(); // User | 
-apiInstance.testBodyWithQueryParams(query, user).then(function() {
+var body = new OpenApiPetstore.User(); // User | 
+apiInstance.testBodyWithQueryParams(query, body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -257,7 +257,7 @@ apiInstance.testBodyWithQueryParams(query, user).then(function() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  | 
- **user** | [**User**](User.md)|  | 
+ **body** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -274,7 +274,7 @@ No authorization required
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(client)
+> Client testClientModel(body)
 
 To test \&quot;client\&quot; model
 
@@ -285,8 +285,8 @@ To test \&quot;client\&quot; model
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.FakeApi();
-var client = new OpenApiPetstore.Client(); // Client | client model
-apiInstance.testClientModel(client).then(function(data) {
+var body = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.testClientModel(body).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -298,7 +298,7 @@ apiInstance.testClientModel(client).then(function(data) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -500,7 +500,7 @@ No authorization required
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(requestBody)
+> testInlineAdditionalProperties(param)
 
 test inline additionalProperties
 
@@ -509,8 +509,8 @@ test inline additionalProperties
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.FakeApi();
-var requestBody = {key: "null"}; // {String: String} | request body
-apiInstance.testInlineAdditionalProperties(requestBody).then(function() {
+var param = {key: "null"}; // {String: String} | request body
+apiInstance.testInlineAdditionalProperties(param).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -522,7 +522,7 @@ apiInstance.testInlineAdditionalProperties(requestBody).then(function() {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**{String: String}**](String.md)| request body | 
+ **param** | [**{String: String}**](String.md)| request body | 
 
 ### Return type
 
