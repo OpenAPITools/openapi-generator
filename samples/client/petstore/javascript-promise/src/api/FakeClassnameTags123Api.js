@@ -51,15 +51,15 @@
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
-    this.testClassnameWithHttpInfo = function(client) {
-      var postBody = client;
+    this.testClassnameWithHttpInfo = function(body) {
+      var postBody = body;
 
-      // verify the required parameter 'client' is set
-      if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling testClassname");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testClassname");
       }
 
 
@@ -89,11 +89,11 @@
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
      */
-    this.testClassname = function(client) {
-      return this.testClassnameWithHttpInfo(client)
+    this.testClassname = function(body) {
+      return this.testClassnameWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

@@ -137,7 +137,7 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -146,8 +146,8 @@ Place an order for a pet
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.StoreApi();
-var order = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
-apiInstance.placeOrder(order).then(function(data) {
+var body = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
+apiInstance.placeOrder(body).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -159,7 +159,7 @@ apiInstance.placeOrder(order).then(function(data) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
