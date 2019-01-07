@@ -32,45 +32,46 @@ class PetApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def add_pet(self, pet, **kwargs):  # noqa: E501
+    def add_pet(self, body, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.add_pet(pet, async_req=True)
+        >>> thread = api.add_pet(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            return self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            (data) = self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def add_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
+    def add_pet_with_http_info(self, body, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.add_pet_with_http_info(pet, async_req=True)
+        >>> thread = api.add_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
-        local_var_params = locals()
-
-        all_params = ['pet']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -84,10 +85,10 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet' is set
-        if ('pet' not in local_var_params or
-                local_var_params['pet'] is None):
-            raise ValueError("Missing the required parameter `pet` when calling `add_pet`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `add_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -101,8 +102,8 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'pet' in local_var_params:
-            body_params = local_var_params['pet']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json', 'application/xml'])  # noqa: E501
@@ -163,8 +164,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'api_key']  # noqa: E501
         all_params.append('async_req')
@@ -257,8 +259,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['status']  # noqa: E501
         all_params.append('async_req')
@@ -354,8 +357,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['tags']  # noqa: E501
         all_params.append('async_req')
@@ -451,8 +455,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id']  # noqa: E501
         all_params.append('async_req')
@@ -510,45 +515,46 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_pet(self, pet, **kwargs):  # noqa: E501
+    def update_pet(self, body, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_pet(pet, async_req=True)
+        >>> thread = api.update_pet(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            return self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            (data) = self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def update_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
+    def update_pet_with_http_info(self, body, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_pet_with_http_info(pet, async_req=True)
+        >>> thread = api.update_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
-        local_var_params = locals()
-
-        all_params = ['pet']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -562,10 +568,10 @@ class PetApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet' is set
-        if ('pet' not in local_var_params or
-                local_var_params['pet'] is None):
-            raise ValueError("Missing the required parameter `pet` when calling `update_pet`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `update_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -579,8 +585,8 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'pet' in local_var_params:
-            body_params = local_var_params['pet']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json', 'application/xml'])  # noqa: E501
@@ -643,8 +649,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'name', 'status']  # noqa: E501
         all_params.append('async_req')
@@ -745,8 +752,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'additional_metadata', 'file']  # noqa: E501
         all_params.append('async_req')
@@ -851,8 +859,9 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['pet_id', 'required_file', 'additional_metadata']  # noqa: E501
         all_params.append('async_req')

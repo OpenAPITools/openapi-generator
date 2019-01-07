@@ -69,8 +69,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -134,7 +135,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param OuterComposite outer_composite: Input composite as post body
+        :param OuterComposite body: Input composite as post body
         :return: OuterComposite
                  If the method is called asynchronously,
                  returns the request thread.
@@ -156,15 +157,16 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param OuterComposite outer_composite: Input composite as post body
+        :param OuterComposite body: Input composite as post body
         :return: OuterComposite
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
-        local_var_params = locals()
-
-        all_params = ['outer_composite']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -191,8 +193,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'outer_composite' in local_var_params:
-            body_params = local_var_params['outer_composite']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -253,8 +255,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -345,8 +348,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -400,47 +404,48 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_body_with_file_schema(self, file_schema_test_class, **kwargs):  # noqa: E501
+    def test_body_with_file_schema(self, body, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request much reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_file_schema(file_schema_test_class, async_req=True)
+        >>> thread = api.test_body_with_file_schema(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param FileSchemaTestClass file_schema_test_class: (required)
+        :param FileSchemaTestClass body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
+            return self.test_body_with_file_schema_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
+            (data) = self.test_body_with_file_schema_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def test_body_with_file_schema_with_http_info(self, file_schema_test_class, **kwargs):  # noqa: E501
+    def test_body_with_file_schema_with_http_info(self, body, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request much reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_file_schema_with_http_info(file_schema_test_class, async_req=True)
+        >>> thread = api.test_body_with_file_schema_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param FileSchemaTestClass file_schema_test_class: (required)
+        :param FileSchemaTestClass body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
-        local_var_params = locals()
-
-        all_params = ['file_schema_test_class']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -454,10 +459,10 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'file_schema_test_class' is set
-        if ('file_schema_test_class' not in local_var_params or
-                local_var_params['file_schema_test_class'] is None):
-            raise ValueError("Missing the required parameter `file_schema_test_class` when calling `test_body_with_file_schema`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `test_body_with_file_schema`")  # noqa: E501
 
         collection_formats = {}
 
@@ -471,8 +476,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'file_schema_test_class' in local_var_params:
-            body_params = local_var_params['file_schema_test_class']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -496,47 +501,48 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_body_with_query_params(self, query, user, **kwargs):  # noqa: E501
+    def test_body_with_query_params(self, query, body, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_query_params(query, user, async_req=True)
+        >>> thread = api.test_body_with_query_params(query, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str query: (required)
-        :param User user: (required)
+        :param User body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
+            return self.test_body_with_query_params_with_http_info(query, body, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
+            (data) = self.test_body_with_query_params_with_http_info(query, body, **kwargs)  # noqa: E501
             return data
 
-    def test_body_with_query_params_with_http_info(self, query, user, **kwargs):  # noqa: E501
+    def test_body_with_query_params_with_http_info(self, query, body, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_query_params_with_http_info(query, user, async_req=True)
+        >>> thread = api.test_body_with_query_params_with_http_info(query, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str query: (required)
-        :param User user: (required)
+        :param User body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
-        local_var_params = locals()
-
-        all_params = ['query', 'user']  # noqa: E501
+        all_params = ['query', 'body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -554,10 +560,10 @@ class FakeApi(object):
         if ('query' not in local_var_params or
                 local_var_params['query'] is None):
             raise ValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
-        # verify the required parameter 'user' is set
-        if ('user' not in local_var_params or
-                local_var_params['user'] is None):
-            raise ValueError("Missing the required parameter `user` when calling `test_body_with_query_params`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `test_body_with_query_params`")  # noqa: E501
 
         collection_formats = {}
 
@@ -573,8 +579,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
-            body_params = local_var_params['user']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -598,47 +604,48 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_client_model(self, client, **kwargs):  # noqa: E501
+    def test_client_model(self, body, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_client_model(client, async_req=True)
+        >>> thread = api.test_client_model(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Client client: client model (required)
+        :param Client body: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
+            return self.test_client_model_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
+            (data) = self.test_client_model_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def test_client_model_with_http_info(self, client, **kwargs):  # noqa: E501
+    def test_client_model_with_http_info(self, body, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_client_model_with_http_info(client, async_req=True)
+        >>> thread = api.test_client_model_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Client client: client model (required)
+        :param Client body: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
-        local_var_params = locals()
-
-        all_params = ['client']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -652,10 +659,10 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'client' is set
-        if ('client' not in local_var_params or
-                local_var_params['client'] is None):
-            raise ValueError("Missing the required parameter `client` when calling `test_client_model`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `test_client_model`")  # noqa: E501
 
         collection_formats = {}
 
@@ -669,8 +676,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'client' in local_var_params:
-            body_params = local_var_params['client']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -761,8 +768,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']  # noqa: E501
         all_params.append('async_req')
@@ -937,8 +945,13 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+            'enum_header_string': '-efg',
+            'enum_query_string': '-efg',
+            'enum_form_string_array': '$',
+            'enum_form_string': '-efg'
+        }
+        local_var_params.update(locals())
 
         all_params = ['enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double', 'enum_form_string_array', 'enum_form_string']  # noqa: E501
         all_params.append('async_req')
@@ -1056,8 +1069,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['required_string_group', 'required_boolean_group', 'required_int64_group', 'string_group', 'boolean_group', 'int64_group']  # noqa: E501
         all_params.append('async_req')
@@ -1129,45 +1143,46 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_inline_additional_properties(self, request_body, **kwargs):  # noqa: E501
+    def test_inline_additional_properties(self, param, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_inline_additional_properties(request_body, async_req=True)
+        >>> thread = api.test_inline_additional_properties(param, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param dict(str, str) request_body: request body (required)
+        :param dict(str, str) param: request body (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
+            return self.test_inline_additional_properties_with_http_info(param, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
+            (data) = self.test_inline_additional_properties_with_http_info(param, **kwargs)  # noqa: E501
             return data
 
-    def test_inline_additional_properties_with_http_info(self, request_body, **kwargs):  # noqa: E501
+    def test_inline_additional_properties_with_http_info(self, param, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_inline_additional_properties_with_http_info(request_body, async_req=True)
+        >>> thread = api.test_inline_additional_properties_with_http_info(param, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param dict(str, str) request_body: request body (required)
+        :param dict(str, str) param: request body (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
-        local_var_params = locals()
-
-        all_params = ['request_body']  # noqa: E501
+        all_params = ['param']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1181,10 +1196,10 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'request_body' is set
-        if ('request_body' not in local_var_params or
-                local_var_params['request_body'] is None):
-            raise ValueError("Missing the required parameter `request_body` when calling `test_inline_additional_properties`")  # noqa: E501
+        # verify the required parameter 'param' is set
+        if ('param' not in local_var_params or
+                local_var_params['param'] is None):
+            raise ValueError("Missing the required parameter `param` when calling `test_inline_additional_properties`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1198,8 +1213,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'request_body' in local_var_params:
-            body_params = local_var_params['request_body']
+        if 'param' in local_var_params:
+            body_params = local_var_params['param']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -1260,8 +1275,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['param', 'param2']  # noqa: E501
         all_params.append('async_req')
