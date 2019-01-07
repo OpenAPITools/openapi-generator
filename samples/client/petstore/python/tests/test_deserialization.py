@@ -13,7 +13,6 @@ import json
 import os
 import time
 import unittest
-from unittest.mock import Mock
 import datetime
 
 import petstore_api
