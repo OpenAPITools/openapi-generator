@@ -4191,6 +4191,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected Parameter getParameterFromRef(String ref, OpenAPI openAPI) {
         String parameterName = ref.substring(ref.lastIndexOf('/') + 1);
         Map<String, Parameter> parameterMap = openAPI.getComponents().getParameters();
+        if (parameterMap == null ) { // can't find the ref
+            throw new RuntimeException(ref + " not defined in the spec.");
+        }
         return parameterMap.get(parameterName);
     }
 
