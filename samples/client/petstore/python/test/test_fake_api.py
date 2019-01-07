@@ -13,7 +13,11 @@
 from __future__ import absolute_import
 
 import unittest
-from unittest.mock import patch
+try:
+    from unittest.mock import patch
+except ImportError:
+    # python2
+    from mock import patch
 
 import petstore_api
 from petstore_api.api.fake_api import ApiClient  # noqa: E501
