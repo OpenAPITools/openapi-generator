@@ -1609,7 +1609,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return capitalized model name
      */
     public String toModelName(final String name) {
-        return initialCaps(modelNamePrefix + name + modelNameSuffix);
+        return initialCaps(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
     /**
