@@ -89,6 +89,11 @@ class ApiClient {
          */
          this.requestAgent = null;
 
+        /*
+         * Allow user to add superagent plugins
+         */
+        this.plugins = null;
+
     }
 
     /**
@@ -347,6 +352,14 @@ class ApiClient {
         var url = this.buildUrl(path, pathParams);
         var request = superagent(httpMethod, url);
 
+        if (this.plugins !== null) {
+            for (var index in this.plugins) {
+                if (this.plugins.hasOwnProperty(index)) {
+                    request.use(this.plugins[index])
+                }
+            }
+        }
+
         // apply authentications
         this.applyAuthToRequest(request, authNames);
 
@@ -420,7 +433,14 @@ class ApiClient {
         return new Promise((resolve, reject) => {
             request.end((error, response) => {
                 if (error) {
-                    reject(error);
+                    var err = {};
+                    err.status = response.status;
+                    err.statusText = response.statusText;
+                    err.body = response.body;
+                    err.response = response;
+                    err.error = error;
+
+                    reject(err);
                 } else {
                     try {
                         var data = this.deserialize(response, returnType);
