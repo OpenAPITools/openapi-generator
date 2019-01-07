@@ -50,7 +50,7 @@ class Animal(object):
 
         self._class_name = None
         self._color = None
-        self.discriminator = 'className'
+        self.discriminator = 'class_name'
 
         self.class_name = class_name
         if color is not None:

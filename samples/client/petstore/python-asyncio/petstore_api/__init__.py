@@ -18,6 +18,7 @@ __version__ = "1.0.0"
 
 # import apis into sdk package
 from petstore_api.api.another_fake_api import AnotherFakeApi
+from petstore_api.api.default_api import DefaultApi
 from petstore_api.api.fake_api import FakeApi
 from petstore_api.api.fake_classname_tags_123_api import FakeClassnameTags123Api
 from petstore_api.api.pet_api import PetApi
@@ -62,3 +63,4 @@ from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
+from petstore_api.models.xml_item import XmlItem

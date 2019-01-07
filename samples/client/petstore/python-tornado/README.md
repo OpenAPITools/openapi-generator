@@ -53,11 +53,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
-client = petstore_api.Client() # Client | client model
+body = petstore_api.Client() # Client | client model
 
 try:
     # To test special tags
-    api_response = api_instance.call_123_test_special_tags(client)
+    api_response = api_instance.call_123_test_special_tags(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
@@ -71,6 +71,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**create_xml_item**](docs/DefaultApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -143,6 +144,7 @@ Class | Method | HTTP request | Description
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
+ - [XmlItem](docs/XmlItem.md)
 
 
 ## Documentation For Authorization

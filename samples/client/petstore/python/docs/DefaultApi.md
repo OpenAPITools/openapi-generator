@@ -1,18 +1,18 @@
-# petstore_api.AnotherFakeApi
+# petstore_api.DefaultApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**call_123_test_special_tags**](AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+[**create_xml_item**](DefaultApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 
 
-# **call_123_test_special_tags**
-> Client call_123_test_special_tags(body)
+# **create_xml_item**
+> create_xml_item(xml_item)
 
-To test special tags
+creates an XmlItem
 
-To test special tags and operation ID starting with number
+this route creates an XmlItem
 
 ### Example
 ```python
@@ -23,26 +23,25 @@ from petstore_api.rest import ApiException
 from pprint import pprint
 
 # create an instance of the API class
-api_instance = petstore_api.AnotherFakeApi()
-body = petstore_api.Client() # Client | client model
+api_instance = petstore_api.DefaultApi()
+xml_item = petstore_api.XmlItem() # XmlItem | XmlItem Body
 
 try:
-    # To test special tags
-    api_response = api_instance.call_123_test_special_tags(body)
-    pprint(api_response)
+    # creates an XmlItem
+    api_instance.create_xml_item(xml_item)
 except ApiException as e:
-    print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
+    print("Exception when calling DefaultApi->create_xml_item: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **xml_item** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
 
 ### Return type
 
-[**Client**](Client.md)
+void (empty response body)
 
 ### Authorization
 
@@ -50,8 +49,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
