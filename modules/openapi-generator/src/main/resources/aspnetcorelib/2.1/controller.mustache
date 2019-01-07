@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Threading.Tasks;
 using {{packageName}}.Attributes;
 using {{packageName}}.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace {{packageName}}.Controllers
             /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
             /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
             /// <response code="{{code}}">{{message}}</response>{{/responses}}
-        (HttpStatusCode statusCode, object response) {{operationId}}({{#allParams}}{{&dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        Task<(HttpStatusCode statusCode, object response)> {{operationId}}({{#allParams}}{{&dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}
     }
 
@@ -35,6 +36,10 @@ namespace {{packageName}}.Controllers
     {
       private readonly I{{classname}}Implementation _impl;
 
+      /// <summary>
+         /// The IOC injected implementation
+        /// <param name="impl">Controller's implementation</param>
+        /// </summary>
       public {{classname}}Controller(I{{classname}}Implementation impl)
       {
             _impl = impl;
@@ -50,9 +55,9 @@ namespace {{packageName}}.Controllers
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]
         [ValidateModelState]
-        public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        public virtual async Task<IActionResult> {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
         {
-            throw new NotImplementedException();
+            {{>tupleReturn}}
         }
         {{/operation}}
     }

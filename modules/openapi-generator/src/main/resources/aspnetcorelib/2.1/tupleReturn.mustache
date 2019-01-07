@@ -1,0 +1,8 @@
+var (statusCode, result) = await _impl.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+
+            //TODO: Use spec to validate that the resultType matches the status code and that the status code was declared
+
+            return new ObjectResult(result)
+            {
+               StatusCode = (int)statusCode
+            };
