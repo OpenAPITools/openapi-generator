@@ -50,7 +50,7 @@ public class Generate implements Runnable {
     private Boolean verbose;
 
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
-            description = "generator to use (see langs command for list)")
+            description = "generator to use (see list command for list)")
     private String generatorName;
 
     @Option(name = {"-o", "--output"}, title = "output directory",
