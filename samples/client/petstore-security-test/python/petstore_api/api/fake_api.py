@@ -70,8 +70,9 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-
-        local_var_params = locals()
+        local_var_params = {
+        }
+        local_var_params.update(locals())
 
         all_params = ['test_code_inject____end____rn_n_r']  # noqa: E501
         all_params.append('async_req')
