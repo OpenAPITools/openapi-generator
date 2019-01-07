@@ -1,0 +1,60 @@
+{{>partial_header}}
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using {{packageName}}.Attributes;
+using {{packageName}}.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace {{packageName}}.Controllers
+{ {{#operations}}
+
+    /// <summary>
+        /// {{description}}
+        /// </summary>{{#description}}
+        [Description("{{description}}")]{{/description}}
+    public interface I{{classname}}Implementation
+    {
+    {{#operation}}
+        /// <summary>
+            /// {{#summary}}{{summary}}{{/summary}}
+            /// </summary>{{#notes}}
+            /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
+            /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
+            /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        (HttpStatusCode statusCode, object response) {{operationId}}({{#allParams}}{{&dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{/operation}}
+    }
+
+    /// <summary>
+    /// {{description}}
+    /// </summary>{{#description}}
+    [Description("{{description}}")]{{/description}}
+    public class {{classname}}Controller : ControllerBase
+    {
+      private readonly I{{classname}}Implementation _impl;
+
+      public {{classname}}Controller(I{{classname}}Implementation impl)
+      {
+            _impl = impl;
+      }
+
+      {{#operation}}
+        /// <summary>
+        /// {{#summary}}{{summary}}{{/summary}}
+        /// </summary>{{#notes}}
+        /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
+        /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
+        /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        [{{httpMethod}}]
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
+        [ValidateModelState]
+        public virtual IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {
+            throw new NotImplementedException();
+        }
+        {{/operation}}
+    }
+{{/operations}}
+}
