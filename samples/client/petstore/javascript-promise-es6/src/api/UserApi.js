@@ -38,15 +38,15 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
+     * @param {module:model/User} body Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUserWithHttpInfo(user) {
-      let postBody = user;
+    createUserWithHttpInfo(body) {
+      let postBody = body;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUser");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUser");
       }
 
 
@@ -74,11 +74,11 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
+     * @param {module:model/User} body Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUser(user) {
-      return this.createUserWithHttpInfo(user)
+    createUser(body) {
+      return this.createUserWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -87,15 +87,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUsersWithArrayInputWithHttpInfo(user) {
-      let postBody = user;
+    createUsersWithArrayInputWithHttpInfo(body) {
+      let postBody = body;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithArrayInput");
       }
 
 
@@ -122,11 +122,11 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUsersWithArrayInput(user) {
-      return this.createUsersWithArrayInputWithHttpInfo(user)
+    createUsersWithArrayInput(body) {
+      return this.createUsersWithArrayInputWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -135,15 +135,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUsersWithListInputWithHttpInfo(user) {
-      let postBody = user;
+    createUsersWithListInputWithHttpInfo(body) {
+      let postBody = body;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithListInput");
       }
 
 
@@ -170,11 +170,11 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUsersWithListInput(user) {
-      return this.createUsersWithListInputWithHttpInfo(user)
+    createUsersWithListInput(body) {
+      return this.createUsersWithListInputWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -383,20 +383,20 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
+     * @param {module:model/User} body Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateUserWithHttpInfo(username, user) {
-      let postBody = user;
+    updateUserWithHttpInfo(username, body) {
+      let postBody = body;
 
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling updateUser");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateUser");
       }
 
 
@@ -426,11 +426,11 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
+     * @param {module:model/User} body Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateUser(username, user) {
-      return this.updateUserWithHttpInfo(username, user)
+    updateUser(username, body) {
+      return this.updateUserWithHttpInfo(username, body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

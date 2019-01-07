@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(user)
+> createUser(body)
 
 Create user
 
@@ -27,8 +27,8 @@ This can only be done by the logged in user.
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let user = new OpenApiPetstore.User(); // User | Created user object
-apiInstance.createUser(user, (error, data, response) => {
+let body = new OpenApiPetstore.User(); // User | Created user object
+apiInstance.createUser(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -41,7 +41,7 @@ apiInstance.createUser(user, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -58,7 +58,7 @@ No authorization required
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(user)
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -67,8 +67,8 @@ Creates list of users with given input array
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let user = [new OpenApiPetstore.User()]; // [User] | List of user object
-apiInstance.createUsersWithArrayInput(user, (error, data, response) => {
+let body = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithArrayInput(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -81,7 +81,7 @@ apiInstance.createUsersWithArrayInput(user, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -98,7 +98,7 @@ No authorization required
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(user)
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -107,8 +107,8 @@ Creates list of users with given input array
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
-let user = [new OpenApiPetstore.User()]; // [User] | List of user object
-apiInstance.createUsersWithListInput(user, (error, data, response) => {
+let body = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithListInput(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -121,7 +121,7 @@ apiInstance.createUsersWithListInput(user, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -298,7 +298,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, user)
+> updateUser(username, body)
 
 Updated user
 
@@ -310,8 +310,8 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.UserApi();
 let username = "username_example"; // String | name that need to be deleted
-let user = new OpenApiPetstore.User(); // User | Updated user object
-apiInstance.updateUser(username, user, (error, data, response) => {
+let body = new OpenApiPetstore.User(); // User | Updated user object
+apiInstance.updateUser(username, body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -325,7 +325,7 @@ apiInstance.updateUser(username, user, (error, data, response) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
