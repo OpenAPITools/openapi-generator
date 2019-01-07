@@ -20,7 +20,7 @@ Version `4.0.0` is a major release, which contains some breaking changes without
 The option is replaced with `-g` (`--generator-name`).
 
 * `-g` allows the same values as `-l`
-* See `langs` command for the list of generator name
+* See `list` command for the list of generator name
 
 === From 3.1.x to 3.2.0
 
