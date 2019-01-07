@@ -621,7 +621,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";
-                else
+                else if (p.getDefault().toString().equalsIgnoreCase("true"))
                     return "True";
             }
             // include fallback to example, default defined as server only
@@ -629,7 +629,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getExample() != null) {
                 if (p.getExample().toString().equalsIgnoreCase("false"))
                     return "False";
-                else
+                else if (p.getExample().toString().equalsIgnoreCase("true"))
                     return "True";
             }
         } else if (ModelUtils.isDateSchema(p)) {
