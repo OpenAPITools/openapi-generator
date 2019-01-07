@@ -9,12 +9,12 @@ const loadYaml = relativePath => parseYaml(fs.readFileSync(path.join(__dirname, 
 
 const team = loadYaml("dynamic/team.yml");
 const users = loadYaml("dynamic/users.yml");
-
+const baseUrl = '/openapi-generator/';
 const siteConfig = {
   title: 'OpenAPI Generator', // Title for your website.
   tagline: 'Generate clients, servers, and documentation from OpenAPI 2.0/3.x documents',
   url: 'https://OpenAPITools.github.io', // Your website URL
-  baseUrl: '/openapi-generator/', // Base URL for your project */
+  baseUrl: baseUrl, // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
   //   baseUrl: '/test-site/',
@@ -33,6 +33,7 @@ const siteConfig = {
     {doc: 'roadmap', label: 'Roadmap'},
     // {doc: 'doc4', label: 'API'},
     { page: "team", label: "Team" },
+    { doc: "faq", label: "FAQ" },
     // {page: 'help', label: 'Help'},
     {blog: true, label: 'Blog'},
   ],
@@ -74,7 +75,11 @@ const siteConfig = {
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  scripts: ['https://buttons.github.io/buttons.js'],
+  scripts: [
+      'https://buttons.github.io/buttons.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js',
+      `${baseUrl}js/code-block-buttons.js`,
+  ],
 
   // On page navigation for the current documentation page.
   onPageNav: 'separate',

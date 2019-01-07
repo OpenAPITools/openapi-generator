@@ -25,8 +25,20 @@
       "customization": {
         "title": "Customization"
       },
+      "debugging": {
+        "title": "Debugging"
+      },
+      "faq-contributing": {
+        "title": "FAQ: Contributing"
+      },
+      "faq-extending": {
+        "title": "FAQ: Extending"
+      },
+      "faq-generators": {
+        "title": "FAQ: Generators"
+      },
       "faq": {
-        "title": "FAQ"
+        "title": "FAQ: General"
       },
       "generators": {
         "title": "Generators List"
@@ -361,8 +373,14 @@
       "fork-qna": {
         "title": "Swagger Codegen Fork: Q&A"
       },
+      "release-summary": {
+        "title": "Release Summary"
+      },
       "roadmap": {
         "title": "Roadmap"
+      },
+      "spec-info": {
+        "title": "Spec Info"
       },
       "templating": {
         "title": "Using Templates"
@@ -376,6 +394,7 @@
       "Generators": "Generators",
       "Roadmap": "Roadmap",
       "Team": "Team",
+      "FAQ": "FAQ",
       "Blog": "Blog"
     },
     "categories": {
@@ -385,7 +404,7 @@
       "About": "About",
       "Releases": "Releases",
       "API": "API",
-      "First Category": "First Category"
+      "FAQ": "FAQ"
     }
   },
   "pages-strings": {

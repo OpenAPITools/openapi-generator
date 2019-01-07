@@ -3,6 +3,9 @@
 dd {
     margin-bottom: 0.5em;
 }
+dd {
+    margin-inline-start: 2em;
+}
 
 .blockElement.imageAlignSide .blockImage {
     text-align: center;

@@ -1,6 +1,6 @@
 ---
 id: faq
-title: FAQ
+title: FAQ: General
 ---
 
 ## Do you have a chat room?
@@ -16,7 +16,3 @@ OpenAPI generator (openapi-generator) is managed by the members of the [core tea
 Swagger Codegen is driven by SmartBear while OpenAPI Generator is driven by the community. More than 40 top contributors and template creators of Swagger Codegen have joined OpenAPI Generator as the founding team members. For more details, see the [Fork Q&A](./qna.md).
 
 Swagger is a trademark owned by SmartBear and the use of the term "Swagger" in this project is for demo (reference) purposes only.
-
-## How do I extend the generator?
-
-See our [customization](./customization.md) documentation.
