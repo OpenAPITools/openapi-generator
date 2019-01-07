@@ -619,17 +619,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (p.getDefault().toString().equalsIgnoreCase("false"))
+                if (Boolean.valueOf(p.getDefault().toString()) == false)
                     return "False";
-                else if (p.getDefault().toString().equalsIgnoreCase("true"))
+                else
                     return "True";
             }
             // include fallback to example, default defined as server only
             // example is not defined as server only
             if (p.getExample() != null) {
-                if (p.getExample().toString().equalsIgnoreCase("false"))
+                if (Boolean.valueOf(p.getExample().toString()) == false)
                     return "False";
-                else if (p.getExample().toString().equalsIgnoreCase("true"))
+                else
                     return "True";
             }
         } else if (ModelUtils.isDateSchema(p)) {
