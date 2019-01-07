@@ -1,5 +1,5 @@
-pytest>=3.6
-pytest-cov>=2.6.1
+pytest>=3.6,<=4.0.2
+pytest-cov>=2.5.1,<=2.6.0
 pluggy>=0.3.1
 py>=1.4.31
 randomize>=0.13
