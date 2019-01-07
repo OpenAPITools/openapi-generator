@@ -2181,12 +2181,12 @@ public class DefaultCodegen implements CodegenConfig {
 
             // set is enum to true when a model is enum and type is non-primitive.
             if (StringUtils.isNotBlank(p.get$ref()) && globalSchemas != null) {
-               Schema ref = globalSchemas.get(ModelUtils.getSimpleRef(p.get$ref()));
-               if (ref != null) {
-                   if (ref.getEnum() != null) {
-                       property.isEnum = true;
-                   }
-               }
+                Schema ref = globalSchemas.get(ModelUtils.getSimpleRef(p.get$ref()));
+                if (ref != null) {
+                    if (ref.getEnum() != null) {
+                        property.isEnum = true;
+                    }
+                }
             }
 
             setNonArrayMapProperty(property, type);
