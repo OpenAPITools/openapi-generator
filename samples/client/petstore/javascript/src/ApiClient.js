@@ -101,6 +101,11 @@
      * Allow user to override superagent agent
      */
     this.requestAgent = null;
+
+    /*
+     * Allow user to add superagent plugins
+     */
+    this.plugins = null;
   };
 
   /**
@@ -386,6 +391,14 @@
     var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
+
+    if (this.plugins !== null) {
+        for (var index in this.plugins) {
+            if (this.plugins.hasOwnProperty(index)) {
+                request.use(this.plugins[index])
+            }
+        }
+    }
 
     // apply authentications
     this.applyAuthToRequest(request, authNames);
