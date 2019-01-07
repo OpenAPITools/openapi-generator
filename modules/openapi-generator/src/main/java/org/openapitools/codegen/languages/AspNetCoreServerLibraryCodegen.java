@@ -50,6 +50,8 @@ public class AspNetCoreServerLibraryCodegen extends AbstractCSharpCodegen {
     protected String serverHost = "0.0.0.0";
     protected String aspnetCoreVersion= "2.1"; // default to 2.1
 
+    private String controllerBindingMethodName;
+
     public AspNetCoreServerLibraryCodegen() {
         super();
 
@@ -59,6 +61,8 @@ public class AspNetCoreServerLibraryCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("controller.mustache", ".cs");
 
         embeddedTemplateDir = templateDir = "aspnetcorelib/2.1";
+
+        controllerBindingMethodName =packageName.replace(".", "");
 
         // contextually reserved words
         // NOTE: C# uses camel cased reserved words, while models are title cased. We don't want lowercase comparisons.
@@ -105,10 +109,6 @@ public class AspNetCoreServerLibraryCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.RETURN_ICOLLECTION,
                 CodegenConstants.RETURN_ICOLLECTION_DESC,
                 returnICollection);
-
-        addSwitch(USE_SWASHBUCKLE,
-                "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
-                useSwashbuckle);
     }
 
     @Override
@@ -138,35 +138,22 @@ public class AspNetCoreServerLibraryCodegen extends AbstractCSharpCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
-            setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
-        }
-        additionalProperties.put("packageGuid", packageGuid);
-
-        if (additionalProperties.containsKey(USE_SWASHBUCKLE)) {
-            useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
-        } else {
-            additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
-        }
-
         // determine the ASP.NET core version setting
         if (additionalProperties.containsKey(ASPNET_CORE_VERSION)) {
             setAspnetCoreVersion((String) additionalProperties.get(ASPNET_CORE_VERSION));
         }
-
-        additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
 
         apiPackage = packageName + ".Controllers";
         modelPackage = packageName + ".Models";
 
         String packageFolder = sourceFolder + File.separator + packageName;
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("README.mustache", packageFolder, "README.md"));
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
 
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
+        supportingFiles.add(new SupportingFile("bindControllers.mustache", packageFolder, controllerBindingMethodName + ".cs"));
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -205,6 +192,8 @@ public class AspNetCoreServerLibraryCodegen extends AbstractCSharpCodegen {
                 LOGGER.warn("Normalized " + original + " to " + operation.path + ". Please verify generated source.");
             }
         }
+
+        additionalProperties.put("controllerBindingMethodName", controllerBindingMethodName);
 
         // Converts, for example, PUT to HttpPut for controller attributes
         operation.httpMethod = "Http" + operation.httpMethod.substring(0, 1) + operation.httpMethod.substring(1).toLowerCase(Locale.ROOT);

@@ -1,0 +1,24 @@
+{{>partial_header}}
+using System;
+using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace {{packageName}}
+{
+     /// <summary>
+    ///
+    /// </summary>
+    public static class ControllerBinder
+    {
+        /// <summary>
+        ///
+       /// </summary>
+       public static IMvcCoreBuilder Add{{controllerBindingMethodName}}(this IMvcCoreBuilder builder)
+       {
+         var assembly = Assembly.Load("{{packageName}}");
+         builder.AddApplicationPart(assembly);
+         return builder;
+       }
+    }
+}
