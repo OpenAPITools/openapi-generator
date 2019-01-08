@@ -631,10 +631,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // pet_id => petId
         name = camelize(name, true);
 
-        /*if ("type".equals(name.toLowerCase(Locale.ROOT))) { // to avoid "getType", which is not allowed to override
-            return "theType"; // type => theType
-        }*/
-
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
