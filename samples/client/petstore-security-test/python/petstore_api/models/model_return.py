@@ -46,7 +46,7 @@ class ModelReturn(object):
         self.discriminator = None
 
         if _return is not None:
-            self._return = _return
+            self._return = _return  # noqa: E501
 
     @property
     def _return(self):
