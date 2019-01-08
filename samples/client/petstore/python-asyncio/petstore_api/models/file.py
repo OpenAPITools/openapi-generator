@@ -45,7 +45,7 @@ class File(object):
         self.discriminator = None
 
         if source_uri is not None:
-            self.source_uri = source_uri
+            self.source_uri = source_uri  # noqa: E501
 
     @property
     def source_uri(self):

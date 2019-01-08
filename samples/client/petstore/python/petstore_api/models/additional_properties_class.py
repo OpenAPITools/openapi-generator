@@ -48,9 +48,9 @@ class AdditionalPropertiesClass(object):
         self.discriminator = None
 
         if map_property is not None:
-            self.map_property = map_property
+            self.map_property = map_property  # noqa: E501
         if map_of_map_property is not None:
-            self.map_of_map_property = map_of_map_property
+            self.map_of_map_property = map_of_map_property  # noqa: E501
 
     @property
     def map_property(self):

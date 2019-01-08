@@ -45,7 +45,7 @@ class Cat(object):
         self.discriminator = None
 
         if declawed is not None:
-            self.declawed = declawed
+            self.declawed = declawed  # noqa: E501
 
     @property
     def declawed(self):

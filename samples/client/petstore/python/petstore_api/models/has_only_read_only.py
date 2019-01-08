@@ -48,9 +48,9 @@ class HasOnlyReadOnly(object):
         self.discriminator = None
 
         if bar is not None:
-            self.bar = bar
+            self.bar = bar  # noqa: E501
         if foo is not None:
-            self.foo = foo
+            self.foo = foo  # noqa: E501
 
     @property
     def bar(self):

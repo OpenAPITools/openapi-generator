@@ -129,63 +129,63 @@ class XmlItem(object):
         self.discriminator = None
 
         if attribute_string is not None:
-            self.attribute_string = attribute_string
+            self.attribute_string = attribute_string  # noqa: E501
         if attribute_number is not None:
-            self.attribute_number = attribute_number
+            self.attribute_number = attribute_number  # noqa: E501
         if attribute_integer is not None:
-            self.attribute_integer = attribute_integer
+            self.attribute_integer = attribute_integer  # noqa: E501
         if attribute_boolean is not None:
-            self.attribute_boolean = attribute_boolean
+            self.attribute_boolean = attribute_boolean  # noqa: E501
         if wrapped_array is not None:
-            self.wrapped_array = wrapped_array
+            self.wrapped_array = wrapped_array  # noqa: E501
         if name_string is not None:
-            self.name_string = name_string
+            self.name_string = name_string  # noqa: E501
         if name_number is not None:
-            self.name_number = name_number
+            self.name_number = name_number  # noqa: E501
         if name_integer is not None:
-            self.name_integer = name_integer
+            self.name_integer = name_integer  # noqa: E501
         if name_boolean is not None:
-            self.name_boolean = name_boolean
+            self.name_boolean = name_boolean  # noqa: E501
         if name_array is not None:
-            self.name_array = name_array
+            self.name_array = name_array  # noqa: E501
         if name_wrapped_array is not None:
-            self.name_wrapped_array = name_wrapped_array
+            self.name_wrapped_array = name_wrapped_array  # noqa: E501
         if prefix_string is not None:
-            self.prefix_string = prefix_string
+            self.prefix_string = prefix_string  # noqa: E501
         if prefix_number is not None:
-            self.prefix_number = prefix_number
+            self.prefix_number = prefix_number  # noqa: E501
         if prefix_integer is not None:
-            self.prefix_integer = prefix_integer
+            self.prefix_integer = prefix_integer  # noqa: E501
         if prefix_boolean is not None:
-            self.prefix_boolean = prefix_boolean
+            self.prefix_boolean = prefix_boolean  # noqa: E501
         if prefix_array is not None:
-            self.prefix_array = prefix_array
+            self.prefix_array = prefix_array  # noqa: E501
         if prefix_wrapped_array is not None:
-            self.prefix_wrapped_array = prefix_wrapped_array
+            self.prefix_wrapped_array = prefix_wrapped_array  # noqa: E501
         if namespace_string is not None:
-            self.namespace_string = namespace_string
+            self.namespace_string = namespace_string  # noqa: E501
         if namespace_number is not None:
-            self.namespace_number = namespace_number
+            self.namespace_number = namespace_number  # noqa: E501
         if namespace_integer is not None:
-            self.namespace_integer = namespace_integer
+            self.namespace_integer = namespace_integer  # noqa: E501
         if namespace_boolean is not None:
-            self.namespace_boolean = namespace_boolean
+            self.namespace_boolean = namespace_boolean  # noqa: E501
         if namespace_array is not None:
-            self.namespace_array = namespace_array
+            self.namespace_array = namespace_array  # noqa: E501
         if namespace_wrapped_array is not None:
-            self.namespace_wrapped_array = namespace_wrapped_array
+            self.namespace_wrapped_array = namespace_wrapped_array  # noqa: E501
         if prefix_namespace_string is not None:
-            self.prefix_namespace_string = prefix_namespace_string
+            self.prefix_namespace_string = prefix_namespace_string  # noqa: E501
         if prefix_namespace_number is not None:
-            self.prefix_namespace_number = prefix_namespace_number
+            self.prefix_namespace_number = prefix_namespace_number  # noqa: E501
         if prefix_namespace_integer is not None:
-            self.prefix_namespace_integer = prefix_namespace_integer
+            self.prefix_namespace_integer = prefix_namespace_integer  # noqa: E501
         if prefix_namespace_boolean is not None:
-            self.prefix_namespace_boolean = prefix_namespace_boolean
+            self.prefix_namespace_boolean = prefix_namespace_boolean  # noqa: E501
         if prefix_namespace_array is not None:
-            self.prefix_namespace_array = prefix_namespace_array
+            self.prefix_namespace_array = prefix_namespace_array  # noqa: E501
         if prefix_namespace_wrapped_array is not None:
-            self.prefix_namespace_wrapped_array = prefix_namespace_wrapped_array
+            self.prefix_namespace_wrapped_array = prefix_namespace_wrapped_array  # noqa: E501
 
     @property
     def attribute_string(self):

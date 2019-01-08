@@ -45,7 +45,7 @@ class ArrayOfArrayOfNumberOnly(object):
         self.discriminator = None
 
         if array_array_number is not None:
-            self.array_array_number = array_array_number
+            self.array_array_number = array_array_number  # noqa: E501
 
     @property
     def array_array_number(self):

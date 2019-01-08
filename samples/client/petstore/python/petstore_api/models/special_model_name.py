@@ -45,7 +45,7 @@ class SpecialModelName(object):
         self.discriminator = None
 
         if special_property_name is not None:
-            self.special_property_name = special_property_name
+            self.special_property_name = special_property_name  # noqa: E501
 
     @property
     def special_property_name(self):

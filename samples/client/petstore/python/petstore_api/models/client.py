@@ -45,7 +45,7 @@ class Client(object):
         self.discriminator = None
 
         if client is not None:
-            self.client = client
+            self.client = client  # noqa: E501
 
     @property
     def client(self):

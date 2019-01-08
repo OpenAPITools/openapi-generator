@@ -51,11 +51,11 @@ class OuterComposite(object):
         self.discriminator = None
 
         if my_number is not None:
-            self.my_number = my_number
+            self.my_number = my_number  # noqa: E501
         if my_string is not None:
-            self.my_string = my_string
+            self.my_string = my_string  # noqa: E501
         if my_boolean is not None:
-            self.my_boolean = my_boolean
+            self.my_boolean = my_boolean  # noqa: E501
 
     @property
     def my_number(self):
