@@ -117,6 +117,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        // special words
+                        "object",
                         // used as internal variables, can collide with parameter names
                         "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
                         "localVarHeaderParams", "localVarFormParams", "localVarPostBody",
@@ -628,6 +630,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // camelize (lower first character) the variable name
         // pet_id => petId
         name = camelize(name, true);
+
+        /*if ("type".equals(name.toLowerCase(Locale.ROOT))) { // to avoid "getType", which is not allowed to override
+            return "theType"; // type => theType
+        }*/
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
