@@ -36,7 +36,7 @@ export class Configuration {
             return undefined;
         }
 
-        let type = contentTypes.find(x => this.isJsonMime(x));
+        const type = contentTypes.find((x: string) => this.isJsonMime(x));
         if (type === undefined) {
             return contentTypes[0];
         }
@@ -55,7 +55,7 @@ export class Configuration {
             return undefined;
         }
 
-        let type = accepts.find(x => this.isJsonMime(x));
+        const type = accepts.find((x: string) => this.isJsonMime(x));
         if (type === undefined) {
             return accepts[0];
         }
