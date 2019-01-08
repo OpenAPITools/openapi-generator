@@ -32,7 +32,7 @@ namespace {{packageName}}.Controllers
     /// {{description}}
     /// </summary>{{#description}}
     [Description("{{description}}")]{{/description}}
-    public abstract class {{classname}}AbstractController : ControllerBase
+    public {{#overrideControllers}}abstract {{/overrideControllers}}class {{>abstractConcreteClassName}} : ControllerBase
     {
       private readonly I{{classname}}Implementation _impl;
 
@@ -40,7 +40,7 @@ namespace {{packageName}}.Controllers
          /// The IOC injected implementation
         /// <param name="impl">Controller's implementation</param>
         /// </summary>
-      public {{classname}}Controller(I{{classname}}Implementation impl)
+      public {{>abstractConcreteClassName}}(I{{classname}}Implementation impl)
       {
             _impl = impl;
       }

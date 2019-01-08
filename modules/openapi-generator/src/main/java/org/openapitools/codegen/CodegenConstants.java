@@ -160,6 +160,9 @@ public class CodegenConstants {
     public static final String NETCORE_PROJECT_FILE = "netCoreProjectFile";
     public static final String NETCORE_PROJECT_FILE_DESC = "Use the new format (.NET Core) for .NET project files (.csproj).";
 
+    public static final String OVERRIDE_CONTROLLERS = "overrideControllers";
+    public static final String OVERRIDE_CONTROLLERS_DESC = "Make generated controllers for AspNetCoreLibrary abstract and not automatically bound";
+
     public static final String USE_COLLECTION = "useCollection";
     public static final String USE_COLLECTION_DESC = "Deserialize array types to Collection<T> instead of List<T>.";
 

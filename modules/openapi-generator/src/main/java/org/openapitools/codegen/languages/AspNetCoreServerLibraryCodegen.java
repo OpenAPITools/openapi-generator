@@ -99,6 +99,11 @@ public class AspNetCoreServerLibraryCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.RETURN_ICOLLECTION,
                 CodegenConstants.RETURN_ICOLLECTION_DESC,
                 returnICollection);
+
+
+        addSwitch(CodegenConstants.OVERRIDE_CONTROLLERS,
+                CodegenConstants.OVERRIDE_CONTROLLERS_DESC,
+                true);
     }
 
     @Override
