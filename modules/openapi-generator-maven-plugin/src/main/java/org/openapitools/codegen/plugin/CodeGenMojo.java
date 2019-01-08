@@ -146,12 +146,6 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean skipOverwrite;
 
     /**
-     * Specifies if the existing files should be overwritten during the generation.
-     */
-    @Parameter(name = "removeOperationIdPrefix", required = false)
-    private Boolean removeOperationIdPrefix;
-
-    /**
      * The package to use for generated api objects/classes
      */
     @Parameter(name = "apiPackage")
@@ -210,6 +204,36 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "ignoreFileOverride", required = false)
     private String ignoreFileOverride;
+
+    /**
+     * To remove operationId prefix (e.g. user_getName => getName)
+     */
+    @Parameter(name = "removeOperationIdPrefix", required = false)
+    private Boolean removeOperationIdPrefix;
+
+    /**
+     * To write all log messages (not just errors) to STDOUT
+     */
+    @Parameter(name = "logToStderr", required = false)
+    private Boolean logToStderr;
+
+    /**
+     * To file post-processing hook
+     */
+    @Parameter(name = "enablePostProcessFile", required = false)
+    private Boolean enablePostProcessFile;
+
+    /**
+     * To skip spec validation
+     */
+    @Parameter(name = "skipValidateSpec", required = false)
+    private Boolean skipValidateSpec;
+
+    /**
+     * To generate alias (array, map) as model
+     */
+    @Parameter(name = "generateAliasAsModel", required = false)
+    private Boolean generateAliasAsModel;
 
     /**
      * A map of language-specific parameters as passed with the -c option to the command line
@@ -431,6 +455,22 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(ignoreFileOverride)) {
                 configurator.setIgnoreFileOverride(ignoreFileOverride);
+            }
+
+            if (skipValidateSpec != null) {
+                configurator.setSkipOverwrite(skipValidateSpec);
+            }
+
+            if (logToStderr != null) {
+                configurator.setLogToStderr(logToStderr);
+            }
+
+            if (enablePostProcessFile != null) {
+                configurator.setEnablePostProcessFile(enablePostProcessFile);
+            }
+
+            if (generateAliasAsModel  != null) {
+                configurator.setGenerateAliasAsModel(generateAliasAsModel);
             }
 
             // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
