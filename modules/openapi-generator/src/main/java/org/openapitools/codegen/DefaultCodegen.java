@@ -4032,6 +4032,9 @@ public class DefaultCodegen implements CodegenConfig {
         if (Boolean.TRUE.equals(property.isFile)) {
             parameter.isFile = true;
         }
+        if (Boolean.TRUE.equals(property.isModel)) {
+            parameter.isModel = true;
+        }
     }
 
 
