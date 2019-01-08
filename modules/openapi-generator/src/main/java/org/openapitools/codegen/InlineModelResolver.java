@@ -83,8 +83,8 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in RequestBody
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param openAPI   target spec
+     * @param pathname  target pathname
      * @param operation target operation
      */
     private void flattenRequestBody(OpenAPI openAPI, String pathname, Operation operation) {
@@ -171,8 +171,8 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in parameters
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param openAPI   target spec
+     * @param pathname  target pathname
      * @param operation target operation
      */
     private void flattenParameters(OpenAPI openAPI, String pathname, Operation operation) {
@@ -229,8 +229,8 @@ public class InlineModelResolver {
     /**
      * Flatten inline models in ApiResponses
      *
-     * @param openAPI target spec
-     * @param pathname target pathname
+     * @param openAPI   target spec
+     * @param pathname  target pathname
      * @param operation target operation
      */
     private void flattenResponses(OpenAPI openAPI, String pathname, Operation operation) {
@@ -333,11 +333,15 @@ public class InlineModelResolver {
         List<String> modelNames = new ArrayList<String>(models.keySet());
         for (String modelName : modelNames) {
             Schema model = models.get(modelName);
-            if (model instanceof Schema) {
-                Schema m = (Schema) model;
-                Map<String, Schema> properties = m.getProperties();
-                flattenProperties(properties, modelName);
-                fixStringModel(m);
+            if (ModelUtils.isComposedSchema(model)) {
+                ComposedSchema m = (ComposedSchema) model;
+                List<Schema> schemaList  = ModelUtils.getInterfaces(m); // schemas defined in anyOf/oneOf/allOf
+
+                for (Schema component : schemaList) {
+                    if (component.get$ref() == null) {
+                        flattenProperties(component.getProperties(), resolveModelName(component.getTitle(), "composed_" + modelName));
+                    }
+                }
             } else if (ModelUtils.isArraySchema(model)) {
                 ArraySchema m = (ArraySchema) model;
                 Schema inner = m.getItems();
@@ -360,20 +364,13 @@ public class InlineModelResolver {
                         }
                     }
                 }
-            } else if (ModelUtils.isComposedSchema(model)) {
-                ComposedSchema m = (ComposedSchema) model;
-                if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
-                    Schema child = null;
-                    for (Schema component : m.getAllOf()) {
-                        if (component.get$ref() == null) {
-                            child = component;
-                        }
-                    }
-                    if (child != null) {
-                        Map<String, Schema> properties = child.getProperties();
-                        flattenProperties(properties, modelName);
-                    }
-                }
+            } else if (model instanceof Schema) {
+                Schema m = (Schema) model;
+                Map<String, Schema> properties = m.getProperties();
+                flattenProperties(properties, modelName);
+                //fixStringModel(m);
+            } else {
+                LOGGER.debug("The following schema is not handled in InlineModelResolver: {}", model);
             }
         }
     }
@@ -383,6 +380,7 @@ public class InlineModelResolver {
      * example would look something like that in the doc: "\"example from def\""
      *
      * @param m Schema implementation
+     * @deprecated
      */
     private void fixStringModel(Schema m) {
         if (m.getType() != null && m.getType().equals("string") && m.getExample() != null) {
@@ -568,7 +566,7 @@ public class InlineModelResolver {
     private void copyVendorExtensions(Schema source, Schema target) {
         Map<String, Object> vendorExtensions = source.getExtensions();
         if (vendorExtensions == null) {
-             return;
+            return;
         }
         for (String extName : vendorExtensions.keySet()) {
             target.addExtension(extName, vendorExtensions.get(extName));

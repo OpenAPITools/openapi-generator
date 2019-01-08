@@ -4667,6 +4667,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (codegenModel != null) {
                 codegenParameter.isModel = true;
+            } else {
+                throw new RuntimeException("model is null " + schema);
             }
 
             if (codegenModel != null && !codegenModel.emptyVars) {
