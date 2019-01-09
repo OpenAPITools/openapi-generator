@@ -317,6 +317,30 @@ CREATE TABLE IF NOT EXISTS `Tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `TypeHolderDefault` generated from model 'TypeHolderDefault'
+--
+
+CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
+  `string_item` TEXT NOT NULL,
+  `number_item` DECIMAL(20, 9) NOT NULL,
+  `integer_item` INT NOT NULL,
+  `bool_item` TINYINT(1) NOT NULL,
+  `array_item` JSON NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `TypeHolderExample` generated from model 'TypeHolderExample'
+--
+
+CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
+  `string_item` TEXT NOT NULL,
+  `number_item` DECIMAL(20, 9) NOT NULL,
+  `integer_item` INT NOT NULL,
+  `bool_item` TINYINT(1) NOT NULL,
+  `array_item` JSON NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `User` generated from model 'User'
 --
 

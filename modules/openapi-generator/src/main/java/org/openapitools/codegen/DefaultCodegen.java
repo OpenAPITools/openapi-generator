@@ -1841,7 +1841,7 @@ public class DefaultCodegen implements CodegenConfig {
                             .map(s -> ModelUtils.getSimpleRef(s.get$ref()))
                             .collect(Collectors.toSet());
                     if (parentSchemas.contains(schemaName)) {
-                        discriminator.getMappedModels().add(new MappedModel(childName, childName));
+                        discriminator.getMappedModels().add(new MappedModel(childName, toModelName(childName)));
                     }
                 }
             });
@@ -1864,18 +1864,21 @@ public class DefaultCodegen implements CodegenConfig {
     protected void addProperties(Map<String, Schema> properties, List<String> required, Schema
             schema, Map<String, Schema> allSchemas) {
         if (schema instanceof ComposedSchema) {
-            throw new RuntimeException("Please report the issue: Cannot process Composed Schema in addProperties: " + schema);
-            /*
             ComposedSchema composedSchema = (ComposedSchema) schema;
-            if (composedSchema.getAllOf() == null) {
-                return;
-            }
 
             for (Schema component : composedSchema.getAllOf()) {
                 addProperties(properties, required, component, allSchemas);
             }
+
+            if (composedSchema.getOneOf() != null) {
+                throw new RuntimeException("Please report the issue: Cannot process oneOf (Composed Scheme) in addProperties: " + schema);
+            }
+
+            if (composedSchema.getAnyOf() != null) {
+                throw new RuntimeException("Please report the issue: Cannot process anyOf (Composed Schema) in addProperties: " + schema);
+            }
+
             return;
-            */
         }
 
         Schema unaliasSchema = ModelUtils.unaliasSchema(globalSchemas, schema);

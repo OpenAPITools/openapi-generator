@@ -302,6 +302,24 @@ instance Arbitrary Tag where
       <$> arbitrary -- tagId :: Maybe Integer
       <*> arbitrary -- tagName :: Maybe Text
     
+instance Arbitrary TypeHolderDefault where
+  arbitrary =
+    TypeHolderDefault
+      <$> arbitrary -- typeHolderDefaultStringItem :: Text
+      <*> arbitrary -- typeHolderDefaultNumberItem :: Double
+      <*> arbitrary -- typeHolderDefaultIntegerItem :: Int
+      <*> arbitrary -- typeHolderDefaultBoolItem :: Bool
+      <*> arbitrary -- typeHolderDefaultArrayItem :: [Int]
+    
+instance Arbitrary TypeHolderExample where
+  arbitrary =
+    TypeHolderExample
+      <$> arbitrary -- typeHolderExampleStringItem :: Text
+      <*> arbitrary -- typeHolderExampleNumberItem :: Double
+      <*> arbitrary -- typeHolderExampleIntegerItem :: Int
+      <*> arbitrary -- typeHolderExampleBoolItem :: Bool
+      <*> arbitrary -- typeHolderExampleArrayItem :: [Int]
+    
 instance Arbitrary User where
   arbitrary =
     User
