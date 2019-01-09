@@ -26,7 +26,7 @@ class {{classname}}(object):
         self.api_client = api_client
 {{#operation}}
 
-    def {{operationId}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
+    def {{operationId}}(self, {{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}**kwargs):  # noqa: E501
         """{{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
 
 {{#notes}}
@@ -75,16 +75,13 @@ class {{classname}}(object):
 
         :param async_req bool
 {{#allParams}}
-        :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional{{#defaultValue}}, default to {{{defaultValue}}}{{/defaultValue}}){{/optional}}
+        :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/optional}}
 {{/allParams}}
         :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-{{#allParams}}{{#defaultValue}}            '{{paramName}}': {{{defaultValue}}}{{#hasMore}},{{/hasMore}}
-{{/defaultValue}}{{/allParams}}        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = [{{#allParams}}'{{paramName}}'{{#hasMore}}, {{/hasMore}}{{/allParams}}]  # noqa: E501
         all_params.append('async_req')

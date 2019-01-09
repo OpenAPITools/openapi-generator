@@ -69,9 +69,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -162,9 +160,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -255,9 +251,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -348,9 +342,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -404,7 +396,7 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_body_with_file_schema(self, body, **kwargs):  # noqa: E501
+    def test_body_with_file_schema(self, body=None, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request much reference a schema named `File`.  # noqa: E501
@@ -441,9 +433,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -501,7 +491,7 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_body_with_query_params(self, query, body, **kwargs):  # noqa: E501
+    def test_body_with_query_params(self, query=None, body=None, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -538,9 +528,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['query', 'body']  # noqa: E501
         all_params.append('async_req')
@@ -604,7 +592,7 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_client_model(self, body, **kwargs):  # noqa: E501
+    def test_client_model(self, body=None, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
@@ -641,9 +629,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -705,7 +691,7 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
+    def test_endpoint_parameters(self, number=None, double=None, pattern_without_delimiter=None, byte=None, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -768,9 +754,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['number', 'double', 'pattern_without_delimiter', 'byte', 'integer', 'int32', 'int64', 'float', 'string', 'binary', 'date', 'date_time', 'password', 'param_callback']  # noqa: E501
         all_params.append('async_req')
@@ -945,13 +929,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-            'enum_header_string': '-efg',
-            'enum_query_string': '-efg',
-            'enum_form_string_array': '$',
-            'enum_form_string': '-efg'
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['enum_header_string_array', 'enum_header_string', 'enum_query_string_array', 'enum_query_string', 'enum_query_integer', 'enum_query_double', 'enum_form_string_array', 'enum_form_string']  # noqa: E501
         all_params.append('async_req')
@@ -1022,7 +1000,7 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_group_parameters(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
+    def test_group_parameters(self, required_string_group=None, required_boolean_group=None, required_int64_group=None, **kwargs):  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
 
         Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -1069,9 +1047,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['required_string_group', 'required_boolean_group', 'required_int64_group', 'string_group', 'boolean_group', 'int64_group']  # noqa: E501
         all_params.append('async_req')
@@ -1143,7 +1119,7 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_inline_additional_properties(self, param, **kwargs):  # noqa: E501
+    def test_inline_additional_properties(self, param=None, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1178,9 +1154,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['param']  # noqa: E501
         all_params.append('async_req')
@@ -1238,7 +1212,7 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
+    def test_json_form_data(self, param=None, param2=None, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -1275,9 +1249,7 @@ class FakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['param', 'param2']  # noqa: E501
         all_params.append('async_req')

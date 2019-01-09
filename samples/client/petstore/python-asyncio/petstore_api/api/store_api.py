@@ -32,7 +32,7 @@ class StoreApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def delete_order(self, order_id, **kwargs):  # noqa: E501
+    def delete_order(self, order_id=None, **kwargs):  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -69,9 +69,7 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['order_id']  # noqa: E501
         all_params.append('async_req')
@@ -160,9 +158,7 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = []  # noqa: E501
         all_params.append('async_req')
@@ -214,7 +210,7 @@ class StoreApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_order_by_id(self, order_id, **kwargs):  # noqa: E501
+    def get_order_by_id(self, order_id=None, **kwargs):  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -251,9 +247,7 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['order_id']  # noqa: E501
         all_params.append('async_req')
@@ -315,7 +309,7 @@ class StoreApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def place_order(self, body, **kwargs):  # noqa: E501
+    def place_order(self, body=None, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -350,9 +344,7 @@ class StoreApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')

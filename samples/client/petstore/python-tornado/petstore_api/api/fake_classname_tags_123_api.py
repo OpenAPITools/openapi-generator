@@ -32,7 +32,7 @@ class FakeClassnameTags123Api(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def test_classname(self, body, **kwargs):  # noqa: E501
+    def test_classname(self, body=None, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -69,9 +69,7 @@ class FakeClassnameTags123Api(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')

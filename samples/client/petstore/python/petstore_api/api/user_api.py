@@ -32,7 +32,7 @@ class UserApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_user(self, body, **kwargs):  # noqa: E501
+    def create_user(self, body=None, **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -69,9 +69,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -125,7 +123,7 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def create_users_with_array_input(self, body, **kwargs):  # noqa: E501
+    def create_users_with_array_input(self, body=None, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -160,9 +158,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -216,7 +212,7 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def create_users_with_list_input(self, body, **kwargs):  # noqa: E501
+    def create_users_with_list_input(self, body=None, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -251,9 +247,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -307,7 +301,7 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def delete_user(self, username, **kwargs):  # noqa: E501
+    def delete_user(self, username=None, **kwargs):  # noqa: E501
         """Delete user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -344,9 +338,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['username']  # noqa: E501
         all_params.append('async_req')
@@ -400,7 +392,7 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_user_by_name(self, username, **kwargs):  # noqa: E501
+    def get_user_by_name(self, username=None, **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -435,9 +427,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['username']  # noqa: E501
         all_params.append('async_req')
@@ -495,7 +485,7 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def login_user(self, username, password, **kwargs):  # noqa: E501
+    def login_user(self, username=None, password=None, **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -532,9 +522,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['username', 'password']  # noqa: E501
         all_params.append('async_req')
@@ -631,9 +619,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = []  # noqa: E501
         all_params.append('async_req')
@@ -681,7 +667,7 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_user(self, username, body, **kwargs):  # noqa: E501
+    def update_user(self, username=None, body=None, **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
@@ -720,9 +706,7 @@ class UserApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['username', 'body']  # noqa: E501
         all_params.append('async_req')

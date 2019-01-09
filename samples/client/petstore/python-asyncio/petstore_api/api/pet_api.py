@@ -32,7 +32,7 @@ class PetApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def add_pet(self, body, **kwargs):  # noqa: E501
+    def add_pet(self, body=None, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -67,9 +67,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -127,7 +125,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def delete_pet(self, pet_id, **kwargs):  # noqa: E501
+    def delete_pet(self, pet_id=None, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -164,9 +162,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['pet_id', 'api_key']  # noqa: E501
         all_params.append('async_req')
@@ -222,7 +218,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def find_pets_by_status(self, status, **kwargs):  # noqa: E501
+    def find_pets_by_status(self, status=None, **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -259,9 +255,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['status']  # noqa: E501
         all_params.append('async_req')
@@ -320,7 +314,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def find_pets_by_tags(self, tags, **kwargs):  # noqa: E501
+    def find_pets_by_tags(self, tags=None, **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -357,9 +351,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['tags']  # noqa: E501
         all_params.append('async_req')
@@ -418,7 +410,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_pet_by_id(self, pet_id, **kwargs):  # noqa: E501
+    def get_pet_by_id(self, pet_id=None, **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -455,9 +447,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['pet_id']  # noqa: E501
         all_params.append('async_req')
@@ -515,7 +505,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_pet(self, body, **kwargs):  # noqa: E501
+    def update_pet(self, body=None, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -550,9 +540,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
@@ -610,7 +598,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_pet_with_form(self, pet_id, **kwargs):  # noqa: E501
+    def update_pet_with_form(self, pet_id=None, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -649,9 +637,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['pet_id', 'name', 'status']  # noqa: E501
         all_params.append('async_req')
@@ -713,7 +699,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def upload_file(self, pet_id, **kwargs):  # noqa: E501
+    def upload_file(self, pet_id=None, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -752,9 +738,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['pet_id', 'additional_metadata', 'file']  # noqa: E501
         all_params.append('async_req')
@@ -820,7 +804,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def upload_file_with_required_file(self, pet_id, required_file, **kwargs):  # noqa: E501
+    def upload_file_with_required_file(self, pet_id=None, required_file=None, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -859,9 +843,7 @@ class PetApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['pet_id', 'required_file', 'additional_metadata']  # noqa: E501
         all_params.append('async_req')

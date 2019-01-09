@@ -1,14 +1,13 @@
-# Pet
+# TypeHolderDefault
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **int** |  | [optional] 
-**category** | [**Category**](Category.md) |  | [optional] 
-**name** | **str** |  | 
-**photo_urls** | **list[str]** |  | 
-**tags** | [**list[Tag]**](Tag.md) |  | [optional] 
-**status** | **str** | pet status in the store | [optional] 
+**string_item** | **str** |  | [default to 'what']
+**number_item** | **float** |  | 
+**integer_item** | **int** |  | 
+**bool_item** | **bool** |  | [default to True]
+**array_item** | **list[int]** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

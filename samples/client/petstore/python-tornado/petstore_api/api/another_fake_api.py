@@ -32,7 +32,7 @@ class AnotherFakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def call_123_test_special_tags(self, body, **kwargs):  # noqa: E501
+    def call_123_test_special_tags(self, body=None, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -69,9 +69,7 @@ class AnotherFakeApi(object):
                  If the method is called asynchronously,
                  returns the request thread.
         """
-        local_var_params = {
-        }
-        local_var_params.update(locals())
+        local_var_params = locals()
 
         all_params = ['body']  # noqa: E501
         all_params.append('async_req')
